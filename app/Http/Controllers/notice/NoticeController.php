@@ -1,0 +1,177 @@
+<?php
+
+namespace App\Http\Controllers\notice;
+
+use App\Http\Controllers\Controller;
+use App\Models\Images;
+use App\Models\Notice;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+
+/*
+|--------------------------------------------------------------------------
+| 공자사항 관리자
+|--------------------------------------------------------------------------
+|
+| - 공지사항 목록 보기 (O)
+| - 공지사항 상세 화면 보기 (O)
+| - 공지사항 등록 화면 조회 (O)
+| - 공지사항 등록 (O)
+| - 공지사항 수정 (O)
+| - 공지사항 상태 수정 (O)
+| - 공지사항 삭제 (O)
+|
+*/
+
+class NoticeController extends Controller
+{
+    /**
+     * 공지사항 목록 보기
+     */
+    public function noticeListView(Request $request): View
+    {
+        $noticeList = Notice::with('images')->select();
+
+        // 검색어
+        if (isset($request->title)) {
+            $noticeList
+                ->where('notices.title', 'like', "%{$request->title}%")
+                ->orWhere('notices.content', 'like', "%{$request->title}%");
+        }
+
+        // 생성일 from ~ to
+        if (isset($request->from_created_at) && isset($request->to_created_at)) {
+            $noticeList->DurationDate('created_at', $request->from_created_at, $request->to_created_at);
+        }
+
+        // 타겟 유형
+        if (isset($request->type)) {
+            // $noticeList->where('notices.type', 'like', "%{$request->type}%");
+            $noticeList->whereRaw('find_in_set("' . $request->type . '", notices.type)');
+        }
+
+        // 공지사항 상태
+        if (isset($request->is_blind)) {
+            $noticeList->where('notices.is_blind', '=', $request->is_blind);
+        }
+
+        // 정렬
+        $noticeList->orderBy('notices.created_at', 'desc')->orderBy('id', 'desc');
+
+        // 페이징
+        $result = $noticeList->paginate($request->per_page == null ? 10 : $request->per_page);
+
+        return view('admin.notice.notice-list', compact('result'));
+    }
+
+    /**
+     * 공지사항 상세 화면 보기
+     */
+    public function noticeDetailView(Request $request): View
+    {
+        $result = Notice::with('images')->where('id', $request->id)->first();
+        return view('admin.notice.notice-detail', compact('result'));
+    }
+
+    /**
+     * 공지사항 등록 화면 조회
+     */
+    public function noticeCreateView(): View
+    {
+        return view('admin.notice.notice-create');
+    }
+
+    /**
+     * 공지사항 등록
+     */
+    public function noticeCreate(Request $request): RedirectResponse
+    {
+
+        // 유효성 검사
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|min:1|max:50',
+            'content' => 'required|min:1|max:255',
+            'type' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // DB 추가
+        $result = Notice::create([
+            'admins_id' => Auth::guard('admin')->user()->id,
+            'title' => $request->title,
+            'content' => $request->content,
+            'type' => $request->type,
+            'is_blind' => $request->is_blind, // 등록 시에는 0
+            'view_count' => 0, // 등록 시에는 0 조회 할 때 증가
+        ]);
+
+        $this->imageWithCreate($request->notice_image_ids, Notice::class, $result->id);
+
+
+        return Redirect::route('admin.notice.list.view')->with('message', '공지사항을 등록했습니다.');
+    }
+
+    /**
+     * 공지사항 수정
+     */
+    public function noticeUpdate(Request $request): RedirectResponse
+    {
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|min:1|max:50',
+            'content' => 'required|min:1|max:255',
+            'type' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $result = Notice::where('id', $request->id)->first()
+            ->update([
+                'admins_id' => Auth::guard('admin')->user()->id,
+                'title' => $request->title,
+                'content' => $request->content,
+                'type' => $request->type,
+                'is_blind' => $request->is_blind,
+            ]);
+
+        $this->imageWithEdit($request->notice_image_ids, Notice::class, $request->id);
+
+        return redirect()->to($request->last_url)->with('message', '공지사항을 수정했습니다.');
+    }
+
+    /**
+     * 공지사항 상태 수정
+     */
+    public function noticeStateUpdate(Request $request): RedirectResponse
+    {
+        $result = Notice::where('id', $request->id)->first()
+            ->update(['is_blind' => $request->is_blind == 0 ? 1 : 0]);
+        return back()->with('message', '공지사항 게시상태를 수정했습니다.');
+    }
+
+    /**
+     * 공지사항 삭제
+     */
+    public function noticeDelete(Request $request): RedirectResponse
+    {
+        $result = Notice::where('id', $request->id)->first()
+            ->delete();
+        return back()->with('message', '공지사항을 삭제했습니다.');
+    }
+}
