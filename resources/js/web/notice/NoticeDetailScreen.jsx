@@ -11,9 +11,15 @@ function NoticeDetailScreen({ close }) {
 
     return (
         <Box
-            width="30vw"
             height="100vh"
-            sx={{ backgroundColor: "primary.main" }}
+            sx={{
+                width: {
+                    xs: "100%",
+                    md: "100%",
+                    lg: "50vw",
+                },
+                backgroundColor: "primary.main",
+            }}
         >
             <h1 onClick={close}>뒤로가기</h1>
             <h1>공지사항 상세</h1>

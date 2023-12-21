@@ -74,7 +74,6 @@ export default function TopMenu({ menuChange, loginClick }) {
                             ".Mui-selected": {
                                 color: "secondary.main",
                             },
-                            fontFamily: "SpoqaHan",
                         }}
                     >
                         {navItems.map((item, index) => (
@@ -83,6 +82,7 @@ export default function TopMenu({ menuChange, loginClick }) {
                                 value={index}
                                 label={item.title}
                                 sx={{
+                                    fontFamily: "SpoqaHanBold",
                                     fontSize: 16,
                                     paddingLeft: "50px",
                                     paddingRight: "50px",
@@ -97,9 +97,6 @@ export default function TopMenu({ menuChange, loginClick }) {
                     </Button>
                     <Button
                         color="black"
-                        sx={{
-                            fontFamily: "SpoqaHan",
-                        }}
                     >
                         회원가입
                     </Button>

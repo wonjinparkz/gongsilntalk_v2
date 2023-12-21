@@ -1,5 +1,13 @@
 import { createTheme } from "@mui/material/styles";
-import fonts from "./fonts/fonts";
+
+import SpoqaHanRegular from "./fonts/SpoqaHanSansNeo-Regular.woff";
+import SpoqaHanRegularWoff2 from "./fonts/SpoqaHanSansNeo-Regular.woff2";
+import SpoqaHanBold from "./fonts/SpoqaHanSansNeo-Bold.woff";
+import SpoqaHanBoldWoff2 from "./fonts/SpoqaHanSansNeo-Bold.woff2";
+import SpoqaHanLight from "./fonts/SpoqaHanSansNeo-Light.woff";
+import SpoqaHanLightWoff2 from "./fonts/SpoqaHanSansNeo-Light.woff2";
+import SpoqaHanMedium from "./fonts/SpoqaHanSansNeo-Medium.woff";
+import SpoqaHanMediumWoff2 from "./fonts/SpoqaHanSansNeo-Medium.woff2";
 
 const Theme = createTheme({
     palette: {
@@ -20,12 +28,32 @@ const Theme = createTheme({
         },
         signupButton: {
             main: "#D2D1D0",
-            contrastText: "#000000"
-        }
+            contrastText: "#000000",
+        },
     },
     typography: {
-        fontFamily: ["SpoqaHan"].join(","),
-        fontSize: 16
+        fontFamily: ["SpoqaHanRegular", "SpoqaHanBold"].join(","),
+        fontSize: 16,
+    },
+    components: {
+        MuiCssBaseline: {
+            styleOverrides: `
+            @font-face {
+              font-family: 'SpoqaHanRegular';
+              font-style: normal;
+              font-display: swap;
+              font-weight: 400;
+              src: url(${SpoqaHanRegularWoff2}) format('woff2');
+            }
+            @font-face {
+                font-family: 'SpoqaHanBold';
+                font-style: normal;
+                font-display: swap;
+                font-weight: 400;
+                src: url(${SpoqaHanBoldWoff2}) format('woff2');
+            }
+          `,
+        },
     },
 });
 
