@@ -32,7 +32,7 @@ const Theme = createTheme({
         },
     },
     typography: {
-        fontFamily: ["SpoqaHanRegular", "SpoqaHanBold"].join(","),
+        fontFamily: ["SpoqaHanRegular"].join(","),
         fontSize: 16,
     },
     components: {

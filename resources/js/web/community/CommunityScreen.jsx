@@ -1,12 +1,12 @@
-import { Box, Container, Grid, Paper, Toolbar } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
 import TopMenu from "../../components/TopMenu";
 import BottomMenu from "../../components/BottomMenu";
 
-export default function MypageScreen() {
+export default function CommunityScreen() {
     return (
-        <Box maxWidth="sm">
-            <TopMenu index={2} />
+        <Box>
+            <TopMenu index={3}/>
             <BottomMenu />
         </Box>
     );

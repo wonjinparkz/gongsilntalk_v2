@@ -19,41 +19,10 @@ import MypageScreen from "./my/MypageScreen";
 import LoginScreen from "./intro/LoginScreen";
 
 export default function MainScreen() {
-    let [name, setName] = useState();
-    const navigate = useNavigate();
-
-    const [screen, setScreen] = useState(<NoticeScreen />);
-
-    const screenList = [
-        <NoticeScreen />,
-        <MapScreen />,
-        <MypageScreen />,
-        <NoticeDetailScreen />,
-    ];
-
-    // 메뉴 변경
-    const menuChange = (event, newValue) => {
-        setScreen(screenList[newValue]);
-    };
-
-    // 로그인 클릭
-    const loginClick = () => {
-        console.log("로그인 클릭");
-        setScreen(<LoginScreen/>)
-    };
-
     return (
-        <Stack>
-            <TopMenu menuChange={menuChange} loginClick={loginClick}/ >
-
-            <div position="fixed" id="container">{screen}</div>
-
-            <Paper
-                sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-                elevation={2}
-            >
-                <BottomMenu />
-            </Paper>
-        </Stack>
+        <Box>
+            <TopMenu index={null}/>
+            <BottomMenu />
+        </Box>
     );
 }

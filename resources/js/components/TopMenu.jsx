@@ -12,22 +12,30 @@ import {
     Divider,
 } from "@mui/material";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function TopMenu({ menuChange, loginClick }) {
-    const container =
-        window !== undefined ? () => window().document.body : undefined;
+export default function TopMenu({ index }) {
+    const navigate = useNavigate();
 
     const toolbarStyle = { minHeight: "60px" };
 
     const navItems = [
-        { title: "추천 분양현장" },
-        { title: "실시간 매물지도" },
-        { title: "마이메뉴" },
-        { title: "커뮤니티" },
+        { title: "추천 분양현장", link: "/recommend" },
+        { title: "실시간 매물지도", link: "/map" },
+        { title: "마이메뉴", link: "/mypage" },
+        { title: "커뮤니티", link: "/community" },
     ];
-    const [menuSelectValue, setMenuSelectValue] = useState(0);
+
+    // 로그인 클릭
+    const loginClick = () => {
+        console.log("로그인 클릭");
+        navigate("/login");
+    };
+
+    // 메뉴 변경
+    const [menuSelectValue, setMenuSelectValue] = useState(index);
     const handleMenuChange = (event, newValue) => {
-        menuChange(event, newValue);
+        navigate(navItems[newValue].link);
         setMenuSelectValue(newValue);
     };
 
@@ -95,11 +103,7 @@ export default function TopMenu({ menuChange, loginClick }) {
                     <Button color="black" onClick={loginClick}>
                         로그인
                     </Button>
-                    <Button
-                        color="black"
-                    >
-                        회원가입
-                    </Button>
+                    <Button color="black">회원가입</Button>
                     <Button
                         color="signupButton"
                         variant="contained"

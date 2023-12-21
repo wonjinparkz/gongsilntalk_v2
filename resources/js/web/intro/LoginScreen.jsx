@@ -1,12 +1,15 @@
+import { Box } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
+import TopMenu from "../../components/TopMenu";
+import BottomMenu from "../../components/BottomMenu";
 
 function LoginScreen() {
     return (
-        <div>
-            I'm an example component
-            <div>화면을 테스트</div>
-        </div>
+        <Box>
+            <TopMenu index={null} />
+            <BottomMenu />
+        </Box>
     );
 }
 

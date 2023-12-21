@@ -1,6 +1,7 @@
-import { Toolbar } from "@mui/material";
+import { Box, Toolbar } from "@mui/material";
 import React, { useEffect, useRef } from "react";
-import Map from "./Map";
+import TopMenu from "../../components/TopMenu";
+import BottomMenu from "../../components/BottomMenu";
 
 function MapScreen() {
     const mapElement = useRef(null);
@@ -28,10 +29,12 @@ function MapScreen() {
         cadastralLayer.setMap(map);
     }, []);
     return (
-        <div>
-
+        <Box>
+            <TopMenu index={1}/>
             <div id="map" style={{ width: "100%", height: "100vh" }} />
-        </div>
+            <BottomMenu />
+
+        </Box>
     );
 }
 

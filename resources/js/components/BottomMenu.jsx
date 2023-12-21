@@ -34,14 +34,19 @@ function BottomMenu() {
     ];
 
     return (
-        <Box
+        <Paper
             sx={{
+                position: "fixed",
+                bottom: 0,
+                left: 0,
+                right: 0,
                 display: {
                     xs: "block",
                     md: "none",
                     lg: "none",
                 },
             }}
+            elevation={2}
         >
             <BottomNavigation
                 showLabels
@@ -61,7 +66,7 @@ function BottomMenu() {
                     />
                 ))}
             </BottomNavigation>
-        </Box>
+        </Paper>
     );
 }
 
