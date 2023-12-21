@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from "react";
 function Map() {
     const mapElement = useRef(null);
     const { naver } = window;
-    const naverClientId = import.meta.env.VITE_NAVER_MAP_CLIENT_ID;
 
     useEffect(() => {
         const mapDiv = document.getElementById("map");

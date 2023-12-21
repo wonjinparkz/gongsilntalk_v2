@@ -23,11 +23,11 @@ class NoticeFactory extends Factory
         $randomDate = Carbon::createFromTimestamp(rand($endDate->timestamp, $startDate->timestamp));
 
         return [
-            'author' => 1,
+            'admins_id' => 1,
             'title' => fake()->sentence(),
             'content' => fake()->realText(),
-            'state' => 0,
-            'target' => fake()->randomElement(['0', '1', '0,1']),
+            'type' => 0,
+            'is_blind' => 0,
             'view_count' => fake()->numerify(),
             'created_at' => $randomDate,
             'updated_at' => $randomDate,

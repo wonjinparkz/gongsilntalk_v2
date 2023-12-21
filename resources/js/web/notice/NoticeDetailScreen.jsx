@@ -1,19 +1,39 @@
-import { Toolbar } from "@mui/material";
-import React from "react";
+import { Box, Toolbar } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function NoticeDetailScreen() {
-    const navigate = useNavigate();
-    const historyBack = () => {
-        navigate(-1);
-    };
+function NoticeDetailScreen({ close }) {
+    const [notice, setNotice] = useState(null);
+
+    useEffect(() => {
+        noticeDetail(setNotice);
+    }, []);
 
     return (
-        <div>
-            <Toolbar />
-            <h1 onClick={historyBack}>공지사항 상세</h1>
-        </div>
+        <Box
+            width="30vw"
+            height="100vh"
+            sx={{ backgroundColor: "primary.main" }}
+        >
+            <h1 onClick={close}>뒤로가기</h1>
+            <h1>공지사항 상세</h1>
+            {notice}
+            <Box height={10000}></Box>
+        </Box>
     );
+}
+
+// 공지사항 목록 API
+function noticeDetail(setNotice) {
+    axios
+        .get("http://localhost/api/notice/detail", {
+            params: {
+                id: 3,
+            },
+        })
+        .then((response) => {
+            setNotice(response.data.result.content);
+        });
 }
 
 export default NoticeDetailScreen;

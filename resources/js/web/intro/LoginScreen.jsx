@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Login() {
+function LoginScreen() {
     return (
         <div>
             I'm an example component
@@ -10,4 +10,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default LoginScreen;

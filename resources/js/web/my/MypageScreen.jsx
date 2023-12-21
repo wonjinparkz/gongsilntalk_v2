@@ -22,6 +22,7 @@ function MypageScreen() {
 
     return (
         <Container maxWidth="sm">
+            <h1>마이페이지</h1>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>xs=12</Paper>

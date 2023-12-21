@@ -1,8 +1,8 @@
 import React from "react";
 
-function NoticeRow({ click, notice }) {
+function NoticeRow({ onClick, notice }) {
 
-    return <li onClick={click}>{notice.title}</li>;
+    return <li onClick={onClick}>{notice.title}</li>;
 }
 
 export default NoticeRow;
