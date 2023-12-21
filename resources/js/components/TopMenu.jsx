@@ -17,8 +17,6 @@ import { useNavigate } from "react-router-dom";
 export default function TopMenu({ index }) {
     const navigate = useNavigate();
 
-    const toolbarStyle = { minHeight: "60px" };
-
     const navItems = [
         { title: "추천 분양현장", link: "/recommend" },
         { title: "실시간 매물지도", link: "/map" },
@@ -42,8 +40,8 @@ export default function TopMenu({ index }) {
     return (
         <AppBar
             color="primary"
-            position="fixed"
             elevation={0}
+            position="sticky"
             sx={{
                 display: {
                     xs: "none",
@@ -53,8 +51,8 @@ export default function TopMenu({ index }) {
             }}
         >
             <Toolbar
-                style={toolbarStyle}
                 sx={{
+                    height: "60px",
                     borderBottom: 1,
                     borderColor: "border.main",
                     justifyContent: "space-between",

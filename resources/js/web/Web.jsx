@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import Routing from "../router/Routing";
 import { BrowserRouter as Router } from "react-router-dom";
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from '@mui/material/styles';
 import Theme from "../styles/Theme";
 
 function Web() {

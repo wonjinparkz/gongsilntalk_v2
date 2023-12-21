@@ -5,7 +5,7 @@ import BottomMenu from "../../components/BottomMenu";
 
 export default function MypageScreen() {
     return (
-        <Box maxWidth="sm">
+        <Box>
             <TopMenu index={2} />
             <BottomMenu />
         </Box>
