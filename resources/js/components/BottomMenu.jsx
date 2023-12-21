@@ -34,24 +34,34 @@ function BottomMenu() {
     ];
 
     return (
-        <BottomNavigation
-            showLabels
-            value={value}
-            onChange={(event, newValue) => {
-                navigate(newValue);
-                setValue(newValue);
+        <Box
+            sx={{
+                display: {
+                    xs: "block",
+                    md: "none",
+                    lg: "none",
+                },
             }}
         >
-            {bottomItems.map((item, index) => (
-                <BottomNavigationAction
-                    key={index}
-                    label={item.title}
-                    value={item.link}
-                    onClick={item.onclick}
-                    icon={item.icon}
-                />
-            ))}
-        </BottomNavigation>
+            <BottomNavigation
+                showLabels
+                value={value}
+                onChange={(event, newValue) => {
+                    navigate(newValue);
+                    setValue(newValue);
+                }}
+            >
+                {bottomItems.map((item, index) => (
+                    <BottomNavigationAction
+                        key={index}
+                        label={item.title}
+                        value={item.link}
+                        onClick={item.onclick}
+                        icon={item.icon}
+                    />
+                ))}
+            </BottomNavigation>
+        </Box>
     );
 }
 

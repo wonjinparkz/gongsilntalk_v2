@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material/styles";
+import fonts from "./fonts/fonts";
 
 const Theme = createTheme({
     palette: {
@@ -12,24 +13,19 @@ const Theme = createTheme({
             main: "#DA1E28",
         },
         border: {
-            main: "#D2D1D0"
+            main: "#D2D1D0",
+        },
+        black: {
+            main: "#000000",
+        },
+        signupButton: {
+            main: "#D2D1D0",
+            contrastText: "#000000"
         }
     },
     typography: {
-        fontFamily: [
-            "Noto Sans KR",
-            "sans-serif",
-            "-apple-system",
-            "BlinkMacSystemFont",
-            "Segoe UI",
-            "Roboto",
-            "Oxygen",
-            "Ubuntu",
-            "Cantarell",
-            "Fira Sans",
-            "Droid Sans",
-            "Helvetica Neue",
-        ].join(","),
+        fontFamily: ["SpoqaHan"].join(","),
+        fontSize: 16
     },
 });
 
