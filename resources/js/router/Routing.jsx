@@ -9,7 +9,7 @@ import LoginScreen from "../web/intro/LoginScreen";
 import RecommendScreen from "../web/recommend/RecommendScreen";
 import CommunityScreen from "../web/community/CommunityScreen";
 
-function Routing() {
+export default function Routing() {
     return (
         <Routes>
             <Route exact path="/" element={<MainScreen />} />
@@ -30,9 +30,6 @@ function Routing() {
             {/* 공지사항 */}
             <Route path="/notice" element={<NoticeScreen />} />
             <Route path="/notice/detail" element={<NoticeDetailScreen />} />
-
         </Routes>
     );
 }
-
-export default Routing;

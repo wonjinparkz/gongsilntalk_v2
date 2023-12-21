@@ -78,11 +78,6 @@ export default function TopMenu({ index }) {
                         value={menuSelectValue}
                         onChange={handleMenuChange}
                         textColor="secondary"
-                        sx={{
-                            ".Mui-selected": {
-                                color: "secondary.main",
-                            },
-                        }}
                     >
                         {navItems.map((item, index) => (
                             <Tab
@@ -90,6 +85,9 @@ export default function TopMenu({ index }) {
                                 value={index}
                                 label={item.title}
                                 sx={{
+                                    ".Mui-selected": {
+                                        color: "secondary.main",
+                                    },
                                     fontFamily: "SpoqaHanBold",
                                     fontSize: 16,
                                     paddingLeft: "50px",

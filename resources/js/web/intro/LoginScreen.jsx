@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import TopMenu from "../../components/TopMenu";
 import BottomMenu from "../../components/BottomMenu";
 
-function LoginScreen() {
+export default function LoginScreen() {
     return (
         <Box>
             <TopMenu index={null} />
@@ -12,5 +12,3 @@ function LoginScreen() {
         </Box>
     );
 }
-
-export default LoginScreen;

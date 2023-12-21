@@ -9,7 +9,7 @@ import HomeIcon from "@mui/icons-material/home";
 import MapIcon from "@mui/icons-material/map";
 import { Link, useNavigate } from "react-router-dom";
 
-function BottomMenu() {
+export default function BottomMenu() {
     const [value, setValue] = React.useState("");
     const navigate = useNavigate();
     const bottomItems = [
@@ -69,5 +69,3 @@ function BottomMenu() {
         </Paper>
     );
 }
-
-export default BottomMenu;

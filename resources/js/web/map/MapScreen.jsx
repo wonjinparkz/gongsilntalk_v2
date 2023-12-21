@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import TopMenu from "../../components/TopMenu";
 import BottomMenu from "../../components/BottomMenu";
 
-function MapScreen() {
+export default function MapScreen() {
     const mapElement = useRef(null);
     const { naver } = window;
 
@@ -37,5 +37,3 @@ function MapScreen() {
         </Box>
     );
 }
-
-export default MapScreen;
