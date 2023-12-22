@@ -18,7 +18,6 @@ import {
 } from "@mui/material";
 import Theme from "../../styles/Theme";
 import RecommendRow from "./RecommendRow";
-import RecommendMRow from "./RecommendMRow";
 import NoticeDetailScreen from "../notice/NoticeDetailScreen";
 import { useNavigate } from "react-router-dom";
 
@@ -99,7 +98,6 @@ export default function RecommendScreen() {
         } else {
             navigate("/notice/detail");
         }
-
     };
     const handleClose = () => {
         setOpen(false);
@@ -332,25 +330,14 @@ export default function RecommendScreen() {
                             {recommendList.length}
                         </Typography>
                     </Box>
-                    {isMobile ? (
-                        <Grid container spacing={2} sx={{ mt: 1, mb: 5 }}>
-                            {recommendList.map((item, index) => (
-                                <Grid item xs={12}>
-                                    <RecommendMRow
-                                        click={noticeCLick}
-                                    />
-                                </Grid>
-                            ))}
-                        </Grid>
-                    ) : (
-                        <Grid container spacing={2} sx={{ mt: 1, mb: 5 }}>
-                            {recommendList.map((item, index) => (
-                                <Grid item xs={3}>
-                                    <RecommendRow/>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    )}
+
+                    <Grid container spacing={2} sx={{ mt: 1, mb: 5 }}>
+                        {recommendList.map((item, index) => (
+                            <Grid item xs={12} md={12} lg={3}>
+                                <RecommendRow />
+                            </Grid>
+                        ))}
+                    </Grid>
                 </Container>
             </Box>
             <Drawer anchor="right" open={open} hideBackdrop={true}>

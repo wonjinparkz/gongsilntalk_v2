@@ -30,6 +30,9 @@ const Theme = createTheme({
         black: {
             main: "#000000",
         },
+        clear: {
+            main: "#ffffff00"
+        },
         signupButton: {
             main: "#D2D1D0",
             contrastText: "#000000",
