@@ -147,7 +147,6 @@ export default function RecommendScreen() {
                                     lg: "hidden",
                                 },
                                 ml: 3,
-                                width: "100vw",
                                 height: 38,
                                 mt: 4,
                                 fontSize: 16,
@@ -165,7 +164,7 @@ export default function RecommendScreen() {
                                         value={area.index}
                                         sx={{ fontSize: 16 }}
                                     >
-                                        {area.title} - {area.index}
+                                        {area.title}
                                     </MenuItem>
                                 ));
                             })}
@@ -208,7 +207,6 @@ export default function RecommendScreen() {
                             value={area}
                             exclusive
                             sx={{
-                                mt: 4,
                                 height: 50,
                                 borderRadius: 0,
                                 mt: "-1px",
@@ -232,7 +230,6 @@ export default function RecommendScreen() {
                             value={area}
                             exclusive
                             sx={{
-                                mt: 4,
                                 height: 50,
                                 borderRadius: 0,
                                 mt: "-1px",
