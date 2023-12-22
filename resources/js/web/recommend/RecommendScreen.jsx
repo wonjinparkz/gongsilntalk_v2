@@ -19,6 +19,11 @@ import Theme from "../../styles/Theme";
  * 추천 분양 현장
  */
 export default function RecommendScreen() {
+    const [status, setstatus] = useState(0);
+    const statusChange = (event) => {
+        setstatus(event.target.value);
+    };
+
     const [area, setArea] = useState(0);
     const areaList = [
         [
@@ -108,6 +113,8 @@ export default function RecommendScreen() {
                         <Select
                             label="상태구분"
                             displayEmpty
+                            value={status}
+                            onChange={statusChange}
                             sx={{
                                 width: {
                                     xs: "100vw",
@@ -125,9 +132,12 @@ export default function RecommendScreen() {
                             }}
                         >
                             <MenuItem value={0} sx={{ fontSize: 16 }}>
-                                분양예정
+                                전체
                             </MenuItem>
                             <MenuItem value={1} sx={{ fontSize: 16 }}>
+                                분양예정
+                            </MenuItem>
+                            <MenuItem value={2} sx={{ fontSize: 16 }}>
                                 분양중
                             </MenuItem>
                         </Select>
@@ -248,7 +258,7 @@ export default function RecommendScreen() {
                     </Box>
                 </Container>
             </Box>
-            <BottomMenu index={1}/>
+            <BottomMenu index={1} />
         </Box>
     );
 }
