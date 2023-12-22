@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import TopMenu from "../../components/TopMenu";
 import BottomMenu from "../../components/BottomMenu";
+import { isMobile } from "react-device-detect";
 import {
     Box,
     Typography,
@@ -13,12 +14,19 @@ import {
     ToggleButton,
     alpha,
     CssBaseline,
+    Drawer,
 } from "@mui/material";
 import Theme from "../../styles/Theme";
+import RecommendRow from "./RecommendRow";
+import RecommendMRow from "./RecommendMRow";
+import NoticeDetailScreen from "../notice/NoticeDetailScreen";
+import { useNavigate } from "react-router-dom";
+
 /**
  * 추천 분양 현장
  */
 export default function RecommendScreen() {
+    const navigate = useNavigate();
     const [status, setstatus] = useState(0);
     const statusChange = (event) => {
         setstatus(event.target.value);
@@ -55,8 +63,12 @@ export default function RecommendScreen() {
     // 지역 설정
     const areaChange = (event, newValue) => {
         setArea(newValue);
+        if (newValue == 0) {
+            setRecommendList((old) => [...old, "1"]);
+        }
     };
 
+    // 지역설정 Select 박스 설정
     const areaSelectChange = (event) => {
         setArea(event.target.value);
     };
@@ -65,6 +77,7 @@ export default function RecommendScreen() {
     const toggleButtonStyle = {
         borderRadius: 0,
         fontSize: 18,
+        fontWeight: "bold",
         "&:hover": {
             backgroundColor: "secondary.alpha",
         },
@@ -76,9 +89,35 @@ export default function RecommendScreen() {
         },
     };
 
+    const [recommendList, setRecommendList] = useState(["1", "1"]);
+
+    const [open, setOpen] = React.useState(false);
+    const noticeCLick = () => {
+        console.log("공지사항 클릭");
+        if (isMobile) {
+            setOpen(true);
+        } else {
+            navigate("/notice/detail");
+        }
+
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
-        <Box>
+        <Box
+            sx={{
+                height: "100vh",
+                backgroundColor: {
+                    xs: "primary.main",
+                    md: "background.main",
+                    lg: "background.main",
+                },
+            }}
+        >
             <TopMenu index={0} />
+            {/* 필터 */}
             <Box
                 sx={{
                     display: "flex",
@@ -258,6 +297,66 @@ export default function RecommendScreen() {
                     </Box>
                 </Container>
             </Box>
+
+            {/* 분양현장 목록  */}
+            <Box
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    backgroundColor: {
+                        xs: "primary.main",
+                        md: "background.main",
+                        lg: "background.main",
+                    },
+                }}
+            >
+                <Container
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                    }}
+                >
+                    <Box sx={{ mt: 4 }}>
+                        <Typography variant="inline" sx={{ fontSize: 14 }}>
+                            분양목록 총
+                        </Typography>
+                        <Typography
+                            variant="inline"
+                            sx={{
+                                ml: 1,
+                                fontSize: 14,
+                                fontWeight: "bold",
+                                color: "secondary.main",
+                            }}
+                        >
+                            {recommendList.length}
+                        </Typography>
+                    </Box>
+                    {isMobile ? (
+                        <Grid container spacing={2} sx={{ mt: 1, mb: 5 }}>
+                            {recommendList.map((item, index) => (
+                                <Grid item xs={12}>
+                                    <RecommendMRow
+                                        click={noticeCLick}
+                                    />
+                                </Grid>
+                            ))}
+                        </Grid>
+                    ) : (
+                        <Grid container spacing={2} sx={{ mt: 1, mb: 5 }}>
+                            {recommendList.map((item, index) => (
+                                <Grid item xs={3}>
+                                    <RecommendRow/>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    )}
+                </Container>
+            </Box>
+            <Drawer anchor="right" open={open} hideBackdrop={true}>
+                <NoticeDetailScreen close={handleClose} />
+            </Drawer>
+
             <BottomMenu index={1} />
         </Box>
     );

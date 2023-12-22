@@ -21,6 +21,9 @@ const Theme = createTheme({
         error: {
             main: "#DA1E28",
         },
+        background: {
+            main: "#F5F5F5"
+        },
         border: {
             main: "#D2D1D0",
         },
@@ -31,6 +34,7 @@ const Theme = createTheme({
             main: "#D2D1D0",
             contrastText: "#000000",
         },
+
     },
     typography: {
         fontFamily: ["SpoqaHanRegular"].join(","),

@@ -4,10 +4,12 @@ import Routing from "../router/Routing";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from '@mui/material/styles';
 import Theme from "../styles/Theme";
+import { CssBaseline } from "@mui/material";
 
 function Web() {
     return (
         <ThemeProvider theme={Theme}>
+            <CssBaseline/>
             <Router>
                 <Routing />
             </Router>
