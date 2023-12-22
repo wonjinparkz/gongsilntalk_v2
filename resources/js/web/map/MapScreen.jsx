@@ -1,4 +1,4 @@
-import { Box, Toolbar } from "@mui/material";
+import { Box, Stack, Toolbar } from "@mui/material";
 import React, { useEffect, useRef } from "react";
 import TopMenu from "../../components/TopMenu";
 import BottomMenu from "../../components/BottomMenu";
@@ -23,15 +23,42 @@ export default function MapScreen() {
 
         const map = new window.naver.maps.Map(mapDiv, mapOptions);
         // 지도 유형 설정 ("NORMAL" - 일반, "TERRAIN" - 지형도, "SATELLITE" - 위성, "HYBRID" - 하이브리드)
-        map.setMapTypeId(naver.maps.MapTypeId["TERRAIN"]);
+        map.setMapTypeId(naver.maps.MapTypeId["NORMAL"]);
 
-        const cadastralLayer = new naver.maps.CadastralLayer();
-        cadastralLayer.setMap(map);
+        // 지적도 보기
+        // const cadastralLayer = new naver.maps.CadastralLayer();
+        // cadastralLayer.setMap(map);
     }, []);
     return (
-        <Box>
+        <Box
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100vh",
+            }}
+        >
             <TopMenu index={1} />
-            <div id="map" style={{ width: "100%", height: "100vh" }} />
+
+            <Box
+                sx={{
+                    width: "100vw",
+                    height: "100vh",
+                    mb: {
+                        xs: "50px",
+                        md: "0px",
+                        lg: "0px",
+                    },
+                }}
+            >
+                <Box
+                    id="map"
+                    sx={{
+                        width: "100%",
+                        height: "100%",
+                    }}
+                />
+            </Box>
+
             <BottomMenu index={2} />
         </Box>
     );
