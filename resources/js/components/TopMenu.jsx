@@ -26,7 +26,6 @@ export default function TopMenu({ index }) {
 
     // 로그인 클릭
     const loginClick = () => {
-        console.log("로그인 클릭");
         navigate("/login");
     };
 

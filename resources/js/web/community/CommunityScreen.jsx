@@ -6,8 +6,8 @@ import BottomMenu from "../../components/BottomMenu";
 export default function CommunityScreen() {
     return (
         <Box>
-            <TopMenu index={3}/>
-            <BottomMenu />
+            <TopMenu index={3} />
+            <BottomMenu index={4} />
         </Box>
     );
 }

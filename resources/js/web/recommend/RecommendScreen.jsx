@@ -248,7 +248,7 @@ export default function RecommendScreen() {
                     </Box>
                 </Container>
             </Box>
-            <BottomMenu />
+            <BottomMenu index={1}/>
         </Box>
     );
 }

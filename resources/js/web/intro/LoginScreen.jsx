@@ -8,7 +8,7 @@ export default function LoginScreen() {
     return (
         <Box>
             <TopMenu index={null} />
-            <BottomMenu />
+            <BottomMenu index={null} />
         </Box>
     );
 }

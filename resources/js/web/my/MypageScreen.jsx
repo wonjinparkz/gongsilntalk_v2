@@ -7,7 +7,7 @@ export default function MypageScreen() {
     return (
         <Box>
             <TopMenu index={2} />
-            <BottomMenu />
+            <BottomMenu index={3} />
         </Box>
     );
 }

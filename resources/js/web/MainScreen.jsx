@@ -7,7 +7,7 @@ export default function MainScreen() {
     return (
         <Box>
             <TopMenu index={null} />
-            <BottomMenu />
+            <BottomMenu index={0} />
         </Box>
     );
 }

@@ -30,10 +30,9 @@ export default function MapScreen() {
     }, []);
     return (
         <Box>
-            <TopMenu index={1}/>
+            <TopMenu index={1} />
             <div id="map" style={{ width: "100%", height: "100vh" }} />
-            <BottomMenu />
-
+            <BottomMenu index={2} />
         </Box>
     );
 }
