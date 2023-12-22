@@ -15,11 +15,13 @@ import {
     alpha,
     CssBaseline,
     Drawer,
+    LinearProgress,
 } from "@mui/material";
 import Theme from "../../styles/Theme";
 import RecommendRow from "./RecommendRow";
 import NoticeDetailScreen from "../notice/NoticeDetailScreen";
 import { useNavigate } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 /**
  * 추천 분양 현장
@@ -62,9 +64,6 @@ export default function RecommendScreen() {
     // 지역 설정
     const areaChange = (event, newValue) => {
         setArea(newValue);
-        if (newValue == 0) {
-            setRecommendList((old) => [...old, "1"]);
-        }
     };
 
     // 지역설정 Select 박스 설정
@@ -88,7 +87,20 @@ export default function RecommendScreen() {
         },
     };
 
-    const [recommendList, setRecommendList] = useState(["1", "1"]);
+    const [recommendList, setRecommendList] = useState([
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+    ]);
 
     const [open, setOpen] = React.useState(false);
     const noticeCLick = () => {
@@ -103,8 +115,17 @@ export default function RecommendScreen() {
         setOpen(false);
     };
 
+    const loadMore = () => {
+        console.log("로드모어");
+        setRecommendList((old) => [
+            ...old,
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+        ]);
+    };
+
     return (
         <Box
+            id="main"
             sx={{
                 height: "100vh",
                 backgroundColor: {
@@ -309,6 +330,7 @@ export default function RecommendScreen() {
                 }}
             >
                 <Container
+                    id="scrollDiv"
                     sx={{
                         display: "flex",
                         flexDirection: "column",
@@ -331,13 +353,21 @@ export default function RecommendScreen() {
                         </Typography>
                     </Box>
 
-                    <Grid container spacing={2} sx={{ mt: 1, mb: 5 }}>
-                        {recommendList.map((item, index) => (
-                            <Grid item xs={12} md={12} lg={3}>
-                                <RecommendRow />
-                            </Grid>
-                        ))}
-                    </Grid>
+                    <InfiniteScroll
+                        dataLength={recommendList.length}
+                        next={loadMore}
+                        hasMore={true}
+                        scrollThreshold={1}
+                        loader={<LinearProgress color="secondary" />}
+                    >
+                        <Grid container spacing={2} sx={{ mt: 1, mb: 5 }}>
+                            {recommendList.map((item, index) => (
+                                <Grid key={index} item xs={12} md={12} lg={3}>
+                                    <RecommendRow />
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </InfiniteScroll>
                 </Container>
             </Box>
             <Drawer anchor="right" open={open} hideBackdrop={true}>
