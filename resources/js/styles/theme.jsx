@@ -16,28 +16,31 @@ const Theme = createTheme({
         },
         secondary: {
             main: "#F16341",
-            alpha: "#F1634110"
+            alpha: "#F1634110",
         },
         error: {
             main: "#DA1E28",
         },
         background: {
-            main: "#F5F5F5"
+            main: "#F5F5F5",
         },
         border: {
             main: "#D2D1D0",
+            light: "#EEEDED"
         },
         black: {
             main: "#000000",
         },
         clear: {
-            main: "#ffffff00"
+            main: "#ffffff00",
+        },
+        gray: {
+            main: "#9D9999",
         },
         signupButton: {
             main: "#D2D1D0",
             contrastText: "#000000",
         },
-
     },
     typography: {
         fontFamily: ["SpoqaHanRegular"].join(","),
