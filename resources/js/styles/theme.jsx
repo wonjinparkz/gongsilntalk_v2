@@ -26,10 +26,11 @@ const Theme = createTheme({
         },
         border: {
             main: "#D2D1D0",
-            light: "#EEEDED"
+            light: "#EEEDED",
         },
         black: {
             main: "#000000",
+            dark: "#000000",
         },
         clear: {
             main: "#ffffff00",

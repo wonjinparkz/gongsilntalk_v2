@@ -8,6 +8,9 @@ import {
 } from "@mui/material";
 import React, { useRef } from "react";
 import TopMenu from "../../components/TopMenu";
+import Icon from "../../components/Icon";
+import { IconSet } from "../../components/IconSet";
+import { ColorSet } from "../../components/ColorSet";
 
 export default function LoginScreen() {
     //------------------------------------------------------------------------------
@@ -58,6 +61,7 @@ export default function LoginScreen() {
                 }}
             >
                 <Card
+                    elevation={0}
                     sx={{
                         width: "518px",
                         display: "flex",
@@ -66,7 +70,6 @@ export default function LoginScreen() {
                         borderRadius: 3,
                         border: { xs: 0, md: 0, lg: 1 },
                         borderColor: { xs: "", md: "", lg: "border.light" },
-                        elevation: { xs: 0, md: 0, lg: 1 },
                     }}
                 >
                     <Typography
@@ -96,12 +99,13 @@ export default function LoginScreen() {
                             fullWidth
                             placeholder="이메일을 입력해주세요."
                             inputRef={emailRef}
-                            type="email"
+                            type={"email"}
                             sx={{
                                 "& .MuiInputLabel-root": { display: "none" },
                                 "& .MuiOutlinedInput-notchedOutline": {
                                     border: "none",
                                 },
+
                                 fontSize: 16,
                             }}
                         />
@@ -124,11 +128,17 @@ export default function LoginScreen() {
                             placeholder="비밀번호를 입력해주세요."
                             fullWidth
                             inputRef={passwordRef}
-                            type="password"
+                            type={"password"}
                             sx={{
                                 "& .MuiInputLabel-root": { display: "none" },
                                 "& .MuiOutlinedInput-notchedOutline": {
                                     border: "none",
+                                },
+                                "::-webkit-input-placeholder": {
+                                    color: ColorSet.color_03C75A,
+                                },
+                                "::placeholder": {
+                                    color: ColorSet.color_03C75A,
                                 },
                                 fontSize: 16,
                             }}
@@ -151,7 +161,6 @@ export default function LoginScreen() {
 
                     <Button
                         variant="contained"
-                        color="secondary"
                         onClick={login}
                         sx={{
                             mt: 1,
@@ -161,16 +170,80 @@ export default function LoginScreen() {
                             fontFamily: "SpoqaHanBold",
                             height: "50px",
                             fontSize: "16px",
+                            color: ColorSet.color_ffffff,
+                            backgroundColor: ColorSet.color_F16341,
+                            ":hover": {
+                                backgroundColor: ColorSet.color_F16341,
+                            },
                         }}
                     >
                         로그인
                     </Button>
 
+                    {/* 소셜로그인 버튼  */}
                     <Box
                         sx={{
                             display: "flex",
-                            justifyContent: "flex-end",
-                            mt: 1,
+                            justifyContent: "center",
+                            mt: 4,
+                            ml: 10,
+                            mr: 10,
+                        }}
+                    >
+                        <IconButton
+                            sx={{
+                                width: 45,
+                                height: 45,
+                                backgroundColor: ColorSet.color_000000,
+                                ":hover": {
+                                    backgroundColor: ColorSet.color_000000,
+                                },
+                            }}
+                        >
+                            <Icon
+                                icon={IconSet.btn_apple}
+                                iconColor={ColorSet.color_ffffff}
+                            />
+                        </IconButton>
+                        <IconButton
+                            sx={{
+                                width: 45,
+                                height: 45,
+                                ml: 2,
+                                mr: 2,
+                                backgroundColor: ColorSet.color_FEE500,
+                                ":hover": {
+                                    backgroundColor: ColorSet.color_FEE500,
+                                },
+                            }}
+                        >
+                            <Icon
+                                icon={IconSet.btn_kakao}
+                                iconColor={ColorSet.color_000000}
+                            />
+                        </IconButton>
+                        <IconButton
+                            sx={{
+                                width: 45,
+                                height: 45,
+                                backgroundColor: ColorSet.color_03C75A,
+                                ":hover": {
+                                    backgroundColor: ColorSet.color_03C75A,
+                                },
+                            }}
+                        >
+                            <Icon
+                                icon={IconSet.btn_naver}
+                                iconColor={ColorSet.color_ffffff}
+                            />
+                        </IconButton>
+                    </Box>
+
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            mt: 2,
                             ml: 10,
                             mr: 10,
                         }}

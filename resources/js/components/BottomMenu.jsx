@@ -3,11 +3,12 @@ import {
     BottomNavigation,
     BottomNavigationAction,
     Divider,
-    Icon,
     Paper,
     SvgIcon,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import Icon from "./Icon";
+import { IconSet } from "./IconSet";
 
 export default function BottomMenu({ index }) {
     const navigate = useNavigate();
