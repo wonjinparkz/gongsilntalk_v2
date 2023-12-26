@@ -6,10 +6,36 @@ import {
     Typography,
     IconButton,
 } from "@mui/material";
-import React from "react";
+import React, { useRef } from "react";
 import TopMenu from "../../components/TopMenu";
 
 export default function LoginScreen() {
+    //------------------------------------------------------------------------------
+    // * Local variables
+    //------------------------------------------------------------------------------
+    const emailRef = useRef();
+    const passwordRef = useRef();
+
+    //------------------------------------------------------------------------------
+    // * Local function
+    //------------------------------------------------------------------------------
+    // 로그인 API
+    const login = () => {
+
+
+        axios
+            .post("http://localhost/api/signin", {
+                params: {
+                    email: emailRef.current.value,
+                    password: passwordRef.current.value,
+                },
+            })
+            .then((response) => {});
+    };
+
+    //------------------------------------------------------------------------------
+    // * UI Render
+    //------------------------------------------------------------------------------
     return (
         <Box
             sx={{
@@ -34,11 +60,6 @@ export default function LoginScreen() {
                 }}
             >
                 <Card
-                    elevation={{
-                        xs: 0,
-                        md: 0,
-                        lg: 1,
-                    }}
                     sx={{
                         width: "518px",
                         display: "flex",
@@ -54,6 +75,11 @@ export default function LoginScreen() {
                             xs: "",
                             md: "",
                             lg: "border.light",
+                        },
+                        elevation: {
+                            xs: 0,
+                            md: 0,
+                            lg: 1,
                         },
                     }}
                 >
@@ -83,6 +109,7 @@ export default function LoginScreen() {
                         <TextField
                             fullWidth
                             placeholder="이메일을 입력해주세요."
+                            inputRef={emailRef}
                             type="email"
                             sx={{
                                 "& .MuiInputLabel-root": { display: "none" },
@@ -110,6 +137,7 @@ export default function LoginScreen() {
                         <TextField
                             placeholder="비밀번호를 입력해주세요."
                             fullWidth
+                            inputRef={passwordRef}
                             type="password"
                             sx={{
                                 "& .MuiInputLabel-root": { display: "none" },
@@ -138,6 +166,7 @@ export default function LoginScreen() {
                     <Button
                         variant="contained"
                         color="secondary"
+                        onClick={login}
                         sx={{
                             mt: 1,
                             ml: 10,
