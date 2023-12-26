@@ -21,8 +21,6 @@ export default function LoginScreen() {
     //------------------------------------------------------------------------------
     // 로그인 API
     const login = () => {
-
-
         axios
             .post("http://localhost/api/signin", {
                 params: {
@@ -66,21 +64,9 @@ export default function LoginScreen() {
                         flexDirection: "column",
                         alignSelf: "center",
                         borderRadius: 3,
-                        border: {
-                            xs: 0,
-                            md: 0,
-                            lg: 1,
-                        },
-                        borderColor: {
-                            xs: "",
-                            md: "",
-                            lg: "border.light",
-                        },
-                        elevation: {
-                            xs: 0,
-                            md: 0,
-                            lg: 1,
-                        },
+                        border: { xs: 0, md: 0, lg: 1 },
+                        borderColor: { xs: "", md: "", lg: "border.light" },
+                        elevation: { xs: 0, md: 0, lg: 1 },
                     }}
                 >
                     <Typography
