@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import TopMenu from "../../components/TopMenu";
 import BottomMenu from "../../components/BottomMenu";
-import { isMobile } from "react-device-detect";
 import {
     Box,
     Typography,
@@ -17,7 +16,6 @@ import {
     Drawer,
     LinearProgress,
 } from "@mui/material";
-import Theme from "../../styles/Theme";
 import RecommendRow from "./RecommendRow";
 import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -28,12 +26,12 @@ import useHistoryState from "../../hook/useHistoryState";
  */
 export default function RecommendScreen() {
     const navigate = useNavigate();
-    const [status, setstatus] = useHistoryState(0);
-    const statusChange = (event) => {
-        setstatus(event.target.value);
-    };
-
-    const [area, setArea] = useHistoryState(0);
+    const [status, setstatus] = useHistoryState(0, "status");
+    const [area, setArea] = useHistoryState(0, "area");
+    const [recommendList, setRecommendList] = useHistoryState(
+        ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+        "recommendList"
+    );
     const areaList = [
         [
             { title: "전체", index: 0 },
@@ -61,6 +59,11 @@ export default function RecommendScreen() {
         ],
     ];
 
+    // 상태 설정
+    const statusChange = (event) => {
+        setstatus(event.target.value);
+    };
+
     // 지역 설정
     const areaChange = (event, newValue) => {
         setArea(newValue);
@@ -86,21 +89,6 @@ export default function RecommendScreen() {
             borderColor: "secondary.main",
         },
     };
-
-    const [recommendList, setRecommendList] = useHistoryState([
-        "1",
-        "1",
-        "1",
-        "1",
-        "1",
-        "1",
-        "1",
-        "1",
-        "1",
-        "1",
-        "1",
-        "1",
-    ]);
 
     // 더보기
     const loadMore = () => {
@@ -345,7 +333,12 @@ export default function RecommendScreen() {
                         next={loadMore}
                         hasMore={true}
                         scrollThreshold={1}
-                        loader={<LinearProgress color="secondary" />}
+                        loader={
+                            <LinearProgress
+                                sx={{ width: "100vw" }}
+                                color="secondary"
+                            />
+                        }
                     >
                         <Grid container spacing={2} sx={{ mt: 1, mb: 5 }}>
                             {recommendList.map((item, index) => (

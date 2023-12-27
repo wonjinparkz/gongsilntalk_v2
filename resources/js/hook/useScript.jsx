@@ -1,34 +1,15 @@
-import { React, useEffect, useState } from "react";
+import useAsync from "./useAsync";
 
-function useScript({ src }) {
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+export default function useScript(url) {
+    return useAsync(() => {
+        const script = document.createElement("script");
+        script.src = url;
+        script.async = true;
 
-    useEffect(() => {
-        let script = document.querySelector(`script[src="${src}"]`);
-
-        //script가 없을시 실행하여 중복돼서 생기지 않도록 함
-        if (!script) {
-            script = document.createElement("script"); //script태그를 추가해준다.
-            script.src = src; //script의 실행 src
-            script.async = true; //다운로드 완료 즉시 실행
-        }
-
-        const handleLoad = () => setLoading(false);
-        const handleError = (error) => setError(error);
-
-        script.addEventListener("load", handleLoad);
-        script.addEventListener("error", handleError);
-
-        document.head.appendChild(script);
-
-        return () => {
-            script.removeEventListener("load", handleLoad);
-            script.removeEventListener("error", handleError);
-        };
-    }, [src]);
-
-    return [loading, error];
+        return new Promise((resolve, reject) => {
+            script.addEventListener("load", resolve);
+            script.addEventListener("error", reject);
+            document.body.appendChild(script);
+        });
+    }, [url]);
 }
-
-export default useScript;
