@@ -22,19 +22,19 @@ import RecommendRow from "./RecommendRow";
 import NoticeDetailScreen from "../notice/NoticeDetailScreen";
 import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useHistoryState } from "../../helper/useHistoryState";
+import useHistoryState from "../../helper/useHistoryState";
 
 /**
  * 추천 분양 현장
  */
 export default function RecommendScreen() {
     const navigate = useNavigate();
-    const [status, setstatus] = useHistoryState("state", 0);
+    const [status, setstatus] = useHistoryState(0);
     const statusChange = (event) => {
         setstatus(event.target.value);
     };
 
-    const [area, setArea] = useHistoryState("area", 0);
+    const [area, setArea] = useHistoryState(0);
     const areaList = [
         [
             { title: "전체", index: 0 },
@@ -88,7 +88,7 @@ export default function RecommendScreen() {
         },
     };
 
-    const [recommendList, setRecommendList] = useHistoryState("recommendList", [
+    const [recommendList, setRecommendList] = useHistoryState([
         "1",
         "1",
         "1",

@@ -52,8 +52,7 @@ export default function LoginScreen() {
                 },
             }}
         >
-            {isMobile ? <ToolMenu /> : <ToolMenu />}
-            {/* <TopMenu index={null} /> */}
+            {isMobile ? <ToolMenu /> : <TopMenu index={null} />}
             <Box
                 sx={{
                     display: "flex",

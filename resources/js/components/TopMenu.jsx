@@ -15,11 +15,11 @@ import {
 import React, { useState } from "react";
 import { isMobile } from "react-device-detect";
 import { useNavigate } from "react-router-dom";
-import LoginScreen from "../web/intro/LoginScreen";
+import AlertDialog from "./AlertDialog";
 
 export default function TopMenu({ index }) {
     const navigate = useNavigate();
-
+    const [menuSelectValue, setMenuSelectValue] = useState(index);
     const navItems = [
         { title: "추천 분양현장", link: "/recommend" },
         { title: "실시간 매물지도", link: "/map" },
@@ -29,11 +29,13 @@ export default function TopMenu({ index }) {
 
     const loginClick = () => {
         navigate("/login");
-    }
+    };
 
     // 메뉴 변경
-    const [menuSelectValue, setMenuSelectValue] = useState(index);
     const handleMenuChange = (event, newValue) => {
+        if (newValue == 2) {
+            return;
+        }
         navigate(navItems[newValue].link);
         setMenuSelectValue(newValue);
     };
@@ -120,6 +122,12 @@ export default function TopMenu({ index }) {
                     </Button>
                 </Box>
             </Toolbar>
+            <AlertDialog
+                title="로그인이 필요합니다."
+                message="로그인으로 이동합니다."
+                handleClose={() => {}}
+                handleConfirm={() => {}}
+            />
         </AppBar>
     );
 }
