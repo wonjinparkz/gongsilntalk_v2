@@ -19,10 +19,9 @@ import {
 } from "@mui/material";
 import Theme from "../../styles/Theme";
 import RecommendRow from "./RecommendRow";
-import NoticeDetailScreen from "../notice/NoticeDetailScreen";
 import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
-import useHistoryState from "../../helper/useHistoryState";
+import useHistoryState from "../../hook/useHistoryState";
 
 /**
  * 추천 분양 현장

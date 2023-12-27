@@ -13,9 +13,7 @@ import {
     Drawer,
 } from "@mui/material";
 import React, { useState } from "react";
-import { isMobile } from "react-device-detect";
 import { useNavigate } from "react-router-dom";
-import AlertDialog from "./AlertDialog";
 
 export default function TopMenu({ index }) {
     const navigate = useNavigate();
@@ -122,12 +120,6 @@ export default function TopMenu({ index }) {
                     </Button>
                 </Box>
             </Toolbar>
-            <AlertDialog
-                title="로그인이 필요합니다."
-                message="로그인으로 이동합니다."
-                handleClose={() => {}}
-                handleConfirm={() => {}}
-            />
         </AppBar>
     );
 }

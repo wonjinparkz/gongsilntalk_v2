@@ -1,6 +1,7 @@
 import { SvgIcon } from "@mui/material";
 import React from "react";
 
+// JSON ICON 모음
 export const IconSet = {
     btn_apple: "btn_apple",
     btn_kakao: "btn_kakao",

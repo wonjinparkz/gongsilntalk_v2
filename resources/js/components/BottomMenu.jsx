@@ -7,7 +7,7 @@ import {
     Paper,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { useAlert } from "../helper/useAlert";
+import { useAlert } from "../hook/useAlert";
 import {
     homeIcon,
     recommendIcon,

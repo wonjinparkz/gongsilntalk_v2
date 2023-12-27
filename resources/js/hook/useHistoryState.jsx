@@ -1,23 +1,23 @@
 import { useState, useCallback } from "react";
 
 const useHistoryState = (initialState, options = {}) => {
-    const [State, SetState] = useState(initialState);
-    const [History, SetHistory] = useState([initialState]);
-    const [Pointer, SetPointer] = useState(0);
+    const [State, setState] = useState(initialState);
+    const [History, setHistory] = useState([initialState]);
+    const [Pointer, setPointer] = useState(0);
 
     const ChangeState = useCallback(
         (value) => {
             if (value === History[History.length - 1]) return false;
 
-            SetState(value);
+            setState(value);
 
-            SetHistory((history) => {
+            setHistory((history) => {
                 if (Pointer === history.length - 1) return [...history, value];
 
                 return [...history.slice(0, Pointer + 1), value];
             });
 
-            SetPointer((pointer) => pointer + 1);
+            setPointer((pointer) => pointer + 1);
 
             if (options.onChangeState) {
                 options.onChangeState(History[Pointer], value);
@@ -31,9 +31,9 @@ const useHistoryState = (initialState, options = {}) => {
     const Undo = useCallback(() => {
         if (Pointer === 0) return false;
 
-        SetState(History[Pointer - 1]);
+        setState(History[Pointer - 1]);
 
-        SetPointer((pointer) => pointer - 1);
+        setPointer((pointer) => pointer - 1);
 
         if (options.onUndo) {
             options.onUndo(History[Pointer], History[Pointer - 1]);
@@ -45,9 +45,9 @@ const useHistoryState = (initialState, options = {}) => {
     const Redo = useCallback(() => {
         if (Pointer === History.length - 1) return false;
 
-        SetState(History[Pointer + 1]);
+        setState(History[Pointer + 1]);
 
-        SetPointer((pointer) => pointer + 1);
+        setPointer((pointer) => pointer + 1);
 
         if (options.onRedo) {
             options.onRedo(History[Pointer], History[Pointer + 1]);
@@ -57,8 +57,8 @@ const useHistoryState = (initialState, options = {}) => {
     }, [History, Pointer, options]);
 
     const ClearHistory = useCallback(() => {
-        SetHistory([State]);
-        SetPointer(0);
+        setHistory([State]);
+        setPointer(0);
 
         if (options.onClearHistory) {
             options.onClearHistory(History, [State]);

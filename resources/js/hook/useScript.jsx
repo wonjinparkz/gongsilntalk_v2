@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 
-function UseScript({ src }) {
+function useScript({ src }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -31,4 +31,4 @@ function UseScript({ src }) {
     return [loading, error];
 }
 
-export default UseScript;
+export default useScript;
