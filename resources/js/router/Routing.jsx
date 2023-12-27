@@ -13,7 +13,7 @@ export default function Routing() {
     return (
         <Routes>
             <Route exact path="/" element={<MainScreen />} />
-            <Route path="/login" element={<LoginScreen />} />
+            <Route exact path="/login" element={<LoginScreen />} />
 
             {/* 추천 분양 현장 */}
             <Route path="/recommend" element={<RecommendScreen />} />

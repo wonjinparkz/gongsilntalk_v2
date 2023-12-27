@@ -22,18 +22,19 @@ import RecommendRow from "./RecommendRow";
 import NoticeDetailScreen from "../notice/NoticeDetailScreen";
 import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useHistoryState } from "../../helper/useHistoryState";
 
 /**
  * 추천 분양 현장
  */
 export default function RecommendScreen() {
     const navigate = useNavigate();
-    const [status, setstatus] = useState(0);
+    const [status, setstatus] = useHistoryState("state", 0);
     const statusChange = (event) => {
         setstatus(event.target.value);
     };
 
-    const [area, setArea] = useState(0);
+    const [area, setArea] = useHistoryState("area", 0);
     const areaList = [
         [
             { title: "전체", index: 0 },
@@ -87,7 +88,7 @@ export default function RecommendScreen() {
         },
     };
 
-    const [recommendList, setRecommendList] = useState([
+    const [recommendList, setRecommendList] = useHistoryState("recommendList", [
         "1",
         "1",
         "1",
@@ -102,23 +103,10 @@ export default function RecommendScreen() {
         "1",
     ]);
 
-    const [open, setOpen] = React.useState(false);
-    const noticeCLick = () => {
-        console.log("공지사항 클릭");
-        if (isMobile) {
-            setOpen(true);
-        } else {
-            navigate("/notice/detail");
-        }
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
-
+    // 더보기
     const loadMore = () => {
-        console.log("로드모어");
-        setRecommendList((old) => [
-            ...old,
+        setRecommendList([
+            ...recommendList,
             ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
         ]);
     };
@@ -135,9 +123,7 @@ export default function RecommendScreen() {
                 },
             }}
         >
-            <TopMenu index={0} loginClick={()=> {
-                navigate("/login");
-            }} />
+            <TopMenu index={0} />
             {/* 필터 */}
             <Box
                 sx={{
@@ -372,9 +358,6 @@ export default function RecommendScreen() {
                     </InfiniteScroll>
                 </Container>
             </Box>
-            <Drawer anchor="right" open={open} hideBackdrop={true}>
-                <NoticeDetailScreen close={handleClose} />
-            </Drawer>
 
             <BottomMenu index={1} />
         </Box>

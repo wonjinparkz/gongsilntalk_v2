@@ -17,7 +17,7 @@ import { isMobile } from "react-device-detect";
 import { useNavigate } from "react-router-dom";
 import LoginScreen from "../web/intro/LoginScreen";
 
-export default function TopMenu({ index, loginClick }) {
+export default function TopMenu({ index }) {
     const navigate = useNavigate();
 
     const navItems = [
@@ -26,6 +26,10 @@ export default function TopMenu({ index, loginClick }) {
         { title: "마이메뉴", link: "/mypage" },
         { title: "커뮤니티", link: "/community" },
     ];
+
+    const loginClick = () => {
+        navigate("/login");
+    }
 
     // 메뉴 변경
     const [menuSelectValue, setMenuSelectValue] = useState(index);

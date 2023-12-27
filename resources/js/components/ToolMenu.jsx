@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function ToolMenu() {
     const navigate = useNavigate();
     const closeClick = () => {
-        navigate.back();
+        navigate(-1);
     };
 
     return (
