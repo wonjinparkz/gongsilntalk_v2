@@ -19,7 +19,7 @@ function Web() {
 
 export default Web;
 
-if (document.getElementById("app")) {
-    const rootNode = document.getElementById("app");
+if (document.getElementById("web")) {
+    const rootNode = document.getElementById("web");
     ReactDOM.createRoot(rootNode).render(<Web />);
 }
