@@ -55,6 +55,7 @@ export default function LoginScreen() {
             <Box
                 sx={{
                     display: "flex",
+                    width: "100%",
                     height: "100%",
                     flexDirection: "column",
                     justifyContent: "center",
@@ -63,7 +64,21 @@ export default function LoginScreen() {
                 <Card
                     elevation={0}
                     sx={{
-                        width: "518px",
+                        width: {
+                            xs: "100vw",
+                            md: "100vw",
+                            lg: "518px",
+                        },
+                        pl: {
+                            xs: 4,
+                            md: 4,
+                            lg: 10,
+                        },
+                        pr: {
+                            xs: 4,
+                            md: 4,
+                            lg: 10,
+                        },
                         display: "flex",
                         flexDirection: "column",
                         alignSelf: "center",
@@ -91,8 +106,6 @@ export default function LoginScreen() {
                             borderColor: "border.main",
                             borderRadius: 2,
                             mt: 5,
-                            ml: 10,
-                            mr: 10,
                         }}
                     >
                         <TextField
@@ -118,10 +131,7 @@ export default function LoginScreen() {
                             border: "1px solid",
                             borderColor: "border.main",
                             borderRadius: 2,
-
                             mt: 1,
-                            ml: 10,
-                            mr: 10,
                         }}
                     >
                         <TextField
@@ -150,8 +160,6 @@ export default function LoginScreen() {
                             display: "flex",
                             justifyContent: "flex-end",
                             mt: 1,
-                            ml: 10,
-                            mr: 10,
                         }}
                     >
                         <Button variant="text" color="gray">
@@ -164,8 +172,6 @@ export default function LoginScreen() {
                         onClick={login}
                         sx={{
                             mt: 1,
-                            ml: 10,
-                            mr: 10,
                             borderRadius: "5px",
                             fontFamily: "SpoqaHanBold",
                             height: "50px",
@@ -186,8 +192,6 @@ export default function LoginScreen() {
                             display: "flex",
                             justifyContent: "center",
                             mt: 4,
-                            ml: 10,
-                            mr: 10,
                         }}
                     >
                         <IconButton
@@ -239,15 +243,46 @@ export default function LoginScreen() {
                         </IconButton>
                     </Box>
 
+                    {/* 회원가입 버튼 */}
                     <Box
                         sx={{
                             display: "flex",
                             justifyContent: "center",
-                            mt: 2,
-                            ml: 10,
-                            mr: 10,
+                            alignItems: "center",
+                            mt: 4,
+
+                            mb: { xs: 0, md: 0, lg: 5 },
                         }}
-                    ></Box>
+                    >
+                        <Button
+                            variant="text"
+                            sx={{
+                                fontSize: "16px",
+                                color: ColorSet.color_F16341,
+                            }}
+                        >
+                            일반회원가입
+                        </Button>
+
+                        <Box
+                            sx={{
+                                width: "2px",
+                                height: "16px",
+                                backgroundColor: ColorSet.color_D2D1D0,
+                            }}
+                        ></Box>
+
+                        <Button
+                            variant="text"
+                            sx={{
+                                borderRadius: "5px",
+                                fontSize: "16px",
+                                color: ColorSet.color_F16341,
+                            }}
+                        >
+                            중개사 회원가입
+                        </Button>
+                    </Box>
                 </Card>
             </Box>
         </Box>
