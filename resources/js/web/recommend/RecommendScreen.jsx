@@ -135,7 +135,9 @@ export default function RecommendScreen() {
                 },
             }}
         >
-            <TopMenu index={0} />
+            <TopMenu index={0} loginClick={()=> {
+                navigate("/login");
+            }} />
             {/* 필터 */}
             <Box
                 sx={{

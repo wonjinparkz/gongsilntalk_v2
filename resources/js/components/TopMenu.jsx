@@ -10,11 +10,14 @@ import {
     Typography,
     Button,
     Divider,
+    Drawer,
 } from "@mui/material";
 import React, { useState } from "react";
+import { isMobile } from "react-device-detect";
 import { useNavigate } from "react-router-dom";
+import LoginScreen from "../web/intro/LoginScreen";
 
-export default function TopMenu({ index }) {
+export default function TopMenu({ index, loginClick }) {
     const navigate = useNavigate();
 
     const navItems = [
@@ -23,11 +26,6 @@ export default function TopMenu({ index }) {
         { title: "마이메뉴", link: "/mypage" },
         { title: "커뮤니티", link: "/community" },
     ];
-
-    // 로그인 클릭
-    const loginClick = () => {
-        navigate("/login");
-    };
 
     // 메뉴 변경
     const [menuSelectValue, setMenuSelectValue] = useState(index);
@@ -72,7 +70,9 @@ export default function TopMenu({ index }) {
                     }}
                 >
                     <Tabs
-                        value={menuSelectValue}
+                        value={
+                            menuSelectValue == null ? false : menuSelectValue
+                        }
                         onChange={handleMenuChange}
                         textColor="secondary"
                     >

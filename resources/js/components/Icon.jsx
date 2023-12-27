@@ -20,7 +20,7 @@ export default function Icon({ icon, iconColor, className }) {
             }}
         >
             {path.map((item, index) => (
-                <path d={path} />
+                <path key={index} d={path} />
             ))}
         </svg>
     );

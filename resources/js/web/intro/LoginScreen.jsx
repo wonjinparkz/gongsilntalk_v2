@@ -11,6 +11,8 @@ import TopMenu from "../../components/TopMenu";
 import Icon from "../../components/Icon";
 import { IconSet } from "../../components/IconSet";
 import { ColorSet } from "../../components/ColorSet";
+import { isMobile } from "react-device-detect";
+import ToolMenu from "../../components/ToolMenu";
 
 export default function LoginScreen() {
     //------------------------------------------------------------------------------
@@ -50,7 +52,7 @@ export default function LoginScreen() {
                 },
             }}
         >
-            <TopMenu index={null} />
+            {isMobile ? <ToolMenu /> : <TopMenu index={null} />}
 
             <Box
                 sx={{
