@@ -1,13 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 
-import SpoqaHanRegular from "./fonts/SpoqaHanSansNeo-Regular.woff";
 import SpoqaHanRegularWoff2 from "./fonts/SpoqaHanSansNeo-Regular.woff2";
-import SpoqaHanBold from "./fonts/SpoqaHanSansNeo-Bold.woff";
 import SpoqaHanBoldWoff2 from "./fonts/SpoqaHanSansNeo-Bold.woff2";
-import SpoqaHanLight from "./fonts/SpoqaHanSansNeo-Light.woff";
-import SpoqaHanLightWoff2 from "./fonts/SpoqaHanSansNeo-Light.woff2";
-import SpoqaHanMedium from "./fonts/SpoqaHanSansNeo-Medium.woff";
-import SpoqaHanMediumWoff2 from "./fonts/SpoqaHanSansNeo-Medium.woff2";
 
 const Theme = createTheme({
     palette: {
