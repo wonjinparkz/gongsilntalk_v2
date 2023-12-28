@@ -335,7 +335,6 @@ export default function RecommendScreen() {
                         scrollThreshold={1}
                         loader={
                             <LinearProgress
-                                sx={{ width: "100vw" }}
                                 color="secondary"
                             />
                         }
