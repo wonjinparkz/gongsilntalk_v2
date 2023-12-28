@@ -1,0 +1,111 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+
+class DataApt extends BaseModel
+{
+    use HasFactory, Notifiable;
+
+    /**
+     * Table Name
+     */
+    protected $table = 'data_apt';
+
+
+    /**
+     * Fillable
+     */
+    protected $fillable = [
+        // 아파트 정보
+        'as1',
+        'as2',
+        'as3',
+        'as4',
+        'bjdCode',
+        'kaptCode',
+        'kaptName',
+
+
+        // 아파트 기본 정보
+        'is_base_info',
+        'kaptAddr',
+        'codeSaleNm',
+        'codeHeatNm',
+        'kaptTarea',
+        'kaptDongCnt',
+        'kaptdaCnt',
+        'kaptBcompany',
+        'kaptAcompany',
+        'kaptTel',
+        'kaptFax',
+        'kaptUrl',
+        'codeAptNm',
+        'doroJuso',
+        'hoCnt',
+        'codeMgrNm',
+        'codeHallNm',
+        'kaptUsedate',
+        'kaptMarea',
+        'kaptMparea_60',
+        'kaptMparea_85',
+        'kaptMparea_135',
+        'kaptMparea_136',
+        'privArea',
+
+
+        // 아파트 상세 정보
+        'is_detail_info',
+        'codeMgr',
+        'kaptMgrCnt',
+        'kaptCcompany',
+        'codeSec',
+        'kaptdScnt',
+        'kaptdSecCom',
+        'codeClean',
+        'kaptdClcnt',
+        'codeGarbage',
+        'codeDisinf',
+        'kaptdDcnt',
+        'disposalType',
+        'codeStr',
+        'kaptdEcapa',
+        'codeEcon',
+        'codeEmgr',
+        'codeFalarm',
+        'codeWsupply',
+        'codeElev',
+        'kaptdEcnt',
+        'kaptdPcnt',
+        'kaptdPcntu',
+        'codeNet',
+        'kaptdCccnt',
+        'welfareFacility',
+        'kaptdWtimebus',
+        'subwayLine',
+        'subwayStation',
+        'kaptdWtimesub',
+        'convenientFacility',
+        'educationFacility',
+
+        // 지도 정보
+        'is_map_info',
+        'x',
+        'y',
+    ];
+
+    /**
+     * Hidden
+     */
+    protected $hidden = [];
+
+    /**
+     * Cast
+     */
+    protected $casts = [
+        'updated_at' => 'datetime',
+        'created_at' => 'datetime',
+    ];
+}

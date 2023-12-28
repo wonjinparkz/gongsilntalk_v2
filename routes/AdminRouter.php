@@ -11,6 +11,7 @@ use App\Http\Controllers\qa\QaController;
 use App\Http\Controllers\notice\NoticeController;
 use App\Http\Controllers\popup\PopupController;
 use App\Http\Controllers\banner\BannerController;
+use App\Http\Controllers\data\DataController;
 use App\Http\Controllers\magazine\MagazineController;
 use App\Http\Controllers\magazine\MagazineCategoryController;
 use App\Http\Controllers\terms\TermsController;
@@ -210,4 +211,11 @@ Route::middleware('admin.auth')->controller(AdminController::class)->group(funct
 
     Route::get('/admins/me/{id}', 'me')->name('admins.me.view');
     Route::post('/admins/update/me', 'updateMe')->name('admins.update.me');
+});
+
+/**
+ * 데이터 수집
+ */
+Route::controller(DataController::class)->group(function () {
+    Route::get('/data/apt', 'getApt');
 });

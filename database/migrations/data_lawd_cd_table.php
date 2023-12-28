@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         //
-        Schema::create('lawd_cd', function (Blueprint $table) {
+        Schema::create('data_lawd_cd', function (Blueprint $table) {
             $table->id();
             $table->string('lawd_cd')->comment('법정동코드');
             $table->string('full_lawd')->comment('전체법정동명');
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::statement("ALTER TABLE faqs COMMENT='법정동코드'");
+        DB::statement("ALTER TABLE data_lawd_cd COMMENT='법정동코드'");
     }
 
     /**
@@ -32,6 +32,6 @@ return new class extends Migration
     public function down(): void
     {
         //
-        Schema::dropIfExists('lawd_cd');
+        Schema::dropIfExists('data_lawd_cd');
     }
 };
