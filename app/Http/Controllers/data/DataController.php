@@ -128,15 +128,16 @@ class DataController extends Controller
     // 아파트 지도 정보 위도 경도 - 네이버
     public function getAptMapInfo()
     {
-        $mapInfo = DataApt::where('is_map_info', 0)->whereNotNull('doroJuso')->first();
-        Log::debug("도로 주소 : " . $mapInfo->doroJuso);
+        $mapInfo = DataApt::where('is_map_info', 0)->first();
         if ($mapInfo == null) {
             return;
         }
 
+        $address = $mapInfo->doroJuso == null ? $mapInfo->kaptAddr : $mapInfo->doroJuso;
+
         $url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode";
         $param = [
-            'query' => $mapInfo->doroJuso
+            'query' => $address
         ];
 
         $promise = Http::withHeaders([
