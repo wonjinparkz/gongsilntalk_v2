@@ -156,6 +156,12 @@ class DataController extends Controller
                         'y' => $address['y'],
                     ];
                     $mapInfo->update($obj);
+                } else {
+                    $address = $addresses[0];
+                    $obj = [
+                        'is_map_info' => 1,
+                    ];
+                    $mapInfo->update($obj);
                 }
             }
         );

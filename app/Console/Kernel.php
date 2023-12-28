@@ -13,14 +13,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('app:get-apt-info')->everyMinute();
 
-        $schedule->call(function () {
-            $dataController = new DataController;
-            $dataController->getAptBaseInfo();
-            $dataController->getAptDetailInfo();
-            $dataController->getAptMapInfo();
-        })->everyMinute();
+        // $schedule->call(function () {
+
+        // })->everyMinute();
     }
 
     /**
