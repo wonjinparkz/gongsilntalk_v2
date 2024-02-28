@@ -24,7 +24,7 @@
             data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto"
             data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
             data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
-            <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu"
+            <div class="menu menu-column menu-rounded menu-sub-indention px-3 pb-20" id="#kt_app_sidebar_menu"
                 data-kt-menu="true" data-kt-menu-expand="false">
                 {{-- 대시보드  메뉴 --}}
                 <div class="menu-item pt-5">
@@ -39,32 +39,166 @@
                     </div>
                 </div>
 
-                {{-- 회원 관리 --}}
+                {{-- 일반회원 관리 --}}
                 <div class="menu-item pt-5 ">
                     <div class="menu-content">
-                        <span class="menu-heading fw-bold text-uppercase fs-7">회원관리</span>
+                        <span class="menu-heading fw-bold text-uppercase fs-7">일반 회원 관리</span>
                     </div>
 
-                    {{-- 회원관리 메뉴 --}}
+                    {{-- 일반회원관리 메뉴 --}}
                     <div class="menu-item">
                         <a class="menu-link {{ str_contains(Route::currentRouteName(), 'user') ? 'active' : '' }}"
                             href="{{ route('admin.user.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-regular fa-user"></i>
                             </span>
-                            <span class="menu-title">회원관리</span>
+                            <span class="menu-title">일반 회원 관리</span>
                         </a>
                     </div>
+                </div>
+                {{-- 중개사 회원 관리 --}}
+                <div class="menu-item pt-5 ">
+                    <div class="menu-content">*
+                        <span class="menu-heading fw-bold text-uppercase fs-7">중개사 회원 관리</span>
+                    </div>
 
-                    {{-- 회원관리 메뉴 --}}
+                    {{-- 중개사 관리 메뉴 --}}
                     <div class="menu-item">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-handshake"></i>
                             </span>
-                            <span class="menu-title">파트너</span>
+                            <span class="menu-title">중개사 회원 관리</span>
                         </a>
                     </div>
+                    {{-- 승인요청 중개사 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-pen-nib"></i>
+                            </span>
+                            <span class="menu-title">승인 요청 중개사 관리</span>
+                        </a>
+                    </div>
+                </div>
+
+                {{-- 매물 관리 --}}
+                <div class="menu-item pt-5 ">
+                    <div class="menu-content">*
+                        <span class="menu-heading fw-bold text-uppercase fs-7">매물 관리</span>
+                    </div>
+
+                    {{-- 일반 회원 매물 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-handshake"></i>
+                            </span>
+                            <span class="menu-title">일반 회원 매물 관리</span>
+                        </a>
+                    </div>
+                    {{-- 중개사 매물 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-pen-nib"></i>
+                            </span>
+                            <span class="menu-title">중개사 매물 관리</span>
+                        </a>
+                    </div>
+                    {{-- 분양현장 매물 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-pen-nib"></i>
+                            </span>
+                            <span class="menu-title">분양현장 매물 관리</span>
+                        </a>
+                    </div>
+                </div>
+
+                {{-- 지식산업센터 관리 --}}
+                <div class="menu-item pt-5 ">
+                    <div class="menu-content">*
+                        <span class="menu-heading fw-bold text-uppercase fs-7">지식산업센터 관리</span>
+                    </div>
+
+                    {{-- 일반 회원 매물 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-handshake"></i>
+                            </span>
+                            <span class="menu-title">지식산업센터 관리</span>
+                        </a>
+                    </div>
+                </div>
+
+                {{-- 제안서 관리 --}}
+                <div class="menu-item pt-5 ">
+                    <div class="menu-content">*
+                        <span class="menu-heading fw-bold text-uppercase fs-7">제안서 관리</span>
+                    </div>
+
+                    {{-- 매물 제안서 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-handshake"></i>
+                            </span>
+                            <span class="menu-title">매물 제안서 관리</span>
+                        </a>
+                    </div>
+
+                    {{-- 기업 이전 제안서 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-handshake"></i>
+                            </span>
+                            <span class="menu-title">기업 이전 제안서 관리</span>
+                        </a>
+                    </div>
+                </div>
+
+                {{-- 관리자 컨텐츠 관리 --}}
+                <div class="menu-item pt-5 ">
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">관리자 컨텐츠 관리</span>
+                    </div>
+
+                    {{-- 공톡 유투브 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'community.category') ? 'active' : '' }}"
+                            href="{{ route('admin.community.category.list.view') }}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </span>
+                            <span class="menu-title">공톡 유투브 관리</span>
+                        </a>
+                    </div>
+
+                    {{-- 공톡 매거진 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'community.list.view') ? 'active' : '' }}"
+                            href="{{ route('admin.community.list.view') }}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-comment-dots"></i>
+                            </span>
+                            <span class="menu-title">공톡 매거진 관리</span>
+                        </a>
+                    </div>
+
+                    {{-- 공톡 뉴스 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-comment-slash"></i>
+                            </span>
+                            <span class="menu-title">공톡 뉴스 관리</span>
+                        </a>
+                    </div>
+
                 </div>
 
                 {{-- 커뮤니티 관리 --}}
@@ -84,8 +218,15 @@
                         </a>
                     </div>
 
+                </div>
+                {{-- 신고 관리 --}}
+                <div class="menu-item pt-5 ">
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">신고 관리</span>
+                    </div>
+
                     {{-- 커뮤니티 카테고리 메뉴 --}}
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ str_contains(Route::currentRouteName(), 'community.list.view') ? 'active' : '' }}"
                             href="{{ route('admin.community.list.view') }}">
                             <span class="menu-icon">
@@ -93,31 +234,39 @@
                             </span>
                             <span class="menu-title">커뮤니티 목록 관리</span>
                         </a>
-                    </div>
+                    </div> --}}
 
-
-                    {{-- 커뮤니티 신고 관리 메뉴 --}}
+                    {{-- 게시글 신고 관리 메뉴 --}}
                     <div class="menu-item">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-comment-slash"></i>
                             </span>
-                            <span class="menu-title">커뮤니티 신고 관리</span>
+                            <span class="menu-title">게시글 신고 관리</span>
                         </a>
                     </div>
 
+                    {{-- 댓글 신고 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-comment-slash"></i>
+                            </span>
+                            <span class="menu-title">댓글 신고 관리</span>
+                        </a>
+                    </div>
 
                 </div>
 
 
                 {{-- 매거진 관리 --}}
-                <div class="menu-item pt-5 ">
+                {{-- <div class="menu-item pt-5 ">
                     <div class="menu-content">
                         <span class="menu-heading fw-bold text-uppercase fs-7">매거진 관리</span>
-                    </div>
+                    </div> --}}
 
                     {{-- 매거진 카테고리 메뉴 --}}
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine.category') ? 'active' : '' }}"
                             href="{{ route('admin.magazine.category.list.view') }}">
                             <span class="menu-icon">
@@ -125,10 +274,10 @@
                             </span>
                             <span class="menu-title">매거진 카테고리 관리</span>
                         </a>
-                    </div>
+                    </div> --}}
 
                     {{-- 매거진 목록 메뉴 --}}
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine') ? 'active' : '' }}"
                             href="{{ route('admin.magazine.list.view') }}">
                             <span class="menu-icon">
@@ -137,8 +286,8 @@
                             <span class="menu-title">매거진 목록 관리</span>
                         </a>
                     </div>
-                </div>
 
+                </div> --}}
 
                 {{-- 고객 센터 메뉴 그룹  --}}
                 {{-- 메뉴 - 서브 메뉴 없는 경우  --}}
@@ -158,28 +307,6 @@
                         </a>
                     </div>
 
-                    {{-- FAQ 메뉴  --}}
-                    <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'faq') ? 'active' : '' }}"
-                            href="{{ route('admin.faq.list.view') }}">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-clipboard-question"></i>
-                            </span>
-                            <span class="menu-title">FAQ 관리</span>
-                        </a>
-                    </div>
-
-                    {{-- 1:1문의 메뉴  --}}
-                    <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'qa') ? 'active' : '' }}"
-                            href="{{ route('admin.qa.list.view') }}">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-person-circle-question"></i>
-                            </span>
-                            <span class="menu-title">1:1 문의 관리</span>
-                        </a>
-                    </div>
-
                     {{-- 약관 메뉴  --}}
                     <div class="menu-item">
                         <a class="menu-link {{ str_contains(Route::currentRouteName(), 'terms') ? 'active' : '' }}"
@@ -195,35 +322,69 @@
                 </div>
 
 
-                {{-- 관리자 메뉴 --}}
+                {{-- 메인 페이지 구성 관리 --}}
                 <div class="menu-item pt-5 ">
                     <div class="menu-content">
-                        <span class="menu-heading fw-bold text-uppercase fs-7">환경설정</span>
+                        <span class="menu-heading fw-bold text-uppercase fs-7">메인 페이지 구성 관리</span>
                     </div>
 
-                    {{-- 팝업 관리 메뉴 --}}
+                    {{-- 메인 배너 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') ? 'active' : '' }}"
+                            href="{{ route('admin.banner.list.view') }}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-sign-hanging"></i>
+                            </span>
+                            <span class="menu-title">메인 배너 관리</span>
+                        </a>
+                    </div>
+
+                    {{-- 메인 서비스 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') ? 'active' : '' }}"
+                            href="{{ route('admin.banner.list.view') }}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-sign-hanging"></i>
+                            </span>
+                            <span class="menu-title">메인 서비스 관리</span>
+                        </a>
+                    </div>
+
+                    {{-- 부가 서비스 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') ? 'active' : '' }}"
+                            href="{{ route('admin.banner.list.view') }}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-sign-hanging"></i>
+                            </span>
+                            <span class="menu-title">부가 서비스 관리</span>
+                        </a>
+                    </div>
+
+                    {{-- 시작페이지 팝업 관리 메뉴 --}}
                     <div class="menu-item">
                         <a class="menu-link {{ str_contains(Route::currentRouteName(), 'popup') ? 'active' : '' }}"
                             href="{{ route('admin.popup.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-window-restore"></i>
                             </span>
-                            <span class="menu-title">팝업관리</span>
+                            <span class="menu-title">시작페이지 팝업 관리</span>
                         </a>
                     </div>
-                      {{-- 배너 관리 메뉴 --}}
-                      <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') ? 'active' : '' }}"
-                            href="{{ route('admin.banner.list.view') }}">
+
+                    {{-- 메인 텍스트 노출 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'popup') ? 'active' : '' }}"
+                            href="{{ route('admin.popup.list.view') }}">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-sign-hanging"></i>
+                                <i class="fa-solid fa-window-restore"></i>
                             </span>
-                            <span class="menu-title">배너관리</span>
+                            <span class="menu-title">메인 텍스트 노출 관리</span>
                         </a>
                     </div>
 
                     {{-- 알림 발송 메뉴 --}}
-                    <div class="menu-item">
+                    {{-- <div class="menu-item">
                         <a class="menu-link {{ str_contains(Route::currentRouteName(), 'alarm') ? 'active' : '' }}"
                             href="{{ route('admin.alarm.view') }}">
                             <span class="menu-icon">
@@ -231,7 +392,7 @@
                             </span>
                             <span class="menu-title">알림 관리</span>
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
 
                 {{-- 관리자 메뉴 --}}
@@ -250,6 +411,92 @@
                             <span class="menu-title">관리자 관리</span>
                         </a>
                     </div>
+                </div>
+
+                {{-- 데이터 관리 --}}
+                <div class="menu-item pt-5 ">
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">데이터 관리</span>
+                    </div>
+
+                    {{-- 일반 회원 자산 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link"
+                            href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-lock"></i>
+                            </span>
+                            <span class="menu-title">일반 회원 자산 관리</span>
+                        </a>
+                    </div>
+
+                    {{-- 인테리어 견적 받기 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link"
+                            href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-lock"></i>
+                            </span>
+                            <span class="menu-title">인테리어 견적 받기 관리</span>
+                        </a>
+                    </div>
+
+                    {{-- 아파트 단지 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link"
+                            href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-lock"></i>
+                            </span>
+                            <span class="menu-title">아파트 단지 관리</span>
+                        </a>
+                    </div>
+
+                    {{-- 상가 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link"
+                            href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-lock"></i>
+                            </span>
+                            <span class="menu-title">상가 관리</span>
+                        </a>
+                    </div>
+
+                    {{-- 건물 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link"
+                            href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-lock"></i>
+                            </span>
+                            <span class="menu-title">건물 관리</span>
+                        </a>
+                    </div>
+
+                    {{-- 아파트 매매 실거래가 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link"
+                            href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-lock"></i>
+                            </span>
+                            <span class="menu-title">아파트 매매 실거래가 관리</span>
+                        </a>
+                    </div>
+
+                    {{-- 아파트 전월세 실거래가 관리 메뉴 --}}
+                    <div class="menu-item">
+                        <a class="menu-link"
+                            href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-lock"></i>
+                            </span>
+                            <span class="menu-title">아파트 전월세 실거래가 관리</span>
+                        </a>
+                    </div>
+
+
                 </div>
 
                 {{-- 관리자 메뉴 그룹  --}}
