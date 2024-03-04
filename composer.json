@@ -15,6 +15,7 @@
         "laravel/passport": "^11.8",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
+        "maatwebsite/excel": "~3.1.0",
         "opcodesio/log-viewer": "^2.3",
         "socialiteproviders/kakao": "^4.2",
         "socialiteproviders/naver": "^4.1",

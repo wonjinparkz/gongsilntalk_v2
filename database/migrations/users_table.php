@@ -59,6 +59,9 @@ return new class extends Migration
             $table->string('brokerage_number')->nullable()->comment('중개등록번호');
             $table->date('opening_date')->nullable()->comment('개업일');
 
+            // 관리자 입력 정보
+            $table->longText('contents')->nullable()->comment('메모');
+
             // 시간 관련
             $table->timestamp('last_used_at')->nullable()->comment("마지막 사용 시간");
             $table->timestamps();

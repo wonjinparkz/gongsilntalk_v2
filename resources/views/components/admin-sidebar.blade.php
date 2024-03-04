@@ -56,6 +56,7 @@
                         </a>
                     </div>
                 </div>
+
                 {{-- 중개사 회원 관리 --}}
                 <div class="menu-item pt-5 ">
                     <div class="menu-content">*
@@ -64,16 +65,19 @@
 
                     {{-- 중개사 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link" href="#">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'corp') ? 'active' : '' }}"
+                            href="{{ route('admin.corp.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-handshake"></i>
                             </span>
                             <span class="menu-title">중개사 회원 관리</span>
                         </a>
                     </div>
+
                     {{-- 승인요청 중개사 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link" href="#">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'company') ? 'active' : '' }}"
+                            href="{{ route('admin.company.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-pen-nib"></i>
                             </span>
@@ -92,7 +96,7 @@
                     <div class="menu-item">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-handshake"></i>
+                                <i class="fa-solid fa-house"></i>
                             </span>
                             <span class="menu-title">일반 회원 매물 관리</span>
                         </a>
@@ -101,7 +105,7 @@
                     <div class="menu-item">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-pen-nib"></i>
+                                <i class="fa-solid fa-building-user"></i>
                             </span>
                             <span class="menu-title">중개사 매물 관리</span>
                         </a>
@@ -110,7 +114,7 @@
                     <div class="menu-item">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-pen-nib"></i>
+                                <i class="fa-solid fa-building-flag"></i>
                             </span>
                             <span class="menu-title">분양현장 매물 관리</span>
                         </a>
@@ -127,7 +131,7 @@
                     <div class="menu-item">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-handshake"></i>
+                                <i class="fa-solid fa-building-columns"></i>
                             </span>
                             <span class="menu-title">지식산업센터 관리</span>
                         </a>
@@ -144,7 +148,7 @@
                     <div class="menu-item">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-handshake"></i>
+                                <i class="fa-solid fa-list-check"></i>
                             </span>
                             <span class="menu-title">매물 제안서 관리</span>
                         </a>
@@ -154,7 +158,7 @@
                     <div class="menu-item">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-handshake"></i>
+                                <i class="fa-solid fa-chart-pie"></i>
                             </span>
                             <span class="menu-title">기업 이전 제안서 관리</span>
                         </a>
@@ -172,7 +176,7 @@
                         <a class="menu-link {{ str_contains(Route::currentRouteName(), 'community.category') ? 'active' : '' }}"
                             href="{{ route('admin.community.category.list.view') }}">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-layer-group"></i>
+                                <i class="fa-brands fa-youtube"></i>
                             </span>
                             <span class="menu-title">공톡 유투브 관리</span>
                         </a>
@@ -193,7 +197,7 @@
                     <div class="menu-item">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-comment-slash"></i>
+                                <i class="fa-solid fa-newspaper"></i>
                             </span>
                             <span class="menu-title">공톡 뉴스 관리</span>
                         </a>
@@ -240,7 +244,7 @@
                     <div class="menu-item">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-comment-slash"></i>
+                                <i class="fa-solid fa-text-slash"></i>
                             </span>
                             <span class="menu-title">게시글 신고 관리</span>
                         </a>
@@ -265,8 +269,8 @@
                         <span class="menu-heading fw-bold text-uppercase fs-7">매거진 관리</span>
                     </div> --}}
 
-                    {{-- 매거진 카테고리 메뉴 --}}
-                    {{-- <div class="menu-item">
+                {{-- 매거진 카테고리 메뉴 --}}
+                {{-- <div class="menu-item">
                         <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine.category') ? 'active' : '' }}"
                             href="{{ route('admin.magazine.category.list.view') }}">
                             <span class="menu-icon">
@@ -276,8 +280,8 @@
                         </a>
                     </div> --}}
 
-                    {{-- 매거진 목록 메뉴 --}}
-                    {{-- <div class="menu-item">
+                {{-- 매거진 목록 메뉴 --}}
+                {{-- <div class="menu-item">
                         <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine') ? 'active' : '' }}"
                             href="{{ route('admin.magazine.list.view') }}">
                             <span class="menu-icon">
@@ -344,7 +348,7 @@
                         <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') ? 'active' : '' }}"
                             href="{{ route('admin.banner.list.view') }}">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-sign-hanging"></i>
+                                <i class="fa-solid fa-money-check"></i>
                             </span>
                             <span class="menu-title">메인 서비스 관리</span>
                         </a>
@@ -355,7 +359,7 @@
                         <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') ? 'active' : '' }}"
                             href="{{ route('admin.banner.list.view') }}">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-sign-hanging"></i>
+                                <i class="fa-light fa-sign-hanging"></i>
                             </span>
                             <span class="menu-title">부가 서비스 관리</span>
                         </a>
@@ -377,7 +381,7 @@
                         <a class="menu-link {{ str_contains(Route::currentRouteName(), 'popup') ? 'active' : '' }}"
                             href="{{ route('admin.popup.list.view') }}">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-window-restore"></i>
+                                <i class="fa-solid fa-file-pen"></i>
                             </span>
                             <span class="menu-title">메인 텍스트 노출 관리</span>
                         </a>
@@ -421,10 +425,9 @@
 
                     {{-- 일반 회원 자산 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link"
-                            href="#">
+                        <a class="menu-link" href="#">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-lock"></i>
+                                <i class="fa-solid fa-money-bill-trend-up"></i>
                             </span>
                             <span class="menu-title">일반 회원 자산 관리</span>
                         </a>
@@ -432,10 +435,9 @@
 
                     {{-- 인테리어 견적 받기 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link"
-                            href="#">
+                        <a class="menu-link" href="#">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-lock"></i>
+                                <i class="fa-solid fa-file-invoice-dollar"></i>
                             </span>
                             <span class="menu-title">인테리어 견적 받기 관리</span>
                         </a>
@@ -443,10 +445,9 @@
 
                     {{-- 아파트 단지 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link"
-                            href="#">
+                        <a class="menu-link" href="#">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-lock"></i>
+                                <i class="fa-solid fa-city"></i>
                             </span>
                             <span class="menu-title">아파트 단지 관리</span>
                         </a>
@@ -454,10 +455,9 @@
 
                     {{-- 상가 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link"
-                            href="#">
+                        <a class="menu-link" href="#">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-lock"></i>
+                                <i class="fa-solid fa-store"></i>
                             </span>
                             <span class="menu-title">상가 관리</span>
                         </a>
@@ -465,10 +465,9 @@
 
                     {{-- 건물 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link"
-                            href="#">
+                        <a class="menu-link" href="#">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-lock"></i>
+                                <i class="fa-solid fa-building"></i>
                             </span>
                             <span class="menu-title">건물 관리</span>
                         </a>
@@ -476,10 +475,9 @@
 
                     {{-- 아파트 매매 실거래가 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link"
-                            href="#">
+                        <a class="menu-link" href="#">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-lock"></i>
+                                <i class="fa-solid fa-chart-line"></i>
                             </span>
                             <span class="menu-title">아파트 매매 실거래가 관리</span>
                         </a>
@@ -487,10 +485,9 @@
 
                     {{-- 아파트 전월세 실거래가 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link"
-                            href="#">
+                        <a class="menu-link" href="#">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-lock"></i>
+                                <i class="fa-solid fa-chart-column"></i>
                             </span>
                             <span class="menu-title">아파트 전월세 실거래가 관리</span>
                         </a>

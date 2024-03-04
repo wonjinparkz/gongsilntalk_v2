@@ -7,7 +7,8 @@
             <div class="app-container container-xxl d-flex flex-stack">
                 {{-- 페이지 제목 --}}
                 <div class="d-inline-block position-relative">
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">일반 회원 관리
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">중개사 회원
+                        관리
                     </h1>
                     <span
                         class="d-inline-block position-absolute mt-3 h-8px bottom-0 end-0 start-0 bg-success translate rounded" />
@@ -27,7 +28,7 @@
 
                         {{-- 이름으로 검색 --}}
                         <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">이름</label>
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">담당자 이름</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="name" name="name"
                                     class="form-control form-control-solid" placeholder="이름을 입력해 주세요."
@@ -53,6 +54,16 @@
                             </div>
                         </div>
 
+                        {{-- 중개사무소명 검색 --}}
+                        <div class="col-lg-6 row mb-6">
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">중개사무소명</label>
+                            <div class="col-lg-8 fv-row">
+                                <input type="text" id="company_name" name="company_name"
+                                    class="form-control form-control-solid" placeholder="중개사무소명을 입력해 주세요."
+                                    value="{{ Request::get('company_name') }}" />
+                            </div>
+                        </div>
+
                         {{-- 상태 선택 --}}
                         <div class="col-lg-6 row mb-6">
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">회원 상태</label>
@@ -68,30 +79,7 @@
                                     </option>
                                     <option value="1" @if ($state == 1) selected @endif>이용정지
                                     </option>
-                                    <option value="2" @if ($state == 2) selected @endif>회원탈퇴
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        {{-- 유형 선택 --}}
-                        <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">회원 유형</label>
-                            @php
-                                $provider = Request::get('provider') ?? -1;
-                            @endphp
-                            <div class="col-lg-8 fv-row">
-                                <select name="provider" class="form-select form-select-solid" data-control="select2"
-                                    data-hide-search="true">
-                                    <option value="" @if ($provider < 0) selected @endif>전체
-                                    </option>
-                                    <option value="E" @if ($provider == 'E') selected @endif>일반
-                                    </option>
-                                    <option value="K" @if ($provider == 'K') selected @endif>카카오
-                                    </option>
-                                    <option value="N" @if ($provider == 'N') selected @endif>네이버
-                                    </option>
-                                    <option value="A" @if ($provider == 'A') selected @endif>애플
+                                    <option value="2" @if ($state == 2) selected @endif>계약해지
                                     </option>
                                 </select>
                             </div>
@@ -100,7 +88,7 @@
                         <div class="d-flex justify-content-center mt-10">
                             <button type="submit" class="btn me-10 col-lg-1 btn-primary">검색</button>
                             <a class="btn btn-lm fw-bold btn-success"
-                                href="{{ route('admin.user.export', Request::all()) }}" target="_blank">엑셀
+                                href="{{ route('admin.corp.export', Request::all()) }}" target="_blank">엑셀
                                 다운로드</a>
                         </div>
 
@@ -123,8 +111,8 @@
                                     <th class="text-center w-20px">No.</th>
                                     <th class="text-center">회원상태</th>
                                     <th class="text-center">아이디 (이메일)</th>
-                                    <th class="text-center">가입 유형</th>
-                                    <th class="text-center">이름</th>
+                                    <th class="text-center">담당자 이름</th>
+                                    <th class="text-center">중개사무소명</th>
                                     <th class="text-center">가입일</th>
                                     <th class="text-center">최종접속일</th>
                                     <th class="text-center">동작</th>
@@ -153,7 +141,7 @@
                                                 </div>
                                             @else
                                                 <div class="badge badge-light-danger">
-                                                    회원탈퇴
+                                                    계약해지
                                                 </div>
                                             @endif
                                         </td>
@@ -171,15 +159,14 @@
                                             </div>
                                         </td>
 
-                                        {{-- 회원 가입 유형 --}}
-                                        <td class="text-center">
-                                            <span
-                                                class="fw-bold fs-5">{{ Lang::get('commons.provider.' . $user->provider) }}</span>
-                                        </td>
-
                                         {{-- 회원 이름 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">{{ $user->name }}</span>
+                                        </td>
+
+                                        {{-- 중개사무소명 --}}
+                                        <td class="text-center">
+                                            <span class="fw-bold fs-5">{{ $user->company_name }}</span>
                                         </td>
 
                                         {{-- 회원 가입일 --}}
@@ -223,7 +210,7 @@
                                                                 @if ($user->state == 0)
                                                                     이용정지
                                                                 @elseif ($user->state == 1)
-                                                                    이용중
+                                                                    재계약
                                                                 @endif
                                                             </a>
                                                         </form>

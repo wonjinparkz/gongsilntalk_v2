@@ -59,6 +59,28 @@ Route::middleware('admin.auth')->controller(UserController::class)->group(functi
     Route::get('/user/list/view', 'userListView')->name('admin.user.list.view');
     Route::get('/user/detail/view/{id}', 'userdetailView')->name('admin.user.detail.view');
     Route::post('/user/state/update', 'userStateUpdate')->name('admin.user.state.update');
+    Route::get('/user/export', 'exportUser')->name('admin.user.export');
+
+    // 중개사
+    Route::get('/corp/list/view', 'corpListView')->name('admin.corp.list.view');
+    Route::get('/corp/detail/view/{id}', 'corpdetailView')->name('admin.corp.detail.view');
+    Route::get('/corp/export', 'exportCorp')->name('admin.corp.export');
+
+    // 중개사 승인
+    Route::get('/company/list/view', 'companyListView')->name('admin.company.list.view');
+    Route::get('/company/detail/view/{id}', 'companydetailView')->name('admin.company.detail.view');
+    Route::get('/company/export', 'exportCompany')->name('admin.company.export');
+
+});
+
+/**
+ * 관리자 사용자 관리
+ */
+Route::middleware('admin.auth')->controller(UserController::class)->group(function () {
+    Route::get('/user/list/view', 'userListView')->name('admin.user.list.view');
+    Route::get('/user/detail/view/{id}', 'userdetailView')->name('admin.user.detail.view');
+    Route::post('/user/state/update', 'userStateUpdate')->name('admin.user.state.update');
+    Route::get('/user/export', 'exportUser')->name('admin.user.export');
 });
 
 
@@ -194,6 +216,7 @@ Route::middleware('admin.auth')->controller(BannerController::class)->group(func
     Route::post('/banner/update', 'bannerUpdate')->name('admin.banner.update');
     Route::post('/banner/delete', 'bannerDelete')->name('admin.banner.delete');
     Route::post('/banner/update/state', 'bannerStateUpdate')->name('admin.banner.state.update');
+
 });
 
 /**
