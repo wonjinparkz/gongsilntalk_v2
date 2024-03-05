@@ -129,7 +129,8 @@
 
                     {{-- 일반 회원 매물 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link" href="#">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'knowledgeCenter') ? 'active' : '' }}"
+                        href="{{ route('admin.knowledgeCenter.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-building-columns"></i>
                             </span>

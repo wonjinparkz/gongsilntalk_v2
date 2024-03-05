@@ -15,6 +15,7 @@ class User extends BaseModel
         'email',
         'password',
         'token',
+        'type',
         'state',
         'name',
         'nickname',
@@ -27,6 +28,21 @@ class User extends BaseModel
         'device_type',
         'fcm_key',
         'is_alarm',
+        'is_marketing',
+        'marketing_at',
+        'company_state',
+        'company_name',
+        'company_phone',
+        'company_ceo',
+        'company_number',
+        'company_postcode',
+        'company_address',
+        'company_address_detail',
+        'refuse_coment',
+        'refuse_at',
+        'brokerage_number',
+        'opening_date',
+        'memo',
         'last_used_at',
     ];
 
@@ -38,6 +54,7 @@ class User extends BaseModel
 
     protected $casts = [
         'phone' => 'encrypted',
+        'company_phone' => 'encrypted',
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
@@ -65,7 +82,8 @@ class User extends BaseModel
     /**
      * 사용자 차단
      */
-    public function block() {
+    public function block()
+    {
         return $this->hasOne(UsersBlocks::class, 'block_id', 'id');
     }
 }

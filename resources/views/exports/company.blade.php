@@ -13,7 +13,6 @@
             <th>대표자 명</th>
             <th>가입일</th>
             <th>최종 접속일</th>
-            <th>메모</th>
         </tr>
     </thead>
     <tbody>
@@ -88,11 +87,6 @@
                         -
                     @endif
                 </td>
-
-                <td>
-                    {{ $user->memo }}
-                </td>
-
 
             </tr>
         @endforeach

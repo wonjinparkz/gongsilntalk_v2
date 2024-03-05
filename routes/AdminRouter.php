@@ -12,6 +12,7 @@ use App\Http\Controllers\notice\NoticeController;
 use App\Http\Controllers\popup\PopupController;
 use App\Http\Controllers\banner\BannerController;
 use App\Http\Controllers\data\DataController;
+use App\Http\Controllers\knowledgecenter\KnowledgeCneter_Controller;
 use App\Http\Controllers\magazine\MagazineController;
 use App\Http\Controllers\magazine\MagazineCategoryController;
 use App\Http\Controllers\terms\TermsController;
@@ -70,18 +71,36 @@ Route::middleware('admin.auth')->controller(UserController::class)->group(functi
     Route::get('/company/list/view', 'companyListView')->name('admin.company.list.view');
     Route::get('/company/detail/view/{id}', 'companydetailView')->name('admin.company.detail.view');
     Route::get('/company/export', 'exportCompany')->name('admin.company.export');
+});
 
+
+/**
+ * 매물 관리
+ */
+
+/**
+ * 지식산업센터 관리
+ */
+Route::middleware('admin.auth')->controller(KnowledgeCneter_Controller::class)->group(function () {
+    Route::get('/knowledgeCenter/list/view', 'knowledgeCenterListView')->name('admin.knowledgeCenter.list.view');
+    Route::get('/knowledgeCenter/detail/view/{id}', 'knowledgeCenterdetailView')->name('admin.knowledgeCenter.detail.view');
+    Route::get('/knowledgeCenter/export', 'exportKnowledgeCenter')->name('admin.knowledgeCenter.export');
+
+    Route::get('/knowledgeCenter/create', 'createView')->name('admin.knowledgeCenter.create.view');
+    Route::post('/knowledgeCenter/create', 'create')->name('admin.knowledgeCenter.create');
 });
 
 /**
- * 관리자 사용자 관리
+ * 제안서 관리
  */
-Route::middleware('admin.auth')->controller(UserController::class)->group(function () {
-    Route::get('/user/list/view', 'userListView')->name('admin.user.list.view');
-    Route::get('/user/detail/view/{id}', 'userdetailView')->name('admin.user.detail.view');
-    Route::post('/user/state/update', 'userStateUpdate')->name('admin.user.state.update');
-    Route::get('/user/export', 'exportUser')->name('admin.user.export');
-});
+
+/**
+ * 관리자 컨텐츠 관리
+ */
+
+/**
+ *
+ */
 
 
 /**
@@ -107,6 +126,84 @@ Route::middleware('admin.auth')->controller(CommunityController::class)->group(f
     Route::post('/community/update/state', 'updateState')->name('admin.community.update.state');
     Route::post('/community/reply/update/state', 'replyUpdateState')->name('admin.community.reply.update.state');
 });
+
+
+/**
+ * 신고 관리
+ */
+
+
+
+/**
+ * 관리자 공지 사항
+ */
+Route::middleware('admin.auth')->controller(NoticeController::class)->group(function () {
+    Route::get('/notice/list/view', 'noticeListView')->name('admin.notice.list.view');
+    Route::get('/notice/detail/view/{id}', 'noticeDetailView')->name('admin.notice.detail.view');
+    Route::get('/notice/create/view', 'noticeCreateView')->name('admin.notice.create.view');
+    Route::post('/notice/create', 'noticeCreate')->name('admin.notice.create');
+    Route::post('/notice/update', 'noticeUpdate')->name('admin.notice.update');
+    Route::post('/notice/state/update/', 'noticeStateUpdate')->name('admin.notice.state.update');
+    Route::post('/notice/delete', 'noticeDelete')->name('admin.notice.delete');
+});
+
+/**
+ * 관리자 약관 관리
+ */
+Route::middleware('admin.auth')->controller(TermsController::class)->group(function () {
+    Route::get('/terms/list/view', 'termsListView')->name('admin.terms.list.view');
+    Route::get('/terms/detail/view/{id}', 'termsDetailView')->name('admin.terms.detail.view');
+    Route::get('/terms/create/view', 'termsCreateView')->name('admin.terms.create.view');
+    Route::post('/terms/create', 'termsCreate')->name('admin.terms.create');
+    Route::post('/terms/update', 'termsUpdate')->name('admin.terms.update');
+    Route::post('/terms/delete', 'termsDelete')->name('admin.terms.delete');
+});
+
+
+/**
+ * 팝업 관리
+ */
+Route::middleware('admin.auth')->controller(PopupController::class)->group(function () {
+    Route::get('/popup/list/view', 'popupListView')->name('admin.popup.list.view');
+    Route::get('/popup/detail/view/{id}', 'popupDetailView')->name('admin.popup.detail.view');
+    Route::get('/popup/create/view', 'popupCreateView')->name('admin.popup.create.view');
+    Route::post('/popup/create', 'popupCreate')->name('admin.popup.create');
+    Route::post('/popup/update', 'popupUpdate')->name('admin.popup.update');
+    Route::post('/popup/delete', 'popupDelete')->name('admin.popup.delete');
+    Route::post('/popup/state/update', 'popupStateupdate')->name('admin.popup.state.update');
+});
+
+/**
+ * 배너 관리
+ */
+Route::middleware('admin.auth')->controller(BannerController::class)->group(function () {
+    Route::get('/banner/list/view', 'bannerListView')->name('admin.banner.list.view');
+    Route::get('/banner/detail/view/{id}', 'bannerDetailView')->name('admin.banner.detail.view');
+    Route::get('/banner/create/view', 'bannerCreateView')->name('admin.banner.create.view');
+    Route::post('/banner/create', 'bannerCreate')->name('admin.banner.create');
+    Route::post('/banner/update', 'bannerUpdate')->name('admin.banner.update');
+    Route::post('/banner/delete', 'bannerDelete')->name('admin.banner.delete');
+    Route::post('/banner/update/state', 'bannerStateUpdate')->name('admin.banner.state.update');
+});
+
+/**
+ * 관리자 관리
+ */
+Route::middleware('admin.auth')->controller(AdminController::class)->group(function () {
+    Route::get('/admins/list/view', 'adminListView')->name('admins.list.view');
+    Route::get('/admins/detail/view/{id}', 'admindetailView')->name('admins.detail.view');
+    Route::get('/admins/create/view', 'adminCreateView')->name('admins.create.view');
+    Route::post('/admins/create', 'adminCreate')->name('admins.create');
+    Route::post('/admins/delete', 'adminDelete')->name('admins.delete');
+    Route::post('/admins/update', 'adminUpdate')->name('admins.update');
+    Route::post('/admins/state/update', 'adminStateUpdate')->name('admins.state.update');
+    Route::post('/admins/password/update', 'adminPasswordUpdate')->name('admins.password.update');
+
+    Route::get('/admins/me/{id}', 'me')->name('admins.me.view');
+    Route::post('/admins/update/me', 'updateMe')->name('admins.update.me');
+});
+
+
 
 /**
  * 관리자 매거진 카테고리
@@ -135,17 +232,19 @@ Route::middleware('admin.auth')->controller(MagazineController::class)->group(fu
 
 
 /**
- * 관리자 공지 사항
+ * 데이터 관리
  */
-Route::middleware('admin.auth')->controller(NoticeController::class)->group(function () {
-    Route::get('/notice/list/view', 'noticeListView')->name('admin.notice.list.view');
-    Route::get('/notice/detail/view/{id}', 'noticeDetailView')->name('admin.notice.detail.view');
-    Route::get('/notice/create/view', 'noticeCreateView')->name('admin.notice.create.view');
-    Route::post('/notice/create', 'noticeCreate')->name('admin.notice.create');
-    Route::post('/notice/update', 'noticeUpdate')->name('admin.notice.update');
-    Route::post('/notice/state/update/', 'noticeStateUpdate')->name('admin.notice.state.update');
-    Route::post('/notice/delete', 'noticeDelete')->name('admin.notice.delete');
+
+
+/**
+ * 데이터 수집
+ */
+Route::controller(DataController::class)->group(function () {
+    Route::get('/data/apt', 'getApt');
 });
+
+
+
 
 /**
  * 관리자 FAQ
@@ -171,17 +270,7 @@ Route::middleware('admin.auth')->controller(QaController::class)->group(function
 });
 
 
-/**
- * 관리자 약관 관리
- */
-Route::middleware('admin.auth')->controller(TermsController::class)->group(function () {
-    Route::get('/terms/list/view', 'termsListView')->name('admin.terms.list.view');
-    Route::get('/terms/detail/view/{id}', 'termsDetailView')->name('admin.terms.detail.view');
-    Route::get('/terms/create/view', 'termsCreateView')->name('admin.terms.create.view');
-    Route::post('/terms/create', 'termsCreate')->name('admin.terms.create');
-    Route::post('/terms/update', 'termsUpdate')->name('admin.terms.update');
-    Route::post('/terms/delete', 'termsDelete')->name('admin.terms.delete');
-});
+
 
 /**
  * 관리자 알림 관리
@@ -189,56 +278,4 @@ Route::middleware('admin.auth')->controller(TermsController::class)->group(funct
 Route::middleware('admin.auth')->controller(AlaramController::class)->group(function () {
     Route::get('/alarm/view', 'view')->name('admin.alarm.view');
     Route::post('/alarm/send', 'send')->name('admin.alarm.send');
-});
-
-
-/**
- * 팝업 관리
- */
-Route::middleware('admin.auth')->controller(PopupController::class)->group(function () {
-    Route::get('/popup/list/view', 'popupListView')->name('admin.popup.list.view');
-    Route::get('/popup/detail/view/{id}', 'popupDetailView')->name('admin.popup.detail.view');
-    Route::get('/popup/create/view', 'popupCreateView')->name('admin.popup.create.view');
-    Route::post('/popup/create', 'popupCreate')->name('admin.popup.create');
-    Route::post('/popup/update', 'popupUpdate')->name('admin.popup.update');
-    Route::post('/popup/delete', 'popupDelete')->name('admin.popup.delete');
-    Route::post('/popup/state/update', 'popupStateupdate')->name('admin.popup.state.update');
-});
-
-/**
- * 배너 관리
- */
-Route::middleware('admin.auth')->controller(BannerController::class)->group(function () {
-    Route::get('/banner/list/view', 'bannerListView')->name('admin.banner.list.view');
-    Route::get('/banner/detail/view/{id}', 'bannerDetailView')->name('admin.banner.detail.view');
-    Route::get('/banner/create/view', 'bannerCreateView')->name('admin.banner.create.view');
-    Route::post('/banner/create', 'bannerCreate')->name('admin.banner.create');
-    Route::post('/banner/update', 'bannerUpdate')->name('admin.banner.update');
-    Route::post('/banner/delete', 'bannerDelete')->name('admin.banner.delete');
-    Route::post('/banner/update/state', 'bannerStateUpdate')->name('admin.banner.state.update');
-
-});
-
-/**
- * 관리자 관리
- */
-Route::middleware('admin.auth')->controller(AdminController::class)->group(function () {
-    Route::get('/admins/list/view', 'adminListView')->name('admins.list.view');
-    Route::get('/admins/detail/view/{id}', 'admindetailView')->name('admins.detail.view');
-    Route::get('/admins/create/view', 'adminCreateView')->name('admins.create.view');
-    Route::post('/admins/create', 'adminCreate')->name('admins.create');
-    Route::post('/admins/delete', 'adminDelete')->name('admins.delete');
-    Route::post('/admins/update', 'adminUpdate')->name('admins.update');
-    Route::post('/admins/state/update', 'adminStateUpdate')->name('admins.state.update');
-    Route::post('/admins/password/update', 'adminPasswordUpdate')->name('admins.password.update');
-
-    Route::get('/admins/me/{id}', 'me')->name('admins.me.view');
-    Route::post('/admins/update/me', 'updateMe')->name('admins.update.me');
-});
-
-/**
- * 데이터 수집
- */
-Route::controller(DataController::class)->group(function () {
-    Route::get('/data/apt', 'getApt');
 });
