@@ -11,6 +11,7 @@ use App\Http\Controllers\qa\QaController;
 use App\Http\Controllers\notice\NoticeController;
 use App\Http\Controllers\popup\PopupController;
 use App\Http\Controllers\banner\BannerController;
+use App\Http\Controllers\commons\PopupOpenController;
 use App\Http\Controllers\data\DataController;
 use App\Http\Controllers\knowledgecenter\KnowledgeCneter_Controller;
 use App\Http\Controllers\magazine\MagazineController;
@@ -53,7 +54,7 @@ Route::middleware('admin.auth')->controller(AdaminDashboardController::class)->g
     Route::get('/dashboard', 'dashboard')->name('dashboard.view');
 });
 
-/**
+/** x
  * 관리자 사용자 관리
  */
 Route::middleware('admin.auth')->controller(UserController::class)->group(function () {
@@ -241,6 +242,13 @@ Route::middleware('admin.auth')->controller(MagazineController::class)->group(fu
  */
 Route::controller(DataController::class)->group(function () {
     Route::get('/data/apt', 'getApt');
+});
+
+/**
+ * 팝업창
+ */
+Route::controller(PopupOpenController::class)->group(function () {
+    Route::get('/popupOpen/getAddress', 'getAddress')->name('popupOpen.getAddress');
 });
 
 

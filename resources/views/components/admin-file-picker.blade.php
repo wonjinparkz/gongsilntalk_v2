@@ -1,14 +1,24 @@
-@props(['title' => '이미지', 'required' => '', 'id' => 'file', 'files' => []])
+@props([
+    'title' => '이미지',
+    'required' => '',
+    'cnt' => '5',
+    'id' => 'file',
+    'files' => [],
+    'label_col' => '4',
+    'div_col' => '8',
+])
 
 <div class="row mb-6">
-    <label class="col-lg-4 col-form-label fw-semibold fs-6 {{ $required }}">{{ $title }}</label>
-    <div class="col-lg-8">
+    <label
+        class="col-lg-{{ $label_col }} col-form-label fw-semibold fs-6 {{ $required }}">{{ $title }}</label>
+    <div class="col-lg-{{ $div_col }}">
         <div class="dropzone " id="{{ $id }}_file_drop">
             <div class="dz-message needsclick">
                 <i class="bi bi-file-earmark-arrow-up text-primary fs-3x"></i>
                 <div class="ms-4">
                     <h3 class="fs-5 fw-bold text-gray-900 mb-1">파일을 업로드 하세요.</h3>
-                    <span class="fs-7 fw-semibold text-gray-400">이미지는 "png, jpg, jpeg" 만 가능합니다.
+                    <span class="fs-7 fw-semibold text-gray-400">파일은
+                        "jpg,jpeg,bmp,png,doc,docx,csv,rtf,xlsx,xls,txt,pdf,zip" 만 가능합니다.
                     </span>
                 </div>
             </div>
@@ -31,7 +41,7 @@
                     <input type="hidden" name="{{ $id }}_file_ids[]" value="{{ $oldIds[$i] }}" />
                     <input type="hidden" name="{{ $id }}_file_name[]" value="{{ $oldName[$i] }}" />
                     <p>{{ $oldName[$i] }}</p>
-                    <a onClick="removeImage(this)" class="btn btn-light-danger w-100px">삭제</a>
+                    <a onClick="removeFile(this)" class="btn btn-light-danger w-100px">삭제</a>
                 </div>
             @endfor
         @else
@@ -44,7 +54,7 @@
                             {{ $file->name }}
                         </a>
                     </p>
-                    <a onClick="removeImage(this)" class="btn btn-light-danger w-100px">삭제</a>
+                    <a onClick="removeFile(this)" class="btn btn-light-danger w-100px">삭제</a>
                 </div>
             @endforeach
         @endif
@@ -66,6 +76,12 @@
             done();
         },
         success: function(file1, responseText) {
+            console.log(document.querySelectorAll('input[name="{{ $id }}_file_ids[]"]').length);
+            if (document.querySelectorAll('input[name="{{ $id }}_file_ids[]"]').length >= {{ $cnt }}) {
+                alert('최대 ' + {{ $cnt }} + '장 업로드 가능합니다.', '확인');
+                {{ $id }}fileDropzone.removeFile(file1);
+                reutnr;
+            }
 
             var filePath = '{{ Storage::url('file/') }}' + responseText.result.path;
 
@@ -74,7 +90,7 @@
                             <input type="hidden" name="{{ $id }}_file_ids[]" value="${responseText.result.id}" />
                             <input type="hidden" name="{{ $id }}_file_name[]" value="${responseText.result.name}" />
                             <p>${responseText.result.name}</p>
-                            <a onClick="removeImage(this)" class="btn btn-light-danger w-100px" >삭제</a>
+                            <a onClick="removeFile(this)" class="btn btn-light-danger w-100px" >삭제</a>
                         </div>`
 
             $("#{{ $id }}_file_preview").append(file);
@@ -85,7 +101,7 @@
 
 
     // 이미지 제거
-    function removeFilee(elem) {
+    function removeFile(elem) {
         $(elem).parent().remove();
     }
 </script>

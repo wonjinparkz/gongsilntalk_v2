@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\auth\PasswordResetController;
+use App\Http\Controllers\commons\PopupOpenController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\terms\TermsController;
 use Illuminate\Support\Facades\Route;
@@ -35,3 +36,7 @@ Route::controller(PasswordResetController::class)->group(function () {
     Route::get('/password/expire', 'passwordExpireView')->name('password.expire.view');
     Route::post('/password/reset', 'passwordReset')->name('password.reset');
 });
+
+
+
+

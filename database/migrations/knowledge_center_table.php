@@ -36,10 +36,10 @@ return new class extends Migration
             $table->double('building_square', 10, 2)->comment('건축면적(단위 제곱미터)');
             $table->integer('total_floor_area')->comment('연면적  (단위 평)');
             $table->double('total_floor_square', 10, 2)->comment('연면적 (단위 제곱미터)');
-            $table->integer('min_floor')->comment('규모 최저 층');
-            $table->integer('max_floor')->comment('규모 최고 층');
-            $table->integer('parking_count')->comment('규모 총 주차대수');
-            $table->integer('generation_count')->comment('규모 총 세대 수');
+            $table->string('min_floor')->comment('규모 최저 층');
+            $table->string('max_floor')->comment('규모 최고 층');
+            $table->string('parking_count')->comment('규모 총 주차대수');
+            $table->string('generation_count')->comment('규모 총 세대 수');
             $table->string('developer')->nullable()->comment('시행사');
             $table->string('comstruction_company')->nullable()->comment('시공사');
             $table->longText('traffic_info')->nullable()->comment('교통정보');

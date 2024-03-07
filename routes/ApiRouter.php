@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\banner\BannerAPIController;
 use App\Http\Controllers\commons\FileUploadController;
+use App\Http\Controllers\commons\PopupOpenController;
 use App\Http\Controllers\notice\NoticeAPIController;
 use App\Http\Controllers\community\CommunityAPIController;
 use App\Http\Controllers\faq\FaqAPIController;
@@ -169,3 +170,12 @@ Route::post('/ckeditor/upload', [FileUploadController::class, 'uplaodForEditor']
 
 Route::post('/fileupload', [FileUploadController::class, 'fileUpload'])->name('api.fileupload');
 Route::get('/filedownload/{path}', [FileUploadController::class, 'fileDownload'])->name('api.filedownload');
+
+
+/**
+ * 팝업창
+ */
+Route::controller(PopupOpenController::class)->group(function () {
+    Route::any('/popupOpen/getAddress', 'getAddress')->name('api.popupOpen.getAddress');
+    Route::any('/popupOpen/getAddress/redirect', 'getAddressRedirect')->name('api.popupOpen.getAddress.redirect');
+});
