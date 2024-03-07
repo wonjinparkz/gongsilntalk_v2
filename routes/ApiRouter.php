@@ -177,5 +177,4 @@ Route::get('/filedownload/{path}', [FileUploadController::class, 'fileDownload']
  */
 Route::controller(PopupOpenController::class)->group(function () {
     Route::any('/popupOpen/getAddress', 'getAddress')->name('api.popupOpen.getAddress');
-    Route::any('/popupOpen/getAddress/redirect', 'getAddressRedirect')->name('api.popupOpen.getAddress.redirect');
 });
