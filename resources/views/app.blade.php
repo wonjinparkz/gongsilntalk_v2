@@ -7,6 +7,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/jquery-3.64.min.js') }}"></script>
 </head>
 
 <body>
