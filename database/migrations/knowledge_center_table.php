@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('address_lng')->comment('경도');
             $table->string('address')->comment('주소');
             $table->string('pnu')->comment('pnu코드 (필지고유번호 19자리중 최소 8자리(시도[2]+시군구[3]+읍면동[3])');
+            $table->longText('coordinates')->comment('플리곤 좌표');
             $table->string('product_name')->comment('건물명');
             $table->string('subway_name')->comment('지하철 역 명');
             $table->string('subway_distance')->comment('지하철 거리');

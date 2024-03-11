@@ -8,7 +8,6 @@
             <x-screen-card :title="'기본 정보'">
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
-
                     {{-- 주소 --}}
                     <div class="row mb-6">
                         <label class="required col-lg-3 col-form-label fw-semibold fs-6">주소</label>
@@ -18,6 +17,14 @@
                                 주소 검색 </a>
                             <input type="text" name="address" id="address" class="form-control form-control-solid "
                                 readonly placeholder="" value="{{ old('address') }}" />
+                            <input type="hidden" name="pnu" id="pnu" class="form-control form-control-solid "
+                                readonly placeholder="" value="{{ old('pnu') }}" />
+                            <input type="hidden" name="coordinates" id="coordinates"
+                                class="form-control form-control-solid " readonly placeholder=""
+                                value="{{ old('coordinates') }}" />
+                            <input type="hidden" name="characteristics" id="characteristics"
+                                class="form-control form-control-solid " readonly placeholder=""
+                                value="{{ old('characteristics') }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('address')" />
                         </div>
                     </div>
@@ -387,6 +394,9 @@
                 <div class="row mb-6">
                     <label class="required col-lg-2 col-form-label fw-semibold fs-6">표지부</label>
                     <label class="required col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 : 2024.01.01</label>
+                    <input type="hidden" name="BrTitleInfo" id="BrTitleInfo"
+                                class="form-control form-control-solid " readonly placeholder=""
+                                value="{{ old('BrTitleInfo') }}" />
                     <div class="col-lg-4 fv-row">
                         <button type="submit" class="btn btn-secondary">업데이트</button>
                     </div>
@@ -394,6 +404,9 @@
                 <div class="row mb-6">
                     <label class="required col-lg-2 col-form-label fw-semibold fs-6">총괄표제부</label>
                     <label class="required col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 : 2024.01.01</label>
+                    <input type="hidden" name="BrRecapTitleInfo" id="BrRecapTitleInfo"
+                                class="form-control form-control-solid " readonly placeholder=""
+                                value="{{ old('BrRecapTitleInfo') }}" />
                     <div class="col-lg-4 fv-row">
                         <button type="submit" class="btn btn-secondary">업데이트</button>
                     </div>
@@ -401,6 +414,9 @@
                 <div class="row mb-6">
                     <label class="required col-lg-2 col-form-label fw-semibold fs-6">층별개요</label>
                     <label class="required col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 : 2024.01.01</label>
+                    <input type="hidden" name="BrFlrOulnInfo" id="BrFlrOulnInfo"
+                                class="form-control form-control-solid " readonly placeholder=""
+                                value="{{ old('BrFlrOulnInfo') }}" />
                     <div class="col-lg-4 fv-row">
                         <button type="submit" class="btn btn-secondary">업데이트</button>
                     </div>
@@ -408,6 +424,9 @@
                 <div class="row mb-6">
                     <label class="required col-lg-2 col-form-label fw-semibold fs-6">전유부</label>
                     <label class="required col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 : 2024.01.01</label>
+                    <input type="hidden" name="BrExposInfo" id="BrExposInfo"
+                                class="form-control form-control-solid " readonly placeholder=""
+                                value="{{ old('BrExposInfo') }}" />
                     <div class="col-lg-4 fv-row">
                         <button type="submit" class="btn btn-secondary">업데이트</button>
                     </div>
@@ -415,6 +434,9 @@
                 <div class="row mb-6">
                     <label class="required col-lg-2 col-form-label fw-semibold fs-6">전유공용면적</label>
                     <label class="required col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 : 2024.01.01</label>
+                    <input type="hidden" name="BrExposPubuseAreaInfo" id="BrExposPubuseAreaInfo"
+                                class="form-control form-control-solid " readonly placeholder=""
+                                value="{{ old('BrExposPubuseAreaInfo') }}" />
                     <div class="col-lg-4 fv-row">
                         <button type="submit" class="btn btn-secondary">업데이트</button>
                     </div>
@@ -492,35 +514,67 @@
 
     function jusoCallBack(rtRoadFullAddr, rtAddrPart1, rtAddrDetail, rtAddrPart2, rtEngAddr, rtJibunAddr, rtZipNo,
         rtAdmCd, rtRnMgtSn, rtBdMgtSn, rtDetBdNmList, rtBdNm, rtBdKdcd, rtSiNm, rtSggNm, rtEmdNm, rtLiNm, rtRn,
-        rtUdrtYn, rtBuldMnnm, rtBuldSlno, rtMtYn, rtLnbrMnnm, rtLnbrSlno, rtEmdNo) {
+        rtUdrtYn, rtBuldMnnm, rtBuldSlno, rtMtYn, rtLnbrMnnm, rtLnbrSlno, rtEmdNo, relJibun) {
         // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
         $('input[name=address]').val(rtRoadFullAddr);
 
-        console.log('RoadFullAddr:', rtRoadFullAddr);
-        console.log('AddrPart1:', rtAddrPart1);
-        console.log('AddrDetail:', rtAddrDetail);
-        console.log('AddrPart2:', rtAddrPart2);
-        console.log('EngAddr:', rtEngAddr);
-        console.log('JibunAddr:', rtJibunAddr);
-        console.log('ZipNo:', rtZipNo);
-        console.log('AdmCd:', rtAdmCd);
-        console.log('RnMgtSn:', rtRnMgtSn);
-        console.log('BdMgtSn:', rtBdMgtSn);
-        console.log('DetBdNmList:', rtDetBdNmList);
-        console.log('BdNm:', rtBdNm);
-        console.log('BdKdcd:', rtBdKdcd);
-        console.log('SiNm:', rtSiNm);
-        console.log('SggNm:', rtSggNm);
-        console.log('EmdNm:', rtEmdNm);
-        console.log('LiNm:', rtLiNm);
-        console.log('Rn:', rtRn);
-        console.log('UdrtYn:', rtUdrtYn);
-        console.log('BuldMnnm:', rtBuldMnnm);
-        console.log('BuldSlno:', rtBuldSlno);
-        console.log('MtYn:', rtMtYn);
-        console.log('LnbrMnnm:', rtLnbrMnnm);
-        console.log('LnbrSlno:', rtLnbrSlno);
-        console.log('EmdNo:', rtEmdNo);
+        // console.log('RoadFullAddr:', rtRoadFullAddr);
+        // console.log('AddrPart1:', rtAddrPart1);
+        // console.log('AddrDetail:', rtAddrDetail);
+        // console.log('AddrPart2:', rtAddrPart2);
+        // console.log('EngAddr:', rtEngAddr);
+        // console.log('JibunAddr:', rtJibunAddr);
+        // console.log('ZipNo:', rtZipNo);
+        // console.log('AdmCd:', rtAdmCd);
+        // console.log('RnMgtSn:', rtRnMgtSn);
+        // console.log('BdMgtSn:', rtBdMgtSn);
+        // console.log('DetBdNmList:', rtDetBdNmList);
+        // console.log('BdNm:', rtBdNm);
+        // console.log('BdKdcd:', rtBdKdcd);
+        // console.log('SiNm:', rtSiNm);
+        // console.log('SggNm:', rtSggNm);
+        // console.log('EmdNm:', rtEmdNm);
+        // console.log('LiNm:', rtLiNm);
+        // console.log('Rn:', rtRn);
+        // console.log('UdrtYn:', rtUdrtYn);
+        // console.log('BuldMnnm:', rtBuldMnnm);
+        // console.log('BuldSlno:', rtBuldSlno);
+        // console.log('MtYn:', rtMtYn);
+        // console.log('LnbrMnnm:', rtLnbrMnnm);
+        // console.log('LnbrSlno:', rtLnbrSlno);
+        // console.log('EmdNo:', rtEmdNo);
+        // console.log('lJibun:', relJibun);
 
+        var AdmCd = String(rtAdmCd);
+        var MtYn = rtMtYn == '0' ? '1' : '2';
+        var LnbrMnnm = String(rtLnbrMnnm).padStart(4, '0');
+        var LnbrSlno = String(rtLnbrSlno).padStart(4, '0');
+
+        var pnu = AdmCd + MtYn + LnbrMnnm + LnbrSlno;
+        $('input[name=pnu]').val(pnu);
+
+        // get_coordinates(pnu);
+        // get_characteristics(pnu);
+        // gte_useWFS(pnu);
+
+        get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrTitleInfo');
+        get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrRecapTitleInfo');
+        get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrFlrOulnInfo');
+        get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrExposInfo');
+        get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrExposPubuseAreaInfo');
     }
+
+    // function json_check() {
+    //     var characteristics = $('#characteristics').val();
+    //     alert(characteristics);
+    //     var parsedData = JSON.parse(characteristics);
+
+    //     for (var key in parsedData) {
+    //         if (parsedData.hasOwnProperty(key)) {
+    //             var value = parsedData[key];
+    //             console.log("키:", key, ", 값:", value);
+    //         }
+    //     }
+    // }
+
 </script>

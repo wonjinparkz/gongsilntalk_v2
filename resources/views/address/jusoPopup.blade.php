@@ -367,6 +367,7 @@
             var rtLnbrMnnm = $.trim($("#rtLnbrMnnm").val());
             var rtLnbrSlno = $.trim($("#rtLnbrSlno").val());
             var rtEmdNo = $.trim($("#rtEmdNo").val());
+            var relJibun = $.trim($("#relJibun").val());
 
             var rtRoadFullAddr = rtAddrPart1;
             if (rtAddrDetail != "" && rtAddrDetail != null) {
@@ -381,7 +382,7 @@
 
             opener.jusoCallBack(rtRoadFullAddr, rtAddrPart1, rtAddrDetail, rtAddrPart2, rtEngAddr, rtJibunAddr, rtZipNo,
                 rtAdmCd, rtRnMgtSn, rtBdMgtSn, rtDetBdNmList, rtBdNm, rtBdKdcd, rtSiNm, rtSggNm, rtEmdNm, rtLiNm, rtRn,
-                rtUdrtYn, rtBuldMnnm, rtBuldSlno, rtMtYn, rtLnbrMnnm, rtLnbrSlno, rtEmdNo);
+                rtUdrtYn, rtBuldMnnm, rtBuldSlno, rtMtYn, rtLnbrMnnm, rtLnbrSlno, rtEmdNo, relJibun);
             window.open("about:blank", "_self").close();
 
         }
