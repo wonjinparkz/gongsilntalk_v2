@@ -10,6 +10,7 @@
     <title>주소정보연계 | 도로명주소 안내시스템</title>
     <script language="javascript">
         var confmKey = "{{ env('CONFM_KEY') }}"; // 검색API 승인키
+        var coordinateKEY = "{{ env('COORDINATE_KEY') }}"; // 검색API 승인키
         var domain = "http://www.juso.go.kr"; // 인터넷망
 
         //특수문자, 특정문자열(sql예약어) 제거
@@ -368,6 +369,8 @@
             var rtLnbrSlno = $.trim($("#rtLnbrSlno").val());
             var rtEmdNo = $.trim($("#rtEmdNo").val());
             var relJibun = $.trim($("#relJibun").val());
+            var rtentX = $.trim($("#rtentX").val());
+            var rtentY = $.trim($("#rtentY").val());
 
             var rtRoadFullAddr = rtAddrPart1;
             if (rtAddrDetail != "" && rtAddrDetail != null) {
@@ -377,12 +380,13 @@
                 rtRoadFullAddr += " " + rtAddrPart2;
             }
 
+
             // IE에서 opener관련 오류가 발생하는 경우, 부모창에서 지정한 이름으로 opener를 재정의
             if (opener == null || opener == undefined) opener = window.open("", "jusoPopup");
 
             opener.jusoCallBack(rtRoadFullAddr, rtAddrPart1, rtAddrDetail, rtAddrPart2, rtEngAddr, rtJibunAddr, rtZipNo,
                 rtAdmCd, rtRnMgtSn, rtBdMgtSn, rtDetBdNmList, rtBdNm, rtBdKdcd, rtSiNm, rtSggNm, rtEmdNm, rtLiNm, rtRn,
-                rtUdrtYn, rtBuldMnnm, rtBuldSlno, rtMtYn, rtLnbrMnnm, rtLnbrSlno, rtEmdNo, relJibun);
+                rtUdrtYn, rtBuldMnnm, rtBuldSlno, rtMtYn, rtLnbrMnnm, rtLnbrSlno, rtEmdNo, relJibun, rtentX, rtentY);
             window.open("about:blank", "_self").close();
 
         }
@@ -415,6 +419,8 @@
             var lnbrSlno = $("#lnbrSlnoHid" + idx).val();
             var emdNo = $("#emdNoHid" + idx).val();
 
+            var juso = getAddr(admCd, rnMgtSn, udrtYn, buldMnnm, buldSlno);
+
             $("#rtRoadAddr").val(roadAddr);
             $("#rtAddrPart1").val(addrPart1);
             $("#rtAddrPart2").val(addrPart2);
@@ -445,6 +451,8 @@
 
             $("#addrPart1").html(addrPart1);
             $("#addrPart2").html(addrPart2);
+
+
             $("#rtAddrDetail").focus();
         }
 
@@ -621,6 +629,36 @@
         function trim(strSource) {
             return strSource.replace(/(^\s*)|(\s*$)/g, "");
         }
+
+        function getAddr(admCd, rnMgtSn, udrtYn, buldMnnm, buldSlno) {
+            var data = {};
+            data.resultType = "json"; /* 요청 변수 설정 (검색결과형식 설정, json) */
+            data.confmKey = coordinateKEY; /* key */
+            data.admCd = admCd;
+            data.rnMgtSn = rnMgtSn;
+            data.udrtYn = udrtYn;
+            data.buldMnnm = buldMnnm;
+            data.buldSlno = buldSlno;
+
+            $.ajax({
+                url: "https://business.juso.go.kr/addrlink/addrCoordApiJsonp.do" //인터넷망
+                    ,
+                type: "post",
+                data: data,
+                dataType: "jsonp",
+                crossDomain: true,
+                async: true,
+                success: function(jsonStr) {
+                    var juso = jsonStr.results.juso[0];
+                    $("#rtentX").val(juso.entX);
+                    $("#rtentY").val(juso.entY);
+
+                },
+                error: function(xhr, status, error) {
+                    alert("에러발생");
+                }
+            });
+        }
     </script>
 
     <style>
@@ -705,6 +743,9 @@
         <input type="hidden" name ="dsri1text" id="dsri1text" />
         <input type="hidden" name ="dsrd_nm1text" id="dsrd_nm1text" />
         <input type="hidden" name ="dssan1text" id="dssan1text" />
+
+        <input type="hidden" name="rtentX" id="rtentX" />
+        <input type="hidden" name="rtentY" id="rtentY" />
 
         <div class="pop-address-search" style="width: 100%;">
             <div class="pop-address-search-inner" style="border: 0px;">

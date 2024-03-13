@@ -11,6 +11,7 @@ use App\Http\Controllers\qa\QaController;
 use App\Http\Controllers\notice\NoticeController;
 use App\Http\Controllers\popup\PopupController;
 use App\Http\Controllers\banner\BannerController;
+use App\Http\Controllers\buildingledger\BuildingledgerController;
 use App\Http\Controllers\commons\PopupOpenController;
 use App\Http\Controllers\data\DataController;
 use App\Http\Controllers\knowledgecenter\KnowledgeCneter_Controller;
@@ -80,15 +81,27 @@ Route::middleware('admin.auth')->controller(UserController::class)->group(functi
  */
 
 /**
+ * 건축물대장 관리
+ */
+Route::middleware('admin.auth')->controller(BuildingledgerController::class)->group(function () {
+    Route::post('/buildingledger/brtitleinfo/update/', 'BuildingUpdate')->name('admin.buildingledger.brtitleinfo.update');
+});
+
+/**
  * 지식산업센터 관리
  */
 Route::middleware('admin.auth')->controller(KnowledgeCneter_Controller::class)->group(function () {
     Route::get('/knowledgeCenter/list/view', 'knowledgeCenterListView')->name('admin.knowledgeCenter.list.view');
     Route::get('/knowledgeCenter/detail/view/{id}', 'knowledgeCenterdetailView')->name('admin.knowledgeCenter.detail.view');
-    Route::get('/knowledgeCenter/export', 'exportKnowledgeCenter')->name('admin.knowledgeCenter.export');
-
     Route::get('/knowledgeCenter/create', 'createView')->name('admin.knowledgeCenter.create.view');
-    Route::post('/knowledgeCenter/create', 'create')->name('admin.knowledgeCenter.create');
+
+    Route::post('/knowledgeCenter/state/update/', 'knowledgeCenterStateUpdate')->name('admin.knowledgeCenter.state.update');
+    Route::post('/knowledgeCenter/delete/', 'knowledgeCenterdelete')->name('admin.knowledgeCenter.delete');
+
+    Route::post('/knowledgeCenter/update', 'knowledgeCenterupdate')->name('admin.knowledgeCenter.update');
+    Route::post('/knowledgeCenter/create', 'knowledgeCentercreate')->name('admin.knowledgeCenter.create');
+
+    Route::get('/knowledgeCenter/export', 'exportKnowledgeCenter')->name('admin.knowledgeCenter.export');
 });
 
 /**

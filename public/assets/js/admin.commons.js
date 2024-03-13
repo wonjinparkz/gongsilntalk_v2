@@ -1,8 +1,44 @@
 
-var V_WORD_KEY = "E2C5234B-AE55-3D0D-91C0-6A61FFE0A48B";
-var APP_URL = "http://localhost";
+// var V_WORD_KEY = "E2C5234B-AE55-3D0D-91C0-6A61FFE0A48B";
+// var APP_URL = "http://localhost";
 
-// 폴리곤 좌표 가져오기
+
+//토지이용계획WFS조회 api
+function gte_useWFS(pnu) {
+    var data = {};
+    data.key = V_WORD_KEY; /* key */
+    data.domain = APP_URL; /* domain */
+    data.typename = "dt_d154"; /* 질의 대상인 하나 이상의 피처 유형 이름의 리스트, 값은 쉼표로 구분화면 하단의 [레이어 목록] 참고 */
+    data.bbox = ""; /* 좌표로 이루어진 사각형 안에 담겨 있는 (또는 부분적으로 걸쳐 있는) 피처를 검색. 좌표 순서는 사용되는 좌표 시스템을 따름.일반적 표현은 하단좌표, 상단좌표, 좌표체계 순서입니다.(xmin,ymin,xmax,ymax,좌표체계)<span class="red">예외) EPSG:4326</span> 경우 (ymin,xmin,ymax,xmax) */
+    data.pnu = pnu; /* 필지고유번호 19자리중 최소 8자리(시도[2]+시군구[3]+읍면동[3])(입력시 bbox값은 무시) */
+    data.maxFeatures = "10"; /* 요청에 대한 응답으로 WFS가 반환해야하는 피처의 최대 값(최대 허용값 : 1000) */
+    data.resultType = "results"; /* 요청에 대하여 WFS가 어떻게 응답할 것인지 정의.results 값은 요청된 모든 피처를 포함하는 완전한 응답이 생성되어야 함을 나타내며, hits 값은 피처의 개수만이 반환되어야 함을 의미 */
+    data.srsName = "EPSG:4326"; /* 반환되어야 할 피처의 기하에 사용되어야 할 WFS가 지원하는 좌표체계 */
+
+    data.output = "text/javascript"; /* output */
+
+    $.ajax({
+        type: "get",
+        dataType: "jsonp",
+        jsonpCallback: "parseResponse",
+        url: "http://api.vworld.kr/ned/wfs/getLandUseWFS",
+        data: data,
+        async: true,
+        success: function (data) {
+            console.log(JSON.stringify(data.features[0].properties));
+            $('#useWFS_json').val(JSON.stringify(data.features[0].properties));
+        },
+        error: function (xhr, stat, err) {
+            console.log("xhr : ", xhr);
+            alert('주소API 오류 발생 주소를 다시 입력해주세요.');
+            $('#address').val('');
+        }
+    });
+
+}
+
+
+// 폴리곤 좌표 가져오기 api
 function get_coordinates(pnu) {
 
     var data = {};
@@ -23,16 +59,20 @@ function get_coordinates(pnu) {
         jsonpCallback: "parseResponse",
         url: "http://api.vworld.kr/ned/wfs/getCtnlgsSpceWFS",
         data: data,
-        async: false,
+        async: true,
         success: function (data) {
-            $('#coordinates').val(data.bbox);
+            $('#polygon_coordinates').val(data.bbox);
+
         },
-        error: function (xhr, stat, err) { }
+        error: function (xhr, stat, err) {
+            alert('주소API 오류 발생 주소를 다시 입력해주세요.');
+            $('#address').val('');
+        }
     });
 
 }
 
-// 토지특성 속성
+// 토지특성 속성 api
 function get_characteristics(pnu) {
 
     var data = {};
@@ -50,16 +90,19 @@ function get_characteristics(pnu) {
         dataType: "jsonp",
         url: "http://api.vworld.kr/ned/data/getLandCharacteristics",
         data: data,
-        async: false,
+        async: true,
         success: function (data) {
             var field = data.landCharacteristicss.field;
 
             // 최신 lastUpdtDt를 가진 객체 찾기
             var latest_field = latestField(field);
 
-            $('#characteristics').val(JSON.stringify(latest_field));
+            $('#characteristics_json').val(JSON.stringify(latest_field));
         },
-        error: function (xhr, stat, err) { }
+        error: function (xhr, stat, err) {
+            alert('주소API 오류 발생 주소를 다시 입력해주세요.');
+            $('#address').val('');
+        }
     });
 }
 
@@ -85,73 +128,18 @@ function latestField(fieldArray) {
     return field;
 }
 
-//토지이용계획WFS조회
-function gte_useWFS(pnu) {
-    var data = {};
-    data.key = V_WORD_KEY; /* key */
-    data.domain = APP_URL; /* domain */
-    data.typename = "dt_d154"; /* 질의 대상인 하나 이상의 피처 유형 이름의 리스트, 값은 쉼표로 구분화면 하단의 [레이어 목록] 참고 */
-    data.bbox = ""; /* 좌표로 이루어진 사각형 안에 담겨 있는 (또는 부분적으로 걸쳐 있는) 피처를 검색. 좌표 순서는 사용되는 좌표 시스템을 따름.일반적 표현은 하단좌표, 상단좌표, 좌표체계 순서입니다.(xmin,ymin,xmax,ymax,좌표체계)<span class="red">예외) EPSG:4326</span> 경우 (ymin,xmin,ymax,xmax) */
-    data.pnu = pnu; /* 필지고유번호 19자리중 최소 8자리(시도[2]+시군구[3]+읍면동[3])(입력시 bbox값은 무시) */
-    data.maxFeatures = "10"; /* 요청에 대한 응답으로 WFS가 반환해야하는 피처의 최대 값(최대 허용값 : 1000) */
-    data.resultType = "results"; /* 요청에 대하여 WFS가 어떻게 응답할 것인지 정의.results 값은 요청된 모든 피처를 포함하는 완전한 응답이 생성되어야 함을 나타내며, hits 값은 피처의 개수만이 반환되어야 함을 의미 */
-    data.srsName = "EPSG:4326"; /* 반환되어야 할 피처의 기하에 사용되어야 할 WFS가 지원하는 좌표체계 */
 
-    data.output = "text/javascript"; /* output */
-
-    $.ajax({
-        type: "get",
-        dataType: "jsonp",
-        jsonpCallback: "parseResponse",
-        url: "http://api.vworld.kr/ned/wfs/getLandUseWFS",
-        data: data,
-        async: false,
-        success: function (data) {
-            console.log(data);
-        },
-        error: function (xhr, stat, err) { }
-    });
-
-}
-
-
-//토지이용계획WFS조회
-function gte_useWFS(pnu) {
-    var data = {};
-    data.key = V_WORD_KEY; /* key */
-    data.domain = APP_URL; /* domain */
-    data.typename = "dt_d154"; /* 질의 대상인 하나 이상의 피처 유형 이름의 리스트, 값은 쉼표로 구분화면 하단의 [레이어 목록] 참고 */
-    data.bbox = ""; /* 좌표로 이루어진 사각형 안에 담겨 있는 (또는 부분적으로 걸쳐 있는) 피처를 검색. 좌표 순서는 사용되는 좌표 시스템을 따름.일반적 표현은 하단좌표, 상단좌표, 좌표체계 순서입니다.(xmin,ymin,xmax,ymax,좌표체계)<span class="red">예외) EPSG:4326</span> 경우 (ymin,xmin,ymax,xmax) */
-    data.pnu = pnu; /* 필지고유번호 19자리중 최소 8자리(시도[2]+시군구[3]+읍면동[3])(입력시 bbox값은 무시) */
-    data.maxFeatures = "10"; /* 요청에 대한 응답으로 WFS가 반환해야하는 피처의 최대 값(최대 허용값 : 1000) */
-    data.resultType = "results"; /* 요청에 대하여 WFS가 어떻게 응답할 것인지 정의.results 값은 요청된 모든 피처를 포함하는 완전한 응답이 생성되어야 함을 나타내며, hits 값은 피처의 개수만이 반환되어야 함을 의미 */
-    data.srsName = "EPSG:4326"; /* 반환되어야 할 피처의 기하에 사용되어야 할 WFS가 지원하는 좌표체계 */
-
-    data.output = "text/javascript"; /* output */
-
-    $.ajax({
-        type: "get",
-        dataType: "jsonp",
-        jsonpCallback: "parseResponse",
-        url: "http://api.vworld.kr/ned/wfs/getLandUseWFS",
-        data: data,
-        async: false,
-        success: function (data) {
-            console.log(data.features[0].properties);
-        },
-        error: function (xhr, stat, err) { }
-    });
-
-}
-function parseResponse(response) {
-    console.log(response);
-    // 응답 데이터에 대한 추가 처리를 이곳에서 수행할 수 있습니다.
-}
-
-function get_buildingledger(sigunguCd,bjdongCd,platGbCd,bun,ji,get_type) {
+// 건축물 대장 가져오는 api
+function get_buildingledger(pnu, get_type) {
+    loadingStart();
+    var sigunguCd = pnu.substring(0, 5);
+    var bjdongCd = pnu.substring(5, 10);
+    var platGbCd = pnu.substring(10, 11) - 1;
+    var bun = pnu.substring(11, 15);
+    var ji = pnu.substring(15, 20);
 
     var xhr = new XMLHttpRequest();
-    var url = 'http://apis.data.go.kr/1613000/BldRgstService_v2/'+'get_'+get_type; /*URL*/
+    var url = 'http://apis.data.go.kr/1613000/BldRgstService_v2/' + 'get' + get_type; /*URL*/
     var queryParams = '?' + encodeURIComponent('serviceKey') + '=' + '3LBdPPEIVGX5U%2BG3UhqXWsNiJlSJOcPDuob1CwFAV7B%2Fkonwgko9ju7crwm4q155pwrHnO%2Bj57fDrO4xIvdbrg%3D%3D'; /*Service Key*/
     queryParams += '&' + encodeURIComponent('sigunguCd') + '=' + encodeURIComponent(sigunguCd); /**/
     queryParams += '&' + encodeURIComponent('bjdongCd') + '=' + encodeURIComponent(bjdongCd); /**/
@@ -165,23 +153,47 @@ function get_buildingledger(sigunguCd,bjdongCd,platGbCd,bun,ji,get_type) {
     xhr.open('GET', url + queryParams);
     xhr.onreadystatechange = function () {
         if (this.readyState == 4) {
-           // XML 문자열을 파싱하여 <item> 엘리먼트의 모든 자식 엘리먼트를 가져옴
-           var xmlDoc = new DOMParser().parseFromString(this.responseText, "text/xml");
-           var itemElement = xmlDoc.querySelector('item');
+            // XML 문자열을 파싱하여 <item> 엘리먼트의 모든 자식 엘리먼트를 가져옴
+            var xmlDoc = new DOMParser().parseFromString(this.responseText, "text/xml");
+            var itemElement = xmlDoc.querySelector('item');
 
-           // <item> 엘리먼트의 모든 자식 엘리먼트를 순회하면서 콘솔에 출력
-           var childElements = itemElement.children;
-           var itemData = {};
-           for (var i = 0; i < childElements.length; i++) {
-                itemData[childElements[i].tagName] = childElements[i].textContent
-           }
-           console.log(itemData);
-           $('#'+get_type).val(itemData);
+            // <item> 엘리먼트의 모든 자식 엘리먼트를 순회하면서 콘솔에 출력
+            if (itemElement) {
+                var childElements = itemElement.children;
+
+                var itemData = {};
+                for (var i = 0; i < childElements.length; i++) {
+                    itemData[childElements[i].tagName] = childElements[i].textContent
+                }
+                console.log(itemData);
+                setTimeout(function () {
+                    $('#' + get_type).val(JSON.stringify(itemData));
+                }, 3000);
+                loadingEnd();
+                $('#' + get_type + '_submit').submit();
+            } else {
+                alert('가져올 건출물 대장 데이터가 없습니다.');
+                loadingEnd();
+            }
         }
     };
 
     xhr.send('');
-
 }
 
+
+// 공공데이터 좌표값을 x y 위도경도로 변경해주는 함수
+function get_coordinate_conversion(rtentX, rtentY) {
+    // proj4에서 UTM 좌표계 정의
+    proj4.defs("EPSG:5179",
+        "+proj=tmerc +lat_0=38 +lon_0=127.5 +k=0.9996 +x_0=1000000 +y_0=2000000 +ellps=GRS80 +units=m +no_defs");
+
+    // proj4에서 WGS84 좌표계 정의
+    proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
+
+    // UTM 좌표를 WGS84로 변환
+    var wgs84Coords = proj4("EPSG:5179", "EPSG:4326", [parseFloat(rtentX), parseFloat(rtentY)]);
+
+    return wgs84Coords;
+}
 

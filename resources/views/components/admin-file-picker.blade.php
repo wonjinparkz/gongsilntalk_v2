@@ -76,7 +76,6 @@
             done();
         },
         success: function(file1, responseText) {
-            console.log(document.querySelectorAll('input[name="{{ $id }}_file_ids[]"]').length);
             if (document.querySelectorAll('input[name="{{ $id }}_file_ids[]"]').length >= {{ $cnt }}) {
                 alert('최대 ' + {{ $cnt }} + '장 업로드 가능합니다.', '확인');
                 {{ $id }}fileDropzone.removeFile(file1);

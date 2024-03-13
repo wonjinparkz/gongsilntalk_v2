@@ -12,7 +12,7 @@ export default function MapScreen() {
     useEffect(() => {
         const mapDiv = document.getElementById("map");
 
-        const location = new naver.maps.LatLng(37.48569244, 126.89639882);
+        const location = new naver.maps.LatLng(37.47817108001316, 126.88159744707991);
         const mapOptions = {
             center: location, // 중심 좌표
             minZoom: 7, // 최소 줌

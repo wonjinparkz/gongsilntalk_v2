@@ -3,7 +3,7 @@
         <x-screen-card :title="'지식산업센터 등록'">
         </x-screen-card>
         {{-- FORM START  --}}
-        <form class="form" method="POST" action="{{ route('admin.popup.create') }}">
+        <form class="form" method="POST" action="{{ route('admin.knowledgeCenter.create') }}">
             @csrf
             <x-screen-card :title="'기본 정보'">
                 {{-- 내용 START --}}
@@ -19,12 +19,21 @@
                                 readonly placeholder="" value="{{ old('address') }}" />
                             <input type="hidden" name="pnu" id="pnu" class="form-control form-control-solid "
                                 readonly placeholder="" value="{{ old('pnu') }}" />
-                            <input type="hidden" name="coordinates" id="coordinates"
+                            <input type="hidden" name="address_lat" id="address_lat"
                                 class="form-control form-control-solid " readonly placeholder=""
-                                value="{{ old('coordinates') }}" />
-                            <input type="hidden" name="characteristics" id="characteristics"
+                                value="{{ old('address_lat') }}" />
+                            <input type="hidden" name="address_lng" id="address_lng"
                                 class="form-control form-control-solid " readonly placeholder=""
-                                value="{{ old('characteristics') }}" />
+                                value="{{ old('address_lng') }}" />
+                            <input type="hidden" name="polygon_coordinates" id="polygon_coordinates"
+                                class="form-control form-control-solid " readonly placeholder=""
+                                value="{{ old('polygon_coordinates') }}" />
+                            <input type="hidden" name="characteristics_json" id="characteristics_json"
+                                class="form-control form-control-solid " readonly placeholder=""
+                                value="{{ old('characteristics_json') }}" />
+                            <input type="hidden" name="useWFS_json" id="useWFS_json"
+                                class="form-control form-control-solid " readonly placeholder=""
+                                value="{{ old('useWFS_json') }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('address')" />
                         </div>
                     </div>
@@ -130,17 +139,17 @@
                     {{-- 조감도 --}}
                     <x-admin-file-picker :title="'조감도'" required="required" cnt='1' id="birdSEyeView"
                         label_col='3' div_col='9' />
-                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('birdSEyeView')" />
+                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('birdSEyeView_file_ids')" />
 
                     {{-- 특장점 --}}
                     <x-admin-file-picker :title="'특장점'" required="" cnt='1' id="features"
                         label_col='3' div_col='9' />
-                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('features')" />
+                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('features_file_ids')" />
 
                     {{-- 층별도면 --}}
                     <x-admin-file-picker :title="'층별도면'" required="" cnt='1' id="floorPlan"
                         label_col='3' div_col='9' />
-                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('floorPlan')" />
+                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('floorPlan_file_ids')" />
 
                 </div>
 
@@ -364,9 +373,9 @@
                         </div>
                     </div>
 
-                    {{-- 교육시설 --}}
+                    {{-- 교육 시설 --}}
                     <div class="row mb-6">
-                        <label class="col-lg-3 col-form-label fw-semibold fs-6">교육시설</label>
+                        <label class="col-lg-3 col-form-label fw-semibold fs-6">교육 시설</label>
                         <div class="col-lg-9 fv-row">
                             <textarea name="education_contents" class="form-control form-control-solid mb-5" rows="5"
                                 placeholder="주변 교 시설을 입력하세요.">{{ old('education_contents') }}</textarea>
@@ -395,8 +404,8 @@
                     <label class="required col-lg-2 col-form-label fw-semibold fs-6">표지부</label>
                     <label class="required col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 : 2024.01.01</label>
                     <input type="hidden" name="BrTitleInfo" id="BrTitleInfo"
-                                class="form-control form-control-solid " readonly placeholder=""
-                                value="{{ old('BrTitleInfo') }}" />
+                        class="form-control form-control-solid " readonly placeholder=""
+                        value="{{ old('BrTitleInfo') }}" />
                     <div class="col-lg-4 fv-row">
                         <button type="submit" class="btn btn-secondary">업데이트</button>
                     </div>
@@ -405,8 +414,8 @@
                     <label class="required col-lg-2 col-form-label fw-semibold fs-6">총괄표제부</label>
                     <label class="required col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 : 2024.01.01</label>
                     <input type="hidden" name="BrRecapTitleInfo" id="BrRecapTitleInfo"
-                                class="form-control form-control-solid " readonly placeholder=""
-                                value="{{ old('BrRecapTitleInfo') }}" />
+                        class="form-control form-control-solid " readonly placeholder=""
+                        value="{{ old('BrRecapTitleInfo') }}" />
                     <div class="col-lg-4 fv-row">
                         <button type="submit" class="btn btn-secondary">업데이트</button>
                     </div>
@@ -415,8 +424,8 @@
                     <label class="required col-lg-2 col-form-label fw-semibold fs-6">층별개요</label>
                     <label class="required col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 : 2024.01.01</label>
                     <input type="hidden" name="BrFlrOulnInfo" id="BrFlrOulnInfo"
-                                class="form-control form-control-solid " readonly placeholder=""
-                                value="{{ old('BrFlrOulnInfo') }}" />
+                        class="form-control form-control-solid " readonly placeholder=""
+                        value="{{ old('BrFlrOulnInfo') }}" />
                     <div class="col-lg-4 fv-row">
                         <button type="submit" class="btn btn-secondary">업데이트</button>
                     </div>
@@ -425,8 +434,8 @@
                     <label class="required col-lg-2 col-form-label fw-semibold fs-6">전유부</label>
                     <label class="required col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 : 2024.01.01</label>
                     <input type="hidden" name="BrExposInfo" id="BrExposInfo"
-                                class="form-control form-control-solid " readonly placeholder=""
-                                value="{{ old('BrExposInfo') }}" />
+                        class="form-control form-control-solid " readonly placeholder=""
+                        value="{{ old('BrExposInfo') }}" />
                     <div class="col-lg-4 fv-row">
                         <button type="submit" class="btn btn-secondary">업데이트</button>
                     </div>
@@ -435,8 +444,8 @@
                     <label class="required col-lg-2 col-form-label fw-semibold fs-6">전유공용면적</label>
                     <label class="required col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 : 2024.01.01</label>
                     <input type="hidden" name="BrExposPubuseAreaInfo" id="BrExposPubuseAreaInfo"
-                                class="form-control form-control-solid " readonly placeholder=""
-                                value="{{ old('BrExposPubuseAreaInfo') }}" />
+                        class="form-control form-control-solid " readonly placeholder=""
+                        value="{{ old('BrExposPubuseAreaInfo') }}" />
                     <div class="col-lg-4 fv-row">
                         <button type="submit" class="btn btn-secondary">업데이트</button>
                     </div>
@@ -514,7 +523,7 @@
 
     function jusoCallBack(rtRoadFullAddr, rtAddrPart1, rtAddrDetail, rtAddrPart2, rtEngAddr, rtJibunAddr, rtZipNo,
         rtAdmCd, rtRnMgtSn, rtBdMgtSn, rtDetBdNmList, rtBdNm, rtBdKdcd, rtSiNm, rtSggNm, rtEmdNm, rtLiNm, rtRn,
-        rtUdrtYn, rtBuldMnnm, rtBuldSlno, rtMtYn, rtLnbrMnnm, rtLnbrSlno, rtEmdNo, relJibun) {
+        rtUdrtYn, rtBuldMnnm, rtBuldSlno, rtMtYn, rtLnbrMnnm, rtLnbrSlno, rtEmdNo, relJibun, rtentX, rtentY) {
         // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
         $('input[name=address]').val(rtRoadFullAddr);
 
@@ -544,6 +553,8 @@
         // console.log('LnbrSlno:', rtLnbrSlno);
         // console.log('EmdNo:', rtEmdNo);
         // console.log('lJibun:', relJibun);
+        // console.log('entX:', rtentX);
+        // console.log('entY:', rtentY);
 
         var AdmCd = String(rtAdmCd);
         var MtYn = rtMtYn == '0' ? '1' : '2';
@@ -551,30 +562,37 @@
         var LnbrSlno = String(rtLnbrSlno).padStart(4, '0');
 
         var pnu = AdmCd + MtYn + LnbrMnnm + LnbrSlno;
+
         $('input[name=pnu]').val(pnu);
 
-        // get_coordinates(pnu);
-        // get_characteristics(pnu);
-        // gte_useWFS(pnu);
+        gte_useWFS(pnu);
+        get_coordinates(pnu);
+        get_characteristics(pnu);
 
-        get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrTitleInfo');
-        get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrRecapTitleInfo');
-        get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrFlrOulnInfo');
-        get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrExposInfo');
-        get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrExposPubuseAreaInfo');
+        var wgs84Coords = get_coordinate_conversion(rtentX, rtentY)
+
+        $('input[name=address_lng]').val(wgs84Coords[0]);
+        $('input[name=address_lat]').val(wgs84Coords[1]);
+
+        // 상세화면에서 직접 업데이트 해야함
+        // get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrTitleInfo');
+        // get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrRecapTitleInfo');
+        // get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrFlrOulnInfo');
+        // get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrExposInfo');
+        // get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrExposPubuseAreaInfo');
     }
 
-    // function json_check() {
-    //     var characteristics = $('#characteristics').val();
-    //     alert(characteristics);
-    //     var parsedData = JSON.parse(characteristics);
+    function json_check() {
+        var characteristics = $('#useWFS_json').val();
+        var parsedData = JSON.parse(characteristics);
 
-    //     for (var key in parsedData) {
-    //         if (parsedData.hasOwnProperty(key)) {
-    //             var value = parsedData[key];
-    //             console.log("키:", key, ", 값:", value);
-    //         }
-    //     }
-    // }
+        for (var key in parsedData) {
+            if (parsedData.hasOwnProperty(key)) {
+                var value = parsedData[key];
+                console.log("키:", key, ", 값:", value);
+            }
+        }
+    }
+
 
 </script>
