@@ -26,6 +26,10 @@ class KnowledgeCenter extends BaseModel
         'address_lat',
         'address_lng',
         'address',
+        'pnu',
+        'polygon_coordinates',
+        'characteristics_json',
+        'useWFS_json',
         'product_name',
         'subway_name',
         'subway_distance',
@@ -80,5 +84,70 @@ class KnowledgeCenter extends BaseModel
     public function admins()
     {
         return $this->hasOne(Admin::class, 'id', 'admins_id');
+    }
+
+    /**
+     * 조감도 파일
+     */
+    public function birdSEyeView_files()
+    {
+        return $this->hasMany(Files::class, 'target_id', 'id')
+            ->where('target_type', 'birdSEyeView');;
+    }
+    /**
+     * 특장점 파일
+     */
+    public function features_files()
+    {
+        return $this->hasMany(Files::class, 'target_id', 'id')
+            ->where('target_type', 'features');;
+    }
+    /**
+     * 층별도면 파일
+     */
+    public function floorPlan_files()
+    {
+        return $this->hasMany(Files::class, 'target_id', 'id')
+            ->where('target_type', 'floorPlan');
+    }
+
+    /**
+     * 표지부 데이터
+     */
+    public function BrTitleInfo()
+    {
+        return $this->morphOne(BrTitleInfo::class, 'target');
+    }
+
+    /**
+     * 표지부 데이터
+     */
+    public function BrRecapTitleInfo()
+    {
+        return $this->morphOne(BrRecapTitleInfo::class, 'target');
+    }
+
+    /**
+     * 표지부 데이터
+     */
+    public function BrFlrOulnInfo()
+    {
+        return $this->morphOne(BrFlrOulnInfo::class, 'target');
+    }
+
+    /**
+     * 표지부 데이터
+     */
+    public function BrExposInfo()
+    {
+        return $this->morphOne(BrExposInfo::class, 'target');
+    }
+
+    /**
+     * 표지부 데이터
+     */
+    public function BrExposPubuseAreaInfo()
+    {
+        return $this->morphOne(BrExposPubuseAreaInfo::class, 'target');
     }
 }

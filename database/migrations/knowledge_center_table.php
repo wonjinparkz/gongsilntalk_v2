@@ -19,8 +19,10 @@ return new class extends Migration
             $table->string('address_lat')->comment('위도');
             $table->string('address_lng')->comment('경도');
             $table->string('address')->comment('주소');
-            $table->string('pnu')->comment('pnu코드 (필지고유번호 19자리중 최소 8자리(시도[2]+시군구[3]+읍면동[3])');
-            $table->longText('coordinates')->comment('플리곤 좌표');
+            $table->string('pnu')->comment('pnu코드 (필지고유번호 19자리중 최소 8자리(시도[2]+시군구[3]+읍면동[3]) + 산 여부(대지=1, 산=2) + 지번(본번 4자리, 부번 4자리))');
+            $table->longText('polygon_coordinates')->comment('플리곤 좌표');
+            $table->longText('characteristics_json')->comment('토지특성 속성 json형태');
+            $table->longText('useWFS_json')->comment('토지이용계획WFS json형태');
             $table->string('product_name')->comment('건물명');
             $table->string('subway_name')->comment('지하철 역 명');
             $table->string('subway_distance')->comment('지하철 거리');
