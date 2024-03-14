@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 /*
 |--------------------------------------------------------------------------
@@ -309,22 +310,77 @@ class KnowledgeCneter_Controller extends Controller
         return Excel::download(new KnowledgeCenterForUpdateExport($request), '지식산업센터_업데이터용_' . Carbon::now() . '.xlsx');
     }
 
-    public function updateFromExcel(Request $request)
+    public function exportKnowledgeCenterUpdateExcel(Request $request): RedirectResponse
     {
         $file = $request->file('excel_file');
 
-        Excel::import($file, function($rows) {
-            foreach ($rows as $row) {
-                $model = KnowledgeCenter::where('id', $row->id)->first();
-                if ($model) {
-                    $model->name = $row->name;
-                    $model->age = $row->age;
-                    // 필요한 열들을 모두 업데이트합니다.
-                    $model->save();
-                }
-            }
-        });
+        if ($file) {
+            $fileName = $file->getClientOriginalName();
+            $fileSize = $file->getSize();
+            Log::info("업로드된 파일 이름: $fileName, 파일 크기: $fileSize bytes");
+        }
 
-        return redirect()->back()->with('success', '데이터가 업데이트되었습니다.');
+        // Excel 파일을 PhpSpreadsheet 라이브러리를 사용하여 읽기
+        $spreadsheet = IOFactory::load($file);
+
+        /// 첫 번째 시트 가져오기
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // 첫 번째 행은 헤더로 간주하여 건너뛰기
+        $rowIterator = $sheet->getRowIterator();
+        $rowIterator->next();
+
+        $startReading = false; // 두 번째 행부터 데이터를 읽기 위한 플래그
+        // 각 행을 반복하여 로그에 출력
+        foreach ($rowIterator as $row) {
+            if ($startReading) {
+                $rowData = [];
+                foreach ($row->getCellIterator() as $cell) {
+                    $rowData[] = $cell->getValue();
+                }
+                // 배열에서 각 열의 데이터를 추출
+                $id = $rowData[0]; // Id
+                $product_name = $rowData[1]; // address
+                $address = $rowData[2]; // address
+                $sale_min_price = $rowData[3]; // sale_min_price
+                $sale_mid_price = $rowData[4]; // sale_mid_price
+                $sale_max_price = $rowData[5]; // sale_max_price
+                $lease_min_price = $rowData[6]; // lease_min_price
+                $lease_mid_price = $rowData[7]; // lease_mid_price
+                $lease_max_price = $rowData[8]; // lease_max_price
+
+                // 데이터베이스 업데이트
+                KnowledgeCenter::where('id', $id)->update([
+                    'sale_min_price' => $sale_min_price,
+                    'sale_mid_price' => $sale_mid_price,
+                    'sale_max_price' => $sale_max_price,
+                    'lease_min_price' => $lease_min_price,
+                    'lease_mid_price' => $lease_mid_price,
+                    'lease_max_price' => $lease_max_price,
+                ]);
+
+            } else {
+                $startReading = true;
+            }
+        }
+
+
+
+
+
+        // Excel::import($file, function ($rows) {
+        //     foreach ($rows as $row) {
+        //         Log::info($row);
+        // $model = KnowledgeCenter::where('id', $row->id)->first();
+        // if ($model) {
+        //     $model->name = $row->name;
+        //     $model->age = $row->age;
+        //     // 필요한 열들을 모두 업데이트합니다.
+        //     $model->save();
+        // }
+        //     }
+        // });
+
+        return back()->with('success', '데이터가 업데이트되었습니다.');
     }
 }

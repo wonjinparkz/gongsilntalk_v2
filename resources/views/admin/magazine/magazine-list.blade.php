@@ -24,7 +24,7 @@
                 {{-- 검색 영역 --}}
                 <div class="card card-flush shadow-sm">
                     <form class="form card-body row border-top p-9 align-items-center" method="GET"
-                        action="{{ route('admin.magazine.list.view') }}">
+                        action="{{ route('admin.magazine.youtube.list.view') }}">
                         @csrf
 
                         {{-- 제목 --}}

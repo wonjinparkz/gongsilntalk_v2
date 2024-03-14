@@ -265,7 +265,7 @@
                     <!--end::Close-->
                 </div>
 
-                <form action="{{ route('admin.knowledgeCenter.list.view') }}" method="POST"
+                <form action="{{ route('admin.knowledgeCenter.update.excel') }}" method="POST"
                     enctype="multipart/form-data">
                     <div class="modal-body">
                         @csrf

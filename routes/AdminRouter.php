@@ -109,6 +109,8 @@ Route::middleware('admin.auth')->controller(KnowledgeCneter_Controller::class)->
     Route::get('/knowledgeCenter/export', 'exportKnowledgeCenter')->name('admin.knowledgeCenter.export');
     // 엑셀 업데이트용 다운로드
     Route::get('/knowledgeCenter/forupdate/export', 'exportKnowledgeCenterForUpdate')->name('admin.knowledgeCenter.forupdate.export');
+    // 엑셀 업데이트용 다운로드
+    Route::post('/knowledgeCenter/update/excel', 'exportKnowledgeCenterUpdateExcel')->name('admin.knowledgeCenter.update.excel');
 });
 
 /**
@@ -229,20 +231,12 @@ Route::middleware('admin.auth')->controller(AdminController::class)->group(funct
 /**
  * 관리자 매거진 카테고리
  */
-Route::middleware('admin.auth')->controller(MagazineCategoryController::class)->group(function () {
-    Route::get('/magazine/category/list/view', 'magazineCategoryListView')->name('admin.magazine.category.list.view');
-    Route::post('/magazine/category/create', 'magazineCategoryCreate')->name('admin.magazine.category.create');
-    Route::post('/magazine/category/delete', 'magazineCategoryDelete')->name('admin.magazine.category.delete');
-    Route::post('/magazine/category/order/update', 'magazineCategoryOrderUpdate')->name('admin.magazine.category.order.update');
-    Route::post('/magazine/category/title/update', 'magazineCategoryTitleUpdate')->name('admin.magazine.category.title.update');
-    Route::post('/magazine/category/state/update', 'magazineCategoryStateUpdate')->name('admin.magazine.category.state.update');
-});
-
-/**
- * 관리자 매거진 카테고리
- */
 Route::middleware('admin.auth')->controller(MagazineController::class)->group(function () {
-    Route::get('/magazine/list/view', 'magazineListView')->name('admin.magazine.list.view');
+    Route::get('/magazine/youtube/list/view', 'magazineListView')->name('admin.magazine.youtube.list.view');
+    Route::get('/magazine/magazine/list/view', 'magazineListView')->name('admin.magazine.magazine.list.view');
+    Route::get('/magazine/news/list/view', 'magazineListView')->name('admin.magazine.news.list.view');
+
+
     Route::get('/magazine/detail/view/{id}', 'magazineDetailView')->name('admin.magazine.detail.view');
     Route::get('/magazine/create/view', 'magazineCreateView')->name('admin.magazine.create.view');
     Route::post('/magazine/create', 'magazineCreate')->name('admin.magazine.create');

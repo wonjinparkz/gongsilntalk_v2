@@ -130,7 +130,7 @@
                     {{-- 일반 회원 매물 관리 메뉴 --}}
                     <div class="menu-item">
                         <a class="menu-link {{ str_contains(Route::currentRouteName(), 'knowledgeCenter') ? 'active' : '' }}"
-                        href="{{ route('admin.knowledgeCenter.list.view') }}">
+                            href="{{ route('admin.knowledgeCenter.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-building-columns"></i>
                             </span>
@@ -174,8 +174,8 @@
 
                     {{-- 공톡 유투브 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'community.category') ? 'active' : '' }}"
-                            href="{{ route('admin.community.category.list.view') }}">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine.youtube') ? 'active' : '' }}"
+                            href="{{ route('admin.magazine.youtube.list.view', ['type' => 0]) }}">
                             <span class="menu-icon">
                                 <i class="fa-brands fa-youtube"></i>
                             </span>
@@ -185,8 +185,8 @@
 
                     {{-- 공톡 매거진 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'community.list.view') ? 'active' : '' }}"
-                            href="{{ route('admin.community.list.view') }}">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine.magazine') ? 'active' : '' }}"
+                            href="{{ route('admin.magazine.magazine.list.view', ['type' => 1]) }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-comment-dots"></i>
                             </span>
@@ -196,7 +196,8 @@
 
                     {{-- 공톡 뉴스 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link" href="#">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine.news') ? 'active' : '' }}"
+                            href="{{ route('admin.magazine.news.list.view', ['type' => 2]) }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-newspaper"></i>
                             </span>
@@ -205,6 +206,36 @@
                     </div>
 
                 </div>
+
+                {{-- 매거진 관리 --}}
+                {{-- <div class="menu-item pt-5 ">
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">매거진 관리</span>
+                    </div> --}}
+
+                {{-- 매거진 카테고리 메뉴 --}}
+                {{-- <div class="menu-item">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine.category') ? 'active' : '' }}"
+                            href="{{ route('admin.magazine.category.list.view') }}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-book"></i>
+                            </span>
+                            <span class="menu-title">매거진 카테고리 관리</span>
+                        </a>
+                    </div> --}}
+
+                {{-- 매거진 목록 메뉴 --}}
+                {{-- <div class="menu-item">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine') ? 'active' : '' }}"
+                            href="{{ route('admin.magazine.list.view') }}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-book"></i>
+                            </span>
+                            <span class="menu-title">매거진 목록 관리</span>
+                        </a>
+                    </div>
+
+                </div> --}}
 
                 {{-- 커뮤니티 관리 --}}
                 <div class="menu-item pt-5 ">
@@ -264,35 +295,7 @@
                 </div>
 
 
-                {{-- 매거진 관리 --}}
-                {{-- <div class="menu-item pt-5 ">
-                    <div class="menu-content">
-                        <span class="menu-heading fw-bold text-uppercase fs-7">매거진 관리</span>
-                    </div> --}}
 
-                {{-- 매거진 카테고리 메뉴 --}}
-                {{-- <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine.category') ? 'active' : '' }}"
-                            href="{{ route('admin.magazine.category.list.view') }}">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-book"></i>
-                            </span>
-                            <span class="menu-title">매거진 카테고리 관리</span>
-                        </a>
-                    </div> --}}
-
-                {{-- 매거진 목록 메뉴 --}}
-                {{-- <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine') ? 'active' : '' }}"
-                            href="{{ route('admin.magazine.list.view') }}">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-book"></i>
-                            </span>
-                            <span class="menu-title">매거진 목록 관리</span>
-                        </a>
-                    </div>
-
-                </div> --}}
 
                 {{-- 고객 센터 메뉴 그룹  --}}
                 {{-- 메뉴 - 서브 메뉴 없는 경우  --}}

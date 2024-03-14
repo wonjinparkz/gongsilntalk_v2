@@ -66,7 +66,13 @@ class MagazineController extends Controller
 
         $categoryList = MagazineCategory::where('is_blind', 0)->get();
 
-        return view('admin.magazine.magazine-list', compact('result', 'categoryList'));
+        if ($request->type == 0) {
+            return view('admin.magazine.magazine-list', compact('result', 'categoryList'));
+        } elseif ($request->type == 1) {
+            return view('admin.magazine.magazine-list1', compact('result', 'categoryList'));
+        } elseif ($request->type == 1) {
+            return view('admin.magazine.magazine-list2', compact('result', 'categoryList'));
+        }
     }
 
     /**
