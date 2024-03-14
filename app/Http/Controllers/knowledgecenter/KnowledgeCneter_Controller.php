@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\knowledgecenter;
 
+use App\Exports\KnowledgeCenterExport;
+use App\Exports\KnowledgeCenterForUpdateExport;
 use App\Http\Controllers\Controller;
 use App\Models\KnowledgeCenter;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -11,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -288,5 +292,39 @@ class KnowledgeCneter_Controller extends Controller
             ->update(['is_delete' => $request->is_delete == 0 ? 1 : 0]);
 
         return back()->with('message', '지식산업센터를 삭제했습니다.');
+    }
+
+    /**
+     * 지식산업센터 정보 다운로드
+     */
+    public function exportKnowledgeCenter(Request $request)
+    {
+        return Excel::download(new KnowledgeCenterExport($request), '지식산업센터_' . Carbon::now() . '.xlsx');
+    }
+    /**
+     * 지식산업센터 업로드 정보 다운로드
+     */
+    public function exportKnowledgeCenterForUpdate(Request $request)
+    {
+        return Excel::download(new KnowledgeCenterForUpdateExport($request), '지식산업센터_업데이터용_' . Carbon::now() . '.xlsx');
+    }
+
+    public function updateFromExcel(Request $request)
+    {
+        $file = $request->file('excel_file');
+
+        Excel::import($file, function($rows) {
+            foreach ($rows as $row) {
+                $model = KnowledgeCenter::where('id', $row->id)->first();
+                if ($model) {
+                    $model->name = $row->name;
+                    $model->age = $row->age;
+                    // 필요한 열들을 모두 업데이트합니다.
+                    $model->save();
+                }
+            }
+        });
+
+        return redirect()->back()->with('success', '데이터가 업데이트되었습니다.');
     }
 }

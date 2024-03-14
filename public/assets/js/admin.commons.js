@@ -129,59 +129,6 @@ function latestField(fieldArray) {
 }
 
 
-// 건축물 대장 가져오는 api
-function get_buildingledger(pnu, get_type) {
-    loadingStart();
-    var sigunguCd = pnu.substring(0, 5);
-    var bjdongCd = pnu.substring(5, 10);
-    var platGbCd = pnu.substring(10, 11) - 1;
-    var bun = pnu.substring(11, 15);
-    var ji = pnu.substring(15, 20);
-
-    var xhr = new XMLHttpRequest();
-    var url = 'http://apis.data.go.kr/1613000/BldRgstService_v2/' + 'get' + get_type; /*URL*/
-    var queryParams = '?' + encodeURIComponent('serviceKey') + '=' + '3LBdPPEIVGX5U%2BG3UhqXWsNiJlSJOcPDuob1CwFAV7B%2Fkonwgko9ju7crwm4q155pwrHnO%2Bj57fDrO4xIvdbrg%3D%3D'; /*Service Key*/
-    queryParams += '&' + encodeURIComponent('sigunguCd') + '=' + encodeURIComponent(sigunguCd); /**/
-    queryParams += '&' + encodeURIComponent('bjdongCd') + '=' + encodeURIComponent(bjdongCd); /**/
-    queryParams += '&' + encodeURIComponent('platGbCd') + '=' + encodeURIComponent(platGbCd); /**/
-    queryParams += '&' + encodeURIComponent('bun') + '=' + encodeURIComponent(bun); /**/
-    queryParams += '&' + encodeURIComponent('ji') + '=' + encodeURIComponent(ji); /**/
-    queryParams += '&' + encodeURIComponent('startDate') + '=' + encodeURIComponent(''); /**/
-    queryParams += '&' + encodeURIComponent('endDate') + '=' + encodeURIComponent(''); /**/
-    queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /**/
-    queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
-    xhr.open('GET', url + queryParams);
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4) {
-            // XML 문자열을 파싱하여 <item> 엘리먼트의 모든 자식 엘리먼트를 가져옴
-            var xmlDoc = new DOMParser().parseFromString(this.responseText, "text/xml");
-            var itemElement = xmlDoc.querySelector('item');
-
-            // <item> 엘리먼트의 모든 자식 엘리먼트를 순회하면서 콘솔에 출력
-            if (itemElement) {
-                var childElements = itemElement.children;
-
-                var itemData = {};
-                for (var i = 0; i < childElements.length; i++) {
-                    itemData[childElements[i].tagName] = childElements[i].textContent
-                }
-                console.log(itemData);
-                setTimeout(function () {
-                    $('#' + get_type).val(JSON.stringify(itemData));
-                }, 3000);
-                loadingEnd();
-                $('#' + get_type + '_submit').submit();
-            } else {
-                alert('가져올 건출물 대장 데이터가 없습니다.');
-                loadingEnd();
-            }
-        }
-    };
-
-    xhr.send('');
-}
-
-
 // 공공데이터 좌표값을 x y 위도경도로 변경해주는 함수
 function get_coordinate_conversion(rtentX, rtentY) {
     // proj4에서 UTM 좌표계 정의

@@ -84,7 +84,11 @@ Route::middleware('admin.auth')->controller(UserController::class)->group(functi
  * 건축물대장 관리
  */
 Route::middleware('admin.auth')->controller(BuildingledgerController::class)->group(function () {
-    Route::post('/buildingledger/brtitleinfo/update/', 'BuildingUpdate')->name('admin.buildingledger.brtitleinfo.update');
+    Route::post('/buildingledger/brtitleinfo/update/', 'BrTitleInfoUpdate')->name('admin.buildingledger.brtitleinfo.update');
+    Route::post('/buildingledger/brrecaptitleinfo/update/', 'BrRecapTitleInfoUpdate')->name('admin.buildingledger.brrecaptitleinfo.update');
+    Route::post('/buildingledger/brflroulninfo/update/', 'BrFlrOulnInfoUpdate')->name('admin.buildingledger.brflroulninfo.update');
+    Route::post('/buildingledger/brexposinfo/update/', 'BrExposInfoUpdate')->name('admin.buildingledger.brexposinfo.update');
+    Route::post('/buildingledger/brexpospubuseareainfo/update/', 'BrExposPubuseAreaInfoUpdate')->name('admin.buildingledger.brexpospubuseareainfo.update');
 });
 
 /**
@@ -101,7 +105,10 @@ Route::middleware('admin.auth')->controller(KnowledgeCneter_Controller::class)->
     Route::post('/knowledgeCenter/update', 'knowledgeCenterupdate')->name('admin.knowledgeCenter.update');
     Route::post('/knowledgeCenter/create', 'knowledgeCentercreate')->name('admin.knowledgeCenter.create');
 
+    // 엑셀 기본정도 다운로드
     Route::get('/knowledgeCenter/export', 'exportKnowledgeCenter')->name('admin.knowledgeCenter.export');
+    // 엑셀 업데이트용 다운로드
+    Route::get('/knowledgeCenter/forupdate/export', 'exportKnowledgeCenterForUpdate')->name('admin.knowledgeCenter.forupdate.export');
 });
 
 /**

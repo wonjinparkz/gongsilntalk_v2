@@ -395,64 +395,7 @@
 
         </form>
         {{-- FORM END --}}
-        <x-screen-card :title="'건축물 대장'">
-            {{-- FORM START  --}}
-            @csrf
-            {{-- 내용 START --}}
-            <div class="card-body border-top p-9">
-                <div class="row mb-6">
-                    <label class="required col-lg-2 col-form-label fw-semibold fs-6">표지부</label>
-                    <label class="required col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 : 2024.01.01</label>
-                    <input type="hidden" name="BrTitleInfo" id="BrTitleInfo"
-                        class="form-control form-control-solid " readonly placeholder=""
-                        value="{{ old('BrTitleInfo') }}" />
-                    <div class="col-lg-4 fv-row">
-                        <button type="submit" class="btn btn-secondary">업데이트</button>
-                    </div>
-                </div>
-                <div class="row mb-6">
-                    <label class="required col-lg-2 col-form-label fw-semibold fs-6">총괄표제부</label>
-                    <label class="required col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 : 2024.01.01</label>
-                    <input type="hidden" name="BrRecapTitleInfo" id="BrRecapTitleInfo"
-                        class="form-control form-control-solid " readonly placeholder=""
-                        value="{{ old('BrRecapTitleInfo') }}" />
-                    <div class="col-lg-4 fv-row">
-                        <button type="submit" class="btn btn-secondary">업데이트</button>
-                    </div>
-                </div>
-                <div class="row mb-6">
-                    <label class="required col-lg-2 col-form-label fw-semibold fs-6">층별개요</label>
-                    <label class="required col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 : 2024.01.01</label>
-                    <input type="hidden" name="BrFlrOulnInfo" id="BrFlrOulnInfo"
-                        class="form-control form-control-solid " readonly placeholder=""
-                        value="{{ old('BrFlrOulnInfo') }}" />
-                    <div class="col-lg-4 fv-row">
-                        <button type="submit" class="btn btn-secondary">업데이트</button>
-                    </div>
-                </div>
-                <div class="row mb-6">
-                    <label class="required col-lg-2 col-form-label fw-semibold fs-6">전유부</label>
-                    <label class="required col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 : 2024.01.01</label>
-                    <input type="hidden" name="BrExposInfo" id="BrExposInfo"
-                        class="form-control form-control-solid " readonly placeholder=""
-                        value="{{ old('BrExposInfo') }}" />
-                    <div class="col-lg-4 fv-row">
-                        <button type="submit" class="btn btn-secondary">업데이트</button>
-                    </div>
-                </div>
-                <div class="row mb-6">
-                    <label class="required col-lg-2 col-form-label fw-semibold fs-6">전유공용면적</label>
-                    <label class="required col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 : 2024.01.01</label>
-                    <input type="hidden" name="BrExposPubuseAreaInfo" id="BrExposPubuseAreaInfo"
-                        class="form-control form-control-solid " readonly placeholder=""
-                        value="{{ old('BrExposPubuseAreaInfo') }}" />
-                    <div class="col-lg-4 fv-row">
-                        <button type="submit" class="btn btn-secondary">업데이트</button>
-                    </div>
-                </div>
-            </div>
 
-        </x-screen-card>
     </div>
 
     {{--
@@ -562,37 +505,29 @@
         var LnbrSlno = String(rtLnbrSlno).padStart(4, '0');
 
         var pnu = AdmCd + MtYn + LnbrMnnm + LnbrSlno;
-
         $('input[name=pnu]').val(pnu);
-
-        gte_useWFS(pnu);
-        get_coordinates(pnu);
-        get_characteristics(pnu);
 
         var wgs84Coords = get_coordinate_conversion(rtentX, rtentY)
 
         $('input[name=address_lng]').val(wgs84Coords[0]);
         $('input[name=address_lat]').val(wgs84Coords[1]);
 
-        // 상세화면에서 직접 업데이트 해야함
-        // get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrTitleInfo');
-        // get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrRecapTitleInfo');
-        // get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrFlrOulnInfo');
-        // get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrExposInfo');
-        // get_buildingledger(rtAdmCd.substring(0, 5), rtAdmCd.substring(5, 10), rtMtYn, LnbrMnnm, LnbrSlno,'BrExposPubuseAreaInfo');
+        loadingStart();
+
+        gte_useWFS(pnu);
+
+        setTimeout(function() {}, 1000);
+        setTimeout(function() {
+            get_coordinates(pnu);
+        }, 2000);
+        setTimeout(function() {
+            get_characteristics(pnu);
+        }, 3000);
+
+
+        setTimeout(function() {
+            loadingEnd();
+        }, 4000);
+
     }
-
-    function json_check() {
-        var characteristics = $('#useWFS_json').val();
-        var parsedData = JSON.parse(characteristics);
-
-        for (var key in parsedData) {
-            if (parsedData.hasOwnProperty(key)) {
-                var value = parsedData[key];
-                console.log("키:", key, ", 값:", value);
-            }
-        }
-    }
-
-
 </script>

@@ -75,11 +75,12 @@
                         </div>
 
                         <div class="d-flex justify-content-end mt-10">
-                            <a class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical"
-                                href="{{ route('admin.knowledgeCenter.export', Request::all()) }}" target="_blank">
+                            <a class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" data-bs-toggle="modal"
+                                data-bs-target="#kt_modal_1">
                                 엑셀 업로드<br>(데이터 업데이트)</a>
                             <a class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical"
-                                href="{{ route('admin.knowledgeCenter.export', Request::all()) }}" target="_blank">
+                                href="{{ route('admin.knowledgeCenter.forupdate.export', Request::all()) }}"
+                                target="_blank">
                                 엑셀 다운로드<br>(데이터 업데이트 용)</a>
                             <a class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical"
                                 href="{{ route('admin.knowledgeCenter.export', Request::all()) }}" target="_blank">
@@ -164,7 +165,7 @@
                                         {{-- 도면 여부 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                @if ($knowledgeCenter->floorPlan_files != null && count($knowledgeCenter->floorPlan_files) > 0 )
+                                                @if ($knowledgeCenter->floorPlan_files != null && count($knowledgeCenter->floorPlan_files) > 0)
                                                     O
                                                 @else
                                                     X
@@ -178,7 +179,7 @@
                                                 {{ $knowledgeCenter->is_blind ? '비공개' : '공개' }}
                                             </span>
                                         </td>
-                                        {{-- 공개여부 --}}
+                                        {{-- 한줄요약 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 {{ $knowledgeCenter->comments }}
@@ -247,6 +248,39 @@
     {{--
        * 페이지에서 사용하는 자바스크립트
     --}}
+
+    {{-- 엑셀 업로드 모달창 --}}
+    <div class="modal fade" tabindex="-1" id="kt_modal_1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">엑셀 업로드</h3>
+
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span
+                                class="path2"></span></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <form action="{{ route('admin.knowledgeCenter.list.view') }}" method="POST"
+                    enctype="multipart/form-data">
+                    <div class="modal-body">
+                        @csrf
+                        {{-- 층별도면 --}}
+                        <input type="file" name="excel_file" accept=".xlsx, .xls">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
+                        <button type="submit" class="btn btn-primary">업데이트</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <script>
         var hostUrl = "assets/";

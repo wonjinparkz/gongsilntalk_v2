@@ -72,7 +72,6 @@
             toastr.success("{{ session('message') }}");
         @endif
 
-
         // 페이지 로딩 함수
         const loadingEl = document.createElement("div");
         document.body.prepend(loadingEl);

@@ -6,6 +6,7 @@
     'files' => [],
     'label_col' => '4',
     'div_col' => '8',
+    'acceptedFiles' => '.jpg,.jpeg,.bmp,.png,.doc,.docx,.csv,.rtf,.xlsx,.xls,.txt,.pdf,.zip'
 ])
 
 <div class="row mb-6">
@@ -71,7 +72,7 @@
         maxFiles: 10, // 파일 갯수
         timeout: 300000, // 타임아웃 30초 기본 설정
         addRemoveLinks: true, // 업로드 후 파일 삭제버튼 표시 여부
-        acceptedFiles: '.jpg,.jpeg,.bmp,.png,.doc,.docx,.csv,.rtf,.xlsx,.xls,.txt,.pdf,.zip',
+        acceptedFiles: '{{ $acceptedFiles }}',
         accept: function(file, done) {
             done();
         },

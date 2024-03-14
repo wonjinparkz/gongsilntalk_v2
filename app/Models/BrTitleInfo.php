@@ -20,7 +20,9 @@ class BrTitleInfo extends BaseModel
      * Fillable
      */
     protected $fillable = [
-        'json_data'
+        'json_data',
+        'target_id',
+        'target_type'
     ];
 
     /**

@@ -415,82 +415,10 @@
         </form>
         {{-- FORM END --}}
         <x-screen-card :title="'건축물 대장'">
-            {{-- FORM START  --}}
-            @csrf
-            {{-- 내용 START --}}
-            <div class="card-body border-top p-9">
-                <form action="{{ route('admin.buildingledger.brtitleinfo.update') }}" id="BrTitleInfo_submit" method="POST">
-                    <input type="hidden" name="id" id="id" value="{{ $result->id }}">
-                    <input type="hidden" name="class" id="class" value="AppModelsKnowledgeCenter">
-                    <div class="row mb-6">
-                        <label class="col-lg-2 col-form-label fw-semibold fs-6">표지부</label>
-                        <label class="col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 :
-                            {{ $result->BrTitleInfo ? $carbon::parse($result->BrTitleInfo->created_at)->format('Y.m.d') : '-' }}</label>
-                        <input type="hidden" name="BrTitleInfo" id="BrTitleInfo"
-                            class="form-control form-control-solid " readonly placeholder=""
-                            value="{{ old('BrTitleInfo') ? old('BrTitleInfo') : $result->BrTitleInfo->json_data ?? '' }}" />
-                        <div class="col-lg-4 fv-row">
-                            <a onclick="get_buildingledger('{{ $result->pnu }}', 'BrTitleInfo')"
-                                class="btn btn-secondary">업데이트</a>
-                        </div>
-                    </div>
-                </form>
-                <div class="row mb-6">
-                    <label class="col-lg-2 col-form-label fw-semibold fs-6">총괄표제부</label>
-                    <label class="col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 :
-                        {{ $result->BrRecapTitleInfo ? $carbon::parse($result->BrRecapTitleInfo->created_at)->format('Y.m.d') : '-' }}</label>
-                    <input type="hidden" name="BrRecapTitleInfo" id="BrRecapTitleInfo"
-                        class="form-control form-control-solid " readonly placeholder=""
-                        value="{{ old('BrRecapTitleInfo') ? old('BrRecapTitleInfo') : $result->BrRecapTitleInfo->json_data ?? '' }}" />
-                    <div class="col-lg-4 fv-row">
-                        <button
-                            onclick="get_buildingledger('{{ $result->pnu }}', 'BrRecapTitleInfo', 'App\\Models\\KnowledgeCenter')"
-                            class="btn btn-secondary">업데이트</button>
-                    </div>
-                </div>
-                <div class="row mb-6">
-                    <label class="col-lg-2 col-form-label fw-semibold fs-6">층별개요</label>
-                    <label class="col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 :
-                        {{ $result->BrFlrOulnInfo ? $carbon::parse($result->BrFlrOulnInfo->created_at)->format('Y.m.d') : '-' }}</label>
-                    <input type="hidden" name="BrFlrOulnInfo" id="BrFlrOulnInfo"
-                        class="form-control form-control-solid " readonly placeholder=""
-                        value="{{ old('BrFlrOulnInfo') ? old('BrFlrOulnInfo') : $result->BrFlrOulnInfo->json_data ?? '' }}" />
-                    <div class="col-lg-4 fv-row">
-                        <button
-                            onclick="get_buildingledger('{{ $result->pnu }}', 'BrFlrOulnInfo', 'App\\Models\\KnowledgeCenter')"
-                            class="btn btn-secondary">업데이트</button>
-                    </div>
-                </div>
-                <div class="row mb-6">
-                    <label class="col-lg-2 col-form-label fw-semibold fs-6">전유부</label>
-                    <label class="col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 :
-                        {{ $result->BrExposInfo ? $carbon::parse($result->BrExposInfo->created_at)->format('Y.m.d') : '-' }}</label>
-                    <input type="hidden" name="BrExposInfo" id="BrExposInfo"
-                        class="form-control form-control-solid " readonly placeholder=""
-                        value="{{ old('BrExposInfo') ? old('BrExposInfo') : $result->BrExposInfo->json_data ?? '' }}" />
-                    <div class="col-lg-4 fv-row">
-                        <button
-                            onclick="get_buildingledger('{{ $result->pnu }}', 'BrExposInfo', 'App\\Models\\KnowledgeCenter')"
-                            class="btn btn-secondary">업데이트</button>
-                    </div>
-                </div>
-                <div class="row mb-6">
-                    <label class="col-lg-2 col-form-label fw-semibold fs-6">전유공용면적</label>
-                    <label class="col-lg-3 col-form-label fw-semibold fs-6">마지막 업데이트 :
-                        {{ $result->BrExposPubuseAreaInfo ? $carbon::parse($result->BrExposPubuseAreaInfo->created_at)->format('Y.m.d') : '-' }}</label>
-                    <input type="hidden" name="BrExposPubuseAreaInfo" id="BrExposPubuseAreaInfo"
-                        class="form-control form-control-solid " readonly placeholder=""
-                        value="{{ old('BrExposPubuseAreaInfo') ? old('BrExposPubuseAreaInfo') : $result->BrExposPubuseAreaInfo->json_data ?? '' }}" />
-                    <div class="col-lg-4 fv-row">
-                        <button
-                            onclick="get_buildingledger('{{ $result->pnu }}', 'BrExposPubuseAreaInfo', 'App\\Models\\KnowledgeCenter')"
-                            class="btn btn-secondary">업데이트</button>
-                    </div>
-                </div>
-            </div>
-
+            <x-admin-buildingledger :class="'App\Models\KnowledgeCenter'" :result="$result" />
         </x-screen-card>
     </div>
+
 
     {{--
        * 페이지에서 사용하는 자바스크립트
@@ -561,6 +489,8 @@
     function jusoCallBack(rtRoadFullAddr, rtAddrPart1, rtAddrDetail, rtAddrPart2, rtEngAddr, rtJibunAddr, rtZipNo,
         rtAdmCd, rtRnMgtSn, rtBdMgtSn, rtDetBdNmList, rtBdNm, rtBdKdcd, rtSiNm, rtSggNm, rtEmdNm, rtLiNm, rtRn,
         rtUdrtYn, rtBuldMnnm, rtBuldSlno, rtMtYn, rtLnbrMnnm, rtLnbrSlno, rtEmdNo, relJibun, rtentX, rtentY) {
+
+
         // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
         $('input[name=address]').val(rtRoadFullAddr);
 
@@ -593,51 +523,33 @@
         // console.log('entX:', rtentX);
         // console.log('entY:', rtentY);
 
+        loadingStart();
+
         var AdmCd = String(rtAdmCd);
         var MtYn = rtMtYn == '0' ? '1' : '2';
         var LnbrMnnm = String(rtLnbrMnnm).padStart(4, '0');
         var LnbrSlno = String(rtLnbrSlno).padStart(4, '0');
 
         var pnu = AdmCd + MtYn + LnbrMnnm + LnbrSlno;
-
-        $('input[name=pnu]').val(pnu);
-
         gte_useWFS(pnu);
-        get_coordinates(pnu);
-        get_characteristics(pnu);
 
         var wgs84Coords = get_coordinate_conversion(rtentX, rtentY)
 
         $('input[name=address_lng]').val(wgs84Coords[0]);
         $('input[name=address_lat]').val(wgs84Coords[1]);
 
-    }
 
-    function json_check() {
-        var characteristics = $('#useWFS_json').val();
-        var parsedData = JSON.parse(characteristics);
+        $('input[name=pnu]').val(pnu);
+        setTimeout(function() {}, 1000);
+        setTimeout(function() {
+            get_coordinates(pnu);
+        }, 2000);
+        setTimeout(function() {
+            get_characteristics(pnu);
+        }, 3000);
 
-        for (var key in parsedData) {
-            if (parsedData.hasOwnProperty(key)) {
-                var value = parsedData[key];
-                console.log("키:", key, ", 값:", value);
-            }
-        }
-    }
-
-    function buildingledgerUpdate() {
-        var data = {};
-        data.pageNo = "1"; /* 페이지 번호 */
-
-        $.ajax({
-            type: "get",
-            dataType: "jsonp",
-            data: data,
-            async: true,
-            success: function(data) {
-
-            },
-            error: function(xhr, stat, err) {}
-        });
+        setTimeout(function() {
+            loadingEnd();
+        }, 4000);
     }
 </script>
