@@ -19,15 +19,13 @@ class Community extends BaseModel
     /**
      * 모델
      */
-    protected $fillable = ['category_id', 'author', 'title', 'content', 'state', 'delete', 'view_count', 'block_count', 'like_count', 'report_count'];
+    protected $fillable = ['category', 'author', 'title', 'content', 'is_blind', 'is_delete', 'view_count', 'block_count', 'like_count', 'report_count'];
 
 
     /**
      * 직렬화에서 감출것
      */
-    protected $hidden = [
-
-    ];
+    protected $hidden = [];
 
     /**
      * 캐스팅
@@ -42,6 +40,15 @@ class Community extends BaseModel
      */
     public function images()
     {
-        return $this->morphMany(Images::class, 'target');
+        return $this->hasMany(Images::class, 'target_id', 'id')
+            ->where('target_type', '=', Community::class . '\main');
+    }
+    /**
+     * 이미지 가져오기
+     */
+    public function images_detail()
+    {
+        return $this->hasMany(Images::class, 'target_id', 'id')
+            ->where('target_type', '=', Community::class . '\detail');
     }
 }

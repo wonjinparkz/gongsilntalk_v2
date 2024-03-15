@@ -7,15 +7,10 @@
             <div class="app-container container-xxl d-flex flex-stack">
                 {{-- 페이지 제목 --}}
                 <div class="d-inline-block position-relative">
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">커뮤니티 목록
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">커뮤니티 관리
                     </h1>
                     <span
                         class="d-inline-block position-absolute mt-3 h-8px bottom-0 end-0 start-0 bg-success translate rounded" />
-                </div>
-                {{-- 페이지 버튼 --}}
-                <div class="d-flex align-items-center gap-2 gap-lg-3">
-                    <a href="{{ route('admin.community.category.create.view') }}"
-                        class="btn btn-lm fw-bold btn-primary">등록</a>
                 </div>
             </div>
         </div>
@@ -28,27 +23,6 @@
                         action="{{ route('admin.community.list.view') }}">
                         @csrf
 
-                        {{-- 제목 --}}
-                        <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">카테고리</label>
-                            <div class="col-lg-8 fv-row">
-
-                                @php
-                                    $selectedCategory = Request::get('category') ?? -1;
-                                @endphp
-                                <select name="category" class="form-select form-select-solid" data-control="select2"
-                                    data-hide-search="true">
-                                    <option value="" @if ($selectedCategory == null) selected @endif>전체</option>
-
-                                    @foreach ($categoryResult as $category)
-                                        <option value="{{ $category->id }}"
-                                            @if ($category->id == $selectedCategory) selected @endif>{{ $category->title }}
-                                        </option>
-                                    @endforeach
-                                </select>
-
-                            </div>
-                        </div>
 
                         {{-- 제목 --}}
                         <div class="col-lg-6 row mb-6">
@@ -62,37 +36,42 @@
 
                         {{-- 작성일 --}}
                         <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">등록일</label>
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">작성일</label>
                             <div class="col-lg-8 fv-row">
-                                {{-- 데이트 피커 --}}
-                                <input class="form-control form-control-solid" placeholder="등록일 검색"
-                                    id="daterangepicker" />
-                                {{-- 검색 시작일 --}}
-                                <input type="hidden" id="from_created_at" name="from_created_at"
-                                    value="{{ Request::get('from_created_at') }}">
-                                {{-- 검색 종료일 --}}
-                                <input type="hidden" id="to_created_at" name="to_created_at"
-                                    value="{{ Request::get('to_created_at') }}">
+                                <x-admin-date-picker :title="'작성일을 선택해 주세요.'" :from_name="'from_created_at'" :to_name="'to_created_at'" />
                             </div>
                         </div>
 
 
-                        {{-- 상태 선택 --}}
+                        {{-- 작성자 닉네임 --}}
                         <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">상태</label>
-                            @php
-                                $state = Request::get('state') ?? -1;
-                            @endphp
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">작성자 닉네임</label>
                             <div class="col-lg-8 fv-row">
-                                <select name="state" class="form-select form-select-solid" data-control="select2"
-                                    data-hide-search="true">
-                                    <option value="-1" @if ($state < 0) selected @endif>전체
-                                    </option>
-                                    <option value="0" @if ($state == 0) selected @endif>공개
-                                    </option>
-                                    <option value="1" @if ($state == 1) selected @endif>비공개
-                                    </option>
+                                <input type="text" id="author_nickname" name="author_nickname"
+                                    class="form-control form-control-solid" placeholder="닉네임을 입력해 주세요."
+                                    value="{{ Request::get('author_nickname') }}" />
+                            </div>
+                        </div>
+
+
+                        {{-- 제목 --}}
+                        <div class="col-lg-6 row mb-6">
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">카테고리</label>
+                            <div class="col-lg-8 fv-row">
+
+                                @php
+                                    $selectedCategory = Request::get('category') ?? [];
+                                @endphp
+                                <select name="category[]"class="form-select form-select-solid" data-control="select2"
+                                    data-close-on-select="false" data-placeholder="카테고리를 선택해주세요."
+                                    data-allow-clear="true" multiple="multiple">
+                                    @for ($i = 0; $i < count(Lang::get('commons.community_category')); $i++)
+                                        <option value="{{ $i }}"
+                                            @if (in_array($i, $selectedCategory)) selected @endif>
+                                            {{ Lang::get('commons.community_category.' . $i) }}</option>
+                                    @endfor
                                 </select>
+
                             </div>
                         </div>
 
@@ -115,8 +94,7 @@
                             <thead>
                                 <tr class="text-start text-gray-400 fw-bold fl-7 text-uppercase gs-0">
                                     <th class="text-center w-20px">No.</th>
-                                    <th class="text-center">카테고리</th>
-                                    <th class="text-center w-200px">제목</th>
+                                    <th class="text-center w-250px">제목</th>
                                     <th class="text-center">작성자</th>
                                     <th class="text-center">조회수</th>
                                     <th class="text-center">좋아요수</th>
@@ -138,28 +116,15 @@
                                             <span class="fw-bold fs-5">{{ $community->id }}</span>
                                         </td>
 
-                                        {{-- 커뮤니티 카테고리 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">{{ $community->category_title }}</span>
-                                        </td>
-
                                         {{-- 커뮤니티 제목 --}}
                                         <td class="text-center ">
-                                            <div class="d-flex align-items-center">
-                                                <a href="{{ route('admin.community.detail.view', [$community->id]) }}"
-                                                    class="text-gray-800 text-hover-primary fs-5 fw-bold ">{{ $community->title }}</a>
-                                                @if ($community->images != null && count($community->images) > 0)
-                                                    <div class="ms-2 badge badge-light-success">
-                                                        이미지 {{ count($community->images) }} 개
-                                                    </div>
-                                                @endif
-                                            </div>
-
+                                            <a href="{{ route('admin.community.detail.view', [$community->id]) }}"
+                                                class="text-gray-800 text-hover-primary fs-5 fw-bold ">{{ $community->title }}</a>
                                         </td>
 
                                         {{-- 커뮤니티 작성자 --}}
                                         <td class="text-center">
-                                            <span class="fw-bold fs-5">{{ $community->author_name }}</span>
+                                            <span class="fw-bold fs-5">{{ $community->author_nickname }}</span>
                                         </td>
 
                                         {{-- 커뮤니티 조회수 --}}
@@ -185,7 +150,7 @@
                                         {{-- 상태 --}}
                                         <td class="text-center">
                                             {{-- 상태 뱃지 --}}
-                                            @if ($community->state == 0)
+                                            @if ($community->is_blind == 0)
                                                 <div class="badge badge-light-success">
                                                     공개
                                                 </div>
@@ -217,8 +182,7 @@
                                         <td class="text-center">
                                             {{-- 동작 버튼 --}}
                                             <a href="#" class="btn btn-sm btn-success btn-active-light-primary"
-                                                data-kt-menu-trigger="click"
-                                                data-kt-menu-placement="bottom-end">더보기</a>
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">더보기</a>
                                             {{-- 동작 메뉴 --}}
                                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
                                                 data-kt-menu="true">
@@ -229,13 +193,13 @@
                                                         @csrf
                                                         <input type="hidden" name="id"
                                                             value="{{ $community->id }}" />
-                                                        <input type="hidden" name="state"
-                                                            value="{{ $community->state }}" />
+                                                        <input type="hidden" name="is_blind"
+                                                            value="{{ $community->is_blind }}" />
                                                         <a href="#" onclick="parentNode.submit();"
                                                             class="menu-link px-3">
-                                                            @if ($community->state == 0)
+                                                            @if ($community->is_blind == 0)
                                                                 비공개
-                                                            @elseif ($community->state == 1)
+                                                            @elseif ($community->is_blind == 1)
                                                                 공개
                                                             @endif
                                                         </a>

@@ -2,83 +2,124 @@
     <div class="app-container container-xxl">
         <x-screen-card :title="'커뮤니티 상세'">
             {{-- FORM START  --}}
-            <form class="form" method="POST" action="{{ route('admin.community.update') }}">
-                @csrf
-                <input type="hidden" name="id" value="{{ $result->id }}" />
-                <input type="hidden" name="category_id" value="{{ $result->category_id }}" />
-                <input type="hidden" name="lasturl" value="{{ URL::previous() }}">
+            {{-- 내용 START --}}
+            <div class="card-body border-top p-9">
 
-                {{-- 내용 START --}}
-                <div class="card-body border-top p-9">
-
-                    {{-- 제목 --}}
-                    <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">제목</label>
-                        <div class="col-lg-8 fv-row">
-                            <input type="text" name="title" class="form-control form-control-solid"
-                                placeholder="제목" value="{{ old('title') ? old('title') : $result->title }}" />
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('title')" />
-
-                        </div>
+                {{-- 제목 --}}
+                <div class="row mb-6">
+                    <label class="col-lg-4 col-form-label fw-semibold fs-6">제목</label>
+                    <div class="col-lg-8 fv-row">
+                        <span class="fw-bold fs-5">
+                            {{ $result->title }}
+                        </span>
                     </div>
+                </div>
 
-                    {{-- 내용 --}}
-                    <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">내용</label>
-                        <div class="col-lg-8 fv-row">
-                            <textarea name="content" class="form-control form-control-solid mb-5" rows="5" placeholder="내용">{{ old('content') ? old('content') : $result->content }}</textarea>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('content')" />
-                        </div>
+                {{-- 작성자 --}}
+                <div class="row mb-6">
+                    <label class="col-lg-4 col-form-label fw-semibold fs-6">작성자</label>
+                    <div class="col-lg-8 fv-row">
+                        <span class="fw-bold fs-5">
+                            {{ $result->author_nickname }}
+                        </span>
                     </div>
+                </div>
 
-                    {{-- 게시 여부 --}}
-                    <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">게시 상태</label>
-                        <div class="col-lg-2 d-flex align-items-center">
-                            @php
-                                $state = old('state') ?? $result->state;
-                            @endphp
-                            <select id="stateOption" name="state" class="form-select form-select-solid"
-                                data-control="select2" data-hide-search="true">
-                                <option value="0" @if ($state == 0) selected @endif>공개</option>
-                                <option value="1" @if ($state == 1) selected @endif>비공개</option>
-                            </select>
-                        </div>
-                        <x-input-error class="mt-2 text-danger" :messages="$errors->get('state')" />
-                    </div>
 
-                    {{-- 업로드 이미지 미리보기 --}}
-                    <div class="row mb-6">
-                        <label class="col-lg-4 col-form-label fw-semibold fs-6">커뮤니티 이미지</label>
-                        <div class="x_scroll_img_reg col-lg-8">
-                            <ul class="img_reg_ul" id="image_reg">
-                                @foreach ($result->images as $image)
-                                    <li>
-                                        <input type="hidden" name="image_ids[]" value="{{ $image->id }}" />
-                                        <div class="symbol symbol-100px">
-                                            <img src="{{ Storage::url('image/' . $image->path) }}" alt="">
-                                            {{-- <span onClick="removeImage(this)" class="fw-semibold text-danger">삭제</span> --}}
+                {{-- 업로드 이미지 미리보기 --}}
+                <div class="row mb-6">
+                    <label class="col-lg-4 col-form-label fw-semibold fs-6">대표 이미지</label>
+                    <div class="x_scroll_img_reg col-lg-8">
+                        <ul class="img_reg_ul" id="image_reg">
+                            @foreach ($result->images as $image)
+                                <div class="symbol symbol-150px mb-5 me-5 overlay min-h-175px w-175px">
+                                    <a class="col symbol symbol-150px mb-5 me-5 overlay min-h-175px w-175px"
+                                        data-fslightbox="lightbox-basic"
+                                        href="{{ Storage::url('image/' . $image->path) }}">
+                                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px w-175px"
+                                            style="background-image:url({{ Storage::url('image/' . $image->path) }})">
                                         </div>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
+                                        <div class="overlay-layer card-rounded bg-dark bg-opacity-25 shadow"><i
+                                                class="bi bi-eye-fill text-white fs-3x"></i></div>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </ul>
                     </div>
-
-
                 </div>
-                <!--내용 END-->
-                {{-- Footer Bottom START --}}
-                <div class="card-footer d-flex justify-content-end py-6 px-9">
-                    <button type="submit" class="btn btn-primary">수정</button>
+
+                {{-- 업로드 이미지 미리보기 --}}
+                <div class="row mb-6">
+                    <label class="col-lg-4 col-form-label fw-semibold fs-6">상세 이미지</label>
+                    <div class="x_scroll_img_reg col-lg-8">
+                        <ul class="img_reg_ul" id="image_reg">
+                            @foreach ($result->images_detail as $image)
+                                <div class="symbol symbol-150px mb-5 me-5 overlay min-h-175px w-175px">
+                                    <a class="col symbol symbol-150px mb-5 me-5 overlay min-h-175px w-175px"
+                                        data-fslightbox="lightbox-basic"
+                                        href="{{ Storage::url('image/' . $image->path) }}">
+                                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px w-175px"
+                                            style="background-image:url({{ Storage::url('image/' . $image->path) }})">
+                                        </div>
+                                        <div class="overlay-layer card-rounded bg-dark bg-opacity-25 shadow"><i
+                                                class="bi bi-eye-fill text-white fs-3x"></i></div>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
-                {{-- Footer END --}}
-            </form>
-            {{-- FORM END --}}
+
+                {{-- 내용 --}}
+                <div class="row mb-6">
+                    <label class="col-lg-4 col-form-label fw-semibold fs-6">내용</label>
+                    <div class="col-lg-8 fv-row">
+                        <span class="fw-bold fs-5">
+                            {!! nl2br($result->content) !!}
+                        </span>
+                    </div>
+                </div>
+
+                {{-- 작성일 --}}
+                <div class="row mb-6">
+                    <label class="col-lg-4 col-form-label fw-semibold fs-6">작성일</label>
+
+                    <div class="col-lg-8 fv-row">
+                        <span class="fw-bold fs-5">
+                            @inject('carbon', 'Carbon\Carbon')
+                            {{ $carbon::parse($result->created_at)->format('Y년 m월 d일 H:m') }}
+                        </span>
+                    </div>
+                </div>
+
+                {{-- 조회수 --}}
+                <div class="row mb-6">
+                    <label class="col-lg-4 col-form-label fw-semibold fs-6">조회수</label>
+
+                    <div class="col-lg-8 fv-row">
+                        <span class="fw-bold fs-5">
+                            {{ $result->view_count }}
+                        </span>
+                    </div>
+                </div>
+
+                {{-- 추천수 --}}
+                <div class="row mb-6">
+                    <label class="col-lg-4 col-form-label fw-semibold fs-6">추천수</label>
+
+                    <div class="col-lg-8 fv-row">
+                        <span class="fw-bold fs-5">
+                            {{ $result->like_count }}
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+            <!--내용 END-->
 
         </x-screen-card>
 
-        <x-screen-card :title="'커뮤니티 댓글'">
+        <x-screen-card :title="'댓글'">
             <form class="form card-body row border-top p-9 align-items-center" method="GET"
                 action="{{ route('admin.community.detail.view', $result->id) }}">
                 @csrf

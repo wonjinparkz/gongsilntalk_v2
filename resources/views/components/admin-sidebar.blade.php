@@ -243,18 +243,19 @@
                         <span class="menu-heading fw-bold text-uppercase fs-7">커뮤니티 관리</span>
                     </div>
 
-                    {{-- 커뮤니티 카테고리 관리 메뉴 --}}
+                    {{-- 커뮤니티 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'community.category') ? 'active' : '' }}"
-                            href="{{ route('admin.community.category.list.view') }}">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'community') ? 'active' : '' }}"
+                            href="{{ route('admin.community.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-layer-group"></i>
                             </span>
-                            <span class="menu-title">커뮤니티 카테고리 관리</span>
+                            <span class="menu-title">커뮤니티 관리</span>
                         </a>
                     </div>
 
                 </div>
+
                 {{-- 신고 관리 --}}
                 <div class="menu-item pt-5 ">
                     <div class="menu-content">

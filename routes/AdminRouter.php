@@ -125,27 +125,12 @@ Route::middleware('admin.auth')->controller(KnowledgeCneter_Controller::class)->
  *
  */
 
-
-/**
- * 관리자 커뮤니티 카테고리
- */
-Route::middleware('admin.auth')->controller(CommunityCategoryController::class)->group(function () {
-    Route::get('/community/category/list', 'listView')->name('admin.community.category.list.view');
-    Route::get('/community/category/detail/{id}', 'detailView')->name('admin.community.category.detail.view');
-    Route::get('/community/category/create', 'createView')->name('admin.community.category.create.view');
-    Route::post('/community/category/create', 'create')->name('admin.community.category.create');
-    Route::post('/community/category/delete', 'delete')->name('admin.community.category.delete');
-    Route::post('/community/category/update', 'update')->name('admin.community.category.update');
-    Route::post('/community/category/update/state', 'updateState')->name('admin.community.category.update.state');
-});
-
 /**
  * 관리자 커뮤니티 목록 관리
  */
 Route::middleware('admin.auth')->controller(CommunityController::class)->group(function () {
     Route::get('/community/list', 'listView')->name('admin.community.list.view');
     Route::get('/community/detail/{id}', 'detailView')->name('admin.community.detail.view');
-    Route::post('/community/update', 'update')->name('admin.community.update');
     Route::post('/community/update/state', 'updateState')->name('admin.community.update.state');
     Route::post('/community/reply/update/state', 'replyUpdateState')->name('admin.community.reply.update.state');
 });
