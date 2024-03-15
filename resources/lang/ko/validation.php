@@ -151,6 +151,9 @@ return [
         'categoryTitle' => '카테고리 이름',
         'magazine_category_id' => '카테고리',
 
+        //이미지
+        'magazine_image_ids' => '대표 이미지',
+
 
         // 지식산업센터 등록 페이지 입력칸 기준 순서
         'address_lat' => '위도',

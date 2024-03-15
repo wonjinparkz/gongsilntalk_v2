@@ -1,5 +1,23 @@
 <x-admin-layout>
+    @php
+        $title = '';
 
+        switch ($type) {
+            case '0':
+                $title = '공톡 유튜브';
+                break;
+            case '1':
+                $title = '공톡 매거진';
+                break;
+            case '2':
+                $title = '공톡 뉴스';
+                break;
+            default:
+                $title = '매거진';
+                break;
+        }
+    @endphp
+    {{request()->query('type')}}
     {{-- 기본 - 모양 --}}
     <div class="d-flex flex-column flex-column-fluid">
         {{-- 화면 툴바 - 제목, 버튼 --}}
@@ -7,14 +25,16 @@
             <div class="app-container container-xxl d-flex flex-stack">
                 {{-- 페이지 제목 --}}
                 <div class="d-inline-block position-relative">
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">매거진
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">
+                        {{ $title }} 관리
                     </h1>
                     <span
                         class="d-inline-block position-absolute mt-3 h-8px bottom-0 end-0 start-0 bg-success translate rounded" />
                 </div>
                 {{-- 페이지 버튼 --}}
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
-                    <a href="{{ route('admin.magazine.create.view') }}" class="btn btn-lm fw-bold btn-primary">등록</a>
+                    <a href="{{ route('admin.magazine.create.view', ['type' => $type]) }}"
+                        class="btn btn-lm fw-bold btn-primary">등록</a>
                 </div>
             </div>
         </div>
@@ -24,64 +44,25 @@
                 {{-- 검색 영역 --}}
                 <div class="card card-flush shadow-sm">
                     <form class="form card-body row border-top p-9 align-items-center" method="GET"
-                        action="{{ route('admin.magazine.youtube.list.view') }}">
+                        action="{{ route('admin.magazine.list.view') }}">
                         @csrf
+                        <input type="hidden" name="type" value="{{ $type ?? 0 }}">
 
                         {{-- 제목 --}}
                         <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">매거진 제목</label>
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">제목</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="title" name="title"
-                                    class="form-control form-control-solid" placeholder="제목 + 내용"
+                                    class="form-control form-control-solid" placeholder="제목을 입력하세요."
                                     value="{{ Request::get('title') }}" />
                             </div>
                         </div>
 
                         {{-- 작성일 --}}
                         <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">매거진 작성일</label>
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">작성일</label>
                             <div class="col-lg-8 fv-row">
                                 <x-admin-date-picker :title="'작성일 검색'" :from_name="'from_created_at'" :to_name="'to_created_at'" />
-                            </div>
-                        </div>
-
-
-                        {{-- 상태 선택 --}}
-                        <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">매거진 상태</label>
-                            @php
-                                $isBlind = Request::get('is_blind') ?? -1;
-                            @endphp
-                            <div class="col-lg-8 fv-row">
-                                <select name="is_blind" class="form-select form-select-solid" data-control="select2"
-                                    data-hide-search="true">
-                                    <option value="" @if ($isBlind < 0) selected @endif>전체
-                                    </option>
-                                    <option value="0" @if ($isBlind == 0) selected @endif>공개
-                                    </option>
-                                    <option value="1" @if ($isBlind == 1) selected @endif>비공개
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        {{-- 상태 선택 --}}
-                        <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">매거진 카테고리</label>
-                            @php
-                                $magazineCategoryId = Request::get('magazine_category_id');
-                            @endphp
-                            <div class="col-lg-8 fv-row">
-                                <select name="magazine_category_id" class="form-select form-select-solid"
-                                    data-control="select2" data-hide-search="true">
-                                    <option value="" @if ($magazineCategoryId == null) selected @endif>전체
-                                    </option>
-                                    @foreach ($categoryList as $category)
-                                        <option value="{{ $category->id }}"
-                                            @if ($magazineCategoryId == $category->id) selected @endif>{{ $category->title }}
-                                        </option>
-                                    @endforeach
-                                </select>
                             </div>
                         </div>
 
@@ -104,9 +85,10 @@
                             <thead>
                                 <tr class="text-start text-gray-400 fw-bold fl-7 text-uppercase gs-0">
                                     <th class="text-center w-20px">No.</th>
-                                    <th class="text-center">카테고리</th>
                                     <th class="text-center min-w-250px">제목</th>
-                                    <th class="text-center">상태</th>
+                                    <th class="text-center">추천수</th>
+                                    <th class="text-center">조회수</th>
+                                    <th class="text-center">공개여부</th>
                                     <th class="text-center">작성일</th>
                                     <th class="text-center">동작</th>
                                 </tr>
@@ -121,95 +103,97 @@
                                             <span class="fw-bold fs-5">{{ $magazine->id }}</span>
                                         </td>
 
-                                        {{-- 매거진 카테고리 --}}
+                                        {{-- 매거진 제목 --}}
+                                        <td class="text-center">
+                                            <a href="{{ route('admin.magazine.detail.view', ['id'=>$magazine->id, 'type'=>$type]) }}"
+                                                class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $magazine->title }}</a>
+                                        </td>
+
+                                        {{-- 추천수 --}}
+                                        <td class="text-center">
+                                            <span class="fw-bold fs-5">{{ $magazine->like_count }}</span>
+                                        </td>
+
+                                        {{-- 조회수 --}}
+                                        <td class="text-center">
+                                            <span class="fw-bold fs-5">{{ $magazine->view_count }}</span>
+                                        </td>
+
+                                        {{-- 상태 --}}
+                                        <td class="text-center">
+                                            {{-- 상태 뱃지 --}}
+                                            @if ($magazine->is_blind == 0)
+                                                <div class="badge badge-light-success">
+                                                    공개
+                                                </div>
+                                            @else
+                                                <div class="badge badge-light-danger">
+                                                    비공개
+                                                </div>
+                                            @endif
+                                        </td>
+
+
+                                        {{-- 작성일 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                {{ $magazine->category->title }}
+                                                @inject('carbon', 'Carbon\Carbon')
+                                                {{ $carbon::parse($magazine->created_at)->format('Y년 m월 d일') }}
+                                            </span>
+                                        </td>
+
+                                        {{-- 동작 : 수정, 삭제 --}}
+                                        <td class="text-center">
+                                            {{-- 동작 버튼 --}}
+                                            <a href="#" class="btn btn-sm btn-success btn-active-light-primary"
+                                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">더보기</a>
+                                            {{-- 동작 메뉴 --}}
+                                            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
+                                                data-kt-menu="true">
+                                                {{-- 수정 --}}
+                                                <div class="menu-item px-3">
+                                                    <form action="{{ route('admin.magazine.state.update') }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="id"
+                                                            value="{{ $magazine->id }}" />
+                                                        <input type="hidden" name="is_blind"
+                                                            value="{{ $magazine->is_blind }}" />
+                                                        <a href="#" onclick="parentNode.submit();"
+                                                            class="menu-link px-3">
+                                                            @if ($magazine->is_blind == 0)
+                                                                비공개
+                                                            @elseif ($magazine->is_blind == 1)
+                                                                공개
+                                                            @endif
+                                                        </a>
+                                                    </form>
+                                                </div>
+
+                                                {{-- 삭제 --}}
+                                                <div class="menu-item px-3">
+                                                    <form id="deleteNotice{{ $magazine->id }}"
+                                                        action="{{ route('admin.magazine.delete') }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="id"
+                                                            value="{{ $magazine->id }}" />
+                                                    </form>
+                                                    <a href="javascript:deleteAlert({{ $magazine->id }});"
+                                                        class="menu-link px-3">삭제</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
                     </div>
-                    </td>
-
-                    {{-- 매거진 제목 --}}
-                    <td class="text-center">
-                        <div class="d-flex align-items-center">
-
-                            <a href="{{ route('admin.magazine.detail.view', [$magazine->id]) }}"
-                                class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $magazine->title }}</a>
-                            @if ($magazine->images != null && count($magazine->images) > 0)
-                                <div class="ms-2 badge badge-light-success">
-                                    이미지 {{ count($magazine->images) }} 개
-                                </div>
-                            @endif
-                        </div>
-                    </td>
-
-                    {{-- 상태 --}}
-                    <td class="text-center">
-                        {{-- 상태 뱃지 --}}
-                        @if ($magazine->is_blind == 0)
-                            <div class="badge badge-light-success">
-                                공개
-                            </div>
-                        @else
-                            <div class="badge badge-light-danger">
-                                비공개
-                            </div>
-                        @endif
-                    </td>
-
-
-                    {{-- 작성일 --}}
-                    <td class="text-center">
-                        <span class="fw-bold fs-5">
-                            @inject('carbon', 'Carbon\Carbon')
-                            {{ $carbon::parse($magazine->created_at)->format('Y년 m월 d일 H:i:s') }}
-                        </span>
-                    </td>
-                    {{-- 동작 : 수정, 삭제 --}}
-                    <td class="text-center">
-                        {{-- 동작 버튼 --}}
-                        <a href="#" class="btn btn-sm btn-success btn-active-light-primary"
-                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">더보기</a>
-                        {{-- 동작 메뉴 --}}
-                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
-                            data-kt-menu="true">
-                            {{-- 수정 --}}
-                            <div class="menu-item px-3">
-                                <form action="{{ route('admin.magazine.state.update') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $magazine->id }}" />
-                                    <input type="hidden" name="is_blind" value="{{ $magazine->is_blind }}" />
-                                    <a href="#" onclick="parentNode.submit();" class="menu-link px-3">
-                                        @if ($magazine->is_blind == 0)
-                                            비공개
-                                        @elseif ($magazine->is_blind == 1)
-                                            공개
-                                        @endif
-                                    </a>
-                                </form>
-                            </div>
-
-                            {{-- 삭제 --}}
-                            <div class="menu-item px-3">
-                                <form id="deleteNotice{{ $magazine->id }}" action="{{ route('admin.magazine.delete') }}"
-                                    method="POST">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $magazine->id }}" />
-                                </form>
-                                <a href="javascript:deleteAlert({{ $magazine->id }});" class="menu-link px-3">삭제</a>
-                            </div>
-                        </div>
-                    </td>
-                    </tr>
-                    @endforeach
-                    </tbody>
-                    </table>
-
+                    {{ $result->onEachSide(1)->links('components.pagination') }}
                 </div>
-                {{ $result->onEachSide(1)->links('components.pagination') }}
             </div>
-        </div>
 
-    </div>
+        </div>
     </div>
 
 
@@ -239,5 +223,6 @@
                 }
             });
         }
+
     </script>
 </x-admin-layout>

@@ -1,5 +1,5 @@
 @props([
-    'title' => '이미지',
+    'title' => '파일',
     'required' => '',
     'cnt' => '5',
     'id' => 'file',

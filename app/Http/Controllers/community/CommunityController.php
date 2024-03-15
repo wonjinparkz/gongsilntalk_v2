@@ -5,7 +5,7 @@ namespace App\Http\Controllers\community;
 use App\Http\Controllers\Controller;
 use App\Models\Community;
 use App\Models\CommunityCategory;
-use App\Models\CommunityReply;
+use App\Models\Reply;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -102,41 +102,41 @@ class CommunityController extends Controller
 
 
         // 커뮤니티 댓글 선택
-        $communityReplyList = CommunityReply::with('rereplies')->select(
-            'community_reply.*',
+        $ReplyList = Reply::with('rereplies')->select(
+            'reply.*',
             'users.name AS author_name',
         );
 
         // 작성자
-        $communityReplyList->join('users', 'community_reply.author', '=', 'users.id');
+        $ReplyList->join('users', 'reply.author', '=', 'users.id');
 
         // 해당 댓글만
-        $communityReplyList->where('community_reply.community_id', '=', $request->id);
+        $ReplyList->where('reply.target_id', '=', $request->id);
 
         if (isset($request->content)) {
-            $communityReplyList->where('community_reply.content', 'like', "%{$request->content}%");
+            $ReplyList->where('reply.content', 'like', "%{$request->content}%");
         }
 
         // 작성일 from-date
         if (isset($request->from_created_at)) {
-            $communityReplyList->whereDate('community_reply.created_at', '>=', date($request->from_created_at));
+            $ReplyList->whereDate('reply.created_at', '>=', date($request->from_created_at));
         }
 
         // 작성일 to-date
         if (isset($request->to_created_at)) {
-            $communityReplyList->whereDate('community_reply.created_at', '<=', date($request->to_created_at));
+            $ReplyList->whereDate('reply.created_at', '<=', date($request->to_created_at));
         }
 
         // 댓글일 경우만
-        $communityReplyList->whereNull('parent_id');
+        $ReplyList->whereNull('parent_id');
 
         // 정렬
-        $communityReplyList->orderBy('community_reply.created_at', 'asc')->orderBy('id', 'asc');
+        $ReplyList->orderBy('reply.created_at', 'asc')->orderBy('id', 'asc');
 
 
 
         // 페이징 처리
-        $replys = $communityReplyList->paginate($request->per_page == null ? 10 : $request->per_page);
+        $replys = $ReplyList->paginate($request->per_page == null ? 10 : $request->per_page);
         $replys->appends(request()->except('page'));
 
 
@@ -189,8 +189,8 @@ class CommunityController extends Controller
      */
     public function replyUpdateState(Request $request): RedirectResponse
     {
-        $result = CommunityReply::where('id', $request->id)
-            ->update(['state' => $request->state == 0 ? 1 : 0]);
+        $result = Reply::where('id', $request->id)
+            ->update(['is_blind' => $request->is_blind == 0 ? 1 : 0]);
 
         return back()->with('message', '댓글 게시상태를 수정했습니다.');
     }

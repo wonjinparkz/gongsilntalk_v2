@@ -232,13 +232,12 @@ Route::middleware('admin.auth')->controller(AdminController::class)->group(funct
  * 관리자 매거진 카테고리
  */
 Route::middleware('admin.auth')->controller(MagazineController::class)->group(function () {
-    Route::get('/magazine/youtube/list/view', 'magazineListView')->name('admin.magazine.youtube.list.view');
-    Route::get('/magazine/magazine/list/view', 'magazineListView')->name('admin.magazine.magazine.list.view');
-    Route::get('/magazine/news/list/view', 'magazineListView')->name('admin.magazine.news.list.view');
+    Route::get('/magazine/list/view', 'magazineListView')->name('admin.magazine.list.view');
+
+    Route::get('/magazine/create/view', 'magazineCreateView')->name('admin.magazine.create.view');
 
 
     Route::get('/magazine/detail/view/{id}', 'magazineDetailView')->name('admin.magazine.detail.view');
-    Route::get('/magazine/create/view', 'magazineCreateView')->name('admin.magazine.create.view');
     Route::post('/magazine/create', 'magazineCreate')->name('admin.magazine.create');
     Route::post('/magazine/update', 'magazineUpdate')->name('admin.magazine.update');
     Route::post('/magazine/state/update', 'magazineStateUpdate')->name('admin.magazine.state.update');

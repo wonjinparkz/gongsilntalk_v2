@@ -1,7 +1,7 @@
-@props(['title' => '이미지', 'id' => 'image', 'images' => []])
+@props(['title' => '이미지', 'required' => '', 'cnt' => '5', 'id' => 'image', 'images' => []])
 
 <div class="row mb-6">
-    <label class="col-lg-4 col-form-label fw-semibold fs-6">{{ $title }}</label>
+    <label class="col-lg-4 col-form-label fw-semibold fs-6 {{ $required }}">{{ $title }}</label>
     <div class="col-lg-8">
         <div class="dropzone " id="{{ $id }}_drop">
             <div class="dz-message needsclick">
@@ -72,6 +72,12 @@
             done();
         },
         success: function(file, responseText) {
+            if (document.querySelectorAll('input[name="{{ $id }}_image_paths[]"]').length >=
+                {{ $cnt }}) {
+                alert('최대 ' + {{ $cnt }} + '장 업로드 가능합니다.', '확인');
+                {{ $id }}imageDropzone.removeFile(file);
+                reutnr;
+            }
 
             var imagePath = '{{ Storage::url('image/') }}' + responseText.result.path;
 

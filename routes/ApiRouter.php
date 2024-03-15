@@ -93,13 +93,13 @@ Route::middleware('auth:api')->controller(CommunityAPIController::class)->group(
  */
 Route::middleware('auth:api')->controller(CommunityAPIController::class)->group(function () {
 
-    Route::get('/community/reply/list', 'communityReplyList');
-    Route::post('/community/reply/create', 'communityReplyCreate');
-    Route::post('/community/reply/update', 'communityReplyUpdate');
-    Route::post('/community/reply/delete', 'communityReplyDelete');
-    Route::post('/community/reply/like', 'communityReplyLike');
-    Route::post('/community/reply/block', 'communityReplyBlock');
-    Route::post('/community/reply/report', 'communityReplyReport');
+    Route::get('/community/reply/list', 'ReplyList');
+    Route::post('/community/reply/create', 'ReplyCreate');
+    Route::post('/community/reply/update', 'ReplyUpdate');
+    Route::post('/community/reply/delete', 'ReplyDelete');
+    Route::post('/community/reply/like', 'ReplyLike');
+    Route::post('/community/reply/block', 'ReplyBlock');
+    Route::post('/community/reply/report', 'ReplyReport');
 });
 
 /**

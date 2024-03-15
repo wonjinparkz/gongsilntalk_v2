@@ -16,13 +16,15 @@ return new class extends Migration
         // 매거진
         Schema::create('magazine', function (Blueprint $table) {
             $table->id();
-            $table->integer('magazine_category_id')->comment('매거진 카테고리 아이디');
             $table->integer('admins_id')->comment('매거진 작성자');
+            $table->integer('type')->comment('매거진 타입 - 0: 공톡유뷰트, 1: 공톡매거진, 2: 공톡뉴스');
 
             $table->string('title')->comment('매거진 제목');
+            $table->string('url')->comment('공톡 유뷰트 URL');
             $table->longText('content')->comment('매거진 내용');
 
             $table->integer('view_count')->comment('매거진 뷰 횟수');
+            $table->integer('like_count')->comment('매거진 추천 횟수');
             $table->integer('is_blind')->comment('상태 - 0 : 공개, 1 : 비공개 ');
 
             $table->timestamps();

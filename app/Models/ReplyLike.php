@@ -8,27 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class CommunityReplyReport extends BaseModel
+class ReplyLike extends BaseModel
 {
     use HasFactory, Notifiable;
 
     /**
      * 테이블 명
      */
-    protected $table = 'community_reply_report';
+    protected $table = 'reply_like';
 
     /**
      * 모델
      */
-    protected $fillable = ['user_id', 'reply_id', 'report_type', 'report_reason'];
-
+    protected $fillable = ['user_id', 'reply_id'];
 
     /**
      * 직렬화에서 감출것
      */
-    protected $hidden = [
-
-    ];
+    protected $hidden = [];
 
     /**
      * 캐스팅

@@ -172,21 +172,21 @@
                         <span class="menu-heading fw-bold text-uppercase fs-7">관리자 컨텐츠 관리</span>
                     </div>
 
-                    {{-- 공톡 유투브 관리 메뉴 --}}
+                    {{-- 공톡 유튜브 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine.youtube') ? 'active' : '' }}"
-                            href="{{ route('admin.magazine.youtube.list.view', ['type' => 0]) }}">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine') && request()->query('type') == 0 ? 'active' : '' }}"
+                            href="{{ route('admin.magazine.list.view', ['type' => "0"]) }}">
                             <span class="menu-icon">
                                 <i class="fa-brands fa-youtube"></i>
                             </span>
-                            <span class="menu-title">공톡 유투브 관리</span>
+                            <span class="menu-title">공톡 유튜브 관리</span>
                         </a>
                     </div>
 
                     {{-- 공톡 매거진 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine.magazine') ? 'active' : '' }}"
-                            href="{{ route('admin.magazine.magazine.list.view', ['type' => 1]) }}">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine') && request()->query('type') == 1 ? 'active' : '' }}"
+                            href="{{ route('admin.magazine.list.view', ['type' => 1]) }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-comment-dots"></i>
                             </span>
@@ -196,8 +196,8 @@
 
                     {{-- 공톡 뉴스 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine.news') ? 'active' : '' }}"
-                            href="{{ route('admin.magazine.news.list.view', ['type' => 2]) }}">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine') && request()->query('type') == 2 ? 'active' : '' }}"
+                            href="{{ route('admin.magazine.list.view', ['type' => 2]) }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-newspaper"></i>
                             </span>

@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class CommunityReplyBlock extends BaseModel
+class ReplyBlock extends BaseModel
 {
     use HasFactory, Notifiable;
 
     /**
      * 테이블 명
      */
-    protected $table = 'community_reply_block';
+    protected $table = 'reply_block';
 
     /**
      * 모델

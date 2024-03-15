@@ -7,10 +7,10 @@ use App\Models\Community;
 use App\Models\CommunityBlock;
 use App\Models\CommunityCategory;
 use App\Models\CommunityLike;
-use App\Models\CommunityReply;
-use App\Models\CommunityReplyBlock;
-use App\Models\CommunityReplyLike;
-use App\Models\CommunityReplyReport;
+use App\Models\Reply;
+use App\Models\ReplyBlock;
+use App\Models\ReplyLike;
+use App\Models\ReplyReport;
 use App\Models\CommunityReport;
 use App\Models\Images;
 use App\Models\UsersBlocks;
@@ -460,7 +460,7 @@ class CommunityAPIController extends Controller
     /**
      * 커뮤니티 댓글 목록
      */
-    public function communityReplyList(Request $request)
+    public function ReplyList(Request $request)
     {
         // 오류 체크
         $validator = Validator::make($request->all(), [
@@ -472,47 +472,47 @@ class CommunityAPIController extends Controller
         }
 
         // 커뮤니티 댓글 선택
-        $communityReplyList = CommunityReply::with('children')->select(
-            'community_reply.*',
+        $ReplyList = Reply::with('children')->select(
+            'reply.*',
             'users.name AS author_name',
-            'community_reply_like.id AS like_id',
-            'community_reply_report.id AS report_id',
-            'community_reply_block.id AS block_id',
+            'reply_like.id AS like_id',
+            'reply_report.id AS report_id',
+            'reply_block.id AS block_id',
         );
 
         // 작성자
-        $communityReplyList->join('users', 'community_reply.author', '=', 'users.id');
+        $ReplyList->join('users', 'reply.author', '=', 'users.id');
 
         // 커뮤니티 좋아요
-        $communityReplyList->leftJoin('community_reply_like', function ($like) {
-            $like->on('community_reply.id', '=', 'community_reply_like.reply_id')
-                ->where('community_reply_like.user_id', '=', Auth::guard('api')->user()->id);
+        $ReplyList->leftJoin('reply_like', function ($like) {
+            $like->on('reply.id', '=', 'reply_like.reply_id')
+                ->where('reply_like.user_id', '=', Auth::guard('api')->user()->id);
         });
 
         // 커뮤니티 신고 ID
-        $communityReplyList->leftJoin('community_reply_report', function ($report) {
-            $report->on('community_reply.id', '=', 'community_reply_report.reply_id')
-                ->where('community_reply_report.user_id', '=', Auth::guard('api')->user()->id);
+        $ReplyList->leftJoin('reply_report', function ($report) {
+            $report->on('reply.id', '=', 'reply_report.reply_id')
+                ->where('reply_report.user_id', '=', Auth::guard('api')->user()->id);
         });
 
         // 커뮤니티 차단 ID
-        $communityReplyList->leftJoin('community_reply_block', function ($block) {
-            $block->on('community_reply.id', '=', 'community_reply_block.reply_id')
-                ->where('community_reply_block.user_id', '=', Auth::guard('api')->user()->id);
+        $ReplyList->leftJoin('reply_block', function ($block) {
+            $block->on('reply.id', '=', 'reply_block.reply_id')
+                ->where('reply_block.user_id', '=', Auth::guard('api')->user()->id);
         });
 
         // 해당 커뮤니티
-        $communityReplyList->where('community_reply.community_id', '=', $request->id);
+        $ReplyList->where('reply.target_id', '=', $request->id);
 
         // 댓글일 경우만
-        $communityReplyList->whereNull('community_reply.parent_id');
+        $ReplyList->whereNull('reply.parent_id');
 
         // 정렬
-        $communityReplyList->orderBy('community_reply.created_at', 'asc')->orderBy('id', 'asc');
+        $ReplyList->orderBy('reply.created_at', 'asc')->orderBy('id', 'asc');
 
 
         // 페이징 처리
-        $result = $communityReplyList->paginate($request->per_page == null ? 10 : $request->per_page);
+        $result = $ReplyList->paginate($request->per_page == null ? 10 : $request->per_page);
         $result->appends(request()->except('page'));
 
 
@@ -523,7 +523,7 @@ class CommunityAPIController extends Controller
     /**
      * 커뮤니티 댓글 등록
      */
-    public function communityReplyCreate(Request $request)
+    public function ReplyCreate(Request $request)
     {
         // 오류 체크
         $validator = Validator::make($request->all(), [
@@ -535,7 +535,7 @@ class CommunityAPIController extends Controller
             return $this->sendError("입력을 다시 확인해주시기 바랍니다.", $validator->errors()->all(), Response::HTTP_BAD_REQUEST);
         }
 
-        $communityReply = CommunityReply::create([
+        $Reply = Reply::create([
             'author' => Auth::guard('api')->user()->id,
             'community_id' => $request->id,
             'parent_id' => $request->parent_id,
@@ -548,18 +548,18 @@ class CommunityAPIController extends Controller
             'report_count' => 0, // 등록 시에는 0
         ]);
 
-        $success = $communityReply;
+        $success = $Reply;
         return $this->sendResponse($success, "댓글이 등록되었습니다.");
     }
 
     /**
      * 커뮤니티 댓글 수정
      */
-    public function communityReplyUpdate(Request $request)
+    public function ReplyUpdate(Request $request)
     {
         // 오류 체크
         $validator = Validator::make($request->all(), [
-            'id' => 'required|exists:community_reply,id',
+            'id' => 'required|exists:reply,id',
             'content' => 'required|min:1|max:255',
         ]);
 
@@ -568,7 +568,7 @@ class CommunityAPIController extends Controller
             return $this->sendError("입력을 다시 확인해주시기 바랍니다.", $validator->errors()->all(), Response::HTTP_BAD_REQUEST);
         }
 
-        $community = CommunityReply::where('id', $request->id)->first();
+        $community = Reply::where('id', $request->id)->first();
 
         if ($community->author == Auth::guard('api')->user()->id) {
             $community->update([
@@ -584,7 +584,7 @@ class CommunityAPIController extends Controller
     /**
      * 커뮤니티 댓글 삭제 상태 수정
      */
-    public function communityReplyDelete(Request $request)
+    public function ReplyDelete(Request $request)
     {
         // 오류 체크
         $validator = Validator::make($request->all(), [
@@ -595,11 +595,11 @@ class CommunityAPIController extends Controller
             return $this->sendError("입력을 다시 확인해주시기 바랍니다.", $validator->errors()->all(), Response::HTTP_BAD_REQUEST);
         }
 
-        $communityReply = CommunityReply::where('id', $request->id)->first();
+        $Reply = Reply::where('id', $request->id)->first();
 
-        if ($communityReply->author == Auth::guard('api')->user()->id) {
-            $communityReply->update(['delete' => 1]);
-            $success = $communityReply->refresh();
+        if ($Reply->author == Auth::guard('api')->user()->id) {
+            $Reply->update(['delete' => 1]);
+            $success = $Reply->refresh();
             return $this->sendResponse($success, "댓글이 삭제되었습니다.");
         } else {
             return $this->sendError("삭제 권한이 없습니다.", $validator->errors()->all(), Response::HTTP_NOT_ACCEPTABLE);
@@ -609,7 +609,7 @@ class CommunityAPIController extends Controller
     /**
      * 커뮤니티 댓글 좋아요
      */
-    public function communityReplyLike(Request $request)
+    public function ReplyLike(Request $request)
     {
         // 오류 체크
         $validator = Validator::make($request->all(), [
@@ -620,24 +620,24 @@ class CommunityAPIController extends Controller
             return $this->sendError("입력을 다시 확인해주시기 바랍니다.", $validator->errors()->all(), Response::HTTP_BAD_REQUEST);
         }
 
-        $communityReply = CommunityReplyLike::where('reply_id', $request->id)
+        $Reply = ReplyLike::where('reply_id', $request->id)
             ->where('user_id', Auth::guard('api')->user()->id)
             ->first();
 
-        if ($communityReply == null) {
-            $created = CommunityReplyLike::create([
+        if ($Reply == null) {
+            $created = ReplyLike::create([
                 'user_id' => Auth::guard('api')->user()->id,
                 'reply_id' => $request->id,
             ]);
 
-            CommunityReply::where('id', $request->id)
+            Reply::where('id', $request->id)
                 ->increment('like_count', 1);
 
             $success = $created;
             return $this->sendResponse($success, "좋아요가 등록되었습니다.");
         } else {
-            $communityReply->delete();
-            CommunityReply::where('id', $request->id)
+            $Reply->delete();
+            Reply::where('id', $request->id)
                 ->decrement('like_count', 1);
 
             $success["id"] = $request->id;
@@ -648,7 +648,7 @@ class CommunityAPIController extends Controller
     /**
      * 커뮤니티 댓글 차단
      */
-    public function communityReplyBlock(Request $request)
+    public function ReplyBlock(Request $request)
     {
         // 오류 체크
         $validator = Validator::make($request->all(), [
@@ -659,23 +659,23 @@ class CommunityAPIController extends Controller
             return $this->sendError("입력을 다시 확인해주시기 바랍니다.", $validator->errors()->all(), Response::HTTP_BAD_REQUEST);
         }
 
-        $communityBlock = CommunityReplyBlock::where('reply_id', $request->id)
+        $communityBlock = ReplyBlock::where('reply_id', $request->id)
             ->where('user_id', Auth::guard('api')->user()->id)
             ->first();
 
         if ($communityBlock == null) {
-            $created = CommunityReplyBlock::create([
+            $created = ReplyBlock::create([
                 'user_id' => Auth::guard('api')->user()->id,
                 'reply_id' => $request->id,
             ]);
-            CommunityReply::where('id', $request->id)
+            Reply::where('id', $request->id)
                 ->increment('block_count', 1);
 
             $success = $created;
             return $this->sendResponse($success, "댓글이 차단되었습니다.");
         } else {
             $communityBlock->delete();
-            CommunityReply::where('id', $request->id)
+            Reply::where('id', $request->id)
                 ->decrement('block_count', 1);
 
             $success["id"] = $request->id;
@@ -686,7 +686,7 @@ class CommunityAPIController extends Controller
     /**
      * 커뮤니티 댓글 신고
      */
-    public function communityReplyReport(Request $request)
+    public function ReplyReport(Request $request)
     {
         // 오류 체크
         $validator = Validator::make($request->all(), [
@@ -699,14 +699,14 @@ class CommunityAPIController extends Controller
             return $this->sendError("입력을 다시 확인해주시기 바랍니다.", $validator->errors()->all(), Response::HTTP_BAD_REQUEST);
         }
 
-        $communityReport = CommunityReplyReport::create([
+        $communityReport = ReplyReport::create([
             'user_id' => Auth::guard('api')->user()->id,
             'reply_id' => $request->id,
             'report_type' => $request->report_type,
             'report_reason' => $request->report_reason
         ]);
 
-        CommunityReply::where('id', $request->id)
+        Reply::where('id', $request->id)
             ->increment('report_count', 1);
 
         $success = $communityReport;

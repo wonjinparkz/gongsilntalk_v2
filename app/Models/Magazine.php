@@ -19,11 +19,13 @@ class Magazine extends BaseModel
      * Fillable
      */
     protected $fillable = [
-        'magazine_category_id',
         'admins_id',
+        'type',
         'title',
+        'url',
         'content',
         'view_count',
+        'like_count',
         'is_blind',
     ];
 
