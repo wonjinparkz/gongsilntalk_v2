@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title')->comment('약관 제목');
             $table->longText('content')->comment('약관 내용');
             $table->integer('kind')->comment('약관 종류 0 : 약관, 1: 개인정보 처리방침');
-            $table->string('type')->comment('약관 타입');
+            $table->string('type')->comment('약관 타입 - 0: 일반사용자, 1: 중개사');
             $table->timestamps();
         });
 

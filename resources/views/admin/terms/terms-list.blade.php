@@ -32,7 +32,7 @@
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">약관 제목</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="title" name="title"
-                                    class="form-control form-control-solid" placeholder="제목 + 내용"
+                                    class="form-control form-control-solid" placeholder="제목을 입력해 주세요."
                                     value="{{ Request::get('title') }}" />
                             </div>
                         </div>
@@ -45,24 +45,6 @@
                             </div>
                         </div>
 
-                        {{-- 게시 타겟 --}}
-                        <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">약관 게시타겟</label>
-                            @php
-                                $type = Request::get('type') ?? -1;
-                            @endphp
-                            <div class="col-lg-8 fv-row">
-                                <select name="type" class="form-select form-select-solid" data-control="select2"
-                                    data-hide-search="true">
-                                    <option value="" @if ($type < 0) selected @endif>전체
-                                    </option>
-                                    <option value="0" @if ($type == 0) selected @endif>사용자
-                                    </option>
-                                    <option value="1" @if ($type == 1) selected @endif>파트너
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
 
                         {{-- 상태 선택 --}}
                         <div class="col-lg-6 row mb-6">
@@ -75,9 +57,29 @@
                                     data-hide-search="true">
                                     <option value="" @if ($kind < 0) selected @endif>전체
                                     </option>
-                                    <option value="0" @if ($kind == 0) selected @endif>이용약관
+                                    @for ($i = 0; $i < count(Lang::get('commons.kind')); $i++)
+                                        <option value="{{ $i }}"
+                                            @if ($i == $kind) selected @endif>
+                                            {{ Lang::get('commons.kind.' . $i) }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+
+                        {{-- 노출 대상 --}}
+                        <div class="col-lg-6 row mb-6">
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">노출 대상</label>
+                            @php
+                                $type = Request::get('type') ?? -1;
+                            @endphp
+                            <div class="col-lg-8 fv-row">
+                                <select name="type" class="form-select form-select-solid" data-control="select2"
+                                    data-hide-search="true">
+                                    <option value="" @if ($type < 0) selected @endif>전체
                                     </option>
-                                    <option value="1" @if ($kind == 1) selected @endif>개인정보처리방침
+                                    <option value="0" @if ($type == 0) selected @endif>사용자
+                                    </option>
+                                    <option value="1" @if ($type == 1) selected @endif>중개사 회원
                                     </option>
                                 </select>
                             </div>
@@ -103,9 +105,9 @@
                                 <tr class="text-start text-gray-400 fw-bold fl-7 text-uppercase gs-0">
                                     <th class="text-center w-20px">No.</th>
                                     <th class="text-center min-w-250px">제목</th>
+                                    <th class="text-center">노출 대상</th>
                                     <th class="text-center">약관종류</th>
-                                    <th class="text-center">게시타겟</th>
-                                    <th class="text-center">작성일</th>
+                                    <th class="text-center">등록일</th>
                                     <th class="text-center">동작</th>
                                 </tr>
                             </thead>
@@ -131,35 +133,31 @@
                                             </div>
                                         </td>
 
-                                        {{-- 약관 종류 --}}
-                                        <td class="text-center">
-
-                                            <span class="fw-bold fs-5">
-                                                @if ($term->kind == 0)
-                                                    이용약관
-                                                @else
-                                                    개인정보처리방침
-                                                @endif
-                                            </span>
-
-                                        </td>
-
                                         {{-- 게시 타겟 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 @if ($term->type == 0)
                                                     사용자
                                                 @else
-                                                    파트너
+                                                    중개사 회원
                                                 @endif
                                             </span>
                                         </td>
 
-                                        {{-- 작성일 --}}
+                                        {{-- 약관 종류 --}}
+                                        <td class="text-center">
+
+                                            <span class="fw-bold fs-5">
+                                                {{ Lang::get('commons.kind.' . $term->kind) }}
+                                            </span>
+
+                                        </td>
+
+                                        {{-- 등록일 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 @inject('carbon', 'Carbon\Carbon')
-                                                {{ $carbon::parse($term->created_at)->format('Y년 m월 d일 H:i:s') }}
+                                                {{ $carbon::parse($term->created_at)->format('Y.m.d') }}
                                             </span>
                                         </td>
                                         {{-- 동작 : 수정, 삭제 --}}

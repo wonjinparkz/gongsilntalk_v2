@@ -53,8 +53,11 @@
                             @endphp
                             <select name="kind" class="form-select form-select-solid" data-control="select2"
                                 data-hide-search="true">
-                                <option value="0" @if ($kind == 0) selected @endif>이용약관</option>
-                                <option value="1" @if ($kind == 1) selected @endif>개인정보처리방침
+                                @for ($i = 0; $i < count(Lang::get('commons.kind')); $i++)
+                                    <option value="{{ $i }}"
+                                        @if ($i == $kind) selected @endif>
+                                        {{ Lang::get('commons.kind.' . $i) }}</option>
+                                @endfor
                                 </option>
                             </select>
                         </div>
