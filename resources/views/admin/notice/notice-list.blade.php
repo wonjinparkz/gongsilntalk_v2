@@ -29,10 +29,10 @@
 
                         {{-- 제목 --}}
                         <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">공지사항 제목</label>
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">제목</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="title" name="title"
-                                    class="form-control form-control-solid" placeholder="제목 + 내용"
+                                    class="form-control form-control-solid" placeholder="제목을 입력해 주세요."
                                     value="{{ Request::get('title') }}" />
                             </div>
                         </div>
@@ -41,45 +41,7 @@
                         <div class="col-lg-6 row mb-6">
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">공지사항 작성일</label>
                             <div class="col-lg-8 fv-row">
-                                <x-admin-date-picker :title="'작성일 검색'" :from_name="'from_created_at'" :to_name="'to_created_at'"/>
-                            </div>
-                        </div>
-
-                        {{-- 게시 타겟 --}}
-                        <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">공지사항 게시타겟</label>
-                            @php
-                                $type = Request::get('type') ?? -1;
-                            @endphp
-                            <div class="col-lg-8 fv-row">
-                                <select name="type" class="form-select form-select-solid" data-control="select2"
-                                    data-hide-search="true">
-                                    <option value="" @if ($type < 0) selected @endif>전체
-                                    </option>
-                                    <option value="0" @if ($type == 0) selected @endif>사용자
-                                    </option>
-                                    <option value="1" @if ($type == 1) selected @endif>파트너
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        {{-- 상태 선택 --}}
-                        <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">공지사항 상태</label>
-                            @php
-                                $isBlind = Request::get('is_blind') ?? -1;
-                            @endphp
-                            <div class="col-lg-8 fv-row">
-                                <select name="is_blind" class="form-select form-select-solid" data-control="select2"
-                                    data-hide-search="true">
-                                    <option value="" @if ($isBlind < 0) selected @endif>전체
-                                    </option>
-                                    <option value="0" @if ($isBlind == 0) selected @endif>공개
-                                    </option>
-                                    <option value="1" @if ($isBlind == 1) selected @endif>비공개
-                                    </option>
-                                </select>
+                                <x-admin-date-picker :title="'작성일 검색'" :from_name="'from_created_at'" :to_name="'to_created_at'" />
                             </div>
                         </div>
 
@@ -103,8 +65,7 @@
                                 <tr class="text-start text-gray-400 fw-bold fl-7 text-uppercase gs-0">
                                     <th class="text-center w-20px">No.</th>
                                     <th class="text-center min-w-250px">제목</th>
-                                    <th class="text-center">게시타겟</th>
-                                    <th class="text-center">상태</th>
+                                    <th class="text-center">공개여부</th>
                                     <th class="text-center">작성일</th>
                                     <th class="text-center">동작</th>
                                 </tr>
@@ -133,19 +94,6 @@
                                             </div>
                                         </td>
 
-                                        {{-- 게시 사용자 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                @php
-                                                    $type = $notice->type;
-                                                    $type = str_replace('0', '사용자', $type);
-                                                    $type = str_replace('1', '파트너', $type);
-                                                    $type = str_replace(',', ' / ', $type);
-                                                @endphp
-                                                {{ $type }}
-                                            </span>
-                                        </td>
-
                                         {{-- 상태 --}}
                                         <td class="text-center">
                                             {{-- 상태 뱃지 --}}
@@ -165,7 +113,7 @@
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 @inject('carbon', 'Carbon\Carbon')
-                                                {{ $carbon::parse($notice->created_at)->format('Y년 m월 d일 H:i:s') }}
+                                                {{ $carbon::parse($notice->created_at)->format('Y.m.d') }}
                                             </span>
                                         </td>
                                         {{-- 동작 : 수정, 삭제 --}}

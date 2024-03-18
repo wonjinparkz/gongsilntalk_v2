@@ -42,24 +42,12 @@ class NoticeController extends Controller
         // 검색어
         if (isset($request->title)) {
             $noticeList
-                ->where('notices.title', 'like', "%{$request->title}%")
-                ->orWhere('notices.content', 'like', "%{$request->title}%");
+                ->where('notices.title', 'like', "%{$request->title}%");
         }
 
         // 생성일 from ~ to
         if (isset($request->from_created_at) && isset($request->to_created_at)) {
             $noticeList->DurationDate('created_at', $request->from_created_at, $request->to_created_at);
-        }
-
-        // 타겟 유형
-        if (isset($request->type)) {
-            // $noticeList->where('notices.type', 'like', "%{$request->type}%");
-            $noticeList->whereRaw('find_in_set("' . $request->type . '", notices.type)');
-        }
-
-        // 공지사항 상태
-        if (isset($request->is_blind)) {
-            $noticeList->where('notices.is_blind', '=', $request->is_blind);
         }
 
         // 정렬
@@ -98,7 +86,7 @@ class NoticeController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|min:1|max:50',
             'content' => 'required|min:1|max:255',
-            'type' => 'required',
+            'notice_image_ids' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -112,8 +100,6 @@ class NoticeController extends Controller
             'admins_id' => Auth::guard('admin')->user()->id,
             'title' => $request->title,
             'content' => $request->content,
-            'type' => $request->type,
-            'is_blind' => $request->is_blind, // 등록 시에는 0
             'view_count' => 0, // 등록 시에는 0 조회 할 때 증가
         ]);
 
@@ -132,7 +118,7 @@ class NoticeController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|min:1|max:50',
             'content' => 'required|min:1|max:255',
-            'type' => 'required',
+            'notice_image_ids' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -146,8 +132,6 @@ class NoticeController extends Controller
                 'admins_id' => Auth::guard('admin')->user()->id,
                 'title' => $request->title,
                 'content' => $request->content,
-                'type' => $request->type,
-                'is_blind' => $request->is_blind,
             ]);
 
         $this->imageWithEdit($request->notice_image_ids, Notice::class, $request->id);

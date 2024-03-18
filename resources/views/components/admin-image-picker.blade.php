@@ -55,6 +55,7 @@
                 </div>
             @endforeach
         @endif
+        <x-input-error class="mt-2 text-danger" :messages="$errors->get($id . '_image_ids')" />
     </div>
 </div>
 

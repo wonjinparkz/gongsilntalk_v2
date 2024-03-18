@@ -23,7 +23,6 @@ class Notice extends BaseModel
         'admins_id',
         'title',
         'content',
-        'type',
         'is_blind',
         'view_count'
     ];

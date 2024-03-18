@@ -153,6 +153,7 @@ return [
 
         //이미지
         'magazine_image_ids' => '대표 이미지',
+        'notice_image_ids' => '이미지',
 
 
         // 지식산업센터 등록 페이지 입력칸 기준 순서

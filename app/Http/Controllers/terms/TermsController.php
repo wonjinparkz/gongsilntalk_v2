@@ -39,9 +39,7 @@ class TermsController extends Controller
 
         // 검색어
         if (isset($request->title)) {
-            $termsList
-                ->where('terms.title', 'like', "%{$request->title}%")
-                ->orWhere('terms.content', 'like', "%{$request->title}%");
+            $termsList->where('terms.title', 'like', "%{$request->title}%");
         }
 
         // 종류

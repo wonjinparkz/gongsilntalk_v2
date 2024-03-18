@@ -64,8 +64,7 @@
 
                     {{-- 이미지  --}}
                     <x-admin-image-picker :title="'대표 이미지'" required="required" cnt="1" id="magazine" />
-                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('magazine_image_ids')" />
-
+s
 
                     @if ($type != 0)
                         {{-- 내용 --}}

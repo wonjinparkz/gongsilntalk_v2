@@ -21,49 +21,17 @@
                         </div>
                     </div>
 
+                    {{-- 이미지 --}}
+                    <x-admin-image-picker :title="'공지사항 이미지'" :id="'notice'" cnt="1" required="required" :images="$result->images" />
+
                     {{-- 내용 --}}
                     <div class="row mb-6">
                         <label class="required col-lg-4 col-form-label fw-semibold fs-6">공지사항 내용</label>
                         <div class="col-lg-8 fv-row">
-                            <textarea name="content" class="form-control form-control-solid mb-5" rows="5" placeholder="내용">{{ old('content') ? old('content') : $result->content }}</textarea>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('content')" />
+                            <x-admin-editor :name="'content'" :content="$result->content" />
                         </div>
                     </div>
 
-                    {{-- 이미지 --}}
-                    <x-admin-image-picker :title="'공지사항 이미지'" :id="'notice'" :images="$result->images" />
-
-                     {{-- 게시 타입 --}}
-                     <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label  fw-semibold fs-6">게시 타겟</label>
-                        <div class="col-lg-2 d-flex align-items-center">
-                            @php
-                                $type = old('type') ?? $result->type;
-                            @endphp
-                            <select name="type" class="form-select form-select-solid" data-control="select2"
-                                data-hide-search="true">
-                                <option value="0" @if ($type == 0) selected @endif>사용자</option>
-                                <option value="1" @if ($type == 1) selected @endif>파트너</option>
-                            </select>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('state')" />
-                        </div>
-                    </div>
-
-                    {{-- 게시 여부 --}}
-                    <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">게시 상태</label>
-                        <div class="col-lg-2 d-flex align-items-center">
-                            @php
-                                $isBlind = old('is_blind') ?? $result->is_blind;
-                            @endphp
-                            <select name="is_blind" class="form-select form-select-solid" data-control="select2"
-                                data-hide-search="true">
-                                <option value="0" @if ($isBlind == 0) selected @endif>공개</option>
-                                <option value="1" @if ($isBlind == 1) selected @endif>비공개</option>
-                            </select>
-                        </div>
-                        <x-input-error class="mt-2 text-danger" :messages="$errors->get('is_blind')" />
-                    </div>
 
 
                 </div>
