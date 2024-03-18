@@ -50,6 +50,13 @@ class Reply extends BaseModel
         'created_at' => 'datetime',
     ];
 
+    /** 작성자 */
+    public function users()
+    {
+        return $this->hasOne(User::class, 'id', 'author');
+    }
+
+
     /**
      * 대댓글을 위한 쿼리
      */

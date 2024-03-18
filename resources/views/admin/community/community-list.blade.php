@@ -54,7 +54,7 @@
                         </div>
 
 
-                        {{-- 제목 --}}
+                        {{-- 카테고리 --}}
                         <div class="col-lg-6 row mb-6">
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">카테고리</label>
                             <div class="col-lg-8 fv-row">
@@ -95,14 +95,11 @@
                                 <tr class="text-start text-gray-400 fw-bold fl-7 text-uppercase gs-0">
                                     <th class="text-center w-20px">No.</th>
                                     <th class="text-center w-250px">제목</th>
-                                    <th class="text-center">작성자</th>
+                                    <th class="text-center">작성자 닉네임</th>
+                                    <th class="text-center">추천수</th>
                                     <th class="text-center">조회수</th>
-                                    <th class="text-center">좋아요수</th>
-                                    <th class="text-center">차단수</th>
-                                    <th class="text-center">신고수</th>
-                                    <th class="text-center">상태</th>
-                                    <th class="text-center">삭제여부</th>
-                                    <th class="text-center">작성일</th>
+                                    <th class="text-center">공개 여부</th>
+                                    <th class="text-center">등록일</th>
                                     <th class="text-center">동작</th>
                                 </tr>
                             </thead>
@@ -127,25 +124,15 @@
                                             <span class="fw-bold fs-5">{{ $community->author_nickname }}</span>
                                         </td>
 
-                                        {{-- 커뮤니티 조회수 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">{{ $community->view_count }}</span>
-                                        </td>
                                         {{-- 커뮤니티 좋아요수 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">{{ $community->like_count }}</span>
                                         </td>
 
-                                        {{-- 커뮤니티 차단수 --}}
+                                        {{-- 커뮤니티 조회수 --}}
                                         <td class="text-center">
-                                            <span class="fw-bold fs-5">{{ $community->block_count }}</span>
+                                            <span class="fw-bold fs-5">{{ $community->view_count }}</span>
                                         </td>
-
-                                        {{-- 커뮤니티 신고수 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">{{ $community->report_count }}</span>
-                                        </td>
-
 
                                         {{-- 상태 --}}
                                         <td class="text-center">
@@ -161,23 +148,14 @@
                                             @endif
                                         </td>
 
-                                        {{-- 삭제 여부 --}}
-                                        <td class="text-center">
-                                            {{-- 삭제 여부  --}}
-                                            @if ($community->delete == 1)
-                                                <div class="badge badge-light-danger">
-                                                    삭제
-                                                </div>
-                                            @endif
-                                        </td>
-
-                                        {{-- 작성일 --}}
+                                        {{-- 등록일 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 @inject('carbon', 'Carbon\Carbon')
-                                                {{ $carbon::parse($community->created_at)->format('Y년 m월 d일 H:i:s') }}
+                                                {{ $carbon::parse($community->created_at)->format('Y년 m월 d일') }}
                                             </span>
                                         </td>
+
                                         {{-- 동작 : 수정, 삭제 --}}
                                         <td class="text-center">
                                             {{-- 동작 버튼 --}}

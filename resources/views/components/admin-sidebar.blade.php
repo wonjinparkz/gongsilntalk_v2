@@ -175,7 +175,7 @@
                     {{-- 공톡 유튜브 관리 메뉴 --}}
                     <div class="menu-item">
                         <a class="menu-link {{ str_contains(Route::currentRouteName(), 'magazine') && request()->query('type') == 0 ? 'active' : '' }}"
-                            href="{{ route('admin.magazine.list.view', ['type' => "0"]) }}">
+                            href="{{ route('admin.magazine.list.view', ['type' => '0']) }}">
                             <span class="menu-icon">
                                 <i class="fa-brands fa-youtube"></i>
                             </span>
@@ -245,7 +245,7 @@
 
                     {{-- 커뮤니티 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'community') ? 'active' : '' }}"
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'admin.community') ? 'active' : '' }}"
                             href="{{ route('admin.community.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-layer-group"></i>
@@ -262,20 +262,10 @@
                         <span class="menu-heading fw-bold text-uppercase fs-7">신고 관리</span>
                     </div>
 
-                    {{-- 커뮤니티 카테고리 메뉴 --}}
-                    {{-- <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'community.list.view') ? 'active' : '' }}"
-                            href="{{ route('admin.community.list.view') }}">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-comment-dots"></i>
-                            </span>
-                            <span class="menu-title">커뮤니티 목록 관리</span>
-                        </a>
-                    </div> --}}
-
                     {{-- 게시글 신고 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link" href="#">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'report.community') ? 'active' : '' }}"
+                            href="{{ route('admin.report.community.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-text-slash"></i>
                             </span>
@@ -285,7 +275,8 @@
 
                     {{-- 댓글 신고 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link" href="#">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'report.reply') ? 'active' : '' }}"
+                            href="{{ route('admin.report.reply.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-comment-slash"></i>
                             </span>

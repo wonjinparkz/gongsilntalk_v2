@@ -86,8 +86,8 @@ class MagazineController extends Controller
             $ReplyList->where('users.nickname', 'like', "%{$request->author_nickname}%");
         }
 
-        // 정렬
-        if ($request->has('member_type') && $request->member_type == 1) {
+        // 작성자 타입
+        if ($request->has('member_type') && $request->member_type > -1) {
             $ReplyList->where('users.type', '=', "$request->member_type");
         }
 

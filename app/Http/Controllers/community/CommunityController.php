@@ -37,7 +37,9 @@ class CommunityController extends Controller
         $communityList = Community::select(
             'community.*',
             'users.nickname AS author_nickname',
-        );
+        )
+        ->where('community.is_delete', '0');
+
 
         $communityList->join('users', 'community.author', '=', 'users.id');
 
@@ -80,9 +82,9 @@ class CommunityController extends Controller
     {
 
         $result = Community::select(
-                'community.*',
-                'users.nickname As author_nickname',
-                )
+            'community.*',
+            'users.nickname As author_nickname',
+        )
             ->join('users', 'community.author', '=', 'users.id')
             ->where('community.id', $request->id)
             ->first();
@@ -91,40 +93,37 @@ class CommunityController extends Controller
         // 커뮤니티 댓글 선택
         $ReplyList = Reply::with('rereplies')->select(
             'reply.*',
-            'users.nickname AS author_nickname',
+            'users.nickname AS author_name',
+            'users.type AS author_type',
         );
-
-        // 해당 댓글만
-        $ReplyList->where('reply.target_id', '=', $request->id);
-        $ReplyList->where('reply.target_type', '=', Community::class);
 
         // 작성자
         $ReplyList->join('users', 'reply.author', '=', 'users.id');
 
         // 해당 댓글만
         $ReplyList->where('reply.target_id', '=', $request->id);
+        $ReplyList->where('reply.target_type', '=', Community::class);
 
-        if (isset($request->content)) {
-            $ReplyList->where('reply.content', 'like', "%{$request->content}%");
+        // 작성자 닉네임
+        if (isset($request->author_nickname)) {
+            $ReplyList->where('users.nickname', 'like', "%{$request->author_nickname}%");
         }
 
-        // 작성일 from-date
-        if (isset($request->from_created_at)) {
-            $ReplyList->whereDate('reply.created_at', '>=', date($request->from_created_at));
+        // 정렬
+        if ($request->has('member_type') && $request->member_type == 1) {
+            $ReplyList->where('users.type', '=', "$request->member_type");
         }
 
-        // 작성일 to-date
-        if (isset($request->to_created_at)) {
-            $ReplyList->whereDate('reply.created_at', '<=', date($request->to_created_at));
-        }
 
         // 댓글일 경우만
         $ReplyList->whereNull('parent_id');
 
         // 정렬
-        $ReplyList->orderBy('reply.created_at', 'asc')->orderBy('id', 'asc');
-
-
+        if ($request->has('orderBy') && $request->orderBy == 1) {
+            $ReplyList->orderBy('reply.report_count', 'DESC')->orderBy('id', 'DESC');
+        } else {
+            $ReplyList->orderBy('reply.created_at', 'DESC')->orderBy('id', 'DESC');
+        }
 
         // 페이징 처리
         $replys = $ReplyList->paginate($request->per_page == null ? 10 : $request->per_page);

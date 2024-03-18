@@ -17,6 +17,7 @@ use App\Http\Controllers\data\DataController;
 use App\Http\Controllers\knowledgecenter\KnowledgeCneter_Controller;
 use App\Http\Controllers\magazine\MagazineController;
 use App\Http\Controllers\magazine\MagazineCategoryController;
+use App\Http\Controllers\report\ReportController;
 use App\Http\Controllers\terms\TermsController;
 use App\Http\Controllers\user\UserController;
 use Illuminate\Support\Facades\Route;
@@ -139,7 +140,10 @@ Route::middleware('admin.auth')->controller(CommunityController::class)->group(f
 /**
  * 신고 관리
  */
-
+Route::middleware('admin.auth')->controller(ReportController::class)->group(function () {
+    Route::get('/report/community/list', 'communityReportListView')->name('admin.report.community.list.view');
+    Route::get('/report/reply/list', 'replyReportListView')->name('admin.report.reply.list.view');
+});
 
 
 /**

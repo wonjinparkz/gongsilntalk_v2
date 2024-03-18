@@ -17,7 +17,6 @@
                 break;
         }
     @endphp
-    {{request()->query('type')}}
     {{-- 기본 - 모양 --}}
     <div class="d-flex flex-column flex-column-fluid">
         {{-- 화면 툴바 - 제목, 버튼 --}}

@@ -20,15 +20,13 @@ class CommunityReport extends BaseModel
     /**
      * 모델
      */
-    protected $fillable = ['user_id', 'community_id', 'report_type', 'report_reason'];
+    protected $fillable = ['users_id', 'target_id', 'target_type', 'type', 'reason'];
 
 
     /**
      * 직렬화에서 감출것
      */
-    protected $hidden = [
-
-    ];
+    protected $hidden = [];
 
     /**
      * 캐스팅
@@ -37,4 +35,12 @@ class CommunityReport extends BaseModel
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];
+
+    /**
+     * 커뮤니티
+     */
+    public function community()
+    {
+        return $this->hasOne(Community::class, 'id', 'target_id');
+    }
 }

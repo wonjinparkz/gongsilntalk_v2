@@ -37,4 +37,13 @@ class ReplyReport extends BaseModel
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];
+
+
+     /**
+     * 커뮤니티
+     */
+    public function reply()
+    {
+        return $this->hasOne(Reply::class, 'id', 'reply_id');
+    }
 }

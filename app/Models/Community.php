@@ -35,6 +35,12 @@ class Community extends BaseModel
         'created_at' => 'datetime',
     ];
 
+    /** 작성자 */
+    public function users()
+    {
+        return $this->hasOne(User::class, 'id', 'author');
+    }
+
     /**
      * 이미지 가져오기
      */
