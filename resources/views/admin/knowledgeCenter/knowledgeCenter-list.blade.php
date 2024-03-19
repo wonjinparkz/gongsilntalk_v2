@@ -37,7 +37,7 @@
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">건물명</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="product_name" name="product_name"
-                                    class="form-control form-control-solid" placeholder="건물명을 입력해 주세요."
+                                    class="form-control form-control-solid" placeholder="건물명을 입력해주세요."
                                     value="{{ Request::get('product_name') }}" />
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">주소</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="address" name="address"
-                                    class="form-control form-control-solid" placeholder="주소 중 일부를 입력해 주세요."
+                                    class="form-control form-control-solid" placeholder="주소 중 일부를 입력해주세요."
                                     value="{{ Request::get('address') }}" />
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">한줄요약</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="comments" name="comments"
-                                    class="form-control form-control-solid" placeholder="한줄요약을 입력해 주세요."
+                                    class="form-control form-control-solid" placeholder="한줄요약을 입력해주세요."
                                     value="{{ Request::get('comments') }}" />
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                         <div class="col-lg-6 row mb-6">
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">등록일</label>
                             <div class="col-lg-8 fv-row">
-                                <x-admin-date-picker :title="'등록일을 선택해 주세요.'" :from_name="'from_created_at'" :to_name="'to_created_at'" />
+                                <x-admin-date-picker :title="'등록일을 선택해주세요.'" :from_name="'from_created_at'" :to_name="'to_created_at'" />
                             </div>
                         </div>
 

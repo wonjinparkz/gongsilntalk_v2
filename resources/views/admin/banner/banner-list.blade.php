@@ -28,54 +28,28 @@
                         action="{{ route('admin.banner.list.view') }}">
                         @csrf
 
-                        {{-- 제목 --}}
+                        {{-- 배너 명 --}}
                         <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">배너 제목</label>
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">배너 명</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" id="title" name="title"
-                                    class="form-control form-control-solid" placeholder="제목 + 내용"
-                                    value="{{ Request::get('title') }}" />
+                                <input type="text" id="name" name="name"
+                                    class="form-control form-control-solid" placeholder="검색어 입력"
+                                    value="{{ Request::get('name') }}" />
                             </div>
                         </div>
 
-                        {{-- 게시 타겟 --}}
+                        {{-- 등록일 --}}
                         <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">게시타겟</label>
-                            @php
-                                $type = Request::get('type') ?? -1;
-                            @endphp
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">등록일</label>
                             <div class="col-lg-8 fv-row">
-                                <select name="type" class="form-select form-select-solid" data-control="select2"
-                                    data-hide-search="true">
-                                    <option value="" @if ($type < 0) selected @endif>전체
-                                    </option>
-                                    <option value="0" @if ($type == 0) selected @endif>사용자
-                                    </option>
-                                    <option value="1" @if ($type == 1) selected @endif>파트너
-                                    </option>
-                                </select>
+                                <x-admin-date-picker :title="'등록일을 선택해주세요.'" :from_name="'from_created_at'" :to_name="'to_created_at'" />
                             </div>
                         </div>
 
-                        {{-- 게시 시작일 --}}
-                        <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">게시 시작일</label>
-                            <div class="col-lg-8 fv-row">
-                                <x-admin-date-picker :title="'게시 시작일 검색'" :from_name="'from_started_at'" :to_name="'to_started_at'" />
-                            </div>
-                        </div>
 
-                        {{-- 게시 종료일 --}}
+                        {{-- 공개여부 --}}
                         <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">게시 종료일</label>
-                            <div class="col-lg-8 fv-row">
-                                <x-admin-date-picker :title="'게시 종료일 검색'" :from_name="'from_ended_at'" :to_name="'to_ended_at'" />
-                            </div>
-                        </div>
-
-                        {{-- 상태 선택 --}}
-                        <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">팝업 상태</label>
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">공개여부</label>
                             @php
                                 $isBlind = Request::get('is_blind') ?? -1;
                             @endphp
@@ -98,6 +72,16 @@
 
                     </form>
 
+                    <form id="orderUpdate" action="{{ route('admin.banner.order.update') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="order_data" id="order_data" value="" />
+                    </form>
+                    <div class="d-flex justify-content-end mb-10">
+                        <button type="submit" onclick="orderUpdate()"
+                            class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
+                            순서 저장</button>
+                    </div>
+
                 </div>
                 {{-- 테이블 영역 --}}
                 <div class="card card-flush shadow-sm mt-10">
@@ -111,11 +95,9 @@
                             <thead>
                                 <tr class="text-start text-gray-400 fw-bold fl-7 text-uppercase gs-0">
                                     <th class="text-center w-20px">No.</th>
-                                    <th class="text-center min-w-250px">제목</th>
-                                    <th class="text-center">내용</th>
-                                    <th class="text-center">게시타겟</th>
-                                    <th class="text-center">상태</th>
-                                    <th class="text-center">게시기간</th>
+                                    <th class="text-center">노출순서</th>
+                                    <th class="text-center min-w-250px">배너명</th>
+                                    <th class="text-center">공개 여부</th>
                                     <th class="text-center">작성일</th>
                                     <th class="text-center">동작</th>
                                 </tr>
@@ -130,35 +112,18 @@
                                             <span class="fw-bold fs-5">{{ $banner->id }}</span>
                                         </td>
 
+                                        <td class="text-center">
+                                            <input class="fw-bold fs-5 w-100px max-w-300px text-center setorder"
+                                                type="text" name="setorder" id="setorder_{{ $banner->id }}"
+                                                value="{{ $banner->order }}">
+                                            <input class="setid" type="hidden" name="setid"
+                                                id="setid_{{ $banner->id }}" value="{{ $banner->id }}">
+                                        </td>
+
                                         {{-- 배너 제목 --}}
                                         <td class="text-center">
-                                            <div class="d-flex align-items-center">
-
-                                                <a href="{{ route('admin.banner.detail.view', [$banner->id]) }}"
-                                                    class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $banner->title }}</a>
-                                                @if ($banner->images != null && count($banner->images) > 0)
-                                                    <div class="ms-2 badge badge-light-success">
-                                                        이미지 {{ count($banner->images) }} 개
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </td>
-
-                                        {{-- 배너 내용 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">{{ $banner->content }}</span>
-                                        </td>
-
-                                         {{-- 게시 타겟 --}}
-                                         <td class="text-center">
-
-                                            <span class="fw-bold fs-5">
-                                                @if ($banner->type == 0)
-                                                    사용자
-                                                @else
-                                                    파트너
-                                                @endif
-                                            </span>
+                                            <a href="{{ route('admin.banner.detail.view', [$banner->id]) }}"
+                                                class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $banner->name }}</a>
                                         </td>
 
                                         {{-- 상태 --}}
@@ -175,20 +140,11 @@
                                             @endif
                                         </td>
 
-                                        {{-- 게시기간 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                @inject('carbon', 'Carbon\Carbon')
-                                                {{ $carbon::parse($banner->started_at)->format('Y년 m월 d일') }} ~
-                                                {{ $carbon::parse($banner->ended_at)->format('Y년 m월 d일') }}
-                                            </span>
-                                        </td>
-
                                         {{-- 작성일 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 @inject('carbon', 'Carbon\Carbon')
-                                                {{ $carbon::parse($banner->created_at)->format('Y년 m월 d일 H:i:s') }}
+                                                {{ $carbon::parse($banner->created_at)->format('Y.m.d') }}
                                             </span>
                                         </td>
                                         {{-- 동작 : 수정, 삭제 --}}
@@ -269,9 +225,40 @@
                     }
                 }).then(function(result) {
                     if (result.value) {
-                        $('#deleteNotice' + id).submit();
+                        $('#deletebanner' + id).submit();
                     }
                 });
+            }
+
+            function orderUpdate() {
+                var values = []; // 중복 값 저장할 배열
+                var data = {};
+
+                var confrim = false;
+
+                $('.setid').each(function(index) {
+                    var id = $(this).val();
+                    var value = $('#setorder_' + id).val();
+
+                    // 중복된 값인지 확인
+                    if (values.indexOf(value) !== -1) {
+                        confrim = false;
+                        return;
+                    } else {
+                        confrim = true;
+                        values.push(value);
+                        data[id] = value;
+                    }
+                });
+
+                console.log(data);
+
+                if(confrim){
+                    $('#order_data').val(JSON.stringify(data));
+                    $('#orderUpdate').submit();
+                }else {
+                    alert('중복된 순서가 있습니다.');
+                }
             }
         </script>
 </x-admin-layout>

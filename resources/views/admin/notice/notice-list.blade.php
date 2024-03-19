@@ -32,7 +32,7 @@
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">제목</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="title" name="title"
-                                    class="form-control form-control-solid" placeholder="제목을 입력해 주세요."
+                                    class="form-control form-control-solid" placeholder="제목을 입력해주세요."
                                     value="{{ Request::get('title') }}" />
                             </div>
                         </div>

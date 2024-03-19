@@ -189,13 +189,18 @@ Route::middleware('admin.auth')->controller(PopupController::class)->group(funct
  * 배너 관리
  */
 Route::middleware('admin.auth')->controller(BannerController::class)->group(function () {
+
     Route::get('/banner/list/view', 'bannerListView')->name('admin.banner.list.view');
     Route::get('/banner/detail/view/{id}', 'bannerDetailView')->name('admin.banner.detail.view');
     Route::get('/banner/create/view', 'bannerCreateView')->name('admin.banner.create.view');
+
+    Route::post('/banner/order/update', 'bannerOrderUpdate')->name('admin.banner.order.update');
+
     Route::post('/banner/create', 'bannerCreate')->name('admin.banner.create');
     Route::post('/banner/update', 'bannerUpdate')->name('admin.banner.update');
     Route::post('/banner/delete', 'bannerDelete')->name('admin.banner.delete');
     Route::post('/banner/update/state', 'bannerStateUpdate')->name('admin.banner.state.update');
+
 });
 
 /**

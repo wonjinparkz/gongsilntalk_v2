@@ -13,7 +13,7 @@
         <label class="col-lg-2 col-form-label fw-semibold fs-6">작성자 닉네임</label>
         <div class="col-lg-8 fv-row">
             <input type="text" id="author_nickname" name="author_nickname" class="form-control form-control-solid"
-                placeholder="작성자 닉네임을 입력해 주세요." value="{{ Request::get('author_nickname') }}" />
+                placeholder="작성자 닉네임을 입력해주세요." value="{{ Request::get('author_nickname') }}" />
         </div>
     </div>
 

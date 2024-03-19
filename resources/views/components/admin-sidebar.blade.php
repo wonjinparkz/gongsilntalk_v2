@@ -330,7 +330,7 @@
 
                     {{-- 메인 배너 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') ? 'active' : '' }}"
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') && request()->query('type') == 0 ? 'active' : '' }}"
                             href="{{ route('admin.banner.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-sign-hanging"></i>
@@ -341,7 +341,7 @@
 
                     {{-- 메인 서비스 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') ? 'active' : '' }}"
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') && request()->query('type') == 1 ? 'active' : '' }}"
                             href="{{ route('admin.banner.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-money-check"></i>
@@ -352,7 +352,7 @@
 
                     {{-- 부가 서비스 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') ? 'active' : '' }}"
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') && request()->query('type') == 2 ? 'active' : '' }}"
                             href="{{ route('admin.banner.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-light fa-sign-hanging"></i>
@@ -363,7 +363,7 @@
 
                     {{-- 시작페이지 팝업 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'popup') ? 'active' : '' }}"
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'popup') && request()->query('type') == 0 ? 'active' : '' }}"
                             href="{{ route('admin.popup.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-window-restore"></i>
@@ -374,7 +374,7 @@
 
                     {{-- 메인 텍스트 노출 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'popup') ? 'active' : '' }}"
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'popup') && request()->query('type') == 1 ? 'active' : '' }}"
                             href="{{ route('admin.popup.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-file-pen"></i>

@@ -27,7 +27,7 @@
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">신고한 회원 닉네임</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="author_nickname" name="author_nickname"
-                                    class="form-control form-control-solid" placeholder="닉네임을 입력해 주세요."
+                                    class="form-control form-control-solid" placeholder="닉네임을 입력해주세요."
                                     value="{{ Request::get('author_nickname') }}" />
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">신고대상 회원 닉네임</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="report_nickname" name="report_nickname"
-                                    class="form-control form-control-solid" placeholder="닉네임을 입력해 주세요."
+                                    class="form-control form-control-solid" placeholder="닉네임을 입력해주세요."
                                     value="{{ Request::get('report_nickname') }}" />
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                         <div class="col-lg-6 row mb-6">
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">신고일</label>
                             <div class="col-lg-8 fv-row">
-                                <x-admin-date-picker :title="'신고일을 선택해 주세요.'" :from_name="'from_created_at'" :to_name="'to_created_at'" />
+                                <x-admin-date-picker :title="'신고일을 선택해주세요.'" :from_name="'from_created_at'" :to_name="'to_created_at'" />
                             </div>
                         </div>
 

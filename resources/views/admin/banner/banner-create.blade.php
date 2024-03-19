@@ -4,70 +4,71 @@
             {{-- FORM START  --}}
             <form class="form" method="POST" action="{{ route('admin.banner.create') }}">
                 @csrf
+
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
+
+                    {{-- 이미지  --}}
+                    <x-admin-image-picker :title="'배너 이미지'" id="banner" cnt="1" required="required" />
+
+                    {{-- 배너명 --}}
+                    <div class="row mb-6">
+                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">배너명</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" name="name" class="form-control form-control-solid"
+                                placeholder="배너의 이름을 입력해주세요." value="{{ old('name') }}" />
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('name')" />
+
+                        </div>
+                    </div>
+
                     {{-- 제목 --}}
                     <div class="row mb-6">
                         <label class="required col-lg-4 col-form-label fw-semibold fs-6">배너 제목</label>
                         <div class="col-lg-8 fv-row">
-                            <input type="text" name="title" class="form-control form-control-solid" placeholder="제목"
-                                value="{{ old('title') }}" />
+                            <input type="text" name="title" class="form-control form-control-solid"
+                                placeholder="배너의 제목을 입력해주세요." value="{{ old('title') }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('title')" />
 
                         </div>
+                    </div>
+
+                    {{-- 노출여부 --}}
+                    <div class="row mb-6">
+                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">노출여부</label>
+                        <div class="col-lg-2 d-flex align-items-center">
+                            @php
+                                $isBlind = old('is_blind') ?? 0;
+                            @endphp
+                            <select name="is_blind" class="form-select form-select-solid" data-control="select2"
+                                data-hide-search="true">
+                                <option value="0" @if ($isBlind == 0) selected @endif>노출</option>
+                                <option value="1" @if ($isBlind == 1) selected @endif>미노출</option>
+                            </select>
+                        </div>
+                        <x-input-error class="mt-2 text-danger" :messages="$errors->get('is_blind')" />
                     </div>
 
                     {{-- 내용 --}}
                     <div class="row mb-6">
                         <label class="required col-lg-4 col-form-label fw-semibold fs-6">배너 내용</label>
                         <div class="col-lg-8 fv-row">
-                            <textarea name="content" class="form-control form-control-solid mb-5" rows="5" placeholder="내용">{{ old('content') }}</textarea>
+                            <input type="text" name="content" class="form-control form-control-solid"
+                                placeholder="80자 이내로 배너에 대한 내용을 입력해주세요." value="{{ old('content') }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('content')" />
                         </div>
                     </div>
 
-                    {{-- 작성일 --}}
+                    {{-- 연결 페이지 링크 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">게시기간</label>
+                        <label class="col-lg-4 col-form-label fw-semibold fs-6">연결 페이지 링크</label>
                         <div class="col-lg-8 fv-row">
-                            <x-admin-date-picker :title="'게시 시작일 검색'" :from_name="'started_at'" :to_name="'ended_at'" />
+                            <input type="text" name="url" class="form-control form-control-solid"
+                                placeholder="링크를 입력해주세요." value="{{ old('url') }}" />
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('url')" />
                         </div>
                     </div>
 
-                    {{-- 이미지  --}}
-                    <x-admin-image-picker :title="'배너 이미지'" id="banner" />
-
-                    {{-- 게시 타입 --}}
-                    <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label  fw-semibold fs-6">게시 타겟</label>
-                        <div class="col-lg-2 d-flex align-items-center">
-                            @php
-                                $type = old('type') ?? 0;
-                            @endphp
-                            <select name="type" class="form-select form-select-solid" data-control="select2"
-                                data-hide-search="true">
-                                <option value="0" @if ($type == 0) selected @endif>사용자</option>
-                                <option value="1" @if ($type == 1) selected @endif>파트너</option>
-                            </select>
-                        </div>
-                        <x-input-error class="mt-2 text-danger" :messages="$errors->get('type')" />
-                    </div>
-
-                    {{-- 게시 여부 --}}
-                    <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">게시 상태</label>
-                        <div class="col-lg-2 d-flex align-items-center">
-                            @php
-                                $isBlind = old('is_blind') ?? 0;
-                            @endphp
-                            <select name="is_blind" class="form-select form-select-solid"
-                                data-control="select2" data-hide-search="true">
-                                <option value="0" @if ($isBlind == 0) selected @endif>공개</option>
-                                <option value="1" @if ($isBlind == 1) selected @endif>비공개</option>
-                            </select>
-                        </div>
-                        <x-input-error class="mt-2 text-danger" :messages="$errors->get('is_blind')" />
-                    </div>
                     <!--내용 END-->
                     {{-- Footer Bottom START --}}
                     <div class="card-footer d-flex justify-content-end py-6 px-9">

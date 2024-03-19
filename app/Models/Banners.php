@@ -21,12 +21,12 @@ class Banners extends BaseModel
      */
     protected $fillable = [
         'admins_id',
+        'order',
+        'name',
         'title',
         'content',
-        'type',
+        'url',
         'is_blind',
-        'started_at',
-        'ended_at'
     ];
 
     /**
@@ -40,9 +40,6 @@ class Banners extends BaseModel
      * Cast
      */
     protected $casts = [
-        'started_at' => 'datetime',
-        'ended_at' => 'datetime',
-
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];

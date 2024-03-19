@@ -15,14 +15,12 @@ return new class extends Migration
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
             $table->integer('admins_id')->comment('관리자 id');
+            $table->integer('order')->unique()->nullable()->comment('노출 순서');
+            $table->string('name')->comment('배너 명');
             $table->string('title')->comment('배너 제목');
             $table->longText('content')->comment('배너 내용');
-            $table->integer('type')->comment('배너 타입');
-            $table->integer('is_blind')->comment('배너 상태 - 0 : 공개, 1 : 비공개 ');
-
-            $table->timestamp('started_at')->comment('배너 게시 시작일');
-            $table->timestamp('ended_at')->comment('배너 게시 종료일');
-
+            $table->string('url')->nullable()->comment('배너 연결 페이지 링크');
+            $table->integer('is_blind')->default(0)->comment('배너 상태 - 0 : 공개, 1 : 비공개 ');
             $table->timestamps();
         });
         DB::statement("ALTER TABLE banners COMMENT='배너 정보'");

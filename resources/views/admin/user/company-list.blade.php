@@ -31,7 +31,7 @@
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">담당자 이름</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="name" name="name"
-                                    class="form-control form-control-solid" placeholder="이름을 입력해 주세요."
+                                    class="form-control form-control-solid" placeholder="이름을 입력해주세요."
                                     value="{{ Request::get('name') }}" />
                             </div>
                         </div>
@@ -41,7 +41,7 @@
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">전화번호</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="phone" name="phone"
-                                    class="form-control form-control-solid" placeholder="전화번호를 입력해 주세요."
+                                    class="form-control form-control-solid" placeholder="전화번호를 입력해주세요."
                                     value="{{ Request::get('phone') }}" />
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                         <div class="col-lg-6 row mb-6">
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">회원 가입일</label>
                             <div class="col-lg-8 fv-row">
-                                <x-admin-date-picker :title="'가입일을 선택해 주세요.'" :from_name="'from_created_at'" :to_name="'to_created_at'" />
+                                <x-admin-date-picker :title="'가입일을 선택해주세요.'" :from_name="'from_created_at'" :to_name="'to_created_at'" />
                             </div>
                         </div>
 
@@ -59,7 +59,7 @@
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">중개사무소명</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="company_name" name="company_name"
-                                    class="form-control form-control-solid" placeholder="중개사무소명을 입력해 주세요."
+                                    class="form-control form-control-solid" placeholder="중개사무소명을 입력해주세요."
                                     value="{{ Request::get('company_name') }}" />
                             </div>
                         </div>

@@ -41,15 +41,8 @@ class BannerController extends Controller
         $bannerList = Banners::with('images')->select();
 
         // 검색어
-        if (isset($request->title)) {
-            $bannerList
-                ->where('banners.title', 'like', "%{$request->title}%")
-                ->orWhere('banners.content', 'like', "%{$request->title}%");
-        }
-
-        // 타겟 유형
-        if (isset($request->type)) {
-            $bannerList->where('banners.type', $request->type);
+        if (isset($request->name)) {
+            $bannerList->where('banners.name', 'like', "%{$request->name}%");
         }
 
         // 배너 상태
@@ -58,14 +51,11 @@ class BannerController extends Controller
         }
 
         // 게시 시작일 from ~ to
-        if (isset($request->from_started_at) && isset($request->to_started_at)) {
-            $bannerList->DurationDate('banners.started_at', $request->from_started_at, $request->to_started_at);
+        if (isset($request->from_created_at) && isset($request->to_created_at)) {
+            $bannerList->DurationDate('created_at', $request->from_created_at, $request->to_created_at);
         }
 
-        // 게시 종료일 from ~ to
-        if (isset($request->from_ended_at) && isset($request->to_ended_at)) {
-            $bannerList->DurationDate('banners.ended_at', $request->from_ended_at, $request->to_ended_at);
-        }
+
 
         // 정렬
         $bannerList->orderBy('banners.created_at', 'desc')->orderBy('id', 'desc');
@@ -99,10 +89,11 @@ class BannerController extends Controller
     {
         // 유효성 검사
         $validator = Validator::make($request->all(), [
+            'name' => 'required|min:1|max:50',
             'title' => 'required|min:1|max:50',
-            'content' => 'required|min:1|max:255',
-
-	    ]);
+            'content' => 'required|min:1|max:80',
+            'banner_image_ids' => 'required',
+        ]);
 
         if ($validator->fails()) {
             return back()
@@ -110,15 +101,18 @@ class BannerController extends Controller
                 ->withInput();
         }
 
+        $order = Banners::max('order');
+        $order = $order + 1;
+
         // DB 추가
         $result = Banners::create([
             'admins_id' => Auth::guard('admin')->user()->id,
+            'order' => $order,
+            'name' => $request->name,
             'title' => $request->title,
             'content' => $request->content,
-            'type' => $request->type,
-            'started_at' => date($request->started_at),
-            'ended_at' => date($request->ended_at),
             'is_blind' => $request->is_blind,
+            'url' => $request->url,
         ]);
 
         $this->imageWithCreate($request->banner_image_ids, Banners::class, $result->id);
@@ -133,8 +127,10 @@ class BannerController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
+            'name' => 'required|min:1|max:50',
             'title' => 'required|min:1|max:50',
-            'content' => 'required|min:1|max:255',
+            'content' => 'required|min:1|max:80',
+            'banner_image_ids' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -146,12 +142,11 @@ class BannerController extends Controller
         $result = Banners::where('id', $request->id)
             ->update([
                 'admins_id' => Auth::guard('admin')->user()->id,
+                'name' => $request->name,
                 'title' => $request->title,
                 'content' => $request->content,
-                'type' => $request->type,
                 'is_blind' => $request->is_blind,
-                'started_at' => date($request->started_at),
-                'ended_at' => date($request->ended_at),
+                'url' => $request->url,
             ]);
 
         $this->imageWithEdit($request->banner_image_ids, Banners::class, $request->id);
@@ -179,5 +174,44 @@ class BannerController extends Controller
         $result = Banners::where('id', $request->id)->first()
             ->delete();
         return back()->with('message', '배너를 삭제했습니다.');
+    }
+
+    /**
+     * 배너 순서 변경
+     */
+    public function bannerOrderUpdate(Request $request): RedirectResponse
+    {
+        $order_data = json_decode($request->order_data, true); // JSON 문자열을 PHP 배열로 변환
+
+        // #1 노출순서를 바꾸는 배너들 널값으로 변경 후에
+        foreach ($order_data as $key => $value) {
+            // 기존 데이터 초기화 하고 이미지 업데이트
+            Banners::where('id', '=', $key)->update([
+                'order' => null,
+            ]);
+        }
+
+        // #2 중복된 값이 있는지 체크 후에
+        foreach ($order_data as $key => $value) {
+            $bannersList =  Banners::where('order', $value)->get();
+        }
+
+        // #3 중복된 값이 있을 경우 롤백 작업
+        if ($bannersList->count() > 1) {
+            DB::rollBack();
+
+            return back()->with('error', '배너 순서가 중복됩니다.');
+        } else {
+
+            // #4 중복된 값이 없을 경우 순서 수정
+            foreach ($order_data as $key => $value) {
+                Banners::where('id', $key)
+                    ->update([
+                        'order' => $value > 0 ? $value : null,
+                    ]);
+            }
+        }
+
+        return back()->with('message', '배너 순서를 수정했습니다.');
     }
 }
