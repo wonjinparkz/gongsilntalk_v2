@@ -7,31 +7,35 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Popups extends BaseModel
+class Service extends BaseModel
 {
     use HasFactory, Notifiable;
 
     /**
      * Table Name
      */
-    protected $table = 'popups';
+    protected $table = 'service';
+
 
     /**
      * Fillable
      */
     protected $fillable = [
         'admins_id',
-        'title',
+        'order',
         'type',
+        'name',
+        'title',
+        'content',
+        'url',
         'is_blind',
     ];
-
 
     /**
      * Hidden
      */
     protected $hidden = [
-        'author',
+        'admins_id',
     ];
 
     /**
@@ -41,5 +45,4 @@ class Popups extends BaseModel
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];
-
 }

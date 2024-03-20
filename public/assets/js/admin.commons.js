@@ -144,3 +144,27 @@ function get_coordinate_conversion(rtentX, rtentY) {
     return wgs84Coords;
 }
 
+
+
+/**
+ * 확인만 있는 알림창
+ * @param {*} message
+ * @param {*} confrimText
+ */
+function alert(message, confrimText) {
+    var confrimText = confrimText ?? "확인"
+    Swal.fire({
+        title: message,
+        buttonsStyling: true,
+        showCancelButton: false,
+        confirmButtonText: confrimText,
+        confirmButtonColor: '#2D2E83',
+        padding: 20,
+        width: 400,
+        allowOutsideClick: false
+    }).then(function (result) {
+        if (result.value) {
+        }
+    });
+
+}

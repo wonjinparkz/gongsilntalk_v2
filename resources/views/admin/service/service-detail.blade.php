@@ -1,8 +1,8 @@
 <x-admin-layout>
     <div class="app-container container-xxl">
-        <x-screen-card :title="'메인 베너 상세'">
+        <x-screen-card :title="'메인 서비스 상세'">
             {{-- FORM START  --}}
-            <form class="form" method="POST" action="{{ route('admin.banner.update') }}">
+            <form class="form" method="POST" action="{{ route('admin.service.update') }}">
                 @csrf
                 <input type="hidden" name="id" value="{{ $result->id }}" />
                 <input type="hidden" name="lasturl" value="{{ URL::previous() }}">
@@ -11,15 +11,15 @@
                 <div class="card-body border-top p-9">
 
                     {{-- 이미지 --}}
-                    <x-admin-image-picker :title="'배너 이미지'" :id="'banner'" cnt="1" required="required"
+                    <x-admin-image-picker :title="'서비스 이미지'" :id="'service'" cnt="1" required="required"
                         :images="$result->images" />
 
-                    {{-- 배너명 --}}
+                    {{-- 서비스명 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">배너명</label>
+                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">서비스명</label>
                         <div class="col-lg-8 fv-row">
                             <input type="text" name="name" class="form-control form-control-solid"
-                                placeholder="배너의 이름을 입력해주세요." value="{{ old('name') ? old('name') : $result->name }}" />
+                                placeholder="서비스의 이름을 입력해주세요." value="{{ old('name') ? old('name') : $result->name }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('name')" />
 
                         </div>
@@ -27,7 +27,7 @@
 
                     {{-- 제목 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">배너 제목</label>
+                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">서비스 제목</label>
                         <div class="col-lg-8 fv-row">
                             <input type="text" name="title" class="form-control form-control-solid"
                                 placeholder="제목" value="{{ old('title') ? old('title') : $result->title }}" />

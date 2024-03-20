@@ -7,14 +7,15 @@
             <div class="app-container container-xxl d-flex flex-stack">
                 {{-- 페이지 제목 --}}
                 <div class="d-inline-block position-relative">
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">메인 배너 관리
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">메인 서비스
+                        관리
                     </h1>
                     <span
                         class="d-inline-block position-absolute mt-3 h-8px bottom-0 end-0 start-0 bg-success translate rounded" />
                 </div>
                 {{-- 페이지 버튼 --}}
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
-                    <a href="{{ route('admin.banner.create.view') }}" class="btn btn-lm fw-bold btn-primary">등록</a>
+                    <a href="{{ route('admin.service.create.view') }}" class="btn btn-lm fw-bold btn-primary">등록</a>
                 </div>
             </div>
         </div>
@@ -25,12 +26,12 @@
                 {{-- 검색 영역 --}}
                 <div class="card card-flush shadow-sm">
                     <form class="form card-body row border-top p-9 align-items-center" method="GET"
-                        action="{{ route('admin.banner.list.view') }}">
+                        action="{{ route('admin.service.list.view') }}">
                         @csrf
 
-                        {{-- 배너 명 --}}
+                        {{-- 서비스 명 --}}
                         <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">배너 명</label>
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">서비스 명</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="name" name="name"
                                     class="form-control form-control-solid" placeholder="검색어 입력"
@@ -72,7 +73,7 @@
 
                     </form>
 
-                    <form id="orderUpdate" action="{{ route('admin.banner.order.update') }}" method="POST">
+                    <form id="orderUpdate" action="{{ route('admin.service.order.update') }}" method="POST">
                         @csrf
                         <input type="hidden" name="order_data" id="order_data" value="" />
                     </form>
@@ -96,7 +97,7 @@
                                 <tr class="text-start text-gray-400 fw-bold fl-7 text-uppercase gs-0">
                                     <th class="text-center w-20px">No.</th>
                                     <th class="text-center">노출순서</th>
-                                    <th class="text-center min-w-250px">배너명</th>
+                                    <th class="text-center min-w-250px">서비스명</th>
                                     <th class="text-center">공개 여부</th>
                                     <th class="text-center">작성일</th>
                                     <th class="text-center">동작</th>
@@ -105,31 +106,31 @@
 
                             {{-- 테이블 내용 --}}
                             <tbody class="fw-semibold text-gray-600">
-                                @foreach ($result as $banner)
+                                @foreach ($result as $service)
                                     <tr>
-                                        {{-- 배너관리 번호 --}}
+                                        {{-- 서비스관리 번호 --}}
                                         <td class="text-center">
-                                            <span class="fw-bold fs-5">{{ $banner->id }}</span>
+                                            <span class="fw-bold fs-5">{{ $service->id }}</span>
                                         </td>
 
                                         <td class="text-center">
                                             <input class="fw-bold fs-5 w-100px max-w-300px text-center setorder"
-                                                type="text" name="setorder" id="setorder_{{ $banner->id }}"
-                                                value="{{ $banner->order }}">
+                                                type="text" name="setorder" id="setorder_{{ $service->id }}"
+                                                value="{{ $service->order }}">
                                             <input class="setid" type="hidden" name="setid"
-                                                id="setid_{{ $banner->id }}" value="{{ $banner->id }}">
+                                                id="setid_{{ $service->id }}" value="{{ $service->id }}">
                                         </td>
 
-                                        {{-- 배너 제목 --}}
+                                        {{-- 서비스 제목 --}}
                                         <td class="text-center">
-                                            <a href="{{ route('admin.banner.detail.view', [$banner->id]) }}"
-                                                class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $banner->name }}</a>
+                                            <a href="{{ route('admin.service.detail.view', [$service->id]) }}"
+                                                class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $service->name }}</a>
                                         </td>
 
                                         {{-- 상태 --}}
                                         <td class="text-center">
                                             {{-- 상태 뱃지 --}}
-                                            @if ($banner->is_blind == 0)
+                                            @if ($service->is_blind == 0)
                                                 <div class="badge badge-light-success">
                                                     공개
                                                 </div>
@@ -144,7 +145,7 @@
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 @inject('carbon', 'Carbon\Carbon')
-                                                {{ $carbon::parse($banner->created_at)->format('Y.m.d') }}
+                                                {{ $carbon::parse($service->created_at)->format('Y.m.d') }}
                                             </span>
                                         </td>
                                         {{-- 동작 : 수정, 삭제 --}}
@@ -157,18 +158,18 @@
                                                 data-kt-menu="true">
                                                 {{-- 수정 --}}
                                                 <div class="menu-item px-3">
-                                                    <form action="{{ route('admin.banner.state.update') }}"
+                                                    <form action="{{ route('admin.service.state.update') }}"
                                                         method="POST">
                                                         @csrf
                                                         <input type="hidden" name="id"
-                                                            value="{{ $banner->id }}" />
+                                                            value="{{ $service->id }}" />
                                                         <input type="hidden" name="is_blind"
-                                                            value="{{ $banner->is_blind }}" />
+                                                            value="{{ $service->is_blind }}" />
                                                         <a href="#" onclick="parentNode.submit();"
                                                             class="menu-link px-3">
-                                                            @if ($banner->is_blind == 0)
+                                                            @if ($service->is_blind == 0)
                                                                 비공개
-                                                            @elseif ($banner->is_blind == 1)
+                                                            @elseif ($service->is_blind == 1)
                                                                 공개
                                                             @endif
                                                         </a>
@@ -177,13 +178,13 @@
 
                                                 {{-- 삭제 --}}
                                                 <div class="menu-item px-3">
-                                                    <form id="deletebanner{{ $banner->id }}"
-                                                        action="{{ route('admin.banner.delete') }}" method="POST">
+                                                    <form id="deleteservice{{ $service->id }}"
+                                                        action="{{ route('admin.service.delete') }}" method="POST">
                                                         @csrf
                                                         <input type="hidden" name="id"
-                                                            value="{{ $banner->id }}" />
+                                                            value="{{ $service->id }}" />
                                                     </form>
-                                                    <a href="javascript:deleteAlert({{ $banner->id }});"
+                                                    <a href="javascript:deleteAlert({{ $service->id }});"
                                                         class="menu-link px-3">삭제</a>
                                                 </div>
                                             </div>
@@ -225,7 +226,7 @@
                     }
                 }).then(function(result) {
                     if (result.value) {
-                        $('#deletebanner' + id).submit();
+                        $('#deleteservice' + id).submit();
                     }
                 });
             }
@@ -246,6 +247,7 @@
                 if (Object.keys(data).length <= 0) {
                     return;
                 }
+
 
                 if (new Set(values).size !== values.length) {
                     alert('중복된 순서가 있습니다.', "확인");

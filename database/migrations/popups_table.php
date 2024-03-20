@@ -16,12 +16,9 @@ return new class extends Migration
             $table->id();
             $table->integer('admins_id')->comment('관리자 id');
             $table->string('title')->comment('팝업 제목');
-            $table->longText('content')->comment('팝업 내용');
-            $table->string('type')->comment('팝업 타입');
+            $table->string('type')->comment('팝업 타입 - 0: PC, 1: 모바일');
             $table->integer('is_blind')->comment('공개 - 0 : 공개, 1 : 비공개 ');
-
-            $table->timestamp('started_at')->comment('팝업 게시 시작일');
-            $table->timestamp('ended_at')->comment('팝업 게시 종료일');
+            $table->string('url')->comment('연결 페이지 링크');
 
             $table->timestamps();
         });

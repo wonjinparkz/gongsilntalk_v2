@@ -330,7 +330,7 @@
 
                     {{-- 메인 배너 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') && request()->query('type') == 0 ? 'active' : '' }}"
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') ? 'active' : '' }}"
                             href="{{ route('admin.banner.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-sign-hanging"></i>
@@ -341,8 +341,8 @@
 
                     {{-- 메인 서비스 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') && request()->query('type') == 1 ? 'active' : '' }}"
-                            href="{{ route('admin.banner.list.view') }}">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'admin.service') ? 'active' : '' }}"
+                            href="{{ route('admin.service.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-money-check"></i>
                             </span>
@@ -352,8 +352,8 @@
 
                     {{-- 부가 서비스 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') && request()->query('type') == 2 ? 'active' : '' }}"
-                            href="{{ route('admin.banner.list.view') }}">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'extra.service')  ? 'active' : '' }}"
+                            href="{{ route('admin.extra.service.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-light fa-sign-hanging"></i>
                             </span>

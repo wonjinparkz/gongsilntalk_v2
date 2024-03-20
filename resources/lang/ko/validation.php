@@ -123,6 +123,10 @@ return [
         'admins_id' => '관리자 정보',
         'title' => '제목',
         'content' => '내용',
+        'recommend_content' => '내용',
+        'property_content' => '내용',
+        'asset_content' => '내용',
+
         'type' => '유형',
         'is_blind' => '블라인드',
 
@@ -155,6 +159,10 @@ return [
         'magazine_image_ids' => '대표 이미지',
         'notice_image_ids' => '이미지',
         'banner_image_ids' => '이미지',
+        'service_image_ids' => '이미지',
+        'recommend_service_image_ids' => '이미지',
+        'property_service_image_ids' => '이미지',
+        'asset_service_image_ids' => '이미지',
 
 
         // 지식산업센터 등록 페이지 입력칸 기준 순서

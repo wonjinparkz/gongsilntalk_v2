@@ -18,6 +18,7 @@ use App\Http\Controllers\knowledgecenter\KnowledgeCneter_Controller;
 use App\Http\Controllers\magazine\MagazineController;
 use App\Http\Controllers\magazine\MagazineCategoryController;
 use App\Http\Controllers\report\ReportController;
+use App\Http\Controllers\service\ServiceController;
 use App\Http\Controllers\terms\TermsController;
 use App\Http\Controllers\user\UserController;
 use Illuminate\Support\Facades\Route;
@@ -172,18 +173,6 @@ Route::middleware('admin.auth')->controller(TermsController::class)->group(funct
 });
 
 
-/**
- * 팝업 관리
- */
-Route::middleware('admin.auth')->controller(PopupController::class)->group(function () {
-    Route::get('/popup/list/view', 'popupListView')->name('admin.popup.list.view');
-    Route::get('/popup/detail/view/{id}', 'popupDetailView')->name('admin.popup.detail.view');
-    Route::get('/popup/create/view', 'popupCreateView')->name('admin.popup.create.view');
-    Route::post('/popup/create', 'popupCreate')->name('admin.popup.create');
-    Route::post('/popup/update', 'popupUpdate')->name('admin.popup.update');
-    Route::post('/popup/delete', 'popupDelete')->name('admin.popup.delete');
-    Route::post('/popup/state/update', 'popupStateupdate')->name('admin.popup.state.update');
-});
 
 /**
  * 배너 관리
@@ -202,6 +191,50 @@ Route::middleware('admin.auth')->controller(BannerController::class)->group(func
     Route::post('/banner/update/state', 'bannerStateUpdate')->name('admin.banner.state.update');
 
 });
+
+/**
+ * 배너 관리
+ */
+Route::middleware('admin.auth')->controller(ServiceController::class)->group(function () {
+
+    // 메인서비스
+    Route::get('/service/list/view', 'serviceListView')->name('admin.service.list.view');
+    Route::get('/service/detail/view/{id}', 'serviceDetailView')->name('admin.service.detail.view');
+    Route::get('/service/create/view', 'serviceCreateView')->name('admin.service.create.view');
+    Route::post('/service/order/update', 'serviceOrderUpdate')->name('admin.service.order.update');
+
+    // 메인서비스 등록
+    Route::post('/service/create', 'serviceCreate')->name('admin.service.create');
+
+    // 부가서비스
+    Route::get('/extra/service/list/view', 'extraServiceListView')->name('admin.extra.service.list.view');
+
+    // 부가서비스 등록
+    Route::post('/recommend/service/create', 'recommendServiceCreate')->name('admin.recommend.service.create');
+    Route::post('/property/service/create', 'propertyServiceCreate')->name('admin.property.service.create');
+    Route::post('/asset/service/create', 'assetServiceCreate')->name('admin.asset.service.create');
+    Route::post('/arithmometer/service/create', 'arithmometerServiceCreate')->name('admin.arithmometer.service.create');
+
+    // 메인서비스 이벤트
+    Route::post('/service/extra/update', 'serviceUpdate')->name('admin.service.update');
+    Route::post('/service/delete', 'serviceDelete')->name('admin.service.delete');
+    Route::post('/service/update/state', 'serviceStateUpdate')->name('admin.service.state.update');
+
+});
+
+/**
+ * 팝업 관리
+ */
+Route::middleware('admin.auth')->controller(PopupController::class)->group(function () {
+    Route::get('/popup/list/view', 'popupListView')->name('admin.popup.list.view');
+    Route::get('/popup/detail/view/{id}', 'popupDetailView')->name('admin.popup.detail.view');
+    Route::get('/popup/create/view', 'popupCreateView')->name('admin.popup.create.view');
+    Route::post('/popup/create', 'popupCreate')->name('admin.popup.create');
+    Route::post('/popup/update', 'popupUpdate')->name('admin.popup.update');
+    Route::post('/popup/delete', 'popupDelete')->name('admin.popup.delete');
+    Route::post('/popup/state/update', 'popupStateupdate')->name('admin.popup.state.update');
+});
+
 
 /**
  * 관리자 관리
@@ -252,7 +285,7 @@ Route::controller(DataController::class)->group(function () {
 });
 
 /**
- * 팝업창
+ * 주소 팝업창
  */
 Route::controller(PopupOpenController::class)->group(function () {
     Route::get('/popupOpen/getAddress', 'getAddress')->name('popupOpen.getAddress');

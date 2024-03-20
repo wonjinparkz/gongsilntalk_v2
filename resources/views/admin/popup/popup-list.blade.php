@@ -7,7 +7,7 @@
             <div class="app-container container-xxl d-flex flex-stack">
                 {{-- 페이지 제목 --}}
                 <div class="d-inline-block position-relative">
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">팝업 관리
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">시작 팝업 관리
                     </h1>
                     <span
                         class="d-inline-block position-absolute mt-3 h-8px bottom-0 end-0 start-0 bg-success translate rounded" />
@@ -38,6 +38,14 @@
                             </div>
                         </div>
 
+                        {{-- 등록일 --}}
+                        <div class="col-lg-6 row mb-6">
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">등록일</label>
+                            <div class="col-lg-8 fv-row">
+                                <x-admin-date-picker :title="'등록일을 선택해주세요.'" :from_name="'from_created_at'" :to_name="'to_created_at'" />
+                            </div>
+                        </div>
+
                         {{-- 게시 타겟 --}}
                         <div class="col-lg-6 row mb-6">
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">팝업 게시타겟</label>
@@ -54,22 +62,6 @@
                                     <option value="1" @if ($type == 1) selected @endif>파트너
                                     </option>
                                 </select>
-                            </div>
-                        </div>
-
-                        {{-- 게시 시작일 --}}
-                        <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">게시 시작일</label>
-                            <div class="col-lg-8 fv-row">
-                                <x-admin-date-picker :title="'게시 시작일 검색'" :from_name="'from_started_at'" :to_name="'to_started_at'"/>
-                            </div>
-                        </div>
-
-                        {{-- 게시 종료일 --}}
-                        <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">게시 종료일</label>
-                            <div class="col-lg-8 fv-row">
-                                <x-admin-date-picker :title="'게시 종료일 검색'" :from_name="'from_ended_at'" :to_name="'to_ended_at'"/>
                             </div>
                         </div>
 

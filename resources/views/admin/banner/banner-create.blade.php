@@ -1,6 +1,6 @@
 <x-admin-layout>
     <div class="app-container container-xxl">
-        <x-screen-card :title="'배너 등록'">
+        <x-screen-card :title="'메인 배너 등록'">
             {{-- FORM START  --}}
             <form class="form" method="POST" action="{{ route('admin.banner.create') }}">
                 @csrf

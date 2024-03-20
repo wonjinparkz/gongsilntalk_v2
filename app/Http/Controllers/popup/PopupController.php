@@ -38,9 +38,7 @@ class PopupController extends Controller
 
         // 검색어
         if (isset($request->title)) {
-            $popupList
-                ->where('popups.title', 'like', "%{$request->title}%")
-                ->orWhere('popups.content', 'like', "%{$request->title}%");
+            $popupList->where('popups.title', 'like', "%{$request->title}%");
         }
 
         // 팝업 상태
@@ -54,13 +52,8 @@ class PopupController extends Controller
         }
 
         // 게시 시작일 from ~ to
-        if (isset($request->from_started_at) && isset($request->to_started_at)) {
-            $popupList->DurationDate('popups.started_at', $request->from_started_at, $request->to_started_at);
-        }
-
-        // 게시 종료일 from ~ to
-        if (isset($request->from_ended_at) && isset($request->to_ended_at)) {
-            $popupList->DurationDate('popups.ended_at', $request->from_ended_at, $request->to_ended_at);
+        if (isset($request->from_created_at) && isset($request->to_created_at)) {
+            $popupList->DurationDate('created_at', $request->from_created_at, $request->to_created_at);
         }
 
         // 정렬
