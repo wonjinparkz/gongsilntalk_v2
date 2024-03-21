@@ -26,6 +26,11 @@
             data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
             <div class="menu menu-column menu-rounded menu-sub-indention px-3 pb-20" id="#kt_app_sidebar_menu"
                 data-kt-menu="true" data-kt-menu-expand="false">
+
+                @php
+                    $permissions = explode(',', Auth::guard('admin')->user()->permissions);
+                @endphp
+
                 {{-- 대시보드  메뉴 --}}
                 <div class="menu-item pt-5">
                     <div class="menu-item">
@@ -39,132 +44,151 @@
                     </div>
                 </div>
 
-                {{-- 일반회원 관리 --}}
-                <div class="menu-item pt-5 ">
-                    <div class="menu-content">
-                        <span class="menu-heading fw-bold text-uppercase fs-7">일반 회원 관리</span>
-                    </div>
+                @if (in_array('0', $permissions))
+                    {{-- 일반회원 관리 --}}
+                    <div class="menu-item pt-5 ">
+                        <div class="menu-content">
+                            <span class="menu-heading fw-bold text-uppercase fs-7">일반 회원 관리</span>
+                        </div>
 
-                    {{-- 일반회원관리 메뉴 --}}
-                    <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'user') ? 'active' : '' }}"
-                            href="{{ route('admin.user.list.view') }}">
-                            <span class="menu-icon">
-                                <i class="fa-regular fa-user"></i>
-                            </span>
-                            <span class="menu-title">일반 회원 관리</span>
-                        </a>
+                        {{-- 일반회원관리 메뉴 --}}
+                        <div class="menu-item">
+                            <a class="menu-link {{ str_contains(Route::currentRouteName(), 'user') ? 'active' : '' }}"
+                                href="{{ route('admin.user.list.view') }}">
+                                <span class="menu-icon">
+                                    <i class="fa-regular fa-user"></i>
+                                </span>
+                                <span class="menu-title">일반 회원 관리</span>
+                            </a>
+                        </div>
                     </div>
-                </div>
+                @endif
 
-                {{-- 중개사 회원 관리 --}}
-                <div class="menu-item pt-5 ">
-                    <div class="menu-content">*
-                        <span class="menu-heading fw-bold text-uppercase fs-7">중개사 회원 관리</span>
-                    </div>
+                @if (in_array('1', $permissions) || in_array('2', $permissions))
+                    {{-- 중개사 회원 관리 --}}
+                    <div class="menu-item pt-5 ">
+                        <div class="menu-content">*
+                            <span class="menu-heading fw-bold text-uppercase fs-7">중개사 회원 관리</span>
+                        </div>
 
-                    {{-- 중개사 관리 메뉴 --}}
-                    <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'corp') ? 'active' : '' }}"
-                            href="{{ route('admin.corp.list.view') }}">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-handshake"></i>
-                            </span>
-                            <span class="menu-title">중개사 회원 관리</span>
-                        </a>
-                    </div>
+                        @if (in_array('1', $permissions))
+                            {{-- 중개사 관리 메뉴 --}}
+                            <div class="menu-item">
+                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'corp') ? 'active' : '' }}"
+                                    href="{{ route('admin.corp.list.view') }}">
+                                    <span class="menu-icon">
+                                        <i class="fa-solid fa-handshake"></i>
+                                    </span>
+                                    <span class="menu-title">중개사 회원 관리</span>
+                                </a>
+                            </div>
+                        @endif
 
-                    {{-- 승인요청 중개사 관리 메뉴 --}}
-                    <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'company') ? 'active' : '' }}"
-                            href="{{ route('admin.company.list.view') }}">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-pen-nib"></i>
-                            </span>
-                            <span class="menu-title">승인 요청 중개사 관리</span>
-                        </a>
+                        @if (in_array('2', $permissions))
+                            {{-- 승인요청 중개사 관리 메뉴 --}}
+                            <div class="menu-item">
+                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'company') ? 'active' : '' }}"
+                                    href="{{ route('admin.company.list.view') }}">
+                                    <span class="menu-icon">
+                                        <i class="fa-solid fa-pen-nib"></i>
+                                    </span>
+                                    <span class="menu-title">승인 요청 중개사 관리</span>
+                                </a>
+                            </div>
+                        @endif
                     </div>
-                </div>
+                @endif
 
                 {{-- 매물 관리 --}}
-                <div class="menu-item pt-5 ">
-                    <div class="menu-content">*
-                        <span class="menu-heading fw-bold text-uppercase fs-7">매물 관리</span>
+                @if (in_array('3', $permissions) || in_array('4', $permissions) || in_array('5', $permissions))
+                    <div class="menu-item pt-5 ">
+                        <div class="menu-content">*
+                            <span class="menu-heading fw-bold text-uppercase fs-7">매물 관리</span>
+                        </div>
+                        @if (in_array('3', $permissions))
+                            {{-- 일반 회원 매물 관리 메뉴 --}}
+                            <div class="menu-item">
+                                <a class="menu-link" href="#">
+                                    <span class="menu-icon">
+                                        <i class="fa-solid fa-house"></i>
+                                    </span>
+                                    <span class="menu-title">일반 회원 매물 관리</span>
+                                </a>
+                            </div>
+                        @endif
+                        @if (in_array('4', $permissions))
+                            {{-- 중개사 매물 관리 메뉴 --}}
+                            <div class="menu-item">
+                                <a class="menu-link" href="#">
+                                    <span class="menu-icon">
+                                        <i class="fa-solid fa-building-user"></i>
+                                    </span>
+                                    <span class="menu-title">중개사 매물 관리</span>
+                                </a>
+                            </div>
+                        @endif
+                        @if (in_array('5', $permissions))
+                            {{-- 분양현장 매물 관리 메뉴 --}}
+                            <div class="menu-item">
+                                <a class="menu-link" href="#">
+                                    <span class="menu-icon">
+                                        <i class="fa-solid fa-building-flag"></i>
+                                    </span>
+                                    <span class="menu-title">분양현장 매물 관리</span>
+                                </a>
+                            </div>
+                        @endif
                     </div>
+                @endif
 
-                    {{-- 일반 회원 매물 관리 메뉴 --}}
-                    <div class="menu-item">
-                        <a class="menu-link" href="#">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-house"></i>
-                            </span>
-                            <span class="menu-title">일반 회원 매물 관리</span>
-                        </a>
-                    </div>
-                    {{-- 중개사 매물 관리 메뉴 --}}
-                    <div class="menu-item">
-                        <a class="menu-link" href="#">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-building-user"></i>
-                            </span>
-                            <span class="menu-title">중개사 매물 관리</span>
-                        </a>
-                    </div>
-                    {{-- 분양현장 매물 관리 메뉴 --}}
-                    <div class="menu-item">
-                        <a class="menu-link" href="#">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-building-flag"></i>
-                            </span>
-                            <span class="menu-title">분양현장 매물 관리</span>
-                        </a>
-                    </div>
-                </div>
+                @if (in_array('6', $permissions))
+                    {{-- 지식산업센터 관리 --}}
+                    <div class="menu-item pt-5 ">
+                        <div class="menu-content">*
+                            <span class="menu-heading fw-bold text-uppercase fs-7">지식산업센터 관리</span>
+                        </div>
 
-                {{-- 지식산업센터 관리 --}}
-                <div class="menu-item pt-5 ">
-                    <div class="menu-content">*
-                        <span class="menu-heading fw-bold text-uppercase fs-7">지식산업센터 관리</span>
+                        {{-- 일반 회원 매물 관리 메뉴 --}}
+                        <div class="menu-item">
+                            <a class="menu-link {{ str_contains(Route::currentRouteName(), 'knowledgeCenter') ? 'active' : '' }}"
+                                href="{{ route('admin.knowledgeCenter.list.view') }}">
+                                <span class="menu-icon">
+                                    <i class="fa-solid fa-building-columns"></i>
+                                </span>
+                                <span class="menu-title">지식산업센터 관리</span>
+                            </a>
+                        </div>
                     </div>
+                @endif
 
-                    {{-- 일반 회원 매물 관리 메뉴 --}}
-                    <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'knowledgeCenter') ? 'active' : '' }}"
-                            href="{{ route('admin.knowledgeCenter.list.view') }}">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-building-columns"></i>
-                            </span>
-                            <span class="menu-title">지식산업센터 관리</span>
-                        </a>
-                    </div>
-                </div>
+                @if (in_array('7', $permissions) || in_array('8', $permissions))
+                    {{-- 제안서 관리 --}}
+                    <div class="menu-item pt-5 ">
+                        <div class="menu-content">*
+                            <span class="menu-heading fw-bold text-uppercase fs-7">제안서 관리</span>
+                        </div>
 
-                {{-- 제안서 관리 --}}
-                <div class="menu-item pt-5 ">
-                    <div class="menu-content">*
-                        <span class="menu-heading fw-bold text-uppercase fs-7">제안서 관리</span>
-                    </div>
+                        {{-- 매물 제안서 관리 메뉴 --}}
+                        <div class="menu-item">
+                            <a class="menu-link" href="#">
+                                <span class="menu-icon">
+                                    <i class="fa-solid fa-list-check"></i>
+                                </span>
+                                <span class="menu-title">매물 제안서 관리</span>
+                            </a>
+                        </div>
 
-                    {{-- 매물 제안서 관리 메뉴 --}}
-                    <div class="menu-item">
-                        <a class="menu-link" href="#">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-list-check"></i>
-                            </span>
-                            <span class="menu-title">매물 제안서 관리</span>
-                        </a>
+                        {{-- 기업 이전 제안서 관리 메뉴 --}}
+                        <div class="menu-item">
+                            <a class="menu-link" href="#">
+                                <span class="menu-icon">
+                                    <i class="fa-solid fa-chart-pie"></i>
+                                </span>
+                                <span class="menu-title">기업 이전 제안서 관리</span>
+                            </a>
+                        </div>
                     </div>
-
-                    {{-- 기업 이전 제안서 관리 메뉴 --}}
-                    <div class="menu-item">
-                        <a class="menu-link" href="#">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-chart-pie"></i>
-                            </span>
-                            <span class="menu-title">기업 이전 제안서 관리</span>
-                        </a>
-                    </div>
-                </div>
+                @endif
 
                 {{-- 관리자 컨텐츠 관리 --}}
                 <div class="menu-item pt-5 ">
@@ -352,7 +376,7 @@
 
                     {{-- 부가 서비스 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'extra.service')  ? 'active' : '' }}"
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'extra.service') ? 'active' : '' }}"
                             href="{{ route('admin.extra.service.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-light fa-sign-hanging"></i>
@@ -374,8 +398,8 @@
 
                     {{-- 메인 텍스트 노출 관리 메뉴 --}}
                     <div class="menu-item">
-                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'popup') && request()->query('type') == 1 ? 'active' : '' }}"
-                            href="{{ route('admin.popup.list.view') }}">
+                        <a class="menu-link {{ str_contains(Route::currentRouteName(), 'main.text') ? 'active' : '' }}"
+                            href="{{ route('admin.main.text.list.view') }}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-file-pen"></i>
                             </span>

@@ -16,7 +16,7 @@ use App\Http\Controllers\commons\PopupOpenController;
 use App\Http\Controllers\data\DataController;
 use App\Http\Controllers\knowledgecenter\KnowledgeCneter_Controller;
 use App\Http\Controllers\magazine\MagazineController;
-use App\Http\Controllers\magazine\MagazineCategoryController;
+use App\Http\Controllers\maintext\MainTextController;
 use App\Http\Controllers\report\ReportController;
 use App\Http\Controllers\service\ServiceController;
 use App\Http\Controllers\terms\TermsController;
@@ -122,10 +122,19 @@ Route::middleware('admin.auth')->controller(KnowledgeCneter_Controller::class)->
 /**
  * 관리자 컨텐츠 관리
  */
+Route::middleware('admin.auth')->controller(MagazineController::class)->group(function () {
+    Route::get('/magazine/list/view', 'magazineListView')->name('admin.magazine.list.view');
 
-/**
- *
- */
+    Route::get('/magazine/create/view', 'magazineCreateView')->name('admin.magazine.create.view');
+
+
+    Route::get('/magazine/detail/view/{id}', 'magazineDetailView')->name('admin.magazine.detail.view');
+    Route::post('/magazine/create', 'magazineCreate')->name('admin.magazine.create');
+    Route::post('/magazine/update', 'magazineUpdate')->name('admin.magazine.update');
+    Route::post('/magazine/state/update', 'magazineStateUpdate')->name('admin.magazine.state.update');
+    Route::post('/magazine/delete', 'magazineDelete')->name('admin.magazine.delete');
+});
+
 
 /**
  * 관리자 커뮤니티 목록 관리
@@ -193,7 +202,7 @@ Route::middleware('admin.auth')->controller(BannerController::class)->group(func
 });
 
 /**
- * 배너 관리
+ * 서비스 관리
  */
 Route::middleware('admin.auth')->controller(ServiceController::class)->group(function () {
 
@@ -233,8 +242,19 @@ Route::middleware('admin.auth')->controller(PopupController::class)->group(funct
     Route::post('/popup/update', 'popupUpdate')->name('admin.popup.update');
     Route::post('/popup/delete', 'popupDelete')->name('admin.popup.delete');
     Route::post('/popup/state/update', 'popupStateupdate')->name('admin.popup.state.update');
+    Route::post('/popup/order/update', 'popupOrderUpdate')->name('admin.popup.order.update');
 });
 
+/**
+ * 관리자 메인 텍스트 관리
+ */
+Route::middleware('admin.auth')->controller(MainTextController::class)->group(function () {
+    Route::get('/main/text/list/view', 'mainTextListView')->name('admin.main.text.list.view');
+    Route::post('/main/text/create', 'mainTextCreate')->name('admin.main.text.create');
+    Route::post('/main/text/delete', 'mainTextDelete')->name('admin.main.text.delete');
+    Route::post('/main/text/order/update', 'mainTextOrderUpdate')->name('admin.main.text.order.update');
+    Route::post('/main/text/title/update', 'mainTextTitleUpdate')->name('admin.main.text.title.update');
+});
 
 /**
  * 관리자 관리
@@ -254,22 +274,6 @@ Route::middleware('admin.auth')->controller(AdminController::class)->group(funct
 });
 
 
-
-/**
- * 관리자 매거진 카테고리
- */
-Route::middleware('admin.auth')->controller(MagazineController::class)->group(function () {
-    Route::get('/magazine/list/view', 'magazineListView')->name('admin.magazine.list.view');
-
-    Route::get('/magazine/create/view', 'magazineCreateView')->name('admin.magazine.create.view');
-
-
-    Route::get('/magazine/detail/view/{id}', 'magazineDetailView')->name('admin.magazine.detail.view');
-    Route::post('/magazine/create', 'magazineCreate')->name('admin.magazine.create');
-    Route::post('/magazine/update', 'magazineUpdate')->name('admin.magazine.update');
-    Route::post('/magazine/state/update', 'magazineStateUpdate')->name('admin.magazine.state.update');
-    Route::post('/magazine/delete', 'magazineDelete')->name('admin.magazine.delete');
-});
 
 
 /**

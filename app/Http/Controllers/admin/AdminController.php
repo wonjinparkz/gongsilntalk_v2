@@ -86,10 +86,11 @@ class AdminController extends Controller
     public function adminCreate(Request $request): RedirectResponse
     {
         $validator = Validator::make($request->all(), [
-            'admin_id' => "required|unique:admins|max:30|regex:/^[0-9A-Za-z.\s,'-]*$/",
+            'admin_id' => "required|unique:admins|max:30|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/",
             'password' => 'required|regex:/^(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8,15}$/',
             'name' => 'required|min:1',
             'phone' => 'required|min:11',
+            'permissions' => 'required|array'
         ]);
 
         if ($validator->fails()) {
@@ -103,10 +104,11 @@ class AdminController extends Controller
             'password' => Hash::make($request->password),
             'name' => $request->name,
             'phone' => $request->phone,
+            'permissions' => implode(',', $request->permissions),
             'state' => $request->state
         ]);
 
-        return Redirect::route('admin.list.view')->with('message', '관리자를 등록했습니다.');
+        return Redirect::route('admins.list.view')->with('message', '관리자를 등록했습니다.');
     }
 
     /**
@@ -118,10 +120,11 @@ class AdminController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:1',
             'phone' => 'required|min:11',
+            'permissions' => 'required|array'
         ]);
 
         if ($validator->fails()) {
-            return redirect(route('admin.detail.view', [$request->id]))
+            return redirect(route('admins.detail.view', [$request->id]))
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -129,7 +132,8 @@ class AdminController extends Controller
         $result = Admin::where('id', $request->id)->first()
             ->update([
                 'name' => $request->name,
-                'phone' => Crypt::encryptString($request->phone),
+                'phone' => $request->phone,
+                'permissions' => implode(',', $request->permissions),
                 'state' => $request->state
             ]);
 

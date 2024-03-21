@@ -19,7 +19,8 @@
                         <label class="required col-lg-4 col-form-label fw-semibold fs-6">서비스명</label>
                         <div class="col-lg-8 fv-row">
                             <input type="text" name="name" class="form-control form-control-solid"
-                                placeholder="서비스의 이름을 입력해주세요." value="{{ old('name') ? old('name') : $result->name }}" />
+                                placeholder="서비스의 이름을 입력해주세요."
+                                value="{{ old('name') ? old('name') : $result->name }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('name')" />
 
                         </div>
@@ -61,8 +62,8 @@
                         </div>
                     </div>
 
-                       {{-- 연결 페이지 링크 --}}
-                       <div class="row mb-6">
+                    {{-- 연결 페이지 링크 --}}
+                    <div class="row mb-6">
                         <label class="col-lg-4 col-form-label fw-semibold fs-6">연결 페이지 링크</label>
                         <div class="col-lg-8 fv-row">
                             <input type="text" name="url" class="form-control form-control-solid"

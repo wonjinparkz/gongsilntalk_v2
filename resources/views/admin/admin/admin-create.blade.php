@@ -11,7 +11,7 @@
                         <label class="required col-lg-4 col-form-label fw-semibold fs-6">아이디</label>
                         <div class="col-lg-8 fv-row">
                             <input type="text" name="admin_id" class="form-control form-control-solid"
-                                placeholder="아이디" value="{{ old('admin_id') }}" />
+                                placeholder="이메일 형식으로 입력해 주세요." value="{{ old('admin_id') }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('admin_id')" />
 
                         </div>
@@ -22,7 +22,7 @@
                         <label class="required col-lg-4 col-form-label fw-semibold fs-6">비밀번호</label>
                         <div class="col-lg-8 fv-row">
                             <input type="password" name="password" class="form-control form-control-solid"
-                                placeholder="비밀번호" value="{{ old('password') }}" />
+                                placeholder="영어,숫자,특수문자 조합 8자리 이상" value="{{ old('password') }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('password')" />
 
                         </div>
@@ -65,14 +65,39 @@
                             </select>
                         </div>
                         <x-input-error class="mt-2 text-danger" :messages="$errors->get('state')" />
+                    </div>
 
+
+                    {{-- 공지사항 등록 타입 --}}
+                    <div class="row mb-6">
+                        <label class="required col-lg-4 col-form-label  fw-semibold fs-6">관리자 권한</label>
+                        <div class="col-lg-8 fv-row">
+                            <select name="permissions[]"class="form-select form-select-solid" data-control="select2"
+                                data-close-on-select="false" data-placeholder="직종을 선택해주세요." data-allow-clear="true"
+                                multiple="multiple">
+
+                                @php
+                                    $permission = old('permissions') ?? [];
+                                @endphp
+
+                                @for ($i = 0; $i < count(Lang::get('commons.permissions')); $i++)
+                                    <option value="{{ $i }}"
+                                        @if (in_array($i, $permission)) selected @endif>
+                                        {{ Lang::get('commons.permissions.' . $i) }}</option>
+                                @endfor
+                            </select>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('permissions')" />
+                        </div>
                     </div>
-                    <!--내용 END-->
-                    {{-- Footer Bottom START --}}
-                    <div class="card-footer d-flex justify-content-end py-6 px-9">
-                        <button type="submit" class="btn btn-primary">등록</button>
-                    </div>
-                    {{-- Footer END --}}
+
+                </div>
+
+                <!--내용 END-->
+                {{-- Footer Bottom START --}}
+                <div class="card-footer d-flex justify-content-end py-6 px-9">
+                    <button type="submit" class="btn btn-primary">등록</button>
+                </div>
+                {{-- Footer END --}}
             </form>
             {{-- FORM END --}}
 

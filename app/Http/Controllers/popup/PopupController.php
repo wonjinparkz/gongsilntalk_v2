@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 
@@ -37,8 +38,8 @@ class PopupController extends Controller
         $popupList = Popups::with('images')->select();
 
         // 검색어
-        if (isset($request->title)) {
-            $popupList->where('popups.title', 'like', "%{$request->title}%");
+        if (isset($request->name)) {
+            $popupList->where('popups.name', 'like', "%{$request->name}%");
         }
 
         // 팝업 상태
@@ -90,8 +91,8 @@ class PopupController extends Controller
 
         // 유효성 검사
         $validator = Validator::make($request->all(), [
-            'title' => 'required|min:1|max:50',
-            'content' => 'required|min:1|max:255',
+            'name' => 'required|min:1|max:50',
+            'popup_image_ids' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -100,14 +101,17 @@ class PopupController extends Controller
                 ->withInput();
         }
 
+
+        $order = Popups::max('order');
+        $order = $order + 1;
+
         // DB 추가
         $result = Popups::create([
             'admins_id' => Auth::guard('admin')->user()->id,
-            'title' => $request->title,
-            'content' => $request->content,
+            'order' => $order,
+            'name' => $request->name,
             'type' => $request->type,
-            'started_at' => date($request->started_at),
-            'ended_at' => date($request->ended_at),
+            'url' => $request->url,
             'is_blind' => $request->is_blind,
         ]);
 
@@ -125,8 +129,8 @@ class PopupController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'title' => 'required|min:1|max:50',
-            'content' => 'required|min:1|max:255',
+            'name' => 'required|min:1|max:50',
+            'popup_image_ids' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -138,11 +142,9 @@ class PopupController extends Controller
         $result = Popups::where('id', $request->id)
             ->update([
                 'admins_id' => Auth::guard('admin')->user()->id,
-                'title' => $request->title,
-                'content' => $request->content,
+                'name' => $request->name,
                 'type' => $request->type,
-                'started_at' => date($request->started_at),
-                'ended_at' => date($request->ended_at),
+                'url' => $request->url,
                 'is_blind' => $request->is_blind,
             ]);
 
@@ -170,5 +172,44 @@ class PopupController extends Controller
         $result = Popups::where('id', $request->id)->first()
             ->delete();
         return back()->with('message', '팝업을 삭제했습니다.');
+    }
+
+    /**
+     * 팝업 순서 변경
+     */
+    public function popupOrderUpdate(Request $request): RedirectResponse
+    {
+        $order_data = json_decode($request->order_data, true); // JSON 문자열을 PHP 배열로 변환
+
+        // #1 노출순서를 바꾸는 팝업들 널값으로 변경 후에
+        foreach ($order_data as $key => $value) {
+            // 기존 데이터 초기화 하고 이미지 업데이트
+            Popups::where('id', '=', $key)->update([
+                'order' => null,
+            ]);
+        }
+
+        // #2 중복된 값이 있는지 체크 후에
+        foreach ($order_data as $key => $value) {
+            $popupList =  Popups::where('order', $value)->get();
+        }
+
+        // #3 중복된 값이 있을 경우 롤백 작업
+        if ($popupList->count() > 1) {
+            DB::rollBack();
+
+            return back()->with('error', '팝업 순서가 중복됩니다.');
+        } else {
+
+            // #4 중복된 값이 없을 경우 순서 수정
+            foreach ($order_data as $key => $value) {
+                Popups::where('id', $key)
+                    ->update([
+                        'order' => $value > 0 ? $value : null,
+                    ]);
+            }
+        }
+
+        return back()->with('message', '팝업 순서를 수정했습니다.');
     }
 }

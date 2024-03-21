@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name')->comment('관리자 이름');
             $table->string('phone')->comment('관리자 전화번호');
             $table->integer('state')->comment('관리자 상태 : 0 - 이용중, 1 - 사용 중지');
+            $table->string('permissions')->comment('관리자 권한');
             $table->timestamps();
         });
         DB::statement("ALTER TABLE admins COMMENT='관리자 정보'");

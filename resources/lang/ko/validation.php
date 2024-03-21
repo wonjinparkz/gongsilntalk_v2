@@ -119,9 +119,10 @@ return [
     */
     'attributes' => [
         'id' => '해당',
-
+        'permissions' => '권한',
         'admins_id' => '관리자 정보',
         'title' => '제목',
+        'text' => '텍스트',
         'content' => '내용',
         'recommend_content' => '내용',
         'property_content' => '내용',
@@ -153,6 +154,7 @@ return [
         'target' => '타겟',
 
         'categoryTitle' => '카테고리 이름',
+        'mainText' => '메인 텍스트',
         'magazine_category_id' => '카테고리',
 
         //이미지

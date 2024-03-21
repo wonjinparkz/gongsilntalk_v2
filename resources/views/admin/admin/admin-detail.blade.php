@@ -68,6 +68,32 @@
                         <input type="hidden" name="state" value="0" />
                     @endif
 
+                    {{-- 공지사항 등록 타입 --}}
+                    <div class="row mb-6">
+                        <label class="required col-lg-4 col-form-label  fw-semibold fs-6">관리자 권한</label>
+                        <div class="col-lg-8 fv-row">
+                            <select name="permissions[]"class="form-select form-select-solid" data-control="select2"
+                                data-close-on-select="false" data-placeholder="직종을 선택해주세요." data-allow-clear="true"
+                                multiple="multiple">
+
+                                @php
+                                    $permission = [];
+
+                                    foreach (explode(',', $result->permissions) as $index => $value) {
+                                        $permission[$index] = (int) $value;
+                                    }
+                                @endphp
+
+                                @for ($i = 0; $i < count(Lang::get('commons.permissions')); $i++)
+                                    <option value="{{ $i }}"
+                                        @if (in_array($i, $permission)) selected @endif>
+                                        {{ Lang::get('commons.permissions.' . $i) }}</option>
+                                @endfor
+                            </select>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('permissions')" />
+                        </div>
+                    </div>
+
                     <!--내용 END-->
                     {{-- Footer Bottom START --}}
                     <div class="card-footer d-flex justify-content-end py-6 px-9">

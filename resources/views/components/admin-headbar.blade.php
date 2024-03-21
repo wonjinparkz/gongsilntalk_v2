@@ -31,7 +31,7 @@
                         <div class="separator my-2"></div>
                         <div class="menu-item px-5 my-1">
                             <a href="{{ route('admins.me.view', [Auth::guard('admin')->user()->id]) }}"
-                                class="menu-link px-5">계정설정1</a>
+                                class="menu-link px-5">계정설정</a>
                         </div>
                         <div class="menu-item px-5">
                             <a href="{{ route('admin.login.logout') }}" class="menu-link px-5">로그아웃</a>

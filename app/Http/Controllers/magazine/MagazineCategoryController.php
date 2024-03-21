@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\magazine;
+namespace App\Http\Controllers\maintext;
 
 use App\Http\Controllers\Controller;
 use App\Models\MagazineCategory;

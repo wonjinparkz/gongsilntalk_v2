@@ -10,64 +10,30 @@
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
 
-                    {{-- 제목 --}}
-                    <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">팝업 제목</label>
-                        <div class="col-lg-8 fv-row">
-                            <input type="text" name="title" class="form-control form-control-solid"
-                                placeholder="제목" value="{{ old('title') ? old('title') : $result->title }}" />
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('title')" />
-
-                        </div>
-                    </div>
-
-                    {{-- 내용 --}}
-                    <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">팝업 내용</label>
-                        <div class="col-lg-8 fv-row">
-                            <textarea name="content" class="form-control form-control-solid mb-5" rows="5" placeholder="내용">{{ old('content') ? old('content') : $result->content }}</textarea>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('content')" />
-                        </div>
-                    </div>
-
-                    {{-- 게시기간 --}}
-                    <div class="row mb-6">
-                        <label class="col-lg-4 col-form-label fw-semibold fs-6">게시기간</label>
-                        <div class="col-lg-8 fv-row">
-                            <x-admin-date-picker :title="'게시기간'" :from_name="'started_at'" :to_name="'ended_at'" :from_date="old('started_at') ?? $result->started_at"
-                                :to_date="old('ended_at') ?? $result->ended_at" />
-                        </div>
-                    </div>
-
                     {{-- 이미지 --}}
-                    <x-admin-image-picker :title="'팝업 이미지'" :id="'popup'" :images="$result->images" />
+                    <x-admin-image-picker :title="'팝업 이미지'" :id="'popup'" required="required" cnt="1"
+                        :images="$result->images" />
 
-
-                    {{-- 게시 타입 --}}
+                    {{-- 팝업명 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label  fw-semibold fs-6">게시 타겟</label>
-                        <div class="col-lg-2 d-flex align-items-center">
-                            @php
-                                $type = old('type') ?? $result->type;
-                            @endphp
-                            <select name="type" class="form-select form-select-solid" data-control="select2"
-                                data-hide-search="true">
-                                <option value="0" @if ($type == 0) selected @endif>사용자</option>
-                                <option value="1" @if ($type == 1) selected @endif>파트너</option>
-                            </select>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('state')" />
+                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">팝업명</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" name="name" class="form-control form-control-solid"
+                                placeholder="팝업의 이름을 입력해주세요" value="{{ old('name') ? old('name') : $result->name }}" />
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('name')" />
+
                         </div>
                     </div>
 
-                    {{-- 게시 여부 --}}
+                    {{-- 노출여부 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">게시 상태</label>
+                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">노출여부</label>
                         <div class="col-lg-2 d-flex align-items-center">
                             @php
                                 $isBlind = old('is_blind') ?? $result->is_blind;
                             @endphp
-                            <select id="stateOption" name="is_blind" class="form-select form-select-solid"
-                                data-control="select2" data-hide-search="true">
+                            <select name="is_blind" class="form-select form-select-solid" data-control="select2"
+                                data-hide-search="true">
                                 <option value="0" @if ($isBlind == 0) selected @endif>공개</option>
                                 <option value="1" @if ($isBlind == 1) selected @endif>비공개</option>
                             </select>
@@ -75,6 +41,32 @@
                         <x-input-error class="mt-2 text-danger" :messages="$errors->get('is_blind')" />
                     </div>
 
+                    {{-- 연결 페이지 링크 --}}
+                    <div class="row mb-6">
+                        <label class="col-lg-4 col-form-label fw-semibold fs-6">연결 페이지 링크</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" name="url" class="form-control form-control-solid"
+                                placeholder="링크를 입력해주세요." value="{{ old('url') ? old('url') : $result->url }}" />
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('url')" />
+                        </div>
+                    </div>
+
+
+                    {{-- 게시 타입 --}}
+                    <div class="row mb-6">
+                        <label class="required col-lg-4 col-form-label  fw-semibold fs-6">노출대상</label>
+                        <div class="col-lg-2 d-flex align-items-center">
+                            @php
+                                $type = old('type') ?? $result->type;
+                            @endphp
+                            <select name="type" class="form-select form-select-solid" data-control="select2"
+                                data-hide-search="true">
+                                <option value="0" @if ($type == 0) selected @endif>PC</option>
+                                <option value="1" @if ($type == 1) selected @endif>모바일</option>
+                            </select>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('state')" />
+                        </div>
+                    </div>
 
                 </div>
                 <!--내용 END-->
