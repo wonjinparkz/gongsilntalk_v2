@@ -19,7 +19,7 @@
                                         <img src="{{ Storage::url('image/' . $image->path) }}" />
                                     @endforeach
                                 @else
-                                    <img src="{{ asset('assets/media/avatars/blank.png') }}" />
+                                    <img src="{{ asset('assets/media/auth/ic_user.png') }}" />
                                 @endif
 
                             </div>

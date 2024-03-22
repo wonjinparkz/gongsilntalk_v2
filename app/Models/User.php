@@ -60,6 +60,14 @@ class User extends BaseModel
     ];
 
     /**
+     * 이미지 가져오기
+     */
+    public function images()
+    {
+        return $this->morphOne(Images::class, 'target');
+    }
+
+    /**
      * 사용자 팔로우
      */
     public function user_follow()

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->longText('json_data')->nullable()->comment('json 타입으로 받은 데이터');
             $table->timestamps();
         });
-        DB::statement("ALTER TABLE banners COMMENT='전유부 정보'");
+        DB::statement("ALTER TABLE brexposinfo COMMENT='전유부 정보'");
     }
 
     /**

@@ -17,6 +17,7 @@ use App\Http\Controllers\data\DataController;
 use App\Http\Controllers\knowledgecenter\KnowledgeCneter_Controller;
 use App\Http\Controllers\magazine\MagazineController;
 use App\Http\Controllers\maintext\MainTextController;
+use App\Http\Controllers\proposal\ProposalController;
 use App\Http\Controllers\report\ReportController;
 use App\Http\Controllers\service\ServiceController;
 use App\Http\Controllers\terms\TermsController;
@@ -118,6 +119,11 @@ Route::middleware('admin.auth')->controller(KnowledgeCneter_Controller::class)->
 /**
  * 제안서 관리
  */
+Route::middleware('admin.auth')->controller(ProposalController::class)->group(function () {
+    Route::get('/proposal/list/view', 'proposalListView')->name('admin.proposal.list.view');
+    Route::get('/proposal/detail/view/{id}', 'proposaldetailView')->name('admin.proposal.detail.view');
+    Route::get('/proposal/export', 'exportproposal')->name('admin.proposal.export');
+});
 
 /**
  * 관리자 컨텐츠 관리
@@ -198,7 +204,6 @@ Route::middleware('admin.auth')->controller(BannerController::class)->group(func
     Route::post('/banner/update', 'bannerUpdate')->name('admin.banner.update');
     Route::post('/banner/delete', 'bannerDelete')->name('admin.banner.delete');
     Route::post('/banner/update/state', 'bannerStateUpdate')->name('admin.banner.state.update');
-
 });
 
 /**
@@ -228,7 +233,6 @@ Route::middleware('admin.auth')->controller(ServiceController::class)->group(fun
     Route::post('/service/extra/update', 'serviceUpdate')->name('admin.service.update');
     Route::post('/service/delete', 'serviceDelete')->name('admin.service.delete');
     Route::post('/service/update/state', 'serviceStateUpdate')->name('admin.service.state.update');
-
 });
 
 /**

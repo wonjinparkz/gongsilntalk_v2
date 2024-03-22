@@ -58,7 +58,7 @@ return new class extends Migration
 
         });
 
-        DB::statement("ALTER TABLE faqs COMMENT='지식산업산테'");
+        DB::statement("ALTER TABLE knowledge_center COMMENT='지식산업산테'");
     }
 
     /**

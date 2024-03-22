@@ -23,7 +23,14 @@ class AdminAuthenticate
     {
         if (Auth::guard('admin')->user()) {
             if (Auth::guard('admin')->user()->state == 0) {
-                return $next($request);
+                $permissions = explode(',', Auth::guard('admin')->user()->permissions);
+                $routeType = "100";
+
+                if (in_array($routeType, $permissions) || $routeType == "100") {
+                    return $next($request);
+                } else {
+                    return redirect(route('dashboard.view'))->with('error', "접근 권한이 없습니다.관리자에 문의해주세요.");;
+                }
             } else {
                 Auth::logout();
                 $request->session()->invalidate();

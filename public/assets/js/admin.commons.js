@@ -166,5 +166,7 @@ function alert(message, confrimText) {
         if (result.value) {
         }
     });
-
 }
+
+
+

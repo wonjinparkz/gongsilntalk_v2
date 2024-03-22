@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Facade;
+use App\Helper\Commons;
 
 return [
 
@@ -218,6 +219,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Carbon' => Illuminate\Support\Carbon::class,
+        'Commons' => Commons::class
     ])->toArray(),
 
 ];

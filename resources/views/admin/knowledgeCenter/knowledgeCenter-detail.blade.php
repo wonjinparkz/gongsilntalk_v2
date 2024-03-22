@@ -1,6 +1,6 @@
 <x-admin-layout>
     <div class="app-container container-xxl">
-        <x-screen-card :title="'지식산업센터 등록'">
+        <x-screen-card :title="'지식산업센터 상세'">
         </x-screen-card>
         {{-- FORM START  --}}
 
