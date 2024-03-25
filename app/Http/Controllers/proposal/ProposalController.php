@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers\proposal;
 
+use App\Exports\CorpProposalExport;
+use App\Exports\ProposalExport;
 use App\Http\Controllers\Controller;
 use App\Models\Proposal;
 use App\Models\Reply;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
 | 관리자 - 매물 제안서
 |--------------------------------------------------------------------------
 |
-| - 매물 제안서 목록 보기 (X)
-| - 매물 제안서 상세 화면 보기 (X)
-| - 매물 제안서 등록 화면 조회 (X)
-| - 매물 제안서 수정 (X)
-| - 매물 제안서 상태 수정 (X)
-| - 매물 제안서 삭제 (X)
+| - 매물 제안서 목록 보기 (ㅁ)
+| - 매물 제안서 상세 화면 보기 (ㅁ)
 |
 */
 
@@ -27,11 +27,30 @@ class ProposalController extends Controller
 {
 
     /**
-     * 매물 제안서 상세 화면 보기
+     * 매물 제안서 목록 화면 보기
      */
     public function proposalListView(Request $request): View
     {
-        $proposalList = Proposal::with('users')->select();
+        $proposalList = Proposal::with('users')->select()
+            ->where('is_delete', '0');
+
+        $proposalList->whereHas('users', function ($query) use ($request) {
+            if (isset($request->name)) {
+                $query->where('users.name', 'like', "%{$request->name}%")
+                    ->orWhere('users.company_name', 'like', "%{$request->name}%");
+            }
+            if(isset($request->phone)) {
+                $query->where('users.phone', 'like', "%{$request->phone}%");
+            }
+            if(isset($request->member_type)) {
+                $query->where('users.type', "$request->member_type");
+            }
+        });
+
+        // 게시 시작일 from ~ to
+        if (isset($request->from_created_at) && isset($request->to_created_at)) {
+            $proposalList->DurationDate('proposal.created_at', $request->from_created_at, $request->to_created_at);
+        }
 
         // 정렬
         $proposalList->orderBy('proposal.created_at', 'desc')->orderBy('id', 'asc');
@@ -55,5 +74,71 @@ class ProposalController extends Controller
         $replys->appends(request()->except('page'));
 
         return view('admin.proposal.proposal-detail', compact('result', 'replys'));
+    }
+
+    /**
+     * 매물 제안서 정보 다운로드
+     */
+    public function exportProposal(Request $request)
+    {
+        return Excel::download(new ProposalExport($request), '매물 제안서_' . Carbon::now() . '.xlsx');
+    }
+
+    /**
+     * 기업 이전 제안서 목록 화면 보기
+     */
+    public function corpProposalListView(Request $request): View
+    {
+        $proposalList = Proposal::with('users')->select()
+            ->where('is_delete', '0');
+
+        $proposalList->whereHas('users', function ($query) use ($request) {
+            if (isset($request->name)) {
+                $query->where('users.name', 'like', "%{$request->name}%")
+                    ->orWhere('users.company_name', 'like', "%{$request->name}%");
+            }
+            if(isset($request->phone)) {
+                $query->where('users.phone', 'like', "%{$request->phone}%");
+            }
+            if(isset($request->member_type)) {
+                $query->where('users.type', "$request->member_type");
+            }
+        });
+
+        // 게시 시작일 from ~ to
+        if (isset($request->from_created_at) && isset($request->to_created_at)) {
+            $proposalList->DurationDate('proposal.created_at', $request->from_created_at, $request->to_created_at);
+        }
+
+        // 정렬
+        $proposalList->orderBy('proposal.created_at', 'desc')->orderBy('id', 'asc');
+
+        $result = $proposalList->paginate($request->per_page == null ? 10 : $request->per_page);
+
+        return view('admin.proposal.corp-proposal-list', compact('result'));
+    }
+
+    /**
+     * 기업 이전 제안서 상세 화면 보기
+     */
+    public function corpProposaldetailView($id): View
+    {
+        $result = Proposal::where('id', $id)->first();
+
+        // 커뮤니티 댓글 선택
+        $ReplyList = Reply::with('rereplies')->select();
+
+        $replys = $ReplyList->paginate(10);
+        $replys->appends(request()->except('page'));
+
+        return view('admin.proposal.corp-proposal-detail', compact('result', 'replys'));
+    }
+
+    /**
+     * 기업 이전 제안서 정보 다운로드
+     */
+    public function exportCorpProposal(Request $request)
+    {
+        return Excel::download(new CorpProposalExport($request), '기업 이전 제안서_' . Carbon::now() . '.xlsx');
     }
 }

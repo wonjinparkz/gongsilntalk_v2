@@ -7,7 +7,7 @@
             <div class="app-container container-xxl d-flex flex-stack">
                 {{-- 페이지 제목 --}}
                 <div class="d-inline-block position-relative">
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">매물 제안서
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">기업 이전 제안서
                         관리
                     </h1>
                     <span
@@ -24,7 +24,7 @@
                 {{-- 검색 영역 --}}
                 <div class="card card-flush shadow-sm">
                     <form class="form card-body row border-top p-9 align-items-center" method="GET"
-                        action="{{ route('admin.proposal.list.view') }}">
+                        action="{{ route('admin.corp.proposal.list.view') }}">
                         @csrf
 
                         {{-- 일반 회원 이름 또는 중개사무소 명 --}}
@@ -80,7 +80,7 @@
 
                         <div class="d-flex justify-content-end mt-10">
                             <a class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical"
-                                href="{{ route('admin.proposal.export', Request::all()) }}" target="_blank">
+                                href="{{ route('admin.corp.proposal.export', Request::all()) }}" target="_blank">
                                 엑셀 다운로드</a>
                         </div>
 
@@ -138,7 +138,7 @@
 
                                         {{-- 제안서 명 --}}
                                         <td class="text-center">
-                                            <a href="{{ route('admin.proposal.detail.view', [$proposal->id]) }}"
+                                            <a href="{{ route('admin.corp.proposal.detail.view', [$proposal->id]) }}"
                                                 class="text-gray-800 text-hover-primary fs-5 fw-bold">
                                                 {{ $proposal->name }}
                                             </a>

@@ -122,7 +122,11 @@ Route::middleware('admin.auth')->controller(KnowledgeCneter_Controller::class)->
 Route::middleware('admin.auth')->controller(ProposalController::class)->group(function () {
     Route::get('/proposal/list/view', 'proposalListView')->name('admin.proposal.list.view');
     Route::get('/proposal/detail/view/{id}', 'proposaldetailView')->name('admin.proposal.detail.view');
-    Route::get('/proposal/export', 'exportproposal')->name('admin.proposal.export');
+    Route::get('/proposal/export', 'exportProposal')->name('admin.proposal.export');
+
+    Route::get('/corp/proposal/list/view', 'corpProposalListView')->name('admin.corp.proposal.list.view');
+    Route::get('/corp/proposal/detail/view/{id}', 'corpProposaldetailView')->name('admin.corp.proposal.detail.view');
+    Route::get('/corp/proposal/export', 'exportCorpProposal')->name('admin.corp.proposal.export');
 });
 
 /**

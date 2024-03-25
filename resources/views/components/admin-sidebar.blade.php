@@ -74,7 +74,7 @@
                         @if (in_array('1', $permissions))
                             {{-- 중개사 관리 메뉴 --}}
                             <div class="menu-item">
-                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'corp') ? 'active' : '' }}"
+                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'admin.corp') && !str_contains(Route::currentRouteName(), 'admin.corp.proposal')  ? 'active' : '' }}"
                                     href="{{ route('admin.corp.list.view') }}">
                                     <span class="menu-icon">
                                         <i class="fa-solid fa-handshake"></i>
@@ -171,8 +171,8 @@
                         @if (in_array('7', $permissions))
                             {{-- 매물 제안서 관리 메뉴 --}}
                             <div class="menu-item">
-                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'proposal') ? 'active' : '' }}"
-                                href="{{ route('admin.proposal.list.view') }}">
+                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'admin.proposal') ? 'active' : '' }}"
+                                    href="{{ route('admin.proposal.list.view') }}">
                                     <span class="menu-icon">
                                         <i class="fa-solid fa-list-check"></i>
                                     </span>
@@ -183,7 +183,8 @@
                         @if (in_array('8', $permissions))
                             {{-- 기업 이전 제안서 관리 메뉴 --}}
                             <div class="menu-item">
-                                <a class="menu-link" href="#">
+                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'corp.proposal') ? 'active' : '' }}"
+                                    href="{{ route('admin.corp.proposal.list.view') }}">
                                     <span class="menu-icon">
                                         <i class="fa-solid fa-chart-pie"></i>
                                     </span>

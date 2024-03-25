@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('proposal_region', function (Blueprint $table) {
 
             $table->id()->comment('제안서 선호 지역 아이디');
-            $table->integer('magazine_id')->comment('매물 제안서 아이디');
+            $table->integer('proposal_id')->comment('매물 제안서 아이디');
             $table->string('region_code')->comment('지역 코드');
             $table->string('city_name')->comment('시 이름');
             $table->string('region_name')->comment('구 이름');

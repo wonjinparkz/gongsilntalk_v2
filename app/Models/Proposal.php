@@ -59,4 +59,20 @@ class Proposal extends BaseModel
     {
         return $this->hasOne(User::class, 'id', 'users_id');
     }
+
+    /**
+     * 제안서 선호 지역
+     */
+    public function regions()
+    {
+        return $this->hasMany(ProposalRegion::class, 'id', 'proposal_id');
+    }
+
+    /**
+     * 제안 받은 매물
+     */
+    public function products()
+    {
+        return $this->hasMany(ProposalProduct::class, 'id', 'proposal_id');
+    }
 }
