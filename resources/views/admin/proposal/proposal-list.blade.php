@@ -140,7 +140,7 @@
                                         <td class="text-center">
                                             <a href="{{ route('admin.proposal.detail.view', [$proposal->id]) }}"
                                                 class="text-gray-800 text-hover-primary fs-5 fw-bold">
-                                                {{ $proposal->name }}
+                                                {{ $proposal->title }}
                                             </a>
                                         </td>
 
@@ -177,7 +177,7 @@
                                         {{-- 받은 제안서 개수 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                123
+                                                {{ count($proposal->products) }}
                                             </span>
                                         </td>
 

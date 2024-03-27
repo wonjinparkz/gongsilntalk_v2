@@ -27,24 +27,23 @@ class CorpProposalExport implements FromView
 
         $corpProposalList->whereHas('users', function ($query) use ($request) {
             if (isset($request->name)) {
-                $query->where('users.name', 'like', "%{$request->name}%")
-                    ->orWhere('users.company_name', 'like', "%{$request->name}%");
+                $query->where('users.name', 'like', "%{$request->name}%");
             }
             if (isset($request->phone)) {
                 $query->where('users.phone', 'like', "%{$request->phone}%");
             }
-            if (isset($request->member_type)) {
-                $query->where('users.type', "$request->member_type");
+            if (isset($request->company_name)) {
+                $query->where('users.company_name', 'like', "%{$request->company_name}%");
             }
         });
 
-        // 게시 시작일 from ~ to
-        if (isset($request->from_created_at) && isset($request->to_created_at)) {
-            $corpProposalList->DurationDate('proposal.created_at', $request->from_created_at, $request->to_created_at);
-        }
+       // 게시 시작일 from ~ to
+       if (isset($request->from_created_at) && isset($request->to_created_at)) {
+        $corpProposalList->DurationDate('corp_proposal.created_at', $request->from_created_at, $request->to_created_at);
+    }
 
         // 정렬
-        $corpProposalList->orderBy('proposal.created_at', 'desc')->orderBy('proposal.id', 'asc');
+        $corpProposalList->orderBy('corp_proposal.created_at', 'desc')->orderBy('corp_proposal.id', 'asc');
 
         return view('exports.corpProposal', [
             'result' => $corpProposalList->get()

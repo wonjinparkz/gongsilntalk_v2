@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->id()->comment('매물 제안서 아이디');
             $table->bigInteger('users_id')->comment('유저 아이디');
-            $table->string('name')->comment('제안서 명');
+            $table->string('title')->comment('제안서 명');
             $table->integer('type')->comment('매물 타입 - 0: 지식산업센터, 1: 사무실, 2: 창고,  3: 상가, 6: 단독공장');
             $table->integer('area')->comment('희망 면적 (평)');
             $table->double('square', 10, 1)->comment('희망 면적 (제곱미터)');

@@ -35,6 +35,7 @@ return new class extends Migration
             $table->integer('parking_count')->nullable()->comment('주차 가능 대수');
             $table->longText('product_content')->nullable()->comment('건물 특장점');
             $table->longText('content')->nullable()->comment('요청사항');
+            $table->integer('is_delete')->default(0)->comment('삭제여부 - 0: 게시중, 1: 삭제함');
             $table->timestamps();
         });
         DB::statement("ALTER TABLE corp_product COMMENT='매물 제안서'");

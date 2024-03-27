@@ -7,7 +7,8 @@
             <div class="app-container container-xxl d-flex flex-stack">
                 {{-- 페이지 제목 --}}
                 <div class="d-inline-block position-relative">
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">기업 이전 제안서
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">기업 이전
+                        제안서
                         관리
                     </h1>
                     <span
@@ -27,9 +28,9 @@
                         action="{{ route('admin.corp.proposal.list.view') }}">
                         @csrf
 
-                        {{-- 일반 회원 이름 또는 중개사무소 명 --}}
-                        <div class="col-lg-12 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">일반 회원 이름 또는 중개사무소 명</label>
+                        {{-- 중개사 회원 담당자 명 --}}
+                        <div class="col-lg-6 row mb-6">
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">중개사 회원 담당자 명</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="name" name="name"
                                     class="form-control form-control-solid" placeholder="검색어를 입력해 주세요."
@@ -37,9 +38,9 @@
                             </div>
                         </div>
 
-                        {{-- 일반 회원 연락처 또는 중개사 회원 담당자 연락처 --}}
-                        <div class="col-lg-12 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">일반 회원 연락처 또는 중개사 회원 담당자 연락처</label>
+                        {{-- 중개사 회원 담당자 연락처 --}}
+                        <div class="col-lg-6 row mb-6">
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">중개사 회원 담당자 연락처</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="phone" name="phone"
                                     class="form-control form-control-solid" placeholder="검색어를 입력해 주세요."
@@ -47,24 +48,16 @@
                             </div>
                         </div>
 
-                        {{-- 회원 유형 --}}
+                        {{-- 중개사무소 명 --}}
                         <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">회원 유형</label>
-                            @php
-                                $isBlind = Request::get('member_type') ?? -1;
-                            @endphp
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">중개사무소 명</label>
                             <div class="col-lg-8 fv-row">
-                                <select name="member_type" class="form-select form-select-solid" data-control="select2"
-                                    data-hide-search="true">
-                                    <option value="" @if ($isBlind < 0) selected @endif>전체
-                                    </option>
-                                    <option value="0" @if ($isBlind == 0) selected @endif>일반 회원
-                                    </option>
-                                    <option value="1" @if ($isBlind == 1) selected @endif>중개사 회원
-                                    </option>
-                                </select>
+                                <input type="text" id="company_name" name="company_name"
+                                    class="form-control form-control-solid" placeholder="검색어를 입력해 주세요."
+                                    value="{{ Request::get('company_name') }}" />
                             </div>
                         </div>
+
 
                         {{-- 등록일 --}}
                         <div class="col-lg-6 row mb-6">
@@ -101,83 +94,65 @@
                             <thead>
                                 <tr class="text-start text-gray-400 fw-bold fl-7 text-uppercase gs-0">
                                     <th class="text-center w-20px">No.</th>
-                                    <th class="text-center">일반 회원 이름<br>또는 중개사무소 명</th>
-                                    <th class="text-center">일반 회원 연락처<br>또는 중개사무소 연락처</th>
+                                    <th class="text-center">중개사무소 명</th>
+                                    <th class="text-center">담당자 명</th>
+                                    <th class="text-center">담당자 연락처</th>
                                     <th class="text-center w-200px">제안서 명</th>
-                                    <th class="text-center">희망면적</th>
-                                    <th class="text-center">ID</th>
-                                    <th class="text-center">예산</th>
-                                    <th class="text-center">회원 유형</th>
-                                    <th class="text-center">받은 제안서 개수</th>
+                                    <th class="text-center">제안서 수</th>
+                                    <th class="text-center">기업명</th>
                                     <th class="text-center">등록일</th>
                                 </tr>
                             </thead>
 
                             {{-- 테이블 내용 --}}
                             <tbody class="fw-semibold text-gray-600">
-                                @foreach ($result as $proposal)
+                                @foreach ($result as $corpProposal)
                                     <tr>
                                         {{-- 매물 제안서 번호 --}}
                                         <td class="text-center">
-                                            <span class="fw-bold fs-5">{{ $proposal->id }}</span>
+                                            <span class="fw-bold fs-5">{{ $corpProposal->id }}</span>
                                         </td>
 
                                         {{-- 일반 회원 이름 또는 중개사무소 명 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                {{ $proposal->users->type == 0 ? $proposal->users->name : $proposal->users->company_name }}
+                                                {{$corpProposal->users->company_name }}
                                             </span>
                                         </td>
 
-                                        {{-- 일반 회원 연락처 또는 중개사무소 연락처 --}}
+                                        {{--  담당자 명 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                {{ $proposal->users->phone }}
+                                                {{ $corpProposal->users->name }}
+                                            </span>
+                                        </td>
+
+                                        {{--  담당자 연락처 --}}
+                                        <td class="text-center">
+                                            <span class="fw-bold fs-5">
+                                                {{ $corpProposal->users->phone }}
                                             </span>
                                         </td>
 
                                         {{-- 제안서 명 --}}
                                         <td class="text-center">
-                                            <a href="{{ route('admin.corp.proposal.detail.view', [$proposal->id]) }}"
+                                            <a href="{{ route('admin.corp.proposal.detail.view', [$corpProposal->id]) }}"
                                                 class="text-gray-800 text-hover-primary fs-5 fw-bold">
-                                                {{ $proposal->name }}
+                                                {{ $corpProposal->title }}
                                             </a>
                                         </td>
 
-
-
-                                        {{-- 희망면적 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                {{ $proposal->area }}
-                                            </span>
-                                        </td>
-
-                                        {{-- ID --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                {{ $proposal->users->email }}
-                                            </span>
-                                        </td>
-
-                                        {{-- 예산 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                {{ $proposal->payment_type == 0 ? '매매 ' . Commons::get_priceTrans($proposal->price) : '임대 ' . Commons::get_priceTrans($proposal->price) . '/' . Commons::get_priceTrans($proposal->month_price) }}
-                                            </span>
-                                        </td>
-
-                                        {{-- 회원 유형 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                {{ $proposal->users->type == 0 ? '일반 회원' : '중개사 회원' }}
-                                            </span>
-                                        </td>
-
-                                        {{-- 받은 제안서 개수 --}}
+                                        {{-- 제안서 개수 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 123
+                                            </span>
+                                        </td>
+
+                                        {{-- 기업명 --}}
+                                        <td class="text-center">
+                                            <span class="fw-bold fs-5">
+                                                {{ $corpProposal->corp_name }}
                                             </span>
                                         </td>
 
@@ -185,7 +160,7 @@
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 @inject('carbon', 'Carbon\Carbon')
-                                                {{ $carbon::parse($proposal->created_at)->format('Y.m.d') }}
+                                                {{ $carbon::parse($corpProposal->created_at)->format('Y.m.d') }}
                                             </span>
                                         </td>
 

@@ -21,6 +21,7 @@ class Proposal extends BaseModel
      */
     protected $fillable = [
         'users_id',
+        'title',
         'type',
         'area',
         'square',
@@ -53,7 +54,7 @@ class Proposal extends BaseModel
     ];
 
     /**
-     * 관리자 정보
+     * 사용자 정보
      */
     public function users()
     {
@@ -65,7 +66,7 @@ class Proposal extends BaseModel
      */
     public function regions()
     {
-        return $this->hasMany(ProposalRegion::class, 'id', 'proposal_id');
+        return $this->hasMany(ProposalRegion::class, 'proposal_id', 'id');
     }
 
     /**
@@ -73,6 +74,6 @@ class Proposal extends BaseModel
      */
     public function products()
     {
-        return $this->hasMany(ProposalProduct::class, 'id', 'proposal_id');
+        return $this->hasMany(ProposalProduct::class, 'proposal_id', 'id');
     }
 }

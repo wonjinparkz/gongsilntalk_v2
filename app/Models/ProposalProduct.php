@@ -37,4 +37,12 @@ class ProposalProduct extends BaseModel
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];
+
+    /**
+     * 이미지 가져오기
+     */
+    public function images()
+    {
+        return $this->morphOne(Images::class, 'target');
+    }
 }

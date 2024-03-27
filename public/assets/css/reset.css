@@ -1,0 +1,251 @@
+@charset "utf-8";
+/*
+ * filename : reset.css
+ * date : 2023.12.13
+ */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin:0;
+	padding:0;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary {
+	display:block;
+}
+audio, canvas, video {
+    display:inline-block;
+}
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
+audio, canvas, img, video {
+	vertical-align:middle;
+}
+body {line-height:1;}
+ol, ul, li {
+	list-style:none;
+}
+blockquote, q {
+	quotes:none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content:"";
+	content:none;
+}
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+img, fieldset {
+	border:0;
+}
+input, select, textarea {
+	line-height:1.2;
+	vertical-align:middle;
+}
+body, table, th, td, input,
+textarea, button, select {
+	font-family:"font-m", sans-serif; font-size:14px; color:#2A2828;
+}
+button, select {
+	text-transform:none;
+}
+button, input {
+	line-height:normal;
+}
+textarea {
+	resize:vertical;
+	overflow:auto;
+}
+address, caption, cite, code,
+dfn, em, var {
+	font-style:normal;
+	font-weight:normal;
+}
+
+/* For Screen Reader */
+legend {
+	display:none;
+	visibility:hidden;
+}
+/* For Screen Reader */
+caption {
+	display:none;
+	visibility:hidden;
+}
+hr {
+	display:block;
+	height:1px;
+	border:0;
+	border-top:1px solid #ccc;
+	margin:1em 0;
+	padding:0;
+}
+a {
+	color:#666;
+	text-decoration:none;
+}
+a:active, a:hover, a:focus {
+	text-decoration:none;
+}
+button{
+	margin:0px;
+	padding:0px;
+	cursor:pointer;
+	border:0px;
+	background:none;
+}
+body.mouse a:focus, 
+body.mouse button:focus{
+	outline:none;
+}
+body {-webkit-text-size-adjust:none; background:#fff} /* 뷰표트 변환시 폰트크기 자동확대 방지 */
+*:focus{outline:none;-webkit-touch-callout:none; -webkit-user-select:none;-webkit-tap-highlight-color:rgba(0, 0, 0, 0);}
+
+/* input 기본 스타일 초기화 */
+input[type="text"],input[type="password"],input[type="file"],input[type="search"],input[type="email"],
+select,
+textarea{
+   -webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box; 
+	margin:0;
+	padding:0;
+}
+input::-ms-clear, 
+select::-ms-expand{ display: none; }
+textarea{resize:none;}
+@media all and (max-width:800px){
+	.ios-os input[type="text"],
+	.ios-os input[type="search"],
+	.ios-os input[type="password"],
+	.ios-os input[type="file"],
+	.ios-os input[type="email"],
+	.ios-os select,
+	.ios-os textarea{
+		    -webkit-appearance: none;
+		    -moz-appearance: none;
+			appearance: none;
+			border-radius:0;
+	}
+	.ios-os select{
+		background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' style='opacity:0.5'><polygon points='0,0 100,0 50,50'/></svg>") no-repeat;
+		background-size: 8px;
+		background-position: calc(100% - 10px) calc(50% + 3px);
+		background-repeat: no-repeat;
+	}
+}
+
+
+/* *******************
+ * description : font.css
+ * date : 2023.12.13
+******************* */
+/** SpoqaHanSansNeo*/
+/* 전체 : U+0020-007E
+특수문자 : U+0020-002F, U+003A-0040, U+005B-0060, U+007B-007E
+영문 : U+0041-005A(대문자), U+0061-007A(소문자)
+숫자 : U+0030-0039
+ex )
+unicode-range: U+0041-005A, U+0061-007A;
+*/
+
+@font-face { 
+	font-family: 'font-l'; 
+	font-style: normal; 
+	font-weight: 300; 
+	src: url(../fonts/SpoqaHanSansNeo-Light.woff) format('woff'), url(../fonts/SpoqaHanSansNeo-Light.woff2) format('woff2');
+  }  
+@font-face { 
+  font-family: 'font-r'; 
+  font-style: normal; 
+  font-weight: 400; 
+  src: url(../fonts/SpoqaHanSansNeo-Regular.woff) format('woff'), url(../fonts/SpoqaHanSansNeo-Regular.woff) format('woff2');
+} 
+@font-face { 
+	font-family: 'font-m'; 
+	font-style: normal; 
+	font-weight: 500; 
+	src: url(../fonts/SpoqaHanSansNeo-Medium.woff) format('woff'), url(../fonts/SpoqaHanSansNeo-Medium.woff) format('woff2');
+  } 
+@font-face { 
+  font-family: 'font-b'; 
+  font-style: normal; 
+  font-weight: 700; 
+  src: url(../fonts/SpoqaHanSansNeo-Bold.woff) format('woff'), url(../fonts/SpoqaHanSansNeo-Bold.woff) format('woff2');
+}
+
+
+/* *******************
+ * description : common.css
+ * date : 2023.12.13
+******************* */
+.f_left { float:left;}
+.f_right { float:right;}
+.center{margin: 0 auto;}
+.t_center{text-align: center;}
+.t_right{text-align: right;}
+.t_left{text-align: left;}
+.clear { clear:both; }
+.relative{ position:relative; }
+.absolute { position:absolute; }
+.align_l { text-align:left !important; }
+.align_c { text-align:center !important; }
+.align_r { text-align:right !important; }
+.align_j { text-align:justify !important; }
+.vertical_t, td.vertical_t, th.vertical_t  { vertical-align:top;}
+.vertical_m td.vertical_m, th.vertical_m{ vertical-align:middle;}
+.vertical_b td.vertical_b, th.vertical_b{ vertical-align:bottom;}
+.clearfix{*zoom:1;}
+.clearfix:after{clear:both; display:block; content:"";}
+
+.material-icons{vertical-align:middle;}
+.font-xi:before{font-family:xeicon !important}
+.text-ellipsis{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.table-layout{display:table; width:100%; height:100%; }
+.table-cell-layout{display:table-cell; width:100%; height:100%; vertical-align:middle;}
+.over_img{overflow:hidden;}
+.over_img img{
+	-webkit-transition:transform 0.3s;
+	-moz-transition:transform 0.3s;
+	-o-transition:transform 0.3s;
+	-ms-transition:transform 0.3s;
+	transition:transform 0.3s
+}
+
+
+/* 공통 :: 가로값지정 */
+.w_10{width:10% !important;}
+.w_20{width:20% !important;}
+.w_30{width:33.3% !important;}
+.w_40{width:40% !important;}
+.w_50{width:50% !important;}
+.w_60{width:60% !important;}
+.w_70{width:70% !important;}
+.w_80{width:80% !important;}
+.w_90{width:90% !important;}
+.w_100{width:100% !important;}
+
+
+.w_8p{width:8px;}
+.w_20p{width:20px;}
+.w_22p{width:22px;}
+

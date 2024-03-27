@@ -5,6 +5,7 @@ namespace App\Http\Controllers\proposal;
 use App\Exports\CorpProposalExport;
 use App\Exports\ProposalExport;
 use App\Http\Controllers\Controller;
+use App\Models\CorpProposal;
 use App\Models\Proposal;
 use App\Models\Reply;
 use Carbon\Carbon;
@@ -39,10 +40,10 @@ class ProposalController extends Controller
                 $query->where('users.name', 'like', "%{$request->name}%")
                     ->orWhere('users.company_name', 'like', "%{$request->name}%");
             }
-            if(isset($request->phone)) {
+            if (isset($request->phone)) {
                 $query->where('users.phone', 'like', "%{$request->phone}%");
             }
-            if(isset($request->member_type)) {
+            if (isset($request->member_type)) {
                 $query->where('users.type', "$request->member_type");
             }
         });
@@ -67,13 +68,7 @@ class ProposalController extends Controller
     {
         $result = Proposal::where('id', $id)->first();
 
-        // 커뮤니티 댓글 선택
-        $ReplyList = Reply::with('rereplies')->select();
-
-        $replys = $ReplyList->paginate(10);
-        $replys->appends(request()->except('page'));
-
-        return view('admin.proposal.proposal-detail', compact('result', 'replys'));
+        return view('admin.proposal.proposal-detail', compact('result'));
     }
 
     /**
@@ -89,31 +84,30 @@ class ProposalController extends Controller
      */
     public function corpProposalListView(Request $request): View
     {
-        $proposalList = Proposal::with('users')->select()
+        $corpProposalList = CorpProposal::with('users')->select()
             ->where('is_delete', '0');
 
-        $proposalList->whereHas('users', function ($query) use ($request) {
+        $corpProposalList->whereHas('users', function ($query) use ($request) {
             if (isset($request->name)) {
-                $query->where('users.name', 'like', "%{$request->name}%")
-                    ->orWhere('users.company_name', 'like', "%{$request->name}%");
+                $query->where('users.name', 'like', "%{$request->name}%");
             }
-            if(isset($request->phone)) {
+            if (isset($request->phone)) {
                 $query->where('users.phone', 'like', "%{$request->phone}%");
             }
-            if(isset($request->member_type)) {
-                $query->where('users.type', "$request->member_type");
+            if (isset($request->company_name)) {
+                $query->where('users.company_name', 'like', "%{$request->company_name}%");
             }
         });
 
         // 게시 시작일 from ~ to
         if (isset($request->from_created_at) && isset($request->to_created_at)) {
-            $proposalList->DurationDate('proposal.created_at', $request->from_created_at, $request->to_created_at);
+            $corpProposalList->DurationDate('corp_proposal.created_at', $request->from_created_at, $request->to_created_at);
         }
 
         // 정렬
-        $proposalList->orderBy('proposal.created_at', 'desc')->orderBy('id', 'asc');
+        $corpProposalList->orderBy('corp_proposal.created_at', 'desc')->orderBy('corp_proposal.id', 'asc');
 
-        $result = $proposalList->paginate($request->per_page == null ? 10 : $request->per_page);
+        $result = $corpProposalList->paginate($request->per_page == null ? 10 : $request->per_page);
 
         return view('admin.proposal.corp-proposal-list', compact('result'));
     }
@@ -123,15 +117,9 @@ class ProposalController extends Controller
      */
     public function corpProposaldetailView($id): View
     {
-        $result = Proposal::where('id', $id)->first();
+        $result = CorpProposal::where('id', $id)->first();
 
-        // 커뮤니티 댓글 선택
-        $ReplyList = Reply::with('rereplies')->select();
-
-        $replys = $ReplyList->paginate(10);
-        $replys->appends(request()->except('page'));
-
-        return view('admin.proposal.corp-proposal-detail', compact('result', 'replys'));
+        return view('admin.proposal.corp-proposal-detail', compact('result'));
     }
 
     /**

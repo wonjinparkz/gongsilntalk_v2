@@ -65,7 +65,7 @@
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">받은 제안서 개수</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="받은 제안서 개수" value="123개" />
+                                    placeholder="받은 제안서 개수" value="{{ count($result->products) }}개" />
                             </div>
                         </div>
 
@@ -83,8 +83,8 @@
                         <div class="col-lg-12 row mb-6">
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">담당자 이름</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid" placeholder="담당자 이름"
-                                    value="{{ $result->users->name }}" />
+                                <input type="text" disabled class="form-control form-control-solid"
+                                    placeholder="담당자 이름" value="{{ $result->users->name }}" />
                             </div>
                         </div>
 
@@ -101,8 +101,8 @@
                         <div class="col-lg-12 row mb-6">
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">담당자 연락처</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid" placeholder="담당자 연락처"
-                                    value="{{ $result->users->phone }}" />
+                                <input type="text" disabled class="form-control form-control-solid"
+                                    placeholder="담당자 연락처" value="{{ $result->users->phone }}" />
                             </div>
                         </div>
 
@@ -110,8 +110,8 @@
                         <div class="col-lg-12 row mb-6">
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">중개사무소명</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid" placeholder="중개사무소명"
-                                    value="{{ $result->users->company_name }}" />
+                                <input type="text" disabled class="form-control form-control-solid"
+                                    placeholder="중개사무소명" value="{{ $result->users->company_name }}" />
                             </div>
                         </div>
 
@@ -119,8 +119,8 @@
                         <div class="col-lg-12 row mb-6">
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">대표자명</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid" placeholder="대표자명"
-                                    value="{{ $result->users->company_ceo }}" />
+                                <input type="text" disabled class="form-control form-control-solid"
+                                    placeholder="대표자명" value="{{ $result->users->company_ceo }}" />
                             </div>
                         </div>
 
@@ -137,8 +137,8 @@
                         <div class="col-lg-12 row mb-6">
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">대표 전화번호</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid" placeholder="대표 전화번호"
-                                    value="{{ $result->users->company_phone }}" />
+                                <input type="text" disabled class="form-control form-control-solid"
+                                    placeholder="대표 전화번호" value="{{ $result->users->company_phone }}" />
                             </div>
                         </div>
 
@@ -146,8 +146,8 @@
                         <div class="col-lg-12 row mb-6">
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">중개등록번호</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid" placeholder="중개등록번호"
-                                    value="{{ $result->users->brokerage_number }}" />
+                                <input type="text" disabled class="form-control form-control-solid"
+                                    placeholder="중개등록번호" value="{{ $result->users->brokerage_number }}" />
                             </div>
                         </div>
 
@@ -155,8 +155,8 @@
                         <div class="col-lg-12 row mb-6">
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">사업자 등록번호</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid" placeholder="사업자 등록번호"
-                                    value="{{ $result->users->company_number }}" />
+                                <input type="text" disabled class="form-control form-control-solid"
+                                    placeholder="사업자 등록번호" value="{{ $result->users->company_number }}" />
                             </div>
                         </div>
 
@@ -164,8 +164,8 @@
                         <div class="col-lg-12 row mb-6">
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">등록매물</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid" placeholder="등록매물"
-                                    value="123개" />
+                                <input type="text" disabled class="form-control form-control-solid"
+                                    placeholder="등록매물" value="{{ count($result->products) }}개" />
                             </div>
                         </div>
 
@@ -183,7 +183,8 @@
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">등록일</label>
                             <div class="col-lg-8 fv-row">
                                 @inject('carbon', 'Carbon\Carbon')
-                                <input type="text" disabled class="form-control form-control-solid" placeholder="등록일"
+                                <input type="text" disabled class="form-control form-control-solid"
+                                    placeholder="등록일"
                                     value=" {{ $carbon::parse($result->users->created_at)->format('Y.m.d') }}" />
                             </div>
                         </div>
@@ -202,8 +203,8 @@
                     <div class="col-lg-12 row mb-6">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">희망 지역</label>
                         <div class="col-lg-8 fv-row">
-                            <input type="text" disabled class="form-control form-control-solid" placeholder="희망 지역"
-                                value="서울특별시 서초구, 서웉특별시 동대문구, 서울특별시 영등포구" />
+                            <input type="text" disabled class="form-control form-control-solid"
+                                placeholder="희망 지역" value="서울특별시 서초구, 서웉특별시 동대문구, 서울특별시 영등포구" />
                         </div>
                     </div>
 
@@ -299,7 +300,8 @@
 
         <x-screen-card :title="'받은 제안서 목록'">
             <div class="card-header align-items-center gap-2 gap-md-5">
-                <span class="fw-bold fs-5">제안된 매물 <span class="text-danger">1개</span></span><span
+                <span class="fw-bold fs-5">제안된 매물 <span
+                        class="text-danger">{{ count($result->products) }}개</span></span><span
                     class="fw-light fs-6">단위 : 원</span>
                 {{-- <span class="fw-bold fs-5">갯수 : {{ $paginator-> total() }} 개</span> --}}
             </div>
@@ -323,58 +325,63 @@
 
                     {{-- 테이블 내용 --}}
                     <tbody class="fw-semibold text-gray-600">
-                        <tr>
-                            {{-- 매물 제안서 건물 번호 --}}
-                            <td class="text-center">
-                                <span class="fw-bold fs-5">1</span>
-                            </td>
+                        @if ($result->products)
+                            @foreach ($result->products as $product)
+                                <tr>
+                                    {{-- 매물 제안서 건물 번호 --}}
+                                    <td class="text-center">
+                                        <span class="fw-bold fs-5">1</span>
+                                    </td>
 
-                            {{-- 사진 --}}
-                            <td class="text-center">
-                                <div class="symbol symbol-70px">
-                                    <div class="symbol-label"
-                                        style="background-image:url({{ asset('assets/media/auth/ic_user.png') }})">
-                                    </div>
-                                </div>
-                            </td>
+                                    {{-- 사진 --}}
+                                    <td class="text-center">
+                                        <div class="symbol symbol-70px">
+                                            <div class="symbol-label"
+                                                style="background-image:url({{ asset('assets/media/auth/ic_user.png') }})">
+                                            </div>
+                                        </div>
+                                    </td>
 
-                            {{-- 거래정보 --}}
-                            <td class="text-center">
-                                <span class="fw-bold fs-5 text-dark">
-                                    임대 3억 2,220만/4,500만
-                                </span>
-                                <p class="fs-6">(800만/㎡)</p>
-                            </td>
+                                    {{-- 거래정보 --}}
+                                    <td class="text-center">
+                                        <span class="fw-bold fs-5 text-dark">
+                                            임대 3억 2,220만/4,500만
+                                        </span>
+                                        <p class="fs-6">(800만/㎡)</p>
+                                    </td>
 
-                            {{-- 주소 --}}
-                            <td class="text-center">
-                                <span class="fw-bold fs-5 text-dark">
-                                    강남구 역삼동 123-12
-                                </span>
-                            </td>
+                                    {{-- 주소 --}}
+                                    <td class="text-center">
+                                        <span class="fw-bold fs-5 text-dark">
+                                            강남구 역삼동 123-12
+                                        </span>
+                                    </td>
 
-                            {{-- 면적 --}}
-                            <td class="text-center">
-                                <span class="fw-bold fs-5 text-dark">
-                                    전용 112.05㎡/100평
-                                </span>
-                            </td>
+                                    {{-- 면적 --}}
+                                    <td class="text-center">
+                                        <span class="fw-bold fs-5 text-dark">
+                                            전용 112.05㎡/100평
+                                        </span>
+                                    </td>
 
-                            {{-- 층 정보 --}}
-                            <td class="text-center">
-                                <span class="fw-bold fs-5 text-dark">
-                                    3층/12층
-                                </span>
-                            </td>
+                                    {{-- 층 정보 --}}
+                                    <td class="text-center">
+                                        <span class="fw-bold fs-5 text-dark">
+                                            3층/12층
+                                        </span>
+                                    </td>
 
-                            {{-- 관리비 --}}
-                            <td class="text-center">
-                                <span class="fw-bold fs-5 text-dark">
-                                    {{ 100000 / 10000 }}만원
-                                </span>
-                            </td>
+                                    {{-- 관리비 --}}
+                                    <td class="text-center">
+                                        <span class="fw-bold fs-5 text-dark">
+                                            {{ 100000 / 10000 }}만원
+                                        </span>
+                                    </td>
 
-                        </tr>
+                                </tr>
+                            @endforeach
+
+                        @endif
                     </tbody>
                 </table>
             </div>

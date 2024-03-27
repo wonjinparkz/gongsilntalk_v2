@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('corp_proposal', function (Blueprint $table) {
             $table->id()->comment('기업 제안서 아이디');
+            $table->bigInteger('users_id')->comment('유저 아이디');
             $table->string('corp_name')->comment('기업 명');
             $table->string('position')->comment('중개사 직책');
             $table->integer('is_delete')->default(0)->comment('삭제여부 - 0: 게시중, 1: 삭제함');
