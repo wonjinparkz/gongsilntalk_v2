@@ -4,7 +4,7 @@ use App\Http\Controllers\auth\PasswordResetController;
 use App\Http\Controllers\auth\UserAuthPcController;
 use App\Http\Controllers\commons\PopupOpenController;
 use App\Http\Controllers\commons\VerificationController;
-use App\Http\Controllers\MainController;
+use App\Http\Controllers\main\MainPcController;
 use App\Http\Controllers\terms\TermsController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,9 +30,9 @@ use Illuminate\Support\Facades\Route;
 /**
  * 메인
  */
-Route::controller(MainController::class)->group(function () {
+Route::controller(MainPcController::class)->group(function () {
     Route::get('/', 'mainView')->name('www.main.main');
-    Route::get('/main/search', 'mainSearch')->name('www.main.search');
+    // Route::get('/main/search', 'mainSearch')->name('www.main.search');
 });
 
 /**
@@ -49,6 +49,16 @@ Route::controller(UserAuthPcController::class)->group(function () {
     Route::get('/register/register', 'joinView')->name('www.register.register');
     Route::post('/register/create', 'register')->name('www.register.create');
     Route::post('/register/nickname/{nickname}', 'nicknameCheck')->name('www.register.nickname');
+
+    //소셜 로그인
+    Route::get('/kakao', 'kakaoLogin')->name('www.login.kakao');
+    Route::get('/kakao/oauth', 'kakaoCallback');
+
+    Route::get('/naver', 'naverLogin')->name('www.login.naver');
+    Route::get('/naver/oauth', 'naverCallback');
+
+    Route::get('/apple', 'appleLogin')->name('www.login.apple');
+    Route::get('/apple/oauth', 'appleCallback');
 });
 
 

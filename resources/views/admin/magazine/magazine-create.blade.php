@@ -64,7 +64,6 @@
 
                     {{-- 이미지  --}}
                     <x-admin-image-picker :title="'대표 이미지'" required="required" cnt="1" id="magazine" />
-s
 
                     @if ($type != 0)
                         {{-- 내용 --}}

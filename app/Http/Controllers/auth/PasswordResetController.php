@@ -25,7 +25,7 @@ class PasswordResetController extends Controller
                 ->withErrors($error);
         }
 
-        
+
 
         return view('www.password_reset.password-reset', compact('result'));
     }

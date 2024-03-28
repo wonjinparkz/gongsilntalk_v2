@@ -68,7 +68,7 @@ class VerificationController extends Controller
         $result = null;
         if ($response->successful()) {
             $resultJson = json_decode($response->body());
-            // Log::debug("result = " . json_encode($resultJson));
+            Log::info("result = " . json_encode($resultJson));
             $result = [
                 "name" => $resultJson->response->name,
                 "gender" => $resultJson->response->gender,

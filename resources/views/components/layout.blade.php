@@ -47,3 +47,78 @@
 
 
 </html>
+
+<style>
+    .toast-message {
+        color: #FFFFFF;
+    }
+</style>
+<script type="text/javascript" src="{{ asset('assets/js/toastr.min.js') }}"></script>
+<script>
+    var hostUrl = "assets/";
+
+    // 공통 메세지 출력
+    @if (session('message') != null)
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": false,
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+
+        toastr.success("{{ session('message') }}");
+    @endif
+
+    @if (session('error') != null)
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": false,
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+
+        toastr.error("{{ session('error') }}");
+    @endif
+
+    @if ($errors->any())
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": false,
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        @foreach ($errors->all() as $error)
+            toastr.error("{{ $error }}");
+        @endforeach
+    @endif
+</script>

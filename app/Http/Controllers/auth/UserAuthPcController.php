@@ -4,8 +4,10 @@ namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PcLoginRequest;
+use App\Models\PasswordReset;
 use App\Models\Terms;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +16,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Crypt;
+use Laravel\Socialite\Facades\Socialite;
 
 class UserAuthPcController extends Controller
 {
@@ -50,6 +54,18 @@ class UserAuthPcController extends Controller
     }
 
     /**
+     * 로그아웃
+     */
+    public function logout(Request $request)
+    {
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+
+        return Redirect('login')->with('message', '로그아웃 되었습니다.');
+    }
+
+
+    /**
      * 회원 가입
      */
     public function register(Request $request): RedirectResponse
@@ -59,12 +75,15 @@ class UserAuthPcController extends Controller
             'email' => 'required|unique:users|email',
             'password' => 'required|regex:/^(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8,15}$/',
             'password_confirmation' => 'required|same:password',
-            'nickname' => 'required|unique:users',
-            'name' => 'required',
-            'phone' => 'required',
+            'nickname' => 'required|unique:users|regex:/^[\p{L}0-9]{2,8}$/u',
             'gender' => 'required',
-            'birth' => 'required',
+            'verification' => 'required',
+            'name' => 'required_if:verification,Y',
+            'phone' => 'required_if:verification,Y',
+            'birth' => 'required_if:verification,Y',
         ]);
+
+        Log::info($request);
 
         if ($validator->fails()) {
             return redirect(route('www.register.register'))
@@ -90,7 +109,7 @@ class UserAuthPcController extends Controller
 
         // DB 추가
         $joinReg = [
-            'user_type' => $request->type,
+            'type' => 0,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'nickname' => $request->nickname,
@@ -98,15 +117,11 @@ class UserAuthPcController extends Controller
             'phone' => $request->phone,
             'gender' => $request->gender,
             'birth' => $request->birth,
-            'signup_path' => $request->signup_path,
-            'state' => 1,
-            'signup_type' => 'E',
+            'state' => 0,
+            'provider' => 'E',
             'is_marketing' => 0,
-            'report_count' => 0,
-            'reply_report_count' => 0,
-            'community_report_count' => 0,
             'is_alarm' => 0,
-            'unique_key' => $request->unique_key,
+            'unique_key' => $request->unique_key ?? '',
         ];
 
 
@@ -114,7 +129,7 @@ class UserAuthPcController extends Controller
 
         Auth::guard('web')->login($result);
 
-        return Redirect::route('www.register.complete')->with('message', '로그인 되었습니다.');
+        return Redirect::route('www.main.main')->with('message', '로그인 되었습니다.');
     }
 
     /**
@@ -132,5 +147,152 @@ class UserAuthPcController extends Controller
         }
         $success = 'Y';
         return $this->sendResponse($success, "사용 가능한 닉네임 입니다.");
+    }
+
+
+
+
+
+    /**
+     * 카카오 로그인
+     */
+    public function kakaoLogin()
+    {
+        return Socialite::driver('kakao')->redirect();
+    }
+
+    /**
+     * 카카오 로그인 결과 보기
+     */
+    public function kakaoCallback()
+    {
+        try {
+            $kakao = Socialite::driver('kakao')->user();
+
+            $user = User::select()->where('token', $kakao->id)->where('signup_type', 'K')->first();
+
+            if ($user != null) { // 로그인 후 메인 화면으로 이동
+                if ($user->state == 0) {
+                    return redirect(route('www.login.login'))
+                        ->withErrors('탈퇴한 회원입니다.')
+                        ->withInput();
+                } else if ($user->state == 2) {
+                    return redirect(route('www.login.login'))
+                        ->withErrors('관리자에 의해 사용 불가능한 회원입니다.')
+                        ->withInput();
+                }
+
+                Auth::guard('web')->login($user);
+
+                return Redirect::route('www.main.main');
+            } else { // 회원 가입 화면으로 이동
+                return Redirect::route('www.register.type', ['sns_type' => 'K', 'token' => Crypt::encrypt($kakao->id)]);
+            }
+        } catch (Exception $e) {
+            return redirect(route('www.login.login'));
+        }
+    }
+
+    /**
+     * 네이버 로그인
+     */
+    public function naverLogin(Request $request)
+    {
+        return Socialite::driver('naver')->redirect();
+    }
+
+    /**
+     * 네이버 로그인 결과 보기
+     */
+    public function naverCallback()
+    {
+        try {
+            $naver = Socialite::driver('naver')->user();
+
+            $user = User::select()->where('token', $naver->id)->where('signup_type', 'N')->first();
+
+            if ($user != null) { // 로그인 후 메인 화면으로 이동
+                if ($user->state == 0) {
+                    return redirect(route('www.login.login'))
+                        ->withErrors('탈퇴한 회원입니다.')
+                        ->withInput();
+                } else if ($user->state == 2) {
+                    return redirect(route('www.login.login'))
+                        ->withErrors('관리자에 의해 사용 불가능한 회원입니다.')
+                        ->withInput();
+                }
+
+                Auth::guard('web')->login($user);
+                return Redirect::route('www.main.main');
+            } else { // 회원 가입 화면으로 이동
+                return Redirect::route('www.register.type', ['sns_type' => 'N', 'token' => Crypt::encrypt($naver->id)]);
+            }
+        } catch (Exception $e) {
+            return redirect(route('www.login.login'));
+        }
+    }
+
+    /**
+     * 애플 로그인
+     */
+    public function appleLogin(Request $request)
+    {
+        return Socialite::driver('apple')->redirect();
+    }
+
+    /**
+     * 애플 로그인 결과 보기
+     */
+    public function appleCallback()
+    {
+        try {
+            $naver = Socialite::driver('naver')->user();
+
+            $user = User::select()->where('token', $naver->id)->where('signup_type', 'N')->first();
+
+            if ($user != null) { // 로그인 후 메인 화면으로 이동
+                if ($user->state == 0) {
+                    return redirect(route('www.login.login'))
+                        ->withErrors('탈퇴한 회원입니다.')
+                        ->withInput();
+                } else if ($user->state == 2) {
+                    return redirect(route('www.login.login'))
+                        ->withErrors('관리자에 의해 사용 불가능한 회원입니다.')
+                        ->withInput();
+                }
+
+                Auth::guard('web')->login($user);
+                return Redirect::route('www.main.main');
+            } else { // 회원 가입 화면으로 이동
+                return Redirect::route('www.register.type', ['sns_type' => 'N', 'token' => Crypt::encrypt($naver->id)]);
+            }
+        } catch (Exception $e) {
+            return redirect(route('www.login.login'));
+        }
+    }
+
+    /**
+     * 비밀번호 변경
+     */
+    public function passwordReset(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'new_password' => 'required|regex:/^(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8,15}$/',
+            'new_password_confirmation' => 'required|same:new_password',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(route('password.reset.view', ['token' => $request->token]))
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // 사용자 찾아서 비밀번호 변경
+        $user = User::select()->where('id', $request->id)->first();
+        $user->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return view('www.password_reset.password-reset-success');
     }
 }

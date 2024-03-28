@@ -6,33 +6,44 @@
             <div class="inner_wrap">
                 <div class="col-md-6 box_member">
                     <h2>공실앤톡 로그인</h2>
-                    <ul class="login_wrap">
-                        <li>
-                            <input type="text" placeholder="이메일을 입력해주세요.">
-                        </li>
-                        <li>
-                            <input type="password" placeholder="비밀번호를 입력해주세요.">
-                        </li>
-                    </ul>
-                    <div class="flex_between">
-                        <div>
-                            <input type="checkbox" name="auto_login" id="auto_login">
-                            <label for="auto_login" class="mr10"><span></span> 자동로그인</label>
+                    <form class="form" name="login" id="login" method="POST"
+                        action="{{ route('www.login.create') }}">
+                        @csrf
+                        <ul class="login_wrap">
+                            <li>
+                                <input name="email" id="email" type="text" placeholder="이메일을 입력해주세요.">
+                            </li>
+                            <li>
+                                <input name="password" id="password" type="password" placeholder="비밀번호를 입력해주세요.">
+                            </li>
+                        </ul>
+                        <div class="flex_between">
+                            <div>
+                                <input type="checkbox" name="auto_login" id="auto_login">
+                                <label for="auto_login" class="mr10"><span></span> 자동로그인</label>
+                            </div>
+                            <a href="javascript:(0)" class="gray_basic" onclick="modal_open('pw_change1')">비밀번호 찾기</a>
                         </div>
-                        <a href="javascript:(0)" class="gray_basic" onclick="modal_open('pw_change1')">비밀번호 찾기</a>
-                    </div>
 
-                    <button class="btn_point btn_full_basic mt28">로그인</button>
+                        <button type="submit" class="btn_point btn_full_basic mt28">로그인</button>
+                    </form>
 
                     <div class="ss_login">
-                        <a href="#"><img src="{{ asset('assets/media/btn_ss_1.png') }}" alt="애플로그인"></a>
-                        <a href="#"><img src="{{ asset('assets/media/btn_ss_2.png') }}" alt="카카오로그인"></a>
-                        <a href="#"><img src="{{ asset('assets/media/btn_ss_3.png') }}" alt="네이버로그인"></a>
+                        <a href="{{ route('www.login.apple') }}">
+                            <img src="{{ asset('assets/media/btn_ss_1.png') }}" alt="애플로그인">
+                        </a>
+                        <a href="{{ route('www.login.kakao') }}">
+                            <img src="{{ asset('assets/media/btn_ss_2.png') }}" alt="카카오로그인">
+                        </a>
+                        <a href="{{ route('www.login.naver') }}">
+                            <img src="{{ asset('assets/media/btn_ss_3.png') }}" alt="네이버로그인">
+                        </a>
                     </div>
 
                     <div class="t_center mt28">
-                        <div><a href="{{route('www.register.register')}}" class="txt_point">일반회원 가입</a><i class="v_line">|</i> <a
-                                href="{{route('www.register.register')}}" class="txt_point">중개사 가입</a></div>
+                        <div><a href="{{ route('www.register.register') }}" class="txt_point">일반회원 가입</a><i
+                                class="v_line">|</i> <a href="{{ route('www.register.register') }}"
+                                class="txt_point">중개사 가입</a></div>
                     </div>
                 </div>
             </div>
@@ -58,7 +69,7 @@
                     </li>
                 </ul>
                 <div class="mt50">
-                    <a href="#" class="btn_black_ghost btn_full_basic"><b>본인인증</b></a>
+                    <button class="btn_black_ghost btn_full_basic"><b>본인인증</b></button>
                 </div>
                 <div class="mt50">
                     <button class="btn_full_basic" disabled><b>다음</b></button>
@@ -91,9 +102,6 @@
                         <input type="password" placeholder="새 비밀번호 재입력">
                     </li>
                 </ul>
-                <div class="mt50">
-                    <button class="btn_black_ghost btn_full_basic"><b>본인인증</b></button>
-                </div>
                 <div class="mt50">
                     <!-- <a href="#" class="btn_disabled_2 btn_full_basic"><b>변경 완료</b></a> -->
                     <button class="btn_point btn_full_basic"><b>변경 완료</b></button>
