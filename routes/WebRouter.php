@@ -4,6 +4,7 @@ use App\Http\Controllers\auth\PasswordResetController;
 use App\Http\Controllers\auth\UserAuthPcController;
 use App\Http\Controllers\commons\PopupOpenController;
 use App\Http\Controllers\commons\VerificationController;
+use App\Http\Controllers\community\CommunityPcController;
 use App\Http\Controllers\main\MainPcController;
 use App\Http\Controllers\terms\TermsController;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +62,9 @@ Route::controller(UserAuthPcController::class)->group(function () {
     Route::get('/apple/oauth', 'appleCallback');
 });
 
+Route::controller(CommunityPcController::class)->group(function () {
+    Route::get('/community/list', 'communityListView')->name('www.community.list.view');
+});
 
 
 

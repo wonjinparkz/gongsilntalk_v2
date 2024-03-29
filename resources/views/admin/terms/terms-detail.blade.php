@@ -28,26 +28,10 @@
                         </div>
                     </div>
 
-                    {{-- 게시 타입 --}}
+                    {{-- 약관 종류 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label  fw-semibold fs-6">게시 타겟</label>
-                        <div class="col-lg-2 d-flex align-items-center">
-                            @php
-                                $type = old('type') ?? $result->type;
-                            @endphp
-                            <select name="type" class="form-select form-select-solid" data-control="select2"
-                                data-hide-search="true">
-                                <option value="0" @if ($type == 0) selected @endif>사용자</option>
-                                <option value="1" @if ($type == 1) selected @endif>파트너</option>
-                            </select>
-                        </div>
-                        <x-input-error class="mt-2 text-danger" :messages="$errors->get('type')" />
-                    </div>
-
-                    {{-- 게시 여부 --}}
-                    <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">게시 유형</label>
-                        <div class="col-lg-2 d-flex align-items-center">
+                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">약관 종류</label>
+                        <div class="col-lg-4 d-flex align-items-center">
                             @php
                                 $kind = old('kind') ?? $result->kind;
                             @endphp
@@ -62,6 +46,25 @@
                             </select>
                         </div>
                         <x-input-error class="mt-2 text-danger" :messages="$errors->get('kind')" />
+
+                        {{-- 노출 대상 --}}
+                        <div class="row mb-6">
+                            <label class="required col-lg-4 col-form-label  fw-semibold fs-6">노출 대상</label>
+                            <div class="col-lg-2 d-flex align-items-center">
+                                @php
+                                    $type = old('type') ?? $result->type;
+                                @endphp
+                                <select name="type" class="form-select form-select-solid" data-control="select2"
+                                    data-hide-search="true">
+                                    <option value="0" @if ($type == 0) selected @endif>일반 회원
+                                    </option>
+                                    <option value="1" @if ($type == 1) selected @endif>중개사 회원
+                                    </option>
+                                </select>
+                            </div>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('type')" />
+                        </div>
+
                     </div>
                     <!--내용 END-->
                     {{-- Footer Bottom START --}}

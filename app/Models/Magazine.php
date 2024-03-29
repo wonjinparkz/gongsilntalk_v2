@@ -66,4 +66,14 @@ class Magazine extends BaseModel
     {
         return $this->hasOne(MagazineScrap::class, 'magazine_id', 'id');
     }
+
+    /**
+     * 댓글
+     */
+    public function replys()
+    {
+        return $this->hasMany(Reply::class, 'target_id', 'id')
+            ->where('target_type', Magazine::class)
+            ->where('is_delete', '0');
+    }
 }

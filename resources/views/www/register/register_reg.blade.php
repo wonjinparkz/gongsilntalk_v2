@@ -67,25 +67,25 @@
                                 [필수] 만 14세 이상입니다.
                             </li>
                             <li>
-                                <input type="checkbox" name="checkOne" id="checkOne_2" value="Y">
+                                <input type="checkbox" name="checkOne" id="checkOne_2" value="1">
                                 <label for="checkOne_2"><span></span></label>
-                                <a href="javascript:void(0)" onclick="modal_open('terms')">[필수] 공실앤톡 서비스 이용약관 동의</a>
+                                <a href="javascript:void(0)" onclick="modal_open('terms_0')">[필수] 공실앤톡 서비스 이용약관 동의</a>
                             </li>
                             <li>
-                                <input type="checkbox" name="checkOne" id="checkOne_3" value="Y">
+                                <input type="checkbox" name="checkOne" id="checkOne_3" value="1">
                                 <label for="checkOne_3"><span></span></label>
-                                <a href="javascript:void(0)" onclick="modal_open('terms')">[필수] 개인정보 수집 및 이용동의</a>
+                                <a href="javascript:void(0)" onclick="modal_open('terms_1')">[필수] 개인정보 수집 및 이용동의</a>
                             </li>
                             <li>
-                                <input type="checkbox" name="checkOne" id="checkOne_4" value="Y">
+                                <input type="checkbox" name="checkOne" id="checkOne_4" value="1">
                                 <label for="checkOne_4"><span></span></label>
-                                <a href="javascript:void(0)" onclick="modal_open('terms')">[선택] 마케팅 정보 수신에 대한 동의</a>
+                                <a href="javascript:void(0)" onclick="modal_open('terms_2')">[선택] 마케팅 정보 수신에 대한 동의</a>
                             </li>
                         </ul>
                         <div class="mt40">
                             <button id="button_disabled" class="btn_full_basic" disabled>가입 완료</button>
                             <button id="button_activ" type="submit" class="btn_point btn_full_basic"
-                                style="display:">가입 완료</button>
+                                style="display:none">가입 완료</button>
                         </div>
                     </div>
                 </div>
@@ -94,28 +94,25 @@
 
     </div>
 </x-layout>
-
-<!-- modal 약관 : s-->
-<div class="modal modal_mid modal_terms">
-    <div class="modal_title">
-        <h5>공실앤톡 서비스 이용약관</h5>
-        <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close" onclick="modal_close('terms')">
-    </div>
-    <div class="modal_container">
-        <div class="terms_wrap">
-            <b>제1조 (목적)</b><br>
-            본 약관은 ‘공실앤톡’(이하 “회사”라 한다)가 운영하는 인터넷 사이트 및 모바일 어플리케이션(이하 “공실앤톡”이라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에
-            있어 회사와 이용자 및 이용자간의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.<br><br>
-            <b>제2조 (정의)</b><br>
-            이 약관에서 사용하는 용어의 정의는 다음과 같습니다.<br>
-            1. 공실앤톡 : 회사가 제공하는 각종의 정보서비스를 이용자가 이용할 수 있는 형태로 구성한 것으로 인터넷 사이트 및 모바일 어플리케이션 등을 포함한 제반 단말기를 의미합니다.
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+@foreach ($termsList as $terms)
+123
+    <!-- modal 약관 : s-->
+    <div class="modal modal_mid modal_terms_{{ $terms->kind }}">
+        <div class="modal_title">
+            <h5>{{ $terms->title }}</h5>
+            <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close"
+                onclick="modal_close('terms_{{ $terms->kind }}')">
+        </div>
+        <div class="modal_container">
+            <div class="terms_wrap">
+                {!! $terms->content !!}
+            </div>
         </div>
     </div>
-</div>
-<div class="md_overlay md_overlay_terms" onclick="modal_close('terms')"></div>
-<!-- modal 약관 : e-->
-
+    <div class="md_overlay md_overlay_terms_{{ $terms->kind }}" onclick="modal_close('terms_{{ $terms->kind }}')">
+    </div>
+    <!-- modal 약관 : e-->
+@endforeach
 
 <script>
     $(document).ready(function() {
@@ -133,10 +130,10 @@
         var checkOne_1 = $('#checkOne_1').is(':checked');
         var checkOne_2 = $('#checkOne_2').is(':checked');
         var checkOne_3 = $('#checkOne_3').is(':checked');
-        var gender = $('input [name="gender"]').is(':checked');
+        var gender = $('input[name="gender"]').is(':checked');
 
         if (email !== '' && password !== '' && password_confirmation !== '' && nickname !== '' && verification == 'Y' &&
-            checkOne_1 !== false && checkOne_2 !== false && checkOne_3 !== false) {
+            checkOne_1 !== false && checkOne_2 !== false && checkOne_3 !== false && gender !== false) {
             $('#button_activ').css('display', '');
             $('#button_disabled').css('display', 'none');
         } else {

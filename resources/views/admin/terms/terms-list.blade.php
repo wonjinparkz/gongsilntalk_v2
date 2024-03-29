@@ -77,7 +77,7 @@
                                     data-hide-search="true">
                                     <option value="" @if ($type < 0) selected @endif>전체
                                     </option>
-                                    <option value="0" @if ($type == 0) selected @endif>사용자
+                                    <option value="0" @if ($type == 0) selected @endif>일반 회원
                                     </option>
                                     <option value="1" @if ($type == 1) selected @endif>중개사 회원
                                     </option>
@@ -137,7 +137,7 @@
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 @if ($term->type == 0)
-                                                    사용자
+                                                    일반 회원
                                                 @else
                                                     중개사 회원
                                                 @endif

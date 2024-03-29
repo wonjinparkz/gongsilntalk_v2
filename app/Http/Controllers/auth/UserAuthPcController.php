@@ -36,7 +36,7 @@ class UserAuthPcController extends Controller
     }
     public function joinView(): View
     {
-        $termsList = Terms::select()->get();
+        $termsList = Terms::select()->where('type', '0')->get();
 
         return view('www.register.register_reg', compact('termsList'));
     }

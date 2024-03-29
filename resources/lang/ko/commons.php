@@ -12,14 +12,17 @@ return [
     'kind' => [
         0 => '서비스 이용약관',
         1 => '개인정보 취급 방침',
+        2 => '마케팅 수신 동의 이용약관',
     ],
 
     'footer' => [
         'company' => '공실앤톡', /* 회사명 */
-        'name' => '김공실', /* 대표이사 */
-        'address' => '서울특별시 금천구 가산디지털1로', /* 주소 */
-        'number' => '220-88-1234', /* 사업자 등록 번호 */
-        'email' => 'gsntalk@gmail.com', /* 이메일 */
+        'name' => '임요섭', /* 대표이사 */
+        'consulNumber' => '1600-5734', /* 상담문의 */
+        'address' => '경기도 화성시 동탄기흥로557 금강펜테리움IT타워', /* 주소 */
+        'number' => '291-81-02340', /* 사업자 등록 번호 */
+        'pressEmail' => 'gongsil_ntalk@naver.com', /* 이메일 */
+        'email' => 'gongsil_ntalk@naver.com', /* 이메일 */
         'securityName' => '김책임' /* 개인정보 관리 책임자 */
     ],
 
