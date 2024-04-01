@@ -17,7 +17,6 @@ return new class extends Migration
         Schema::create('community_block', function (Blueprint $table) {
             $table->id();
             $table->integer('users_id')->comment('차단한 사용자 아이디');
-            $table->integer('block_id')->comment('차단 당한 사용자 아이디');
             $table->integer('community_id')->comment('커뮤니티 아이디');
             $table->timestamps();
         });

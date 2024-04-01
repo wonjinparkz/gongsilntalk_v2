@@ -8,27 +8,30 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class CommunityLike extends BaseModel
+class Like extends BaseModel
 {
     use HasFactory, Notifiable;
 
     /**
      * 테이블 명
      */
-    protected $table = 'community_like';
+    protected $table = 'like';
 
     /**
      * 모델
      */
-    protected $fillable = ['user_id', 'community_id'];
+    protected $fillable =
+    [
+        'user_id',
+        'target_id',
+        'target_type'
+    ];
 
 
     /**
      * 직렬화에서 감출것
      */
-    protected $hidden = [
-
-    ];
+    protected $hidden = [];
 
     /**
      * 캐스팅

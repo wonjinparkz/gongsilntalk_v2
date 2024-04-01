@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Community;
 use App\Models\CommunityBlock;
 use App\Models\CommunityCategory;
-use App\Models\CommunityLike;
 use App\Models\Reply;
 use App\Models\ReplyBlock;
 use App\Models\ReplyLike;
 use App\Models\ReplyReport;
 use App\Models\CommunityReport;
 use App\Models\Images;
+use App\Models\Like;
 use App\Models\UsersBlocks;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -360,12 +360,12 @@ class CommunityAPIController extends Controller
             return $this->sendError("입력을 다시 확인해주시기 바랍니다.", $validator->errors()->all(), Response::HTTP_BAD_REQUEST);
         }
 
-        $communityLike = CommunityLike::where('community_id', $request->id)
+        $communityLike = Like::where('community_id', $request->id)
             ->where('user_id', Auth::guard('api')->user()->id)
             ->first();
 
         if ($communityLike == null) {
-            $created = CommunityLike::create([
+            $created = Like::create([
                 'user_id' => Auth::guard('api')->user()->id,
                 'community_id' => $request->id,
             ]);

@@ -57,4 +57,14 @@ class Community extends BaseModel
         return $this->hasMany(Images::class, 'target_id', 'id')
             ->where('target_type', '=', Community::class . '\detail');
     }
+
+    /**
+     * 댓글
+     */
+    public function replys()
+    {
+        return $this->hasMany(Reply::class, 'target_id', 'id')
+            ->where('target_type', Community::class)
+            ->where('is_delete', '0');
+    }
 }

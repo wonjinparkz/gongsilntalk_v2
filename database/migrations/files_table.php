@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('target_type')->nullable()->comment('타겟 타입');
             $table->integer('target_id')->nullable()->comment('타겟 아이디');
             $table->timestamps();
-
         });
     }
 

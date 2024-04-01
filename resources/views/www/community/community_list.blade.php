@@ -7,28 +7,68 @@
                 <div class="community_inner_wrap">
                     <div class="community_top">
                         <ul class="community_menu toggle_tab">
-                            <li class="active"><a href="{{ route('www.community.list.view', ['community' => '0']) }}">공톡
-                                    컨텐츠</a>
+                            <li class="{{ request()->query('community') == 0 ? 'active' : '' }}">
+                                <a href="{{ route('www.community.list.view', ['community' => '0']) }}">
+                                    공톡 컨텐츠
+                                </a>
                             </li>
-                            <li><a href="{{ route('www.community.list.view', ['community' => '1']) }}">커뮤니티</a></li>
+                            <li class="{{ request()->query('community') == 1 ? 'active' : '' }}">
+                                <a href="{{ route('www.community.list.view', ['community' => '1']) }}">
+                                    커뮤니티
+                                </a>
+                            </li>
                         </ul>
                         <a href="community_search.html"><img src="{{ asset('assets/media/btn_search.png') }}"
                                 class="w_22p"></a>
                     </div>
-                    <ul class="tab_type_1 toggle_tab">
-                        <li class="active"><a
-                                href="{{ route('www.community.list.view', ['community' => '0', 'type' => '0']) }}">공톡
-                                유튜브</a></li>
-                        <li><a href="{{ route('www.community.list.view', ['community' => '0', 'type' => '1']) }}">공톡
-                                매거진</a></li>
-                        <li><a href="{{ route('www.community.list.view', ['community' => '0', 'type' => '2']) }}">공톡
-                                뉴스</a></li>
-                    </ul>
+                    @if (request()->query('community') == 0)
+                        <ul class="tab_type_1 toggle_tab">
+                            <li class="{{ request()->query('type') == 0 ? 'active' : '' }}">
+                                <a href="{{ route('www.community.list.view', ['community' => '0', 'type' => '0']) }}">
+                                    공톡 유튜브
+                                </a>
+                            </li>
+                            <li class="{{ request()->query('type') == 1 ? 'active' : '' }}">
+                                <a href="{{ route('www.community.list.view', ['community' => '0', 'type' => '1']) }}">
+                                    공톡 매거진
+                                </a>
+                            </li>
+                            <li class="{{ request()->query('type') == 2 ? 'active' : '' }}">
+                                <a href="{{ route('www.community.list.view', ['community' => '0', 'type' => '2']) }}">
+                                    공톡 뉴스
+                                </a>
+                            </li>
+                        </ul>
+                    @elseif(request()->query('community') == 1)
+                        <ul class="tab_type_1 toggle_tab">
+                            <li class="{{ request()->query('type') == 0 ? 'active' : '' }}">
+                                <a href="{{ route('www.community.list.view', ['community' => '1', 'type' => '0']) }}">
+                                    자유글
+                                </a>
+                            </li>
+                            <li class="{{ request()->query('type') == 1 ? 'active' : '' }}">
+                                <a href="{{ route('www.community.list.view', ['community' => '1', 'type' => '1']) }}">
+                                    질문/답변
+                                </a>
+                            </li>
+                            <li class="{{ request()->query('type') == 2 ? 'active' : '' }}">
+                                <a href="{{ route('www.community.list.view', ['community' => '1', 'type' => '2']) }}">
+                                    후기
+                                </a>
+                            </li>
+                            <li class="{{ request()->query('type') == 3 ? 'active' : '' }}">
+                                <a href="{{ route('www.community.list.view', ['community' => '1', 'type' => '3']) }}">
+                                    노하우
+                                </a>
+                            </li>
+                        </ul>
+                    @endif
                     <ul class="cmm_noti_wrap">
                         @foreach ($noticeList as $notice)
                             <li><span>공지</span>
                                 <a href="#">
-                                    {{ $notice->title }} - {{ $carbon::parse($notice->created_at)->format('y.m.d') }}
+                                    {{ $notice->title }} -
+                                    {{ $carbon::parse($notice->created_at)->format('y.m.d') }}
                                 </a>
                             </li>
                         @endforeach
@@ -40,22 +80,31 @@
                 <!-- community body : s -->
                 <div class="community_inner_wrap">
                     <ul class="list_sort toggle_tab only_pc mt28">
-                        <li class="active"><a href="#">최신순</a></li>
-                        <li><a href="#">추천순</a></li>
-                        <li><a href="#">댓글순</a></li>
+                        <li class="{{ request()->query('order') == 0 ? 'active' : '' }}">
+                            <a onclick="changeorderOption('0')">최신순</a>
+                        </li>
+                        <li class="{{ request()->query('order') == 1 ? 'active' : '' }}">
+                            <a onclick="changeorderOption('1')">추천순</a>
+                        </li>
+                        <li class="{{ request()->query('order') == 2 ? 'active' : '' }}">
+                            <a onclick="changeorderOption('2')">댓글순</a>
+                        </li>
                     </ul>
                     <!-- community list : s -->
                     <div class="community_list">
                         @foreach ($result as $community)
                             @if ($community->report_id)
-                                <li class="recruit_noti">
-                                    <p>신고한 게시글입니다.</p>
+                                <li>
+                                    <div class="flex_between">
+                                        <span class="gray_basic">신고한 글입니다.</span>
+                                    </div>
                                 </li>
                             @elseif ($community->block_id)
-                                <li class="recruit_noti">
-                                    <p>차단한 게시글입니다.<br><a href="javascript:void(0)"
-                                            onclick="block({{ $community->id }}, 'job_post')">차단해제</a>
-                                    </p>
+                                <li>
+                                    <div class="flex_between">
+                                        <span class="gray_basic">차단한 글입니다.</span>
+                                        <button class="btn_graylight_ghost btn_sm">차단 해제</button>
+                                    </div>
                                 </li>
                             @else
                                 <li>
@@ -64,7 +113,7 @@
                                             <div class="community_row_body">
                                                 <h3>{{ $community->title }}</h3>
                                                 <div class="txt_item_1">
-                                                    {!! $community->content !!}
+                                                    {{ str_replace('&nbsp;', '', strip_tags(htmlspecialchars_decode($community->content))) }}
                                                 </div>
                                                 <div class="txt_item_2 mt8">
                                                     <span>{{ $carbon::parse($community->created_at)->format('y.m.d') }}
@@ -85,48 +134,20 @@
                                 </li>
                             @endif
                         @endforeach
-                        <li>
-                            <div class="flex_between">
-                                <span class="gray_basic">차단한 글입니다.</span>
-                                <button class="btn_graylight_ghost btn_sm">차단 해제</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="flex_between">
-                                <span class="gray_basic">신고한 글입니다.</span>
-                            </div>
-                        </li>
-
                     </div>
                     <!-- community list : e -->
 
-                    <div class="mt20 t_right only_pc">
-                        <button class="btn_gray_ghost btn_md" onclick="location.href='community_reg.html'"><img
-                                src="{{ asset('assets/media/ic_pen.png') }}">글쓰기</button>
-                    </div>
+                    @if (request()->query('community') == 1)
+                        <div class="mt20 t_right only_pc">
+                            <button class="btn_gray_ghost btn_md" onclick="location.href='community_reg.html'"><img
+                                    src="{{ asset('assets/media/ic_pen.png') }}">글쓰기</button>
+                        </div>
+                    @endif
                     <button onclick="location.href='community_reg.html'"><img
                             src="{{ asset('assets/media/floting_btn.png') }}"
                             class="floting_right_btn only_m"></button>
 
-                    <!-- paging : s -->
-                    <div class="paging only_pc">
-                        <ul class="btn_wrap">
-                            <li class="btn_prev">
-                                <a class="no_next" href="#1"><img src="{{ asset('assets/media/btn_prev.png') }}"
-                                        alt=""></a>
-                            </li>
-                            <li class="active">1</li>
-                            <li>2</li>
-                            <li>3</li>
-                            <li>4</li>
-                            <li>5</li>
-                            <li class="btn_next">
-                                <a class="no_next" href="#1"><img src="{{ asset('assets/media/btn_next.png') }}"
-                                        alt=""></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- paging : e -->
+                    {{ $result->onEachSide(1)->links('components.pc-pagination') }}
                 </div>
                 <!-- community body : e -->
 
@@ -135,30 +156,7 @@
 
 
             <!-- nav : s -->
-            <nav>
-                <ul>
-                    <li>
-                        <a href="main.html"><span><img src="{{ asset('assets/media/mcnu_ic_1.png') }}"
-                                    alt=""></span>홈</a>
-                    </li>
-                    <li>
-                        <a href="sales_list.html"><span><img src="{{ asset('assets/media/mcnu_ic_2.png') }}"
-                                    alt=""></span>분양현장</a>
-                    </li>
-                    <li>
-                        <a href="m_map.html"><span><img src="{{ asset('assets/media/mcnu_ic_3.png') }}"
-                                    alt=""></span>지도</a>
-                    </li>
-                    <li class="active">
-                        <a href="community_contents_list.html"><span><img
-                                    src="{{ asset('assets/media/mcnu_ic_5.png') }}" alt=""></span>커뮤니티</a>
-                    </li>
-                    <li>
-                        <a href="my_main.html"><span><img src="{{ asset('assets/media/mcnu_ic_4.png') }}"
-                                    alt=""></span>마이페이지</a>
-                    </li>
-                </ul>
-            </nav>
+            <x-nav-layout />
             <!-- nav : e -->
 
 
@@ -202,5 +200,12 @@
                 });
             });
         }
+    }
+
+    var currentUrl = new URL(document.location);
+    // order by 설정
+    function changeorderOption(order) {
+        currentUrl.searchParams.set('order', order);
+        location.href = currentUrl;
     }
 </script>
