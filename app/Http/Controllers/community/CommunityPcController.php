@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
@@ -80,5 +81,59 @@ class CommunityPcController extends Controller
         $noticeList = Notice::select()->where('is_blind', '0')->get();
 
         return view('www.community.community_list', compact('result', 'noticeList'));
+    }
+
+    /**
+     * 커뮤니티 등록 화면 조회
+     */
+    public function communityDetailView(): View
+    {
+        return view('www.community.community_detail');
+    }
+
+    /**
+     * 커뮤니티 등록 화면 조회
+     */
+    public function communityCreateView(): View
+    {
+        return view('www.community.community_create');
+    }
+
+
+    /**
+     * 매거진 등록
+     */
+    public function communityCreate(Request $request): RedirectResponse
+    {
+        // 유효성 검사
+        $validator = Validator::make($request->all(), [
+            'category' => 'required',
+            'title' => 'required|min:1|max:50',
+            'content' => 'required',
+            'community_image_ids' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // DB 추가
+        $result = Community::create([
+            'author' => Auth::guard('web')->user()->id,
+            'category' => $request->category,
+            'title' => $request->title,
+            'content' => $request->content,
+            'is_blind' => 0, // 등록 시에는 0
+            'view_count' => 0, // 등록 시에는 0 조회 할 때 증가,
+            'like_count' => 0, // 등록 시에는 0 좋아요 할 때 증가,
+            'is_delete' => 0,
+        ]);
+
+        $this->imageWithCreate($request->community_image_ids, Community::class, $result->id);
+
+
+        return Redirect::route('www.community.detail.view', [$result->id])->with('message', '게시글을 등록했습니다.');
     }
 }

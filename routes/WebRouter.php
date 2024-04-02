@@ -64,6 +64,9 @@ Route::controller(UserAuthPcController::class)->group(function () {
 
 Route::controller(CommunityPcController::class)->group(function () {
     Route::get('/community/list', 'communityListView')->name('www.community.list.view');
+    Route::get('/community/create', 'communityCreateView')->name('www.community.create.view');
+    Route::post('/community/create', 'communityCreate')->name('www.community.create');
+    Route::get('/community/detail/{id}', 'communityDetailView')->name('www.community.detail.view');
 });
 
 

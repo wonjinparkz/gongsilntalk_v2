@@ -31,6 +31,12 @@
     <script src="{{ asset('assets/js/swiper.jquery.js') }}"></script>
     <script src="{{ asset('assets/js/swiper-bundle.min.js') }}"></script>
 
+    <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
+    <script src="{{ asset('assets/plugins/custom/fslightbox/fslightbox.bundle.js') }}"></script>
+    <script src="{{ asset('assets/plugins/custom/draggable/draggable.bundle.js') }}"></script>
+
+
+
 </head>
 
 <body>

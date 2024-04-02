@@ -22,8 +22,8 @@ return new class extends Migration
             $table->integer('block_count')->comment('차단수')->default(0);
             $table->integer('like_count')->comment('추천수')->default(0);
             $table->integer('report_count')->comment('신고수')->default(0);
-            $table->integer('is_blind')->comment('댓글 상태 - false : 공개, true : 비공개');
-            $table->integer('is_delete')->comment('댓글 상태 - 0 : 게시중, 1 : 삭제');
+            $table->integer('is_blind')->comment('댓글 상태 - false : 공개, true : 비공개')->default(0);
+            $table->integer('is_delete')->comment('댓글 상태 - 0 : 게시중, 1 : 삭제')->default(0);
             $table->timestamps();
 
         });
