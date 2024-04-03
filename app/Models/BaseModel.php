@@ -39,14 +39,13 @@ class BaseModel extends Authenticatable
     /**
      * Report 테이블 조인
      */
-    public function scopeReport($query, $on, $class, $id)
+    public function scopeReport($query, $on, $id)
     {
-        Log::info($on);
         // 신고 ID
-        $query->leftJoin('community_report', function ($report) use ($on, $class, $id) {
+        $query->leftJoin('community_report', function ($report) use ($on, $id) {
             $report->on($on . '.id', '=', 'community_report.target_id')
                 ->where('community_report.users_id', '=', $id)
-                ->where('community_report.target_type', '=', $class);
+                ->where('community_report.target_type', '=', $on);
         });
 
         $query->addSelect(
@@ -57,13 +56,13 @@ class BaseModel extends Authenticatable
     /**
      * Like 테이블 조인
      */
-    public function scopeLike($query, $on, $class, $id)
+    public function scopeLike($query, $on, $id)
     {
         // 좋아요
-        $query->leftJoin('like', function ($like) use ($on, $class, $id) {
+        $query->leftJoin('like', function ($like) use ($on, $id) {
             $like->on($on . '.id', '=', 'like.target_id')
                 ->where('like.users_id', '=', $id)
-                ->where('like.target_type', '=', $class);
+                ->where('like.target_type', '=', $on);
         });
         $query->addSelect(
             'like.id AS like_id'
@@ -92,6 +91,6 @@ class BaseModel extends Authenticatable
      */
     public function images()
     {
-        return $this->morphMany(Images::class, 'target');
+        return $this->morphMany(Images::class, 'target')->orderBy('created_at', 'desc');
     }
 }

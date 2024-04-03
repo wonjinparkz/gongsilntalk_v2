@@ -42,23 +42,6 @@ class Community extends BaseModel
     }
 
     /**
-     * 이미지 가져오기
-     */
-    public function images()
-    {
-        return $this->hasMany(Images::class, 'target_id', 'id')
-            ->where('target_type', '=', Community::class . '\main');
-    }
-    /**
-     * 이미지 가져오기
-     */
-    public function images_detail()
-    {
-        return $this->hasMany(Images::class, 'target_id', 'id')
-            ->where('target_type', '=', Community::class . '\detail');
-    }
-
-    /**
      * 댓글
      */
     public function replys()

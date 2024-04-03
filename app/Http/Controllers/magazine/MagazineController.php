@@ -102,8 +102,6 @@ class MagazineController extends Controller
             $ReplyList->orderBy('reply.created_at', 'DESC')->orderBy('id', 'DESC');
         }
 
-
-
         // 페이징 처리
         $replys = $ReplyList->paginate($request->per_page == null ? 10 : $request->per_page);
         $replys->appends(request()->except('page'));

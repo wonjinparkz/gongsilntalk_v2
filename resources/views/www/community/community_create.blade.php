@@ -10,7 +10,7 @@
                     <div class="community_inner_wrap">
                         <div class="header_bar">
                             <div>
-                                <a href="community_contents_list.html"><img
+                                <a href="{{ URL::previous() }}"><img
                                         src="{{ asset('assets/media/header_btn_back.png') }}"></a>
                             </div>
                             <div>신규 게시글 작성</div>

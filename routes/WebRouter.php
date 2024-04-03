@@ -64,9 +64,9 @@ Route::controller(UserAuthPcController::class)->group(function () {
 
 Route::controller(CommunityPcController::class)->group(function () {
     Route::get('/community/list', 'communityListView')->name('www.community.list.view');
-    Route::get('/community/create', 'communityCreateView')->name('www.community.create.view');
-    Route::post('/community/create', 'communityCreate')->name('www.community.create');
-    Route::get('/community/detail/{id}', 'communityDetailView')->name('www.community.detail.view');
+    Route::middleware('pc.auth')->get('/community/create', 'communityCreateView')->name('www.community.create.view');
+    Route::middleware('pc.auth')->post('/community/create', 'communityCreate')->name('www.community.create');
+    Route::get('/community/detail', 'communityDetailView')->name('www.community.detail.view');
 });
 
 
@@ -93,4 +93,13 @@ Route::controller(PasswordResetController::class)->group(function () {
 Route::controller(VerificationController::class)->group(function () {
     Route::get('/verification/start', 'verificationStart')->name('www.verification.start');
     Route::get('/verification/reuslt', 'verificationResult')->name('www.verification.result');
+});
+
+
+/**
+ * 좋아요
+ */
+Route::middleware('pc.auth')->controller(LikePcController::class)->group(function () {
+    Route::post('/like', 'like')->name('www.commons.like'); // 좋아요 등록/해제
+    Route::get('/like/list', 'list'); // 좋아요 목록 보기
 });

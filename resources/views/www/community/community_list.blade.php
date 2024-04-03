@@ -108,7 +108,8 @@
                                 </li>
                             @else
                                 <li>
-                                    <a href="community_detail.html" class="community_list_link">
+                                    <a href="{{ route('www.community.detail.view', ['id' => $community->id, 'community' => request()->query('community') ?? 0]) }}"
+                                        class="community_list_link">
                                         <div class="community_row_wrap">
                                             <div class="community_row_body">
                                                 <h3>{{ $community->title }}</h3>
@@ -124,10 +125,14 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="community_row_img">
                                             <div class="img_box">
-                                                <img src="{{ asset('assets/media/s_1.png') }}">
+                                                @if (count($community->images) > 0)
+                                                    <img
+                                                        src="{{ Storage::url('image/' . $community->images[0]->path) }}">
+                                                @else
+                                                    <img src="{{ asset('assets/media/s_1.png') }}">
+                                                @endif
                                             </div>
                                         </div>
                                     </a>

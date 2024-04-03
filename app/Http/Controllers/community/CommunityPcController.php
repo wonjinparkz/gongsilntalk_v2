@@ -39,29 +39,19 @@ class CommunityPcController extends Controller
         if ($is_community == 0) {
 
             // 매거진
-            $communityList = Magazine::select()->withCount('replys')
-                ->select(
-                    'magazine.*'
-                )
+            $communityList = Magazine::withCount('replys')
                 ->where('magazine.type', '=', $request->type ?? 0)
                 ->where('magazine.is_blind', '0');
         } else if ($is_community == 1) {
-
             // 커뮤니티
-            $communityList = Community::select()->withCount('replys')
-                ->select(
-                    'community.*',
-                )
+            $communityList = Community::withCount('replys')
                 ->where('community.category', '=', $request->type ?? 0)
                 ->where('community.is_blind', '0')
                 ->where('community.is_delete', '0');
         }
-        if ($is_community == 0) {
-            $communityList->like($tableName, Magazine::class, Auth::guard('web')->user()->id ?? "");
-        } else {
-            if (Auth::guard('web')->user() != null) {
-                $communityList->like($tableName, Community::class, Auth::guard('web')->user()->id ?? "");
-                $communityList->report($tableName, Community::class, Auth::guard('web')->user()->id ?? "");
+        if (Auth::guard('web')->user() != null) {
+            if ($is_community == 1) {
+                $communityList->report($tableName, Auth::guard('web')->user()->id ?? "");
                 $communityList->block($tableName, Auth::guard('web')->user()->id ?? "");
             }
         }
@@ -86,9 +76,66 @@ class CommunityPcController extends Controller
     /**
      * 커뮤니티 등록 화면 조회
      */
-    public function communityDetailView(): View
+    public function communityDetailView(Request $request): View
     {
-        return view('www.community.community_detail');
+        $is_community = $request->community ?? 0;
+        $tableName = $is_community == 0 ? "magazine" : "community";
+
+        if ($is_community == 0) {
+
+            // 매거진
+            $community = Magazine::withCount('replys');
+
+            // 해당 ID 만 검색
+            $community->where('magazine.id', '=', $request->id);
+        } else if ($is_community == 1) {
+            // 커뮤니티
+            $community = Community::withCount('replys');
+
+            // 해당 ID 만 검색
+            $community->where('community.id', '=', $request->id);
+        }
+
+        if (Auth::guard('web')->user() != null) {
+            if ($is_community == 0) {
+                $community->like($tableName, Auth::guard('web')->user()->id ?? "");
+            } else {
+                $community->like($tableName, Auth::guard('web')->user()->id ?? "");
+            }
+        }
+
+        $result = $community->first();
+
+        // 조회수 증가
+        $result->increment('view_count', '1');
+
+        // 커뮤니티 댓글 선택
+        $ReplyList = Reply::with('rereplies')->select(
+            'reply.*',
+            'users.nickname AS author_name',
+            'users.type AS author_type',
+        );
+
+        // 작성자
+        $ReplyList->join('users', 'reply.author', '=', 'users.id');
+
+        // 해당 댓글만
+        $ReplyList->where('reply.target_id', '=', $request->id);
+        if ($is_community == 0) {
+            $ReplyList->where('reply.target_type', '=', Magazine::class);
+        } else {
+            $ReplyList->where('reply.target_type', '=', Community::class);
+        }
+
+        // 댓글일 경우만
+        $ReplyList->whereNull('parent_id');
+
+        // 페이징 처리
+        $replys = $ReplyList->paginate($request->per_page == null ? 10 : $request->per_page);
+        $replys->appends(request()->except('page'));
+
+
+        return view('www.community.community_detail', compact('result', 'replys'));
     }
 
     /**

@@ -66,6 +66,7 @@ class Kernel extends HttpKernel
     protected $middlewareAliases = [
         'admin.auth' => \App\Http\Middleware\AdminAuthenticate::class,
         'admin.check' => \App\Http\Middleware\AdminRedirectIfAuthenticated::class,
-        'auth' => \App\Http\Middleware\Authenticate::class
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'pc.auth' => \App\Http\Middleware\PcAuthenticate::class,
     ];
 }
