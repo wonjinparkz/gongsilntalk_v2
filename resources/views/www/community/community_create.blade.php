@@ -23,7 +23,7 @@
                                     $isBlind = old('category') ?? -1;
                                 @endphp
                                 <select class="w_50" name="category" id="category">
-                                    <option value="" @if ($isBlind == -1) selected @endif>게시판 선택
+                                    <option value="-1" @if ($isBlind == -1) selected @endif>게시판 선택
                                     </option>
                                     <option value="0" @if ($isBlind == 0) selected @endif>자유글
                                     </option>
@@ -51,13 +51,20 @@
                             <p class="gray_basic">최대 8장 업로드 가능 <span class="txt_point imageCount">0</span> / 8</p>
                         </div>
                         <div class="img_add_wrap draggable-zone">
-                            <x-pc-image-picker :title="''" id="community" cnt="8"
-                                required="required" />
+                            <x-pc-image-picker :title="''" id="community" cnt="8" required="required" />
                         </div>
                         <!-- 사진 등록 : e -->
 
                         <div class="mt20">
-                            <button type="button" class="btn_point btn_full_basic" onclick="modal_open('reg')">게시글 등록</button>
+
+                            <button type="button" id="button_disabled" class="btn_point btn_full_basic button_disabled"
+                                disabled>
+                                게시글 등록
+                            </button>
+                            <button type="button" id="button_active" class="btn_point btn_full_basic"
+                                onclick="modal_open('reg')" style="display:none">
+                                게시글 등록
+                            </button>
                         </div>
                     </div>
                     <!-- community body : e -->
@@ -106,4 +113,26 @@
         },
 
     });
+
+    $(document).ready(function() {
+        button_active();
+        $('input, select, textarea').change(function() {
+            button_active();
+        });
+    });
+
+
+    function button_active() {
+        var title = $('#title').val();
+        var content = $('#content').val();
+        var category = $('#category').val();
+
+        if (title !== '' && content !== '' && category >= 0) {
+            $('#button_active').css('display', '');
+            $('#button_disabled').css('display', 'none');
+        } else {
+            $('#button_disabled').css('display', '');
+            $('#button_active').css('display', 'none');
+        }
+    }
 </script>

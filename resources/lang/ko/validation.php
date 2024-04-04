@@ -121,12 +121,16 @@ return [
         'id' => '해당',
         'permissions' => '권한',
         'admins_id' => '관리자 정보',
+
         'title' => '제목',
+
         'text' => '텍스트',
+
         'content' => '내용',
         'recommend_content' => '내용',
         'property_content' => '내용',
         'asset_content' => '내용',
+
 
         'type' => '유형',
         'is_blind' => '블라인드',
@@ -141,6 +145,7 @@ return [
         'phone' => '전화번호',
         'nickname' => '닉네임',
 
+        'category' => '게시판 유형',
         'reply_content' => '답변',
         'tags' => '태그',
         'files' => '파일',

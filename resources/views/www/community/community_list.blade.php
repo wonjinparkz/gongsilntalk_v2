@@ -18,7 +18,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <a href="community_search.html"><img src="{{ asset('assets/media/btn_search.png') }}"
+                        <a href="{{route('www.community.search.view')}}"><img src="{{ asset('assets/media/btn_search.png') }}"
                                 class="w_22p"></a>
                     </div>
                     @if (request()->query('community') == 0)

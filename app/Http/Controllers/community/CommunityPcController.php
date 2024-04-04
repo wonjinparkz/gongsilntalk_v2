@@ -146,6 +146,51 @@ class CommunityPcController extends Controller
         return view('www.community.community_create');
     }
 
+    /**
+     * 커뮤니티 등록 화면 조회
+     */
+    public function communitySearchView(): View
+    {
+        return view('www.community.community_search');
+    }
+
+    /**
+     * 커뮤니티 등록 화면 조회
+     */
+    public function communitySearchListView(Request $request): View
+    {
+        $searchInput = $request->searchInput;
+
+        $is_community = $request->community ?? 0;
+        $tableName = $is_community == 0 ? "magazine" : "community";
+
+        if ($is_community == 0) {
+
+            // 매거진
+            $communityList = Magazine::withCount('replys')
+                ->where('magazine.type', '=', $request->type ?? 0)
+                ->where('magazine.is_blind', '0');
+        } else if ($is_community == 1) {
+            // 커뮤니티
+            $communityList = Community::withCount('replys')
+                ->where('community.category', '=', $request->type ?? 0)
+                ->where('community.is_blind', '0')
+                ->where('community.is_delete', '0');
+        }
+        if (Auth::guard('web')->user() != null) {
+            if ($is_community == 1) {
+                $communityList->report($tableName, Auth::guard('web')->user()->id ?? "");
+                $communityList->block($tableName, Auth::guard('web')->user()->id ?? "");
+            }
+        }
+
+        // 페이징
+        $result = $communityList->paginate($request->per_page == null ? 10 : $request->per_page);
+
+
+        return view('www.community.community_search_list', compact('result', 'searchInput'));
+    }
+
 
     /**
      * 매거진 등록
@@ -157,7 +202,6 @@ class CommunityPcController extends Controller
             'category' => 'required',
             'title' => 'required|min:1|max:50',
             'content' => 'required',
-            'community_image_ids' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -181,6 +225,6 @@ class CommunityPcController extends Controller
         $this->imageWithCreate($request->community_image_ids, Community::class, $result->id);
 
 
-        return Redirect::route('www.community.detail.view', [$result->id])->with('message', '게시글을 등록했습니다.');
+        return Redirect::route('www.community.detail.view', ['id' => $result->id, 'community' => '1'])->with('message', '게시글을 등록했습니다.');
     }
 }

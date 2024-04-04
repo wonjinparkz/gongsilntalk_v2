@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\auth\PasswordResetController;
 use App\Http\Controllers\auth\UserAuthPcController;
+use App\Http\Controllers\commons\LikePcController;
 use App\Http\Controllers\commons\PopupOpenController;
 use App\Http\Controllers\commons\VerificationController;
 use App\Http\Controllers\community\CommunityPcController;
@@ -64,6 +65,8 @@ Route::controller(UserAuthPcController::class)->group(function () {
 
 Route::controller(CommunityPcController::class)->group(function () {
     Route::get('/community/list', 'communityListView')->name('www.community.list.view');
+    Route::get('/community/search', 'communitySearchView')->name('www.community.search.view');
+    Route::get('/community/search/list', 'communitySearchListView')->name('www.community.search.list.view');
     Route::middleware('pc.auth')->get('/community/create', 'communityCreateView')->name('www.community.create.view');
     Route::middleware('pc.auth')->post('/community/create', 'communityCreate')->name('www.community.create');
     Route::get('/community/detail', 'communityDetailView')->name('www.community.detail.view');

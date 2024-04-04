@@ -5,6 +5,7 @@ namespace App\Http\Controllers\commons;
 use App\Http\Controllers\Controller;
 use App\Models\Community;
 use App\Models\Like;
+use App\Models\Magazine;
 use App\Models\Used;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -38,12 +39,12 @@ class LikePcController extends Controller
 
         $like = Like::where('target_id', $request->target_id)
             ->where('target_type', $request->target_type)
-            ->where('user_id', Auth::guard('web')->user()->id)
+            ->where('users_id', Auth::guard('web')->user()->id)
             ->first();
 
         if ($like == null) { // 스크랩이 없을 경우
             $created = Like::create([
-                'user_id' => Auth::guard('web')->user()->id,
+                'users_id' => Auth::guard('web')->user()->id,
                 'target_type' => $request->target_type,
                 'target_id' => $request->target_id,
             ]);
@@ -59,9 +60,9 @@ class LikePcController extends Controller
             if ($request->target_type == 'community') {
                 $community = Community::where('id', $request->target_id)->first();
                 $community->increment('like_count', 1);
-            } else if ($request->target_type == 'used') {
-                $used = Used::where('id', $request->target_id)->first();
-                $used->increment('like_count', 1);
+            } else if ($request->target_type == 'magazine') {
+                $magazine = Magazine::where('id', $request->target_id)->first();
+                $magazine->increment('like_count', 1);
             }
 
             return $this->sendResponse($success, "좋아요 등록되었습니다.");
@@ -79,9 +80,9 @@ class LikePcController extends Controller
             if ($request->target_type == 'community') {
                 $community = Community::where('id', $request->target_id)->first();
                 $community->decrement('like_count', 1);
-            } else if ($request->target_type == 'used') {
-                $used = Used::where('id', $request->target_id)->first();
-                $used->decrement('like_count', 1);
+            } else if ($request->target_type == 'magazine') {
+                $magazine = Magazine::where('id', $request->target_id)->first();
+                $magazine->decrement('like_count', 1);
             }
 
             return $this->sendResponse($success, "좋아요 해제되었습니다.");

@@ -22,7 +22,7 @@ class Like extends BaseModel
      */
     protected $fillable =
     [
-        'user_id',
+        'users_id',
         'target_id',
         'target_type'
     ];

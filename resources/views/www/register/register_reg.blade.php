@@ -84,7 +84,7 @@
                         </ul>
                         <div class="mt40">
                             <button id="button_disabled" class="btn_full_basic" disabled>가입 완료</button>
-                            <button id="button_activ" type="submit" class="btn_point btn_full_basic"
+                            <button id="button_active" type="submit" class="btn_point btn_full_basic"
                                 style="display:none">가입 완료</button>
                         </div>
                     </div>
@@ -134,11 +134,11 @@
 
         if (email !== '' && password !== '' && password_confirmation !== '' && nickname !== '' && verification == 'Y' &&
             checkOne_1 !== false && checkOne_2 !== false && checkOne_3 !== false && gender !== false) {
-            $('#button_activ').css('display', '');
+            $('#button_active').css('display', '');
             $('#button_disabled').css('display', 'none');
         } else {
             $('#button_disabled').css('display', '');
-            $('#button_activ').css('display', 'none');
+            $('#button_active').css('display', 'none');
         }
     }
 
