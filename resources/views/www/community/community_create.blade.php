@@ -20,17 +20,17 @@
                         <ul class="reg_bascic mt20">
                             <li>
                                 @php
-                                    $isBlind = old('category') ?? -1;
+                                    $category = old('category') ?? -1;
                                 @endphp
                                 <select class="w_50" name="category" id="category">
-                                    <option value="-1" @if ($isBlind == -1) selected @endif>게시판 선택
+                                    <option value="-1" @if ($category == -1) selected @endif>게시판 선택
                                     </option>
-                                    <option value="0" @if ($isBlind == 0) selected @endif>자유글
+                                    <option value="0" @if ($category == 0) selected @endif>자유글
                                     </option>
-                                    <option value="1" @if ($isBlind == 1) selected @endif>질문/답변
+                                    <option value="1" @if ($category == 1) selected @endif>질문/답변
                                     </option>
-                                    <option value="2" @if ($isBlind == 2) selected @endif>후기</option>
-                                    <option value="3" @if ($isBlind == 3) selected @endif>노하우
+                                    <option value="2" @if ($category == 2) selected @endif>후기</option>
+                                    <option value="3" @if ($category == 3) selected @endif>노하우
                                     </option>
                                 </select>
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('category')" />

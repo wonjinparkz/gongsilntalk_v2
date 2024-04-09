@@ -1,5 +1,5 @@
 <x-layout>
-
+    @inject('carbon', 'Carbon\Carbon')
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
@@ -23,7 +23,7 @@
 
                         <div class="community_search_wrap flex_between">
                             <input type="text" name="searchInput" id="searchInput" placeholder="검색어를 입력해주세요."
-                                value="{{ $searchInput ?? old('searchInput') }}">
+                                value="{{ $searchInput }}">
 
                             <img src="{{ asset('assets/media/btn_solid_delete.png') }}" alt="del" class="btn_del">
                             <button><img src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button>
@@ -35,8 +35,10 @@
                 <div class="tab_type_2 type_basic mt8">
                     <div class="swiper detail_tab">
                         <div class="swiper-wrapper menu">
-                            <div class="swiper-slide active"><a onclick="community()">공톡 컨텐츠</a></div>
-                            <div class="swiper-slide"><a onclick="community()">커뮤니티</a></div>
+                            <div class="swiper-slide {{ request()->query('community') == 0 ? 'active' : '' }}"><a
+                                    onclick="communitySearch(0)">공톡 컨텐츠</a></div>
+                            <div class="swiper-slide {{ request()->query('community') == 1 ? 'active' : '' }}"><a
+                                    onclick="communitySearch(1)">커뮤니티</a></div>
                         </div>
                     </div>
                 </div>
@@ -44,89 +46,73 @@
 
                 <div class="community_inner_wrap mt20">
                     <div class="list_sort_wrap">
-                        <span>검색결과 154건</span>
+                        {{ $result->links('components.pagination-info') }}
                         <ul class="list_sort toggle_tab ">
-                            <li class="active"><a href="#">최신순</a></li>
-                            <li><a href="#">추천순</a></li>
+                            <li class="{{ request()->query('order') == 0 ? 'active' : '' }}">
+                                <a onclick="changeorderOption('0')">최신순</a>
+                            </li>
+                            <li class="{{ request()->query('order') == 1 ? 'active' : '' }}">
+                                <a onclick="changeorderOption('1')">추천순</a>
+                            </li>
                         </ul>
                     </div>
 
 
                     <!-- community list : s -->
                     <div class="community_list">
-                        <li>
-                            <span class="community_category">공톡 유튜브</span>
-                            <a href="community_detail.html" class="community_list_link mt8">
-                                <div class="community_row_wrap">
+                        @foreach ($result as $community)
+                            @if ($community->report_id)
+                                <li>
+                                    <div class="flex_between">
+                                        <span class="gray_basic">신고한 글입니다.</span>
+                                    </div>
+                                </li>
+                            @elseif ($community->block_id)
+                                <li>
+                                    <div class="flex_between">
+                                        <span class="gray_basic">차단한 글입니다.</span>
+                                        <button class="btn_graylight_ghost btn_sm">차단 해제</button>
+                                    </div>
+                                </li>
+                            @else
+                                <li>
+                                    @if ((request()->query('community') ?? 0) == 0 ? 'active' : '')
+                                        <span class="community_category">
+                                            {{ Commons::get_magazineTypeTitle($community->type) }}
+                                        </span>
+                                    @else
+                                        <span class="community_category">
+                                            {{ Commons::get_communityTypeTitle($community->category) }}
+                                        </span>
+                                    @endif
+                                    <a href="{{ route('www.community.detail.view', ['id' => $community->id, 'community' => request()->query('community') ?? 0]) }}"
+                                        class="community_list_link mt8">
+                                        <div class="community_row_wrap">
+                                            <div class="community_row_body">
+                                                <h3>{!! Commons::get_searchTitle($searchInput, $community->title) !!}</h3>
+                                                <div class="txt_item_1">
+                                                    {!! Commons::get_searchContent($searchInput, strip_tags(htmlspecialchars_decode($community->content))) !!}
+                                                </div>
+                                                <div class="txt_item_2 mt8">
+                                                    <span>{{ $carbon::parse($community->created_at)->format('y.m.d') }}
+                                                        ·
+                                                    </span>
+                                                    <span>추천 {{ $community->like_count }} · </span>
+                                                    <span>댓글 {{ count($community->replys) }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                    <div class="community_row_body">
-                                        <h3><span class="txt_point">공실앤톡 App</span> - 수익률 계산기 편 제목이 길어지면</h3>
-                                        <div class="txt_item_1">공실앤톡 app 사용 방법 수익률 계산기편입니다. 부동산 수익률이 궁금할 때 공실앤톡 앱을
-                                            통해서
+                                        <div class="community_row_img">
+                                            <div class="img_box">
+                                                <img src="{{ asset('assets/media/s_1.png') }}">
+                                            </div>
                                         </div>
-                                        <div class="txt_item_2 mt8">
-                                            <span>2023.04.02 · </span>
-                                            <span>추천 12 · </span>
-                                            <span>댓글 278</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                    </a>
+                                </li>
+                            @endif
+                        @endforeach
 
-                                <div class="community_row_img">
-                                    <div class="img_box">
-                                        <img src="{{ asset('assets/media/s_1.png') }}">
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <span class="community_category">공톡 매거진</span>
-                            <a href="community_detail.html" class="community_list_link mt8">
-                                <div class="community_row_wrap">
-                                    <div class="community_row_body">
-                                        <h3><span class="txt_point">공실앤톡 App</span> - 수익률 계산기 편 제목이 길어지면</h3>
-                                        <div class="txt_item_1">공실앤톡 app 사용 방법 수익률 계산기편입니다. 부동산 수익률이 궁금할 때 공실앤톡 앱을
-                                            통해서
-                                        </div>
-                                        <div class="txt_item_2 mt8">
-                                            <span>2023.04.02 · </span>
-                                            <span>추천 12 · </span>
-                                            <span>댓글 278</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="community_row_img">
-                                    <div class="img_box">
-                                        <img src="{{ asset('assets/media/s_1.png') }}">
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <span class="community_category">자유글</span>
-                            <a href="community_detail.html" class="community_list_link mt8">
-                                <div class="community_row_wrap">
-                                    <div class="community_row_body">
-                                        <h3><span class="txt_point">공실앤톡 App</span> - 수익률 계산기 편 제목이 길어지면</h3>
-                                        <div class="txt_item_1">공실앤톡 app 사용 방법 수익률 계산기편입니다. 부동산 수익률이 궁금할 때 공실앤톡 앱을
-                                            통해서
-                                        </div>
-                                        <div class="txt_item_2 mt8">
-                                            <span>2023.04.02 · </span>
-                                            <span>추천 12 · </span>
-                                            <span>댓글 278</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="community_row_img">
-                                    <div class="img_box">
-                                        <img src="{{ asset('assets/media/s_1.png') }}">
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
                     </div>
                     <!-- community list : e -->
 
@@ -160,6 +146,13 @@
 
 
 <script>
+    var currentUrl = new URL(document.location);
+    // order by 설정
+    function changeorderOption(order) {
+        currentUrl.searchParams.set('order', order);
+        location.href = currentUrl;
+    }
+
     // 쿠키에 저장하는 함수
     function setCookie(cname, cvalue, exdays) {
         const d = new Date();
@@ -174,14 +167,24 @@
         if (searchInputValue !== "") {
             let existingTerms = getCookie('communitySearchTerm');
             if (existingTerms !== "") {
-                existingTerms += ',' + searchInputValue;
+                const termsArray = existingTerms.split(',');
+                if (termsArray.indexOf(searchInputValue) === -1) {
+                    existingTerms += ',' + searchInputValue;
+                } else {
+                    return; // 중복되면 함수 종료
+                }
             } else {
                 existingTerms = searchInputValue;
             }
-            setCookie('communitySearchTerm', existingTerms, 365); // 30일 동안 쿠키 저장
+            setCookie('communitySearchTerm', existingTerms, 365); // 365일 동안 쿠키 저장
 
         } else {
             alert('검색어를 입력하세요.');
         }
     });
+
+    function communitySearch(community) {
+        $('#community').val(community);
+        $('.form').submit();
+    }
 </script>

@@ -69,6 +69,8 @@ Route::controller(CommunityPcController::class)->group(function () {
     Route::get('/community/search/list', 'communitySearchListView')->name('www.community.search.list.view');
     Route::middleware('pc.auth')->get('/community/create', 'communityCreateView')->name('www.community.create.view');
     Route::middleware('pc.auth')->post('/community/create', 'communityCreate')->name('www.community.create');
+    Route::middleware('pc.auth')->get('/community/update/{id}', 'communityUpdateView')->name('www.community.update.view');
+    Route::middleware('pc.auth')->post('/community/update', 'communityUpdate')->name('www.community.update');
     Route::get('/community/detail', 'communityDetailView')->name('www.community.detail.view');
 });
 

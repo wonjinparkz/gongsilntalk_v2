@@ -98,11 +98,16 @@
         if (searchInputValue !== "") {
             let existingTerms = getCookie('communitySearchTerm');
             if (existingTerms !== "") {
-                existingTerms += ',' + searchInputValue;
+                const termsArray = existingTerms.split(',');
+                if (termsArray.indexOf(searchInputValue) === -1) {
+                    existingTerms += ',' + searchInputValue;
+                } else {
+                    return; // 중복되면 함수 종료
+                }
             } else {
                 existingTerms = searchInputValue;
             }
-            setCookie('communitySearchTerm', existingTerms, 365); // 30일 동안 쿠키 저장
+            setCookie('communitySearchTerm', existingTerms, 365); // 365일 동안 쿠키 저장
             addSearchTermToList(searchInputValue);
 
         } else {
@@ -113,7 +118,7 @@
     // 검색어를 리스트에 추가하는 함수
     function addSearchTermToList(searchTerm) {
         var list = "<li class='search_item'>" +
-            "<a href='community_search_list.html' class='gray_deep'>" + searchTerm + "</a>" +
+            "<a href='javascript:void(0)' onclick='communitySearch(\"" + searchTerm + "\")' class='gray_deep'>" + searchTerm + "</a>"+
             "<button class='deleteBtn'>" +
             "<img src='{{ asset('assets/media/list_delete.png') }}' class='ic_16'>" +
             "</button>" +
@@ -147,4 +152,9 @@
         setCookie('communitySearchTerm', "", -1); // 쿠키 삭제
         $('#searchList').empty(); // 리스트 비우기
     });
+
+    function communitySearch(searchTerm) {
+        $('#searchInput').val(searchTerm);
+        $('.form').submit();
+    }
 </script>

@@ -84,4 +84,96 @@ class Commons
         }
         return $floor;
     }
+
+    public static function get_magazineTypeTitle($type)
+    {
+        $title = '매거진';
+        switch ($type) {
+            case '0':
+                $title = '공톡 유튜브';
+                break;
+            case '1':
+                $title = '공톡 매거진';
+                break;
+            case '2':
+                $title = '공톡 뉴스';
+                break;
+
+            default:
+                $title = '-';
+                break;
+        }
+        return $title;
+    }
+
+    public static function get_communityTypeTitle($category)
+    {
+        $title = '';
+        switch ($category) {
+            case '0':
+                $title = '자유글';
+                break;
+            case '1':
+                $title = '질문/답변';
+                break;
+            case '2':
+                $title = '후기';
+                break;
+            case '3':
+                $title = '노하우';
+                break;
+
+            default:
+                $title = '-';
+                break;
+        }
+        return $title;
+    }
+
+    public static function get_searchTitle($searchInput, $title)
+    {
+        $positions = array();
+        $offset = 0;
+
+        // $searchInput이 $title에서 등장하는 모든 인덱스를 찾기
+        while (($pos = mb_stripos($title, $searchInput, $offset)) !== false) {
+            $positions[] = $pos;
+            $offset = $pos + mb_strlen($searchInput);
+        }
+
+        // 발생 위치를 기준으로 강조된 HTML 생성
+        $highlightedTitle = '';
+        $lastPos = 0;
+        foreach ($positions as $pos) {
+            $highlightedTitle .= mb_substr($title, $lastPos, $pos - $lastPos) . '<span class="txt_point">' . mb_substr($title, $pos, mb_strlen($searchInput)) . '</span>';
+            $lastPos = $pos + mb_strlen($searchInput);
+        }
+        $highlightedTitle .= mb_substr($title, $lastPos);
+
+        // 결과를 출력
+        return $highlightedTitle;
+    }
+    public static function get_searchContent($searchInput, $content)
+    {
+        $positions = array();
+        $offset = 0;
+
+        // $searchInput이 $content에서 등장하는 모든 인덱스를 찾기
+        while (($pos = mb_stripos($content, $searchInput, $offset)) !== false) {
+            $positions[] = $pos;
+            $offset = $pos + mb_strlen($searchInput);
+        }
+
+        // 발생 위치를 기준으로 강조된 HTML 생성
+        $highlightedContent = '';
+        $lastPos = 0;
+        foreach ($positions as $pos) {
+            $highlightedContent .= mb_substr($content, $lastPos, $pos - $lastPos) . '<span class="txt_point">' . mb_substr($content, $pos, mb_strlen($searchInput)) . '</span>';
+            $lastPos = $pos + mb_strlen($searchInput);
+        }
+        $highlightedContent .= mb_substr($content, $lastPos);
+
+        // 결과 반환
+        return $highlightedContent;
+    }
 }

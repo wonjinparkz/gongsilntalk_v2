@@ -5,7 +5,8 @@
     <ul class="gnb">
         <li><a href="sales_list.html">실시간 분양현장</a></li>
         <li><a href="map.html">빅데이터/매물지도</a></li>
-        <li class="active"><a href="{{ route('www.community.list.view') }}">커뮤니티</a></li>
+        <li class="{{ str_contains(Route::currentRouteName(), 'community') ? 'active' : '' }}"><a
+                href="{{ route('www.community.list.view') }}">커뮤니티</a></li>
         @guest
         @else
             <li><a href="my_main.html">마이메뉴</a></li>

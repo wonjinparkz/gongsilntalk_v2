@@ -1,8 +1,9 @@
  <!-- nav : s -->
  <nav>
      <ul>
-         <li>
-             <a href="main.html"><span><img src="{{ asset('assets/media/mcnu_ic_1.png') }}" alt=""></span>홈</a>
+         <li class="{{ str_contains(Route::currentRouteName(), 'main') ? 'active' : '' }}">
+             <a href="{{ route('www.main.main') }}"><span><img src="{{ asset('assets/media/mcnu_ic_1.png') }}"
+                         alt=""></span>홈</a>
          </li>
          <li>
              <a href="sales_list.html">
@@ -20,8 +21,8 @@
                  지도
              </a>
          </li>
-         <li class=" {{ str_contains(Route::currentRouteName(), 'community') ? 'active' : '' }}">
-             <a href="community_contents_list.html">
+         <li class="{{ str_contains(Route::currentRouteName(), 'community') ? 'active' : '' }}">
+             <a href="{{ route('www.community.list.view') }}">
                  <span>
                      <img src="{{ asset('assets/media/mcnu_ic_5.png') }}" alt="">
                  </span>

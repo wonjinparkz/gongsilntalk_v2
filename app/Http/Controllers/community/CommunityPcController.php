@@ -74,7 +74,7 @@ class CommunityPcController extends Controller
     }
 
     /**
-     * 커뮤니티 등록 화면 조회
+     * 커뮤니티 상세 화면 조회
      */
     public function communityDetailView(Request $request): View
     {
@@ -138,16 +138,9 @@ class CommunityPcController extends Controller
         return view('www.community.community_detail', compact('result', 'replys'));
     }
 
-    /**
-     * 커뮤니티 등록 화면 조회
-     */
-    public function communityCreateView(): View
-    {
-        return view('www.community.community_create');
-    }
 
     /**
-     * 커뮤니티 등록 화면 조회
+     * 커뮤니티 검색 화면 조회
      */
     public function communitySearchView(): View
     {
@@ -155,7 +148,7 @@ class CommunityPcController extends Controller
     }
 
     /**
-     * 커뮤니티 등록 화면 조회
+     * 커뮤니티 검색 리스트 화면 조회
      */
     public function communitySearchListView(Request $request): View
     {
@@ -177,11 +170,28 @@ class CommunityPcController extends Controller
                 ->where('community.is_blind', '0')
                 ->where('community.is_delete', '0');
         }
+
+        // 검색어
+        if (isset($request->searchInput)) {
+            $communityList
+                ->where($tableName . '.title', 'like', "%{$request->searchInput}%")
+                ->orWhere($tableName . '.content', 'like', "%{$request->searchInput}%");
+        }
+
         if (Auth::guard('web')->user() != null) {
             if ($is_community == 1) {
                 $communityList->report($tableName, Auth::guard('web')->user()->id ?? "");
                 $communityList->block($tableName, Auth::guard('web')->user()->id ?? "");
             }
+        }
+
+        // 정렬
+        if ($request->order == 1) {
+            $communityList->orderBy($tableName . '.like_count', 'desc')->orderBy($tableName . '.id', 'desc');
+        } else if ($request->order == 2) {
+            $communityList->orderBy('replys_count', 'desc')->orderBy($tableName . '.id', 'desc');
+        } else {
+            $communityList->orderBy($tableName . '.created_at', 'desc')->orderBy($tableName . '.id', 'desc');
         }
 
         // 페이징
@@ -191,9 +201,16 @@ class CommunityPcController extends Controller
         return view('www.community.community_search_list', compact('result', 'searchInput'));
     }
 
+    /**
+     * 커뮤니티 등록 화면 조회
+     */
+    public function communityCreateView(): View
+    {
+        return view('www.community.community_create');
+    }
 
     /**
-     * 매거진 등록
+     * 커뮤니티 등록
      */
     public function communityCreate(Request $request): RedirectResponse
     {
@@ -226,5 +243,66 @@ class CommunityPcController extends Controller
 
 
         return Redirect::route('www.community.detail.view', ['id' => $result->id, 'community' => '1'])->with('message', '게시글을 등록했습니다.');
+    }
+
+    /**
+     * 커뮤니티 수정 화면 조회
+     */
+    public function communityUpdateView($id)
+    {
+        // 커뮤니티
+        $community = Community::withCount('replys');
+
+        // 해당 ID 만 검색
+        $community->where('community.id', '=', $id);
+        $community->where('author', '=', Auth::guard('web')->user()->id);
+
+        $result = $community->first();
+
+        if ($result) {
+            return view('www.community.community_update', compact('result'));
+        } else {
+            return Redirect::route('www.community.detail.view', ['id' => $id, 'community' => '1'])->with('error', '해당 커뮤니티를 찾을 수 없습니다.');
+        }
+    }
+
+    /**
+     * 커뮤니티 등록
+     */
+    public function communityUpdate(Request $request): RedirectResponse
+    {
+        // 유효성 검사
+        $validator = Validator::make($request->all(), [
+            'category' => 'required',
+            'title' => 'required|min:1|max:50',
+            'content' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // DB 추가
+        $result = Community::where('id', $request->id)
+            ->where('author', '=', Auth::guard('web')->user()->id)
+            ->first();
+
+        if ($result) {
+
+            $result->update([
+                'category' => $request->category,
+                'title' => $request->title,
+                'content' => $request->content,
+            ]);
+
+            $this->imageWithEdit($request->community_image_ids, Community::class, $result->id);
+
+
+            return redirect()->to($request->last_url)->with('message', '커뮤니티를 수정했습니다.');
+        } else {
+            return Redirect::route('www.community.detail.view', ['id' => $result->id, 'community' => '1'])->with('error', '해당 커뮤니티를 찾을 수 없습니다.');
+        }
     }
 }

@@ -43,7 +43,7 @@
                             <!-- 공유하기 : e -->
                             @if (request()->query('community') == 1 && $result->author == (Auth::guard('web')->user()->id ?? 0))
                                 <div class="layer_menu">
-                                    <a href="community_modify.html">수정</a>
+                                    <a href="{{ route('www.community.update.view', [$result->id]) }}">수정</a>
                                     <a href="#">삭제</a>
                                 </div>
                             @else
@@ -59,48 +59,15 @@
 
                     <!-- contents : s -->
                     <div class="community_detail_top">
-                        @php
-                            $community = request()->query('community') ?? 0;
-                            $title = '';
-                            if ($community == 0) {
-                                $title = '매거진';
-                                switch ($result->type) {
-                                    case '0':
-                                        $title = '공톡 유튜브';
-                                        break;
-                                    case '1':
-                                        $title = '공톡 매거진';
-                                        break;
-                                    case '2':
-                                        $title = '공톡 뉴스';
-                                        break;
-
-                                    default:
-                                        $title = '-';
-                                        break;
-                                }
-                            } else {
-                                $title = '게시판';
-                                switch ($result->category) {
-                                    case '0':
-                                        $title = '자유글';
-                                        break;
-                                    case '1':
-                                        $title = '질문/답변';
-                                        break;
-                                    case '2':
-                                        $title = '후기';
-                                        break;
-                                    case '3':
-                                        $title = '노하우';
-                                        break;
-                                    default:
-                                        $title = '-';
-                                        break;
-                                }
-                            }
-                        @endphp
-                        <span class="community_mark"><?= $title ?></span>
+                        @if ((request()->query('community') ?? 0) == 0 ? 'active' : '')
+                            <span class="community_mark">
+                                {{ Commons::get_magazineTypeTitle($result->type) }}
+                            </span>
+                        @else
+                            <span class="community_mark">
+                                {{ Commons::get_communityTypeTitle($result->category) }}
+                            </span>
+                        @endif
                         <h3>{{ $result->title }}</h3>
                         @inject('carbon', 'Carbon\Carbon')
                         @if (request()->query('community'))
@@ -141,7 +108,7 @@
                                     allowfullscreen></iframe>
                             </div>
                         @endif
-                        {!! $result->content !!}
+                        {!! nl2br($result->content) !!}
                         @foreach ($result->images as $image)
                             <div class="detail_img_wrap">
                                 <img src="{{ Storage::url('image/' . $image->path) }}" onclick="modal_open('big_img')">
@@ -216,7 +183,8 @@
                 @endif ;
 
             if (login_check) {
-                dialog('로그인이 필요합니다.\n로그인 하시겠어요?', '로그인', '아니요', login);
+                // dialog('로그인이 필요합니다.\n로그인 하시겠어요?', '로그인', '아니요', login);
+                return;
             } else {
 
                 var formData = {
