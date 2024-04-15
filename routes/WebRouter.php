@@ -8,6 +8,7 @@ use App\Http\Controllers\commons\VerificationController;
 use App\Http\Controllers\community\CommunityPcController;
 use App\Http\Controllers\main\MainPcController;
 use App\Http\Controllers\terms\TermsController;
+use App\Http\Controllers\user\UserPcController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -72,6 +73,23 @@ Route::controller(CommunityPcController::class)->group(function () {
     Route::middleware('pc.auth')->get('/community/update/{id}', 'communityUpdateView')->name('www.community.update.view');
     Route::middleware('pc.auth')->post('/community/update', 'communityUpdate')->name('www.community.update');
     Route::get('/community/detail', 'communityDetailView')->name('www.community.detail.view');
+});
+
+/**
+ * 마이페이지
+ */
+Route::middleware('pc.auth')->controller(UserPcController::class)->group(function () {
+    Route::get('/mypage/product/magagement/list', 'productMagagementListView')->name('www.mypage.product.magagement.list.view');
+    Route::get('/mypage/corp/product/magagement/list', 'corpProductMagagementListView')->name('www.mypage.corp.product.magagement.list.view');
+    Route::get('/mypage/product/interest/list', 'productInterestListView')->name('www.mypage.product.interest.list.view');
+    Route::get('/mypage/corp/proposal/list', 'corpProposalListView')->name('www.mypage.corp.proposal.list.view');
+    Route::get('/mypage/service/list', 'serviceListView')->name('www.mypage.service.list.view');
+    Route::get('/mypage/proposal/list', 'proposalListView')->name('www.mypage.proposal.list.view');
+    Route::get('/mypage/calculator/revenue/list', 'calculatorRevenueListView')->name('www.mypage.calculator.revenue.list.view');
+    Route::get('/mypage/my/info', 'myInfoView')->name('www.mypage.my.info');
+    Route::get('/mypage/company/info', 'companyInfoView')->name('www.mypage.company.info');
+    Route::get('/mypage/community/list', 'communityListView')->name('www.mypage.community.list.view');
+    Route::get('/mypage/alarm/list', 'alarmListView')->name('www.mypage.alarm.list.view');
 });
 
 

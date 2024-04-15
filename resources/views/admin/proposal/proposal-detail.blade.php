@@ -26,7 +26,7 @@
                                     <img src="{{ Storage::url('image/' . $image->path) }}" />
                                 @endforeach
                             @else
-                                <img src="{{ asset('assets/media/auth/ic_user.png') }}" />
+                                <img src="{{ asset('assets/media/default_user.png') }}" />
                             @endif
 
                         </div>
@@ -337,7 +337,7 @@
                                     <td class="text-center">
                                         <div class="symbol symbol-70px">
                                             <div class="symbol-label"
-                                                style="background-image:url({{ asset('assets/media/auth/ic_user.png') }})">
+                                                style="background-image:url({{ asset('assets/media/default_user.png') }})">
                                             </div>
                                         </div>
                                     </td>

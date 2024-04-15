@@ -1,0 +1,223 @@
+<x-layout>
+    <!----------------------------- m::header bar : s ----------------------------->
+    <div class="m_header">
+        <div class="left_area"><a href="javascript:history.go(-1)"><img
+                    src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
+        <div class="m_title">내 자산 관리</div>
+        <div class="right_area"></div>
+    </div>
+    <!----------------------------- m::header bar : s ----------------------------->
+
+    <div class="body">
+
+        <div class="my_inner_wrap">
+            <div class="my_wrap">
+                <!-- my_side : s -->
+                <div class="my_side only_pc">
+                    <x-mypage-side :result="$user" />
+                </div>
+                <!-- my_side : e -->
+
+                <!-- my_body : s -->
+                <div class="my_body">
+                    <div class="inner_wrap m_inner_wrap">
+                        <h1 class="t_center only_pc">내 자산 관리</h1>
+
+                        <div class="asset_dashboard_wrap">
+                            <div class="ds_item_1">
+                                <div class="detail_open_wrap">
+                                    <label>총 자산 현황</label>
+                                    <button class="simple_toggle_trigger only_m"><img
+                                            src="{{ asset('assets/media/dropdown_arrow.png') }}"
+                                            class="w_100"></button>
+                                </div>
+
+                                <h1>350,234,156원</h1>
+                                <ul class="main_price_wrap">
+                                    <li>실투자금<p>952,356,124원</p>
+                                    </li>
+                                    <li>월순수익<p>27,750,000원 <span>(14.08%)</span></p>
+                                    </li>
+                                </ul>
+                                <div class="detail_price_wrap simple_toggle_layer">
+                                    <ul class="detail_price">
+                                        <li>임대 보증금<p>45,000,000원</p>
+                                        </li>
+                                        <li>월임대료<p>29,750,000원</p>
+                                        </li>
+                                    </ul>
+                                    <hr>
+                                    <ul class="detail_price">
+                                        <li>총 대출금액<p>156,004,200원</p>
+                                        </li>
+                                        <li>총 대출이자<p>750,000원</p>
+                                        </li>
+                                    </ul>
+                                    <hr>
+                                    <ul class="detail_price">
+                                        <li>취득세<p>8,375,200원</p>
+                                        </li>
+                                        <li>기타비용<p>11,560,000원</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="ds_item_2">
+                                <div>임대 보증금</div>
+                                <div>45,000,000원</div>
+                                <div>월임대료</div>
+                                <div>29,750,000원</div>
+                                <div>총 대출금액</div>
+                                <div>156,004,200원</div>
+                                <div>총 대출이자</div>
+                                <div>750,000원</div>
+                                <div>취득세</div>
+                                <div>8,375,200원</div>
+                                <div>기타비용</div>
+                                <div>11,560,000원</div>
+                            </div>
+                        </div>
+
+                        <div class="flex_between my_body_top only_pc">
+                            <h1>내 자산 목록</h1>
+                            <button class="btn_point btn_sm" onclick="location.href='my_asset_reg_1.html'">신규 자산
+                                등록</button>
+                        </div>
+
+                        <!-- 데이터가 없을 경우 : s -->
+                        <!-- <div class="empty_wrap">
+                            <p>등록한 자산이 없습니다.</p>
+                            <span>자산을 등록하고 간편하게 관리해보세요.</span>
+                        </div> -->
+                        <!-- 데이터가 없을 경우 : e -->
+
+                        <!-- Only PC list : s -->
+                        <div class="box_01 only_pc">
+                            <div class="asset_top_row">
+                                <h4>서울시 금천구 디지털로9길 41</h4>
+                                <button class="btn_graylight_ghost btn_sm"
+                                    onclick="modal_open('asset_delete')">삭제</button>
+                            </div>
+                            <p class="asset_row_total">총 3개</p>
+                            <table class="table_basic mt10">
+                                <colgroup>
+                                    <col width="60">
+                                    <col width="*">
+                                    <col width="120">
+                                    <col width="120">
+                                    <col width="150">
+                                    <col width="120">
+                                    <col width="120">
+                                    <col width="100">
+                                    <col width="30">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>번호</th>
+                                        <th>상세주소</th>
+                                        <th>부동산 유형</th>
+                                        <th>전용면적 <button class="inner_change_button"><img
+                                                    src="{{ asset('assets/media/ic_change.png') }}">
+                                                <span class="txt_unit">평</span></button></th>
+                                        <th>보증금</th>
+                                        <th>월임대료 </th>
+                                        <th>월순수익</th>
+                                        <th>수익률</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="cursor_pointer" onclick="location.href='my_asset_detail.html'">
+                                        <td>1</td>
+                                        <td>삼성 해링턴 1303호</td>
+                                        <td>지식산업센터</td>
+                                        <td>1234.12㎡</td>
+                                        <td>145,000,000원</td>
+                                        <td>8,500,000원</td>
+                                        <td><span class="txt_point">5,000,000원</span></td>
+                                        <td><span class="txt_point">14.82%</span></td>
+                                        <td><img src="{{ asset('assets/media/ic_list_arrow.png') }}" class="w_8p">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Only PC list : e -->
+
+                    </div>
+                    <!----------------------- m:: s ----------------------->
+                    <div class="m_asset_reg only_m" onclick="location.href='my_asset_reg_1.html'">
+                        <div class="fs_16"><img src="{{ asset('assets/media/ic_org_estate.png') }}" class="ic_estate">
+                            신규 자산 등록</div>
+                        <i><img src="{{ asset('assets/media/ic_list_arrow.png') }}"></i>
+                    </div>
+                    <div class="m_asset_wrap only_m">
+                        <div>
+                            <div class="m_asset_top">
+                                <h5>서울시 금천구 디지털로9길 41</h5>
+                                <button class="btn_graylight_ghost btn_sm"
+                                    onclick="modal_open('asset_delete')">삭제</button>
+                            </div>
+                            <p class="asset_row_total">총 3개</p>
+                        </div>
+                        <ul class="m_asset_list">
+                            <li class="accordion">
+                                <p class="trigger">
+                                    삼성 해링턴 1303호
+                                    <img src="{{ asset('assets/media/dropdown_arrow.png') }}" class="dropdown_arrow">
+                                </p>
+                                <div class="m_asset_detail_row panel">
+                                    <div class="list_detail_item">보증금 <span class="gray_deep">145,000,000원</span></div>
+                                    <div class="list_detail_item">월임대료 <span class="gray_deep">8,500,000원</span></div>
+                                    <div class="list_detail_item">월순수익 <span class="txt_point">5,000,000원</span></div>
+                                    <div class="list_detail_item">수익률 <span class="txt_point">14.82%</span></div>
+                                    <button class="btn_graylight_ghost btn_sm_full mt10"
+                                        onclick="location.href='my_asset_detail.html'">자세히보기</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!----------------------- m:: e ----------------------->
+                </div>
+                <!-- my_body : e -->
+
+                <!-- modal 삭제 : s -->
+                <div class="modal modal_asset_delete">
+                    <div class="modal_container">
+                        <div class="modal_mss_wrap">
+                            <p class="txt_item_1 txt_point">서울시 금천구 디지털로9길 41</p>
+                            <p class="txt_item_1">자산 목록을 삭제하시겠습니까?</p>
+                            <p class="mt8 txt_item_2">삭제 후에는 되돌릴 수 없습니다.</p>
+                        </div>
+
+                        <div class="modal_btn_wrap">
+                            <button class="btn_gray btn_full_thin" onclick="modal_close('asset_delete')">취소</button>
+                            <button class="btn_point btn_full_thin" onclick="modal_close('asset_delete')">삭제</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="md_overlay md_overlay_asset_delete" onclick="modal_close('asset_delete')"></div>
+                <!-- modal 삭제 : e -->
+
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const button = document.querySelector(".inner_change_button");
+            const unitSpan = button.querySelector(".txt_unit");
+
+            button.addEventListener("click", function() {
+                if (unitSpan.textContent === "평") {
+                    unitSpan.textContent = "㎡";
+                } else {
+                    unitSpan.textContent = "평";
+                }
+            });
+        });
+    </script>
+
+</x-layout>

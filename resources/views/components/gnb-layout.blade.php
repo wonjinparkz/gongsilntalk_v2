@@ -5,11 +5,14 @@
     <ul class="gnb">
         <li><a href="sales_list.html">실시간 분양현장</a></li>
         <li><a href="map.html">빅데이터/매물지도</a></li>
-        <li class="{{ str_contains(Route::currentRouteName(), 'community') ? 'active' : '' }}"><a
-                href="{{ route('www.community.list.view') }}">커뮤니티</a></li>
+        <li class="{{ str_contains(Route::currentRouteName(), 'www.community') ? 'active' : '' }}">
+            <a href="{{ route('www.community.list.view') }}">커뮤니티</a>
+        </li>
         @guest
         @else
-            <li><a href="my_main.html">마이메뉴</a></li>
+            <li class="{{ str_contains(Route::currentRouteName(), 'mypage') ? 'active' : '' }}">
+                <a href="{{ route('www.mypage.product.magagement.list.view') }}">마이메뉴</a>
+            </li>
         @endguest
     </ul>
     <div>
@@ -20,10 +23,15 @@
                 <li><a href="realtor_join_reg.html">중개사 가입</a></li>
             </ul>
         @else
-            <ul class="">
-                <li><a href="{{ route('www.logout.logout') }}">로그아웃</a></li>
-            </ul>
-
+            <div class="util_area">
+                <div class="header_user_img">
+                    <div class="img_box"><img src="{{ asset('assets/media/default_user.png')}}"></div>
+                </div>
+                홍길동
+                <ul class="util_menu">
+                    <li><a href="{{ route('www.logout.logout') }}">로그아웃</a></li>
+                </ul>
+            </div>
         @endguest
     </div>
 </header>
