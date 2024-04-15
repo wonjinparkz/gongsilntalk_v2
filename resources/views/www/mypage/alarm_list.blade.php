@@ -15,41 +15,7 @@
             <div class="my_wrap">
                 <!-- my_side : s -->
                 <div class="my_side only_pc">
-                    <div class="my_side_top">
-                        <div class="my_profile_img">
-                            <div class="img_box"><img src="{{ asset('assets/media/default_user.png') }}"></div>
-                        </div>
-                        <span class="user_name">홍길동님</span>
-                    </div>
-                    <ul class="my_gnb">
-                        <li>
-                            <a href="my_estate_list.html">내 매물 관리</a>
-                        </li>
-                        <li>
-                            <a href="my_wish_list.html">관심매물/최근 본 매물</a>
-                        </li>
-                        <li>
-                            <a href="my_asset_view.html">내 자산관리</a>
-                        </li>
-                        <li>
-                            <a href="my_proposal_list.html">매물 제안서</a>
-                        </li>
-                        <li>
-                            <a href="calculator_revenue.html">수익률 계산기</a>
-                        </li>
-                        <li>
-                            <a href="my_info.html">내 정보 수정</a>
-                        </li>
-                        <li>
-                            <a href="my_community_list.html">커뮤니티 게시글 관리</a>
-                        </li>
-                        <li class="active only_pc">
-                            <a href="alarm_list.html">알림</a>
-                        </li>
-                    </ul>
-                    <button class="btn_call">
-                        <img src="{{ asset('assets/media/ic_call.png') }}"> 고객센터 문의
-                    </button>
+                    <x-mypage-side :result="$user" />
                 </div>
                 <!-- my_side : e -->
 
