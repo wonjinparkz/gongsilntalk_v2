@@ -68,7 +68,7 @@ class CommunityPcController extends Controller
         // 페이징
         $result = $communityList->paginate($request->per_page == null ? 10 : $request->per_page);
 
-        $noticeList = Notice::select()->where('is_blind', '0')->get();
+        $noticeList = Notice::select()->where('is_blind', '0')->orderBy('created_at', 'desc')->take(2)->get();
 
         return view('www.community.community_list', compact('result', 'noticeList'));
     }

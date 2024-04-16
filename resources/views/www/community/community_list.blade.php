@@ -6,63 +6,79 @@
                 <!-- community top : s -->
                 <div class="community_inner_wrap">
                     <div class="community_top">
-                        <ul class="community_menu toggle_tab">
-                            <li class="{{ request()->query('community') == 0 ? 'active' : '' }}">
-                                <a href="{{ route('www.community.list.view', ['community' => '0']) }}">
-                                    공톡 컨텐츠
-                                </a>
-                            </li>
-                            <li class="{{ request()->query('community') == 1 ? 'active' : '' }}">
-                                <a href="{{ route('www.community.list.view', ['community' => '1']) }}">
-                                    커뮤니티
-                                </a>
-                            </li>
-                        </ul>
-                        <a href="{{route('www.community.search.view')}}"><img src="{{ asset('assets/media/btn_search.png') }}"
-                                class="w_22p"></a>
+                        <div class="community_top_tab">
+                            <ul class="community_menu tab_toggle_menu">
+                                <li class="{{ request()->query('community') == 0 ? 'active' : '' }}">
+                                    <a href="{{ route('www.community.list.view', ['community' => '0']) }}">
+                                        공톡 컨텐츠
+                                    </a>
+                                </li>
+                                <li class="{{ request()->query('community') == 1 ? 'active' : '' }}">
+                                    <a href="{{ route('www.community.list.view', ['community' => '1']) }}">
+                                        커뮤니티
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab_area_wrap1">
+                                <div>
+                                    @if (request()->query('community') == 0)
+                                        <ul class="tab_type_1 toggle_tab">
+                                            <li class="{{ request()->query('type') == 0 ? 'active' : '' }}">
+                                                <a
+                                                    href="{{ route('www.community.list.view', ['community' => '0', 'type' => '0']) }}">
+                                                    공톡 유튜브
+                                                </a>
+                                            </li>
+                                            <li class="{{ request()->query('type') == 1 ? 'active' : '' }}">
+                                                <a
+                                                    href="{{ route('www.community.list.view', ['community' => '0', 'type' => '1']) }}">
+                                                    공톡 매거진
+                                                </a>
+                                            </li>
+                                            <li class="{{ request()->query('type') == 2 ? 'active' : '' }}">
+                                                <a
+                                                    href="{{ route('www.community.list.view', ['community' => '0', 'type' => '2']) }}">
+                                                    공톡 뉴스
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    @endif
+                                </div>
+                                <div>
+                                    @if (request()->query('community') == 1)
+                                        <ul class="tab_type_1 toggle_tab">
+                                            <li class="{{ request()->query('type') == 0 ? 'active' : '' }}">
+                                                <a
+                                                    href="{{ route('www.community.list.view', ['community' => '1', 'type' => '0']) }}">
+                                                    자유글
+                                                </a>
+                                            </li>
+                                            <li class="{{ request()->query('type') == 1 ? 'active' : '' }}">
+                                                <a
+                                                    href="{{ route('www.community.list.view', ['community' => '1', 'type' => '1']) }}">
+                                                    질문/답변
+                                                </a>
+                                            </li>
+                                            <li class="{{ request()->query('type') == 2 ? 'active' : '' }}">
+                                                <a
+                                                    href="{{ route('www.community.list.view', ['community' => '1', 'type' => '2']) }}">
+                                                    후기
+                                                </a>
+                                            </li>
+                                            <li class="{{ request()->query('type') == 3 ? 'active' : '' }}">
+                                                <a
+                                                    href="{{ route('www.community.list.view', ['community' => '1', 'type' => '3']) }}">
+                                                    노하우
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{ route('www.community.search.view') }}"><img
+                                src="{{ asset('assets/media/btn_search.png') }}" class="w_22p"></a>
                     </div>
-                    @if (request()->query('community') == 0)
-                        <ul class="tab_type_1 toggle_tab">
-                            <li class="{{ request()->query('type') == 0 ? 'active' : '' }}">
-                                <a href="{{ route('www.community.list.view', ['community' => '0', 'type' => '0']) }}">
-                                    공톡 유튜브
-                                </a>
-                            </li>
-                            <li class="{{ request()->query('type') == 1 ? 'active' : '' }}">
-                                <a href="{{ route('www.community.list.view', ['community' => '0', 'type' => '1']) }}">
-                                    공톡 매거진
-                                </a>
-                            </li>
-                            <li class="{{ request()->query('type') == 2 ? 'active' : '' }}">
-                                <a href="{{ route('www.community.list.view', ['community' => '0', 'type' => '2']) }}">
-                                    공톡 뉴스
-                                </a>
-                            </li>
-                        </ul>
-                    @elseif(request()->query('community') == 1)
-                        <ul class="tab_type_1 toggle_tab">
-                            <li class="{{ request()->query('type') == 0 ? 'active' : '' }}">
-                                <a href="{{ route('www.community.list.view', ['community' => '1', 'type' => '0']) }}">
-                                    자유글
-                                </a>
-                            </li>
-                            <li class="{{ request()->query('type') == 1 ? 'active' : '' }}">
-                                <a href="{{ route('www.community.list.view', ['community' => '1', 'type' => '1']) }}">
-                                    질문/답변
-                                </a>
-                            </li>
-                            <li class="{{ request()->query('type') == 2 ? 'active' : '' }}">
-                                <a href="{{ route('www.community.list.view', ['community' => '1', 'type' => '2']) }}">
-                                    후기
-                                </a>
-                            </li>
-                            <li class="{{ request()->query('type') == 3 ? 'active' : '' }}">
-                                <a href="{{ route('www.community.list.view', ['community' => '1', 'type' => '3']) }}">
-                                    노하우
-                                </a>
-                            </li>
-                        </ul>
-                    @endif
                     <ul class="cmm_noti_wrap">
                         @foreach ($noticeList as $notice)
                             <li><span>공지</span>
@@ -142,13 +158,15 @@
                     </div>
                     <!-- community list : e -->
 
-                    @if (request()->query('community') == 1)
-                        <div class="mt20 t_right only_pc">
-                            <button class="btn_gray_ghost btn_md"
-                                onclick="location.href='{{ route('www.community.create.view') }}'"><img
-                                    src="{{ asset('assets/media/ic_pen.png') }}">글쓰기</button>
-                        </div>
-                    @endif
+                    <div class="mt20 t_right only_pc">
+                        <button class="btn_gray_ghost btn_md"
+                            onclick="location.href='{{ route('www.community.create.view') }}'"><img
+                                src="{{ asset('assets/media/ic_pen.png') }}">글쓰기</button>
+                    </div>
+                    <button onclick="location.href='{{ route('www.community.create.view') }}'">
+                        <img src="{{ asset('assets/media/floting_btn.png') }}" class="floting_right_btn only_m">
+                    </button>
+
                     {{ $result->onEachSide(1)->links('components.pc-pagination') }}
                 </div>
                 <!-- community body : e -->

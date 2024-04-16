@@ -85,7 +85,7 @@ class NoticeController extends Controller
         // 유효성 검사
         $validator = Validator::make($request->all(), [
             'title' => 'required|min:1|max:50',
-            'content' => 'required|min:1|max:255',
+            'content' => 'required|min:1|max:2550',
             'notice_image_ids' => 'required',
         ]);
 
@@ -117,7 +117,7 @@ class NoticeController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|min:1|max:50',
-            'content' => 'required|min:1|max:255',
+            'content' => 'required|min:1|max:2550',
             'notice_image_ids' => 'required',
         ]);
 

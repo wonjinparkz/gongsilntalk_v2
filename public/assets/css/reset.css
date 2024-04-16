@@ -13,15 +13,15 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin:0;
 	padding:0;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section, summary {
 	display:block;
 }
@@ -110,7 +110,7 @@ button{
 	border:0px;
 	background:none;
 }
-body.mouse a:focus, 
+body.mouse a:focus,
 body.mouse button:focus{
 	outline:none;
 }
@@ -126,11 +126,11 @@ textarea{
 	border-radius: 0;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	box-sizing: border-box; 
+	box-sizing: border-box;
 	margin:0;
 	padding:0;
 }
-input::-ms-clear, 
+input::-ms-clear,
 select::-ms-expand{ display: none; }
 textarea{resize:none;}
 @media all and (max-width:800px){
@@ -168,28 +168,28 @@ ex )
 unicode-range: U+0041-005A, U+0061-007A;
 */
 
-@font-face { 
-	font-family: 'font-l'; 
-	font-style: normal; 
-	font-weight: 300; 
+@font-face {
+	font-family: 'font-l';
+	font-style: normal;
+	font-weight: 300;
 	src: url(../fonts/SpoqaHanSansNeo-Light.woff) format('woff'), url(../fonts/SpoqaHanSansNeo-Light.woff2) format('woff2');
-  }  
-@font-face { 
-  font-family: 'font-r'; 
-  font-style: normal; 
-  font-weight: 400; 
+  }
+@font-face {
+  font-family: 'font-r';
+  font-style: normal;
+  font-weight: 400;
   src: url(../fonts/SpoqaHanSansNeo-Regular.woff) format('woff'), url(../fonts/SpoqaHanSansNeo-Regular.woff) format('woff2');
-} 
-@font-face { 
-	font-family: 'font-m'; 
-	font-style: normal; 
-	font-weight: 500; 
+}
+@font-face {
+	font-family: 'font-m';
+	font-style: normal;
+	font-weight: 500;
 	src: url(../fonts/SpoqaHanSansNeo-Medium.woff) format('woff'), url(../fonts/SpoqaHanSansNeo-Medium.woff) format('woff2');
-  } 
-@font-face { 
-  font-family: 'font-b'; 
-  font-style: normal; 
-  font-weight: 700; 
+  }
+@font-face {
+  font-family: 'font-b';
+  font-style: normal;
+  font-weight: 700;
   src: url(../fonts/SpoqaHanSansNeo-Bold.woff) format('woff'), url(../fonts/SpoqaHanSansNeo-Bold.woff) format('woff2');
 }
 

@@ -13,6 +13,19 @@ class UserPcController extends Controller
     /**
      * 내 매물 관리
      */
+    public function mypageMainView(): View
+    {
+        // 회원 정보
+        $user = User::select()
+        ->where('users.id', Auth::guard('web')->user()->id)
+        ->first();
+
+        return view('www.mypage.productMagagement_list', compact('user'));
+    }
+
+    /**
+     * 내 매물 관리
+     */
     public function productMagagementListView(): View
     {
         // 회원 정보
@@ -141,7 +154,7 @@ class UserPcController extends Controller
     }
 
     /**
-     * 커뮤니티 게시글 관리
+     * 알림
      */
     public function alarmListView(): View
     {

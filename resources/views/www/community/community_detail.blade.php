@@ -4,6 +4,39 @@
     <input type="hidden" name="type" id="type"
         value="{{ request()->query('community') == 0 ? 'magazine' : 'community' }}">
 
+
+    <!----------------------------- m::header bar : s ----------------------------->
+    <div class="m_header">
+        <div class="left_area"><a href="javascript:history.go(-1)"><img
+                    src="{{ asset('assets/media/header_btn_back_deep.png') }}"></a></div>
+        {{-- <div class="m_title">커뮤니티 상세</div> --}}
+        <div class="right_area">
+            <img src="{{ asset('assets/media/header_btn_share_deep.png') }}" onclick="modal_open_slide('share')">
+            <a href="#" class="dot_btn btn_dot_menu"><img
+                    src="{{ asset('assets/media/header_btn_dot.png') }}"></a>
+        </div>
+    </div>
+    <div class="modal_slide modal_slide_share">
+        <div class="slide_title_wrap">
+            <span>공유하기</span>
+            <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('share')">
+        </div>
+        <div class="slide_modal_body">
+            <div class="layer_share_con">
+                <a href="#">
+                    <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                    <p class="mt8">카카오톡</p>
+                </a>
+                <a href="#">
+                    <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                    <p class="mt8">링크복사</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="md_slide_overlay md_slide_overlay_share" onclick="modal_close_slide('share')"></div>
+    <!----------------------------- m::header bar : s ----------------------------->
+
     <div class="body gray_body">
         <div class="inner_wrap community_wrap">
             <div class="community_area">
@@ -52,7 +85,6 @@
                                     <a href="#">차단</a>
                                 </div>
                             @endif
-
                         </div>
                     </div>
 
@@ -109,9 +141,10 @@
                             </div>
                         @endif
                         {!! nl2br($result->content) !!}
-                        @foreach ($result->images as $image)
+                        @foreach ($result->images as $index => $image)
                             <div class="detail_img_wrap">
-                                <img src="{{ Storage::url('image/' . $image->path) }}" onclick="modal_open('big_img')">
+                                <img src="{{ Storage::url('image/' . $image->path) }}"
+                                    onclick="modal_open('big_img_{{ $index }}')">
                             </div>
                         @endforeach
 
@@ -132,14 +165,17 @@
 
     </div>
 
-    <!-- 이미지 확대 : s-->
-    <div class="modal modal_mid modal_big_img">
-        <img src="{{ asset('assets/media/header_btn_close_w.png') }}" class="big_img_close"
-            onclick="modal_close('big_img')">
-        <img src="{{ asset('assets/media/s_8.png') }}">
-    </div>
-    <div class="md_overlay md_overlay_big_img" onclick="modal_close('big_img')"></div>
-    <!-- 이미지 확대 : e-->
+    @foreach ($result->images as $index => $image)
+        <!-- 이미지 확대 : s-->
+        <div class="modal modal_mid modal_big_img modal_big_img_{{ $index }}">
+            <img src="{{ asset('assets/media/header_btn_close_w.png') }}" class="big_img_close"
+                onclick="modal_close('big_img_{{ $index }}')">
+            <img src="{{ Storage::url('image/' . $image->path) }}" class="big_img">
+        </div>
+        <div class="md_overlay md_overlay_big_img_{{ $index }}"
+            onclick="modal_close('big_img_{{ $index }}')"></div>
+        <!-- 이미지 확대 : e-->
+    @endforeach
 
     <!-- modal 신고하기 : s -->
     <div class="modal modal_mid modal_report">

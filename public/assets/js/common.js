@@ -263,9 +263,9 @@ function COM_check_box_all_fn(all_clase, select_class) {
 function sideNavToggle() {
     $(".nav, .nav_dim").toggleClass("open");
     if ($(".nav").hasClass("open")) {
-        $.lockBody();
+        lockBody();
     } else {
-        $.unlockBody();
+        unlockBody();
     }
 }
 
@@ -279,13 +279,13 @@ function sideNavToggle() {
 function modal_open(element) {
     $(".md_overlay_" + element).css("visibility", "visible").animate({ opacity: 1 }, 100);
     $(".modal_" + element).css({ display: "block" });
-    $.lockBody();
+    lockBody();
 }
 
 function modal_close(element) {
     $(".md_overlay_" + element).css("visibility", "hidden").animate({ opacity: 0 }, 100);
     $(".modal_" + element).css({ display: "none" });
-    $.unlockBody();
+    unlockBody();
 }
 
 //------------------------------------------------------------------------------------------
@@ -295,7 +295,7 @@ function modal_open_slide(id, fn = undefined) {
     $('.md_slide_overlay_' + id).css("visibility", "visible").animate({ opacity: 1 }, 100);
     $(".modal_slide_" + id).css({ bottom: "0", transition: '0.4s' });
     $("#modal_" + id).css("display", "block");
-    $.lockBody();
+    lockBody();
     if (fn !== undefined) {
         fn();
     }
@@ -304,7 +304,7 @@ function modal_close_slide(id, fn = undefined) {
     let slide_height = $('.modal_slide_' + id).outerHeight();
     $(".md_slide_overlay_" + id).css("visibility", "hidden").animate({ opacity: 0 }, 100);
     $(".modal_slide_" + id).css({ bottom: -slide_height });
-    $.unlockBody();
+    unlockBody();
     if (fn !== undefined) {
         fn();
     }
@@ -313,7 +313,7 @@ function modal_close_slide(id, fn = undefined) {
 //모달 백그라운드 스크롤 막기
 var scrollTop;
 
-$.lockBody = function () {
+function lockBody() {
     if (window.pageYOffset) {
         scrollTop = window.pageYOffset;
         $(".wrap").css({
@@ -322,12 +322,12 @@ $.lockBody = function () {
     }
 
     $('html, body').css({
-        height: "100%",
+        // height: "100%",
         overflow: "hidden"
     });
 }
 
-$.unlockBody = function () {
+function unlockBody() {
     $('html, body').css({
         height: "",
         overflow: ""

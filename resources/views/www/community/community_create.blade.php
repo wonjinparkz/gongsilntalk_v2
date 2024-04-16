@@ -1,5 +1,17 @@
 <x-layout>
 
+    <!----------------------------- m::header bar : s ----------------------------->
+    <div class="m_header">
+        <div class="left_area">
+            <a
+                href="{{ str_contains(Route::currentRouteName(), 'create') ? URL::previous() : route('www.community.list.view', ['community' => '1']) }}"><img
+                    src="{{ asset('assets/media/header_btn_back.png') }}"></a>
+        </div>
+        <div class="m_title">신규 게시글 작성</div>
+        <div class="right_area"></div>
+    </div>
+    <!----------------------------- m::header bar : s ----------------------------->
+
     <div class="body gray_body">
         <div class="community_wrap">
             <div class="community_area">
@@ -7,8 +19,8 @@
                 <form class="form" method="POST" action="{{ route('www.community.create') }}">
                     @csrf
                     <!-- community body : s -->
-                    <div class="community_inner_wrap">
-                        <div class="header_bar">
+                    <div class="community_inner_wrap reg_type">
+                        <div class="header_bar only_pc">
                             <div>
                                 <a href="{{ URL::previous() }}"><img
                                         src="{{ asset('assets/media/header_btn_back.png') }}"></a>

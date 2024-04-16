@@ -30,7 +30,7 @@
              </a>
          </li>
          <li>
-             <a href="my_main.html">
+             <a href="{{ route('www.mypage.product.magagement.list.view') }}">
                  <span>
                      <img src="{{ asset('assets/media/mcnu_ic_4.png') }}" alt="">
                  </span>
