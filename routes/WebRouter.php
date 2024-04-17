@@ -7,6 +7,7 @@ use App\Http\Controllers\commons\PopupOpenController;
 use App\Http\Controllers\commons\VerificationController;
 use App\Http\Controllers\community\CommunityPcController;
 use App\Http\Controllers\main\MainPcController;
+use App\Http\Controllers\product\ProductPcController;
 use App\Http\Controllers\terms\TermsController;
 use App\Http\Controllers\user\UserPcController;
 use Illuminate\Support\Facades\Route;
@@ -44,10 +45,10 @@ Route::controller(MainPcController::class)->group(function () {
 Route::controller(UserAuthPcController::class)->group(function () {
 
     // 로그인
-    Route::get('/login', 'loginView')->name('www.login.login');
+    Route::middleware('pc.check')->get('/login', 'loginView')->name('www.login.login');
     Route::post('/login/send', 'login')->name('www.login.create');
     // 로그아웃
-    Route::get('/logout', 'logout')->name('www.logout.logout');
+    Route::middleware('pc.auth')->get('/logout', 'logout')->name('www.logout.logout');
     // 회원가입
     Route::get('/register/register', 'joinView')->name('www.register.register');
     Route::post('/register/create', 'register')->name('www.register.create');
@@ -64,6 +65,13 @@ Route::controller(UserAuthPcController::class)->group(function () {
     Route::get('/apple/oauth', 'appleCallback');
 });
 
+// 매물
+Route::middleware('pc.auth')->controller(ProductPcController::class)->group(function () {
+    Route::get('/product/create/view', 'productCreateView')->name('www.product.create.view');
+    Route::post('/product/create/type/check', 'productCreateTypeCheck')->name('www.product.create.type.check');
+});
+
+// 커뮤니티
 Route::controller(CommunityPcController::class)->group(function () {
     Route::get('/community/list', 'communityListView')->name('www.community.list.view');
     Route::get('/community/search', 'communitySearchView')->name('www.community.search.view');

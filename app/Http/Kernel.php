@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'admin.check' => \App\Http\Middleware\AdminRedirectIfAuthenticated::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'pc.auth' => \App\Http\Middleware\PcAuthenticate::class,
+        'pc.check' => \App\Http\Middleware\PcRedirectIfAuthenticated::class,
     ];
 }

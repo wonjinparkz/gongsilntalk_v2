@@ -27,7 +27,7 @@
                 <div class="header_user_img">
                     <div class="img_box"><img src="{{ asset('assets/media/default_user.png')}}"></div>
                 </div>
-                홍길동
+                {{ Auth::guard('web')->user()->name; }}
                 <ul class="util_menu">
                     <li><a href="{{ route('www.logout.logout') }}">로그아웃</a></li>
                 </ul>

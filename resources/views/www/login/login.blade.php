@@ -1,9 +1,8 @@
-<x-layout>
-
-    <body class="gray_body">
+<body class="gray_body">
+    <x-layout>
 
         <div class="body">
-            <div class="inner_wrap">
+            <div class="inner_wrap login_inner_wrap">
                 <div class="col-md-6 box_member">
                     <h2>공실앤톡 로그인</h2>
                     <form class="form" name="login" id="login" method="POST"
@@ -113,6 +112,6 @@
 
 
 
-    </body>
 
-</x-layout>
+    </x-layout>
+</body>

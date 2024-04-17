@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('title')->comment('제안서 명');
             $table->integer('type')->comment('매물 타입 - 0: 지식산업센터, 1: 사무실, 2: 창고,  3: 상가, 6: 단독공장');
             $table->integer('area')->comment('희망 면적 (평)');
-            $table->double('square', 10, 1)->comment('희망 면적 (제곱미터)');
+            $table->double('square', 10, 2)->comment('희망 면적 (제곱미터)');
             $table->integer('business_type')->nullable()->comment('업종 (상가가 아닐 경우에만 선택)');
             $table->integer('move_type')->comment('입주 타입 - 0: 즉시입주, 1: 날짜 협의, 2: 직접 입력');
             $table->integer('users_count')->comment('사용 인원');
