@@ -38,7 +38,7 @@ return new class extends Migration
             $table->integer('total_floor_area')->nullable()->comment('연면적 타입이 4일 경우에만 사용 (단위 평)');
             $table->double('total_floor_square', 10, 2)->nullable()->comment('연면적 타입이 4일 경우에만 사용 (단위 제곱미터)');
 
-            $table->string('approve_date')->nullable()->comment('사용승인일 yyyymd 형식');
+            $table->string('approve_date')->nullable()->comment('준공예정일 yyyymd 형식');
             $table->integer('building_type')->nullable()->comment('건축물 용도');
 
             $table->integer('move_type')->nullable()->comment('입주 타입 - 0 : 즉시입주, 1 : 날짜협의, 2: 직접입력');

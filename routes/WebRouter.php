@@ -68,7 +68,9 @@ Route::controller(UserAuthPcController::class)->group(function () {
 // 매물
 Route::middleware('pc.auth')->controller(ProductPcController::class)->group(function () {
     Route::get('/product/create/view', 'productCreateView')->name('www.product.create.view');
+    Route::get('/product/create2/view', 'productCreate2View')->name('www.product.create2.view');
     Route::post('/product/create/type/check', 'productCreateTypeCheck')->name('www.product.create.type.check');
+    Route::post('/product/create/address/check', 'productCreateAddressCheck')->name('www.product.create.address.check');
 });
 
 // 커뮤니티

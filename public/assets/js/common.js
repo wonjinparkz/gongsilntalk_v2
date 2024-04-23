@@ -667,3 +667,20 @@ function dialog(message, confirmText, cancelText, onConfrim) {
         }
     });
 }
+
+//----------------------------------------------------------------------------------------------------
+
+// 공공데이터 좌표값을 x y 위도경도로 변경해주는 함수
+function get_coordinate_conversion(rtentX, rtentY) {
+    // proj4에서 UTM 좌표계 정의
+    proj4.defs("EPSG:5179",
+        "+proj=tmerc +lat_0=38 +lon_0=127.5 +k=0.9996 +x_0=1000000 +y_0=2000000 +ellps=GRS80 +units=m +no_defs");
+
+    // proj4에서 WGS84 좌표계 정의
+    proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
+
+    // UTM 좌표를 WGS84로 변환
+    var wgs84Coords = proj4("EPSG:5179", "EPSG:4326", [parseFloat(rtentX), parseFloat(rtentY)]);
+
+    return wgs84Coords;
+}

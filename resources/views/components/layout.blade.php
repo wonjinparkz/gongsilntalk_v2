@@ -61,6 +61,9 @@
 </style>
 <script type="text/javascript" src="{{ asset('assets/js/toastr.min.js') }}"></script>
 <script>
+    var V_WORD_KEY = "{{ env('V_WORD_KEY') }}";
+    var APP_URL = "{{ env('APP_URL') }}";
+
     var hostUrl = "assets/";
 
     // 공통 메세지 출력
