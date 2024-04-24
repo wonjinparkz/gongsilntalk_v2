@@ -42,16 +42,15 @@
                             <!----------------- M:: map : e ----------------->
                             <div class="inner_address">
                                 <div class="address_row" id="roadName">
-                                    <span>도로명</span>
                                 </div>
                                 <div class="address_row" id="jibunName">
-                                    <span>지번</span>
                                 </div>
                             </div>
 
                             <div class="detail_address_1 mt18 active">
                                 <div>
-                                    <input type="text" name="address_detail" id="address_detail" placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호">
+                                    <input type="text" name="address_detail" id="address_detail"
+                                        placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호">
                                 </div>
                                 <div class="mt8">
                                     <input type="checkbox" name="address_no" id="address_no_2" value="Y">
@@ -62,11 +61,11 @@
                             <div class="detail_address_2 mt18">
                                 <div class="flex_2">
                                     <div class="flex_1">
-                                        <input type="text">
+                                        <input type="text" name="address_dong" id="address_dong">
                                         <span>동</span>
                                     </div>
                                     <div class="flex_1">
-                                        <input type="text">
+                                        <input type="text" name="address_number" id="address_number">
                                         <span>호</span>
                                     </div>
                                 </div>
@@ -79,7 +78,12 @@
                         </div>
 
                         <div class="inner_item inner_map only_pc">
-                            주소 검색 시,<br>해당 위치가 지도에 표시됩니다.
+                            <div id="is_temporary_0">
+                                주소 검색 시,<br>해당 위치가 지도에 표시됩니다.
+                            </div>
+                            <div id="is_temporary_1" style="display: none">
+                                가(임시)주소 선택시,<br>지도 노출이 불가능합니다.
+                            </div>
                         </div>
 
                     </div>
@@ -114,30 +118,30 @@
             </ul>
             <div class="tab_area_wrap adress_select_wrap  mt20">
                 <div>
-                    <div class="point_sm_filter cell_4">
+                    <div class="point_sm_filter cell_4 city">
                         <div class="cell">
                             <input type="radio" name="region_1" id="region_1_1" value="Y">
-                            <label for="region_1_1">강원도</label>
+                            <label class="label" for="region_1_1">강원도</label>
                         </div>
                         <div class="cell">
                             <input type="radio" name="region_1" id="region_1_2" value="Y">
-                            <label for="region_1_2">경기도</label>
+                            <label class="label" for="region_1_2">경기도</label>
                         </div>
                         <div class="cell">
                             <input type="radio" name="region_1" id="region_1_3" value="Y">
-                            <label for="region_1_3">경상남도</label>
+                            <label class="label" for="region_1_3">경상남도</label>
                         </div>
                         <div class="cell">
                             <input type="radio" name="region_1" id="region_1_4" value="Y">
-                            <label for="region_1_4">광주광역시</label>
+                            <label class="label" for="region_1_4">광주광역시</label>
                         </div>
                         <div class="cell">
                             <input type="radio" name="region_1" id="region_1_5" value="Y">
-                            <label for="region_1_5">대구광역시</label>
+                            <label class="label" for="region_1_5">대구광역시</label>
                         </div>
                         <div class="cell">
                             <input type="radio" name="region_1" id="region_1_6" value="Y">
-                            <label for="region_1_6">세종특별자치시</label>
+                            <label class="label" for="region_1_6">세종특별자치시</label>
                         </div>
                     </div>
                 </div>
@@ -145,11 +149,11 @@
                     <div class="point_sm_filter cell_4">
                         <div class="cell">
                             <input type="radio" name="region_2" id="region_2_1" value="Y">
-                            <label for="region_2_1">강남구</label>
+                            <label class="label" for="region_2_1">강남구</label>
                         </div>
                         <div class="cell">
                             <input type="radio" name="region_2" id="region_2_2" value="Y">
-                            <label for="region_2_2">강동구</label>
+                            <label class="label" for="region_2_2">강동구</label>
                         </div>
                     </div>
                 </div>
@@ -157,11 +161,11 @@
                     <div class="point_sm_filter cell_4">
                         <div class="cell">
                             <input type="radio" name="region_3" id="region_3_1" value="Y">
-                            <label for="region_3_1">개포동</label>
+                            <label class="label" for="region_3_1">개포동</label>
                         </div>
                         <div class="cell">
                             <input type="radio" name="region_3" id="region_3_2" value="Y">
-                            <label for="region_3_2">논현동</label>
+                            <label class="label" for="region_3_2">논현동</label>
                         </div>
                     </div>
                 </div>
@@ -169,11 +173,11 @@
                     <div class="point_sm_filter cell_4">
                         <div class="cell">
                             <input type="radio" name="region_4" id="region_4_1" value="Y">
-                            <label for="region_4_1">개곡리</label>
+                            <label class="label" for="region_4_1">개곡리</label>
                         </div>
                         <div class="cell">
                             <input type="radio" name="region_4" id="region_4_2" value="Y">
-                            <label for="region_4_2">개곡리</label>
+                            <label class="label" for="region_4_2">개곡리</label>
                         </div>
                     </div>
                 </div>
@@ -190,8 +194,64 @@
         $(document).ready(function() {
             var type = sessionStorage.getItem("typeSession")
 
+            // 매물 타입이 분양권일 경우 활성화
             if (type > 13) {
                 $('#is_unregistered').css('display', '')
+            }
+
+            // 기본 세팅
+            var regcode = '*00000000';
+
+            // 시군구 가져오는 api
+            var gatewayUrl =
+                "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + regcode;
+
+            $.ajax({
+                url: gatewayUrl,
+                method: "GET",
+                dataType: "json",
+                success: function(response) {
+                    // Check if 'regcodes' property exists and is an array
+                    if (response.regcodes && Array.isArray(response.regcodes)) {
+                        var div = $("#city_code");
+
+                        // Iterate over the 'regcodes' array
+                        response.regcodes.forEach(function(regcodeObj) {
+                            // Assuming 'code' is the property you want to use for the option value
+                            var regcode = regcodeObj.code;
+                            // Assuming 'name' is the property you want to use for the option text
+                            var name = regcodeObj.name;
+                            regcode.substring(0, 2)
+                            div.append(`<div class="cell">`+
+                                            `<input type="radio" name="region_1" id="region_1_N" value="`+ regcode.substring(0, 2)+`">`+
+                                            `<label class="label" for="region_1_N">` + name + `</label>`+
+                                        `</div>`);
+                        });
+                    } else {
+                        console.error("Invalid response format. 'regcodes' array not found.");
+                    }
+                },
+                error: function(error) {
+                    console.error("Error fetching regcodes:", error);
+                }
+            });
+        });
+
+        $('#address_no_1').click(function() {
+            if ($(this).is(':checked')) {
+                $('#address_dong').val('');
+                $('#address_dong').attr('disabled', true);
+            } else {
+                $('#address_dong').attr('disabled', false);
+            }
+        });
+
+        $('#address_no_2').click(function() {
+            if ($(this).is(':checked')) {
+                $('#address_detail').val('');
+                $('#address_detail').attr('disabled', true);
+            } else {
+                $('#address_detail').attr('disabled', false);
             }
         });
 
@@ -202,23 +262,29 @@
             var address_2 = document.querySelector(".detail_address_2");
             var search_1 = document.querySelector(".search_address_1");
             var search_2 = document.querySelector(".search_address_2");
+            var is_temporary_0 = document.querySelector("#is_temporary_0");
+            var is_temporary_1 = document.querySelector("#is_temporary_1");
 
             if (this.checked) {
                 address_1.style.display = "none";
                 address_2.classList.add("active");
                 search_1.style.display = "none";
                 search_2.classList.add("active");
+                is_temporary_0.style.display = "none";
+                is_temporary_1.style.display = "block";
             } else {
                 address_1.style.display = "block";
                 address_2.classList.remove("active");
                 search_1.style.display = "block";
                 search_2.classList.remove("active");
+                is_temporary_0.style.display = "block";
+                is_temporary_1.style.display = "none";
             }
         });
 
         //가(임시)주소 선택하기
         document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll('label').forEach(function(label) {
+            document.querySelectorAll('.label').forEach(function(label) {
                 label.addEventListener("click", function() {
                     var index = label.getAttribute("for").split("_")[1]; // 인덱스 추출
                     var regionInputId = "region_input_" + index;
@@ -281,15 +347,18 @@
         console.log('entX:', rtentX);
         console.log('entY:', rtentY);
 
-        $('#roadName').html('<span>도로명</span>' + rtAddrPart1 );
+        $('#roadName').html('<span>도로명</span>' + rtAddrPart1);
         $('#jibunName').html('<span>지번</span>' + rtJibunAddr);
-        $('#address_detail').val(rtAddrDetail);
+
+        if (!$("#address_detail").prop('disabled')) {
+            $('#address_detail').val(rtAddrDetail);
+        }
 
 
-        // var wgs84Coords = get_coordinate_conversion(rtentX, rtentY)
+        var wgs84Coords = get_coordinate_conversion(rtentX, rtentY)
 
-        // $('input[name=address_lng]').val(wgs84Coords[0]);
-        // $('input[name=address_lat]').val(wgs84Coords[1]);
+        $('input[name=address_lng]').val(wgs84Coords[0]);
+        $('input[name=address_lat]').val(wgs84Coords[1]);
 
         console.log('주소 검색 끝!');
 

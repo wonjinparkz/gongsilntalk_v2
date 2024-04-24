@@ -30,6 +30,7 @@
     <!--외부 JS : 외부 모듈에서 제공된 JS만 사용-->
     <script src="{{ asset('assets/js/swiper.jquery.js') }}"></script>
     <script src="{{ asset('assets/js/swiper-bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/proj4.js') }}"></script>
 
     <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
     <script src="{{ asset('assets/plugins/custom/fslightbox/fslightbox.bundle.js') }}"></script>
