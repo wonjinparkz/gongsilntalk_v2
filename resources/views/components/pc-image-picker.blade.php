@@ -94,4 +94,16 @@
         $(elem).parent().remove();
         $(".imageCount").html(document.querySelectorAll('input[name="{{ $id }}_image_paths[]"]').length)
     }
+
+    var containers = document.querySelectorAll(".draggable-zone");
+
+    var swappable = new Sortable.default(containers, {
+        draggable: ".draggable",
+        handle: ".draggable .draggable-handle",
+        mirror: {
+            appendTo: "body",
+            constrainDimensions: true
+        },
+
+    });
 </script>

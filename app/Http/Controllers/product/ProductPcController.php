@@ -25,6 +25,13 @@ class ProductPcController extends Controller
     {
         return view('www.product.product_create2');
     }
+    /**
+     * 내 매물 등록 관리
+     */
+    public function productCreate3View(): View
+    {
+        return view('www.product.product_create3');
+    }
 
     /**
      * 매물 등록 매물유형 및 가격 체크
@@ -51,5 +58,21 @@ class ProductPcController extends Controller
         }
 
         return Redirect::route('www.product.create2.view', compact('request'));
+    }
+    /**
+     * 매물 등록 매물유형 및 가격 체크
+     */
+    public function productCreateAddressCheck(Request $request): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), [
+
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(route('www.product.create2.view'))->withErrors($validator)
+                ->withInput();
+        }
+
+        return Redirect::route('www.product.create3.view', compact('request'));
     }
 }

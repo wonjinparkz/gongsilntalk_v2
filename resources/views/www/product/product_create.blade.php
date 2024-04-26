@@ -108,6 +108,9 @@
                                                     <label for="is_price_discussion_1" class="gray_deep"><span></span>
                                                         협의가능</label>
                                                 </div>
+                                                <div class="txt_item_2 mt20">
+                                                    <span name="price_conversion"></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -140,6 +143,11 @@
                                                         class="gray_deep mt18"><span></span>
                                                         협의가능</label>
                                                 </div>
+
+                                            </div>
+                                            <div class="txt_item_2 ">
+                                                <span name="price_conversion"></span>
+                                                <span name="month_price_conversion"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -486,17 +494,19 @@
 
 
         // 매매가 & 보증금
-        $('input[name="input_price"]').change(function() {
+        $('input[name="input_price"]').keyup(function() {
             $('#price').val($(this).val());
+            $('span[name="price_conversion"]').html(get_priceTrans($(this).val()));
         });
 
         // 월임대료
-        $('input[name="input_month_price"]').change(function() {
+        $('input[name="input_month_price"]').keyup(function() {
             $('#month_price').val($(this).val());
+            $('span[name="month_price_conversion"]').html(get_priceTrans($(this).val()));
         });
 
         // 가격 협의가능 여부
-        $('input[name="input_is_price_discussion"]').change(function() {
+        $('input[name="input_is_price_discussion"]').keyup(function() {
             $('#is_price_discussion').val($(this).is(':checked') ? 1 : 0);
         });
 
@@ -511,13 +521,15 @@
         });
 
         // 기존 임대차 선택시 보증금
-        $('input[name="input_current_price"]').change(function() {
+        $('input[name="input_current_price"]').keyup(function() {
             $('#current_price').val($(this).val());
+            $('span[name="current_price_conversion"]').html(get_priceTrans($(this).val()));
         });
 
         // 기존 임대차 선택시 월 임대료
-        $('input[name="input_current_month_price"]').change(function() {
+        $('input[name="input_current_month_price"]').keyup(function() {
             $('#current_month_price').val($(this).val());
+            $('span[name="current_month_price_conversion"]').html(get_priceTrans($(this).val()));
         });
 
         // 상가 - 권리금 선택
@@ -526,12 +538,13 @@
         });
 
         // 상가 - 권리금 금액
-        $('input[name="input_premium_price"]').change(function() {
+        $('input[name="input_premium_price"]').keyup(function() {
             $('#premium_price').val($(this).val());
+            $('span[name="premium_price_conversion"]').html(get_priceTrans($(this).val()));
         });
 
         // 분양권 - 준공예정일
-        $('input[name="input_approve_date"]').change(function() {
+        $('input[name="input_approve_date"]').keyup(function() {
             $('#approve_date').val($(this).val());
         });
 
@@ -602,6 +615,8 @@
 
         //입력란 열고 닫기
         function showDiv(className, index) {
+            $('span[name="price_conversion"]').empty();
+
             if (className == 'lease' || className == 'lease_1' || className == 'keymoney') {
                 console.log('초기화 제외');
             } else {

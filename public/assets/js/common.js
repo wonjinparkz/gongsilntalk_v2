@@ -684,3 +684,21 @@ function get_coordinate_conversion(rtentX, rtentY) {
 
     return wgs84Coords;
 }
+
+function get_priceTrans(number) {
+
+    var unit = ["조", "억", "만", "천"];
+    var divisor = [1000000000000, 100000000, 10000, 1000];
+
+    var converted = '';
+    for (var i = 0; i < unit.length; i++) {
+        var quotient = Math.floor(number / divisor[i]);
+        if (quotient > 0) {
+            converted += quotient + unit[i] + ' ';
+            number %= divisor[i];
+        }
+    }
+
+    console.log(converted.trim() + '원');
+    return converted.trim() + '원';
+}

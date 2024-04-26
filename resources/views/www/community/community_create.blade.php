@@ -114,17 +114,6 @@
 
 </x-layout>
 <script>
-    var containers = document.querySelectorAll(".draggable-zone");
-
-    var swappable = new Sortable.default(containers, {
-        draggable: ".draggable",
-        handle: ".draggable .draggable-handle",
-        mirror: {
-            appendTo: "body",
-            constrainDimensions: true
-        },
-
-    });
 
     $(document).ready(function() {
         button_active();
