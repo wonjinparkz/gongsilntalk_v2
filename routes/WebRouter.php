@@ -72,6 +72,7 @@ Route::middleware('pc.auth')->controller(ProductPcController::class)->group(func
     Route::get('/product/create3/view', 'productCreate3View')->name('www.product.create3.view');
     Route::post('/product/create/type/check', 'productCreateTypeCheck')->name('www.product.create.type.check');
     Route::post('/product/create/address/check', 'productCreateAddressCheck')->name('www.product.create.address.check');
+    Route::post('/product/create', 'productCreate')->name('www.product.create');
 });
 
 // 커뮤니티

@@ -64,9 +64,7 @@ class ProductPcController extends Controller
      */
     public function productCreateAddressCheck(Request $request): RedirectResponse
     {
-        $validator = Validator::make($request->all(), [
-
-        ]);
+        $validator = Validator::make($request->all(), []);
 
         if ($validator->fails()) {
             return redirect(route('www.product.create2.view'))->withErrors($validator)
@@ -74,5 +72,36 @@ class ProductPcController extends Controller
         }
 
         return Redirect::route('www.product.create3.view', compact('request'));
+    }
+
+    /**
+     * 매물 등록
+     */
+    public function productCreate(Request $request): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'type' => "required",
+            'payment_type' => "required",
+            'price' => "required",
+            'month_price' => 'required_if:payment_type,1,2,4',
+            'is_price_discussion' => 'required',
+            'is_use' => 'required',
+            'current_price' => 'required_if:is_use,1',
+            'current_month_price' => 'required_if:is_use,1',
+            'is_premium' => 'required_if:type,3',
+            'premium_price' => 'required_if:is_premium,1',
+            'approve_date' => 'required_if:type,>=,14',
+            'address_lng' => 'required',
+            'address_lat' => 'required',
+            'region_code' => 'required',
+            'address' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(route('www.product.create3.view'))->withErrors($validator)
+                ->withInput();
+        }
+
+        return Redirect::route('www.mypage.product.magagement.list.view')->with('message', '매물을 등록했습니다.');
     }
 }

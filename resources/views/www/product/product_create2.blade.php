@@ -20,12 +20,13 @@
                         <div class="address_reg_wrap">
                             <div class="inner_item">
                                 <div class="search_address_1 active">
-                                    <button class="btn_graylight_ghost btn_full_thin txt_r" onclick="getAddress()">
+                                    <button type="button" class="btn_graylight_ghost btn_full_thin txt_r"
+                                        onclick="getAddress()">
                                         주소 검색
                                     </button>
                                 </div>
                                 <div class="search_address_2">
-                                    <button class="btn_graylight_ghost btn_full_thin txt_r"
+                                    <button type="button" class="btn_graylight_ghost btn_full_thin txt_r"
                                         onclick="modal_open('address_search')">가(임시)주소 검색</button>
                                 </div>
                                 <div class="mt8 gap_14">
@@ -51,7 +52,7 @@
 
                                 <div class="detail_address_1 mt18 active">
                                     <div>
-                                        <input type="text" name="input_address_detail" id="input_address_detail"
+                                        <input type="text" name="address_detail" id="address_detail"
                                             placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호">
                                     </div>
                                     <div class="mt8">
@@ -95,7 +96,7 @@
                         <button class="btn_full_basic btn_graylight_ghost"
                             onclick="javascript:history.go(-1)">이전</button>
                         <!-- <button class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                        <button class="btn_full_basic btn_point" onclick="formSetting();">다음</button>
+                        <button class="btn_full_basic btn_point confirm" disabled onclick="formSetting();">다음</button>
                     </div>
 
                 </div>
@@ -164,7 +165,66 @@
 
         });
 
+        function confrim_check() {
+            var is_temporary = $('#temporary_address').is(':checked');
+            var is_address_no_1 = $('#address_no_1').is(':checked');
+            var is_address_no_2 = $('#address_no_2').is(':checked');
+
+            var region_code = $('#region_code').val();
+            var address = $('#address').val();
+            var address_detail = $('#address_detail').val();
+            var address_dong = $('#address_dong').val();
+            var address_number = $('#address_number').val();
+
+            if (is_temporary) {
+                if (region_code == '' || address == '' || address_number == '' || (!is_address_no_1 && address_dong ==
+                        '')) {
+                    return $('.confirm').attr("disabled", true);
+                }
+            } else {
+                if (region_code == '' || address == '' || (!is_address_no_2 && address_detail ==
+                        '')) {
+                    return $('.confirm').attr("disabled", true);
+                }
+            }
+
+            $('.confirm').attr("disabled", false);
+        }
+
+        $('input').on("change click", function() {
+            confrim_check();
+        });
+
         function formSetting() {
+
+            var is_temporary = $('#temporary_address').is(':checked');
+            var is_address_no_1 = $('#address_no_1').is(':checked');
+            var is_address_no_2 = $('#address_no_2').is(':checked');
+
+            if (is_temporary) {
+                $('#address_detail').val('')
+            } else {
+                $('#address_dong').val('')
+                $('#address_number').val('')
+            }
+
+            var address_lng = $('#address_lng').val();
+            var address_lat = $('#address_lat').val();
+            var region_code = $('#region_code').val();
+            var address = $('#address').val();
+            var address_detail = $('#address_detail').val();
+            var address_dong = $('#address_dong').val();
+            var address_number = $('#address_number').val();
+
+            sessionStorage.setItem("address_lngSession", address_lng);
+            sessionStorage.setItem("address_latSession", address_lat);
+            sessionStorage.setItem("region_codeSession", region_code);
+            sessionStorage.setItem("addressSession", address);
+
+            sessionStorage.setItem("address_dongSession", address_dong);
+            sessionStorage.setItem("address_numberSession", address_number);
+            sessionStorage.setItem("address_detailSession", address_detail);
+
             $('.find_form').submit();
         }
 
@@ -283,6 +343,9 @@
             modal_close('address_search')
 
             $('#roadName').html('<span>도로명</span>' + address + ' 999-99');
+            $('#address').val(address + ' 999-99');
+
+            confrim_check();
         }
 
         $('#address_no_1').click(function() {
@@ -296,10 +359,10 @@
 
         $('#address_no_2').click(function() {
             if ($(this).is(':checked')) {
-                $('#input_address_detail').val('');
-                $('#input_address_detail').attr('disabled', true);
+                $('#address_detail').val('');
+                $('#address_detail').attr('disabled', true);
             } else {
-                $('#input_address_detail').attr('disabled', false);
+                $('#address_detail').attr('disabled', false);
             }
         });
 
@@ -312,6 +375,13 @@
             var search_2 = document.querySelector(".search_address_2");
             var is_temporary_0 = document.querySelector("#is_temporary_0");
             var is_temporary_1 = document.querySelector("#is_temporary_1");
+
+            $('#address').val('');
+            $('#roadName').empty();
+            $('#jibunName').empty();
+            $('#address_detail').val('');
+            $('#address_dong').val('');
+            $('#address_number').val('');
 
             if (this.checked) {
                 address_1.style.display = "none";
@@ -404,8 +474,7 @@
                         $('#seach_address').attr("disabled", false);
                     }
 
-                    $('#region_code').val(region_code);
-
+                    $('#region_code').val(check_code);
 
                 }
             });
@@ -484,10 +553,13 @@
         $('#roadName').html('<span>도로명</span>' + rtAddrPart1);
         $('#jibunName').html('<span>지번</span>' + rtJibunAddr);
 
-        if (!$("#input_address_detail").prop('disabled')) {
-            $('#input_address_detail').val(rtAddrDetail);
+        $('#address').val(rtAddrPart1)
+
+        if (!$("#address_detail").prop('disabled')) {
+            $('#address_detail').val(rtAddrDetail);
         }
 
+        $('#region_code').val(rtAdmCd);
 
         var wgs84Coords = get_coordinate_conversion(rtentX, rtentY)
 
@@ -495,6 +567,8 @@
         $('input[name=address_lat]').val(wgs84Coords[1]);
 
         console.log('주소 검색 끝!');
+
+        confrim_check();
 
     }
 </script>
