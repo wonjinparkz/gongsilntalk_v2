@@ -17,11 +17,13 @@ use App\Http\Controllers\data\DataController;
 use App\Http\Controllers\knowledgecenter\KnowledgeCneter_Controller;
 use App\Http\Controllers\magazine\MagazineController;
 use App\Http\Controllers\maintext\MainTextController;
+use App\Http\Controllers\product\ProductController;
 use App\Http\Controllers\proposal\ProposalController;
 use App\Http\Controllers\report\ReportController;
 use App\Http\Controllers\service\ServiceController;
 use App\Http\Controllers\terms\TermsController;
 use App\Http\Controllers\user\UserController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 
@@ -58,7 +60,7 @@ Route::middleware('admin.auth')->controller(AdaminDashboardController::class)->g
     Route::get('/dashboard', 'dashboard')->name('dashboard.view');
 });
 
-/** x
+/**
  * 관리자 사용자 관리
  */
 Route::middleware('admin.auth')->controller(UserController::class)->group(function () {
@@ -82,6 +84,10 @@ Route::middleware('admin.auth')->controller(UserController::class)->group(functi
 /**
  * 매물 관리
  */
+Route::middleware('admin.auth')->controller(ProductController::class)->group(function () {
+    Route::get('/product/list/view', 'productListView')->name('admin.product.list.view');
+    Route::get('/product/export', 'exportProduct')->name('admin.product.export');
+});
 
 /**
  * 건축물대장 관리

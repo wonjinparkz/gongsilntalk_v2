@@ -10,6 +10,8 @@
     <!----------------------------- m::header bar : s ----------------------------->
     <form class="find_form" method="POST" action="{{ route('www.product.create') }}" name="create">
 
+        <input type="hidden" name="user_type" id="user_type" value="0">
+        <input type="hidden" name="state" id="state" value="0">
         <input type="hidden" name="type" id="type" value="">
         <input type="hidden" name="payment_type" id="payment_type" value="">
         <input type="hidden" name="price" id="price" value="">
@@ -70,10 +72,10 @@
                     </div>
 
                     <div class="step_btn_wrap">
-                        <button class="btn_full_basic btn_graylight_ghost"
+                        <button type="button" class="btn_full_basic btn_graylight_ghost"
                             onclick="javascript:history.go(-1)">이전</button>
                         <!-- <button class="btn_full_basic btn_point" disabled>등록</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                        <button class="btn_full_basic btn_point confirm" disabled>등록</button>
+                        <button type="button" class="btn_full_basic btn_point confirm" onclick="createButton()" disabled>등록</button>
                     </div>
 
                 </div>
@@ -109,6 +111,9 @@
 
 
         function createButton() {
+
+            // sessionStorage.clear();
+
 
         }
 

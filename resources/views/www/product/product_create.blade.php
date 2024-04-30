@@ -109,7 +109,7 @@
                                                         협의가능</label>
                                                 </div>
                                                 <div class="txt_item_2 mt20">
-                                                    <span name="price_conversion"></span>
+                                                    <span name="price_conversion" class="price"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -146,8 +146,8 @@
 
                                             </div>
                                             <div class="txt_item_2 ">
-                                                <span name="price_conversion"></span>
-                                                <span name="month_price_conversion"></span>
+                                                <span name="price_conversion" class="price"></span>
+                                                <span name="month_price_conversion" class="price"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -162,6 +162,7 @@
                                         <input type="radio" name="lease" id="lease_1_2" value="0" checked>
                                         <label for="lease_1_2" onclick="showDiv('lease', 1)">없음</label>
                                     </div>
+
                                 </div>
 
                                 <div class="lease_wrap">
@@ -182,6 +183,10 @@
                                                         id="current_month_price_1"><span>원</span>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="txt_item_2 mt20">
+                                            <span name="current_price_conversion" class="price"></span>
+                                            <span name="current_month_price_conversion" class="price"></span>
                                         </div>
                                     </div>
                                     <div class="lease_item open_key"></div>
@@ -205,6 +210,9 @@
                                             <input type="text" name="input_premium_price"
                                                 id="input_premium_price">
                                             <span>원</span>
+                                        </div>
+                                        <div class="txt_item_2 mt20">
+                                            <span name="premium_price_conversion" class="price"></span>
                                         </div>
                                     </div>
                                     <div class="keymoney_item open_key"></div>
@@ -247,6 +255,9 @@
                                                 <label for="is_price_discussion_3" class="gray_deep"><span></span>
                                                     협의가능</label>
                                             </div>
+                                            <div class="txt_item_2 mt20">
+                                                <span name="price_conversion" class="price"></span>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- 전세 -->
@@ -260,6 +271,9 @@
                                                     id="is_price_discussion_4" value="Y">
                                                 <label for="is_price_discussion_4" class="gray_deep"><span></span>
                                                     협의가능</label>
+                                            </div>
+                                            <div class="txt_item_2 mt20">
+                                                <span name="price_conversion" class="price"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -289,6 +303,10 @@
                                                     class="gray_deep mt18"><span></span>
                                                     협의가능</label>
                                             </div>
+                                        </div>
+                                        <div class="txt_item_2 mt20">
+                                            <span name="price_conversion" class="price"></span>
+                                            <span name="month_price_conversion" class="price"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -324,6 +342,10 @@
                                                         id="current_month_price_1"><span>원</span>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="txt_item_2 mt20">
+                                            <span name="current_price_conversion" class="price"></span>
+                                            <span name="current_month_price_conversion" class="price"></span>
                                         </div>
                                     </div>
                                     <div class="lease_1_item open_key"></div>
@@ -362,6 +384,9 @@
                                                 <label for="is_price_discussion_6" class="gray_deep"><span></span>
                                                     협의가능</label>
                                             </div>
+                                            <div class="txt_item_2 mt20">
+                                                <span name="price_conversion" class="price"></span>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- 전세 -->
@@ -375,6 +400,9 @@
                                                     id="is_price_discussion_7" value="Y">
                                                 <label for="is_price_discussion_7" class="gray_deep"><span></span>
                                                     협의가능</label>
+                                            </div>
+                                            <div class="txt_item_2 mt20">
+                                                <span name="price_conversion" class="price"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -405,6 +433,10 @@
                                                     class="gray_deep mt18"><span></span>
                                                     협의가능</label>
                                             </div>
+                                        </div>
+                                        <div class="txt_item_2 mt20">
+                                            <span name="price_conversion" class="price"></span>
+                                            <span name="month_price_conversion" class="price"></span>
                                         </div>
                                     </div>
 
@@ -615,11 +647,11 @@
 
         //입력란 열고 닫기
         function showDiv(className, index) {
-            $('span[name="price_conversion"]').empty();
 
             if (className == 'lease' || className == 'lease_1' || className == 'keymoney') {
                 console.log('초기화 제외');
             } else {
+                $('span[class="price"]').empty();
                 $('.find_form input').val('');
 
                 // 협의가능 여부는 변화가 감지 안될 수 있으므로 초기화 작업
