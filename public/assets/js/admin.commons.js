@@ -168,5 +168,17 @@ function alert(message, confrimText) {
     });
 }
 
+// 탭메뉴 토글기능
+$(".tab_area_wrap > div").hide();
+$(".tab_area_wrap > div").first().show();
+$(".side_list_body > div").first().show(); //side 탭 중복 충돌로 추가함.
+$(".tab_toggle_menu li").click(function () {
+    var list = $(this).index();
+    $(this).siblings('li').removeClass("active");
+    $(this).addClass("active");
+    $(this).parents('.tab_toggle_menu').siblings('.tab_area_wrap').find('>div').hide();
+    $(this).parents('.tab_toggle_menu').siblings('.tab_area_wrap').find('>div').eq(list).show();
+});
+
 
 

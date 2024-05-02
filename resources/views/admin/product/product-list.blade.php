@@ -13,13 +13,14 @@
                     <span
                         class="d-inline-block position-absolute mt-3 h-8px bottom-0 end-0 start-0 bg-success translate rounded" />
                 </div>
-                {{-- 페이지 버튼 --}}
-                <div class="d-flex align-items-center gap-2 gap-lg-3">
-                    <a href="{{ route('admin.popup.create.view') }}" class="btn btn-lm fw-bold btn-primary">등록</a>
-                </div>
             </div>
         </div>
         {{-- 메인 내용 --}}
+        <form id="stateUpdate" action="{{ route('admin.product.state.update') }}" method="POST">
+            @csrf
+            <input type="hidden" name="id" value="" />
+            <input type="hidden" name="state" value="" />
+        </form>
 
         <div class="app-content flex-column-fluid">
             <div class="app-container container-xxl">
@@ -86,16 +87,11 @@
                                 <select name="payment_type[]"class="form-select form-select-solid"
                                     data-control="select2" data-close-on-select="false" data-placeholder="거래유형를 선택해주세요."
                                     data-allow-clear="true" multiple="multiple">
-                                    <option value="0" @if (in_array('0', $payment_type)) selected @endif>매매
-                                    </option>
-                                    <option value="1" @if (in_array('1', $payment_type)) selected @endif>전매
-                                    </option>
-                                    <option value="2" @if (in_array('2', $payment_type)) selected @endif>월세
-                                    </option>
-                                    <option value="3" @if (in_array('3', $payment_type)) selected @endif>임대
-                                    </option>
-                                    <option value="4" @if (in_array('4', $payment_type)) selected @endif>단기임대
-                                    </option>
+                                    @for ($i = 0; $i < count(Lang::get('commons.payment_type')); $i++)
+                                        <option value="{{ $i }}"
+                                            @if (in_array($i, $payment_type)) selected @endif>
+                                            {{ Lang::get('commons.payment_type.' . $i) }}</option>
+                                    @endfor
                                 </select>
                             </div>
                         </div>
@@ -148,8 +144,9 @@
                                     <th class="text-center min-w-250px">주소</th>
                                     <th class="text-center">요청자 명</th>
                                     <th class="text-center">매물종류</th>
-                                    <th class="text-center">상태</th>
-                                    <th class="text-center">작성일</th>
+                                    <th class="text-center">거래 유형</th>
+                                    <th class="text-center">등록일</th>
+                                    <th class="text-center">처리일</th>
                                     <th class="text-center">동작</th>
                                 </tr>
                             </thead>
@@ -180,7 +177,7 @@
 
                                         {{-- 주소 --}}
                                         <td class="text-center">
-                                            <a href="{{ route('admin.popup.detail.view', [$product->id]) }}"
+                                            <a href="{{ route('admin.product.detail.view', [$product->id]) }}"
                                                 class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $product->address . ' ' . ($product->is_map == 1 ? $product->address_detail : $product->address_dong . ' ' . $product->address_number) }}</a>
                                         </td>
 
@@ -201,29 +198,31 @@
 
                                         {{-- 상태 --}}
                                         <td class="text-center">
-                                            {{-- 상태 뱃지 --}}
-                                            @if ($product->is_blind == 0)
-                                                <div class="badge badge-light-success">
-                                                    공개
-                                                </div>
-                                            @else
-                                                <div class="badge badge-light-danger">
-                                                    비공개
-                                                </div>
-                                            @endif
+                                            <span class="fw-bold fs-5">
+                                                {{ Lang::get('commons.payment_type.' . $product->priceInfo->payment_type) }}
+                                            </span>
                                         </td>
 
-                                        {{-- 작성일 --}}
+                                        {{-- 등록일 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 @inject('carbon', 'Carbon\Carbon')
                                                 {{ $carbon::parse($product->created_at)->format('Y.m.d') }}
                                             </span>
                                         </td>
+
+                                        {{-- 처리일 --}}
+                                        <td class="text-center">
+                                            <span class="fw-bold fs-5">
+                                                @inject('carbon', 'Carbon\Carbon')
+                                                {{ $carbon::parse($product->updated_at)->format('Y.m.d') }}
+                                            </span>
+                                        </td>
+
                                         {{-- 동작 : 수정, 삭제 --}}
                                         <td class="text-center">
                                             {{-- 동작 버튼 --}}
-                                            <a href="#" class="btn btn-sm btn-success btn-active-light-primary"
+                                            <a class="btn btn-sm btn-success btn-active-light-primary"
                                                 data-kt-menu-trigger="click"
                                                 data-kt-menu-placement="bottom-end">더보기</a>
                                             {{-- 동작 메뉴 --}}
@@ -231,35 +230,17 @@
                                                 data-kt-menu="true">
                                                 {{-- 수정 --}}
                                                 <div class="menu-item px-3">
-                                                    <form action="{{ route('admin.popup.state.update') }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        <input type="hidden" name="id"
-                                                            value="{{ $product->id }}" />
-                                                        <input type="hidden" name="is_blind"
-                                                            value="{{ $product->is_blind }}" />
-                                                        <a href="#" onclick="parentNode.submit();"
-                                                            class="menu-link px-3">
-                                                            @if ($product->is_blind == 0)
-                                                                비공개
-                                                            @elseif ($product->is_blind == 1)
-                                                                공개
-                                                            @endif
-                                                        </a>
+                                                    @for ($i = 1; $i < count(Lang::get('commons.product_state')); $i++)
+                                                        @if ($product->state != $i)
+                                                            <a onclick="stateUpdate({{ $product->id }}, {{ $i }})"
+                                                                class="menu-link px-3">
+                                                                {{ Lang::get('commons.product_state.' . $i) }}
+                                                            </a>
+                                                        @endif
+                                                    @endfor
                                                     </form>
                                                 </div>
 
-                                                {{-- 삭제 --}}
-                                                <div class="menu-item px-3">
-                                                    <form id="deleteNotice{{ $product->id }}"
-                                                        action="{{ route('admin.popup.delete') }}" method="POST">
-                                                        @csrf
-                                                        <input type="hidden" name="id"
-                                                            value="{{ $product->id }}" />
-                                                    </form>
-                                                    <a href="javascript:deleteAlert({{ $product->id }});"
-                                                        class="menu-link px-3">삭제</a>
-                                                </div>
                                             </div>
                                         </td>
                                     </tr>
@@ -305,30 +286,27 @@
                 });
             }
 
-            function orderUpdate() {
-                var values = []; // 중복 값 저장할 배열
-                var data = {};
+            function stateUpdate(id, state) {
 
-                $('.setid').each(function(index) {
-                    var id = $(this).val();
-                    var value = $('#setorder_' + id).val();
-                    data[id] = value;
-                    if (value !== '') {
-                        values.push(value);
+                Swal.fire({
+                    text: "상태를 변경하시겠습니까?",
+                    icon: "question",
+                    dangerMode: true,
+                    buttonsStyling: false,
+                    showCancelButton: true,
+                    cancelButtonText: "취소",
+                    confirmButtonText: "확인",
+                    customClass: {
+                        confirmButton: "btn btn-danger",
+                        cancelButton: "btn btn-secondary"
+                    }
+                }).then(function(result) {
+                    if (result.value) {
+                        $('#stateUpdate input[name="id"]').val(id);
+                        $('#stateUpdate input[name="state"]').val(state);
+                        $('#stateUpdate').submit();
                     }
                 });
-
-                if (Object.keys(data).length <= 0) {
-                    return;
-                }
-
-
-                if (new Set(values).size !== values.length) {
-                    alert('중복된 순서가 있습니다.', "확인");
-                } else {
-                    $('#order_data').val(JSON.stringify(data));
-                    $('#orderUpdate').submit();
-                }
             }
         </script>
 </x-admin-layout>

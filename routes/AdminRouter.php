@@ -86,7 +86,10 @@ Route::middleware('admin.auth')->controller(UserController::class)->group(functi
  */
 Route::middleware('admin.auth')->controller(ProductController::class)->group(function () {
     Route::get('/product/list/view', 'productListView')->name('admin.product.list.view');
+    Route::get('/product/detail/view/{id}', 'productDetailView')->name('admin.product.detail.view');
     Route::get('/product/export', 'exportProduct')->name('admin.product.export');
+    Route::post('/product/state/update', 'productStateUpdate')->name('admin.product.state.update');
+    Route::post('/product/update', 'productUpdate')->name('admin.product.update');
 });
 
 /**
@@ -255,7 +258,7 @@ Route::middleware('admin.auth')->controller(PopupController::class)->group(funct
     Route::post('/popup/create', 'popupCreate')->name('admin.popup.create');
     Route::post('/popup/update', 'popupUpdate')->name('admin.popup.update');
     Route::post('/popup/delete', 'popupDelete')->name('admin.popup.delete');
-    Route::post('/popup/state/update', 'popupStateupdate')->name('admin.popup.state.update');
+    Route::post('/popup/state/update', 'popupStateUpdate')->name('admin.popup.state.update');
     Route::post('/popup/order/update', 'popupOrderUpdate')->name('admin.popup.order.update');
 });
 

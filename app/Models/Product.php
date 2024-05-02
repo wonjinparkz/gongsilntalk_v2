@@ -81,4 +81,12 @@ class Product extends BaseModel
     {
         return $this->hasOne(User::class, 'id', 'users_id');
     }
+
+    /**
+     * 사용자 정보
+     */
+    public function priceInfo()
+    {
+        return $this->hasOne(ProductPrice::class, 'product_id', 'id');
+    }
 }
