@@ -45,10 +45,11 @@
                         <div>
                             <label class="input_label">전용면적 <span>*</span></label>
                             <div class="input_pyeong_area">
-                                <div><input type="number" name="area" id="area" placeholder="전용면적"> <span
-                                        class="gray_deep">평</span> </div>
+                                <div><input type="number" name="exclusive_area" id="exclusive_area"
+                                        placeholder="전용면적"> <span class="gray_deep">평</span> </div>
                                 <span class="gray_deep">/</span>
-                                <div><input type="text" name="square" id="square" placeholder="평 입력시 자동">
+                                <div><input type="text" name="exclusive_square" id="exclusive_square"
+                                        placeholder="평 입력시 자동">
                                     <span class="gray_deep">㎡</span>
                                 </div>
                             </div>
@@ -75,7 +76,8 @@
                         <button type="button" class="btn_full_basic btn_graylight_ghost"
                             onclick="javascript:history.go(-1)">이전</button>
                         <!-- <button class="btn_full_basic btn_point" disabled>등록</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                        <button type="button" class="btn_full_basic btn_point confirm" onclick="createButton()" disabled>등록</button>
+                        <button type="button" class="btn_full_basic btn_point confirm" onclick="createButton()"
+                            disabled>등록</button>
                     </div>
 
                 </div>
@@ -118,8 +120,8 @@
         }
 
         function confrim_check() {
-            var square = $('#square').val();
-            var area = $('#area').val();
+            var square = $('#exclusive_square').val();
+            var area = $('#exclusive_area').val();
             var content = $('#content').val();
 
             if (square != '' && area != '' && content != '') {
@@ -133,20 +135,20 @@
             confrim_check();
         });
 
-        $('#square').keyup(function() {
+        $('#exclusive_square').keyup(function() {
             var square = $(this).val();
             if (square > 0) {
                 var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
-                $('#area').val(convertedArea);
+                $('#exclusive_area').val(convertedArea);
             }
             confrim_check();
         });
-        $('#area').keyup(function() {
+        $('#exclusive_area').keyup(function() {
             var area = $(this).val();
             if (area > 0) {
                 var convertedSquare = (area * 3.3058).toString();
                 var decimalIndex = convertedSquare.indexOf('.') + 3; // 소수점 이하 세 번째 자리까지
-                $('#square').val(convertedSquare.substr(0, decimalIndex));
+                $('#exclusive_square').val(convertedSquare.substr(0, decimalIndex));
             }
             confrim_check();
         });

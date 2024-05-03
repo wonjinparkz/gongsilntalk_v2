@@ -38,13 +38,14 @@
         </x-screen-card>
     </div>
 
-    <div class="app-container container-xxl">
-        <x-screen-card :title="'매물 기본 정보'">
-            {{-- FORM START  --}}
-            <form class="form" method="POST" action="{{ route('admin.product.update') }}">
-                @csrf
-                <input type="hidden" name="id" value="{{ $result->id }}" />
-                <input type="hidden" name="last_url" value="{{ old('last_url') ?? URL::previous() }}">
+    <form class="form" method="POST" action="{{ route('admin.product.update') }}">
+        @csrf
+        <input type="hidden" name="id" value="{{ $result->id }}" />
+        <input type="hidden" name="last_url" value="{{ old('last_url') ?? URL::previous() }}">
+
+        <div class="app-container container-xxl">
+            <x-screen-card :title="'매물 기본 정보'">
+                {{-- FORM START  --}}
 
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
@@ -57,8 +58,7 @@
                                 <label class="col-lg-2 col-form-label fw-semibold fs-6">주거용</label>
                                 <div class="col-lg-8 fv-row">
                                     @for ($i = 8; $i < 14; $i++)
-                                        <label
-                                            class="form-check form-check-custom form-check-inline form-check-solid me-5 p-1">
+                                        <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                             <input class="form-check-input" name="type" type="radio"
                                                 value="{{ $i }}">
                                             <span
@@ -71,8 +71,7 @@
                                 <label class="col-lg-2 col-form-label fw-semibold fs-6">상업용</label>
                                 <div class="col-lg-8 fv-row">
                                     @for ($i = 0; $i < 8; $i++)
-                                        <label
-                                            class="form-check form-check-custom form-check-inline form-check-solid me-5 p-1">
+                                        <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                             <input class="form-check-input" name="type" type="radio"
                                                 value="{{ $i }}">
                                             <span
@@ -85,8 +84,7 @@
                                 <label class="col-lg-2 col-form-label fw-semibold fs-6">분양권</label>
                                 <div class="col-lg-8 fv-row">
                                     @for ($i = 14; $i < Count(Lang::get('commons.product_type')); $i++)
-                                        <label
-                                            class="form-check form-check-custom form-check-inline form-check-solid me-5 p-1">
+                                        <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                             <input class="form-check-input" name="type" type="radio"
                                                 value="{{ $i }}">
                                             <span
@@ -102,22 +100,24 @@
                     <div class="row mb-6">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">주소</label>
                         <div class="col-lg-10 fv-row">
-                            <a onclick="getAddress()" class="btn btn-outline"
+
+                            <a onclick="getAddress()" class="btn btn-outline search_address_1"
                                 style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; margin-bottom: 5px;">
                                 주소 검색 </a>
-                            <a class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#modal_address_search"
+
+                            <a class="btn btn-outline search_address_2" data-bs-toggle="modal"
+                                data-bs-target="#modal_address_search"
                                 style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; margin-bottom: 5px;">
                                 가(임시)주소 검색 </a>
 
                             <label class="form-check form-check-custom form-check-inline p-1">
                                 <input class="form-check-input" name="temporary_address" id="temporary_address"
-                                    type="checkbox" value="{{ $i }}">
+                                    type="checkbox" value="1">
                                 <span class="fw-semibold ps-2 fs-6">가(임시)주소</span>
                             </label>
 
-                            <input type="text" name="address" id="address" class="form-control form-control-solid "
-                                readonly placeholder=""
-                                value="{{ old('address') ? old('address') : $result->address }}" />
+                            <input type="text" name="address" id="address" class="form-control " readonly
+                                placeholder="" value="{{ old('address') ? old('address') : $result->address }}" />
 
                             <div class="mb-6"
                                 style="border: 1px solid #D2D1D0; border-radius: 5px; display: flex; align-items: center; color:#D2D1D0; justify-content:center; text-align: center; line-height: 1.4; height: 400px; margin-top:18px;">
@@ -129,28 +129,44 @@
                                 </div>
                             </div>
 
-                            <div>
+                            <div class="detail_address_1">
                                 <span class="fs-6">상세주소</span>
-                                <input type="text" name="address_detail" id="address_detail"
-                                    class="form-control form-control-solid" placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호"
-                                    value="{{ old('address_detail') ? old('address_detail') : $result->address_detail }}">
-                                <label class="form-check form-check-custom form-check-inline p-1">
-                                    <input class="form-check-input" name="is_address_detail" id="is_address_detail"
-                                        type="checkbox" value="123">
-                                    <span class="fw-semibold ps-2 fs-6">상세주소 없음</span>
-                                </label>
-                            </div>
-
-                            <div>
-                                <span class="fs-6">상세주소</span>
-                                <input type="text" name="address_detail" id="address_detail"
-                                    class="form-control form-control-solid"
+                                <input type="text" name="address_detail" id="address_detail" class="form-control"
                                     placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호"
                                     value="{{ old('address_detail') ? old('address_detail') : $result->address_detail }}">
                                 <label class="form-check form-check-custom form-check-inline p-1">
                                     <input class="form-check-input" name="is_address_detail" id="is_address_detail"
-                                        type="checkbox" value="123">
+                                        type="checkbox" value="1">
                                     <span class="fw-semibold ps-2 fs-6">상세주소 없음</span>
+                                </label>
+                            </div>
+
+                            <div class="detail_address_2 row">
+                                <span class="fs-6">상세주소</span>
+
+                                <div class="col-lg-3 fv-row">
+                                    <div class="input-group mb-5">
+                                        <input type="text" name="address_dong" id="address_dong"
+                                            class="form-control"
+                                            value="{{ old('address_dong') ? old('address_dong') : $result->address_dong }}" />
+                                        <span class="input-group-text" id="basic-addon2">동<span>
+                                    </div>
+                                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('address_dong')" />
+                                </div>
+
+                                <div class="col-lg-3 fv-row">
+                                    <div class="input-group mb-5">
+                                        <input type="text" name="address_number" class="form-control"
+                                            value="{{ old('address_number') ? old('address_number') : $result->address_number }}" />
+                                        <span class="input-group-text" id="basic-addon2">호<span>
+                                    </div>
+                                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('address_number')" />
+                                </div>
+
+                                <label class="form-check form-check-custom form-check-inline p-1">
+                                    <input class="form-check-input" name="is_address_dong" id="is_address_dong"
+                                        type="checkbox" value="1">
+                                    <span class="fw-semibold ps-2 fs-6">동 없음</span>
                                 </label>
                             </div>
 
@@ -164,73 +180,250 @@
                         </div>
                     </div>
 
-                    {{-- 등록자 id --}}
+                    {{-- 해당층/전체층 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">일반회원 매물명</label>
-                        <div class="col-lg-8 fv-row">
-                            <input type="text" name="name" class="form-control form-control-solid"
-                                placeholder="일반회원 매물의 이름을 입력해주세요"
-                                value="{{ old('name') ? old('name') : $result->name }}" />
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('name')" />
-
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">해당층/전체층</label>
+                        <div class="col-lg-3 d-flex align-items-center">
+                            <div class="input-group mb-5">
+                                <input type="text" name="floor_number" class="form-control" placeholder="해당층"
+                                    value="{{ old('floor_number') ? old('floor_number') : $result->floor_number }}" />
+                                <span class="input-group-text" id="basic-addon2">층<span>
+                            </div>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('floor_number')" />
+                        </div>
+                        <div class="col-lg-3 d-flex align-items-center">
+                            <div class="input-group mb-5">
+                                <input type="text" name="total_floor_number" class="form-control"
+                                    placeholder="전체층"
+                                    value="{{ old('total_floor_number') ? old('total_floor_number') : $result->total_floor_number }}" />
+                                <span class="input-group-text" id="basic-addon2">층<span>
+                            </div>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('total_floor_number')" />
                         </div>
                     </div>
 
-                    {{-- 노출여부 --}}
+                    {{-- 공급 면적 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">노출여부</label>
-                        <div class="col-lg-2 d-flex align-items-center">
-                            @php
-                                $isBlind = old('is_blind') ?? $result->is_blind;
-                            @endphp
-                            <select name="is_blind" class="form-select form-select-solid" data-control="select2"
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">공급 면적</label>
+                        <div class="col-lg-3 fv-row">
+                            <div class="input-group">
+                                <input type="number" name="area" id="area" class="form-control"
+                                    placeholder="변환 버튼을 눌러주세요."
+                                    value="{{ old('area') ? old('area') : $result->area }}" />
+                                <span class="input-group-text" id="basic-addon2">평<span>
+                            </div>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('area')" />
+                        </div>
+                        <div class="fv-row col-lg-2 d-flex justify-content-center ">
+                            <div class="btn-group-vertical">
+                                <a onclick="square_change('')" class="btn btn-outline"
+                                    style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; width: 120px;">
+                                    <- 평으로 변환 </a>
+                                        <a onclick="area_change('')" class="btn btn-outline"
+                                            style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; width: 120px;">
+                                            ㎡으로 변환-></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 fv-row">
+                            <div class="input-group">
+                                <input type="text" name="square" id="square" onkeyup="imsi(this)"
+                                    class="form-control" placeholder="변환 버튼을 눌러주세요."
+                                    value="{{ old('square') ? old('square') : $result->square }}" />
+                                <span class="input-group-text" id="basic-addon2">㎡<span>
+                            </div>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('square')" />
+                        </div>
+                    </div>
+
+                    {{-- 전용 면적 --}}
+                    <div class="row mb-6">
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">전용 면적</label>
+                        <div class="col-lg-3 fv-row">
+                            <div class="input-group">
+                                <input type="number" name="exclusive_area" id="exclusive_area" class="form-control"
+                                    placeholder="변환 버튼을 눌러주세요."
+                                    value="{{ old('exclusive_area') ? old('exclusive_area') : $result->exclusive_area }}" />
+                                <span class="input-group-text" id="basic-addon2">평<span>
+                            </div>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('exclusive_area')" />
+                        </div>
+                        <div class="fv-row col-lg-2 d-flex justify-content-center ">
+                            <div class="btn-group-vertical">
+                                <a onclick="square_change('exclusive_')" class="btn btn-outline"
+                                    style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; width: 120px;">
+                                    <- 평으로 변환 </a>
+                                        <a onclick="area_change('exclusive_')" class="btn btn-outline"
+                                            style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; width: 120px;">
+                                            ㎡으로 변환-></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 fv-row">
+                            <div class="input-group">
+                                <input type="text" name="exclusive_square" id="exclusive_square"
+                                    onkeyup="imsi(this)" class="form-control" placeholder="변환 버튼을 눌러주세요."
+                                    value="{{ old('exclusive_square') ? old('exclusive_square') : $result->exclusive_square }}" />
+                                <span class="input-group-text" id="basic-addon2">㎡<span>
+                            </div>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('exclusive_square')" />
+                        </div>
+                    </div>
+
+                    {{-- 사용승인일 --}}
+                    <div class="row mb-6">
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">사용승인일</label>
+                        <div class="col-lg-10 fv-row">
+                            <input type="text" name="approve_date" class="form-control" placeholder="예) 20230204"
+                                value="{{ old('approve_date') ? old('approve_date') : $result->approve_date }}" />
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('approve_date')" />
+                        </div>
+                    </div>
+
+                    {{-- 건축물 용도 --}}
+                    <div class="row mb-6">
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">건축물 용도</label>
+                        <div class="col-lg-3 fv-row">
+                            <select name="building_type" class="form-select" data-control="select2"
                                 data-hide-search="true">
-                                <option value="0" @if ($isBlind == 0) selected @endif>공개</option>
-                                <option value="1" @if ($isBlind == 1) selected @endif>비공개</option>
+                                <option value="">
+                                    건축물 용도 선택
+                                </option>
+                                @for ($i = 0; $i < count(Lang::get('commons.building_type')); $i++)
+                                    <option value="{{ $i }}"
+                                        @if ("$result->building_type" == $i) selected @endif>
+                                        {{ Lang::get('commons.building_type.' . $i) }}
+                                    </option>
+                                @endfor
                             </select>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('approve_date')" />
                         </div>
-                        <x-input-error class="mt-2 text-danger" :messages="$errors->get('is_blind')" />
                     </div>
 
-                    {{-- 연결 페이지 링크 --}}
+                    {{-- 입주가능일 --}}
                     <div class="row mb-6">
-                        <label class="col-lg-4 col-form-label fw-semibold fs-6">연결 페이지 링크</label>
-                        <div class="col-lg-8 fv-row">
-                            <input type="text" name="url" class="form-control form-control-solid"
-                                placeholder="링크를 입력해주세요." value="{{ old('url') ? old('url') : $result->url }}" />
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('url')" />
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">입주가능일</label>
+                        <div class="col-lg-4 fv-row">
+                            <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                <input class="form-check-input" name="move_type" type="radio" value="0"
+                                    @if ($result->move_type == 0) checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">즉시 입주</span>
+                            </label>
+                            <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                <input class="form-check-input" name="move_type" type="radio"
+                                    value="1"@if ($result->move_type == 1) checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">날짜 협의</span>
+                            </label>
+                            <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                <input class="form-check-input" name="move_type" type="radio"
+                                    value="2"@if ($result->move_type == 2) checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">직접 입력</span>
+                            </label>
+                            @inject('carbon', 'Carbon\Carbon')
+                            <input type="text" name="move_date" id="move_date" class="form-control"
+                                placeholder="예) 20230204"
+                                value="{{ old('move_date') ?? $result->move_date == null ? '' : $result->move_date->format('Y-m-d') }}"
+                                @if ($result->move_type != 2) disabled @endif />
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('move_date')" />
                         </div>
                     </div>
 
-
-                    {{-- 게시 타입 --}}
+                    {{-- 월 관리비 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label  fw-semibold fs-6">노출대상</label>
-                        <div class="col-lg-2 d-flex align-items-center">
-                            @php
-                                $type = old('type') ?? $result->type;
-                            @endphp
-                            <select name="type" class="form-select form-select-solid" data-control="select2"
-                                data-hide-search="true">
-                                <option value="0" @if ($type == 0) selected @endif>PC</option>
-                                <option value="1" @if ($type == 1) selected @endif>모바일</option>
-                            </select>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('state')" />
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">월 관리비</label>
+                        <div class="col-md-3 fv-row">
+                            <div class="input-group">
+                                <input type="text" name="service_price" id="service_price" class="form-control"
+                                    placeholder="예) 10"
+                                    value="{{ old('service_price') ?? $result->service_price }}" />
+                                <span class="input-group-text" id="basic-addon2">만원<span>
+                            </div>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('approve_date')" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-check form-check-custom form-check-inline p-1">
+                                <input class="form-check-input" name="is_service" id="is_service" type="checkbox"
+                                    value="1">
+                                <span class="fw-semibold ps-2 fs-6">관리비 없음</span>
+                            </label>
                         </div>
                     </div>
+
 
                 </div>
                 <!--내용 END-->
-                {{-- Footer Bottom START --}}
-                <div class="card-footer d-flex justify-content-end py-6 px-9">
-                    <button type="submit" class="btn btn-primary">수정</button>
-                </div>
-                {{-- Footer END --}}
-            </form>
-            {{-- FORM END --}}
 
-        </x-screen-card>
-    </div>
+
+
+            </x-screen-card>
+        </div>
+
+        <div class="app-container container-xxl">
+            <x-screen-card :title="'가격 정보'">
+                {{-- 내용 START --}}
+                <div class="card-body border-top p-9">
+
+                    {{-- 거래 유형 --}}
+                    <div class="row mb-6">
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">거래 유형</label>
+                        <div class="col-lg-4 fv-row">
+                            @for ($i = 0; $i < count(Lang::get('commons.payment_type')); $i++)
+                                <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                    <input class="form-check-input" name="payment_type" type="radio"
+                                        value="{{ $i }}" @if ($result->payment_type == $i) checked @endif>
+                                    <span
+                                        class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.payment_type.' . $i) }}</span>
+                                </label>
+                            @endfor
+                            <input type="text" name="move_date" id="move_date" class="form-control"
+                                placeholder="예) 20230204"
+                                value="{{ old('move_date') ?? $result->move_date == null ? '' : $result->move_date->format('Y-m-d') }}"
+                                @if ($result->move_type != 2) disabled @endif />
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('move_date')" />
+                        </div>
+                    </div>
+
+            </x-screen-card>
+        </div>
+
+        <div class="app-container container-xxl">
+            <x-screen-card :title="'추가 정보'">
+                {{-- 내용 START --}}
+                <div class="card-body border-top p-9">
+                </div>
+            </x-screen-card>
+        </div>
+
+        <div class="app-container container-xxl">
+            <x-screen-card :title="'사진 및 상세 설명'">
+                {{-- 내용 START --}}
+                <div class="card-body border-top p-9">
+                </div>
+            </x-screen-card>
+        </div>
+
+        <div class="app-container container-xxl">
+            <x-screen-card :title="'매물 상태'">
+                {{-- 내용 START --}}
+                <div class="card-body border-top p-9">
+                </div>
+            </x-screen-card>
+        </div>
+
+        <div class="app-container container-xxl">
+            <x-screen-card :title="'중개보수'">
+                {{-- 내용 START --}}
+                <div class="card-body border-top p-9">
+                </div>
+            </x-screen-card>
+        </div>
+
+        {{-- Footer Bottom START --}}
+        <div class="card-footer d-flex justify-content-end py-6 px-9">
+            <button type="submit" class="btn btn-primary">저장</button>
+        </div>
+        {{-- Footer END --}}
+
+    </form>
+    {{-- FORM END --}}
 
     <!-- modal 가(임시)주소 검색 : s-->
     <div class="modal fade" tabindex="-1" id="modal_address_search">
@@ -248,41 +441,28 @@
                 </div>
                 <div class="modal-body">
                     <ul class="adress_select tab_toggle_menu">
-                        <li class="active"><span id="region_input_1">시/도</span></li>
-                        <li style="display:none"><span id="region_input_2">시/군/구</span></li>
-                        <li style="display:none"><span id="region_input_3">읍/면/동</span></li>
-                        <li style="display:none"><span id="region_input_4">리</span></li>
+                        <select name="region_code_1" id="region_code_1" class="form-select mb-6 region_code"
+                            data-control="select2" data-hide-search="true">
+                            <option value="">시/도</option>
+                        </select>
+                        <select name="region_code_2" id="region_code_2" class="form-select mb-6 region_code"
+                            data-control="select2" data-hide-search="true">
+                            <option value="">시/군/구</option>
+                        </select>
+                        <select name="region_code_3" id="region_code_3" class="form-select mb-6 region_code"
+                            data-control="select2" data-hide-search="true">
+                            <option value="">읍/면/동</option>
+                        </select>
+                        <select name="region_code_4" id="region_code_4" class="form-select mb-6 region_code"
+                            data-control="select2" data-hide-search="true">
+                            <option value="">리</option>
+                        </select>
                     </ul>
-                    <div class="tab_area_wrap adress_select_wrap  mt20">
-                        <div>
-                            <div class="point_sm_filter cell_4" id="region_code_1">
-                                <div class="cell"><input type="radio" name="region_1" id="region_1_1"
-                                        value="11"><label class="label" for="region_1_1">서울특별시</label></div>
-                            </div>
-                            <div class="point_sm_filter cell_4" id="region_code_2">
-                                <div class="cell"><input type="radio" name="region_1" id="region_1_2"
-                                        value="11"><label class="label" for="region_1_2">서울특별시</label></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="point_sm_filter cell_4" id="region_code_2">
 
-                            </div>
-                        </div>
-                        <div>
-                            <div class="point_sm_filter cell_4"id="region_code_3">
-
-                            </div>
-                        </div>
-                        <div>
-                            <div class="point_sm_filter cell_4" id="region_code_4">
-
-                            </div>
-                        </div>
-                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">닫기</button>
-                        <button type="button" class="btn btn-primary" id="seach_address" onclick="seach_address()"disabled>
+                        <button type="button" class="btn btn-primary" id="seach_address" onclick="seach_address()"
+                            disabled>
                             검색
                         </button>
                     </div>
@@ -298,6 +478,8 @@
     <script>
         var hostUrl = "assets/";
 
+        initDatepicker($('#move_date'), "{{ old('move_date') }}");
+
         initDaterangepicker();
 
         // 이미지 드롭 존 있을 경우
@@ -305,6 +487,95 @@
     </script>
 
     <script>
+        // 평수 제곱 변환
+        function square_change(name) {
+            var area_name = name + 'area';
+            var square_name = name + 'square';
+
+            var square = $('#' + square_name).val();
+            if (square > 0) {
+                var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
+                $('#' + area_name).val(convertedArea);
+            }
+        }
+
+        // 평수 제곱 변환
+        function area_change(name) {
+            console.log('gd');
+
+            var area_name = name + 'area';
+            var square_name = name + 'square';
+
+            var area = $('#' + area_name).val();
+            if (area > 0) {
+                var convertedSquare = (area * 3.3058).toString();
+                var decimalIndex = convertedSquare.indexOf('.') + 3; // 소수점 이하 세 번째 자리까지
+                $('#' + square_name).val(convertedSquare.substr(0, decimalIndex));
+            }
+        }
+
+        // 가임시 주소일 경우 동없음 체크여부
+        $('#is_service').click(function() {
+            if ($(this).is(':checked')) {
+                $('#service_price').val('');
+                $('#service_price').attr('disabled', true);
+            } else {
+                $('#service_price').attr('disabled', false);
+            }
+        });
+
+        // 가임시 주소일 경우 동없음 체크여부
+        $('#address_no_1').click(function() {
+            if ($(this).is(':checked')) {
+                $('#address_dong').val('');
+                $('#address_dong').attr('disabled', true);
+            } else {
+                $('#address_dong').attr('disabled', false);
+            }
+        });
+
+        // 가임시 주소가 아닐 경우 상세없음 체크여부
+        $('#address_no_2').click(function() {
+            if ($(this).is(':checked')) {
+                $('#address_detail').val('');
+                $('#address_detail').attr('disabled', true);
+            } else {
+                $('#address_detail').attr('disabled', false);
+            }
+        });
+
+        // 입주가능일 타입
+        $('input[name="move_type"]').click(function() {
+            $('input[name="move_date"]').val('');
+            if ($(this).val() == 2) {
+                $('input[name="move_date"]').attr('disabled', false);
+            } else {
+                $('input[name="move_date"]').attr('disabled', true);
+            }
+        });
+
+
+        // 가임시주소 검색
+        function seach_address() {
+            var sidoName = $('#region_code_1 option:selected').text();
+            var sigunguName = $('#region_code_2 option:selected').text();
+            var dongName = $('#region_code_3 option:selected').text();
+            var riName = $('#region_code_4 option:selected').text();
+
+            var address = sidoName + ' ' + sigunguName + ' ' + dongName + ' ' + (riName == '리' ? '' : riName);
+
+            $('#modal_address_search').modal('hide');
+
+            $('#address').val(address + ' 999-99');
+            $('#address_detail').val('');
+            $('#address_dong').val('');
+            $('#address_number').val('');
+        }
+
+
+        // 지역구 가져오기
+        get_region('*00000000', '1');
+
         $('#is_address_detail').click(function() {
             if ($(this).is(':checked')) {
                 $('#address_detail').val('');
@@ -332,26 +603,19 @@
             var is_temporary_0 = document.querySelector("#is_temporary_0");
             var is_temporary_1 = document.querySelector("#is_temporary_1");
 
-            $('#address').val('');
-            $('#roadName').empty();
-            $('#jibunName').empty();
-            $('#address_detail').val('');
-            $('#address_dong').val('');
-            $('#address_number').val('');
-
             if (this.checked) {
                 address_1.style.display = "none";
-                address_2.style.display = "active";
+                address_2.style.display = "";
                 search_1.style.display = "none";
-                search_2.style.display = "active";
+                search_2.style.display = "";
                 is_temporary_0.style.display = "none";
-                is_temporary_1.style.display = "block";
+                is_temporary_1.style.display = "";
             } else {
-                address_1.style.display = "block";
-                address_2.style.display = "active";
-                search_1.style.display = "block";
-                search_2.style.display = "active";
-                is_temporary_0.style.display = "block";
+                address_1.style.display = "";
+                address_2.style.display = "none";
+                search_1.style.display = "";
+                search_2.style.display = "none";
+                is_temporary_0.style.display = "";
                 is_temporary_1.style.display = "none";
             }
         });
@@ -369,29 +633,27 @@
                 success: function(response) {
                     // Check if 'regcodes' property exists and is an array
                     if (response.regcodes && Array.isArray(response.regcodes)) {
-                        var div = $("#region_code_" + region);
-                        div.empty();
+                        var select = $("#region_code_" + region);
+                        select.empty();
 
                         // Iterate over the 'regcodes' array
                         if (region == 1) {
+                            select.append($("<option>").text('시/도').val(''));
                             response.regcodes.forEach(function(regcodeObj, index) {
                                 // Assuming 'code' is the property you want to use for the option value
                                 var regcode = regcodeObj.code;
                                 // Assuming 'name' is the property you want to use for the option text
                                 var name = regcodeObj.name;
-                                div.append(`<div class="cell">` +
-                                    `<input type="radio" name="region_` + region +
-                                    `" id="region_` + region + `_` + (
-                                        index + 1) + `" value="` +
-                                    regcode.substring(0, 2) + `">` +
-                                    `<label class="label" for="region_` + region + `_` + (
-                                        index + 1) +
-                                    `">` +
-                                    name +
-                                    `</label>` +
-                                    `</div>`);
+                                select.append($("<option>").text(name).val(regcode.substring(0, 2)));
                             });
                         } else if (region != 1) {
+                            if (region == 2) {
+                                $('#region_code_2').append($("<option>").text('시/군/구').val(''));
+                            } else if (region == 3) {
+                                $('#region_code_3').append($("<option>").text('읍/면/동').val(''));
+                            } else if (region == 4) {
+                                $('#region_code_4').append($("<option>").text('리').val(''));
+                            }
                             var options = [];
                             for (var i = 0; i < response.regcodes.length; i++) {
                                 var regcodeObj = response.regcodes[i];
@@ -424,31 +686,15 @@
 
                             // Append sorted options to the select element
                             for (var i = 0; i < options.length; i++) {
-                                div.append(`<div class="cell">` +
-                                    `<input type="radio" name="region_` + region +
-                                    `" id="region_` + region + `_` + (
-                                        i + 1) + `" value="` +
-                                    options[i].value + `">` +
-                                    `<label class="label" for="region_` + region + `_` + (
-                                        i + 1) +
-                                    `">` +
-                                    options[i].name +
-                                    `</label>` +
-                                    `</div>`);
+                                select.append($("<option>").text(options[i].name).val(options[i].value));
                             }
                         }
-
-                        // 하위 선택할 수 있게 보여줌
-                        $('#region_input_' + region).parents('li').css('display', '')
-                        $('#region_input_' + region).click();
 
                         $('#seach_address').attr("disabled", true);
 
                     } else {
                         console.error("Invalid response format. 'regcodes' array not found.", region);
                         if (region == 4) {
-                            var span = document.getElementById('region_input_4');
-                            span.parentElement.style.display = 'none';
                             $('#seach_address').attr("disabled", false);
                         }
                     }
@@ -458,6 +704,44 @@
                 }
             });
         }
+
+        var initialTexts = ["시/도", "시/군/구", "읍/면/동", "리"];
+
+        // 모든 라벨에 대한 클릭 이벤트 처리
+        $('.region_code').on("change", function(event) {
+            var clickedElement = event.target.id; // 클릭된 요소를 가져옴
+
+            // 클릭된 요소가 라벨인 경우
+            var index = clickedElement.split("_")[2]; // 인덱스 추출
+
+            // 현재 클릭된 라벨의 인덱스
+            var currentIndex = parseInt(index) + 1;
+
+            // 상위 select가 변경될 때마다 현재 select보다 높은 인덱스를 가진 하위 select를 모두 초기화
+            for (var i = currentIndex + 1; i <= 4; i++) {
+                $('#region_code_' + i).empty(); // 하위 select를 초기화
+                $('#region_code_' + i).append($("<option>").text(initialTexts[i - 1]).val('')); // 하위 select를 초기화
+            }
+
+            var region_code = '';
+            // 주소 가져오기
+            if (currentIndex < 5) {
+                check_code = $('#' + clickedElement).val();
+                if (currentIndex == 2) {
+                    region_code = check_code + '*00000'
+                } else if (currentIndex == 3) {
+                    region_code = check_code + '*00'
+                } else if (currentIndex == 4) {
+                    region_code = check_code + '*'
+                }
+                get_region(region_code, currentIndex);
+            } else {
+                $('#seach_address').attr("disabled", false);
+            }
+
+            $('#region_code').val(check_code);
+
+        });
     </script>
 
 
@@ -513,6 +797,10 @@
 
             $('#address').val(rtAddrPart1)
 
+            $('#address_detail').val('');
+            $('#address_dong').val('');
+            $('#address_number').val('');
+
             if (!$("#address_detail").prop('disabled')) {
                 $('#address_detail').val(rtAddrDetail);
             }
@@ -525,8 +813,6 @@
             $('input[name=address_lat]').val(wgs84Coords[1]);
 
             console.log('주소 검색 끝!');
-
-            confrim_check();
 
         }
     </script>
