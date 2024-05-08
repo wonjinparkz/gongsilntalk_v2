@@ -29,7 +29,7 @@ return new class extends Migration
             // Indexes
             $table->timestamps();
         });
-        DB::statement("ALTER TABLE product_price COMMENT='매물'");
+        DB::statement("ALTER TABLE product_price COMMENT='매물 가격정보'");
     }
 
     /**

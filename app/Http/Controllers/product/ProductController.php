@@ -63,7 +63,7 @@ class ProductController extends Controller
      */
     public function productDetailView($id): View
     {
-        $result = Product::with('images', 'users', 'priceInfo')->where('id', $id)->first();
+        $result = Product::with('images', 'users', 'priceInfo', 'productAddInfo', 'productOptions')->where('id', $id)->first();
 
         return view('admin.product.product-detail', compact('result'));
     }
