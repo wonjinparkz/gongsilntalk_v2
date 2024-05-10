@@ -3,6 +3,9 @@
 <div class="row mb-6">
     <label class="col-lg-4 col-form-label fw-semibold fs-6 {{ $required }}">{{ $title }}</label>
     <div class="col-lg-8">
+        <p class="fw-light">최대 {{ $cnt }}장 업로드 가능
+            <span style="color: #F16341" id="image_count">{{ count($images) }}</span>/{{ $cnt }}
+        </p>
         <div class="dropzone " id="{{ $id }}_drop">
             <div class="dz-message needsclick">
                 <i class="bi bi-file-earmark-arrow-up text-primary fs-3x"></i>

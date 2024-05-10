@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
 class ProductController extends Controller
@@ -78,5 +80,40 @@ class ProductController extends Controller
             ->update(['state' => $request->state]);
 
         return back()->with('message', '매물 상태를 수정했습니다.');
+    }
+
+
+    /**
+     * 일반회원 매물 수정
+     */
+    public function productUpdate(Request $request): RedirectResponse
+    {
+
+        $validator = Validator::make($request->all(), [
+            'type' => 'required',
+            'address' => 'required',
+            'address_detail' => 'required_if:is_map,!=,1|required_if:is_address_detail,==,1',
+            'product_image_ids' => 'required',
+            'floor_number' => 'required',
+        ]);
+
+        Log::info($request);
+
+        if ($validator->fails()) {
+            return redirect(route('admin.product.detail.view', [$request->id]))
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $result = Product::where('id', $request->id)
+            ->update([
+                'type' => $request->type,
+                'is_map' => $request->is_map ?? 1,
+                'address' => $request->address,
+            ]);
+
+        $this->imageWithEdit($request->product_image_ids, Product::class, $request->id);
+
+        return redirect()->to($request->last_url)->with('message', '팝업 내용을 수정했습니다.');
     }
 }

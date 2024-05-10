@@ -38,6 +38,10 @@
         </x-screen-card>
     </div>
 
+    @php
+        $type = old('type') ?? $result->type;
+    @endphp
+
     <form class="form" method="POST" action="{{ route('admin.product.update') }}">
         @csrf
         <input type="hidden" name="id" value="{{ $result->id }}" />
@@ -60,7 +64,8 @@
                                     @for ($i = 8; $i < 14; $i++)
                                         <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                             <input class="form-check-input" name="type" type="radio"
-                                                value="{{ $i }}">
+                                                value="{{ $i }}"
+                                                @if ($type == $i) checked @endif>
                                             <span
                                                 class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.product_type.' . $i) }}</span>
                                         </label>
@@ -73,7 +78,8 @@
                                     @for ($i = 0; $i < 8; $i++)
                                         <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                             <input class="form-check-input" name="type" type="radio"
-                                                value="{{ $i }}">
+                                                value="{{ $i }}"
+                                                @if ($type == $i) checked @endif>
                                             <span
                                                 class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.product_type.' . $i) }}</span>
                                         </label>
@@ -86,7 +92,8 @@
                                     @for ($i = 14; $i < Count(Lang::get('commons.product_type')); $i++)
                                         <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                             <input class="form-check-input" name="type" type="radio"
-                                                value="{{ $i }}">
+                                                value="{{ $i }}"
+                                                @if ($type == $i) checked @endif>
                                             <span
                                                 class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.product_type.' . $i) }}</span>
                                         </label>
@@ -101,71 +108,83 @@
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">주소</label>
                         <div class="col-lg-10 fv-row">
 
+                            @php
+                                $is_map = count(old('is_map') ?? []) > 0 ? old('is_map')[0] : $result->is_map;
+                            @endphp
+
                             <a onclick="getAddress()" class="btn btn-outline search_address_1"
-                                style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; margin-bottom: 5px;">
+                                style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; margin-bottom: 5px;
+                                display:{{ $is_map == 0 ? '' : 'none' }};">
                                 주소 검색 </a>
 
                             <a class="btn btn-outline search_address_2" data-bs-toggle="modal"
                                 data-bs-target="#modal_address_search"
-                                style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; margin-bottom: 5px;">
+                                style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; margin-bottom: 5px;
+                                display:{{ $is_map == 0 ? 'none' : '' }};">
                                 가(임시)주소 검색 </a>
 
                             <label class="form-check form-check-custom form-check-inline p-1">
-                                <input class="form-check-input" name="temporary_address" id="temporary_address"
-                                    type="checkbox" value="1">
+                                <input class="form-check-input" name="is_map[]" id="is_map_1" type="checkbox"
+                                    value="1" {{ $is_map == 0 ? '' : 'checked' }}>
                                 <span class="fw-semibold ps-2 fs-6">가(임시)주소</span>
                             </label>
+                            <input style="display:none" class="form-check-input" name="is_map[]" id="is_map_0"
+                                type="checkbox" value="0" {{ $is_map == 0 ? 'checked' : '' }}>
 
                             <input type="text" name="address" id="address" class="form-control " readonly
-                                placeholder="" value="{{ old('address') ? old('address') : $result->address }}" />
+                                placeholder="" value="{{ old('address') ?? $result->address }}" />
+
 
                             <div class="mb-6"
-                                style="border: 1px solid #D2D1D0; border-radius: 5px; display: flex; align-items: center; color:#D2D1D0; justify-content:center; text-align: center; line-height: 1.4; height: 400px; margin-top:18px;">
-                                <div id="is_temporary_0">
-                                    주소 검색 시,<br>해당 위치가 지도에 표시됩니다.
+                                style="border: 1px solid #D2D1D0; border-radius: 5px; display: flex; align-items: center; color:#D2D1D0; justify-content:center; text-align: center; line-height: 1.4; height: 500px; margin-top:18px; position: relative;">
+                                <div id="is_temporary_0"
+                                    style="position: absolute; width: 100%; height: 100%; display:{{ $is_map == 0 ? '' : 'none' }};">
+                                    <div id="mapWrap" class="mapWrap"
+                                        style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
                                 </div>
-                                <div id="is_temporary_1" style="display: none">
+                                <div id="is_temporary_1" style="display: {{ $is_map == 0 ? 'none' : '' }}">
                                     가(임시)주소 선택시,<br>지도 노출이 불가능합니다.
                                 </div>
                             </div>
 
-                            <div class="detail_address_1">
+                            <div class="detail_address_1" style="display: {{ $is_map == 0 ? '' : 'none' }};">
                                 <span class="fs-6">상세주소</span>
                                 <input type="text" name="address_detail" id="address_detail" class="form-control"
                                     placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호"
-                                    value="{{ old('address_detail') ? old('address_detail') : $result->address_detail }}">
+                                    value="{{ old('address_detail') ?? $result->address_detail }}">
                                 <label class="form-check form-check-custom form-check-inline p-1">
                                     <input class="form-check-input" name="is_address_detail" id="is_address_detail"
-                                        type="checkbox" value="1">
+                                        type="checkbox" value="1"
+                                        {{ old('is_address_detail') == 1 ? 'checked' : '' }}>
                                     <span class="fw-semibold ps-2 fs-6">상세주소 없음</span>
                                 </label>
                             </div>
 
-                            <div class="detail_address_2 row">
+                            <div class="detail_address_2 row" style="display: {{ $is_map == 0 ? 'none' : '' }};">
                                 <span class="fs-6">상세주소</span>
 
                                 <div class="col-lg-3 fv-row">
-                                    <div class="input-group mb-5">
+                                    <div class="input-group">
                                         <input type="text" name="address_dong" id="address_dong"
                                             class="form-control"
-                                            value="{{ old('address_dong') ? old('address_dong') : $result->address_dong }}" />
+                                            value="{{ old('address_dong') ?? $result->address_dong }}" />
                                         <span class="input-group-text" id="basic-addon2">동<span>
                                     </div>
                                     <x-input-error class="mt-2 text-danger" :messages="$errors->get('address_dong')" />
                                 </div>
 
                                 <div class="col-lg-3 fv-row">
-                                    <div class="input-group mb-5">
+                                    <div class="input-group">
                                         <input type="text" name="address_number" class="form-control"
                                             value="{{ old('address_number') ? old('address_number') : $result->address_number }}" />
                                         <span class="input-group-text" id="basic-addon2">호<span>
                                     </div>
                                     <x-input-error class="mt-2 text-danger" :messages="$errors->get('address_number')" />
                                 </div>
-
                                 <label class="form-check form-check-custom form-check-inline p-1">
+                                    &nbsp;
                                     <input class="form-check-input" name="is_address_dong" id="is_address_dong"
-                                        type="checkbox" value="1">
+                                        type="checkbox" value="1" {{ $result->address_dong ?? 'checked' }}>
                                     <span class="fw-semibold ps-2 fs-6">동 없음</span>
                                 </label>
                             </div>
@@ -178,10 +197,12 @@
                                 value="{{ old('address_lng') ? old('address_lng') : $result->address_lng }}">
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('address')" />
                         </div>
+
                     </div>
 
                     {{-- 해당층/전체층 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 floor_input_1"
+                        style="display:{{ in_array($type, ['6', '7']) ? 'none' : '' }}">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">해당층/전체층</label>
                         <div class="col-lg-3 d-flex align-items-center">
                             <div class="input-group mb-5">
@@ -202,9 +223,32 @@
                         </div>
                     </div>
 
+                    {{-- 최저층/최고층 --}}
+                    <div class="row mb-6 floor_input_2" style="display:{{ $type == 7 ? '' : 'none' }}">
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">최저층/최고층</label>
+                        <div class="col-lg-3 d-flex align-items-center">
+                            <div class="input-group mb-5">
+                                <input type="text" name="lowest_floor_number" class="form-control"
+                                    placeholder="최저층"
+                                    value="{{ old('lowest_floor_number') ? old('lowest_floor_number') : $result->lowest_floor_number }}" />
+                                <span class="input-group-text" id="basic-addon2">층<span>
+                            </div>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('lowest_floor_number')" />
+                        </div>
+                        <div class="col-lg-3 d-flex align-items-center">
+                            <div class="input-group mb-5">
+                                <input type="text" name="top_floor_number" class="form-control" placeholder="최고층"
+                                    value="{{ old('top_floor_number') ? old('top_floor_number') : $result->top_floor_number }}" />
+                                <span class="input-group-text" id="basic-addon2">층<span>
+                            </div>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('top_floor_number')" />
+                        </div>
+                    </div>
+
                     {{-- 공급 면적 --}}
-                    <div class="row mb-6">
-                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">공급 면적</label>
+                    <div class="row mb-6 area_input_1">
+                        <label
+                            class="required col-lg-2 col-form-label fw-semibold fs-6 area_text_1">{{ in_array($type, ['6', '7']) ? '대지면적' : '공급면적' }}</label>
                         <div class="col-lg-3 fv-row">
                             <div class="input-group">
                                 <input type="number" name="area" id="area" class="form-control"
@@ -235,8 +279,41 @@
                         </div>
                     </div>
 
+                    {{-- 연면적 --}}
+                    <div class="row mb-6 area_input_2" style="display: {{ $type != 7 ? 'none' : '' }}">
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">연면적</label>
+                        <div class="col-lg-3 fv-row">
+                            <div class="input-group">
+                                <input type="number" name="total_floor_area" id="total_floor_area"
+                                    class="form-control" placeholder="변환 버튼을 눌러주세요."
+                                    value="{{ old('total_floor_area') ? old('total_floor_area') : $result->total_floor_area }}" />
+                                <span class="input-group-text" id="basic-addon2">평<span>
+                            </div>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('total_floor_area')" />
+                        </div>
+                        <div class="fv-row col-lg-2 d-flex justify-content-center ">
+                            <div class="btn-group-vertical">
+                                <a onclick="square_change('total_floor_')" class="btn btn-outline"
+                                    style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; width: 120px;">
+                                    <- 평으로 변환 </a>
+                                        <a onclick="area_change('total_floor_')" class="btn btn-outline"
+                                            style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; width: 120px;">
+                                            ㎡으로 변환-></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 fv-row">
+                            <div class="input-group">
+                                <input type="text" name="total_floor_square" id="total_floor_square"
+                                    onkeyup="imsi(this)" class="form-control" placeholder="변환 버튼을 눌러주세요."
+                                    value="{{ old('total_floor_square') ? old('total_floor_square') : $result->total_floor_square }}" />
+                                <span class="input-group-text" id="basic-addon2">㎡<span>
+                            </div>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('total_floor_square')" />
+                        </div>
+                    </div>
+
                     {{-- 전용 면적 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 area_input_3" style="display: {{ $type == 6 ? 'none' : '' }}">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">전용 면적</label>
                         <div class="col-lg-3 fv-row">
                             <div class="input-group">
@@ -269,7 +346,7 @@
                     </div>
 
                     {{-- 사용승인일 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 no_forest">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">사용승인일</label>
                         <div class="col-lg-3 fv-row">
                             <input type="text" name="approve_date" class="form-control" placeholder="예) 20230204"
@@ -279,7 +356,7 @@
                     </div>
 
                     {{-- 건축물 용도 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 no_forest">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">건축물 용도</label>
                         <div class="col-lg-3 fv-row">
                             <select name="building_type" class="form-select" data-control="select2"
@@ -299,7 +376,7 @@
                     </div>
 
                     {{-- 입주가능일 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 no_forest">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">입주가능일</label>
                         <div class="col-lg-4 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
@@ -319,19 +396,18 @@
                             </label>
                             @inject('carbon', 'Carbon\Carbon')
                             <input type="text" name="move_date" id="move_date" class="form-control"
-                                placeholder="예) 20230204"
-                                value="{{ old('move_date') ?? $result->move_date == null ? '' : $result->move_date->format('Y-m-d') }}"
+                                placeholder="예) 20230204" value="{{ old('move_date') ?? $result->move_date }}"
                                 @if ($result->move_type != 2) disabled @endif />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('move_date')" />
                         </div>
                     </div>
 
                     {{-- 월 관리비 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 no_forest">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">월 관리비</label>
                         <div class="col-md-3 fv-row">
                             <div class="input-group">
-                                <input type="text" name="service_price" id="service_price" class="form-control"
+                                <input type="number" name="service_price" id="service_price" class="form-control"
                                     placeholder="예) 10"
                                     value="{{ old('service_price') ?? $result->service_price }}" />
                                 <span class="input-group-text" id="basic-addon2">만원<span>
@@ -344,6 +420,34 @@
                                     value="1">
                                 <span class="fw-semibold ps-2 fs-6">관리비 없음</span>
                             </label>
+                        </div>
+                    </div>
+
+                    {{-- 융자금 --}}
+                    <div class="row mb-6 no_forest">
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">융자금</label>
+                        <div class="col-lg-4 fv-row">
+                            <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                <input class="form-check-input" name="loan_type" type="radio" value="0"
+                                    @if ($result->loan_type == 0) checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">없음</span>
+                            </label>
+                            <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                <input class="form-check-input" name="loan_type" type="radio"
+                                    value="1"@if ($result->loan_type == 1) checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">30% 미만</span>
+                            </label>
+                            <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                <input class="form-check-input" name="loan_type" type="radio"
+                                    value="2"@if ($result->loan_type == 2) checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">30% 이상</span>
+                            </label>
+                            @inject('carbon', 'Carbon\Carbon')
+                            <input type="text" name="loan_price" id="loan_price" class="form-control"
+                                placeholder="예) 1억 1000만"
+                                value="{{ old('loan_price') ?? $result->loan_price == null ? '' : $result->loan_price->format('Y-m-d') }}"
+                                @if ($result->move_type != 2) disabled @endif />
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('loan_price')" />
                         </div>
                     </div>
 
@@ -587,7 +691,7 @@
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">하중 (평당)</label>
                         <div class="col-lg-3 fv-row">
                             <input type="text" name="weight" class="form-control" placeholder="예) 0.8"
-                                value="{{ old('weight') ? old('weight') : $result->productAddInfoweight ?? '' }}" />
+                                value="{{ old('weight') ? old('weight') : $result->productAddInfo->weight ?? '' }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('weight')" />
                         </div>
                     </div>
@@ -1013,6 +1117,41 @@
             <x-screen-card :title="'사진 및 상세 설명'">
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
+
+                    {{-- 이미지 --}}
+                    <x-admin-image-picker :title="'사진등록'" :id="'product'" required="required" cnt="8"
+                        :images="$result->images" />
+
+                    {{-- 한줄요약 --}}
+                    <div class="row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">한줄요약</label>
+                        <div class="col-lg-10 fv-row">
+                            <input type="text" name="comments" class="form-control"
+                                placeholder="예) 역에서 5분거리, 인프라 좋은 매물"
+                                value="{{ old('comments') ? old('comments') : $result->comments }}" />
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('comments')" />
+                        </div>
+                    </div>
+
+                    {{-- 상세설명 --}}
+                    <div class="row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">상세설명</label>
+                        <div class="col-lg-10 fv-row">
+                            <textarea name="contents" class="form-control mb-5" rows="5" placeholder="주변 편의시설, 역세권 등의 정보를 입력해주세요.">{{ old('contents') ? old('contents') : $result->contents }}</textarea>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('contents')" />
+                        </div>
+                    </div>
+
+                    {{-- 3D 이미지 링크 --}}
+                    <div class="row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">3D 이미지 링크</label>
+                        <div class="col-lg-10 fv-row">
+                            <input type="text" name="image_link" class="form-control" placeholder="링크를 입력해 주세요."
+                                value="{{ old('image_link') ? old('image_link') : $result->image_link }}" />
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('image_link')" />
+                        </div>
+                    </div>
+
                 </div>
             </x-screen-card>
         </div>
@@ -1021,6 +1160,35 @@
             <x-screen-card :title="'매물 상태'">
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
+
+                    {{-- 최종 수정자 --}}
+                    <div class="row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">최종 수정자</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid"
+                                placeholder="최종 수정자"
+                                value="{{ $carbon::parse($result->updated_at)->format('Y.m.d H:m') . ' - ' . ($result->update_user_type == 0 ? '일반회원' : '관리자') }}" />
+                        </div>
+                    </div>
+
+                    {{-- 매물상태 --}}
+                    <div class="row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">매물상태</label>
+                        <div class="col-lg-8 fv-row">
+                            @for ($i = 0; $i < count(Lang::get('commons.product_state')) - 1; $i++)
+                                <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                    <input class="form-check-input" name="state" type="radio"
+                                        value="{{ $i }}"
+                                        @if ($result->state == $i) checked @endif>
+                                    <span class="fw-semibold ps-2 fs-6">
+                                        {{ Lang::get('commons.product_state.' . $i) }}
+                                    </span>
+                                </label>
+                            @endfor
+
+                        </div>
+                    </div>
+
                 </div>
             </x-screen-card>
         </div>
@@ -1029,6 +1197,27 @@
             <x-screen-card :title="'중개보수'">
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
+
+                    {{-- 중개보수(부가세별도) --}}
+                    <div class="row mb-6">
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">중개보수(부가세별도)</label>
+                        <div class="col-lg-10 fv-row">
+                            <input type="text" name="commission" class="form-control" placeholder="중개보수(부가세별도)"
+                                value="{{ old('commission') ? old('commission') : $result->commission }}" />
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('commission')" />
+                        </div>
+                    </div>
+
+                    {{-- 상한요율(%) --}}
+                    <div class="row mb-6">
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">상한요율(%)</label>
+                        <div class="col-lg-10 fv-row">
+                            <input type="text" name="commission_rate" class="form-control" placeholder="상한요율(%)"
+                                value="{{ old('commission_rate') ? old('commission_rate') : $result->commission_rate }}" />
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('commission_rate')" />
+                        </div>
+                    </div>
+
                 </div>
             </x-screen-card>
         </div>
@@ -1049,8 +1238,8 @@
                 <div class="modal-header">
                     <h5 class="modal-title">가(임시) 주소 검색</h5>
                     <!--begin::Close-->
-                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
-                        aria-label="Close">
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 modal_address_search_close"
+                        data-bs-dismiss="modal" aria-label="Close">
                         <i class="ki-duotone ki-cross fs-1"><span class="path1">X</span><span
                                 class="path2"></span></i>
                         <!--end::Close-->
@@ -1078,8 +1267,8 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">닫기</button>
-                        <button type="button" class="btn btn-primary" id="seach_address" onclick="seach_address()"
-                            disabled>
+                        <button type="button" class="btn btn-primary" id="seach_address"
+                            onclick="seach_address()" disabled>
                             검색
                         </button>
                     </div>
@@ -1089,6 +1278,13 @@
     </div>
     <!-- modal 가(임시)주소 검색 : e-->
 
+
+    <style>
+        .zoomIcon {
+            padding: 0px !important;
+        }
+    </style>
+
     {{--
         * 페이지에서 사용하는 자바스크립트
     --}}
@@ -1096,17 +1292,63 @@
         var hostUrl = "assets/";
 
         initDatepicker($('#move_date'), "{{ old('move_date') }}");
-
-        initDaterangepicker();
-
-        // 이미지 드롭 존 있을 경우
-        initImageDropzone();
     </script>
 
     <script>
         $(document).ready(function() {
+            $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/common.css"]').remove();
+            $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/map/addrlinkMap.css"]')
+                .remove();
+
+            var wgs84Coords = get_coordinate_conversion1($('input[name=address_lng]').val(), $(
+                'input[name=address_lat]').val())
+
+            setTimeout(function() {
+                callJusoroMapApiType1(wgs84Coords[0], wgs84Coords[1]);
+            }, 1000);
+
             if ($('input[name="is_option"]:checked').val() == 0) {
                 $('.option_type').attr('disabled', true);
+            }
+
+        });
+
+        // type1.좌표정보(GRS80, EPSG:5179)
+        function callJusoroMapApiType1(rtentX, rtentY) {
+            window.postMessage({
+                functionName: 'callJusoroMapApi',
+                params: [rtentX, rtentY]
+            }, '*');
+        }
+
+
+        // 건물타입에 따라 층 입력칸 변경
+        $('input[name="type"]').change(function() {
+            if ([6, 7].indexOf(parseInt($(this).val())) !== -1) {
+                $('.area_text_1').text('대지면적');
+                if ($(this).val() == 6) {
+                    $('.floor_input_1').css('display', 'none');
+                    $('.floor_input_2').css('display', 'none');
+                    $('.area_input_1').css('display', '');
+                    $('.area_input_2').css('display', 'none');
+                    $('.area_input_3').css('display', 'none');
+
+                } else {
+                    $('.floor_input_1').css('display', 'none');
+                    $('.floor_input_2').css('display', '');
+                    $('.area_input_1').css('display', '');
+                    $('.area_input_2').css('display', '');
+                    $('.area_input_3').css('display', '');
+                }
+            } else {
+                $('.floor_input_1').css('display', '');
+                $('.floor_input_2').css('display', 'none');
+
+                $('.area_text_1').text('공급면적');
+                $('.area_input_1').css('display', '');
+                $('.area_input_2').css('display', 'none');
+                $('.area_input_3').css('display', '');
+
             }
         });
 
@@ -1197,7 +1439,7 @@
 
             var address = sidoName + ' ' + sigunguName + ' ' + dongName + ' ' + (riName == '리' ? '' : riName);
 
-            $('#modal_address_search').modal('hide');
+            $('.modal_address_search_close').click();
 
             $('#address').val(address + ' 999-99');
             $('#address_detail').val('');
@@ -1228,7 +1470,8 @@
         });
 
         //가(임시)주소 클릭 이벤트
-        document.getElementById("temporary_address").addEventListener("change", function() {
+        document.getElementById("is_map_1").addEventListener("change", function() {
+            var is_map_0 = document.getElementById("#is_map_0");
             var address_1 = document.querySelector(".detail_address_1");
             var address_2 = document.querySelector(".detail_address_2");
             var search_1 = document.querySelector(".search_address_1");
@@ -1243,6 +1486,7 @@
                 search_2.style.display = "";
                 is_temporary_0.style.display = "none";
                 is_temporary_1.style.display = "";
+                is_map_0.checked = false;
             } else {
                 address_1.style.display = "";
                 address_2.style.display = "none";
@@ -1250,6 +1494,7 @@
                 search_2.style.display = "none";
                 is_temporary_0.style.display = "";
                 is_temporary_1.style.display = "none";
+                is_map_0.checked = true;
             }
         });
 
@@ -1444,6 +1689,8 @@
 
             $('input[name=address_lng]').val(wgs84Coords[0]);
             $('input[name=address_lat]').val(wgs84Coords[1]);
+
+            callJusoroMapApiType1(rtentX, rtentY);
 
             console.log('주소 검색 끝!');
 

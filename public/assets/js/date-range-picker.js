@@ -4,7 +4,7 @@ var initDatepicker = (input, dateAt) => {
     var autoUpdateInput = false;
 
     if (dateAt != "") {
-        start(dateAt, 'YYYY-MM-DD');
+        start(dateAt, 'YYYYMMDD');
         autoUpdateInput = true;
     }
 
@@ -31,7 +31,7 @@ var initDatepicker = (input, dateAt) => {
         },
 
     }, function (start, end, label) {
-        input.val(start.format("YYYY-MM-DD"));
+        input.val(start.format("YYYYMMDD"));
     });
 }
 
