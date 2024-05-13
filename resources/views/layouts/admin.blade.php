@@ -15,9 +15,7 @@
     <script src="{{ asset('assets/js/admin.commons.js') }}"></script>
     <script src="{{ asset('assets/js/proj4.js') }}"></script>
 
-    <script type="text/javascript"
-        src="https://business.juso.go.kr/juso_support_center/js/addrlink/map/jusoro_map_api.min.js?confmKey=U01TX0FVVEgyMDI0MDUwOTE0MjYyMjExNDc1Mjk=&skinType=1">
-    </script>
+
 
     <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
     <script src="{{ asset('assets/plugins/custom/fslightbox/fslightbox.bundle.js') }}"></script>

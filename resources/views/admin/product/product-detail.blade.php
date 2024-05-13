@@ -151,7 +151,8 @@
                                 <span class="fs-6">상세주소</span>
                                 <input type="text" name="address_detail" id="address_detail" class="form-control"
                                     placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호"
-                                    value="{{ old('address_detail') ?? $result->address_detail }}">
+                                    value="{{ old('address_detail') ?? $result->address_detail }}"
+                                    {{ old('is_address_detail') == 1 ? 'disabled' : '' }} />
                                 <label class="form-check form-check-custom form-check-inline p-1">
                                     <input class="form-check-input" name="is_address_detail" id="is_address_detail"
                                         type="checkbox" value="1"
@@ -167,7 +168,8 @@
                                     <div class="input-group">
                                         <input type="text" name="address_dong" id="address_dong"
                                             class="form-control"
-                                            value="{{ old('address_dong') ?? $result->address_dong }}" />
+                                            value="{{ old('address_dong') ?? $result->address_dong }}"
+                                            {{ old('is_address_dong') == 1 ? 'disabled' : '' }} />
                                         <span class="input-group-text" id="basic-addon2">동<span>
                                     </div>
                                     <x-input-error class="mt-2 text-danger" :messages="$errors->get('address_dong')" />
@@ -346,7 +348,7 @@
                     </div>
 
                     {{-- 사용승인일 --}}
-                    <div class="row mb-6 no_forest">
+                    <div class="row mb-6 no_forest approve_date_input">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">사용승인일</label>
                         <div class="col-lg-3 fv-row">
                             <input type="text" name="approve_date" class="form-control" placeholder="예) 20230204"
@@ -356,7 +358,7 @@
                     </div>
 
                     {{-- 건축물 용도 --}}
-                    <div class="row mb-6 no_forest">
+                    <div class="row mb-6 no_forest building_type_input">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">건축물 용도</label>
                         <div class="col-lg-3 fv-row">
                             <select name="building_type" class="form-select" data-control="select2"
@@ -376,7 +378,7 @@
                     </div>
 
                     {{-- 입주가능일 --}}
-                    <div class="row mb-6 no_forest">
+                    <div class="row mb-6 no_forest move_date_input">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">입주가능일</label>
                         <div class="col-lg-4 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
@@ -403,7 +405,7 @@
                     </div>
 
                     {{-- 월 관리비 --}}
-                    <div class="row mb-6 no_forest">
+                    <div class="row mb-6 no_forest service_price_input">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">월 관리비</label>
                         <div class="col-md-3 fv-row">
                             <div class="input-group">
@@ -451,6 +453,44 @@
                         </div>
                     </div>
 
+                    {{-- 주차 가능 여부 --}}
+                    <div class="row mb-6 no_forest parking_price_input">
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">주차 가능 여부</label>
+                        <div class="col-lg-4 fv-row">
+                            <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                <input class="form-check-input" name="parking_type" type="radio" value="0"
+                                    @if ($result->parking_type == 0) checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">선택 안함</span>
+                            </label>
+                            <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                <input class="form-check-input" name="parking_type" type="radio"
+                                    value="1"@if ($result->parking_type == 1) checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">가능</span>
+                            </label>
+                            <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                <input class="form-check-input" name="parking_type" type="radio"
+                                    value="2"@if ($result->parking_type == 2) checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">불가능</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">월</span>
+                                <input type="number" name="parking_price" id="parking_price" class="form-control"
+                                    placeholder="예) 10" value="{{ old('parking_price') ?? $result->parking_price }}"
+                                    {{ $result->parking_type != 1 ? 'disabled' : '' }} />
+                                <span class="input-group-text" id="basic-addon2">만원<span>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-check form-check-custom form-check-inline p-1">
+                                    <input class="form-check-input" name="is_parking" id="is_parking"
+                                        type="checkbox" value="1"
+                                        {{ $result->parking_type != 2 ? 'disabled' : $result->parking_price ?? 'checked' }}>
+                                    <span class="fw-semibold ps-2 fs-6">무료주차</span>
+                                </label>
+                            </div>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('parking_price')" />
+                        </div>
+                    </div>
+
 
                 </div>
                 <!--내용 END-->
@@ -471,11 +511,33 @@
                         <div class="col-lg-10 fv-row">
                             <div class="row mb-6">
                                 <div class="col-lg-8 fv-row mb-6">
+
+                                    @php
+                                        $payment_type = old('payment_type') ?? $result->priceInfo->payment_type;
+                                        $is_payment_type = [];
+
+                                        if ($type < 8) {
+                                            $is_payment_type = ['0', '1', '2'];
+                                        } elseif ($type > 13) {
+                                            $is_payment_type = ['4', '5'];
+                                        } else {
+                                            $is_payment_type = ['0', '2', '3', '4'];
+                                        }
+                                        if ($payment_type == '1' || $payment_type == '2' || $payment_type == '4') {
+                                            $is_moth_price = '';
+                                            $payment_price_text = '보증금';
+                                        } else {
+                                            $is_moth_price = 'none';
+                                            $payment_price_text =
+                                                Lang::get('commons.payment_type.' . $payment_type) . '가';
+                                        }
+                                    @endphp
                                     @for ($i = 0; $i < count(Lang::get('commons.payment_type')); $i++)
-                                        <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                        <label class="form-check form-check-custom form-check-inline me-5 p-1 "
+                                            style="display: {{ in_array($i, $is_payment_type) ? '' : 'none' }}">
                                             <input class="form-check-input" name="payment_type" type="radio"
                                                 value="{{ $i }}"
-                                                @if ($result->priceInfo->payment_type == $i) checked @endif>
+                                                @if ($payment_type == $i) checked @endif>
                                             <span
                                                 class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.payment_type.' . $i) }}</span>
                                         </label>
@@ -483,20 +545,25 @@
                                 </div>
                                 <div class="row mb-6">
                                     <div class="col-lg-4 fv-row price_input">
-                                        <span class="fs-6">매매가</span>
-                                        <div class="input-group mb-6">
-                                            <input type="text" name="price" id="price" class="form-control"
-                                                placeholder="예) 10"
+                                        <span class="fs-6"
+                                            id="payment_price_text">{{ $payment_price_text }}</span>
+                                        <div class="input-group">
+                                            <input type="number" name="price" id="price" class="form-control"
+                                                placeholder="예) 100000"
                                                 value="{{ old('price') ?? $result->priceInfo->price }}" />
                                             <span class="input-group-text" id="basic-addon2">원<span>
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4 fv-row month_price_input">
+                                    @php
+
+                                    @endphp
+                                    <div class="col-lg-4 fv-row month_price_input"
+                                        style="display:{{ $is_moth_price }}">
                                         <span class="fs-6">월 임대료</span>
                                         <div class="input-group">
-                                            <input type="text" name="month_price" id="month_price"
-                                                class="form-control" placeholder="예) 10"
+                                            <input type="number" name="month_price" id="month_price"
+                                                class="form-control" placeholder="예) 100000"
                                                 value="{{ old('month_price') ?? $result->priceInfo->month_price }}" />
                                             <span class="input-group-text" id="basic-addon2">원<span>
                                         </div>
@@ -506,7 +573,7 @@
                                         <label class="form-check form-check-custom form-check-inline p-1">
                                             <input class="form-check-input" name="is_price_discussion"
                                                 id="is_price_discussion" type="checkbox" value="1">
-                                            <span class="fw-semibold ps-2 fs-6">관리비 없음</span>
+                                            <span class="fw-semibold ps-2 fs-6">협의가능</span>
                                         </label>
                                     </div>
                                 </div>
@@ -519,7 +586,7 @@
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">기존 임대차 내용</label>
                         <div class="col-lg-10 fv-row">
                             <div class="row mb-6">
-                                <div class="col-lg-8 fv-row mb-6">
+                                <div class="col-lg-8 fv-row">
                                     <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                         <input class="form-check-input" name="is_use" type="radio" value="0"
                                             @if ($result->priceInfo->is_use == 0) checked @endif>
@@ -531,6 +598,7 @@
                                         <span class="fw-semibold ps-2 fs-6">있음</span>
                                     </label>
                                 </div>
+
                                 <div class="row mb-6">
                                     <div class="col-lg-4 fv-row">
                                         <span class="fs-6">현 보증금</span>
@@ -542,7 +610,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4 fv-row month_price_input">
+                                    <div class="col-lg-4 fv-row">
                                         <span class="fs-6">현 월임대료</span>
                                         <div class="input-group">
                                             <input type="text" name="current_month_price" id="current_month_price"
@@ -555,6 +623,43 @@
                             </div>
                         </div>
                     </div>
+
+                    {{-- 권리금 --}}
+                    <div class="row mb-6 preminum_price_input"
+                        style="display: @if ($type == 3 || $type > 13) @else none @endif">
+                        <label
+                            class="required col-lg-2 col-form-label fw-semibold fs-6 is_store_text">{{ $type == 3 ? '권리금' : '프리미엄' }}</label>
+                        <div class="col-lg-10 fv-row">
+                            <div class="row mb-6">
+                                <div class="col-lg-8 fv-row is_store"
+                                    style="display: @if ($type != 3) none @endif">
+                                    <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                        <input class="form-check-input" name="is_premium" type="radio"
+                                            value="0" @if ($result->is_premium == 0) checked @endif>
+                                        <span class="fw-semibold ps-2 fs-6">없음</span>
+                                    </label>
+                                    <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                        <input class="form-check-input" name="is_premium" type="radio"
+                                            value="2"@if ($result->is_premium == 1) checked @endif>
+                                        <span class="fw-semibold ps-2 fs-6">있음</span>
+                                    </label>
+                                </div>
+                                <div class="row mb-6">
+                                    <div class="col-lg-4 fv-row">
+                                        <div class="input-group">
+                                            <input type="text" name="premium_price" id="premium_price"
+                                                class="form-control" placeholder="예) 10"
+                                                value="{{ old('premium_price') ?? $result->priceInfo->premium_price }}"
+                                                @if ($result->is_premium == 0 && $type == 3) disabled @endif />
+                                            <span class="input-group-text" id="basic-addon2">원<span>
+                                        </div>
+                                    </div>
+                                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('loan_price')" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                 </div>
             </x-screen-card>
@@ -1146,7 +1251,8 @@
                     <div class="row mb-6">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">3D 이미지 링크</label>
                         <div class="col-lg-10 fv-row">
-                            <input type="text" name="image_link" class="form-control" placeholder="링크를 입력해 주세요."
+                            <input type="text" name="image_link" class="form-control"
+                                placeholder="링크를 입력해 주세요."
                                 value="{{ old('image_link') ? old('image_link') : $result->image_link }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('image_link')" />
                         </div>
@@ -1202,7 +1308,8 @@
                     <div class="row mb-6">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">중개보수(부가세별도)</label>
                         <div class="col-lg-10 fv-row">
-                            <input type="text" name="commission" class="form-control" placeholder="중개보수(부가세별도)"
+                            <input type="text" name="commission" class="form-control"
+                                placeholder="중개보수(부가세별도)"
                                 value="{{ old('commission') ? old('commission') : $result->commission }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('commission')" />
                         </div>
@@ -1212,7 +1319,8 @@
                     <div class="row mb-6">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">상한요율(%)</label>
                         <div class="col-lg-10 fv-row">
-                            <input type="text" name="commission_rate" class="form-control" placeholder="상한요율(%)"
+                            <input type="text" name="commission_rate" class="form-control"
+                                placeholder="상한요율(%)"
                                 value="{{ old('commission_rate') ? old('commission_rate') : $result->commission_rate }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('commission_rate')" />
                         </div>
@@ -1278,7 +1386,10 @@
     </div>
     <!-- modal 가(임시)주소 검색 : e-->
 
-
+    // 맵 api
+    <script type="text/javascript"
+        src="https://business.juso.go.kr/juso_support_center/js/addrlink/map/jusoro_map_api.min.js?confmKey=U01TX0FVVEgyMDI0MDUwOTE0MjYyMjExNDc1Mjk=&skinType=1">
+    </script>
     <style>
         .zoomIcon {
             padding: 0px !important;
@@ -1324,14 +1435,75 @@
 
         // 건물타입에 따라 층 입력칸 변경
         $('input[name="type"]').change(function() {
+            $('input[name="payment_type"]').parent().css('display', 'none');
+            $('.preminum_price_input').css('display', 'none')
+            $('#premium_price').val('');
+
+            if ($(this).val() < 8) {
+                if ($(this).val() == 4) {
+                    $('input[name="payment_type"][value=0]').prop('checked', true);
+                    $('#payment_price_text').text("매매가")
+                    $('input[name="payment_type"][value=0]').parent().css('display', '');
+                    $('input[name="payment_type"][value=3]').parent().css('display', '');
+                    $('input[name="payment_type"][value=4]').parent().css('display', '');
+                    $('input[name="payment_type"][value=2]').parent().css('display', '');
+                } else {
+                    $('input[name="payment_type"][value=0]').prop('checked', true);
+                    $('#payment_price_text').text("매매가")
+                    $('input[name="payment_type"][value=0]').parent().css('display', '');
+                    $('input[name="payment_type"][value=1]').parent().css('display', '');
+                    $('input[name="payment_type"][value=2]').parent().css('display', '');
+
+                }
+
+                $('.preminum_price_input').css('display', '')
+                $('.is_store_text').text('권리금');
+                $('.is_store').css('display', '')
+                $('is_premium[value=0]').prop('checked', true);
+                $('#premium_price').attr('disabled', true);
+
+            } else if ($(this).val() > 13) {
+                $('input[name="payment_type"][value=5]').prop('checked', true);
+                $('#payment_price_text').text("전매가")
+                $('input[name="payment_type"][value=4]').parent().css('display', '');
+                $('input[name="payment_type"][value=5]').parent().css('display', '');
+
+                $('.preminum_price_input').css('display', '')
+                $('.is_store_text').text('프리미엄');
+                $('.is_store').css('display', 'none')
+                $('#premium_price').attr('disabled', false);
+            } else {
+                $('input[name="payment_type"][value=0]').prop('checked', true);
+                $('#payment_price_text').text("매매가")
+                $('input[name="payment_type"][value=0]').parent().css('display', '');
+                $('input[name="payment_type"][value=3]').parent().css('display', '');
+                $('input[name="payment_type"][value=4]').parent().css('display', '');
+                $('input[name="payment_type"][value=2]').parent().css('display', '');
+            }
+
             if ([6, 7].indexOf(parseInt($(this).val())) !== -1) {
                 $('.area_text_1').text('대지면적');
+                $('.approve_date_input').css('display', '');
+                $('.building_type_input').css('display', '');
+                $('.move_date_input').css('display', '');
+                $('.service_price_input').css('display', '');
+                $('.approve_date_input').css('display', '');
+                $('.parking_price_input').css('display', '');
+
                 if ($(this).val() == 6) {
                     $('.floor_input_1').css('display', 'none');
                     $('.floor_input_2').css('display', 'none');
                     $('.area_input_1').css('display', '');
                     $('.area_input_2').css('display', 'none');
                     $('.area_input_3').css('display', 'none');
+
+                    //
+                    $('.approve_date_input').css('display', 'none');
+                    $('.building_type_input').css('display', 'none');
+                    $('.move_date_input').css('display', 'none');
+                    $('.service_price_input').css('display', 'none');
+                    $('.approve_date_input').css('display', 'none');
+                    $('.parking_price_input').css('display', 'none');
 
                 } else {
                     $('.floor_input_1').css('display', 'none');
@@ -1348,7 +1520,25 @@
                 $('.area_input_1').css('display', '');
                 $('.area_input_2').css('display', 'none');
                 $('.area_input_3').css('display', '');
+            }
 
+
+            if ([0, 1, 2, 4].indexOf(parseInt($(this).val())) !== -1) {
+                alert('추가 정보 1')
+            } else if ($(this).val() == 3) {
+                alert('추가정보 2')
+            } else if ($(this).val() == 5) {
+                alert('추가정보 3')
+            } else if ($(this).val() == 6) {
+                alert('추가정보 4')
+            } else if ($(this).val() == 7) {
+                alert('추가정보 5')
+            } else if ([8, 10, 11, 12, 13].indexOf(parseInt($(this).val())) !== -1) {
+                alert('추가정보 6')
+            } else if ($(this).val() == 9) {
+                alert('추가정보 7')
+            } else if ($(this).val() > 13) {
+                alert('추가정보 8')
             }
         });
 
@@ -1429,6 +1619,50 @@
             }
         });
 
+        // 권리금 체크 없음 있음
+        $('input[name="is_premium"]').change(function() {
+            $('#premium_price').val('');
+            if ($(this).val() == 0) {
+                $('#premium_price').attr('disabled', true);
+            } else {
+                $('#premium_price').attr('disabled', false);
+            }
+        });
+
+        var payment_type = {
+            0: '매매',
+            1: '임대',
+            2: '단기임대',
+            3: '전세',
+            4: '월세',
+            5: '전매'
+        };
+
+        $('input[name="payment_type"]').change(function() {
+            $('#price').val('');
+            $('#month_price').val('');
+            if ($(this).val() == 1 || $(this).val() == 2 || $(this).val() == 4) {
+                $('#payment_price_text').text(payment_type[$(this).val()] + "가");
+                $('.month_price_input').css('display', '');
+            } else {
+                $('#payment_price_text').text("보증금");
+                $('.month_price_input').css('display', 'none');
+            }
+        });
+
+        $('input[name="is_use"]').change(function() {
+            $('#current_price').val('');
+            $('#current_month_price').val('');
+            if ($(this).val() == 1) {
+                $('#current_price').attr('disabled', false);
+                $('#current_month_price').attr('disabled', false);
+            } else {
+                $('#current_price').attr('disabled', true);
+                $('#current_month_price').attr('disabled', true);
+            }
+        });
+
+
 
         // 가임시주소 검색
         function seach_address() {
@@ -1471,7 +1705,8 @@
 
         //가(임시)주소 클릭 이벤트
         document.getElementById("is_map_1").addEventListener("change", function() {
-            var is_map_0 = document.getElementById("#is_map_0");
+
+
             var address_1 = document.querySelector(".detail_address_1");
             var address_2 = document.querySelector(".detail_address_2");
             var search_1 = document.querySelector(".search_address_1");
@@ -1486,7 +1721,7 @@
                 search_2.style.display = "";
                 is_temporary_0.style.display = "none";
                 is_temporary_1.style.display = "";
-                is_map_0.checked = false;
+                $('#is_map_0').attr('checked', false);
             } else {
                 address_1.style.display = "";
                 address_2.style.display = "none";
@@ -1494,7 +1729,7 @@
                 search_2.style.display = "none";
                 is_temporary_0.style.display = "";
                 is_temporary_1.style.display = "none";
-                is_map_0.checked = true;
+                $('#is_map_0').attr('checked', true);
             }
         });
 

@@ -108,7 +108,7 @@ class ProductController extends Controller
         $result = Product::where('id', $request->id)
             ->update([
                 'type' => $request->type,
-                'is_map' => $request->is_map ?? 1,
+                'is_map' => $request->is_map[0] ?? 1,
                 'address' => $request->address,
             ]);
 

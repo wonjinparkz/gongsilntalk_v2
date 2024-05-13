@@ -55,7 +55,7 @@ return new class extends Migration
             $table->integer('loan_type')->nullable()->comment('융자금 타입 - 0: 없음, 1: 30%미만, 2: 30%이상');
             $table->text('loan_price')->nullable()->comment('융자금 가격');
 
-            $table->integer('parking_type')->nullable()->comment('주차 가능 여부 - 0: 없음, 1: 가능, 2: 불가능');
+            $table->integer('parking_type')->nullable()->comment('주차 가능 여부 - 0: 선택안함, 1: 가능, 2: 불가능');
             $table->integer('parking_price')->nullable()->comment('주차비 (주차 가능일 경우 null값이면 무료주차)');
 
             $table->string('comments')->nullable()->comment('한줄 소개');
