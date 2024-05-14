@@ -90,11 +90,15 @@ class ProductController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
+            'id' => 'required',
             'type' => 'required',
+            'is_map' => 'required',
             'address' => 'required',
-            'address_detail' => 'required_if:is_map,!=,1|required_if:is_address_detail,==,1',
-            'product_image_ids' => 'required',
-            'floor_number' => 'required',
+            'region_code' => 'required',
+            'address_lat' => 'required_if,is_map,1',
+            'address_lng' => 'required_if,is_map,1',
+            'address_number' => 'required_if,is_map,0',
+            'floor_number' => 'required_unless,is_map,1',
         ]);
 
         Log::info($request);
@@ -110,6 +114,7 @@ class ProductController extends Controller
                 'type' => $request->type,
                 'is_map' => $request->is_map[0] ?? 1,
                 'address' => $request->address,
+                'address_detail' => $request->address_detail,
             ]);
 
         $this->imageWithEdit($request->product_image_ids, Product::class, $request->id);

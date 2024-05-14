@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id()->comment('기업 매물 아이디');
             $table->bigInteger('corp_proposal_id')->comment('기업 제안서 아이디');
             $table->integer('product_type')->comment('매물 타입 - 0: 상업용, 1: 주거용');
-            $table->integer('type')->comment('매물종류 - 0: 지식산업센터, 1: 사무실, 2: 창고, 3: 상가, 4: 건물, 5: 토지/임양, 6: 단독공장');
+            $table->integer('type')->comment('매물종류 - 0: 지식산업센터, 1: 사무실, 2: 창고, 3: 상가, 4: 건물, 5: 토지/임야, 6: 단독공장');
             $table->string('address_lat')->comment('위도');
             $table->string('address_lng')->comment('경도');
             $table->string('address')->comment('주소');

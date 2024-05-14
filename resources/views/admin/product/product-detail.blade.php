@@ -109,7 +109,7 @@
                         <div class="col-lg-10 fv-row">
 
                             @php
-                                $is_map = count(old('is_map') ?? []) > 0 ? old('is_map')[0] : $result->is_map;
+                                $is_map = old('is_map') ?? $result->is_map;
                             @endphp
 
                             <a onclick="getAddress()" class="btn btn-outline search_address_1"
@@ -124,11 +124,11 @@
                                 가(임시)주소 검색 </a>
 
                             <label class="form-check form-check-custom form-check-inline p-1">
-                                <input class="form-check-input" name="is_map[]" id="is_map_1" type="checkbox"
+                                <input class="form-check-input" name="is_map" id="is_map_1" type="checkbox"
                                     value="1" {{ $is_map == 0 ? '' : 'checked' }}>
                                 <span class="fw-semibold ps-2 fs-6">가(임시)주소</span>
                             </label>
-                            <input style="display:none" class="form-check-input" name="is_map[]" id="is_map_0"
+                            <input style="display:none" class="form-check-input" name="is_map" id="is_map_0"
                                 type="checkbox" value="0" {{ $is_map == 0 ? 'checked' : '' }}>
 
                             <input type="text" name="address" id="address" class="form-control " readonly
@@ -138,7 +138,7 @@
                             <div class="mb-6"
                                 style="border: 1px solid #D2D1D0; border-radius: 5px; display: flex; align-items: center; color:#D2D1D0; justify-content:center; text-align: center; line-height: 1.4; height: 500px; margin-top:18px; position: relative;">
                                 <div id="is_temporary_0"
-                                    style="position: absolute; width: 100%; height: 100%; display:{{ $is_map == 0 ? '' : 'none' }};">
+                                    style="position: absolute; width: 100%; height: 100%; display:;">
                                     <div id="mapWrap" class="mapWrap"
                                         style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
                                 </div>
@@ -147,16 +147,23 @@
                                 </div>
                             </div>
 
+                            @php
+                                $is_address_detail =
+                                    old('is_addresss_detail') ??
+                                    (old('address_detail') ?? ($result->address_detail ?? 1));
+                                $is_address_dong =
+                                    old('is_addresss_dong') ?? (old('address_dong') ?? ($result->address_dong ?? 1));
+                            @endphp
                             <div class="detail_address_1" style="display: {{ $is_map == 0 ? '' : 'none' }};">
                                 <span class="fs-6">상세주소</span>
                                 <input type="text" name="address_detail" id="address_detail" class="form-control"
                                     placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호"
                                     value="{{ old('address_detail') ?? $result->address_detail }}"
-                                    {{ old('is_address_detail') == 1 ? 'disabled' : '' }} />
+                                    {{ $is_address_detail == 1 ? 'disabled' : '' }} />
                                 <label class="form-check form-check-custom form-check-inline p-1">
                                     <input class="form-check-input" name="is_address_detail" id="is_address_detail"
                                         type="checkbox" value="1"
-                                        {{ old('is_address_detail') == 1 ? 'checked' : '' }}>
+                                        {{ $is_address_detail == 1 ? 'checked' : '' }}>
                                     <span class="fw-semibold ps-2 fs-6">상세주소 없음</span>
                                 </label>
                             </div>
@@ -164,29 +171,30 @@
                             <div class="detail_address_2 row" style="display: {{ $is_map == 0 ? 'none' : '' }};">
                                 <span class="fs-6">상세주소</span>
 
-                                <div class="col-lg-3 fv-row">
+                                <div class="col-lg-5 fv-row">
                                     <div class="input-group">
                                         <input type="text" name="address_dong" id="address_dong"
                                             class="form-control"
                                             value="{{ old('address_dong') ?? $result->address_dong }}"
-                                            {{ old('is_address_dong') == 1 ? 'disabled' : '' }} />
+                                            {{ $is_address_dong == 1 ? 'disabled' : '' }} />
                                         <span class="input-group-text" id="basic-addon2">동<span>
                                     </div>
                                     <x-input-error class="mt-2 text-danger" :messages="$errors->get('address_dong')" />
                                 </div>
 
-                                <div class="col-lg-3 fv-row">
+                                <div class="col-lg-5 fv-row">
                                     <div class="input-group">
-                                        <input type="text" name="address_number" class="form-control"
+                                        <input type="text" name="address_number" id="address_number"
+                                            class="form-control"
                                             value="{{ old('address_number') ? old('address_number') : $result->address_number }}" />
                                         <span class="input-group-text" id="basic-addon2">호<span>
                                     </div>
                                     <x-input-error class="mt-2 text-danger" :messages="$errors->get('address_number')" />
                                 </div>
-                                <label class="form-check form-check-custom form-check-inline p-1">
+                                <label class="form-check form-check-custom form-check-inline p-1 col-lg-2 ">
                                     &nbsp;
                                     <input class="form-check-input" name="is_address_dong" id="is_address_dong"
-                                        type="checkbox" value="1" {{ $result->address_dong ?? 'checked' }}>
+                                        type="checkbox" value="1" {{ $is_address_dong == 1 ? 'checked' : '' }}>
                                     <span class="fw-semibold ps-2 fs-6">동 없음</span>
                                 </label>
                             </div>
@@ -545,8 +553,7 @@
                                 </div>
                                 <div class="row mb-6">
                                     <div class="col-lg-4 fv-row price_input">
-                                        <span class="fs-6"
-                                            id="payment_price_text">{{ $payment_price_text }}</span>
+                                        <span class="fs-6" id="payment_price_text">{{ $payment_price_text }}</span>
                                         <div class="input-group">
                                             <input type="number" name="price" id="price" class="form-control"
                                                 placeholder="예) 100000"
@@ -671,7 +678,7 @@
                 <div class="card-body border-top p-9">
 
                     {{-- 방/욕실 수 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input bathroom_count_input">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">방/욕실 수</label>
                         <div class="col-lg-3 d-flex align-items-center">
                             <div class="input-group mb-5">
@@ -692,7 +699,7 @@
                     </div>
 
                     {{-- 현 업종 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input current_business_type_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">현 업종</label>
                         <div class="col-lg-3 fv-row">
                             <select name="current_business_type" class="form-select" data-control="select2"
@@ -712,7 +719,7 @@
                     </div>
 
                     {{-- 추천 업종 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input recommend_business_type_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">추천 업종</label>
                         <div class="col-lg-3 fv-row">
                             <select name="recommend_business_type" class="form-select" data-control="select2"
@@ -732,7 +739,7 @@
                     </div>
 
                     {{-- 건물 방향 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input direction_type_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">건물 방향</label>
                         <div class="col-lg-3 fv-row">
                             <select name="direction_type" class="form-select" data-control="select2"
@@ -752,7 +759,7 @@
                     </div>
 
                     {{-- 냉방 종류 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input cooling_type_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">냉방 종류</label>
                         <div class="col-lg-3 fv-row">
                             <select name="cooling_type" class="form-select" data-control="select2"
@@ -772,7 +779,7 @@
                     </div>
 
                     {{-- 난방 종류 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input heating_type_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">난방 종류</label>
                         <div class="col-lg-3 fv-row">
                             <select name="heating_type" class="form-select" data-control="select2"
@@ -792,7 +799,7 @@
                     </div>
 
                     {{-- 하중 (평당) --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input weight_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">하중 (평당)</label>
                         <div class="col-lg-3 fv-row">
                             <input type="text" name="weight" class="form-control" placeholder="예) 0.8"
@@ -802,7 +809,7 @@
                     </div>
 
                     {{-- 승상시설 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input is_elevator_input">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">승상시설</label>
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
@@ -820,7 +827,7 @@
                     </div>
 
                     {{-- 화물용 승상시설 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input is_goods_elevator_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">화물용 승상시설</label>
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
@@ -838,7 +845,7 @@
                     </div>
 
                     {{-- 구조 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input structure_type_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">구조</label>
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
@@ -861,7 +868,7 @@
                     </div>
 
                     {{-- 빌트인 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input builtin_type_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">빌트인</label>
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
@@ -884,7 +891,7 @@
                     </div>
 
                     {{-- 인테리어 여부 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input interior_type_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">인테리어 여부</label>
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
@@ -906,8 +913,31 @@
                         </div>
                     </div>
 
+                    {{-- 전입신고 가능 여부 --}}
+                    <div class="row mb-6 add_info_input declare_type_input">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">전입신고 가능 여부</label>
+                        <div class="col-lg-10 fv-row">
+                            <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                <input class="form-check-input" name="declare_type" type="radio" value="0"
+                                    @if ($result->productAddInfo->declare_type ?? 0 == 0) checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">선택 안함</span>
+                            </label>
+                            <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                <input class="form-check-input" name="declare_type" type="radio" value="1"
+                                    @if ($result->productAddInfo->declare_type ?? 0 == 1) checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">가능</span>
+                            </label>
+                            <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                <input class="form-check-input" name="declare_type" type="radio" value="2"
+                                    @if ($result->productAddInfo->declare_type ?? 0 == 2) checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">불가능</span>
+                            </label>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('declare_type')" />
+                        </div>
+                    </div>
+
                     {{-- 도크 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input is_dock_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">도크</label>
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
@@ -925,7 +955,7 @@
                     </div>
 
                     {{-- 호이스트 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input is_hoist_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">호이스트</label>
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
@@ -943,7 +973,7 @@
                     </div>
 
                     {{-- 층고 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input floor_height_type_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">층고</label>
                         <div class="col-lg-10 fv-row">
                             @for ($i = 0; $i < count(Lang::get('commons.floor_height_type')); $i++)
@@ -959,7 +989,7 @@
                     </div>
 
                     {{-- 사용전력 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input wattage_type_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">사용전력</label>
                         <div class="col-lg-10 fv-row">
                             @for ($i = 0; $i < count(Lang::get('commons.wattage_type')); $i++)
@@ -975,7 +1005,7 @@
                     </div>
 
                     {{-- 옵션 정보 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 add_info_input is_option_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">옵션 정보</label>
 
                         <div class="col-lg-10 fv-row mb-6">
@@ -997,15 +1027,15 @@
                         <div class="col-lg-10 fv-row">
                             @php
                                 $option_count = 0;
-                                $option_types = $result->productOptions->pluck('type')->toArray();
+                                $option_types = old('option_type') ?? $result->productOptions->pluck('type')->toArray();
                             @endphp
-                            <div class="row mb-6">
+                            <div class="row mb-6 option_input option_facility_input">
                                 <label class="col-lg-2 col-form-label fw-semibold fs-6">시설</label>
                                 <div class="col-lg-8 fv-row">
                                     @for ($i = 0; $i < count(Lang::get('commons.option_facility')); $i++)
                                         <label class="form-check form-check-custom form-check-inline me-5 p-1">
-                                            <input class="form-check-input option_type" name="option_type[]"
-                                                type="checkbox" value="{{ $option_count }}"
+                                            <input class="form-check-input option_type option_facility"
+                                                name="option_type[]" type="checkbox" value="{{ $option_count }}"
                                                 @if (in_array($option_count, $option_types)) checked @endif>
                                             <span
                                                 class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.option_facility.' . $option_count++) }}</span>
@@ -1014,13 +1044,13 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-6">
+                            <div class="row mb-6 option_input option_security_input">
                                 <label class="col-lg-2 col-form-label fw-semibold fs-6">보안</label>
                                 <div class="col-lg-8 fv-row">
                                     @for ($i = 0; $i < count(Lang::get('commons.option_security')); $i++)
                                         <label class="form-check form-check-custom form-check-inline me-5 p-1">
-                                            <input class="form-check-input option_type" name="option_type[]"
-                                                type="checkbox" value="{{ $option_count }}"
+                                            <input class="form-check-input option_type option_security"
+                                                name="option_type[]" type="checkbox" value="{{ $option_count }}"
                                                 @if (in_array($option_count, $option_types)) checked @endif>
                                             <span
                                                 class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.option_security.' . $option_count++) }}</span>
@@ -1029,13 +1059,13 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-6">
+                            <div class="row mb-6 option_input option_kitchen_input">
                                 <label class="col-lg-2 col-form-label fw-semibold fs-6">주방</label>
                                 <div class="col-lg-10 fv-row">
                                     @for ($i = 0; $i < count(Lang::get('commons.option_kitchen')); $i++)
                                         <label class="form-check form-check-custom form-check-inline me-5 p-1">
-                                            <input class="form-check-input option_type" name="option_type[]"
-                                                type="checkbox" value="{{ $option_count }}"
+                                            <input class="form-check-input option_type option_kitchen"
+                                                name="option_type[]" type="checkbox" value="{{ $option_count }}"
                                                 @if (in_array($option_count, $option_types)) checked @endif>
                                             <span
                                                 class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.option_kitchen.' . $option_count++) }}</span>
@@ -1044,13 +1074,13 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-6">
+                            <div class="row mb-6 option_input option_home_appliances_input">
                                 <label class="col-lg-2 col-form-label fw-semibold fs-6">가전</label>
                                 <div class="col-lg-10 fv-row">
                                     @for ($i = 0; $i < count(Lang::get('commons.option_home_appliances')); $i++)
                                         <label class="form-check form-check-custom form-check-inline me-5 p-1">
-                                            <input class="form-check-input option_type" name="option_type[]"
-                                                type="checkbox" value="{{ $option_count }}"
+                                            <input class="form-check-input option_type option_home_appliances"
+                                                name="option_type[]" type="checkbox" value="{{ $option_count }}"
                                                 @if (in_array($option_count, $option_types)) checked @endif>
                                             <span
                                                 class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.option_home_appliances.' . $option_count++) }}</span>
@@ -1059,13 +1089,13 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-6">
+                            <div class="row mb-6 option_input option_furniture_input">
                                 <label class="col-lg-2 col-form-label fw-semibold fs-6">가구</label>
                                 <div class="col-lg-10 fv-row">
                                     @for ($i = 0; $i < count(Lang::get('commons.option_furniture')); $i++)
                                         <label class="form-check form-check-custom form-check-inline me-5 p-1">
-                                            <input class="form-check-input option_type" name="option_type[]"
-                                                type="checkbox" value="{{ $option_count }}"
+                                            <input class="form-check-input option_type option_furniture"
+                                                name="option_type[]" type="checkbox" value="{{ $option_count }}"
                                                 @if (in_array($option_count, $option_types)) checked @endif>
                                             <span
                                                 class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.option_furniture.' . $option_count++) }}</span>
@@ -1074,13 +1104,13 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-6">
+                            <div class="row mb-6 option_input option_etc_input">
                                 <label class="col-lg-2 col-form-label fw-semibold fs-6">기타</label>
                                 <div class="col-lg-8 fv-row">
                                     @for ($i = 0; $i < count(Lang::get('commons.option_etc')); $i++)
                                         <label class="form-check form-check-custom form-check-inline me-5 p-1">
-                                            <input class="form-check-input option_type" name="option_type[]"
-                                                type="checkbox" value="{{ $option_count }}"
+                                            <input class="form-check-input option_type option_etc"
+                                                name="option_type[]" type="checkbox" value="{{ $option_count }}"
                                                 @if (in_array($option_count, $option_types)) checked @endif>
                                             <span
                                                 class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.option_etc.' . $option_count++) }}</span>
@@ -1092,7 +1122,7 @@
                         </div>
                     </div>
 
-                    <div>
+                    <div class="yes_forest add_info_input">
                         {{-- 국토이용 --}}
                         <div class="row mb-6">
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">국토이용</label>
@@ -1386,7 +1416,7 @@
     </div>
     <!-- modal 가(임시)주소 검색 : e-->
 
-    // 맵 api
+    {{-- 지도 맵 api js --}}
     <script type="text/javascript"
         src="https://business.juso.go.kr/juso_support_center/js/addrlink/map/jusoro_map_api.min.js?confmKey=U01TX0FVVEgyMDI0MDUwOTE0MjYyMjExNDc1Mjk=&skinType=1">
     </script>
@@ -1414,14 +1444,21 @@
             var wgs84Coords = get_coordinate_conversion1($('input[name=address_lng]').val(), $(
                 'input[name=address_lat]').val())
 
-            setTimeout(function() {
-                callJusoroMapApiType1(wgs84Coords[0], wgs84Coords[1]);
-            }, 1000);
+            if ({{ $is_map }} == 0) {
+                setTimeout(function() {
+                    callJusoroMapApiType1(wgs84Coords[0], wgs84Coords[1]);
+                }, 1000);
+            } else {
+                setTimeout(function() {
+                    $('#is_temporary_0').hide()
+                }, 1000);
+            }
 
             if ($('input[name="is_option"]:checked').val() == 0) {
                 $('.option_type').attr('disabled', true);
             }
 
+            setting_addInfo({{ $type }})
         });
 
         // type1.좌표정보(GRS80, EPSG:5179)
@@ -1438,6 +1475,8 @@
             $('input[name="payment_type"]').parent().css('display', 'none');
             $('.preminum_price_input').css('display', 'none')
             $('#premium_price').val('');
+
+            setting_addInfo($(this).val());
 
             if ($(this).val() < 8) {
                 if ($(this).val() == 4) {
@@ -1497,13 +1536,7 @@
                     $('.area_input_2').css('display', 'none');
                     $('.area_input_3').css('display', 'none');
 
-                    //
-                    $('.approve_date_input').css('display', 'none');
-                    $('.building_type_input').css('display', 'none');
-                    $('.move_date_input').css('display', 'none');
-                    $('.service_price_input').css('display', 'none');
-                    $('.approve_date_input').css('display', 'none');
-                    $('.parking_price_input').css('display', 'none');
+                    $('.no_forest').css('display', 'none');
 
                 } else {
                     $('.floor_input_1').css('display', 'none');
@@ -1521,26 +1554,201 @@
                 $('.area_input_2').css('display', 'none');
                 $('.area_input_3').css('display', '');
             }
-
-
-            if ([0, 1, 2, 4].indexOf(parseInt($(this).val())) !== -1) {
-                alert('추가 정보 1')
-            } else if ($(this).val() == 3) {
-                alert('추가정보 2')
-            } else if ($(this).val() == 5) {
-                alert('추가정보 3')
-            } else if ($(this).val() == 6) {
-                alert('추가정보 4')
-            } else if ($(this).val() == 7) {
-                alert('추가정보 5')
-            } else if ([8, 10, 11, 12, 13].indexOf(parseInt($(this).val())) !== -1) {
-                alert('추가정보 6')
-            } else if ($(this).val() == 9) {
-                alert('추가정보 7')
-            } else if ($(this).val() > 13) {
-                alert('추가정보 8')
-            }
         });
+
+        // 추가 정보 매물 타입에 따라 세팅하기
+        function setting_addInfo(type) {
+            $('.add_info_input').css('display', 'none')
+            $('.option_input').css('display', 'none')
+            $('.option_type').closest('label').css('display', '');
+            $('input[name="is_option"][value=0]').click();
+
+            if ([0, 1, 2, 4].indexOf(parseInt(type)) !== -1) {
+                // 지식산업센터/사무실/창고
+                $('.direction_type_input').css('display', '');
+                $('.cooling_type_input').css('display', '');
+                $('.heating_type_input').css('display', '');
+                $('.weight_input').css('display', '');
+                $('.is_elevator_input').css('display', '');
+                $('.is_goods_elevator_input').css('display', '');
+                $('.interior_type_input').css('display', '');
+                $('.floor_height_type_input').css('display', '');
+                $('.wattage_type_input').css('display', '');
+                $('.is_option_input').css('display', '');
+
+                // 옵션 구성
+                $('.option_facility_input').css('display', '');
+                $('.option_security_input').css('display', '');
+
+                var option_security_valeu = [2, 7, 8, 9, 10, 11]; // 선택 가능한 옵션 value
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+
+                    if (!option_security_valeu.includes(value)) {
+                        $(this).closest('label').hide();
+                    }
+                });
+
+            } else if (type == 3) {
+                //상가
+                $('.current_business_type_input').css('display', '');
+                $('.recommend_business_type_input').css('display', '');
+                $('.direction_type_input').css('display', '');
+                $('.cooling_type_input').css('display', '');
+                $('.heating_type_input').css('display', '');
+                $('.is_elevator_input').css('display', '');
+                $('.is_option_input').css('display', '');
+
+                // 옵션 구성
+                $('.option_facility_input').css('display', '');
+                $('.option_security_input').css('display', '');
+
+                var option_security_valeu = [7, 8, 9, 10, 12]; // 선택 가능한 옵션 value
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+
+                    if (!option_security_valeu.includes(value)) {
+                        $(this).closest('label').hide();
+                    }
+                });
+
+            } else if (type == 5) {
+                // 건물
+                $('.direction_type_input').css('display', '');
+                $('.cooling_type_input').css('display', '');
+                $('.heating_type_input').css('display', '');
+                $('.is_elevator_input').css('display', '');
+                $('.is_option_input').css('display', '');
+
+                // 옵션 구성
+                $('.option_facility_input').css('display', '');
+                $('.option_security_input').css('display', '');
+
+                var option_security_valeu = [2, 7, 8, 9, 10, 11]; // 선택 가능한 옵션 value
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+
+                    if (!option_security_valeu.includes(value)) {
+                        $(this).closest('label').hide();
+                    }
+                });
+
+            } else if (type == 6) {
+                // 토지/임야
+                $('.yes_forest').css('display', '');
+
+            } else if (type == 7) {
+                // 단독공장
+
+                $('.direction_type_input').css('display', '');
+                $('.cooling_type_input').css('display', '');
+                $('.heating_type_input').css('display', '');
+                $('.recommend_business_type_input').css('display', '');
+                $('.is_elevator_input').css('display', '');
+                $('.is_goods_elevator_input').css('display', '');
+                $('.is_dock_input').css('display', '');
+                $('.is_hoist_input').css('display', '');
+                $('.floor_height_type_input').css('display', '');
+                $('.wattage_type_input').css('display', '');
+                $('.is_option_input').css('display', '');
+
+                // 옵션 구성
+                $('.option_security_input').css('display', '');
+
+                var option_security_valeu = [2, 7, 8, 9, 10, 11]; // 선택 가능한 옵션 value
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+
+                    if (!option_security_valeu.includes(value)) {
+                        $(this).closest('label').hide();
+                    }
+                });
+
+            } else if ([8, 10, 11, 12, 13].indexOf(parseInt(type)) !== -1) {
+                // 주거용 - 오피스텔 제외
+                $('.bathroom_count_input').css('display', '');
+                $('.direction_type_input').css('display', '');
+                $('.cooling_type_input').css('display', '');
+                $('.heating_type_input').css('display', '');
+                $('.is_elevator_input').css('display', '');
+                $('.is_option_input').css('display', '');
+
+                // 옵션 구성
+                $('.option_kitchen_input').css('display', '');
+                $('.option_home_appliances_input').css('display', '');
+                $('.option_furniture_input').css('display', '');
+                $('.option_etc_input').css('display', '');
+                $('.option_security_input').css('display', '');
+
+                var option_security_valeu = [7, 9, 12]; // 선택 가능한 옵션 value
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+
+                    if (option_security_valeu.includes(value)) {
+                        $(this).closest('label').hide();
+                    }
+                });
+            } else if (type == 9) {
+                // 오피스텔
+                $('.bathroom_count_input').css('display', '');
+                $('.direction_type_input').css('display', '');
+                $('.cooling_type_input').css('display', '');
+                $('.heating_type_input').css('display', '');
+                $('.structure_type_input').css('display', '');
+                $('.builtin_type_input').css('display', '');
+                $('.is_elevator_input').css('display', '');
+                $('.declare_type_input').css('display', '');
+                $('.is_option_input').css('display', '');
+
+                // 옵션 구성
+                $('.option_kitchen_input').css('display', '');
+                $('.option_home_appliances_input').css('display', '');
+                $('.option_furniture_input').css('display', '');
+                $('.option_etc_input').css('display', '');
+                $('.option_security_input').css('display', '');
+
+                var option_security_valeu = [7, 9, 12]; // 선택 가능한 옵션 value
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+
+                    if (option_security_valeu.includes(value)) {
+                        $(this).closest('label').hide();
+                    }
+                });
+            } else if (type > 13) {
+                // 분양권
+                $('.direction_type_input').css('display', '');
+                $('.cooling_type_input').css('display', '');
+                $('.heating_type_input').css('display', '');
+                $('.weight_input').css('display', '');
+                $('.is_elevator_input').css('display', '');
+                $('.is_goods_elevator_input').css('display', '');
+                $('.interior_type_input').css('display', '');
+                $('.floor_height_type_input').css('display', '');
+                $('.wattage_type_input').css('display', '');
+                $('.is_option_input').css('display', '');
+
+                // 옵션 구성
+                $('.option_facility_input').css('display', '');
+                $('.option_security_input').css('display', '');
+
+                var option_security_valeu = [2, 7, 8, 9, 10, 11]; // 선택 가능한 옵션 value
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+
+                    if (!option_security_valeu.includes(value)) {
+                        $(this).closest('label').hide();
+                    }
+                });
+            }
+        }
 
         // 평수 제곱 변환
         function square_change(name) {
@@ -1713,6 +1921,14 @@
             var search_2 = document.querySelector(".search_address_2");
             var is_temporary_0 = document.querySelector("#is_temporary_0");
             var is_temporary_1 = document.querySelector("#is_temporary_1");
+
+            $('#address').val('');
+            $('#region_code').val('');
+            $('#address_lat').val('');
+            $('#address_lng').val('');
+            $('#address_detail').val('');
+            $('#address_dong').val('');
+            $('#address_number').val('');
 
             if (this.checked) {
                 address_1.style.display = "none";
