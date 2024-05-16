@@ -125,11 +125,9 @@
 
                             <label class="form-check form-check-custom form-check-inline p-1">
                                 <input class="form-check-input" name="is_map" id="is_map_1" type="checkbox"
-                                    value="1" {{ $is_map == 0 ? '' : 'checked' }}>
+                                    value="{{ $is_map }}" {{ $is_map == 0 ? '' : 'checked' }}>
                                 <span class="fw-semibold ps-2 fs-6">가(임시)주소</span>
                             </label>
-                            <input style="display:none" class="form-check-input" name="is_map" id="is_map_0"
-                                type="checkbox" value="0" {{ $is_map == 0 ? 'checked' : '' }}>
 
                             <input type="text" name="address" id="address" class="form-control " readonly
                                 placeholder="" value="{{ old('address') ?? $result->address }}" />
@@ -166,6 +164,7 @@
                                         {{ $is_address_detail == 1 ? 'checked' : '' }}>
                                     <span class="fw-semibold ps-2 fs-6">상세주소 없음</span>
                                 </label>
+                                <x-input-error class="mt-2 text-danger" :messages="$errors->get('address_detail')" />
                             </div>
 
                             <div class="detail_address_2 row" style="display: {{ $is_map == 0 ? 'none' : '' }};">
@@ -357,7 +356,8 @@
 
                     {{-- 사용승인일 --}}
                     <div class="row mb-6 no_forest approve_date_input">
-                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">사용승인일</label>
+                        <label
+                            class="required col-lg-2 col-form-label fw-semibold fs-6 approve_date_text">{{ $type > 13 ? '준공예정일' : '사용승인일' }}</label>
                         <div class="col-lg-3 fv-row">
                             <input type="text" name="approve_date" class="form-control" placeholder="예) 20230204"
                                 value="{{ old('approve_date') ? old('approve_date') : $result->approve_date }}" />
@@ -366,17 +366,19 @@
                     </div>
 
                     {{-- 건축물 용도 --}}
-                    <div class="row mb-6 no_forest building_type_input">
-                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">건축물 용도</label>
+                    <div class="row mb-6 building_type_input">
+                        <label
+                            class="required col-lg-2 col-form-label fw-semibold fs-6">{{ $type == 6 ? '건축물 용도' : '현재 용도' }}</label>
                         <div class="col-lg-3 fv-row">
                             <select name="building_type" class="form-select" data-control="select2"
                                 data-hide-search="true">
                                 <option value="">
-                                    건축물 용도 선택
+                                    {{ $type == 6 ? '건축물 용도' : '현재 용도' }} 선택
                                 </option>
                                 @for ($i = 0; $i < count(Lang::get('commons.building_type')); $i++)
                                     <option value="{{ $i }}"
-                                        @if ("$result->building_type" == $i) selected @endif>
+                                        @if ("$result->building_type" == $i) selected @endif
+                                        @if ($type == 6 && $i < 15) hidden @elseif($type != 6 && $i > 14) hidden @endif>
                                         {{ Lang::get('commons.building_type.' . $i) }}
                                     </option>
                                 @endfor
@@ -808,9 +810,9 @@
                         </div>
                     </div>
 
-                    {{-- 승상시설 --}}
+                    {{-- 승강시설 --}}
                     <div class="row mb-6 add_info_input is_elevator_input">
-                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">승상시설</label>
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">승강시설</label>
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="is_elevator" type="radio" value="0"
@@ -826,9 +828,9 @@
                         </div>
                     </div>
 
-                    {{-- 화물용 승상시설 --}}
+                    {{-- 화물용 승강시설 --}}
                     <div class="row mb-6 add_info_input is_goods_elevator_input">
-                        <label class="col-lg-2 col-form-label fw-semibold fs-6">화물용 승상시설</label>
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">화물용 승강시설</label>
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="is_goods_elevator" type="radio"
@@ -1259,7 +1261,7 @@
 
                     {{-- 한줄요약 --}}
                     <div class="row mb-6">
-                        <label class="col-lg-2 col-form-label fw-semibold fs-6">한줄요약</label>
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">한줄요약</label>
                         <div class="col-lg-10 fv-row">
                             <input type="text" name="comments" class="form-control"
                                 placeholder="예) 역에서 5분거리, 인프라 좋은 매물"
@@ -1437,6 +1439,10 @@
 
     <script>
         $(document).ready(function() {
+
+            select2OptionHidden();
+
+
             $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/common.css"]').remove();
             $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/map/addrlinkMap.css"]')
                 .remove();
@@ -1447,11 +1453,11 @@
             if ({{ $is_map }} == 0) {
                 setTimeout(function() {
                     callJusoroMapApiType1(wgs84Coords[0], wgs84Coords[1]);
-                }, 1000);
+                }, 2000);
             } else {
                 setTimeout(function() {
                     $('#is_temporary_0').hide()
-                }, 1000);
+                }, 2000);
             }
 
             if ($('input[name="is_option"]:checked').val() == 0) {
@@ -1460,6 +1466,19 @@
 
             setting_addInfo({{ $type }})
         });
+
+        function select2OptionHidden() {
+            $('select[name="building_type"]').select2({
+                minimumResultsForSearch: -1, // 검색 기능 비활성화
+                templateResult: function(option) {
+                    if (option.element && (option.element).hasAttribute('hidden')) {
+                        return null;
+                    }
+                    return option.text;
+                },
+
+            });
+        }
 
         // type1.좌표정보(GRS80, EPSG:5179)
         function callJusoroMapApiType1(rtentX, rtentY) {
@@ -1476,10 +1495,21 @@
             $('.preminum_price_input').css('display', 'none')
             $('#premium_price').val('');
 
+            $('.approve_date_text').text('사용승인일');
+
             setting_addInfo($(this).val());
 
-            if ($(this).val() < 8) {
-                if ($(this).val() == 4) {
+        });
+
+        // 추가 정보 매물 타입에 따라 세팅하기
+        function setting_addInfo(type) {
+            $('.add_info_input').css('display', 'none')
+            $('.option_input').css('display', 'none')
+            $('.option_type').closest('label').css('display', '');
+            $('input[name="is_option"][value=0]').click();
+
+            if (type < 8) {
+                if (type == 4) {
                     $('input[name="payment_type"][value=0]').prop('checked', true);
                     $('#payment_price_text').text("매매가")
                     $('input[name="payment_type"][value=0]').parent().css('display', '');
@@ -1501,13 +1531,14 @@
                 $('is_premium[value=0]').prop('checked', true);
                 $('#premium_price').attr('disabled', true);
 
-            } else if ($(this).val() > 13) {
+            } else if (type > 13) {
                 $('input[name="payment_type"][value=5]').prop('checked', true);
                 $('#payment_price_text').text("전매가")
                 $('input[name="payment_type"][value=4]').parent().css('display', '');
                 $('input[name="payment_type"][value=5]').parent().css('display', '');
 
                 $('.preminum_price_input').css('display', '')
+                $('.approve_date_text').text('준공예정일');
                 $('.is_store_text').text('프리미엄');
                 $('.is_store').css('display', 'none')
                 $('#premium_price').attr('disabled', false);
@@ -1520,7 +1551,7 @@
                 $('input[name="payment_type"][value=2]').parent().css('display', '');
             }
 
-            if ([6, 7].indexOf(parseInt($(this).val())) !== -1) {
+            if ([6, 7].indexOf(parseInt(type)) !== -1) {
                 $('.area_text_1').text('대지면적');
                 $('.approve_date_input').css('display', '');
                 $('.building_type_input').css('display', '');
@@ -1529,7 +1560,7 @@
                 $('.approve_date_input').css('display', '');
                 $('.parking_price_input').css('display', '');
 
-                if ($(this).val() == 6) {
+                if (type == 6) {
                     $('.floor_input_1').css('display', 'none');
                     $('.floor_input_2').css('display', 'none');
                     $('.area_input_1').css('display', '');
@@ -1554,14 +1585,26 @@
                 $('.area_input_2').css('display', 'none');
                 $('.area_input_3').css('display', '');
             }
-        });
 
-        // 추가 정보 매물 타입에 따라 세팅하기
-        function setting_addInfo(type) {
-            $('.add_info_input').css('display', 'none')
-            $('.option_input').css('display', 'none')
-            $('.option_type').closest('label').css('display', '');
-            $('input[name="is_option"][value=0]').click();
+            if (type == 6) {
+                // 건축물 용도 선택 상자를 업데이트하여 옵션을 숨깁니다.
+                $('select[name="building_type"] option').each(function() {
+                    if ($(this).val() < 15) {
+                        $(this).prop('hidden', true);
+                    } else {
+                        $(this).prop('hidden', false);
+                    }
+                });
+            } else {
+                // 건축물 용도 선택 상자를 업데이트하여 옵션을 숨깁니다.
+                $('select[name="building_type"] option').each(function() {
+                    if ($(this).val() > 14) {
+                        $(this).prop('hidden', true);
+                    } else {
+                        $(this).prop('hidden', false);
+                    }
+                });
+            }
 
             if ([0, 1, 2, 4].indexOf(parseInt(type)) !== -1) {
                 // 지식산업센터/사무실/창고
@@ -1827,6 +1870,29 @@
             }
         });
 
+        // 융자금 타입
+        $('input[name="loan_type"]').click(function() {
+            $('input[name="loan_price"]').val('');
+            if ($(this).val() == 0) {
+                $('input[name="loan_price"]').attr('disabled', true);
+            } else {
+                $('input[name="loan_price"]').attr('disabled', false);
+            }
+        });
+
+        // 주차 가능 여부
+        $('input[name="parking_type"]').click(function() {
+            $('input[name="parking_price"]').val('');
+            $('input[name="is_parking"]').prop('checked', false);
+            if ($(this).val() == 1) {
+                $('input[name="parking_price"]').attr('disabled', false);
+                $('input[name="is_parking"]').attr('disabled', false);
+            } else {
+                $('input[name="parking_price"]').attr('disabled', true);
+                $('input[name="is_parking"]').attr('disabled', true);
+            }
+        });
+
         // 권리금 체크 없음 있음
         $('input[name="is_premium"]').change(function() {
             $('#premium_price').val('');
@@ -1937,7 +2003,7 @@
                 search_2.style.display = "";
                 is_temporary_0.style.display = "none";
                 is_temporary_1.style.display = "";
-                $('#is_map_0').attr('checked', false);
+                this.value = 1;
             } else {
                 address_1.style.display = "";
                 address_2.style.display = "none";
@@ -1945,7 +2011,7 @@
                 search_2.style.display = "none";
                 is_temporary_0.style.display = "";
                 is_temporary_1.style.display = "none";
-                $('#is_map_0').attr('checked', true);
+                this.value = 0;
             }
         });
 

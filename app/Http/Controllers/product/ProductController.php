@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class ProductController extends Controller
@@ -95,10 +96,40 @@ class ProductController extends Controller
             'is_map' => 'required',
             'address' => 'required',
             'region_code' => 'required',
-            'address_lat' => 'required_if,is_map,1',
-            'address_lng' => 'required_if,is_map,1',
-            'address_number' => 'required_if,is_map,0',
-            'floor_number' => 'required_unless,is_map,1',
+            'address_lat' => 'required_if:is_map,1',
+            'address_lng' => 'required_if:is_map,1',
+            'address_detail' =>  [
+                Rule::requiredIf(function () use ($request) {
+                    return $request->input('is_map') == 0 && $request->input('is_address_detail') != 1;
+                }),
+            ],
+            'address_dong' =>  [
+                Rule::requiredIf(function () use ($request) {
+                    return $request->input('is_map') == 1 && $request->input('is_address_dong') != 1;
+                }),
+            ],
+            'address_number' => 'required_if:is_map,1',
+            'floor_number' => [
+                Rule::requiredIf(function () use ($request) {
+                    return $request->input('type') != 6 && $request->input('type') != 7;
+                }),
+            ],
+            'total_floor_number' => [
+                Rule::requiredIf(function () use ($request) {
+                    return $request->input('type') != 6 && $request->input('type') != 7;
+                }),
+            ],
+            'lowest_floor_number' => 'required_if:type,7',
+            'top_floor_number' => 'required_if:type,7',
+            'area' => 'required',
+            'square' => 'required',
+            'total_floor_area' => 'required_if:type,7',
+            'total_floor_square' => 'required_if:type,7',
+            'exclusive_area' => 'required_unless:type,6',
+            'exclusive_square' => 'required_unless:type,6',
+            'approve_date' => 'required_unless:type,6',
+            'building_type' => 'required'
+
         ]);
 
         Log::info($request);
@@ -109,13 +140,19 @@ class ProductController extends Controller
                 ->withInput();
         }
 
-        $result = Product::where('id', $request->id)
-            ->update([
+        if ($request->type) {
+            $productDate = [
                 'type' => $request->type,
-                'is_map' => $request->is_map[0] ?? 1,
+                'is_map' => $request->is_map,
                 'address' => $request->address,
                 'address_detail' => $request->address_detail,
-            ]);
+            ];
+        }
+
+        $result = Product::where('id', $request->id)
+            ->update($productDate);
+
+
 
         $this->imageWithEdit($request->product_image_ids, Product::class, $request->id);
 
