@@ -42,7 +42,7 @@
                     <div class="tab_area_wrap">
                         <div>
                             <div class="btn_radioType">
-                                @for ($i = 0; $i < 7; $i++)
+                                @for ($i = 0; $i < 8; $i++)
                                     <input type="radio" name="input_type" id="type_{{ $i }}"
                                         value="{{ $i }}" {{ $i == 0 ? 'checked' : '' }}>
                                     <label onclick="showDiv('store', {{ $i }} == 3 ? 1:0)"
@@ -52,7 +52,7 @@
                         </div>
                         <div>
                             <div class="btn_radioType">
-                                @for ($i = 7; $i < 14; $i++)
+                                @for ($i = 8; $i < 14; $i++)
                                     <input type="radio" name="input_type" id="type_{{ $i }}"
                                         value="{{ $i }}">
                                     <label

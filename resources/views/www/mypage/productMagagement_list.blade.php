@@ -114,23 +114,37 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="td_center">
-                                    <input type="checkbox" name="checkOne" id="checkOne_1" value="Y">
-                                    <label for="checkOne_1"><span></span></label>
-                                </td>
-                                <td><span class="gray_deep">123456</span></td>
-                                <td>
-                                    <div class="list_thumb_1">
-                                        <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
-                                    </div>
-                                </td>
-                                <td>오피스텔</td>
-                                <td>서울시 마포구 합정동 서희스타힐스 1105호</td>
-                                <td>공급 1234.12㎡<br>전용 1234.12㎡</td>
-                                <td>매매<br>12억 2,000만</td>
-                                <td><button class="btn_gray_ghost btn_sm">삭제</button></td>
-                            </tr>
+                            @foreach ($result_product as $product)
+                                <tr>
+                                    <td class="td_center">
+                                        <input type="checkbox" name="checkOne" id="checkOne_1" value="Y">
+                                        <label for="checkOne_1"><span></span></label>
+                                    </td>
+                                    <td><span class="gray_deep">{{ $product->product_number }}</span></td>
+                                    <td>
+                                        <div class="list_thumb_1">
+                                            <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
+                                        </div>
+                                    </td>
+                                    <td>{{ Lang::get('commons.product_type.' . $product->type) }}</td>
+                                    <td>
+                                        {{ $product->address . ' ' . ($product->is_map == 1 ? $product->address_dong . '동 ' . $product->address_number . '호' : $product->address_detail) }}
+                                    </td>
+                                    <td class="square">
+                                        {{ in_array($product->type, [6, 7]) ? '대지' : '공급' }}
+                                        {{ $product->square }}㎡<br>{{ $product->type != 7 ? '전용 ' . $product->exclusive_square : '' }}㎡
+                                    </td>
+                                    <td class="area" style="display: none">
+                                        {{ in_array($product->type, [6, 7]) ? '대지' : '공급' }}
+                                        {{ $product->area }}평<br>{{ $product->type != 7 ? '전용' . $product->exclusive_area : '' }}평
+                                    </td>
+                                    <td>{{ Lang::get('commons.payment_type.' . $product->priceInfo->payment_type) }}<br>
+                                        {{ mb_substr(Commons::get_priceTrans($product->priceInfo->price), 0, -1) }}
+                                        {{ in_array($product->priceInfo->payment_type, [1, 2, 4]) ? ' / ' . mb_substr(Commons::get_priceTrans($product->priceInfo->month_price), 0, -1) : '' }}
+                                    </td>
+                                    <td><button class="btn_gray_ghost btn_sm">삭제</button></td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
 
@@ -178,7 +192,7 @@
                                     src="{{ asset('assets/media/mcnu_ic_5.png') }}" alt=""></span>커뮤니티</a>
                     </li>
                     <li class="active">
-                        <a href="my_main.html"><span><img src="{{ asset('assets/media/mcnu_ic_4.png') }}"
+                        <a href="javascript:history.go(-1)"><span><img src="{{ asset('assets/media/mcnu_ic_4.png') }}"
                                     alt=""></span>마이페이지</a>
                     </li>
                 </ul>

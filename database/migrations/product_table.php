@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('state')->nullable()->comment('매물 상태 - 0: 등록 요청, 1: 거래중, 2: 거래완료, 3: 비공개, 4: 등록만료, 5: 등록대기');
             $table->integer('type')->nullable()->comment('매물종류 - 0: 지식산업센터, 1: 사무실, 2: 창고, 3: 상가, 4:기숙사, 5: 건물, 6: 토지/임야, 7: 단독공장, 8: 아파트, 9: 오피스텔, 10: 단독/다가구, 11: 다세대/빌라/연립, 12: 상가주택, 13: 주택, 14: 지식산업센터 분양권, 15: 상가 분양권, 16: 아파트 분양권, 17: 오피스텔 분양권');
 
-            $table->integer('is_map')->nullable()->comment('지도 노출 여부 - 0: 노출 안함, 1: 노출');
+            $table->integer('is_map')->nullable()->comment('지도 노출 여부 - 0: 노출, 1: 노출안함');
             $table->string('address_lat')->nullable()->comment('위도');
             $table->string('address_lng')->nullable()->comment('경도');
             $table->integer('region_code')->nullable()->comment('주소 법정동 코드');

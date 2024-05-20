@@ -19,9 +19,9 @@ return new class extends Migration
             $table->integer('cooling_type')->nullable()->comment('냉방 종류 - 0: 개별냉방, 1: 중앙냉방, 2: 지역냉방');
             $table->integer('heating_type')->nullable()->comment('난방 종류 - 0: 개별난방, 1: 중앙난방, 2: 지역난방');
             $table->string('weight')->nullable()->comment('하중 (평당)');
-            $table->integer('is_elevator')->comment('승강시설 - 0: 없음, 1: 있음');
-            $table->integer('is_dock')->comment('도크 단독공장 - 0: 없음, 1: 있음');
-            $table->integer('is_hoist')->comment('호이스트 단독공장 - 0: 없음, 1: 있음');
+            $table->integer('is_elevator')->nullable()->comment('승강시설 - 0: 없음, 1: 있음');
+            $table->integer('is_dock')->nullable()->comment('도크 단독공장 - 0: 없음, 1: 있음');
+            $table->integer('is_hoist')->nullable()->comment('호이스트 단독공장 - 0: 없음, 1: 있음');
             $table->integer('is_goods_elevator')->nullable()->comment('화물시설 - 0: 없음, 1: 있음');
             $table->integer('interior_type')->nullable()->comment('인테리어 여부 - 0: 선택 안합, 1: 있음, 2: 없음');
             $table->integer('floor_height_type')->nullable()->comment('층고 - 0: 3.5이하, 1: 3.5~4.5, 2: 4.5~5.5, 3: 5.5~6.5, 4: 6.5 이상 (m)');

@@ -1,0 +1,319 @@
+<x-layout>
+
+    <!----------------------------- m::header bar : s ----------------------------->
+    <div class="m_header">
+        <div class="left_area"><a href="javascript:history.go(-1)"><img src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
+        <div class="m_title">마이메뉴</div>
+        <div class="right_area"></div>
+    </div>
+    <!----------------------------- m::header bar : s ----------------------------->
+
+    <div class="body">
+
+        <div class="my_inner_wrap">
+            <div class="my_wrap">
+                <!-- my_side : s -->
+                <div class="my_side only_pc">
+                    <x-mypage-side :result="$user" />
+                </div>
+                <!-- my_side : e -->
+
+                <!-- my_body : s -->
+                <div class="my_body inner_wrap m_inner_wrap">
+                    <h1 class="t_center only_pc">수익률 계산기</h1>
+                    <div class="my_tab_wrap">
+                        <ul class="tab_type_5">
+                            <li class=""
+                                onclick="location.href='{{ route('www.mypage.calculator.revenue.list.view') }}'">
+                                수익률 계산
+                            </li>
+                            <li class="active"
+                                onclick="location.href='{{ route('www.mypage.calculator.loan.list.view') }}'">
+                                대출이자 계산
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="calculator_btn_wrap">
+                        <button class="btn_point btn_basic" onclick="modal_open('rev_calculator')">대출 이자 계산기</button>
+                    </div>
+
+                    <div class="calculator_container">
+                        <!-- 계산서 : s -->
+                        <div class="loan_item">
+                            <div class="item_tit_wrap">
+                                <h4><span>원금균등분할</span> 계산서 1</h4>
+                                <div class="btn_area">
+                                    <button class="btn_graylight_ghost btn_sm">공유</button>
+                                    <button class="btn_graylight_ghost btn_sm">삭제</button>
+                                </div>
+                            </div>
+                            <div class="table_container columns_2">
+                                <div class="td">대출금액</div>
+                                <div class="td">100,000,000원</div>
+                                <div class="td">상환기간</div>
+                                <div class="td">24개월 <span class="gray_basic">거치기간 3개월</span></div>
+                                <div class="td">월납입원금</div>
+                                <div class="td">4,920,617원</div>
+                                <div class="td">총 이자액</div>
+                                <div class="td">3,595,851원<span class="txt_point">(금리 3.6%)</span></div>
+                                <div class="td">총 상환금액</div>
+                                <div class="td">103,595,851원</div>
+                            </div>
+                            <div class="flex_between mt20">
+                                <h4>상환 스케줄 </h4>
+                                <div class="fs_13 gray_basic">(단위 : 원)</div>
+                            </div>
+                            <div class="repayment_schedule_wrap">
+                                <div class="repayment_schedule_item">
+                                    <div class="schedule_tit_tiem">
+                                        <span>1회차</span>
+                                        <span>잔금 : 100,000,000</span>
+                                    </div>
+                                    <table class="repayment_table">
+                                        <tr>
+                                            <th>월상환금</th>
+                                            <th>납입원금</th>
+                                            <th>이자액</th>
+                                        </tr>
+                                        <tr>
+                                            <td>300,000</td>
+                                            <td>0</td>
+                                            <td>300,000</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="repayment_schedule_item">
+                                    <div class="schedule_tit_tiem">
+                                        <span>2회차</span>
+                                        <span>잔금 : 100,000,000</span>
+                                    </div>
+                                    <table class="repayment_table">
+                                        <tr>
+                                            <th>월상환금</th>
+                                            <th>납입원금</th>
+                                            <th>이자액</th>
+                                        </tr>
+                                        <tr>
+                                            <td>300,000</td>
+                                            <td>0</td>
+                                            <td>300,000</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="repayment_schedule_item">
+                                    <div class="schedule_tit_tiem">
+                                        <span>3회차</span>
+                                        <span>잔금 : 100,000,000</span>
+                                    </div>
+                                    <table class="repayment_table">
+                                        <tr>
+                                            <th>월상환금</th>
+                                            <th>납입원금</th>
+                                            <th>이자액</th>
+                                        </tr>
+                                        <tr>
+                                            <td>300,000</td>
+                                            <td>0</td>
+                                            <td>300,000</td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- 계산서 : e -->
+
+                        <!-- 계산서 : s -->
+                        <div class="loan_item">
+                            2
+                        </div>
+                        <!-- 계산서 : e -->
+                    </div>
+                </div>
+                <!-- my_body : e -->
+
+            </div>
+
+            <!-- modal 대출계산기 : s -->
+            <div class="modal modal_mid modal_rev_calculator">
+                <div class="modal_title">
+                    <h5>대출 계산기</h5>
+                    <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close"
+                        onclick="modal_close('rev_calculator')">
+                </div>
+                <div class="modal_container">
+                    <div class="gray_basic txt_lh_1">
+                        대출 시 납부할 이자를 계산합니다. 상환방법, 대출기간, 이율에 따른 월별 상환 테이블, 총 납부 이자를 확인할 수 있습니다.<br>
+                        보다 정확한 계산을 위해서는 전문 계산기를 이용해주세요.
+                    </div>
+                </div>
+
+                <div class="md_inner_scroll">
+
+                    <ul class="tab_toggle_menu tab_type_4">
+                        <li class="active"><a href="javascript:(0)">원금균등분할</a></li>
+                        <li><a href="javascript:(0)">원리금균등분할</a></li>
+                        <li><a href="javascript:(0)">만기일시</a></li>
+                    </ul>
+
+                    <div class="checkbox_wrap mt20">
+                        <div>
+                            <input type="checkbox" name="check" id="check_1" value="Y">
+                            <label for="check_1"><span></span>거치기간</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="check" id="check_2" value="Y">
+                            <label for="check_2"><span></span>중도상환/금리변동</label>
+                        </div>
+                    </div>
+
+                    <ul class="reg_bascic mt18">
+                        <li>
+                            <div class="btn_half_wrap">
+                                <div>
+                                    <label>대출원금</label>
+                                    <div class="flex_1">
+                                        <input type="number">
+                                        <span>원</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label>이자율</label>
+                                    <div class="flex_1">
+                                        <input type="number">
+                                        <span>%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="btn_half_wrap">
+                                <div>
+                                    <label>대출기간</label>
+                                    <div class="flex_1">
+                                        <input type="number">
+                                        <span>개월</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <!-- 만기일시는 거치기간을 삭제해 주세요. -->
+                                    <label>거치기간</label>
+                                    <div class="flex_1">
+                                        <input type="number">
+                                        <span>개월</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <hr>
+                    <div class="btn_half_wrap">
+                        <button class="btn_additem_1 btn_point_ghost btn_full_thin txt_r" id="additem_1">중도상환
+                            추가</button>
+                        <button class="btn_additem_2 btn_point_ghost btn_full_thin txt_r" id="additem_2">금리변동
+                            추가</button>
+                    </div>
+                    <div class="item_wrap_1">
+                        <h6 class="mt20">중도상환</h6>
+                        <div id="itemContaniner_1"></div>
+                        <hr class="mt18">
+                    </div>
+
+                    <div class="item_wrap_2">
+                        <h6 class="mt20">금리변동</h6>
+                        <div id="itemContaniner_2"></div>
+                    </div>
+                </div>
+
+                <div class="modal_container">
+                    <button class="btn_point btn_full_basic" disabled><b>대출이자 계산하기</b></button>
+                </div>
+
+            </div>
+            <div class="md_overlay md_overlay_rev_calculator" onclick="modal_close('rev_calculator')"></div>
+            <!-- modal 대출계산기 : e -->
+
+        </div>
+
+    </div>
+
+    <script>
+        //중도상환 추가
+        $('.btn_additem_1').click(function() {
+            $('.item_wrap_1').css('display', 'block');
+        });
+
+        document.getElementById("additem_1").addEventListener("click", function() {
+            var newItem = document.createElement("div");
+            newItem.className = "item";
+            newItem.innerHTML = `
+            <div class="input_time_row">
+                <div>
+                    <label class="input_label">회차</label>
+                    <div class="flex_1">
+                        <input type="text" placeholder="1">
+                        <span>/</span>
+                    </div>
+                </div>
+                <div>
+                    <label class="input_label">상환 금액</label>
+                    <div class="flex_1">
+                        <input type="text">
+                        <span>원</span>
+                        <button class="btn_graylight_ghost btn_input txt_r deleteBtn_1">삭제</button>
+                    </div>
+                </div>
+            </div>
+            `;
+            document.getElementById("itemContaniner_1").appendChild(newItem);
+
+            var deleteBtn = newItem.querySelector(".deleteBtn_1");
+            deleteBtn.addEventListener("click", function() {
+                newItem.remove();
+                if (document.querySelectorAll('.item').length === 0) {
+                    document.querySelector('.item_wrap_1').style.display = 'none';
+                }
+            });
+        });
+
+        //금리변동 추가
+        $('.btn_additem_2').click(function() {
+            $('.item_wrap_2').css('display', 'block');
+        });
+
+        document.getElementById("additem_2").addEventListener("click", function() {
+            var newItem = document.createElement("div");
+            newItem.className = "item2";
+            newItem.innerHTML = `
+            <div class="input_time_row">
+                <div>
+                    <label class="input_label">회차</label>
+                    <div class="flex_1">
+                        <input type="text" placeholder="1">
+                        <span>/</span>
+                    </div>
+                </div>
+                <div>
+                    <label class="input_label">변동 금리</label>
+                    <div class="flex_1">
+                        <input type="text">
+                        <span>%</span>
+                        <button class="btn_graylight_ghost btn_input txt_r deleteBtn_2">삭제</button>
+                    </div>
+                </div>
+            </div>
+            `;
+            document.getElementById("itemContaniner_2").appendChild(newItem);
+
+            var deleteBtn = newItem.querySelector(".deleteBtn_2");
+            deleteBtn.addEventListener("click", function() {
+                newItem.remove(); // 요소 삭제
+                if (document.querySelectorAll('.item2').length === 0) {
+                    document.querySelector('.item_wrap_2').style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+</x-layout>

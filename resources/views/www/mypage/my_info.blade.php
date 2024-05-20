@@ -24,8 +24,17 @@
 
                     <div class="col-md-6 box_member">
                         <div class="user_profile_wrap">
-                            <div class="img_box"><img id="member_img_src"
-                                    src="{{ asset('assets/media/default_user.png') }}" alt=""></div>
+                            <div class="img_box">
+                                @if ($user->images != null)
+                                    @foreach ($user->images as $image)
+                                        <img id="member_img_src" src="{{ Storage::url('image/' . $image->path) }}"
+                                            alt="">
+                                    @endforeach
+                                @else
+                                    <img id="member_img_src" src="{{ asset('assets/media/default_user.png') }}"
+                                        alt="">
+                                @endif
+                            </div>
                         </div>
                         <div class="t_center mt18">
                             <button class="btn_gray_ghost btn_sm">사진 등록</button>
@@ -33,11 +42,11 @@
                         <ul class="reg_bascic mt20">
                             <li>
                                 <label>이름</label>
-                                <input type="text" value="홍길동" disabled>
+                                <input type="text" value="{{ $user->name }}" disabled>
                             </li>
                             <li>
                                 <label>이메일</label>
-                                <input type="text" value="hong1234@naver.com" disabled>
+                                <input type="text" value="{{ $user->email }}" disabled>
                             </li>
                             <li>
                                 <label>비밀번호</label>
@@ -53,7 +62,7 @@
                             </li>
                             <li>
                                 <label>휴대폰 번호</label>
-                                <input type="text" value="010-1234-1234" disabled>
+                                <input type="text" value="{{$user->phone}}" disabled>
                             </li>
                         </ul>
                         <button class="btn_gray_ghost btn_full_basic mt28" onclick="modal_open('info_modify')"><b>내 정보
@@ -93,7 +102,7 @@
                     <ul class="reg_bascic">
                         <li>
                             <label>이름</label>
-                            <input type="text" value="홍길동">
+                            <input type="text" value="">
                         </li>
                         <li>
                             <label>휴대폰 번호</label>

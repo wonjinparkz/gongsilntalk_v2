@@ -25,6 +25,8 @@ class ProductAddInfo extends BaseModel
         'heating_type',
         'weight',
         'is_elevator',
+        'is_dock',
+        'is_hoist',
         'is_goods_elevator',
         'interior_type',
         'floor_height_type',

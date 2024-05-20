@@ -226,7 +226,7 @@ return [
         'exclusive_area' => '전용면적 (평)',
         'exclusive_square' => '전용면적 (제곱미터)',
         'approve_date' => '사용승인일',
-        'building_type' => '사용승인일',
+        'building_type' => '용도',
         'move_type' => '입주가능일 타입',
         'move_date' => '입주가능일',
         'service_price' => '관리비',

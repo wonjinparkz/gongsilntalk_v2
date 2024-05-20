@@ -161,7 +161,7 @@
                                     src="{{ asset('assets/media/mcnu_ic_5.png') }}" alt=""></span>커뮤니티</a>
                     </li>
                     <li class="active">
-                        <a href="my_main.html"><span><img src="{{ asset('assets/media/mcnu_ic_4.png') }}"
+                        <a href="javascript:history.go(-1)"><span><img src="{{ asset('assets/media/mcnu_ic_4.png') }}"
                                     alt=""></span>마이메뉴</a>
                     </li>
                 </ul>

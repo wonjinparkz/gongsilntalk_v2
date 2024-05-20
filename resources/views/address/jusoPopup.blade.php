@@ -641,8 +641,7 @@
             data.buldSlno = buldSlno;
 
             $.ajax({
-                url: "https://business.juso.go.kr/addrlink/addrCoordApiJsonp.do" //인터넷망
-                    ,
+                url: "https://business.juso.go.kr/addrlink/addrCoordApiJsonp.do", //인터넷망
                 type: "post",
                 data: data,
                 dataType: "jsonp",

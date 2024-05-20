@@ -99,10 +99,15 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::get('/mypage/service/list', 'serviceListView')->name('www.mypage.service.list.view');
     Route::get('/mypage/proposal/list', 'proposalListView')->name('www.mypage.proposal.list.view');
     Route::get('/mypage/calculator/revenue/list', 'calculatorRevenueListView')->name('www.mypage.calculator.revenue.list.view');
+    Route::get('/mypage/calculator/loan/list', 'calculatorLoanListView')->name('www.mypage.calculator.loan.list.view');
     Route::get('/mypage/my/info', 'myInfoView')->name('www.mypage.my.info');
     Route::get('/mypage/company/info', 'companyInfoView')->name('www.mypage.company.info');
     Route::get('/mypage/community/list', 'communityListView')->name('www.mypage.community.list.view');
     Route::get('/mypage/alarm/list', 'alarmListView')->name('www.mypage.alarm.list.view');
+
+    //수익률 계산기 등록 삭제
+    Route::post('/mypage/calculator/revenue/create', 'calculatorRevenueCreate')->name('www.calculator.revenue.create');
+    Route::post('/mypage/calculator/revenue/delete', 'calculatorRevenueDelete')->name('www.calculator.revenue.delete');
 });
 
 

@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Models\CalculatorRevenue;
+use App\Models\Community;
+use App\Models\Product;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class UserPcController extends Controller
@@ -13,27 +18,45 @@ class UserPcController extends Controller
     /**
      * 내 매물 관리
      */
-    public function mypageMainView(): View
+    public function mypageMainView(Request $request): View
     {
         // 회원 정보
         $user = User::select()
-        ->where('users.id', Auth::guard('web')->user()->id)
-        ->first();
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
 
-        return view('www.mypage.productMagagement_list', compact('user'));
+        $productList = Product::select();
+
+        $productList->where('users.id', Auth::guard('web')->user()->id);
+
+        // 정렬
+        $productList->orderBy('product.created_at', 'desc')->orderBy('id', 'desc');
+
+        $result_product = $productList->paginate($request->per_page == null ? 10 : $request->per_page);
+
+        return view('www.mypage.productMagagement_list', compact('user', 'result_product'));
     }
 
     /**
      * 내 매물 관리
      */
-    public function productMagagementListView(): View
+    public function productMagagementListView(Request $request): View
     {
         // 회원 정보
         $user = User::select()
-        ->where('users.id', Auth::guard('web')->user()->id)
-        ->first();
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
 
-        return view('www.mypage.productMagagement_list', compact('user'));
+        $productList = Product::select();
+
+        $productList->where('users_id', Auth::guard('web')->user()->id);
+
+        // 정렬
+        $productList->orderBy('product.created_at', 'desc')->orderBy('id', 'desc');
+
+        $result_product = $productList->paginate($request->per_page == null ? 10 : $request->per_page);
+
+        return view('www.mypage.productMagagement_list', compact('user', 'result_product'));
     }
 
     /**
@@ -43,8 +66,8 @@ class UserPcController extends Controller
     {
         // 회원 정보
         $user = User::select()
-        ->where('users.id', Auth::guard('web')->user()->id)
-        ->first();
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
 
         return view('www.mypage.corpProductMagagement_list', compact('user'));
     }
@@ -56,8 +79,8 @@ class UserPcController extends Controller
     {
         // 회원 정보
         $user = User::select()
-        ->where('users.id', Auth::guard('web')->user()->id)
-        ->first();
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
 
         return view('www.mypage.productInterest_list', compact('user'));
     }
@@ -69,8 +92,8 @@ class UserPcController extends Controller
     {
         // 회원 정보
         $user = User::select()
-        ->where('users.id', Auth::guard('web')->user()->id)
-        ->first();
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
 
         return view('www.mypage.corpProposal_list', compact('user'));
     }
@@ -82,8 +105,8 @@ class UserPcController extends Controller
     {
         // 회원 정보
         $user = User::select()
-        ->where('users.id', Auth::guard('web')->user()->id)
-        ->first();
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
 
         return view('www.mypage.service_list', compact('user'));
     }
@@ -95,8 +118,8 @@ class UserPcController extends Controller
     {
         // 회원 정보
         $user = User::select()
-        ->where('users.id', Auth::guard('web')->user()->id)
-        ->first();
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
 
         return view('www.mypage.proposal_list', compact('user'));
     }
@@ -108,10 +131,32 @@ class UserPcController extends Controller
     {
         // 회원 정보
         $user = User::select()
-        ->where('users.id', Auth::guard('web')->user()->id)
-        ->first();
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
 
-        return view('www.mypage.calculatorRevenue_list', compact('user'));
+        $calculatorRevenueList = CalculatorRevenue::select();
+
+        $calculatorRevenueList->where('users_id', Auth::guard('web')->user()->id);
+
+        // 정렬
+        $calculatorRevenueList->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+
+        $result_calculator = $calculatorRevenueList->get();
+
+        return view('www.mypage.calculatorRevenue_list', compact('user', 'result_calculator'));
+    }
+
+    /**
+     * 수익률 계산기
+     */
+    public function calculatorLoanListView(): View
+    {
+        // 회원 정보
+        $user = User::select()
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
+
+        return view('www.mypage.calculatorLoan_list', compact('user'));
     }
 
     /**
@@ -121,8 +166,8 @@ class UserPcController extends Controller
     {
         // 회원 정보
         $user = User::select()
-        ->where('users.id', Auth::guard('web')->user()->id)
-        ->first();
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
 
         return view('www.mypage.my_info', compact('user'));
     }
@@ -134,8 +179,10 @@ class UserPcController extends Controller
     {
         // 회원 정보
         $user = User::select()
-        ->where('users.id', Auth::guard('web')->user()->id)
-        ->first();
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
+
+
 
         return view('www.mypage.company_info', compact('user'));
     }
@@ -143,14 +190,25 @@ class UserPcController extends Controller
     /**
      * 커뮤니티 게시글 관리
      */
-    public function communityListView(): View
+    public function communityListView(Request $request): View
     {
         // 회원 정보
         $user = User::select()
-        ->where('users.id', Auth::guard('web')->user()->id)
-        ->first();
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
 
-        return view('www.mypage.community_list', compact('user'));
+        // 커뮤니티 선택
+        $communityList = Community::select();
+
+        $communityList->where('author', Auth::guard('web')->user()->id);
+
+        // 정렬
+        $communityList->orderBy('community.created_at', 'desc')->orderBy('id', 'desc');
+
+        // 페이징 처리
+        $result_community = $communityList->paginate($request->per_page == null ? 10 : $request->per_page);
+
+        return view('www.mypage.community_list', compact('user', 'result_community'));
     }
 
     /**
@@ -160,9 +218,41 @@ class UserPcController extends Controller
     {
         // 회원 정보
         $user = User::select()
-        ->where('users.id', Auth::guard('web')->user()->id)
-        ->first();
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
 
         return view('www.mypage.alarm_list', compact('user'));
+    }
+
+    /**
+     * 수익률 계산기 등록
+     */
+    public function calculatorRevenueCreate(Request $request): RedirectResponse
+    {
+        CalculatorRevenue::create([
+            'users_id' => Auth::guard('web')->user()->id,
+            'sale_price' => $request->sale_price,
+            'acquisition_tax' => $request->acquisition_tax,
+            'tax_price' => $request->tax_price ?? 0,
+            'commission' => $request->commission ?? 0,
+            'ctc_price' => $request->ctc_price ?? 0,
+            'price' => $request->price ?? 0,
+            'month_price' => $request->month_price ?? 0,
+            'loan_ratio' => $request->loan_ratio ?? 0,
+            'loan_interest' => $request->loan_interest ?? 0,
+        ]);
+
+        return Redirect::route('www.mypage.calculator.revenue.list.view')->with('message', "수익률을 계산했습니다.");
+    }
+
+    /**
+     * 수익률 계싼기 삭제
+     */
+    public function calculatorRevenueDelete(Request $request): RedirectResponse
+    {
+        $result = CalculatorRevenue::where('id', $request->id)->first()
+            ->delete();
+
+        return Redirect::route('www.mypage.calculator.revenue.list.view')->with('message', "수익률을 삭제했습니다.");
     }
 }

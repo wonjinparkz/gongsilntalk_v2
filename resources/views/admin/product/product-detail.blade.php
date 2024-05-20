@@ -1,7 +1,6 @@
 <x-admin-layout>
     <div class="app-container container-xxl">
         <x-screen-card :title="'등록자 정보'">
-
             {{-- 내용 START --}}
             <div class="card-body border-top p-9">
 
@@ -65,7 +64,7 @@
                                         <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                             <input class="form-check-input" name="type" type="radio"
                                                 value="{{ $i }}"
-                                                @if ($type == $i) checked @endif>
+                                                @if ($type == "$i") checked @endif>
                                             <span
                                                 class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.product_type.' . $i) }}</span>
                                         </label>
@@ -79,7 +78,7 @@
                                         <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                             <input class="form-check-input" name="type" type="radio"
                                                 value="{{ $i }}"
-                                                @if ($type == $i) checked @endif>
+                                                @if ($type == "$i") checked @endif>
                                             <span
                                                 class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.product_type.' . $i) }}</span>
                                         </label>
@@ -93,7 +92,7 @@
                                         <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                             <input class="form-check-input" name="type" type="radio"
                                                 value="{{ $i }}"
-                                                @if ($type == $i) checked @endif>
+                                                @if ($type == "$i") checked @endif>
                                             <span
                                                 class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.product_type.' . $i) }}</span>
                                         </label>
@@ -213,22 +212,24 @@
                     <div class="row mb-6 floor_input_1"
                         style="display:{{ in_array($type, ['6', '7']) ? 'none' : '' }}">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">해당층/전체층</label>
-                        <div class="col-lg-3 d-flex align-items-center">
-                            <div class="input-group mb-5">
-                                <input type="text" name="floor_number" class="form-control" placeholder="해당층"
-                                    value="{{ old('floor_number') ? old('floor_number') : $result->floor_number }}" />
-                                <span class="input-group-text" id="basic-addon2">층<span>
+                        <div class="col-lg-10 fv-row row">
+                            <div class="col-lg-4 align-items-center">
+                                <div class="input-group">
+                                    <input type="text" name="floor_number" class="form-control" placeholder="해당층"
+                                        value="{{ old('floor_number') ? old('floor_number') : $result->floor_number }}" />
+                                    <span class="input-group-text" id="basic-addon2">층<span>
+                                </div>
+                                <x-input-error class="mt-2 text-danger" :messages="$errors->get('floor_number')" />
                             </div>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('floor_number')" />
-                        </div>
-                        <div class="col-lg-3 d-flex align-items-center">
-                            <div class="input-group mb-5">
-                                <input type="text" name="total_floor_number" class="form-control"
-                                    placeholder="전체층"
-                                    value="{{ old('total_floor_number') ? old('total_floor_number') : $result->total_floor_number }}" />
-                                <span class="input-group-text" id="basic-addon2">층<span>
+                            <div class="col-lg-4 align-items-center">
+                                <div class="input-group">
+                                    <input type="text" name="total_floor_number" class="form-control"
+                                        placeholder="전체층"
+                                        value="{{ old('total_floor_number') ? old('total_floor_number') : $result->total_floor_number }}" />
+                                    <span class="input-group-text" id="basic-addon2">층<span>
+                                </div>
+                                <x-input-error class="mt-2 text-danger" :messages="$errors->get('total_floor_number')" />
                             </div>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('total_floor_number')" />
                         </div>
                     </div>
 
@@ -368,16 +369,16 @@
                     {{-- 건축물 용도 --}}
                     <div class="row mb-6 building_type_input">
                         <label
-                            class="required col-lg-2 col-form-label fw-semibold fs-6">{{ $type == 6 ? '건축물 용도' : '현재 용도' }}</label>
+                            class="required col-lg-2 col-form-label fw-semibold fs-6">{{ $type != 6 ? '건축물 용도' : '현재 용도' }}</label>
                         <div class="col-lg-3 fv-row">
                             <select name="building_type" class="form-select" data-control="select2"
                                 data-hide-search="true">
                                 <option value="">
-                                    {{ $type == 6 ? '건축물 용도' : '현재 용도' }} 선택
+                                    {{ $type != 6 ? '건축물 용도' : '현재 용도' }} 선택
                                 </option>
                                 @for ($i = 0; $i < count(Lang::get('commons.building_type')); $i++)
                                     <option value="{{ $i }}"
-                                        @if ("$result->building_type" == $i) selected @endif
+                                        @if (old('building_type') ?? $result->building_type == "$i") selected @endif
                                         @if ($type == 6 && $i < 15) hidden @elseif($type != 6 && $i > 14) hidden @endif>
                                         {{ Lang::get('commons.building_type.' . $i) }}
                                     </option>
@@ -417,48 +418,72 @@
                     {{-- 월 관리비 --}}
                     <div class="row mb-6 no_forest service_price_input">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">월 관리비</label>
-                        <div class="col-md-3 fv-row">
-                            <div class="input-group">
-                                <input type="number" name="service_price" id="service_price" class="form-control"
-                                    placeholder="예) 10"
-                                    value="{{ old('service_price') ?? $result->service_price }}" />
-                                <span class="input-group-text" id="basic-addon2">만원<span>
+                        <div class="col-lg-10 row">
+                            <div class="col-lg-5 fv-row">
+                                <div class="input-group">
+                                    <input type="number" name="service_price" id="service_price"
+                                        class="form-control" placeholder="예) 10"
+                                        value="{{ old('service_price') ?? $result->service_price }}" />
+                                    <span class="input-group-text" id="basic-addon2">만원<span>
+                                </div>
+                                <x-input-error class="mt-2 text-danger" :messages="$errors->get('service_price')" />
                             </div>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('service_price')" />
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-check form-check-custom form-check-inline p-1">
-                                <input class="form-check-input" name="is_service" id="is_service" type="checkbox"
-                                    value="1">
-                                <span class="fw-semibold ps-2 fs-6">관리비 없음</span>
-                            </label>
+                            <div class="col-lg-5">
+                                <label class="form-check form-check-custom form-check-inline p-1">
+                                    <input class="form-check-input" name="is_service" id="is_service"
+                                        type="checkbox" value="1"
+                                        {{ old('is_service') ?? $result->is_service == 1 ? 'checked' : '' }}>
+                                    <span class="fw-semibold ps-2 fs-6">관리비 없음</span>
+                                </label>
+                            </div>
+                            <div class="col-lg-12">
+                                <label class="col-lg-2 col-form-label fw-semibold fs-6">관리비 항목</label>
+                            </div>
+                            <div class="col-lg-10 fv-row">
+                                @php
+                                    $service_type =
+                                        old('service_type') ?? $result->productServices->pluck('type')->toArray();
+                                @endphp
+                                @for ($i = 0; $i < count(Lang::get('commons.service_type')); $i++)
+                                    <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                        <input class="form-check-input"
+                                            @if (in_array($i, $service_type)) checked @endif name="service_type[]"
+                                            type="checkbox" value="{{ $i }}">
+                                        <span
+                                            class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.service_type.' . $i) }}</span>
+                                    </label>
+                                @endfor
+                            </div>
                         </div>
                     </div>
 
                     {{-- 융자금 --}}
-                    <div class="row mb-6 no_forest">
+                    @php
+                        $loan_type = old('loan_type') ?? ($result->loan_type ?? 0);
+                    @endphp
+                    <div class="row mb-6">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">융자금</label>
                         <div class="col-lg-4 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="loan_type" type="radio" value="0"
-                                    @if ($result->loan_type == 0) checked @endif>
+                                    @if ($loan_type == 0) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">없음</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="loan_type" type="radio"
-                                    value="1"@if ($result->loan_type == 1) checked @endif>
+                                    value="1"@if ($loan_type == 1) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">30% 미만</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="loan_type" type="radio"
-                                    value="2"@if ($result->loan_type == 2) checked @endif>
+                                    value="2"@if ($loan_type == 2) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">30% 이상</span>
                             </label>
                             @inject('carbon', 'Carbon\Carbon')
                             <input type="text" name="loan_price" id="loan_price" class="form-control"
                                 placeholder="예) 1억 1000만"
-                                value="{{ old('loan_price') ?? $result->loan_price == null ? '' : $result->loan_price->format('Y-m-d') }}"
-                                @if ($result->move_type != 2) disabled @endif />
+                                value="{{ $loan_type != 0 ? old('loan_price') ?? $result->loan_price : '' }}"
+                                @if ($loan_type == 0) disabled @endif />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('loan_price')" />
                         </div>
                     </div>
@@ -486,14 +511,14 @@
                                 <span class="input-group-text">월</span>
                                 <input type="number" name="parking_price" id="parking_price" class="form-control"
                                     placeholder="예) 10" value="{{ old('parking_price') ?? $result->parking_price }}"
-                                    {{ $result->parking_type != 1 ? 'disabled' : '' }} />
+                                    {{ $result->parking_type != 1 ? 'disabled' : old('parking_price') ?? ($result->parking_price ?? 'disabled') }} />
                                 <span class="input-group-text" id="basic-addon2">만원<span>
                             </div>
                             <div class="col-md-5">
                                 <label class="form-check form-check-custom form-check-inline p-1">
                                     <input class="form-check-input" name="is_parking" id="is_parking"
                                         type="checkbox" value="1"
-                                        {{ $result->parking_type != 2 ? 'disabled' : $result->parking_price ?? 'checked' }}>
+                                        {{ $result->parking_type != 1 ? 'disabled' : old('parking_price') ?? ($result->parking_price ?? 'checked') }}>
                                     <span class="fw-semibold ps-2 fs-6">무료주차</span>
                                 </label>
                             </div>
@@ -547,7 +572,7 @@
                                             style="display: {{ in_array($i, $is_payment_type) ? '' : 'none' }}">
                                             <input class="form-check-input" name="payment_type" type="radio"
                                                 value="{{ $i }}"
-                                                @if ($payment_type == $i) checked @endif>
+                                                @if ($payment_type == "$i") checked @endif>
                                             <span
                                                 class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.payment_type.' . $i) }}</span>
                                         </label>
@@ -591,19 +616,20 @@
                     </div>
 
                     {{-- 기존 임대차 내용 --}}
-                    <div class="row mb-6">
+                    <div class="row mb-6 is_use_input"
+                        style="display: @if ($type > 13) none @endif">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">기존 임대차 내용</label>
                         <div class="col-lg-10 fv-row">
                             <div class="row mb-6">
                                 <div class="col-lg-8 fv-row">
                                     <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                         <input class="form-check-input" name="is_use" type="radio" value="0"
-                                            @if ($result->priceInfo->is_use == 0) checked @endif>
+                                            @if ((old('is_use') ?? $result->priceInfo->is_use) == 0) checked @endif>
                                         <span class="fw-semibold ps-2 fs-6">없음</span>
                                     </label>
                                     <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                         <input class="form-check-input" name="is_use" type="radio" value="1"
-                                            @if ($result->priceInfo->is_use == 1) checked @endif>
+                                            @if ((old('is_use') ?? $result->priceInfo->is_use) == 1) checked @endif>
                                         <span class="fw-semibold ps-2 fs-6">있음</span>
                                     </label>
                                 </div>
@@ -611,22 +637,26 @@
                                 <div class="row mb-6">
                                     <div class="col-lg-4 fv-row">
                                         <span class="fs-6">현 보증금</span>
-                                        <div class="input-group mb-6">
-                                            <input type="text" name="current_price" id="current_price"
+                                        <div class="input-group ">
+                                            <input type="number" name="current_price" id="current_price"
                                                 class="form-control" placeholder="예) 10"
-                                                value="{{ old('current_price') ?? $result->priceInfo->current_price }}" />
+                                                value="{{ old('current_price') ?? $result->priceInfo->current_price }}"
+                                                @if ((old('is_use') ?? $result->priceInfo->is_use) == 0) disabled @endif />
                                             <span class="input-group-text" id="basic-addon2">원<span>
                                         </div>
+                                        <x-input-error class="mt-2 text-danger" :messages="$errors->get('current_price')" />
                                     </div>
 
                                     <div class="col-lg-4 fv-row">
                                         <span class="fs-6">현 월임대료</span>
                                         <div class="input-group">
-                                            <input type="text" name="current_month_price" id="current_month_price"
+                                            <input type="number" name="current_month_price" id="current_month_price"
                                                 class="form-control" placeholder="예) 10"
-                                                value="{{ old('current_month_price') ?? $result->priceInfo->current_month_price }}" />
+                                                value="{{ old('current_month_price') ?? $result->priceInfo->current_month_price }}"
+                                                @if ((old('is_use') ?? $result->priceInfo->is_use) == '0') disabled @endif />
                                             <span class="input-group-text" id="basic-addon2">원<span>
                                         </div>
+                                        <x-input-error class="mt-2 text-danger" :messages="$errors->get('current_month_price')" />
                                     </div>
                                 </div>
                             </div>
@@ -637,19 +667,19 @@
                     <div class="row mb-6 preminum_price_input"
                         style="display: @if ($type == 3 || $type > 13) @else none @endif">
                         <label
-                            class="required col-lg-2 col-form-label fw-semibold fs-6 is_store_text">{{ $type == 3 ? '권리금' : '프리미엄' }}</label>
+                            class="{{ $type == 3 ? 'required' : '' }} col-lg-2 col-form-label fw-semibold fs-6 is_store_text">{{ $type == 3 ? '권리금' : '프리미엄' }}</label>
                         <div class="col-lg-10 fv-row">
                             <div class="row mb-6">
                                 <div class="col-lg-8 fv-row is_store"
                                     style="display: @if ($type != 3) none @endif">
                                     <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                         <input class="form-check-input" name="is_premium" type="radio"
-                                            value="0" @if ($result->is_premium == 0) checked @endif>
+                                            value="0" @if ((old('is_premium') ?? $result->is_premium) == 0) checked @endif>
                                         <span class="fw-semibold ps-2 fs-6">없음</span>
                                     </label>
                                     <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                         <input class="form-check-input" name="is_premium" type="radio"
-                                            value="2"@if ($result->is_premium == 1) checked @endif>
+                                            value="1"@if ((old('is_premium') ?? $result->is_premium) == 1) checked @endif>
                                         <span class="fw-semibold ps-2 fs-6">있음</span>
                                     </label>
                                 </div>
@@ -659,11 +689,11 @@
                                             <input type="text" name="premium_price" id="premium_price"
                                                 class="form-control" placeholder="예) 10"
                                                 value="{{ old('premium_price') ?? $result->priceInfo->premium_price }}"
-                                                @if ($result->is_premium == 0 && $type == 3) disabled @endif />
+                                                @if ((old('is_premium') ?? $result->is_premium) == 0 && $type == 3) disabled @endif />
                                             <span class="input-group-text" id="basic-addon2">원<span>
                                         </div>
                                     </div>
-                                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('loan_price')" />
+                                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('premium_price')" />
                                 </div>
                             </div>
                         </div>
@@ -682,21 +712,24 @@
                     {{-- 방/욕실 수 --}}
                     <div class="row mb-6 add_info_input bathroom_count_input">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">방/욕실 수</label>
-                        <div class="col-lg-3 d-flex align-items-center">
-                            <div class="input-group mb-5">
-                                <input type="text" name="room_count" class="form-control" placeholder="방 수"
-                                    value="{{ old('room_count') ? old('room_count') : $result->productAddInfo->room_count ?? '' }}" />
-                                <span class="input-group-text" id="basic-addon2">개<span>
+                        <div class="col-lg-10 fv-row row">
+                            <div class="col-lg-4 align-items-center ">
+                                <div class="input-group">
+                                    <input type="text" name="room_count" class="form-control" placeholder="방 수"
+                                        value="{{ old('room_count') ?? ($result->productAddInfo->room_count ?? '') }}" />
+                                    <span class="input-group-text" id="basic-addon2">개<span>
+                                </div>
+                                <x-input-error class="mt-2 text-danger" :messages="$errors->get('room_count')" />
                             </div>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('room_count')" />
-                        </div>
-                        <div class="col-lg-3 d-flex align-items-center">
-                            <div class="input-group mb-5">
-                                <input type="text" name="bathroom_count " class="form-control" placeholder="욕실 수"
-                                    value="{{ old('bathroom_count ') ? old('bathroom_count ') : $result->productAddInfo->bathroom_count ?? '' }}" />
-                                <span class="input-group-text" id="basic-addon2">개<span>
+                            <div class="col-lg-4 align-items-center ">
+                                <div class="input-group">
+                                    <input type="text" name="bathroom_count" class="form-control"
+                                        placeholder="욕실 수"
+                                        value="{{ old('bathroom_count') ?? ($result->productAddInfo->bathroom_count ?? '') }}" />
+                                    <span class="input-group-text" id="basic-addon2">개<span>
+                                </div>
+                                <x-input-error class="mt-2 text-danger" :messages="$errors->get('bathroom_count')" />
                             </div>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('bathroom_count ')" />
                         </div>
                     </div>
 
@@ -711,7 +744,7 @@
                                 </option>
                                 @for ($i = 0; $i < count(Lang::get('commons.product_business_type')); $i++)
                                     <option value="{{ $i }}"
-                                        @if ($result->productAddInfo->current_business_type ?? '' == $i) selected @endif>
+                                        @if (old('current_business_type') ?? ($result->productAddInfo->current_business_type ?? '' == "$i")) selected @endif>
                                         {{ Lang::get('commons.product_business_type.' . $i) }}
                                     </option>
                                 @endfor
@@ -731,7 +764,7 @@
                                 </option>
                                 @for ($i = 0; $i < count(Lang::get('commons.product_business_type')); $i++)
                                     <option value="{{ $i }}"
-                                        @if ($result->productAddInfo->recommend_business_type ?? '' == $i) selected @endif>
+                                        @if (old('recommend_business_type') ?? ($result->productAddInfo->recommend_business_type ?? '' == "$i")) selected @endif>
                                         {{ Lang::get('commons.product_business_type.' . $i) }}
                                     </option>
                                 @endfor
@@ -751,7 +784,7 @@
                                 </option>
                                 @for ($i = 0; $i < count(Lang::get('commons.direction_type')); $i++)
                                     <option value="{{ $i }}"
-                                        @if ($result->productAddInfo->direction_type ?? '' == $i) selected @endif>
+                                        @if (old('direction_type') ?? ($result->productAddInfo->direction_type ?? '' == "$i")) selected @endif>
                                         {{ Lang::get('commons.direction_type.' . $i) }}
                                     </option>
                                 @endfor
@@ -771,7 +804,7 @@
                                 </option>
                                 @for ($i = 0; $i < count(Lang::get('commons.cooling_type')); $i++)
                                     <option value="{{ $i }}"
-                                        @if ($result->productAddInfo->cooling_type ?? '' == $i) selected @endif>
+                                        @if ((old('cooling_type') ?? ($result->productAddInfo->cooling_type ?? '')) == $i) selected @endif>
                                         {{ Lang::get('commons.cooling_type.' . $i) }}
                                     </option>
                                 @endfor
@@ -791,7 +824,7 @@
                                 </option>
                                 @for ($i = 0; $i < count(Lang::get('commons.heating_type')); $i++)
                                     <option value="{{ $i }}"
-                                        @if ($result->productAddInfo->heating_type ?? '' == $i) selected @endif>
+                                        @if (old('heating_type') ?? ($result->productAddInfo->heating_type ?? '') == $i) selected @endif>
                                         {{ Lang::get('commons.heating_type.' . $i) }}
                                     </option>
                                 @endfor
@@ -805,7 +838,7 @@
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">하중 (평당)</label>
                         <div class="col-lg-3 fv-row">
                             <input type="text" name="weight" class="form-control" placeholder="예) 0.8"
-                                value="{{ old('weight') ? old('weight') : $result->productAddInfo->weight ?? '' }}" />
+                                value="{{ old('weight') ?? ($result->productAddInfo->weight ?? '') }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('weight')" />
                         </div>
                     </div>
@@ -816,12 +849,12 @@
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="is_elevator" type="radio" value="0"
-                                    @if ($result->productAddInfo->is_elevator ?? 0 == 0) checked @endif>
+                                    @if (old('is_elevator') ?? ($result->productAddInfo->is_elevator ?? 0) == 0) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">없음</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="is_elevator" type="radio" value="1"
-                                    @if ($result->productAddInfo->is_elevator ?? 0 == 1) checked @endif>
+                                    @if (old('is_elevator') ?? ($result->productAddInfo->is_elevator ?? 0) == 1) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">있음</span>
                             </label>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('is_elevator')" />
@@ -834,12 +867,12 @@
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="is_goods_elevator" type="radio"
-                                    value="0" @if ($result->productAddInfo->is_goods_elevator ?? 0 == 0) checked @endif>
+                                    value="0" @if (old('is_goods_elevator') ?? ($result->productAddInfo->is_goods_elevator ?? 0) == 0) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">없음</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="is_goods_elevator" type="radio"
-                                    value="1" @if ($result->productAddInfo->is_goods_elevator ?? 0 == 1) checked @endif>
+                                    value="1" @if (old('is_goods_elevator') ?? ($result->productAddInfo->is_goods_elevator ?? 0) == 1) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">있음</span>
                             </label>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('is_goods_elevator')" />
@@ -852,17 +885,17 @@
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="structure_type" type="radio" value="0"
-                                    @if ($result->productAddInfo->structure_type ?? 0 == 0) checked @endif>
+                                    @if (old('structure_type') ?? ($result->productAddInfo->structure_type ?? 0) == 0) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">선택 안함</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="structure_type" type="radio" value="1"
-                                    @if ($result->productAddInfo->structure_type ?? 0 == 1) checked @endif>
+                                    @if (old('structure_type') ?? ($result->productAddInfo->structure_type ?? 0) == 1) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">복층</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="structure_type" type="radio" value="2"
-                                    @if ($result->productAddInfo->structure_type ?? 0 == 2) checked @endif>
+                                    @if (old('structure_type') ?? ($result->productAddInfo->structure_type ?? 0) == 2) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">1.5룸/주방분리형</span>
                             </label>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('structure_type')" />
@@ -875,17 +908,17 @@
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="builtin_type" type="radio" value="0"
-                                    @if ($result->productAddInfo->builtin_type ?? 0 == 0) checked @endif>
+                                    @if (old('builtin_type') ?? ($result->productAddInfo->builtin_type ?? 0) == 0) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">선택 안함</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="builtin_type" type="radio" value="1"
-                                    @if ($result->productAddInfo->builtin_type ?? 0 == 1) checked @endif>
+                                    @if (old('builtin_type') ?? ($result->productAddInfo->builtin_type ?? 0) == 1) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">있음</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="builtin_type" type="radio" value="2"
-                                    @if ($result->productAddInfo->builtin_type ?? 0 == 2) checked @endif>
+                                    @if (old('builtin_type') ?? ($result->productAddInfo->builtin_type ?? 0) == 2) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">없음</span>
                             </label>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('builtin_type')" />
@@ -898,17 +931,17 @@
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="interior_type" type="radio" value="0"
-                                    @if ($result->productAddInfo->interior_type ?? 0 == 0) checked @endif>
+                                    @if ((old('interior_type') ?? $result->productAddInfo->interior_type ?? 0) == 0) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">선택 안함</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="interior_type" type="radio" value="1"
-                                    @if ($result->productAddInfo->interior_type ?? 0 == 1) checked @endif>
+                                    @if ((old('interior_type') ?? $result->productAddInfo->interior_type ?? 0) == 1) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">있음</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="interior_type" type="radio" value="2"
-                                    @if ($result->productAddInfo->interior_type ?? 0 == 2) checked @endif>
+                                    @if ((old('interior_type') ?? $result->productAddInfo->interior_type ?? 0) == 2) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">없음</span>
                             </label>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('interior_type')" />
@@ -921,17 +954,17 @@
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="declare_type" type="radio" value="0"
-                                    @if ($result->productAddInfo->declare_type ?? 0 == 0) checked @endif>
+                                    @if (old('declare_type') ?? ($result->productAddInfo->declare_type ?? 0) == 0) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">선택 안함</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="declare_type" type="radio" value="1"
-                                    @if ($result->productAddInfo->declare_type ?? 0 == 1) checked @endif>
+                                    @if (old('declare_type') ?? ($result->productAddInfo->declare_type ?? 0) == 1) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">가능</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="declare_type" type="radio" value="2"
-                                    @if ($result->productAddInfo->declare_type ?? 0 == 2) checked @endif>
+                                    @if (old('declare_type') ?? ($result->productAddInfo->declare_type ?? 0 == 2)) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">불가능</span>
                             </label>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('declare_type')" />
@@ -944,12 +977,12 @@
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="is_dock" type="radio" value="0"
-                                    @if ($result->productAddInfo->is_dock ?? 0 == 0) checked @endif>
+                                    @if (old('is_dock') ?? ($result->productAddInfo->is_dock ?? 0) == 0) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">없음</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="is_dock" type="radio" value="1"
-                                    @if ($result->productAddInfo->is_dock ?? 0 == 1) checked @endif>
+                                    @if (old('is_dock') ?? ($result->productAddInfo->is_dock ?? 0) == 1) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">있음</span>
                             </label>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('is_dock')" />
@@ -962,12 +995,12 @@
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="is_hoist" type="radio" value="0"
-                                    @if ($result->productAddInfo->is_hoist ?? 0 == 0) checked @endif>
+                                    @if (old('is_hoist') ?? ($result->productAddInfo->is_hoist ?? 0) == 0) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">없음</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="is_hoist" type="radio" value="1"
-                                    @if ($result->productAddInfo->is_hoist ?? 0 == 1) checked @endif>
+                                    @if (old('is_hoist') ?? ($result->productAddInfo->is_hoist ?? 0) == 1) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">있음</span>
                             </label>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('is_hoist')" />
@@ -981,7 +1014,7 @@
                             @for ($i = 0; $i < count(Lang::get('commons.floor_height_type')); $i++)
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="floor_height_type" type="radio"
-                                        value="0" @if ($result->productAddInfo->floor_height_type ?? 0 == $i) checked @endif>
+                                        value="0" @if (old('floor_height_type') ?? ($result->productAddInfo->floor_height_type ?? 0) == "$i") checked @endif>
                                     <span
                                         class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.floor_height_type.' . $i) }}</span>
                                 </label>
@@ -997,7 +1030,7 @@
                             @for ($i = 0; $i < count(Lang::get('commons.wattage_type')); $i++)
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="wattage_type" type="radio"
-                                        value="0" @if ($result->productAddInfo->wattage_type ?? 0 == $i) checked @endif>
+                                        value="0" @if (old('wattage_type') ?? ($result->productAddInfo->wattage_type ?? 0) == "$i") checked @endif>
                                     <span
                                         class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.wattage_type.' . $i) }}</span>
                                 </label>
@@ -1014,12 +1047,12 @@
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">옵션 정보</label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="is_option" type="radio" value="0"
-                                    @if ($result->productAddInfo->is_option ?? 0 == 0) checked @endif>
+                                    @if (old('is_option') ?? ($result->productAddInfo->is_option ?? 0) == 0) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">없음</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="is_option" type="radio" value="1"
-                                    @if ($result->productAddInfo->is_option ?? 0 == 1) checked @endif>
+                                    @if (old('is_option') ?? ($result->productAddInfo->is_option ?? 0) == 1) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">있음</span>
                             </label>
                         </div>
@@ -1131,17 +1164,17 @@
                             <div class="col-lg-10 fv-row">
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="land_use_type" type="radio"
-                                        value="0" @if ($result->productAddInfo->land_use_type ?? 0 == 0) checked @endif>
+                                        value="0" @if (old('land_use_type') ?? ($result->productAddInfo->land_use_type ?? 0 == 0)) checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">선택 안함</span>
                                 </label>
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="land_use_type" type="radio"
-                                        value="1" @if ($result->productAddInfo->land_use_type ?? 0 == 1) checked @endif>
+                                        value="1" @if (old('land_use_type') ?? ($result->productAddInfo->land_use_type ?? 0 == 1)) checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">해당</span>
                                 </label>
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="land_use_type" type="radio"
-                                        value="2" @if ($result->productAddInfo->land_use_type ?? 0 == 2) checked @endif>
+                                        value="2" @if (old('land_use_type') ?? ($result->productAddInfo->land_use_type ?? 0 == 2)) checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">미해당</span>
                                 </label>
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('land_use_type')" />
@@ -1154,17 +1187,17 @@
                             <div class="col-lg-10 fv-row">
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="city_plan_type" type="radio"
-                                        value="0" @if ($result->productAddInfo->city_plan_type ?? 0 == 0) checked @endif>
+                                        value="0" @if (old('city_plan_type') ?? ($result->productAddInfo->city_plan_type ?? 0 == 0)) checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">선택 안함</span>
                                 </label>
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="city_plan_type" type="radio"
-                                        value="1" @if ($result->productAddInfo->city_plan_type ?? 0 == 1) checked @endif>
+                                        value="1" @if (old('city_plan_type') ?? ($result->productAddInfo->city_plan_type ?? 0 == 1)) checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">단층</span>
                                 </label>
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="city_plan_type" type="radio"
-                                        value="2" @if ($result->productAddInfo->city_plan_type ?? 0 == 2) checked @endif>
+                                        value="2" @if (old('city_plan_type') ?? ($result->productAddInfo->city_plan_type ?? 0 == 2)) checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">복층</span>
                                 </label>
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('city_plan_type')" />
@@ -1177,17 +1210,17 @@
                             <div class="col-lg-10 fv-row">
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="building_permit_type" type="radio"
-                                        value="0" @if ($result->productAddInfo->building_permit_type ?? 0 == 0) checked @endif>
+                                        value="0" @if (old('building_permit_type') ?? ($result->productAddInfo->building_permit_type ?? 0 == 0)) checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">선택 안함</span>
                                 </label>
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="building_permit_type" type="radio"
-                                        value="1" @if ($result->productAddInfo->building_permit_type ?? 0 == 1) checked @endif>
+                                        value="1" @if (old('building_permit_type') ?? ($result->productAddInfo->building_permit_type ?? 0 == 1)) checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">발급</span>
                                 </label>
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="building_permit_type" type="radio"
-                                        value="2" @if ($result->productAddInfo->building_permit_type ?? 0 == 2) checked @endif>
+                                        value="2" @if (old('building_permit_type') ?? ($result->productAddInfo->building_permit_type ?? 0 == 2)) checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">미발급</span>
                                 </label>
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('building_permit_type')" />
@@ -1200,17 +1233,17 @@
                             <div class="col-lg-10 fv-row">
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="land_permit_type" type="radio"
-                                        value="0" @if ($result->productAddInfo->land_permit_type ?? 0 == 0) checked @endif>
+                                        value="0" @if (old('land_permit_type') ?? ($result->productAddInfo->land_permit_type ?? 0 == 0)) checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">선택 안함</span>
                                 </label>
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="land_permit_type" type="radio"
-                                        value="1" @if ($result->productAddInfo->land_permit_type ?? 0 == 1) checked @endif>
+                                        value="1" @if (old('land_permit_type') ?? ($result->productAddInfo->land_permit_type ?? 0 == 1)) checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">해당</span>
                                 </label>
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="land_permit_type" type="radio"
-                                        value="2" @if ($result->productAddInfo->land_permit_type ?? 0 == 2) checked @endif>
+                                        value="2" @if (old('land_permit_type') ?? ($result->productAddInfo->land_permit_type ?? 0 == 2)) checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">미해당</span>
                                 </label>
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('land_permit_type')" />
@@ -1223,17 +1256,17 @@
                             <div class="col-lg-10 fv-row">
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="access_load_type" type="radio"
-                                        value="0" @if ($result->productAddInfo->access_load_type ?? 0 == 0) checked @endif>
+                                        value="0" @if (old('access_load_type') ?? ($result->productAddInfo->access_load_type ?? 0 == 0)) checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">선택 안함</span>
                                 </label>
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="access_load_type" type="radio"
-                                        value="1" @if ($result->productAddInfo->access_load_type ?? 0 == 1) checked @endif>
+                                        value="1" @if (old('access_load_type') ?? ($result->productAddInfo->access_load_type ?? 0 == 1)) checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">있음</span>
                                 </label>
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="access_load_type" type="radio"
-                                        value="2" @if ($result->productAddInfo->access_load_type ?? 0 == 2) checked @endif>
+                                        value="2" @if (old('access_load_type') ?? ($result->productAddInfo->access_load_type ?? 0 == 2)) checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">없음</span>
                                 </label>
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('access_load_type')" />
@@ -1265,7 +1298,7 @@
                         <div class="col-lg-10 fv-row">
                             <input type="text" name="comments" class="form-control"
                                 placeholder="예) 역에서 5분거리, 인프라 좋은 매물"
-                                value="{{ old('comments') ? old('comments') : $result->comments }}" />
+                                value="{{ old('comments') ?? $result->comments }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('comments')" />
                         </div>
                     </div>
@@ -1285,7 +1318,7 @@
                         <div class="col-lg-10 fv-row">
                             <input type="text" name="image_link" class="form-control"
                                 placeholder="링크를 입력해 주세요."
-                                value="{{ old('image_link') ? old('image_link') : $result->image_link }}" />
+                                value="{{ old('image_link') ?? $result->image_link }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('image_link')" />
                         </div>
                     </div>
@@ -1317,7 +1350,7 @@
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="state" type="radio"
                                         value="{{ $i }}"
-                                        @if ($result->state == $i) checked @endif>
+                                        @if (old('state') ?? $result->state == "$i") checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">
                                         {{ Lang::get('commons.product_state.' . $i) }}
                                     </span>
@@ -1342,7 +1375,7 @@
                         <div class="col-lg-10 fv-row">
                             <input type="text" name="commission" class="form-control"
                                 placeholder="중개보수(부가세별도)"
-                                value="{{ old('commission') ? old('commission') : $result->commission }}" />
+                                value="{{ old('commission') ?? $result->commission }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('commission')" />
                         </div>
                     </div>
@@ -1353,7 +1386,7 @@
                         <div class="col-lg-10 fv-row">
                             <input type="text" name="commission_rate" class="form-control"
                                 placeholder="상한요율(%)"
-                                value="{{ old('commission_rate') ? old('commission_rate') : $result->commission_rate }}" />
+                                value="{{ old('commission_rate') ?? $result->commission_rate }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('commission_rate')" />
                         </div>
                     </div>
@@ -1420,7 +1453,7 @@
 
     {{-- 지도 맵 api js --}}
     <script type="text/javascript"
-        src="https://business.juso.go.kr/juso_support_center/js/addrlink/map/jusoro_map_api.min.js?confmKey=U01TX0FVVEgyMDI0MDUwOTE0MjYyMjExNDc1Mjk=&skinType=1">
+        src="https://business.juso.go.kr/juso_support_center/js/addrlink/map/jusoro_map_api.min.js?confmKey={{ env('CONFM_MAP_KEY') }}&skinType=1">
     </script>
     <style>
         .zoomIcon {
@@ -1450,7 +1483,7 @@
             var wgs84Coords = get_coordinate_conversion1($('input[name=address_lng]').val(), $(
                 'input[name=address_lat]').val())
 
-            if ({{ $is_map }} == 0) {
+            if ({{ $is_map ?? 0 }} == 0) {
                 setTimeout(function() {
                     callJusoroMapApiType1(wgs84Coords[0], wgs84Coords[1]);
                 }, 2000);
@@ -1460,8 +1493,14 @@
                 }, 2000);
             }
 
-            if ($('input[name="is_option"]:checked').val() == 0) {
+            if ({{ $result->productAddInfo->is_option ?? 0 }} == 0) {
                 $('.option_type').attr('disabled', true);
+            }
+
+            if ($('#is_service').is(":checked")) {
+                $('#service_price').val('');
+                $('input[name="service_type"]').attr('disabled', true);
+                $('#service_price').attr('disabled', true);
             }
 
             setting_addInfo({{ $type }})
@@ -1493,23 +1532,26 @@
         $('input[name="type"]').change(function() {
             $('input[name="payment_type"]').parent().css('display', 'none');
             $('.preminum_price_input').css('display', 'none')
+            $('.is_use_input').css('display', '')
             $('#premium_price').val('');
 
             $('.approve_date_text').text('사용승인일');
 
             setting_addInfo($(this).val());
 
-        });
+            type = $(this).val();
 
-        // 추가 정보 매물 타입에 따라 세팅하기
-        function setting_addInfo(type) {
-            $('.add_info_input').css('display', 'none')
-            $('.option_input').css('display', 'none')
-            $('.option_type').closest('label').css('display', '');
-            $('input[name="is_option"][value=0]').click();
-
+            // 매물타입에 따른 거래유형 초기화
+            $('.month_price_input').css('display', 'none');
             if (type < 8) {
+                if (type == 3) {
+                    $('.is_store_text').text('권리금');
+                    $('.is_store_text').addClass('required');
+                    $('.is_store').css('display', '')
+                    $('.preminum_price_input').css('display', '')
+                }
                 if (type == 4) {
+
                     $('input[name="payment_type"][value=0]').prop('checked', true);
                     $('#payment_price_text').text("매매가")
                     $('input[name="payment_type"][value=0]').parent().css('display', '');
@@ -1517,6 +1559,7 @@
                     $('input[name="payment_type"][value=4]').parent().css('display', '');
                     $('input[name="payment_type"][value=2]').parent().css('display', '');
                 } else {
+
                     $('input[name="payment_type"][value=0]').prop('checked', true);
                     $('#payment_price_text').text("매매가")
                     $('input[name="payment_type"][value=0]').parent().css('display', '');
@@ -1524,14 +1567,11 @@
                     $('input[name="payment_type"][value=2]').parent().css('display', '');
 
                 }
-
-                $('.preminum_price_input').css('display', '')
-                $('.is_store_text').text('권리금');
-                $('.is_store').css('display', '')
                 $('is_premium[value=0]').prop('checked', true);
                 $('#premium_price').attr('disabled', true);
 
             } else if (type > 13) {
+                $('.is_use_input').css('display', 'none')
                 $('input[name="payment_type"][value=5]').prop('checked', true);
                 $('#payment_price_text').text("전매가")
                 $('input[name="payment_type"][value=4]').parent().css('display', '');
@@ -1540,6 +1580,7 @@
                 $('.preminum_price_input').css('display', '')
                 $('.approve_date_text').text('준공예정일');
                 $('.is_store_text').text('프리미엄');
+                $('.is_store_text').removeClass('required');
                 $('.is_store').css('display', 'none')
                 $('#premium_price').attr('disabled', false);
             } else {
@@ -1550,6 +1591,18 @@
                 $('input[name="payment_type"][value=4]').parent().css('display', '');
                 $('input[name="payment_type"][value=2]').parent().css('display', '');
             }
+
+        });
+
+        // 추가 정보 매물 타입에 따라 세팅하기
+        function setting_addInfo(type) {
+
+            $('.add_info_input').css('display', 'none')
+            $('.option_input').css('display', 'none')
+            $('.option_type').closest('label').css('display', '');
+            $('.no_forest').css('display', '')
+
+
 
             if ([6, 7].indexOf(parseInt(type)) !== -1) {
                 $('.area_text_1').text('대지면적');
@@ -1832,11 +1885,14 @@
 
         // 가임시 주소일 경우 동없음 체크여부
         $('#is_service').click(function() {
+            $('input[name="service_type"]').prop("checked", false)
             if ($(this).is(':checked')) {
                 $('#service_price').val('');
+                $('input[name="service_type"]').attr('disabled', true);
                 $('#service_price').attr('disabled', true);
             } else {
                 $('#service_price').attr('disabled', false);
+                $('input[name="service_type"]').attr('disabled', false);
             }
         });
 
@@ -1861,7 +1917,7 @@
         });
 
         // 입주가능일 타입
-        $('input[name="move_type"]').click(function() {
+        $('input[name="move_type"]').change(function() {
             $('input[name="move_date"]').val('');
             if ($(this).val() == 2) {
                 $('input[name="move_date"]').attr('disabled', false);
@@ -1871,7 +1927,7 @@
         });
 
         // 융자금 타입
-        $('input[name="loan_type"]').click(function() {
+        $('input[name="loan_type"]').change(function() {
             $('input[name="loan_price"]').val('');
             if ($(this).val() == 0) {
                 $('input[name="loan_price"]').attr('disabled', true);
@@ -1881,7 +1937,7 @@
         });
 
         // 주차 가능 여부
-        $('input[name="parking_type"]').click(function() {
+        $('input[name="parking_type"]').change(function() {
             $('input[name="parking_price"]').val('');
             $('input[name="is_parking"]').prop('checked', false);
             if ($(this).val() == 1) {
@@ -1890,6 +1946,16 @@
             } else {
                 $('input[name="parking_price"]').attr('disabled', true);
                 $('input[name="is_parking"]').attr('disabled', true);
+            }
+        });
+
+        // 주차 무료주차 여부
+        $('#is_parking').change(function() {
+            $('#parking_price').val('');
+            if ($(this).is(':checked')) {
+                $('#parking_price').attr('disabled', true);
+            } else {
+                $('#parking_price').attr('disabled', false);
             }
         });
 
@@ -1916,10 +1982,10 @@
             $('#price').val('');
             $('#month_price').val('');
             if ($(this).val() == 1 || $(this).val() == 2 || $(this).val() == 4) {
-                $('#payment_price_text').text(payment_type[$(this).val()] + "가");
+                $('#payment_price_text').text("보증금");
                 $('.month_price_input').css('display', '');
             } else {
-                $('#payment_price_text').text("보증금");
+                $('#payment_price_text').text(payment_type[$(this).val()] + "가");
                 $('.month_price_input').css('display', 'none');
             }
         });

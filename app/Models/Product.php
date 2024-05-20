@@ -103,4 +103,11 @@ class Product extends BaseModel
     {
         return $this->hasMany(productOptions::class, 'product_id', 'id');
     }
+    /**
+     * 사용자 정보
+     */
+    public function productServices()
+    {
+        return $this->hasMany(ProductServices::class, 'product_id', 'id');
+    }
 }

@@ -36,7 +36,7 @@
         <li><a href="sales_list.html">실시간 분양현장</a></li>
         <li><a href="map.html">빅데이터/매물지도</a></li>
         <li><a href="community_contents_list.html">커뮤니티</a></li>
-        <li class="active"><a href="my_main.html">마이메뉴</a></li>
+        <li class="active"><a href="javascript:history.go(-1)">마이메뉴</a></li>
       </ul>
       <div>
         <ul class="util_menu">
@@ -55,9 +55,9 @@
         <div class="right_area"></div>
     </div>
     <!----------------------------- m::header bar : s ----------------------------->
-  
+
     <div class="body">
-        
+
         <div class="my_inner_wrap">
             <div class="my_wrap">
                 <!-- my_side : s -->
@@ -112,7 +112,7 @@
                 <!-- my_body : s -->
                 <div class="my_body inner_wrap m_inner_wrap">
                     <h1 class="t_center only_pc">내 정보 수정</h1>
-                    
+
                     <div class="col-md-6 box_member">
                         <div class="user_profile_wrap">
                           <div class="img_box"><img id="member_img_src" src="images/default_user.png" alt=""></div>
@@ -159,7 +159,7 @@
                                 <input type="text" placeholder="비밀번호 확인">
                                 <button class="btn_point btn_full_thin">변경 완료</button>
                               </div>
-                              
+
                             </li>
                             <li>
                               <label>휴대폰 번호</label>
@@ -177,7 +177,7 @@
                   function btn_pw_change() {
                       var btn_pw = document.getElementById("btn_pw");
                       var input_pw = document.getElementById("input_pw");
-                  
+
                       if (btn_pw.style.display === "none") {
                           btn_pw.style.display = "inline-block";
                           input_pw.style.display = "none";
@@ -220,13 +220,13 @@
             </div>
             <div class="md_overlay md_overlay_info_modify" onclick="modal_close('info_modify')"></div>
             <!-- modal 정보수정 : e -->
-            
-            
+
+
         </div>
-        
+
     </div>
 
-    
+
 
 
     <!-- footer : s -->

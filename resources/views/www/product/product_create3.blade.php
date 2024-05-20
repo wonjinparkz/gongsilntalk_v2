@@ -114,9 +114,9 @@
 
         function createButton() {
 
-            // sessionStorage.clear();
+            $('.find_form').submit();
 
-
+            sessionStorage.clear();
         }
 
         function confrim_check() {

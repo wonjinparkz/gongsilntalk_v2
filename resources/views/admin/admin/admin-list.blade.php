@@ -159,22 +159,20 @@
                                                 data-kt-menu="true">
                                                 {{-- 수정 --}}
                                                 <div class="menu-item px-3">
-                                                    <form
-                                                        action="{{ route('admins.state.update') }}"
-                                                        method="POST">
+                                                    <form action="{{ route('admins.state.update') }}" method="POST">
                                                         @csrf
                                                         <input type="hidden" name="id"
                                                             value="{{ $manager->id }}" />
                                                         <input type="hidden" name="state"
                                                             value="{{ $manager->state }}" />
-                                                            <a href="#" onclick="parentNode.submit();"
-                                                                class="menu-link px-3">
-                                                                @if ($manager->state == 0)
-                                                                    사용불가능
-                                                                @elseif ($manager->state == 1)
-                                                                    사용가능
-                                                                @endif
-                                                            </a>
+                                                        <a href="#" onclick="parentNode.submit();"
+                                                            class="menu-link px-3">
+                                                            @if ($manager->state == 0)
+                                                                사용불가능
+                                                            @elseif ($manager->state == 1)
+                                                                사용가능
+                                                            @endif
+                                                        </a>
                                                     </form>
 
                                                 </div>

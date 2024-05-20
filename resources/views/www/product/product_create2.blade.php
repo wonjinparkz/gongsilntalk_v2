@@ -79,11 +79,12 @@
                                 </div>
 
                             </div>
-
+                            <script type="text/javascript"
+                                src="https://business.juso.go.kr/juso_support_center/js/addrlink/map/jusoro_map_api.min.js?confmKey={{ env('CONFM_MAP_KEY') }}&skinType=1">
+                            </script>
                             <div class="inner_item inner_map only_pc">
-                                <div id="is_temporary_0">
-                                    주소 검색 시,<br>해당 위치가 지도에 표시됩니다.
-                                </div>
+                                <div id="mapWrap" class="mapWrap"
+                                    style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
                                 <div id="is_temporary_1" style="display: none">
                                     가(임시)주소 선택시,<br>지도 노출이 불가능합니다.
                                 </div>
@@ -163,6 +164,9 @@
             // 지역구 가져오기
             get_region('*00000000', '1');
 
+            $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/common.css"]').remove();
+            $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/map/addrlinkMap.css"]')
+                .remove();
         });
 
         function confrim_check() {
@@ -561,14 +565,26 @@
 
         $('#region_code').val(rtAdmCd);
 
+        $('#region_code').val(rtAdmCd);
+
         var wgs84Coords = get_coordinate_conversion(rtentX, rtentY)
 
         $('input[name=address_lng]').val(wgs84Coords[0]);
         $('input[name=address_lat]').val(wgs84Coords[1]);
 
+        callJusoroMapApiType1(rtentX, rtentY);
+
         console.log('주소 검색 끝!');
 
         confrim_check();
 
+    }
+
+    // type1.좌표정보(GRS80, EPSG:5179)
+    function callJusoroMapApiType1(rtentX, rtentY) {
+        window.postMessage({
+            functionName: 'callJusoroMapApi',
+            params: [rtentX, rtentY]
+        }, '*');
     }
 </script>

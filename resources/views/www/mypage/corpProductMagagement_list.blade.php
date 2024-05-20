@@ -37,7 +37,7 @@
         <li><a href="sales_list.html">실시간 분양현장</a></li>
         <li><a href="map.html">빅데이터/매물지도</a></li>
         <li><a href="community_contents_list.html">커뮤니티</a></li>
-        <li class="active"><a href="my_main.html">마이메뉴</a></li>
+        <li class="active"><a href="javascript:history.go(-1)">마이메뉴</a></li>
       </ul>
       <div>
         <ul class="util_menu">
@@ -56,9 +56,9 @@
         <div class="right_area"></div>
     </div>
     <!----------------------------- m::header bar : s ----------------------------->
-  
+
     <div class="body">
-        
+
         <div class="my_inner_wrap">
             <div class="my_wrap">
                 <!-- my_side : s -->
@@ -303,7 +303,7 @@
                                 <button class="btn_gray_ghost btn_sm" onclick="location.href='realtor_estate_modify.html'">수정</button>
                                 <button class="btn_gray_ghost btn_sm">삭제</button>
                               </div>
-                              
+
                             </td>
                           </tr>
                           <tr>
@@ -334,7 +334,7 @@
                                 <button class="btn_gray_ghost btn_sm">재등록</button>
                                 <button class="btn_gray_ghost btn_sm">삭제</button>
                               </div>
-                              
+
                             </td>
                           </tr>
                         </tbody>
@@ -430,10 +430,10 @@
                 <!-- my_body : e -->
 
             </div>
-       
-            
+
+
         </div>
-        
+
     </div>
 
     <!-- modal 삭제 : s -->
@@ -444,13 +444,13 @@
           <p class="txt_item_1">매물을 삭제하시겠습니까?</p>
           <p class="mt8 txt_item_2">매물 미노출을 원할 시, 비공개 기능을 이용해보세요.</p>
       </div>
-      
+
       <div class="modal_btn_wrap">
           <button class="btn_gray btn_full_thin" onclick="modal_close('asset_delete')">취소</button>
           <button class="btn_point btn_full_thin" onclick="modal_close('asset_delete')">삭제</button>
       </div>
       </div>
-      
+
     </div>
     <div class="md_overlay md_overlay_asset_delete" onclick="modal_close('asset_delete')"></div>
     <!-- modal 삭제 : e -->
@@ -459,7 +459,7 @@
       document.addEventListener("DOMContentLoaded", function() {
           const button = document.querySelector(".inner_change_button");
           const unitSpan = button.querySelector(".txt_unit");
-          
+
           button.addEventListener("click", function() {
               if (unitSpan.textContent === "평") {
                   unitSpan.textContent = "㎡";

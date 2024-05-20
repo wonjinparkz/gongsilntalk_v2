@@ -33,99 +33,87 @@
                     </div>
 
 
-                    <!-- 데이터가 없을 경우 : s -->
-                    <div class="empty_wrap">
-                        <p>작성한 게시글이 없습니다.</p>
-                        <span>커뮤니티에서 글을 작성하고<br>다양한 부동산 관련 정보를 나눠보세요.</span>
-                    </div>
-                    <!-- 데이터가 없을 경우 : e -->
+                    @if ($result_community)
+                        <!-- list : s -->
 
-                    <!-- list : s -->
+                        <table class="board_list">
+                            <colgroup class="only_pc">
+                                <col width="60">
+                                <col width="100">
+                                <col width="*">
+                                <col width="150">
+                                <col width="100">
+                            </colgroup>
+                            <thead class="only_pc">
+                                <tr>
+                                    <th></th>
+                                    <th>번호</th>
+                                    <th>제목</th>
+                                    <th>작성일</th>
+                                    <th>조회수</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @inject('carbon', 'Carbon\Carbon')
+                                @foreach ($result_community as $community)
+                                    <tr>
+                                        <td colspan="5">
+                                            <div class="board_row">
+                                                <div class="board_item_2">
+                                                    <input type="checkbox" name="checkOne" id="checkOne_1"
+                                                        value="Y">
+                                                    <label for="checkOne_1"><span></span></label>
+                                                </div>
+                                                <div class="board_inner_row">
+                                                    <div class="board_item_4 only_pc">{{ $community->id }}</div>
+                                                    <div class="board_item_1"><a href="{{ route('www.community.detail.view', ['id' => $community->id, 'community' => 1]) }}"><span
+                                                                class="gray_deep">[{{ Commons::get_communityTypeTitle($community->category) }}]</span>
+                                                            {{ $community->title }}</a> <span
+                                                            class="txt_point">[{{count($community->replys)}}]</span></div>
+                                                    <div class="board_item_3 gray_basic">{{ $carbon::parse($community->created_at)->format('Y-m-d H:m') }}<span
+                                                            class="gray_basic"> · 조회 {{ $community->view_count }}</span></div>
+                                                    <div class="board_item_4 gray_basic only_pc"> {{ $community->view_count }}</div>
+                                                </div>
+                                            </div>
 
-                    <table class="board_list">
-                        <colgroup class="only_pc">
-                            <col width="60">
-                            <col width="100">
-                            <col width="*">
-                            <col width="150">
-                            <col width="100">
-                        </colgroup>
-                        <thead class="only_pc">
-                            <tr>
-                                <th></th>
-                                <th>번호</th>
-                                <th>제목</th>
-                                <th>작성일</th>
-                                <th>조회수</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td colspan="5">
-                                    <div class="board_row">
-                                        <div class="board_item_2">
-                                            <input type="checkbox" name="checkOne" id="checkOne_1" value="Y">
-                                            <label for="checkOne_1"><span></span></label>
-                                        </div>
-                                        <div class="board_inner_row">
-                                            <div class="board_item_4 only_pc">15899</div>
-                                            <div class="board_item_1"><a href="community_detail.html"><span
-                                                        class="gray_deep">[질문/답변]</span> 20년간 중개 진행하면서 쏠쏠했던 중개 팁
-                                                    방출할게요!</a> <span class="txt_point">[12]</span></div>
-                                            <div class="board_item_3 gray_basic">2023.05.18 22:00 <span
-                                                    class="gray_basic"> · 조회 98</span></div>
-                                            <div class="board_item_4 gray_basic only_pc">1000</div>
-                                        </div>
-                                    </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
 
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="5">
-                                    <div class="board_row">
-                                        <div class="board_item_2">
-                                            <input type="checkbox" name="checkOne" id="checkOne_1" value="Y">
-                                            <label for="checkOne_1"><span></span></label>
-                                        </div>
+                        <!-- list : e -->
 
-                                        <div class="board_inner_row">
-                                            <div class="board_item_4 only_pc">15899</div>
-                                            <div class="board_item_1"><a href="community_detail.html"><span
-                                                        class="gray_deep"></span><span class="gray_deep">[노하우]</span> 이런
-                                                    임대/임차인, 조심하세요!!</a> <span class="txt_point">[8]</span></div>
-                                            <div class="board_item_3 gray_basic">2023.05.18 22:00 <span
-                                                    class="gray_basic"> · 조회 100</span></div>
-                                            <div class="board_item_4 gray_basic only_pc">1000</div>
-                                        </div>
+                        <!-- paging : s -->
+                        <div class="paging only_pc">
+                            <ul class="btn_wrap">
+                                <li class="btn_prev">
+                                    <a class="no_next" href="#1"><img
+                                            src="{{ asset('assets/media/btn_prev.png') }}" alt=""></a>
+                                </li>
+                                <li class="active">1</li>
+                                <li>2</li>
+                                <li>3</li>
+                                <li>4</li>
+                                <li>5</li>
+                                <li class="btn_next">
+                                    <a class="no_next" href="#1"><img
+                                            src="{{ asset('assets/media/btn_next.png') }}" alt=""></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- paging : e -->
+                    @else
+                        <!-- 데이터가 없을 경우 : s -->
+                        <div class="empty_wrap">
+                            <p>작성한 게시글이 없습니다.</p>
+                            <span>커뮤니티에서 글을 작성하고<br>다양한 부동산 관련 정보를 나눠보세요.</span>
+                        </div>
+                        <!-- 데이터가 없을 경우 : e -->
+                    @endif
 
-                                    </div>
 
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
 
-                    <!-- list : e -->
-
-                    <!-- paging : s -->
-                    <div class="paging only_pc">
-                        <ul class="btn_wrap">
-                            <li class="btn_prev">
-                                <a class="no_next" href="#1"><img src="{{ asset('assets/media/btn_prev.png') }}"
-                                        alt=""></a>
-                            </li>
-                            <li class="active">1</li>
-                            <li>2</li>
-                            <li>3</li>
-                            <li>4</li>
-                            <li>5</li>
-                            <li class="btn_next">
-                                <a class="no_next" href="#1"><img src="{{ asset('assets/media/btn_next.png') }}"
-                                        alt=""></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- paging : e -->
 
                 </div>
                 <!-- my_body : e -->
