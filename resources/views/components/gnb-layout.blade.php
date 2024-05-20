@@ -20,7 +20,7 @@
             <ul class="util_menu">
                 <li><a href="{{ route('www.login.login') }}">로그인</a></li>
                 <li><a href="{{ route('www.register.register') }}">회원가입</a></li>
-                <li><a href="realtor_join_reg.html">중개사 가입</a></li>
+                <li><a href="{{ route('www.register.corp.register')}}">중개사 가입</a></li>
             </ul>
         @else
             <div class="util_area">

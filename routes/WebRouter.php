@@ -54,6 +54,11 @@ Route::controller(UserAuthPcController::class)->group(function () {
     Route::post('/register/create', 'register')->name('www.register.create');
     Route::post('/register/nickname/{nickname}', 'nicknameCheck')->name('www.register.nickname');
 
+    // 중개사 회원가입
+    Route::get('/register/corp/register', 'corpJoinView')->name('www.register.corp.register');
+    Route::get('/register/corp/register2', 'corpJoinView2')->name('www.register.corp.register2');
+
+
     //소셜 로그인
     Route::get('/kakao', 'kakaoLogin')->name('www.login.kakao');
     Route::get('/kakao/oauth', 'kakaoCallback');

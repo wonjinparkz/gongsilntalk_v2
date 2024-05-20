@@ -40,6 +40,17 @@ class UserAuthPcController extends Controller
 
         return view('www.register.register_reg', compact('termsList'));
     }
+    public function corpJoinView(): View
+    {
+
+        return view('www.register.corp_register');
+    }
+    public function corpJoinView2(): View
+    {
+        $termsList = Terms::select()->where('type', '0')->get();
+
+        return view('www.register.corp_register2', compact('termsList'));
+    }
 
     /**
      * PC 로그인
