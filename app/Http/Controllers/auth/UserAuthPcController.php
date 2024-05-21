@@ -45,11 +45,34 @@ class UserAuthPcController extends Controller
 
         return view('www.register.corp_register');
     }
-    public function corpJoinView2(): View
-    {
-        $termsList = Terms::select()->where('type', '0')->get();
 
-        return view('www.register.corp_register2', compact('termsList'));
+    public function corpJoinCheck(Request $request): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'brokerage_number' => 'required',
+            'opening_date' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(route('www.register.corp.register.view'))
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $request->session()->put('companyInfo', $request->all());
+
+        // 다음 스텝으로 리다이렉트
+        return redirect()->route('www.register.corp.register2.view');
+    }
+
+    public function corpJoinView2(Request $request): View
+    {
+
+        $termsList = Terms::select()->where('type', '1')->get();
+
+        $companyInfo = $request->session()->get('companyInfo');
+
+        return view('www.register.corp_register2', compact('termsList', 'companyInfo'));
     }
 
     /**
@@ -97,7 +120,7 @@ class UserAuthPcController extends Controller
         Log::info($request);
 
         if ($validator->fails()) {
-            return redirect(route('www.register.register'))
+            return redirect(route('www.register.register.view'))
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -105,7 +128,7 @@ class UserAuthPcController extends Controller
         // 전화 번호 중복 체크
         $users = User::select('phone')->whereNull('leaved_at')->get();
         if ($users->contains('phone', $request->phone)) {
-            return redirect(route('www.register.register'))
+            return redirect(route('www.register.register.view'))
                 ->withErrors('이미 가입된 핸드폰 번호 입니다.')
                 ->withInput();
         }
@@ -113,7 +136,7 @@ class UserAuthPcController extends Controller
         // 닉네임 중복 체크
         $users = User::select('nickname')->get();
         if ($users->contains('nickname', $request->nickname)) {
-            return redirect(route('www.register.register'))
+            return redirect(route('www.register.register.view'))
                 ->withErrors('중복된 닉네임 입니다.')
                 ->withInput();
         }
@@ -138,9 +161,102 @@ class UserAuthPcController extends Controller
 
         $result = User::create($joinReg);
 
-        Auth::guard('web')->login($result);
+        return Redirect::route('www.register.complete')->with('message', '회원가입이 완료되었습니다.');
+    }
 
-        return Redirect::route('www.main.main')->with('message', '로그인 되었습니다.');
+    /**
+     * 회원 가입
+     */
+    public function registerCorp(Request $request): RedirectResponse
+    {
+        // 유효성 검사
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|unique:users|email',
+            'password' => 'required|regex:/^(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8,15}$/',
+            'password_confirmation' => 'required|same:password',
+            'nickname' => 'required|unique:users|regex:/^[\p{L}0-9]{2,8}$/u',
+            'gender' => 'required',
+            'verification' => 'required',
+            'name' => 'required_if:verification,Y',
+            'phone' => 'required_if:verification,Y',
+            'birth' => 'required_if:verification,Y',
+        ]);
+
+        Log::info($request);
+
+        if ($validator->fails()) {
+            return redirect(route('www.register.corp.register2.view'))
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // 전화 번호 중복 체크
+        $users = User::select('phone')->whereNull('leaved_at')->get();
+        if ($users->contains('phone', $request->phone)) {
+            return redirect(route('www.register.corp.register2.view'))
+                ->withErrors('이미 가입된 핸드폰 번호 입니다.')
+                ->withInput();
+        }
+
+        // 닉네임 중복 체크
+        $users = User::select('nickname')->get();
+        if ($users->contains('nickname', $request->nickname)) {
+            return redirect(route('www.register.corp.register2.view'))
+                ->withErrors('중복된 닉네임 입니다.')
+                ->withInput();
+        }
+
+        // DB 추가
+        $joinReg = [
+            'type' => 1,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'nickname' => $request->nickname,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+            'birth' => $request->birth,
+            'state' => 0,
+            'provider' => 'E',
+            'is_marketing' => 0,
+            'is_alarm' => 0,
+            'unique_key' => $request->unique_key ?? '',
+            'company_name' => $request->company_name,
+            'brokerage_number' => $request->brokerage_number,
+            'company_number' => $request->company_number,
+            'company_phone' => $request->company_phone,
+            'company_address' => $request->company_address,
+            'company_postcode' => $request->company_postcode,
+            'company_address_detail' => $request->company_address_detail,
+            'opening_date' => $request->opening_date,
+            'company_state' => 0
+        ];
+
+
+        $result = User::create($joinReg);
+
+        $this->imageWithCreate($request->company_image_ids, 'company', $result->id);
+        $this->imageWithCreate($request->business_image_ids, 'business', $result->id);
+
+        // 세션 데이터 삭제
+        $request->session()->forget(['companyInfo']);
+
+        return Redirect::route('www.register.complete.corp')->with('message', '회원가입이 완료되었습니다.');
+    }
+
+    /**
+     * 회원가입 성공
+     */
+    public function registerComplete(): View
+    {
+        return view('www.register.register_complete');
+    }
+    /**
+     * 회원가입 성공
+     */
+    public function registerCompleteCorp(): View
+    {
+        return view('www.register.register_complete_corp');
     }
 
     /**

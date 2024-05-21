@@ -1,8 +1,7 @@
 <x-layout>
-
     <div class="body">
         <div class="inner_wrap">
-            <form class="form" method="POST" action="{{ route('www.register.create') }}">
+            <form class="form" method="POST" action="{{ route('www.register.corp.create') }}">
                 @csrf
                 <input type="hidden" name="token" value="{{ Request::get('token') }}" />
                 <input type="hidden" id="verification" name="verification" value='{{ old('verification') ?? 'N' }}'>
@@ -10,9 +9,22 @@
                 <input type="hidden" id="phone" name="phone" value='{{ old('phone') ?? '' }}'>
                 <input type="hidden" id="birth" name="birth" value='{{ old('birth') ?? '' }}'>
                 <input type="hidden" id="unique_key" name="unique_key" value='{{ old('unique_key') ?? '' }}'>
-
+                <input type="hidden" name="company_name" id="company_name" value="{{ $companyInfo['company_name'] }}">
+                <input type="hidden" name="company_ceo" id="company_ceo" value="{{ $companyInfo['company_ceo'] }}">
+                <input type="hidden" name="brokerage_number" value="{{ $companyInfo['brokerage_number'] }}">
+                <input type="hidden" name="company_number" value="{{ $companyInfo['company_number'] }}">
+                <input type="hidden" name="company_phone" value="{{ $companyInfo['company_phone'] }}">
+                <input type="hidden" name="company_address" value="{{ $companyInfo['company_address'] }}">
+                <input type="hidden" name="company_postcode" value="{{ $companyInfo['company_postcode'] }}">
+                <input type="hidden" name="company_address_detail"
+                    value="{{ $companyInfo['company_address_detail'] }}">
+                <input type="hidden" name="opening_date" value="{{ $companyInfo['opening_date'] }}">
+                <input type="hidden" name="company_image_ids"
+                    value="{{ $companyInfo['company_image_ids'][0] ?? '' }}">
+                <input type="hidden" name="business_image_ids"
+                    value="{{ $companyInfo['business_image_ids'][0] ?? '' }}">
                 <div class="col-md-6 box_member">
-                    <h2>회원정보 입력</h2>
+                    <h2>중개사무소 정보 입력</h2>
                     <ul class="login_wrap reg_bascic">
                         <li>
                             <label>이메일</label>
@@ -82,36 +94,45 @@
                                 <a href="javascript:void(0)" onclick="modal_open('terms_2')">[선택] 마케팅 정보 수신에 대한 동의</a>
                             </li>
                         </ul>
-                        <div class="mt40">
-                            <button id="button_disabled" class="btn_full_basic" disabled>가입 완료</button>
-                            <button id="button_active" type="submit" class="btn_point btn_full_basic"
-                                style="display:none">가입 완료</button>
+
+                        <div class="step_btn_wrap">
+                            <button class="btn_full_basic btn_graylight_ghost"
+                                onclick="location.href='javascript:history.go(-1)'">이전</button>
+                            <!-- <button class="btn_full_basic btn_point" disabled>가입 완료</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
+                            <button type="submit" class="btn_full_basic btn_point" id="button_active" disabled>가입
+                                완료</button>
                         </div>
+
                     </div>
+
                 </div>
-                </from>
+            </form>
         </div>
 
     </div>
-</x-layout>
-@foreach ($termsList as $terms)
-    <!-- modal 약관 : s-->
-    <div class="modal modal_mid modal_terms_{{ $terms->kind }}">
-        <div class="modal_title">
-            <h5>{{ $terms->title }}</h5>
-            <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close"
-                onclick="modal_close('terms_{{ $terms->kind }}')">
-        </div>
-        <div class="modal_container">
-            <div class="terms_wrap">
-                {!! $terms->content !!}
+
+    @foreach ($termsList as $terms)
+        <!-- modal 약관 : s-->
+        <div class="modal modal_mid modal_terms_{{ $terms->kind }}">
+            <div class="modal_title">
+                <h5>{{ $terms->title }}</h5>
+                <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close"
+                    onclick="modal_close('terms_{{ $terms->kind }}')">
+            </div>
+            <div class="modal_container">
+                <div class="terms_wrap">
+                    {!! $terms->content !!}
+                </div>
             </div>
         </div>
-    </div>
-    <div class="md_overlay md_overlay_terms_{{ $terms->kind }}" onclick="modal_close('terms_{{ $terms->kind }}')">
-    </div>
-    <!-- modal 약관 : e-->
-@endforeach
+        <div class="md_overlay md_overlay_terms_{{ $terms->kind }}"
+            onclick="modal_close('terms_{{ $terms->kind }}')">
+        </div>
+        <!-- modal 약관 : e-->
+    @endforeach
+
+
+</x-layout>
 
 <script>
     $(document).ready(function() {
@@ -133,11 +154,9 @@
 
         if (email !== '' && password !== '' && password_confirmation !== '' && nickname !== '' && verification == 'Y' &&
             checkOne_1 !== false && checkOne_2 !== false && checkOne_3 !== false && gender !== false) {
-            $('#button_active').css('display', '');
-            $('#button_disabled').css('display', 'none');
+            $('#button_active').attr('disabled', false);
         } else {
-            $('#button_disabled').css('display', '');
-            $('#button_active').css('display', 'none');
+            $('#button_active').attr('disabled', true);
         }
     }
 

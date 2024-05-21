@@ -57,7 +57,7 @@ return new class extends Migration
             $table->longText('refuse_coment')->nullable()->comment('승인거절 사유');
             $table->timestamp('refuse_at')->nullable()->comment('승인 거절일');
             $table->string('brokerage_number')->nullable()->comment('중개등록번호');
-            $table->date('opening_date')->nullable()->comment('개업일');
+            $table->string('opening_date')->nullable()->comment('개업일');
 
             // 관리자 입력 정보
             $table->longText('memo')->nullable()->comment('메모');

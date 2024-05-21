@@ -50,13 +50,17 @@ Route::controller(UserAuthPcController::class)->group(function () {
     // 로그아웃
     Route::middleware('pc.auth')->get('/logout', 'logout')->name('www.logout.logout');
     // 회원가입
-    Route::get('/register/register', 'joinView')->name('www.register.register');
+    Route::get('/register/register', 'joinView')->name('www.register.register.view');
     Route::post('/register/create', 'register')->name('www.register.create');
     Route::post('/register/nickname/{nickname}', 'nicknameCheck')->name('www.register.nickname');
+    Route::get('register/complete', 'registerComplete')->name('www.register.complete');
 
     // 중개사 회원가입
-    Route::get('/register/corp/register', 'corpJoinView')->name('www.register.corp.register');
-    Route::get('/register/corp/register2', 'corpJoinView2')->name('www.register.corp.register2');
+    Route::get('/register/corp/register', 'corpJoinView')->name('www.register.corp.register.view');
+    Route::post('/register/join/check', 'corpJoinCheck')->name('www.register.join.check');
+    Route::get('/register/corp/register2', 'corpJoinView2')->name('www.register.corp.register2.view');
+    Route::post('/register/corp/create', 'registerCorp')->name('www.register.corp.create');
+    Route::get('register/complete/corp', 'registerCompleteCorp')->name('www.register.complete.corp');
 
 
     //소셜 로그인

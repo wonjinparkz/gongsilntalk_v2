@@ -41,7 +41,7 @@
 
                     <div class="t_center mt28">
                         <div><a href="{{ route('www.register.register') }}" class="txt_point">일반회원 가입</a><i
-                                class="v_line">|</i> <a href="{{ route('www.register.corp.register') }}"
+                                class="v_line">|</i> <a href="{{ route('www.register.corp.register.view') }}"
                                 class="txt_point">중개사 가입</a></div>
                     </div>
                 </div>
