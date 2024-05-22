@@ -25,12 +25,14 @@
                 {{-- 회원상태 --}}
                 <td>
                     {{-- 상태 뱃지 --}}
-                    @if ($user->state == 1)
+                    @if ($user->state == 0)
                         이용중
-                    @elseif($user->state == 0)
-                        탈퇴
+                    @elseif($user->state == 1)
+                        이용정지
                     @elseif($user->state == 2)
-                        이용 정지
+                        탈퇴
+                    @elseif($user->state == 3)
+                        계약해지
                     @endif
                 </td>
 

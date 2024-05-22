@@ -88,7 +88,7 @@ class KnowledgeCneter_Controller extends Controller
     /**
      * 지식산업센터 등록 화면 조회
      */
-    public function createView(): View
+    public function knowledgeCenterCreateView(): View
     {
         return view('admin.knowledgeCenter.knowledgeCenter-create');
     }

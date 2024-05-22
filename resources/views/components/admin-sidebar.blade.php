@@ -108,7 +108,7 @@
                         @if (in_array('3', $permissions))
                             {{-- 일반 회원 매물 관리 메뉴 --}}
                             <div class="menu-item">
-                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'product') && request()->query('user_type') == 0 ? 'active' : '' }}"
+                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'admin.product') && request()->query('user_type') == 0 ? 'active' : '' }}"
                                     href="{{ route('admin.product.list.view', ['user_type' => '0']) }}">
                                     <span class="menu-icon">
                                         <i class="fa-solid fa-house"></i>
@@ -120,7 +120,8 @@
                         @if (in_array('4', $permissions))
                             {{-- 중개사 매물 관리 메뉴 --}}
                             <div class="menu-item">
-                                <a class="menu-link" href="#">
+                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'admin.product') && request()->query('user_type') == 1 ? 'active' : '' }}"
+                                    href="{{ route('admin.product.list.view', ['user_type' => '1']) }}">
                                     <span class="menu-icon">
                                         <i class="fa-solid fa-building-user"></i>
                                     </span>
@@ -131,7 +132,8 @@
                         @if (in_array('5', $permissions))
                             {{-- 분양현장 매물 관리 메뉴 --}}
                             <div class="menu-item">
-                                <a class="menu-link" href="#">
+                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'site.product') ? 'active' : '' }}"
+                                    href="{{ route('admin.site.product.list.view') }}">
                                     <span class="menu-icon">
                                         <i class="fa-solid fa-building-flag"></i>
                                     </span>

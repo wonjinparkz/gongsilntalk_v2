@@ -23,6 +23,8 @@ class SiteProduct extends BaseModel
         'regoin_type',
         'address_lat',
         'address_lng',
+        'region_code',
+        'region_address',
         'address',
         'product_name',
         'title',

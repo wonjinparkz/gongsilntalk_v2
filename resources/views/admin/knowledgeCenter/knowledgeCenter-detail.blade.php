@@ -97,7 +97,7 @@
                             <div class="input-group mb-5">
                                 <input type="text" name="sale_min_price" class="form-control" placeholder="최저가"
                                     value="{{ old('sale_min_price') ? old('sale_min_price') : $result->sale_min_price }}" />
-                                <span class="input-group-text" id="basic-addon2">만원<span>
+                                <span class="input-group-text" id="basic-addon2">만원</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('sale_min_price')" />
                         </div>
@@ -105,7 +105,7 @@
                             <div class="input-group mb-5">
                                 <input type="text" name="sale_mid_price" class="form-control" placeholder="평균가"
                                     value="{{ old('sale_mid_price') ? old('sale_mid_price') : $result->sale_mid_price }}" />
-                                <span class="input-group-text" id="basic-addon2">만원<span>
+                                <span class="input-group-text" id="basic-addon2">만원</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('sale_mid_price')" />
                         </div>
@@ -113,7 +113,7 @@
                             <div class="input-group mb-5">
                                 <input type="text" name="sale_max_price" class="form-control" placeholder="최고가"
                                     value="{{ old('sale_max_price') ? old('sale_max_price') : $result->sale_max_price }}" />
-                                <span class="input-group-text" id="basic-addon2">만원<span>
+                                <span class="input-group-text" id="basic-addon2">만원</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('sale_max_price')" />
                         </div>
@@ -126,7 +126,7 @@
                             <div class="input-group mb-5">
                                 <input type="text" name="lease_min_price" class="form-control" placeholder="최저가"
                                     value="{{ old('lease_min_price') ? old('lease_min_price') : $result->lease_min_price }}" />
-                                <span class="input-group-text" id="basic-addon2">만원<span>
+                                <span class="input-group-text" id="basic-addon2">만원</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('lease_min_price')" />
                         </div>
@@ -134,7 +134,7 @@
                             <div class="input-group mb-5">
                                 <input type="text" name="lease_mid_price" class="form-control" placeholder="평균가"
                                     value="{{ old('lease_mid_price') ? old('lease_mid_price') : $result->lease_mid_price }}" />
-                                <span class="input-group-text" id="basic-addon2">만원<span>
+                                <span class="input-group-text" id="basic-addon2">만원</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('lease_mid_price')" />
                         </div>
@@ -142,7 +142,7 @@
                             <div class="input-group mb-5">
                                 <input type="text" name="lease_max_price" class="form-control" placeholder="최고가"
                                     value="{{ old('lease_max_price') ? old('lease_max_price') : $result->lease_max_price }}" />
-                                <span class="input-group-text" id="basic-addon2">만원<span>
+                                <span class="input-group-text" id="basic-addon2">만원</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('lease_max_price')" />
                         </div>
@@ -180,7 +180,7 @@
                                 <input type="number" name="area" id="area" class="form-control"
                                     placeholder="변환 버튼을 눌러주세요."
                                     value="{{ old('area') ? old('area') : $result->area }}" />
-                                <span class="input-group-text" id="basic-addon2">평<span>
+                                <span class="input-group-text" id="basic-addon2">평</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('area')" />
                         </div>
@@ -199,7 +199,7 @@
                                 <input type="text" name="square" id="square" class="form-control"
                                     onkeyup="imsi(this)" placeholder="변환 버튼을 눌러주세요."
                                     value="{{ old('square') ? old('square') : $result->square }}" />
-                                <span class="input-group-text" id="basic-addon2">㎡<span>
+                                <span class="input-group-text" id="basic-addon2">㎡</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('square')" />
                         </div>
@@ -213,7 +213,7 @@
                                 <input type="number" name="building_area" id="building_area" class="form-control"
                                     placeholder="변환 버튼을 눌러주세요."
                                     value="{{ old('building_area') ? old('building_area') : $result->building_area }}" />
-                                <span class="input-group-text" id="basic-addon2">평<span>
+                                <span class="input-group-text" id="basic-addon2">평</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('building_area')" />
                         </div>
@@ -232,7 +232,7 @@
                                 <input type="text" name="building_square" id="building_square"
                                     onkeyup="imsi(this)" class="form-control" placeholder="변환 버튼을 눌러주세요."
                                     value="{{ old('building_square') ? old('building_square') : $result->building_square }}" />
-                                <span class="input-group-text" id="basic-addon2">㎡<span>
+                                <span class="input-group-text" id="basic-addon2">㎡</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('building_square')" />
                         </div>
@@ -245,7 +245,7 @@
                                 <input type="number" name="total_floor_area" id="total_floor_area"
                                     class="form-control" placeholder="변환 버튼을 눌러주세요."
                                     value="{{ old('total_floor_area') ? old('total_floor_area') : $result->total_floor_area }}" />
-                                <span class="input-group-text" id="basic-addon2">평<span>
+                                <span class="input-group-text" id="basic-addon2">평</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('total_floor_area')" />
                         </div>
@@ -264,7 +264,7 @@
                                 <input type="text" name="total_floor_square" id="total_floor_square"
                                     onkeyup="imsi(this)" class="form-control" placeholder="변환 버튼을 눌러주세요."
                                     value="{{ old('total_floor_square') ? old('total_floor_square') : $result->total_floor_square }}" />
-                                <span class="input-group-text" id="basic-addon2">㎡<span>
+                                <span class="input-group-text" id="basic-addon2">㎡</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('total_floor_square')" />
                         </div>
@@ -277,7 +277,7 @@
                             <div class="input-group mb-5">
                                 <input type="text" name="min_floor" class="form-control" placeholder="최저층"
                                     value="{{ old('min_floor') ? old('min_floor') : $result->min_floor }}" />
-                                <span class="input-group-text" id="basic-addon2">층<span>
+                                <span class="input-group-text" id="basic-addon2">층</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('min_floor')" />
                         </div>
@@ -285,7 +285,7 @@
                             <div class="input-group mb-5">
                                 <input type="text" name="max_floor" class="form-control" placeholder="최고층"
                                     value="{{ old('max_floor') ? old('max_floor') : $result->max_floor }}" />
-                                <span class="input-group-text" id="basic-addon2">층<span>
+                                <span class="input-group-text" id="basic-addon2">층</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('max_floor')" />
                         </div>
@@ -299,7 +299,7 @@
                                 <input type="number" name="parking_count" class="form-control"
                                     placeholder="예) 1234"
                                     value="{{ old('parking_count') ? old('parking_count') : $result->parking_count }}" />
-                                <span class="input-group-text" id="basic-addon2">대<span>
+                                <span class="input-group-text" id="basic-addon2">대</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('parking_count')" />
                         </div>
@@ -313,7 +313,7 @@
                                 <input type="number" name="generation_count" class="form-control"
                                     placeholder="예) 1234"
                                     value="{{ old('generation_count') ? old('generation_count') : $result->generation_count }}" />
-                                <span class="input-group-text" id="basic-addon2">실<span>
+                                <span class="input-group-text" id="basic-addon2">실</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('generation_count')" />
                         </div>

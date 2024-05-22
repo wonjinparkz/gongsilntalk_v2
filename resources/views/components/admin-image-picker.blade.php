@@ -1,10 +1,20 @@
-@props(['title' => '이미지', 'required' => '', 'cnt' => '5', 'id' => 'image', 'images' => []])
+@props([
+    'title' => '이미지',
+    'required' => '',
+    'cnt' => '5',
+    'id' => 'image',
+    'label_col' => '4',
+    'div_col' => '8',
+    'images' => [],
+])
 
 <div class="row mb-6">
-    <label class="col-lg-4 col-form-label fw-semibold fs-6 {{ $required }}">{{ $title }}</label>
-    <div class="col-lg-8">
+    <label
+        class="col-lg-{{ $label_col }} col-form-label fw-semibold fs-6 {{ $required }}">{{ $title }}</label>
+    <div class="col-lg-{{ $div_col }}">
         <p class="fw-light">최대 {{ $cnt }}장 업로드 가능
-            <span style="color: #F16341" id="image_count">{{ count($images) }}</span>/{{ $cnt }}
+            <span style="color: #F16341"
+                id="{{ $id }}_image_count">{{ count($images) }}</span>/{{ $cnt }}
         </p>
         <div class="dropzone " id="{{ $id }}_drop">
             <div class="dz-message needsclick">
@@ -22,8 +32,8 @@
 {{-- 업로드 이미지 미리보기 --}}
 
 <div class="row">
-    <label class="col-lg-4 col-form-label fw-semibold fs-6"></label>
-    <div class="col-lg-8 mb-10 overflow-auto" id="{{ $id }}_preview">
+    <label class="col-lg-{{ $label_col }} col-form-label fw-semibold fs-6"></label>
+    <div class="col-lg-{{ $div_col }} mb-10 overflow-auto" id="{{ $id }}_preview">
         @php
             $oldIds = old($id . '_image_ids');
             $oldPaths = old($id . '_image_paths');
@@ -76,11 +86,12 @@
             done();
         },
         success: function(file, responseText) {
-            if (document.querySelectorAll('input[name="{{ $id }}_image_paths[]"]').length >=
-                {{ $cnt }}) {
+            var image_count = document.querySelectorAll('input[name="{{ $id }}_image_paths[]"]')
+                .length;
+            if (image_count >= {{ $cnt }}) {
                 alert('최대 ' + {{ $cnt }} + '장 업로드 가능합니다.', '확인');
                 {{ $id }}imageDropzone.removeFile(file);
-                reutnr;
+                return;
             }
 
             var imagePath = '{{ Storage::url('image/') }}' + responseText.result.path;
@@ -101,6 +112,7 @@
 
             $("#{{ $id }}_preview").append(image);
             {{ $id }}imageDropzone.removeFile(file);
+            $("#{{ $id }}_image_count").html(image_count + 1);
             refreshFsLightbox();
         }
     });
@@ -110,5 +122,8 @@
     // 이미지 제거
     function removeImage(elem) {
         $(elem).parent().remove();
+        var image_count = document.querySelectorAll('input[name="{{ $id }}_image_paths[]"]')
+            .length;
+        $("#{{ $id }}_image_count").html(image_count);
     }
 </script>

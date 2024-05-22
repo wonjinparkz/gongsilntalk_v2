@@ -21,6 +21,7 @@ use App\Http\Controllers\product\ProductController;
 use App\Http\Controllers\proposal\ProposalController;
 use App\Http\Controllers\report\ReportController;
 use App\Http\Controllers\service\ServiceController;
+use App\Http\Controllers\SiteProduct\SiteProductController;
 use App\Http\Controllers\terms\TermsController;
 use App\Http\Controllers\user\UserController;
 use App\Models\Product;
@@ -105,12 +106,31 @@ Route::middleware('admin.auth')->controller(BuildingledgerController::class)->gr
 });
 
 /**
+ * 중개사 매물 관리
+ */
+
+/**
+ * 분양현장 매물 관리
+ */
+Route::middleware('admin.auth')->controller(SiteProductController::class)->group(function () {
+    Route::get('/site/product/list/view', 'siteProductListView')->name('admin.site.product.list.view');
+    Route::get('/site/product/create', 'siteProductCreateView')->name('admin.site.product.create.view');
+
+    Route::post('/site/product/create', 'siteProductCreate')->name('admin.site.product.create');
+
+    Route::get('/site/product/detail/view/{id}', 'siteProductDetailView')->name('admin.site.product.detail.view');
+    Route::get('/site/product/export', 'exportProduct')->name('admin.site.product.export');
+    Route::post('/site/product/state/update', 'siteProductStateUpdate')->name('admin.site.product.state.update');
+    Route::post('/stie/product/update', 'siteProductUpdate')->name('admin.site.product.update');
+});
+
+/**
  * 지식산업센터 관리
  */
 Route::middleware('admin.auth')->controller(KnowledgeCneter_Controller::class)->group(function () {
     Route::get('/knowledgeCenter/list/view', 'knowledgeCenterListView')->name('admin.knowledgeCenter.list.view');
     Route::get('/knowledgeCenter/detail/view/{id}', 'knowledgeCenterdetailView')->name('admin.knowledgeCenter.detail.view');
-    Route::get('/knowledgeCenter/create', 'createView')->name('admin.knowledgeCenter.create.view');
+    Route::get('/knowledgeCenter/create', 'knowledgeCenterCreateView')->name('admin.knowledgeCenter.create.view');
 
     Route::post('/knowledgeCenter/state/update/', 'knowledgeCenterStateUpdate')->name('admin.knowledgeCenter.state.update');
     Route::post('/knowledgeCenter/delete/', 'knowledgeCenterdelete')->name('admin.knowledgeCenter.delete');
