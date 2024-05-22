@@ -73,16 +73,27 @@ class UserPcController extends Controller
     }
 
     /**
-     * 관심매물/최근 본 매물
+     * 관심매물
      */
-    public function productInterestListView(): View
+    public function productInterestListView(Request $request): View
     {
         // 회원 정보
         $user = User::select()
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
-        return view('www.mypage.productInterest_list', compact('user'));
+        // 좋아요한 일반 매물
+        $productList = Product::with('images', 'priceInfo')->select(
+            'product.*'
+        );
+        $productList->like('product', Auth::guard('web')->user()->id ?? "");
+        $productList->where('like.id', '!=', null);
+
+        // 정렬
+        $productList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc');
+        $result = $productList->paginate($request->per_page == null ? 12 : $request->per_page);
+
+        return view('www.mypage.productInterest_list', compact('user', 'result'));
     }
 
     /**

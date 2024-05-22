@@ -83,28 +83,28 @@ class Product extends BaseModel
     }
 
     /**
-     * 사용자 정보
+     * 매물 가격 정보
      */
     public function priceInfo()
     {
         return $this->hasOne(ProductPrice::class, 'product_id', 'id');
     }
     /**
-     * 사용자 정보
+     * 매물 추가 정보
      */
     public function productAddInfo()
     {
         return $this->hasOne(productAddInfo::class, 'product_id', 'id');
     }
     /**
-     * 사용자 정보
+     * 매물 옵션 정보
      */
     public function productOptions()
     {
         return $this->hasMany(productOptions::class, 'product_id', 'id');
     }
     /**
-     * 사용자 정보
+     * 매물 관리비 항목
      */
     public function productServices()
     {
