@@ -23,7 +23,7 @@
                 {{-- 검색 영역 --}}
                 <div class="card card-flush shadow-sm">
                     <form class="form card-body row border-top p-9 align-items-center" method="GET"
-                        action="{{ route('admin.user.list.view') }}">
+                        action="{{ route('admin.corp.list.view') }}">
                         @csrf
 
                         {{-- 이름으로 검색 --}}

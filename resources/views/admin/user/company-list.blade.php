@@ -23,7 +23,7 @@
                 {{-- 검색 영역 --}}
                 <div class="card card-flush shadow-sm">
                     <form class="form card-body row border-top p-9 align-items-center" method="GET"
-                        action="{{ route('admin.user.list.view') }}">
+                        action="{{ route('admin.company.list.view') }}">
                         @csrf
 
                         {{-- 이름으로 검색 --}}
@@ -150,7 +150,7 @@
                                                         <img src="{{ Storage::url('image/' . $user->image_path) }}" />
                                                     </div>
                                                 @endif
-                                                <a href="{{ route('admin.user.detail.view', [$user->id]) }}"
+                                                <a href="{{ route('admin.company.detail.view', [$user->id]) }}"
                                                     class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $user->email }}</a>
                                             </div>
                                         </td>
