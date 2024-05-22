@@ -14,6 +14,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\UserExport;
 use App\Exports\CorpExport;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+
 /*
 |--------------------------------------------------------------------------
 | 관리자 > 사용자 관리
@@ -188,7 +190,40 @@ class UserController extends Controller
         return back()->with('message', '사용자 상태를 수정했습니다.');
     }
 
-/**
+    /**
+     * 중개사 승인 반려
+     */
+    public function companyStateUpdate(Request $request): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'state' => 'required',
+            'refuse_reason' => 'required_if:state,2',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(route('admin.advertiser.detail.view', [$request->id]))
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $result = User::select()
+            ->where('id', $request->id)
+            ->first();
+
+        $result->update([
+            'company_state' => $request->state,
+            'refuse_at' => Carbon::now(),
+            'refuse_coment' => $request->refuse_coment
+        ]);
+
+        $result->refresh();
+
+        $text = $request->state == 1 ? '승인' : '반려';
+
+        return redirect(route('admin.company.detail.view', [$request->id]))->with('message', '중개사 회원울 ' . $text . '했습니다.');
+    }
+
+    /**
      * 사용자 정보 다운로드
      */
     public function exportUser(Request $request)
@@ -196,7 +231,7 @@ class UserController extends Controller
         return Excel::download(new UserExport($request), '사용자_' . Carbon::now() . '.xlsx');
     }
 
-/**
+    /**
      * 중개사 정보 다운로드
      */
     public function exportCorp(Request $request)
@@ -204,7 +239,7 @@ class UserController extends Controller
         return Excel::download(new CorpExport($request), '중개사_' . Carbon::now() . '.xlsx');
     }
 
-/**
+    /**
      * 중개사 정보 다운로드
      */
     public function exportCompany(Request $request)

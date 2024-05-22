@@ -3,6 +3,18 @@
         <x-screen-card :title="'회원 상세'">
             {{-- FORM START  --}}
             {{-- <form class="form" method="POST" action="{{ route('admin.notice.update') }}"> --}}
+            <form action="{{ route('admin.company.update.state') }}" id="approve" method="POST">
+                @csrf
+                {{-- FORM START  --}}
+                <input type="hidden" name="lasturl" value="{{ URL::previous() }}">
+                {{-- 아이디 --}}
+                <input type="hidden" name="id" value="{{ $result->id ?? null }}" />
+                {{-- 승인 상태 --}}
+                <input type="hidden" id="state" name="state" value="0" />
+                {{-- 거절사유  --}}
+                <input type="hidden" id="refuse_coment" name="refuse_coment" value="" />
+            </form>
+
             <form class="form" method="POST" action="#">
                 @csrf
                 <input type="hidden" name="lasturl" value="{{ URL::previous() }}">
@@ -112,7 +124,8 @@
                             <label class="row-lg-4 col-form-label fw-semibold fs-6">개업일</label>
                             <div class="row-lg-8 fv-row">
                                 @inject('carbon', 'Carbon\Carbon')
-                                <input type="text" disabled class="form-control form-control-solid" placeholder="개업일"
+                                <input type="text" disabled class="form-control form-control-solid"
+                                    placeholder="개업일"
                                     value="{{ $carbon::parse($result->opening_date)->format('Y.m.d') }}" />
                             </div>
                         </div>
@@ -122,7 +135,8 @@
                         <div class="col-lg-12 mb-6">
                             <label class="row-lg-4 col-form-label fw-semibold fs-6">가입일</label>
                             <div class="row-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid" placeholder="가입일"
+                                <input type="text" disabled class="form-control form-control-solid"
+                                    placeholder="가입일"
                                     value="{{ $carbon::parse($result->created_at)->format('Y.m.d') }}" />
                             </div>
                         </div>
@@ -204,7 +218,7 @@
                 }
             }).then(function(result) {
                 if (result.isConfirmed) {
-                    $('#state').val('2');
+                    $('#state').val('1');
                     $('#approve').submit();
                 }
             });
@@ -227,8 +241,8 @@
                 }
             }).then(function(result) {
                 if (result.isConfirmed) {
-                    $('#refuseReason').val(result.value);
-                    $('#state').val('3');
+                    $('#refuse_coment').val(result.value);
+                    $('#state').val('2');
                     $('#approve').submit();
 
                 }
