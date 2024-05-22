@@ -8,159 +8,156 @@
                 {{-- FORM START  --}}
                 <input type="hidden" name="lasturl" value="{{ URL::previous() }}">
                 {{-- 아이디 --}}
-                <input type="hidden" name="id" value="{{ $result->id ?? null }}" />
+                <input type="hidden" name="id" value="{{ $result->id }}" />
                 {{-- 승인 상태 --}}
                 <input type="hidden" id="state" name="state" value="0" />
                 {{-- 거절사유  --}}
                 <input type="hidden" id="refuse_coment" name="refuse_coment" value="" />
             </form>
 
-            <form class="form" method="POST" action="#">
-                @csrf
-                <input type="hidden" name="lasturl" value="{{ URL::previous() }}">
-                {{-- 사용자 아이디 --}}
-                <input type="hidden" name="id" value="{{ $result->id }}" />
-                {{-- 내용 START --}}
-                <div class="card-body border-top p-9">
-                    <div class="row">
+            <input type="hidden" name="lasturl" value="{{ URL::previous() }}">
+            {{-- 사용자 아이디 --}}
+            <input type="hidden" name="id" value="{{ $result->id }}" />
+            {{-- 내용 START --}}
+            <div class="card-body border-top p-9">
+                <div class="row">
 
-                        {{-- ID --}}
-                        <div class="col-lg-12 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">ID</label>
-                            <div class="row-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid" placeholder="아이디"
-                                    value="{{ $result->email }}" />
-                            </div>
+                    {{-- ID --}}
+                    <div class="col-lg-12 mb-6">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">ID</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="아이디"
+                                value="{{ $result->email }}" />
                         </div>
+                    </div>
 
-                        {{-- 담당자 이름 --}}
-                        <div class="col-lg-12 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">담당자 이름</label>
-                            <div class="row-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="담당자 이름" value="{{ $result->name }}" />
-                            </div>
+                    {{-- 담당자 이름 --}}
+                    <div class="col-lg-12 mb-6">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">담당자 이름</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="담당자 이름"
+                                value="{{ $result->name }}" />
                         </div>
+                    </div>
 
-                        {{-- 담당자 전화번호 --}}
-                        <div class="col-lg-12 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">담당자 전화번호</label>
-                            <div class="row-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="담당자 전화번호" value="{{ $result->phone }}" />
-                            </div>
+                    {{-- 담당자 전화번호 --}}
+                    <div class="col-lg-12 mb-6">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">담당자 전화번호</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid"
+                                placeholder="담당자 전화번호" value="{{ $result->phone }}" />
                         </div>
+                    </div>
 
-                        {{-- 중개사무소명 --}}
-                        <div class="col-lg-12 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">중개사무소명</label>
-                            <div class="row-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="중개사무소명" value="{{ $result->company_name }}" />
-                            </div>
+                    {{-- 중개사무소명 --}}
+                    <div class="col-lg-12 mb-6">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">중개사무소명</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="중개사무소명"
+                                value="{{ $result->company_name }}" />
                         </div>
+                    </div>
 
-                        {{-- 대표 전화번호 --}}
-                        <div class="col-lg-12 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">대표 전화번호</label>
-                            <div class="row-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="대표 전화번호" value="{{ $result->company_phone }}" />
-                            </div>
+                    {{-- 대표 전화번호 --}}
+                    <div class="col-lg-12 mb-6">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">대표 전화번호</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="대표 전화번호"
+                                value="{{ $result->company_phone }}" />
                         </div>
+                    </div>
 
 
-                        {{-- 중개사무소 주소지 --}}
-                        <div class="col-lg-12 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">중개사무소 주소지</label>
-                            <div class="row-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="중개사무소 주소지"
-                                    value="{{ $result->company_address . $result->company_address_detail }}" />
-                            </div>
+                    {{-- 중개사무소 주소지 --}}
+                    <div class="col-lg-12 mb-6">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">중개사무소 주소지</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid"
+                                placeholder="중개사무소 주소지"
+                                value="{{ $result->company_address . $result->company_address_detail }}" />
                         </div>
+                    </div>
 
-                        {{-- 사업자 등록 번호 --}}
-                        <div class="col-lg-12 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">사업자 등록 번호</label>
-                            <div class="row-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="사업자 등록 번호" value="{{ $result->company_number }}" />
-                            </div>
+                    {{-- 사업자 등록 번호 --}}
+                    <div class="col-lg-12 mb-6">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">사업자 등록 번호</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid"
+                                placeholder="사업자 등록 번호" value="{{ $result->company_number }}" />
                         </div>
+                    </div>
 
-                        {{-- 사업자 등록증 --}}
-                        <div class="col-lg-12 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">사업자 등록증</label>
-                            <div class="row-lg-8 fv-row">
-                                <button type="button">
-                                    다운로드
-                                </button>
-                            </div>
+                    {{-- 사업자 등록증 --}}
+                    <div class="col-lg-12 mb-6">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">사업자 등록증</label>
+                        <div class="row-lg-8 fv-row">
+                            <button type="button">
+                                다운로드
+                            </button>
                         </div>
+                    </div>
 
-                        {{-- 증개 등록 번호 --}}
-                        <div class="col-lg-12 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">증개 등록 번호</label>
-                            <div class="row-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="증개 등록 번호" value="{{ $result->brokerage_number }}" />
-                            </div>
+                    {{-- 증개 등록 번호 --}}
+                    <div class="col-lg-12 mb-6">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">증개 등록 번호</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid"
+                                placeholder="증개 등록 번호" value="{{ $result->brokerage_number }}" />
                         </div>
+                    </div>
 
-                        {{-- 중개 등록증 --}}
-                        <div class="col-lg-12 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">중개 등록증</label>
-                            <div class="row-lg-8 fv-row">
-                                <button type="button">
-                                    다운로드
-                                </button>
-                            </div>
+                    {{-- 중개 등록증 --}}
+                    <div class="col-lg-12 mb-6">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">중개 등록증</label>
+                        <div class="row-lg-8 fv-row">
+                            <button type="button">
+                                다운로드
+                            </button>
                         </div>
+                    </div>
 
 
-                        {{-- 개업일 --}}
-                        <div class="col-lg-12 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">개업일</label>
-                            <div class="row-lg-8 fv-row">
-                                @inject('carbon', 'Carbon\Carbon')
-                                <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="개업일"
-                                    value="{{ $carbon::parse($result->opening_date)->format('Y.m.d') }}" />
-                            </div>
+                    {{-- 개업일 --}}
+                    <div class="col-lg-12 mb-6">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">개업일</label>
+                        <div class="row-lg-8 fv-row">
+                            @inject('carbon', 'Carbon\Carbon')
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="개업일"
+                                value="{{ $carbon::parse($result->opening_date)->format('Y.m.d') }}" />
                         </div>
+                    </div>
 
 
-                        {{-- 가입일 --}}
-                        <div class="col-lg-12 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">가입일</label>
-                            <div class="row-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="가입일"
-                                    value="{{ $carbon::parse($result->created_at)->format('Y.m.d') }}" />
-                            </div>
+                    {{-- 가입일 --}}
+                    <div class="col-lg-12 mb-6">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">가입일</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="가입일"
+                                value="{{ $carbon::parse($result->created_at)->format('Y.m.d') }}" />
                         </div>
+                    </div>
 
-                        {{-- 마케팅 수신 동의 --}}
-                        <div class="col-lg-12 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">마케팅 수신 동의</label>
-                            <div class="row-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="마케팅 수신 동의"
-                                    value="{{ $result->is_marketing ? $carbon::parse($result->marketing_at)->format('Y.m.d') : '-' }}" />
-                            </div>
+                    {{-- 마케팅 수신 동의 --}}
+                    <div class="col-lg-12 mb-6">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">마케팅 수신 동의</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid"
+                                placeholder="마케팅 수신 동의"
+                                value="{{ $result->is_marketing ? $carbon::parse($result->marketing_at)->format('Y.m.d') : '-' }}" />
                         </div>
+                    </div>
 
-                        {{-- 승인 상태 --}}
-                        <div class="col-lg-12 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">승인 상태</label>
-                            <div class="row-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="승인 상태"
-                                    value="{{ Lang::get('commons.company_state.' . $result->company_state) }}" />
-                            </div>
+                    {{-- 승인 상태 --}}
+                    <div class="col-lg-12 mb-6">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">승인 상태</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid"
+                                placeholder="승인 상태"
+                                value="{{ Lang::get('commons.company_state.' . $result->company_state) }}" />
                         </div>
+                    </div>
 
+                    @if ($result->company_state != 1)
                         {{-- 반려 처리 일시 --}}
                         <div class="col-lg-12 mb-6">
                             <label class="row-lg-4 col-form-label fw-semibold fs-6">반려 처리 일시</label>
@@ -179,19 +176,33 @@
                                     placeholder="반려 처리 사유" value="{{ $result->refuse_coment ?? '-' }}" />
                             </div>
                         </div>
+                    @else
+                        {{-- 메모 --}}
+                        <div class="col-lg-12 mb-6">
+                            <form action="{{ route('admin.user.memo.update') }}" id="memoUpdate" method="POST">
+                                <input type="hidden" name="id" value="{{ $result->id }}" />
+                                <label class="required col-lg-12 col-form-label fw-semibold fs-6">메모</label>
+                                <div class="col-lg-6 fv-row">
+                                    <textarea name="memo" class="form-control mb-5" rows="5" placeholder="">{{ $result->memo }}</textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary mb-5">저장</button>
+                            </form>
+                        </div>
+                    @endif
 
-
-                    </div>
 
                 </div>
-                <!--내용 END-->
-                {{-- Footer Bottom START --}}
-                <div class="card-footer d-flex justify-content-end py-6 px-9">
+
+            </div>
+            <!--내용 END-->
+            {{-- Footer Bottom START --}}
+            <div class="card-footer d-flex justify-content-end py-6 px-9">
+                @if ($result->company_state != 1)
                     <a href="javascript:rejectAlert();" class="btn btn-danger me-5">반려</a>
                     <a href="javascript:approveAlert();" class="btn btn-primary me-5">검수 완료</a>
-                </div>
-                {{-- Footer END --}}
-            </form>
+                @endif
+            </div>
+            {{-- Footer END --}}
             {{-- FORM END --}}
 
         </x-screen-card>

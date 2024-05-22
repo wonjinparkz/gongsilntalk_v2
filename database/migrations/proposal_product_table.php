@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->id()->comment('제안 받은 매물 아이디');
             $table->integer('proposal_id')->comment('매물 제안서 아이디');
-            $table->string('product_id')->comment('매물 물건 아이디');
+            $table->integer('product_id')->comment('매물 물건 아이디');
             $table->timestamps();
         });
         DB::statement("ALTER TABLE proposal_product COMMENT='제안 받은 물건'");

@@ -67,6 +67,7 @@ Route::middleware('admin.auth')->controller(UserController::class)->group(functi
     Route::get('/user/list/view', 'userListView')->name('admin.user.list.view');
     Route::get('/user/detail/view/{id}', 'userdetailView')->name('admin.user.detail.view');
     Route::post('/user/state/update', 'userStateUpdate')->name('admin.user.state.update');
+    Route::post('/user/memo/update', 'userMemoUpdate')->name('admin.user.memo.update');
     Route::get('/user/export', 'exportUser')->name('admin.user.export');
 
     // 중개사

@@ -212,7 +212,7 @@ class UserController extends Controller
 
         $result->update([
             'company_state' => $request->state,
-            'refuse_at' => Carbon::now(),
+            'refuse_at' => $request->state == 2 ? Carbon::now() : null,
             'refuse_coment' => $request->refuse_coment
         ]);
 
@@ -220,7 +220,26 @@ class UserController extends Controller
 
         $text = $request->state == 1 ? '승인' : '반려';
 
-        return redirect(route('admin.company.detail.view', [$request->id]))->with('message', '중개사 회원울 ' . $text . '했습니다.');
+        return redirect(route('admin.company.detail.view', [$request->id]))->with('message', '중개사 회원을 ' . $text . '했습니다.');
+    }
+
+    /**
+     * 회원 메모 업데이트
+     */
+    public function userMemoUpdate(Request $request)
+    {
+        $result = User::select()
+            ->where('id', $request->id)
+            ->first();
+
+        $result->update([
+            'memo' => $request->memo
+        ]);
+        if($result->type == 1){
+            return redirect(route('admin.company.detail.view', [$request->id]))->with('message', '메모를 수정했습니다.');
+        }else {
+            return redirect(route('admin.user.detail.view', [$request->id]))->with('message', '메모를 수정했습니다.');
+        }
     }
 
     /**
