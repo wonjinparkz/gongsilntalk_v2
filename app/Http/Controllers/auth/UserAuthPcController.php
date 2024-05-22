@@ -80,6 +80,56 @@ class UserAuthPcController extends Controller
      */
     public function login(PcLoginRequest $request): RedirectResponse
     {
+        $validator = Validator::make($request->all(), [
+            'email' => "required|email",
+            'password' => 'required',
+        ]);
+
+
+        if ($validator->fails()) {
+            return redirect(route('www.login.login'))
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $user = User::where('email', '=', $request->email)->first();
+
+        if (isset($user)) {
+            if (Hash::check($request->password, $user->password)) {
+            } else {
+                return redirect(route('www.login.login'))
+                    ->withErrors('비밀번호가 일치 하지 않습니다.')
+                    ->withInput();
+            }
+        } else {
+            if (!Auth::attempt($request->only('email', 'password'))) {
+                return redirect(route('www.login.login'))
+                    ->withErrors('가입한 회원정보가 없습니다.')
+                    ->withInput();
+            }
+        }
+
+        if ($user->state == 1) {
+            return redirect(route('www.login.login'))
+                ->withErrors('관리자에 의해 사용불가능한 상태입니다.관리자에 문의해주세요.')
+                ->withInput();
+        } else if ($user->state == 2) {
+            return redirect(route('www.login.login'))
+                ->withErrors('탈퇴한 사용자 입니다.')
+                ->withInput();
+        }
+
+        if ($user->type == 1) {
+            if ($user->company_state == 0) {
+                return redirect(route('www.login.login'))
+                    ->withErrors('회원가입 승인요청 상태입니다.관리자에 문의해주세요.')
+                    ->withInput();
+            } else if ($user->company_state == 2) {
+                return redirect(route('www.login.login'))
+                    ->withErrors('관리자에 의해 승인거절 상태입니다.관리자에 문의해주세요.')
+                    ->withInput();
+            }
+        }
 
         $request->authenticate();
         $request->session()->regenerate();
