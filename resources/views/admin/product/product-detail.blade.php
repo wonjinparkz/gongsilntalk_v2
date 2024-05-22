@@ -199,6 +199,8 @@
 
                             <input type="hidden" name="region_code" id="region_code"
                                 value="{{ old('region_code') ? old('region_code') : $result->region_code }}">
+                            <input type="hidden" name="region_address" id="region_address"
+                                value="{{ old('region_address') ? old('region_address') : $result->region_address }}">
                             <input type="hidden" name="address_lat" id="address_lat"
                                 value="{{ old('address_lat') ? old('address_lat') : $result->address_lat }}">
                             <input type="hidden" name="address_lng" id="address_lng"
@@ -931,17 +933,17 @@
                         <div class="col-lg-10 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="interior_type" type="radio" value="0"
-                                    @if ((old('interior_type') ?? $result->productAddInfo->interior_type ?? 0) == 0) checked @endif>
+                                    @if ((old('interior_type') ?? ($result->productAddInfo->interior_type ?? 0)) == 0) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">선택 안함</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="interior_type" type="radio" value="1"
-                                    @if ((old('interior_type') ?? $result->productAddInfo->interior_type ?? 0) == 1) checked @endif>
+                                    @if ((old('interior_type') ?? ($result->productAddInfo->interior_type ?? 0)) == 1) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">있음</span>
                             </label>
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="interior_type" type="radio" value="2"
-                                    @if ((old('interior_type') ?? $result->productAddInfo->interior_type ?? 0) == 2) checked @endif>
+                                    @if ((old('interior_type') ?? ($result->productAddInfo->interior_type ?? 0)) == 2) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">없음</span>
                             </label>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('interior_type')" />
@@ -2010,12 +2012,20 @@
             var sigunguName = $('#region_code_2 option:selected').text();
             var dongName = $('#region_code_3 option:selected').text();
             var riName = $('#region_code_4 option:selected').text();
-
+            var region_code = '';
             var address = sidoName + ' ' + sigunguName + ' ' + dongName + ' ' + (riName == '리' ? '' : riName);
+
+            if (riName == '리') {
+                region_code = $('#region_code_3 option:selected').val();
+            } else {
+                region_code = $('#region_code_3 option:selected').val();
+            }
 
             $('.modal_address_search_close').click();
 
             $('#address').val(address + ' 999-99');
+            $('#region_code').val(region_code)
+            $('#region_address').val(address)
             $('#address_detail').val('');
             $('#address_dong').val('');
             $('#address_number').val('');
@@ -2267,6 +2277,7 @@
             }
 
             $('#region_code').val(rtAdmCd);
+            $('#region_address').val(rtSiNm + ' ' + rtSggNm + ' ' + rtEmdNm + ' ' + rtLiNm);
 
             var wgs84Coords = get_coordinate_conversion(rtentX, rtentY)
 

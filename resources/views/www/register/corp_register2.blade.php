@@ -9,6 +9,7 @@
                 <input type="hidden" id="phone" name="phone" value='{{ old('phone') ?? '' }}'>
                 <input type="hidden" id="birth" name="birth" value='{{ old('birth') ?? '' }}'>
                 <input type="hidden" id="unique_key" name="unique_key" value='{{ old('unique_key') ?? '' }}'>
+                <input type="hidden" id="is_marketing" name="is_marketing" value='{{ old('is_marketing') ?? '' }}'>
                 <input type="hidden" name="company_name" id="company_name" value="{{ $companyInfo['company_name'] }}">
                 <input type="hidden" name="company_ceo" id="company_ceo" value="{{ $companyInfo['company_ceo'] }}">
                 <input type="hidden" name="brokerage_number" value="{{ $companyInfo['brokerage_number'] }}">
@@ -19,9 +20,9 @@
                 <input type="hidden" name="company_address_detail"
                     value="{{ $companyInfo['company_address_detail'] }}">
                 <input type="hidden" name="opening_date" value="{{ $companyInfo['opening_date'] }}">
-                <input type="hidden" name="company_image_ids"
+                <input type="hidden" name="company_image_ids[]"
                     value="{{ $companyInfo['company_image_ids'][0] ?? '' }}">
-                <input type="hidden" name="business_image_ids"
+                <input type="hidden" name="business_image_ids[]"
                     value="{{ $companyInfo['business_image_ids'][0] ?? '' }}">
                 <div class="col-md-6 box_member">
                     <h2>중개사무소 정보 입력</h2>
@@ -141,6 +142,14 @@
         });
     });
 
+    $('#checkOne_4').click(function() {
+        if ($(this).is(":checked")) {
+            $('#is_marketing').val('1');
+        } else {
+            $('#is_marketing').val('0');
+        }
+    });
+
     function button_active() {
         var email = $('#email').val();
         var password = $('#password').val();
@@ -152,8 +161,10 @@
         var checkOne_3 = $('#checkOne_3').is(':checked');
         var gender = $('input[name="gender"]').is(':checked');
 
-        if (email !== '' && password !== '' && password_confirmation !== '' && nickname !== '' && verification == 'Y' &&
-            checkOne_1 !== false && checkOne_2 !== false && checkOne_3 !== false && gender !== false) {
+        if (email !== '' && password !== '' && password_confirmation !== '' && nickname !== '') {
+
+            // if (email !== '' && password !== '' && password_confirmation !== '' && nickname !== '' && verification == 'Y' &&
+            //     checkOne_1 !== false && checkOne_2 !== false && checkOne_3 !== false && gender !== false) {
             $('#button_active').attr('disabled', false);
         } else {
             $('#button_active').attr('disabled', true);

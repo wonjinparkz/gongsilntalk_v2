@@ -99,6 +99,7 @@ class ProductController extends Controller
             'type' => 'required',
             'address' => 'required',
             'region_code' => 'required',
+            'region_address' => 'required',
             'address_lat' => 'required_if:is_map,1',
             'address_lng' => 'required_if:is_map,1',
             'address_detail' =>  [
@@ -180,6 +181,7 @@ class ProductController extends Controller
             'state' => $request->state,
             'is_map' => $request->is_map ?? 0,
             'region_code' => $request->region_code,
+            'region_address' => $request->region_address,
             'address' => $request->address,
             'address_lat' => $request->is_map != 1 ? $request->address_lat : null,
             'address_lng' => $request->is_map != 1 ? $request->address_lng : null,

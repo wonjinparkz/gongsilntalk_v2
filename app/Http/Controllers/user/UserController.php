@@ -121,15 +121,6 @@ class UserController extends Controller
     }
 
     /**
-     * 사용자 상세 화면 보기
-     */
-    public function corpdetailView(Request $request): View
-    {
-        $result = User::with('images')->where('id', $request->id)->first();
-        return view('admin.user.corp-detail', compact('result'));
-    }
-
-    /**
      * 중개사 목록 보기
      */
     public function companyListView(Request $request): View
@@ -171,11 +162,11 @@ class UserController extends Controller
     }
 
     /**
-     * 사용자 상세 화면 보기
+     * 중개사 상세 화면 보기
      */
     public function companydetailView(Request $request): View
     {
-        $result = User::with('images')->where('id', $request->id)->first();
+        $result = User::with('images','companyImages')->where('id', $request->id)->first();
         return view('admin.user.company-detail', compact('result'));
     }
 

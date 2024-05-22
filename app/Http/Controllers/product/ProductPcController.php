@@ -99,6 +99,7 @@ class ProductPcController extends Controller
             'address_lat' => $request->address_lat,
             'address_lng' => $request->address_lng,
             'region_code' => $request->region_code,
+            'region_address' => $request->region_address,
             'address' => $request->address,
             'address_detail' => $request->address_detail,
             'address_dong' => $request->address_dong,

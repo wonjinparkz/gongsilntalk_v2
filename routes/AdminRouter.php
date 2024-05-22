@@ -72,7 +72,6 @@ Route::middleware('admin.auth')->controller(UserController::class)->group(functi
 
     // 중개사
     Route::get('/corp/list/view', 'corpListView')->name('admin.corp.list.view');
-    Route::get('/corp/detail/view/{id}', 'corpdetailView')->name('admin.corp.detail.view');
     Route::get('/corp/export', 'exportCorp')->name('admin.corp.export');
 
     // 중개사 승인
