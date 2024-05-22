@@ -34,8 +34,8 @@
 
                     <div class="wish_wrap">
                         <ul class="tab_type_6 tab_toggle_menu mt28">
-                            <li class="active" onclick="onTabChange(0);">일반매물</li>
-                            <li class="" onclick="onTabChange(1);">분양매물</li>
+                            <li class="active">일반매물</li>
+                            <li class="">분양매물</li>
                         </ul>
 
                         <div class="tab_area_wrap">
@@ -44,43 +44,39 @@
                                 <div class="my_search_wrap mt20">
                                     <div class="sort_wrap">
                                         <div class="dropdown_box">
-                                            <button class="dropdown_label">거래 유형</button>
+                                            <button
+                                                class="dropdown_label">{{ Request::get('payment_type') != '' ? Lang::get('commons.payment_type.' . Request::get('payment_type')) : '거래 유형' }}</button>
                                             <ul class="optionList">
-                                                <li class="optionItem">전체</li>
-                                                <li class="optionItem">매매</li>
-                                                <li class="optionItem">임대</li>
-                                                <li class="optionItem">단기임대</li>
-                                                <li class="optionItem">전세</li>
-                                                <li class="optionItem">월세</li>
-                                                <li class="optionItem">전매</li>
+                                                <li class="optionItem" onclick="onPaymentTypeChange('');">전체</li>
+                                                @foreach (Lang::get('commons.payment_type') as $key => $payment_type)
+                                                    <li class="optionItem"
+                                                        onclick="onPaymentTypeChange('{{ $key }}');">
+                                                        {{ $payment_type }}</li>
+                                                @endforeach
                                             </ul>
                                         </div>
                                         <div class="dropdown_box">
-                                            <button class="dropdown_label">매물 종류</button>
+                                            <button
+                                                class="dropdown_label">{{ Request::get('type') != '' ? Lang::get('commons.product_type.' . Request::get('type')) : '매물 종류' }}</button>
                                             <ul class="optionList">
-                                                <li class="optionItem">전체</li>
-                                                <li class="optionItem">지식산업센터</li>
-                                                <li class="optionItem">사무실</li>
-                                                <li class="optionItem">창고</li>
-                                                <li class="optionItem">상가</li>
-                                                <li class="optionItem">기숙사</li>
-                                                <li class="optionItem">건물</li>
-                                                <li class="optionItem">토지/임야</li>
-                                                <li class="optionItem">단독공장</li>
-                                                <li class="optionItem">아파트</li>
-                                                <li class="optionItem">오피스텔</li>
-                                                <li class="optionItem">단독/다가구</li>
-                                                <li class="optionItem">다세대/빌라/연립</li>
-                                                <li class="optionItem">상가주택</li>
-                                                <li class="optionItem">주택</li>
-                                                <li class="optionItem">지식산업센터 분양권</li>
-                                                <li class="optionItem">상가 분양권</li>
-                                                <li class="optionItem">아파트 분양권</li>
-                                                <li class="optionItem">오피스텔 분양권</li>
+                                                <li class="optionItem" onclick="onProductTypeChange('');">전체</li>
+                                                @foreach (Lang::get('commons.product_type') as $key => $product_type)
+                                                    <li class="optionItem"
+                                                        onclick="onProductTypeChange('{{ $key }}');">
+                                                        {{ $product_type }}</li>
+                                                @endforeach
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
+
+                                <form method="GET" id="filter" name="filter"
+                                    action="{{ route('www.mypage.product.interest.list.view') }}">
+                                    <input type="hidden" id="payment_type" name="payment_type"
+                                        value="{{ Request::get('payment_type') }}">
+                                    <input type="hidden" id="type" name="type"
+                                        value="{{ Request::get('type') }}">
+                                </form>
 
                                 <div class="txt_search_total">총 <span class="txt_point">{{ $result->total() }}개</span>의
                                     관심
@@ -101,11 +97,13 @@
                                     <div class="sales_list_wrap">
                                         @foreach ($result as $product)
                                             <div class="sales_card">
-                                                <span class="sales_list_wish" onclick="btn_wish(this)"></span>
+                                                <span class="sales_list_wish on"
+                                                    onclick="onLikeStateChange('{{ $product->id }}');btn_wish(this);"></span>
                                                 <a href="sales_detail.html">
                                                     <div class="sales_card_img">
-                                                        <div class="img_box"><img
-                                                                src="{{ Storage::url('image/' . $product->images[0]->path) }}">
+                                                        <div class="img_box">
+                                                            <img src="{{ Storage::url('image/' . $product->images[0]->path) }}"
+                                                                style="max-height:186px;">
                                                         </div>
                                                     </div>
                                                     <div class="sales_list_con">
@@ -115,11 +113,11 @@
                                                             {{ in_array($product->priceInfo->payment_type, [1, 2, 4]) ? ' / ' . ($product->priceInfo->month_price > 999 ? mb_substr(Commons::get_priceTrans($product->priceInfo->month_price), 0, -1) : $product->priceInfo->month_price) : '' }}
                                                         </p>
                                                         <p class="txt_item_4">
-                                                            서울특별시 강남구 논현동
-                                                            {{-- {{ $product->region_code }} --}}
+                                                            {{ $product->region_address }}
                                                         </p>
-                                                        <p class="txt_item_2">62.11㎡ /
-                                                            46.2㎡
+                                                        <p class="txt_item_2">
+                                                            {{ isset($product->area) ? $product->area . '㎡ / ' : '' }}
+                                                            {{ $product->exclusive_square }}㎡
                                                             {{ isset($product->floor_number) ? '·' . $product->floor_number . '층' : '' }}
                                                         </p>
                                                         <p class="txt_item_3">
@@ -274,20 +272,31 @@
 </x-layout>
 
 <script>
-    var onTabChange = () => {
+    var onProductTypeChange = (index) => {
+        $('#type').val(index);
+
+        var form = document.filter;
+        form.submit();
+    }
+
+    var onPaymentTypeChange = (index) => {
+        $('#payment_type').val(index);
+
+        var form = document.filter;
+        form.submit();
+    }
+
+    var onLikeStateChange = (id) => {
 
         $.ajax({
-            type: "post", //전송타입
-            url: "{{ route('www.commons.like') }}",
-            data: id,
-            success: function(data, status, xhr) {
-                // $("#result").text(data);
-                console.log('success!!!');
-            },
-            error: function(xhr, status, e) {
-                console.log("error", e);
-                console.log("status", status);
-            }
-        });
+                url: '{{ route('www.commons.like') }}',
+                type: "post",
+                data:{
+                    'target_id' : id,
+                    'target_type' : 'product'
+                }
+            }).fail(function(jqXHR, ajaxOptions, thrownError) {
+                alert('다시 시도해주세요.');
+            });
     }
 </script>
