@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CalculatorRevenue;
 use App\Models\Community;
 use App\Models\Product;
+use App\Models\SiteProduct;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -105,10 +106,16 @@ class UserPcController extends Controller
         $productList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc');
         $result = $productList->paginate($request->per_page == null ? 12 : $request->per_page);
 
-        info($result);
+
+        // 좋아요한 분양 매물
+        $siteProductList = SiteProduct::with('images')->select();
+        $siteProductList->like('site_product', Auth::guard('web')->user()->id ?? "");
+        $siteProductList->where('like.id', '!=', null);
+        $siteProductList->orderBy('site_product.created_at', 'desc')->orderBy('site_product.id', 'desc');
+        $siteResult = $siteProductList->paginate($request->per_page == null ? 12 : $request->per_page);
 
 
-        return view('www.mypage.productInterest_list', compact('user', 'result'));
+        return view('www.mypage.productInterest_list', compact('user', 'result', 'siteResult'));
     }
 
     /**

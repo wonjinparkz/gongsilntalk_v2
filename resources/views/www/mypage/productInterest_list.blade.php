@@ -140,122 +140,42 @@
 
                             <!--  분양매물 : s -->
                             <div>
-                                <div class="txt_search_total">총 <span class="txt_point">0개</span>의 관심 매물</div>
-                                <!-- 데이터가 없을 경우 : s -->
-                                <div class="empty_wrap">
-                                    <p>관심 등록된 매물이 없습니다.</p>
-                                    <span>매물지도에서 마음에 드는 매물을 찾아<br>관심 매물로 등록해보세요.</span>
-                                    <div class="mt8"><button class="btn_point btn_md_bold"
-                                            onclick="location.href='sales_list.html'">매물 찾아보기</button></div>
-                                </div>
-                                <!-- 데이터가 없을 경우 : e -->
-
-                                <div class="sales_list_wrap">
-                                    <div class="sales_card">
-                                        <span class="sales_list_wish" onclick="btn_wish(this)"></span>
-                                        <a href="sales_detail.html">
-                                            <div class="sales_card_img">
-                                                <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}">
-                                                </div>
-                                            </div>
-                                            <div class="sales_list_con">
-                                                <span class="mark_proceeding">분양중</span>
-                                                <p class="txt_item_1">지식산업센터 놀라움 마곡</p>
-                                                <p class="txt_item_2">서울시 강서구 강동동</p>
-                                                <p class="txt_item_3">한 줄 소개로 안내 드립니다. 여기는 아름다운 도시 마곡입니다.</p>
-                                            </div>
-                                        </a>
+                                <div class="txt_search_total">총 <span
+                                        class="txt_point">{{ $siteResult->total() }}개</span>의 관심 매물</div>
+                                @if ($siteResult->total() < 1)
+                                    <!-- 데이터가 없을 경우 : s -->
+                                    <div class="empty_wrap">
+                                        <p>관심 등록된 매물이 없습니다.</p>
+                                        <span>매물지도에서 마음에 드는 매물을 찾아<br>관심 매물로 등록해보세요.</span>
+                                        <div class="mt8"><button class="btn_point btn_md_bold"
+                                                onclick="location.href='sales_list.html'">매물 찾아보기</button></div>
                                     </div>
-
-                                    <div class="sales_card">
-                                        <span class="sales_list_wish" onclick="btn_wish(this)"></span>
-                                        <a href="sales_detail.html">
-                                            <div class="sales_card_img">
-                                                <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}">
+                                    <!-- 데이터가 없을 경우 : e -->
+                                @else
+                                    <div class="sales_list_wrap">
+                                        <div class="sales_card">
+                                            <span class="sales_list_wish" onclick="btn_wish(this)"></span>
+                                            <a href="sales_detail.html">
+                                                <div class="sales_card_img">
+                                                    <div class="img_box"><img
+                                                            src="{{ asset('assets/media/s_1.png') }}">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="sales_list_con">
-                                                <span class="mark_proceeding">분양중</span>
-                                                <p class="txt_item_1">지식산업센터 놀라움 마곡</p>
-                                                <p class="txt_item_2">서울시 강서구 강동동</p>
-                                                <p class="txt_item_3">한 줄 소개로 안내 드립니다. 여기는 아름다운 도시 마곡입니다.</p>
-                                            </div>
-                                        </a>
-                                    </div>
-
-                                    <div class="sales_card">
-                                        <span class="sales_list_wish" onclick="btn_wish(this)"></span>
-                                        <a href="sales_detail.html">
-                                            <div class="sales_card_img">
-                                                <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}">
+                                                <div class="sales_list_con">
+                                                    <span class="mark_proceeding">분양중</span>
+                                                    <p class="txt_item_1">지식산업센터 놀라움 마곡</p>
+                                                    <p class="txt_item_2">서울시 강서구 강동동</p>
+                                                    <p class="txt_item_3">한 줄 소개로 안내 드립니다. 여기는 아름다운 도시 마곡입니다.</p>
                                                 </div>
-                                            </div>
-                                            <div class="sales_list_con">
-                                                <span class="mark_proceeding">분양중</span>
-                                                <p class="txt_item_1">지식산업센터 놀라움 마곡</p>
-                                                <p class="txt_item_2">서울시 강서구 강동동</p>
-                                                <p class="txt_item_3">한 줄 소개로 안내 드립니다. 여기는 아름다운 도시 마곡입니다.</p>
-                                            </div>
-                                        </a>
+                                            </a>
+                                        </div>
                                     </div>
-
-                                    <div class="sales_card">
-                                        <span class="sales_list_wish" onclick="btn_wish(this)"></span>
-                                        <a href="sales_detail.html">
-                                            <div class="sales_card_img">
-                                                <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}">
-                                                </div>
-                                            </div>
-                                            <div class="sales_list_con">
-                                                <span class="mark_proceeding">분양중</span>
-                                                <p class="txt_item_1">지식산업센터 놀라움 마곡</p>
-                                                <p class="txt_item_2">서울시 강서구 강동동</p>
-                                                <p class="txt_item_3">한 줄 소개로 안내 드립니다. 여기는 아름다운 도시 마곡입니다.</p>
-                                            </div>
-                                        </a>
-                                    </div>
-
-                                    <div class="sales_card">
-                                        <span class="sales_list_wish" onclick="btn_wish(this)"></span>
-                                        <a href="sales_detail.html">
-                                            <div class="sales_card_img">
-                                                <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}">
-                                                </div>
-                                            </div>
-                                            <div class="sales_list_con">
-                                                <span class="mark_proceeding">분양중</span>
-                                                <p class="txt_item_1">지식산업센터 놀라움 마곡</p>
-                                                <p class="txt_item_2">서울시 강서구 강동동</p>
-                                                <p class="txt_item_3">한 줄 소개로 안내 드립니다. 여기는 아름다운 도시 마곡입니다.</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <!-- paging : s -->
-                                <div class="paging only_pc">
-                                    <ul class="btn_wrap">
-                                        <li class="btn_prev">
-                                            <a class="no_next" href="#1"><img
-                                                    src="{{ asset('assets/media/btn_prev.png') }}"
-                                                    alt=""></a>
-                                        </li>
-                                        <li class="active">1</li>
-                                        <li>2</li>
-                                        <li>3</li>
-                                        <li>4</li>
-                                        <li>5</li>
-                                        <li class="btn_next">
-                                            <a class="no_next" href="#1"><img
-                                                    src="{{ asset('assets/media/btn_next.png') }}"
-                                                    alt=""></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <!-- paging : e -->
+                                    <!-- paging : s -->
+                                    {{ $siteResult->onEachSide(1)->links('components.pc-my-page-pagination') }}
+                                    <!-- paging : e -->
+                                @endif
                             </div>
                             <!--  분양매물 : e -->
-
                         </div>
                     </div>
 
@@ -289,14 +209,14 @@
     var onLikeStateChange = (id) => {
 
         $.ajax({
-                url: '{{ route('www.commons.like') }}',
-                type: "post",
-                data:{
-                    'target_id' : id,
-                    'target_type' : 'product'
-                }
-            }).fail(function(jqXHR, ajaxOptions, thrownError) {
-                alert('다시 시도해주세요.');
-            });
+            url: '{{ route('www.commons.like') }}',
+            type: "post",
+            data: {
+                'target_id': id,
+                'target_type': 'product'
+            }
+        }).fail(function(jqXHR, ajaxOptions, thrownError) {
+            alert('다시 시도해주세요.');
+        });
     }
 </script>

@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Validator;
 |   * 매거진 - magazine
 |   * 댓글 - reply (스크랩에서는 사용안함)
 |   * 일반 매물 - product
+|   * 분양 매물 - site_product
 | -------------------------------------------------------------------------
 |
 */
