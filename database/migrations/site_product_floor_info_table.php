@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('site_product_floor_info', function (Blueprint $table) {
 
             $table->id()->comment('분양현장 매물 층별 정보 아이디');
-            $table->integer('site_product_dong')->comment('분양현장 매물 동별 아이디');
+            $table->integer('site_product_dong_id')->comment('분양현장 매물 동별 아이디');
             $table->string('floor_name')->comment('층 이름');
             $table->integer('is_neighborhood_life')->comment('근생지원시설 - 0: 선택안함, 1 - 선택함');
             $table->integer('is_industry_center')->comment('지식산업센터 - 0: 선택안함, 1 - 선택함');

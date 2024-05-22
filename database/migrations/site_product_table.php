@@ -40,7 +40,7 @@ return new class extends Migration
             $table->string('expected_move_date')->nullable()->comment('입주예정일 (텍스트 입력)');
             $table->string('developer')->nullable()->comment('시행사');
             $table->string('comstruction_company')->nullable()->comment('시공사');
-            $table->integer('Field27')->nullable()->comment('분양 여부 - 0: 분양예정, 1: 분양중');
+            $table->integer('is_sale')->nullable()->comment('분양 여부 - 0: 분양예정, 1: 분양중');
             $table->integer('is_delete')->nullable()->comment('삭제 여부 - 0: 게시중, 1: 삭제함');
 
             // Indexes

@@ -16,7 +16,9 @@ return new class extends Migration
 
             $table->id()->comment('분양현장 매물 분양 일정 아이디');
             $table->integer('site_product_id')->comment('분양현장 매물 아이디');
-            $table->string('dong_name')->comment("동 이름");
+            $table->string('title')->comment("일정 정보 제목");
+            $table->date('start_date')->comment("일정 시작일");
+            $table->date('ended_date')->comment("일정 종료일");
             $table->timestamps();
         });
         DB::statement("ALTER TABLE site_product_schedule COMMENT='분양현장 매물 분양 일정'");
