@@ -166,7 +166,7 @@ class UserController extends Controller
      */
     public function companydetailView(Request $request): View
     {
-        $result = User::with('images','companyImages')->where('id', $request->id)->first();
+        $result = User::with('images', 'companyImages')->where('id', $request->id)->first();
         return view('admin.user.company-detail', compact('result'));
     }
 
@@ -176,7 +176,10 @@ class UserController extends Controller
     public function userStateUpdate(Request $request): RedirectResponse
     {
         $result = User::where('id', $request->id)
-            ->update(['state' => $request->state == 0 ? 1 : 0]);
+            ->update([
+                'state' => $request->state,
+                'contract_cancell_at' => $request->state == 3 ? Carbon::now() : null,
+            ]);
 
         return back()->with('message', '사용자 상태를 수정했습니다.');
     }
@@ -211,7 +214,7 @@ class UserController extends Controller
 
         $text = $request->state == 1 ? '승인' : '반려';
 
-        return redirect(route('admin.company.detail.view', [$request->id]))->with('message', '중개사 회원을 ' . $text . '했습니다.');
+        return redirect(route('admin.corp.detail.view', [$request->id]))->with('message', '중개사 회원을 ' . $text . '했습니다.');
     }
 
     /**
@@ -226,9 +229,9 @@ class UserController extends Controller
         $result->update([
             'memo' => $request->memo
         ]);
-        if($result->type == 1){
-            return redirect(route('admin.company.detail.view', [$request->id]))->with('message', '메모를 수정했습니다.');
-        }else {
+        if ($result->type == 1) {
+            return redirect(route('admin.corp.detail.view', [$request->id]))->with('message', '메모를 수정했습니다.');
+        } else {
             return redirect(route('admin.user.detail.view', [$request->id]))->with('message', '메모를 수정했습니다.');
         }
     }

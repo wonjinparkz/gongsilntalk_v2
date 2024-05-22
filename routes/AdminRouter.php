@@ -76,7 +76,7 @@ Route::middleware('admin.auth')->controller(UserController::class)->group(functi
 
     // 중개사 승인
     Route::get('/company/list/view', 'companyListView')->name('admin.company.list.view');
-    Route::get('/company/detail/view/{id}', 'companydetailView')->name('admin.company.detail.view');
+    Route::get('/company/detail/view/{id}', 'companydetailView')->name('admin.corp.detail.view');
     Route::post('/company/state/update', 'companyStateUpdate')->name('admin.company.update.state');
     Route::get('/company/export', 'exportCompany')->name('admin.company.export');
 });

@@ -1,5 +1,8 @@
 <x-admin-layout>
-
+    <form action="{{ route('admin.user.state.update') }}" method="POST" id="stateUpdate">
+        <input type="hidden" name="id" id="form_id" value="" />
+        <input type="hidden" name="state" id="form_state" value="" />
+    </form>
     {{-- 기본 - 모양 --}}
     <div class="d-flex flex-column flex-column-fluid">
         {{-- 화면 툴바 - 제목, 버튼 --}}
@@ -7,7 +10,8 @@
             <div class="app-container container-xxl d-flex flex-stack">
                 {{-- 페이지 제목 --}}
                 <div class="d-inline-block position-relative">
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">일반 회원 관리
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">일반 회원
+                        관리
                     </h1>
                     <span
                         class="d-inline-block position-absolute mt-3 h-8px bottom-0 end-0 start-0 bg-success translate rounded" />
@@ -211,22 +215,18 @@
                                                     data-kt-menu="true">
                                                     {{-- 수정 --}}
                                                     <div class="menu-item px-3">
-                                                        <form action="{{ route('admin.user.state.update') }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="id"
-                                                                value="{{ $user->id }}" />
-                                                            <input type="hidden" name="state"
-                                                                value="{{ $user->state }}" />
-                                                            <a href="#" onclick="parentNode.submit();"
+
+                                                        @if ($user->state == 0)
+                                                            <a onclick="stateAlert('1','{{ $user->id }}','1');"
                                                                 class="menu-link px-3">
-                                                                @if ($user->state == 0)
-                                                                    이용정지
-                                                                @elseif ($user->state == 1)
-                                                                    이용중
-                                                                @endif
+                                                                이용정지
                                                             </a>
-                                                        </form>
+                                                        @elseif ($user->state == 1)
+                                                            <a onclick="stateAlert('3','{{ $user->id }}','0');"
+                                                                class="menu-link px-3">
+                                                                이용정지 해제
+                                                            </a>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             @endif
@@ -254,5 +254,47 @@
         var hostUrl = "assets/";
 
         initDaterangepicker();
+
+
+        // 승인 물음
+        function stateAlert(type, id, state) {
+            console.log('확인', type);
+            switch (type) {
+                case "1":
+                    text = "선택하신 회원을 이용정지 하시겠습니까?";
+                    break;
+                case "2":
+                    text = "선택하신 회원과 계약해지 하시겠습니까?";
+                    break;
+                case "3":
+                    text = "선택하신 회원을\n이용정지 해체 하시겠습까?";
+                    break;
+                case "4":
+                    text = "선택하신 회원과 재계약 하시겠습니까?";
+                    break;
+                default:
+                    text = "";
+                    break;
+            }
+
+            Swal.fire({
+                html: text,
+                dangerMode: false,
+                buttonsStyling: false,
+                showCancelButton: true,
+                cancelButtonText: "취소",
+                confirmButtonText: "확인",
+                customClass: {
+                    confirmButton: "btn btn-success",
+                    cancelButton: "btn btn-secondary"
+                }
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    $('#form_id').val(id);
+                    $('#form_state').val(state);
+                    $('#stateUpdate').submit();
+                }
+            });
+        }
     </script>
 </x-admin-layout>

@@ -17,6 +17,7 @@ class User extends BaseModel
         'token',
         'type',
         'state',
+        'contract_cancell_at',
         'name',
         'nickname',
         'phone',

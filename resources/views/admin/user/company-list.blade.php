@@ -155,7 +155,7 @@
                                                         <img src="{{ Storage::url('image/' . $user->image_path) }}" />
                                                     </div>
                                                 @endif
-                                                <a href="{{ route('admin.company.detail.view', [$user->id]) }}"
+                                                <a href="{{ route('admin.corp.detail.view', [$user->id]) }}"
                                                     class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $user->email }}</a>
                                             </div>
                                         </td>

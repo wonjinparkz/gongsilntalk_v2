@@ -1,5 +1,8 @@
 <x-admin-layout>
-
+    <form action="{{ route('admin.user.state.update') }}" method="POST" id="stateUpdate">
+        <input type="hidden" name="id" id="form_id" value="" />
+        <input type="hidden" name="state" id="form_state" value="" />
+    </form>
     {{-- 기본 - 모양 --}}
     <div class="d-flex flex-column flex-column-fluid">
         {{-- 화면 툴바 - 제목, 버튼 --}}
@@ -79,7 +82,9 @@
                                     </option>
                                     <option value="1" @if ($state == 1) selected @endif>이용정지
                                     </option>
-                                    <option value="2" @if ($state == 2) selected @endif>계약해지
+                                    <option value="2" @if ($state == 2) selected @endif>회원탈퇴
+                                    </option>
+                                    <option value="3" @if ($state == 3) selected @endif>계약해지
                                     </option>
                                 </select>
                             </div>
@@ -139,7 +144,11 @@
                                                 <div class="badge badge-light-warning">
                                                     이용정지
                                                 </div>
-                                            @else
+                                            @elseif($user->state == 2)
+                                                <div class="badge badge-light-danger">
+                                                    탈퇴
+                                                </div>
+                                            @elseif($user->state == 3)
                                                 <div class="badge badge-light-danger">
                                                     계약해지
                                                 </div>
@@ -154,7 +163,7 @@
                                                         <img src="{{ Storage::url('image/' . $user->image_path) }}" />
                                                     </div>
                                                 @endif
-                                                <a href="{{ route('admin.company.detail.view', [$user->id]) }}"
+                                                <a href="{{ route('admin.corp.detail.view', [$user->id]) }}"
                                                     class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $user->email }}</a>
                                             </div>
                                         </td>
@@ -198,22 +207,28 @@
                                                     data-kt-menu="true">
                                                     {{-- 수정 --}}
                                                     <div class="menu-item px-3">
-                                                        <form action="{{ route('admin.user.state.update') }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="id"
-                                                                value="{{ $user->id }}" />
-                                                            <input type="hidden" name="state"
-                                                                value="{{ $user->state }}" />
-                                                            <a href="#" onclick="parentNode.submit();"
+                                                        @if ($user->state == 0 && $user->state != 3)
+                                                            <a onclick="stateAlert('1','{{ $user->id }}','1');"
                                                                 class="menu-link px-3">
-                                                                @if ($user->state == 0)
-                                                                    이용정지
-                                                                @elseif ($user->state == 1)
-                                                                    재계약
-                                                                @endif
+                                                                이용정지
                                                             </a>
-                                                        </form>
+                                                        @elseif ($user->state == 1 && $user->state != 3)
+                                                            <a onclick="stateAlert('3','{{ $user->id }}','0');"
+                                                                class="menu-link px-3">
+                                                                이용정지 해제
+                                                            </a>
+                                                        @endif
+                                                        @if ($user->state == 0 || $user->state == 1)
+                                                            <a onclick="stateAlert('2','{{ $user->id }}','3');"
+                                                                class="menu-link px-3">
+                                                                계약해지
+                                                            </a>
+                                                        @elseif($user->state == 3)
+                                                            <a onclick="stateAlert('4','{{ $user->id }}','0');"
+                                                                class="menu-link px-3">
+                                                                재계약
+                                                            </a>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             @endif
@@ -241,5 +256,47 @@
         var hostUrl = "assets/";
 
         initDaterangepicker();
+
+
+        // 승인 물음
+        function stateAlert(type, id, state) {
+            console.log('확인', type);
+            switch (type) {
+                case "1":
+                    text = "선택하신 회원을 이용정지 하시겠습니까?";
+                    break;
+                case "2":
+                    text = "선택하신 회원과 계약해지 하시겠습니까?";
+                    break;
+                case "3":
+                    text = "선택하신 회원을\n이용정지 해체 하시겠습까?";
+                    break;
+                case "4":
+                    text = "선택하신 회원과 재계약 하시겠습니까?";
+                    break;
+                default:
+                    text = "";
+                    break;
+            }
+
+            Swal.fire({
+                html: text,
+                dangerMode: false,
+                buttonsStyling: false,
+                showCancelButton: true,
+                cancelButtonText: "취소",
+                confirmButtonText: "확인",
+                customClass: {
+                    confirmButton: "btn btn-success",
+                    cancelButton: "btn btn-secondary"
+                }
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    $('#form_id').val(id);
+                    $('#form_state').val(state);
+                    $('#stateUpdate').submit();
+                }
+            });
+        }
     </script>
 </x-admin-layout>

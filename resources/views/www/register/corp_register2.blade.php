@@ -52,10 +52,12 @@
                         <li class="flex_between">
                             <label>성별</label>
                             <div class="btn_radioType">
-                                <input type="radio" name="gender" id="gender_0" value="0">
+                                <input type="radio" name="gender" id="gender_0" value="0"
+                                    @if ((old('gender') ?? 0) == 0) checked @endif>
                                 <label for="gender_0">남성</label>
 
-                                <input type="radio" name="gender" id="gender_1" value="1">
+                                <input type="radio" name="gender" id="gender_1" value="1"
+                                @if ((old('gender') ?? 0) == 1) checked @endif>>
                                 <label for="gender_1">여성</label>
                             </div>
                         </li>
@@ -142,14 +144,6 @@
         });
     });
 
-    $('#checkOne_4').click(function() {
-        if ($(this).is(":checked")) {
-            $('#is_marketing').val('1');
-        } else {
-            $('#is_marketing').val('0');
-        }
-    });
-
     function button_active() {
         var email = $('#email').val();
         var password = $('#password').val();
@@ -159,6 +153,13 @@
         var checkOne_1 = $('#checkOne_1').is(':checked');
         var checkOne_2 = $('#checkOne_2').is(':checked');
         var checkOne_3 = $('#checkOne_3').is(':checked');
+        var checkOne_4 = $('#checkOne_4').is(':checked');
+
+        if(checkOne_4){
+            $('#is_marketing').val('1');
+        }else {
+            $('#is_marketing').val('0');
+        }
         var gender = $('input[name="gender"]').is(':checked');
 
         if (email !== '' && password !== '' && password_confirmation !== '' && nickname !== '') {

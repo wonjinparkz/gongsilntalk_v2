@@ -7,6 +7,7 @@ use App\Http\Requests\PcLoginRequest;
 use App\Models\PasswordReset;
 use App\Models\Terms;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -209,7 +210,8 @@ class UserAuthPcController extends Controller
             'birth' => $request->birth,
             'state' => 0,
             'provider' => 'E',
-            'is_marketing' => 0,
+            'is_marketing' => $request->is_marketing,
+            'marketing_at' => $request->is_marketing == 1 ? Carbon::now() : null,,
             'is_alarm' => 0,
             'unique_key' => $request->unique_key ?? '',
         ];
@@ -232,10 +234,10 @@ class UserAuthPcController extends Controller
             'password_confirmation' => 'required|same:password',
             'nickname' => 'required|unique:users|regex:/^[\p{L}0-9]{2,8}$/u',
             'gender' => 'required',
-            // 'verification' => 'required',
-            // 'name' => 'required_if:verification,Y',
-            // 'phone' => 'required_if:verification,Y',
-            // 'birth' => 'required_if:verification,Y',
+            'verification' => 'required',
+            'name' => 'required_if:verification,Y',
+            'phone' => 'required_if:verification,Y',
+            'birth' => 'required_if:verification,Y',
         ]);
 
         Log::info($request);
@@ -246,21 +248,21 @@ class UserAuthPcController extends Controller
                 ->withInput();
         }
 
-        // // 전화 번호 중복 체크
-        // $users = User::select('phone')->whereNull('leaved_at')->get();
-        // if ($users->contains('phone', $request->phone)) {
-        //     return redirect(route('www.register.corp.register2.view'))
-        //         ->withErrors('이미 가입된 핸드폰 번호 입니다.')
-        //         ->withInput();
-        // }
+        // 전화 번호 중복 체크
+        $users = User::select('phone')->whereNull('leaved_at')->get();
+        if ($users->contains('phone', $request->phone)) {
+            return redirect(route('www.register.corp.register2.view'))
+                ->withErrors('이미 가입된 핸드폰 번호 입니다.')
+                ->withInput();
+        }
 
-        // // 닉네임 중복 체크
-        // $users = User::select('nickname')->get();
-        // if ($users->contains('nickname', $request->nickname)) {
-        //     return redirect(route('www.register.corp.register2.view'))
-        //         ->withErrors('중복된 닉네임 입니다.')
-        //         ->withInput();
-        // }
+        // 닉네임 중복 체크
+        $users = User::select('nickname')->get();
+        if ($users->contains('nickname', $request->nickname)) {
+            return redirect(route('www.register.corp.register2.view'))
+                ->withErrors('중복된 닉네임 입니다.')
+                ->withInput();
+        }
 
         // DB 추가
         $joinReg = [
@@ -274,7 +276,8 @@ class UserAuthPcController extends Controller
             'birth' => $request->birth,
             'state' => 0,
             'provider' => 'E',
-            'is_marketing' => 0,
+            'is_marketing' => $request->is_marketing,
+            'marketing_at' => $request->is_marketing == 1 ? Carbon::now() : null,
             'is_alarm' => 0,
             'unique_key' => $request->unique_key ?? '',
             'company_name' => $request->company_name,

@@ -139,6 +139,16 @@
                         </div>
                     </div>
 
+                    {{-- 계약해지일 --}}
+                    <div class="col-lg-12 mb-6">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">계약해지일</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid"
+                                placeholder="계약해지일"
+                                value="{{ $result->state == 3 ? $carbon::parse($result->contract_cancell_at)->format('Y.m.d') : '-' }}" />
+                        </div>
+                    </div>
+
                     {{-- 마케팅 수신 동의 --}}
                     <div class="col-lg-12 mb-6">
                         <label class="row-lg-4 col-form-label fw-semibold fs-6">마케팅 수신 동의</label>

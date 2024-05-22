@@ -6,6 +6,7 @@
                 @csrf
                 <input type="hidden" name="token" value="{{ Request::get('token') }}" />
                 <input type="hidden" id="verification" name="verification" value='{{ old('verification') ?? 'N' }}'>
+                <input type="hidden" id="is_marketing" name="is_marketing" value='{{ old('is_marketing') ?? '' }}'>
                 <input type="hidden" id="name" name="name" value='{{ old('name') ?? '' }}'>
                 <input type="hidden" id="phone" name="phone" value='{{ old('phone') ?? '' }}'>
                 <input type="hidden" id="birth" name="birth" value='{{ old('birth') ?? '' }}'>
@@ -39,10 +40,12 @@
                         <li class="flex_between">
                             <label>성별</label>
                             <div class="btn_radioType">
-                                <input type="radio" name="gender" id="gender_0" value="0">
+                                <input type="radio" name="gender" id="gender_0" value="0"
+                                    @if ((old('gender') ?? 0) == 0) checked @endif>
                                 <label for="gender_0">남성</label>
 
-                                <input type="radio" name="gender" id="gender_1" value="1">
+                                <input type="radio" name="gender" id="gender_1" value="1"
+                                @if ((old('gender') ?? 0) == 1) checked @endif>>
                                 <label for="gender_1">여성</label>
                             </div>
                         </li>
@@ -129,6 +132,13 @@
         var checkOne_1 = $('#checkOne_1').is(':checked');
         var checkOne_2 = $('#checkOne_2').is(':checked');
         var checkOne_3 = $('#checkOne_3').is(':checked');
+        var checkOne_4 = $('#checkOne_4').is(':checked');
+
+        if (checkOne_4) {
+            $('#is_marketing').val('1');
+        } else {
+            $('#is_marketing').val('0');
+        }
         var gender = $('input[name="gender"]').is(':checked');
 
         if (email !== '' && password !== '' && password_confirmation !== '' && nickname !== '' && verification == 'Y' &&

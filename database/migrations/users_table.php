@@ -26,6 +26,7 @@ return new class extends Migration
             // 사용자 정보
             $table->integer('type')->nullable()->comment('회원 타입 - 0 : 일반회원, 1 : 중개사');
             $table->integer("state")->comment("사용자 상태 - 0 : 사용가능, 1: 사용정지, 2: 탈퇴, 3: 계약해지 ");
+            $table->timestamp('contract_cancell_at')->nullable()->comment('계약해지일');
 
             $table->string('name')->nullable()->comment('사용자 이름');
             $table->string('nickname')->nullable()->unique()->comment('사용자 닉네임');
