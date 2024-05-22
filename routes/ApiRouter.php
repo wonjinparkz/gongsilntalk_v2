@@ -170,6 +170,7 @@ Route::post('/ckeditor/upload', [FileUploadController::class, 'uplaodForEditor']
 
 Route::post('/fileupload', [FileUploadController::class, 'fileUpload'])->name('api.fileupload');
 Route::get('/filedownload/{path}', [FileUploadController::class, 'fileDownload'])->name('api.filedownload');
+Route::get('/imagedownload/{path}', [FileUploadController::class, 'imageDownload'])->name('api.imagedownload');
 
 
 /**

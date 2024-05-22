@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('address_lat')->nullable()->comment('위도');
             $table->string('address_lng')->nullable()->comment('경도');
             $table->integer('region_code')->nullable()->comment('주소 법정동 코드');
+            $table->string('region_address')->nullable()->comment('주소 법정동 주소');
             $table->string('address')->nullable()->comment('주소');
             $table->string('address_detail')->nullable()->comment('상세 주소');
             $table->string('address_dong')->nullable()->comment('주소 동 정보');

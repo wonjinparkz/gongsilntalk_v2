@@ -7,7 +7,8 @@
             <div class="app-container container-xxl d-flex flex-stack">
                 {{-- 페이지 제목 --}}
                 <div class="d-inline-block position-relative">
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">승인 요청 중개사
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">승인 요청
+                        중개사
                         관리
                     </h1>
                     <span
@@ -71,8 +72,8 @@
                                 $company_state = Request::get('company_state') ?? -1;
                             @endphp
                             <div class="col-lg-8 fv-row">
-                                <select name="company_state" class="form-select form-select-solid" data-control="select2"
-                                    data-hide-search="true">
+                                <select name="company_state" class="form-select form-select-solid"
+                                    data-control="select2" data-hide-search="true">
                                     <option value="" @if ($company_state < 0) selected @endif>전체
                                     </option>
                                     <option value="0" @if ($company_state == 0) selected @endif>승인요청
@@ -135,7 +136,11 @@
                                                 <div class="badge badge-light-warning">
                                                     이용정지
                                                 </div>
-                                            @else
+                                            @elseif($user->state == 2)
+                                                <div class="badge badge-light-warning">
+                                                    회원탈퇴
+                                                </div>
+                                            @elseif($user->state == 3)
                                                 <div class="badge badge-light-danger">
                                                     계약해지
                                                 </div>

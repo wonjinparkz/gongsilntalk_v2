@@ -65,12 +65,18 @@ class UserAuthPcController extends Controller
         return redirect()->route('www.register.corp.register2.view');
     }
 
-    public function corpJoinView2(Request $request): View
+    public function corpJoinView2(Request $request)
     {
 
         $termsList = Terms::select()->where('type', '1')->get();
 
         $companyInfo = $request->session()->get('companyInfo');
+
+        if (!isset($companyInfo)) {
+            return redirect(route('www.register.corp.register.view'))
+                ->withErrors('중개사 정보가 없습니다. 다시 등록해주세요.')
+                ->withInput();
+        }
 
         return view('www.register.corp_register2', compact('termsList', 'companyInfo'));
     }
@@ -226,10 +232,10 @@ class UserAuthPcController extends Controller
             'password_confirmation' => 'required|same:password',
             'nickname' => 'required|unique:users|regex:/^[\p{L}0-9]{2,8}$/u',
             'gender' => 'required',
-            'verification' => 'required',
-            'name' => 'required_if:verification,Y',
-            'phone' => 'required_if:verification,Y',
-            'birth' => 'required_if:verification,Y',
+            // 'verification' => 'required',
+            // 'name' => 'required_if:verification,Y',
+            // 'phone' => 'required_if:verification,Y',
+            // 'birth' => 'required_if:verification,Y',
         ]);
 
         Log::info($request);
@@ -240,21 +246,21 @@ class UserAuthPcController extends Controller
                 ->withInput();
         }
 
-        // 전화 번호 중복 체크
-        $users = User::select('phone')->whereNull('leaved_at')->get();
-        if ($users->contains('phone', $request->phone)) {
-            return redirect(route('www.register.corp.register2.view'))
-                ->withErrors('이미 가입된 핸드폰 번호 입니다.')
-                ->withInput();
-        }
+        // // 전화 번호 중복 체크
+        // $users = User::select('phone')->whereNull('leaved_at')->get();
+        // if ($users->contains('phone', $request->phone)) {
+        //     return redirect(route('www.register.corp.register2.view'))
+        //         ->withErrors('이미 가입된 핸드폰 번호 입니다.')
+        //         ->withInput();
+        // }
 
-        // 닉네임 중복 체크
-        $users = User::select('nickname')->get();
-        if ($users->contains('nickname', $request->nickname)) {
-            return redirect(route('www.register.corp.register2.view'))
-                ->withErrors('중복된 닉네임 입니다.')
-                ->withInput();
-        }
+        // // 닉네임 중복 체크
+        // $users = User::select('nickname')->get();
+        // if ($users->contains('nickname', $request->nickname)) {
+        //     return redirect(route('www.register.corp.register2.view'))
+        //         ->withErrors('중복된 닉네임 입니다.')
+        //         ->withInput();
+        // }
 
         // DB 추가
         $joinReg = [

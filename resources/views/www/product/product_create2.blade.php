@@ -4,6 +4,7 @@
         <input type="hidden" name="address_lng" id="address_lng" value="">
         <input type="hidden" name="address_lat" id="address_lat" value="">
         <input type="hidden" name="region_code" id="region_code" value="">
+        <input type="hidden" name="region_address" id="region_address" value="">
         <input type="hidden" name="address" id="address" value="">
 
         <div class="body">
@@ -215,6 +216,7 @@
             var address_lng = $('#address_lng').val();
             var address_lat = $('#address_lat').val();
             var region_code = $('#region_code').val();
+            var region_address = $('#region_address').val();
             var address = $('#address').val();
             var address_detail = $('#address_detail').val();
             var address_dong = $('#address_dong').val();
@@ -223,6 +225,7 @@
             sessionStorage.setItem("address_lngSession", address_lng);
             sessionStorage.setItem("address_latSession", address_lat);
             sessionStorage.setItem("region_codeSession", region_code);
+            sessionStorage.setItem("region_addressSession", region_address);
             sessionStorage.setItem("addressSession", address);
 
             sessionStorage.setItem("address_dongSession", address_dong);
@@ -344,11 +347,13 @@
 
             var address = sidoName + ' ' + sigunguName + ' ' + dongName + ' ' + riName;
 
+            $('#region_code').val();
+
             modal_close('address_search')
 
             $('#roadName').html('<span>도로명</span>' + address + ' 999-99');
             $('#address').val(address + ' 999-99');
-
+            $('#region_address').val(address);
             confrim_check();
         }
 
@@ -564,8 +569,7 @@
         }
 
         $('#region_code').val(rtAdmCd);
-
-        $('#region_code').val(rtAdmCd);
+        $('#region_address').val(rtSiNm + ' ' + rtSggNm + ' ' + rtEmdNm + ' ' + rtLiNm);
 
         var wgs84Coords = get_coordinate_conversion(rtentX, rtentY)
 

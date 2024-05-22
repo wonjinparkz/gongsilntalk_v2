@@ -91,9 +91,10 @@
                     <div class="col-lg-12 mb-6">
                         <label class="row-lg-4 col-form-label fw-semibold fs-6">사업자 등록증</label>
                         <div class="row-lg-8 fv-row">
-                            <button type="button">
-                                다운로드
-                            </button>
+                            @if ($result->companyImages)
+                                <a href="{{ route('api.imagedownload', [$result->companyImages->path]) }}"
+                                    class="btn btn-secondary">다운로드</a>
+                            @endif
                         </div>
                     </div>
 
@@ -110,9 +111,10 @@
                     <div class="col-lg-12 mb-6">
                         <label class="row-lg-4 col-form-label fw-semibold fs-6">중개 등록증</label>
                         <div class="row-lg-8 fv-row">
-                            <button type="button">
-                                다운로드
-                            </button>
+                            @if ($result->businessImages)
+                                <a href="{{ route('api.imagedownload', [$result->businessImages->path]) }}"
+                                    class="btn btn-secondary">다운로드</a>
+                            @endif
                         </div>
                     </div>
 

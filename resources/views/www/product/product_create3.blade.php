@@ -27,6 +27,7 @@
         <input type="hidden" name="address_lng" id="address_lng" value="">
         <input type="hidden" name="address_lat" id="address_lat" value="">
         <input type="hidden" name="region_code" id="region_code" value="">
+        <input type="hidden" name="region_address" id="region_address" value="">
         <input type="hidden" name="address" id="address" value="">
         <input type="hidden" name="address_detail" id="address_detail" value="">
         <input type="hidden" name="address_dong" id="address_dong" value="">
@@ -104,6 +105,7 @@
             $('#address_lng').val(sessionStorage.getItem("address_lngSession"));
             $('#address_lat').val(sessionStorage.getItem("address_latSession"));
             $('#region_code').val(sessionStorage.getItem("region_codeSession"));
+            $('#region_address').val(sessionStorage.getItem("region_addressSession"));
             $('#address').val(sessionStorage.getItem("addressSession"));
             $('#address_detail').val(sessionStorage.getItem("address_detailSession"));
             $('#address_dong').val(sessionStorage.getItem("address_dongSession"));

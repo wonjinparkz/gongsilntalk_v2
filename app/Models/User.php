@@ -68,6 +68,26 @@ class User extends BaseModel
     }
 
     /**
+     * 사업자 등록증 가져오기
+     */
+    public function companyImages()
+    {
+        $images = $this->hasOne(Images::class, 'target_id', 'id');
+        $images->where('target_type', 'company');
+        return $images;
+    }
+
+    /**
+     * 이미지 가져오기
+     */
+    public function businessImages()
+    {
+        $images = $this->hasOne(Images::class, 'target_id', 'id');
+        $images->where('target_type', 'business');
+        return $images;
+    }
+
+    /**
      * 사용자 팔로우
      */
     public function user_follow()

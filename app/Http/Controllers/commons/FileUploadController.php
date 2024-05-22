@@ -177,4 +177,12 @@ class FileUploadController extends Controller
     {
         return response()->download(storage_path('app/public/file/' . $path . '/' . $path));
     }
+
+    /**
+     * 이미지 다운로드
+     */
+    public function imageDownload($path)
+    {
+        return response()->download(storage_path('app/public/image/' . $path ));
+    }
 }

@@ -28,6 +28,7 @@ class Product extends BaseModel
         'address_lat',
         'address_lng',
         'region_code',
+        'region_address',
         'address',
         'address_detail',
         'address_dong',
