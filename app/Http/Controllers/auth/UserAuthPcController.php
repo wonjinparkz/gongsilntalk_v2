@@ -211,7 +211,7 @@ class UserAuthPcController extends Controller
             'state' => 0,
             'provider' => 'E',
             'is_marketing' => $request->is_marketing,
-            'marketing_at' => $request->is_marketing == 1 ? Carbon::now() : null,,
+            'marketing_at' => $request->is_marketing == 1 ? Carbon::now() : null,
             'is_alarm' => 0,
             'unique_key' => $request->unique_key ?? '',
         ];
