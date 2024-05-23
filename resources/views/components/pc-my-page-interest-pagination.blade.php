@@ -3,12 +3,14 @@
     <ul class="btn_wrap">
         @if ($paginator->onFirstPage())
             <li class="btn_prev">
-                <a class="no_next" href="" disabled><img src="{{ asset('assets/media/btn_prev.png') }}"
-                        alt=""></a>
+                <a class="no_next" disabled>
+                    <img src="{{ asset('assets/media/btn_prev.png') }}" alt="">
+                </a>
             </li>
         @else
             <li class="btn_prev">
-                <a class="no_next" href="{{ $paginator->previousPageUrl() }}">
+                {{-- <a class="no_next" href="{{ $paginator->previousPageUrl() }}"> --}}
+                <a class="no_next" onclick="loadMoreData(1, 0);">
                     <img src="{{ asset('assets/media/btn_prev.png') }}" alt="">
                 </a>
             </li>
@@ -25,23 +27,22 @@
                         <li class="active">{{ $page }}
                         </li>
                     @else
-                        <li onclick="javascript:location.href='{{ $url }}'">{{ $page }}
+                        <li onclick="loadMoreData('{{ $page }}', 0);">{{ $page }}
                         </li>
                     @endif
                 @endforeach
             @endif
         @endforeach
 
-
         @if ($paginator->hasMorePages())
             <li class="btn_next">
-                <a class="no_next" href="{{ $paginator->nextPageUrl() }}">
+                <a class="no_next" onclick="loadMoreData('{{ $paginator->currentPage() + 1 }}', 0);">
                     <img src="{{ asset('assets/media/btn_next.png') }}" alt="">
                 </a>
             </li>
         @else
             <li class="btn_next">
-                <a class="no_next" href="" disabled>
+                <a class="no_next" disabled>
                     <img src="{{ asset('assets/media/btn_next.png') }}" alt="">
                 </a>
             </li>

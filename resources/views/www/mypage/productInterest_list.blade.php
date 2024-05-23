@@ -34,151 +34,44 @@
 
                     <div class="wish_wrap">
                         <ul class="tab_type_6 tab_toggle_menu mt28">
-                            <li class="active">일반매물</li>
-                            <li class="">분양매물</li>
+                            <li class="active" onclick="loadMoreData(1, 0);">일반매물</li>
+                            <li class="" onclick="loadMoreData(1, 1);">분양매물</li>
                         </ul>
+                    </div>
 
-                        <div class="tab_area_wrap">
-                            <!-- 일반매물 : s -->
-                            <div>
-                                <div class="my_search_wrap mt20">
-                                    <div class="sort_wrap">
-                                        <div class="dropdown_box">
-                                            <button
-                                                class="dropdown_label">{{ Request::get('payment_type') != '' ? Lang::get('commons.payment_type.' . Request::get('payment_type')) : '거래 유형' }}</button>
-                                            <ul class="optionList">
-                                                <li class="optionItem" onclick="onPaymentTypeChange('');">전체</li>
-                                                @foreach (Lang::get('commons.payment_type') as $key => $payment_type)
-                                                    <li class="optionItem"
-                                                        onclick="onPaymentTypeChange('{{ $key }}');">
-                                                        {{ $payment_type }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                        <div class="dropdown_box">
-                                            <button
-                                                class="dropdown_label">{{ Request::get('type') != '' ? Lang::get('commons.product_type.' . Request::get('type')) : '매물 종류' }}</button>
-                                            <ul class="optionList">
-                                                <li class="optionItem" onclick="onProductTypeChange('');">전체</li>
-                                                @foreach (Lang::get('commons.product_type') as $key => $product_type)
-                                                    <li class="optionItem"
-                                                        onclick="onProductTypeChange('{{ $key }}');">
-                                                        {{ $product_type }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <form method="GET" id="filter" name="filter"
-                                    action="{{ route('www.mypage.product.interest.list.view') }}">
-                                    <input type="hidden" id="payment_type" name="payment_type"
-                                        value="{{ Request::get('payment_type') }}">
-                                    <input type="hidden" id="type" name="type"
-                                        value="{{ Request::get('type') }}">
-                                </form>
-
-                                <div class="txt_search_total">총 <span class="txt_point">{{ $result->total() }}개</span>의
-                                    관심
-                                    매물</div>
-
-                                @if ($result->total() < 1)
-                                    <!-- 데이터가 없을 경우 : s -->
-                                    <div class="empty_wrap">
-                                        <p>관심 등록된 매물이 없습니다.</p>
-                                        <span>매물지도에서 마음에 드는 매물을 찾아<br>관심 매물로 등록해보세요.</span>
-                                        <div class="mt8">
-                                            <button class="btn_point btn_md_bold"
-                                                onclick="location.href='sales_list.html'">매물 찾아보기</button>
-                                        </div>
-                                    </div>
-                                    <!-- 데이터가 없을 경우 : e -->
-                                @else
-                                    <div class="sales_list_wrap">
-                                        @foreach ($result as $product)
-                                            <div class="sales_card">
-                                                <span class="sales_list_wish on"
-                                                    onclick="onLikeStateChange('{{ $product->id }}');btn_wish(this);"></span>
-                                                <a href="sales_detail.html">
-                                                    <div class="sales_card_img">
-                                                        <div class="img_box">
-                                                            <img src="{{ Storage::url('image/' . $product->images[0]->path) }}"
-                                                                style="max-height:186px;">
-                                                        </div>
-                                                    </div>
-                                                    <div class="sales_list_con">
-                                                        <p class="txt_item_1">
-                                                            {{ Lang::get('commons.payment_type.' . $product->priceInfo->payment_type) }}
-                                                            {{ $product->priceInfo->price > 999 ? mb_substr(Commons::get_priceTrans($product->priceInfo->price), 0, -1) : $product->priceInfo->price }}
-                                                            {{ in_array($product->priceInfo->payment_type, [1, 2, 4]) ? ' / ' . ($product->priceInfo->month_price > 999 ? mb_substr(Commons::get_priceTrans($product->priceInfo->month_price), 0, -1) : $product->priceInfo->month_price) : '' }}
-                                                        </p>
-                                                        <p class="txt_item_4">
-                                                            {{ $product->region_address }}
-                                                        </p>
-                                                        <p class="txt_item_2">
-                                                            {{ isset($product->area) ? $product->area . '㎡ / ' : '' }}
-                                                            {{ $product->exclusive_square }}㎡
-                                                            {{ isset($product->floor_number) ? '·' . $product->floor_number . '층' : '' }}
-                                                        </p>
-                                                        <p class="txt_item_3">
-                                                            {{ isset($product->comments) ? $product->comments : $product->contents }}
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @endif
-
-                                <!-- paging : s -->
-                                {{ $result->onEachSide(1)->links('components.pc-my-page-pagination') }}
-                                <!-- paging : e -->
-
+                    <div class="my_search_wrap mt20 optionSelectBox" style="display: block;">
+                        <div class="sort_wrap">
+                            <div class="dropdown_box">
+                                <button
+                                    class="dropdown_label">{{ Request::get('payment_type') != '' ? Lang::get('commons.payment_type.' . Request::get('payment_type')) : '거래 유형' }}</button>
+                                <ul class="optionList">
+                                    <li class="optionItem" onclick="onPaymentTypeChange('');">전체</li>
+                                    @foreach (Lang::get('commons.payment_type') as $key => $payment_type)
+                                        <li class="optionItem" onclick="onPaymentTypeChange('{{ $key }}');">
+                                            {{ $payment_type }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
-                            <!-- 일반매물 : e -->
-
-
-                            <!--  분양매물 : s -->
-                            <div>
-                                <div class="txt_search_total">총 <span
-                                        class="txt_point">{{ $siteResult->total() }}개</span>의 관심 매물</div>
-                                @if ($siteResult->total() < 1)
-                                    <!-- 데이터가 없을 경우 : s -->
-                                    <div class="empty_wrap">
-                                        <p>관심 등록된 매물이 없습니다.</p>
-                                        <span>매물지도에서 마음에 드는 매물을 찾아<br>관심 매물로 등록해보세요.</span>
-                                        <div class="mt8"><button class="btn_point btn_md_bold"
-                                                onclick="location.href='sales_list.html'">매물 찾아보기</button></div>
-                                    </div>
-                                    <!-- 데이터가 없을 경우 : e -->
-                                @else
-                                    <div class="sales_list_wrap">
-                                        <div class="sales_card">
-                                            <span class="sales_list_wish" onclick="btn_wish(this)"></span>
-                                            <a href="sales_detail.html">
-                                                <div class="sales_card_img">
-                                                    <div class="img_box"><img
-                                                            src="{{ asset('assets/media/s_1.png') }}">
-                                                    </div>
-                                                </div>
-                                                <div class="sales_list_con">
-                                                    <span class="mark_proceeding">분양중</span>
-                                                    <p class="txt_item_1">지식산업센터 놀라움 마곡</p>
-                                                    <p class="txt_item_2">서울시 강서구 강동동</p>
-                                                    <p class="txt_item_3">한 줄 소개로 안내 드립니다. 여기는 아름다운 도시 마곡입니다.</p>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <!-- paging : s -->
-                                    {{ $siteResult->onEachSide(1)->links('components.pc-my-page-pagination') }}
-                                    <!-- paging : e -->
-                                @endif
+                            <div class="dropdown_box">
+                                <button
+                                    class="dropdown_label">{{ Request::get('product_type') != '' ? Lang::get('commons.product_type.' . Request::get('product_type')) : '매물 종류' }}</button>
+                                <ul class="optionList">
+                                    <li class="optionItem" onclick="onProductTypeChange('');">전체</li>
+                                    @foreach (Lang::get('commons.product_type') as $key => $product_type)
+                                        <li class="optionItem" onclick="onProductTypeChange('{{ $key }}');">
+                                            {{ $product_type }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
-                            <!--  분양매물 : e -->
                         </div>
                     </div>
 
+                    <input type="hidden" id="payment_type" name="payment_type" value="{{ Request::get('payment_type') }}">
+                    <input type="hidden" id="product_type" name="product_type" value="{{ Request::get('product_type') }}">
+
+                    <div class="tab_area_wrap">
+
+                    </div>
 
                 </div>
                 <!-- my_body : e -->
@@ -193,30 +86,56 @@
 
 <script>
     var onProductTypeChange = (index) => {
-        $('#type').val(index);
+        $('#product_type').val(index);
 
-        var form = document.filter;
-        form.submit();
+        loadMoreData(1, 0);
     }
 
     var onPaymentTypeChange = (index) => {
         $('#payment_type').val(index);
 
-        var form = document.filter;
-        form.submit();
+        loadMoreData(1, 0);
     }
 
-    var onLikeStateChange = (id) => {
+    var onLikeStateChange = (id, type) => {
 
         $.ajax({
             url: '{{ route('www.commons.like') }}',
             type: "post",
             data: {
                 'target_id': id,
-                'target_type': 'product'
+                'target_type': type
             }
         }).fail(function(jqXHR, ajaxOptions, thrownError) {
             alert('다시 시도해주세요.');
         });
+    }
+
+    loadMoreData(1, 0);
+
+    function loadMoreData(page, type) {
+
+        $.ajax({
+                url: '{{ route('www.mypage.product.interest.list.view') }}',
+                type: "get",
+                data: {
+                    'page': page,
+                    'type': type,
+                    'product_type': $('#product_type').val(),
+                    'payment_type': $('#payment_type').val(),
+                }
+            })
+            .done(function(data) {
+                if (type == 1) {
+                    $('.optionSelectBox').css('display', 'none');
+                }else{
+                    $('.optionSelectBox').css('display', 'block');
+                }
+
+                $(".tab_area_wrap").html(data.html);
+            })
+            .fail(function(jqXHR, ajaxOptions, thrownError) {
+                alert('데이터를 불러오지 못했습니다.');
+            });
     }
 </script>

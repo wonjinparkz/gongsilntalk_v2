@@ -76,46 +76,51 @@ class UserPcController extends Controller
     /**
      * 관심매물
      */
-    public function productInterestListView(Request $request): View
+    public function productInterestListView(Request $request)
     {
         // 회원 정보
         $user = User::select()
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
+        if ($request->ajax()) {
+            $type = $request->type ?? 0;
 
-        // 좋아요한 일반 매물
-        $productList = Product::with('images', 'priceInfo')->select(
-            'product.*'
-        );
-        $productList->leftjoin('product_price', 'product_price.product_id', 'product.id');
-        $productList->like('product', Auth::guard('web')->user()->id ?? "");
-        $productList->where('like.id', '!=', null);
+            if ($request->type != 1) {
+                // 좋아요한 일반 매물
+                $productList = Product::with('images', 'priceInfo')->select(
+                    'product.*'
+                );
+                $productList->leftjoin('product_price', 'product_price.product_id', 'product.id');
+                $productList->like('product', Auth::guard('web')->user()->id ?? "");
+                $productList->where('like.id', '!=', null);
 
-        // 매물 종류
-        if (isset($request->type)) {
-            $productList->where('product.type', $request->type);
+                // 매물 종류
+                if (isset($request->product_type)) {
+                    $productList->where('product.type', $request->product_type);
+                }
+
+                // 매매/전세/월세 등 여부
+                if (isset($request->payment_type)) {
+                    $productList->where('product_price.payment_type', $request->payment_type);
+                }
+                $result = $productList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc')->paginate(12);
+            } else {
+                // 좋아요한 분양 매물
+                $siteProductList = SiteProduct::with('images')->select(
+                    'site_product.*'
+                );
+                $siteProductList->like('site_product', Auth::guard('web')->user()->id ?? "");
+                $siteProductList->where('like.id', '!=', null);
+
+                $result = $siteProductList->orderBy('site_product.created_at', 'desc')->orderBy('site_product.id', 'desc')->paginate(12);
+            }
+
+            $view = view('components.user-mypage-interest-list-layout', compact('result', 'type'))->render();
+            return response()->json(['html' => $view]);
         }
 
-        // 매매/전세/월세 등 여부
-        if (isset($request->payment_type)) {
-            $productList->where('product_price.payment_type', $request->payment_type);
-        }
-
-        // 정렬
-        $productList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc');
-        $result = $productList->paginate($request->per_page == null ? 12 : $request->per_page);
-
-
-        // 좋아요한 분양 매물
-        $siteProductList = SiteProduct::with('images')->select();
-        $siteProductList->like('site_product', Auth::guard('web')->user()->id ?? "");
-        $siteProductList->where('like.id', '!=', null);
-        $siteProductList->orderBy('site_product.created_at', 'desc')->orderBy('site_product.id', 'desc');
-        $siteResult = $siteProductList->paginate($request->per_page == null ? 12 : $request->per_page);
-
-
-        return view('www.mypage.productInterest_list', compact('user', 'result', 'siteResult'));
+        return view('www.mypage.productInterest_list', compact('user'));
     }
 
     /**
