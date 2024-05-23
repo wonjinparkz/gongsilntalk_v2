@@ -124,6 +124,57 @@ class UserPcController extends Controller
     }
 
     /**
+     * 최근 본 매물
+     */
+    public function productRecentlyListView(Request $request)
+    {
+        // 회원 정보
+        $user = User::select()
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
+
+        if ($request->ajax()) {
+            $type = $request->type ?? 0;
+
+            if ($request->type != 1) {
+                // 최근 본 일반 매물
+                $productList = Product::with('images', 'priceInfo')->select(
+                    'product.*'
+                );
+                $productList->leftjoin('product_price', 'product_price.product_id', 'product.id');
+                $productList->like('product', Auth::guard('web')->user()->id ?? "");
+                $productList->recentProduct('product', Auth::guard('web')->user()->id ?? "");
+                $productList->where('recent_product.id', '!=', null);
+
+                // 매물 종류
+                if (isset($request->product_type)) {
+                    $productList->where('product.type', $request->product_type);
+                }
+
+                // 매매/전세/월세 등 여부
+                if (isset($request->payment_type)) {
+                    $productList->where('product_price.payment_type', $request->payment_type);
+                }
+                $result = $productList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc')->paginate(12);
+            } else {
+                // 최근 본 분양 매물
+                $siteProductList = SiteProduct::with('images')->select(
+                    'site_product.*'
+                );
+                $siteProductList->like('site_product', Auth::guard('web')->user()->id ?? "");
+                $siteProductList->recentProduct('site_product', Auth::guard('web')->user()->id ?? "");
+                $siteProductList->where('recent_product.id', '!=', null);
+                $result = $siteProductList->orderBy('site_product.created_at', 'desc')->orderBy('site_product.id', 'desc')->paginate(12);
+            }
+
+            $view = view('components.user-mypage-interest-list-layout', compact('result', 'type'))->render();
+            return response()->json(['html' => $view]);
+        }
+
+        return view('www.mypage.my-recently-list', compact('user'));
+    }
+
+    /**
      * 기업 이전 제안서
      */
     public function corpProposalListView(): View

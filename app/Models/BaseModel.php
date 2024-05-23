@@ -85,6 +85,21 @@ class BaseModel extends Authenticatable
         );
     }
 
+    /**
+     * recent_product 테이블 조인
+     */
+    public function scopeRecentProduct($query, $on, $id)
+    {
+        // 좋아요
+        $query->leftJoin('recent_product', function ($like) use ($on, $id) {
+            $like->on($on . '.id', '=', 'recent_product.product_id')
+                ->where('recent_product.users_id', '=', $id)
+                ->where('recent_product.product_type', '=', $on);
+        });
+        $query->addSelect(
+            'recent_product.id AS recent_product_id'
+        );
+    }
 
     /**
      * 이미지 가져오기

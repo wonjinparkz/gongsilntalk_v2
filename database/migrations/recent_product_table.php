@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->integer('users_id')->comment('사용자 아이디');
             $table->integer('product_id')->comment('상품 아이디');
-            $table->string('product_type')->comment('타겟 타입 0-일반 매물, 1-분양 매물');
+            $table->string('product_type')->comment('타겟 타입 product-일반 매물, site_product-분양 매물');
             $table->timestamps();
         });
     }

@@ -27,9 +27,10 @@
                     <h1 class="t_center only_pc">관심 매물</h1>
                     <div class="my_tab_wrap">
                         <ul class="tab_type_5 toggle_tab">
-                            <li onclick="location.href='{{ route('www.mypage.product.interest.list.view') }}'"
-                                class="active">관심 매물</li>
-                            <li onclick="location.href='{{ route('www.mypage.product.recently.list.view') }}'">최근 본 매물</li>
+                            <li onclick="location.href='{{ route('www.mypage.product.interest.list.view') }}'">
+                                관심 매물
+                            </li>
+                            <li onclick="location.href='{{ route('www.mypage.product.recently.list.view') }}'" class="active">최근 본 매물</li>
                         </ul>
                     </div>
 
@@ -119,7 +120,7 @@
     function loadMoreData(page, type) {
 
         $.ajax({
-                url: '{{ route('www.mypage.product.interest.list.view') }}',
+                url: '{{ route('www.mypage.product.recently.list.view') }}',
                 type: "get",
                 data: {
                     'page': page,

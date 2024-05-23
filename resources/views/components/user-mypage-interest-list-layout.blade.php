@@ -47,7 +47,7 @@
             <div class="sales_list_wrap">
                 @foreach ($result as $product)
                     <div class="sales_card">
-                        <span class="sales_list_wish on"
+                        <span class="sales_list_wish {{ isset($product->like_id) ? 'on' : '' }}"
                             onclick="onLikeStateChange('{{ $product->id }}', 'product');btn_wish(this);"></span>
                         <a href="sales_detail.html">
                             <div class="sales_card_img">
@@ -78,11 +78,13 @@
                     </div>
                 @endforeach
             </div>
-        @endif
 
-        <!-- paging : s -->
-        {{ $result->onEachSide(1)->links('components.pc-my-page-interest-pagination') }}
-        <!-- paging : e -->
+
+            <!-- paging : s -->
+            {{ $result->onEachSide(1)->links('components.pc-my-page-interest-pagination') }}
+            <!-- paging : e -->
+
+        @endif
 
     </div>
     <!-- 일반매물 : e -->
@@ -106,7 +108,7 @@
                 @endphp
                 @foreach ($result as $product)
                     <div class="sales_card">
-                        <span class="sales_list_wish on"
+                        <span class="sales_list_wish {{ isset($product->like_id) ? 'on' : '' }}"
                             onclick="onLikeStateChange('{{ $product->id }}', 'site_product');btn_wish(this)"></span>
                         <a href="sales_detail.html">
                             <div class="sales_card_img">
