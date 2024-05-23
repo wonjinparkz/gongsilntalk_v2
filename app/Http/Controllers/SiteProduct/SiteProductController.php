@@ -33,10 +33,18 @@ class SiteProductController extends Controller
     }
 
     /**
-     * 지식산업센터 등록 화면 조회
+     * 분양현장 등록 화면 보기
      */
     public function siteProductCreateView(): View
     {
         return view('admin.site_product.site_product-create');
+    }
+
+    /**
+     *  분양현장 등록
+     */
+    public function siteProductCreate(Request $request)
+    {
+        Log::info($request);
     }
 }

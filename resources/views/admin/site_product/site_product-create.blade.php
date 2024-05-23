@@ -93,7 +93,7 @@
                     {{-- 규모 --}}
                     <div class="row mb-6">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">규모</label>
-                        <div class="col-lg-2 fv-row">
+                        <div class="col-lg-3 fv-row">
                             <div class="input-group mb-5">
                                 <input type="number" name="min_floor" class="form-control" placeholder="최저"
                                     value="{{ old('min_floor') }}" />
@@ -101,7 +101,7 @@
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('min_floor')" />
                         </div>
-                        <div class="col-lg-2 fv-row">
+                        <div class="col-lg-3 fv-row">
                             <div class="input-group mb-5">
                                 <input type="number" name="max_floor" class="form-control" placeholder="최고"
                                     value="{{ old('max_floor') }}" />
@@ -109,7 +109,7 @@
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('max_floor')" />
                         </div>
-                        <div class="col-lg-2 fv-row">
+                        <div class="col-lg-3 fv-row">
                             <div class="input-group mb-5">
                                 <input type="number" name="dong_count" class="form-control" placeholder="총 동수"
                                     value="{{ old('dong_count') }}" />
@@ -328,112 +328,187 @@
                 </div>
             </x-screen-card>
             <x-screen-card :title="'상세 정보'">
-                {{-- FORM START  --}}
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
 
-
-
-                    {{-- 총 세대수 --}}
+                    {{-- 프리미엄1 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">총 세대수</label>
-                        <div class="col-lg-3 d-flex align-items-center">
-                            <div class="input-group mb-5">
-                                <input type="number" name="generation_count" class="form-control"
-                                    placeholder="예) 1234" value="{{ old('generation_count') }}" />
-                                <span class="input-group-text" id="basic-addon2">실</span>
-                            </div>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('generation_count')" />
-                        </div>
-                    </div>
-
-                    {{-- 시행사 --}}
-                    <div class="row mb-6">
-                        <label class="col-lg-2 col-form-label fw-semibold fs-6">시행사</label>
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">프리미엄1</label>
                         <div class="col-lg-9 fv-row">
-                            <input type="text" name="developer" class="form-control" placeholder="시행사명 입력"
-                                value="{{ old('developer') }}" />
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('developer')" />
+                            <input type="text" name="title_1" class="form-control mb-1" placeholder="프리미엄 제목 입력"
+                                value="{{ old('title_1') }}" />
+                            <textarea name="contents_1" class="form-control" rows="5" placeholder="세부내용 입력해주세요.">{{ old('contents_1') }}</textarea>
                         </div>
+                        <x-input-error class="mt-2 text-danger" :messages="count($errors->get('title_1')) > 0
+                            ? $errors->get('title_1')
+                            : $errors->get('contents_1')" />
                     </div>
 
-                    {{-- 시공사 --}}
-                    <div class="row mb-6">
-                        <label class="col-lg-2 col-form-label fw-semibold fs-6">시공사</label>
+                    {{-- 프리미엄2 --}}
+                    <div class="row">
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">프리미엄2</label>
                         <div class="col-lg-9 fv-row">
-                            <input type="text" name="comstruction_company" class="form-control"
-                                placeholder="시공사명 입력" value="{{ old('comstruction_company') }}" />
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('comstruction_company')" />
+                            <input type="text" name="title_2" class="form-control mb-1" placeholder="프리미엄 제목 입력"
+                                value="{{ old('title_2') }}" />
+                            <textarea name="contents_2" class="form-control" rows="5" placeholder="세부내용 입력해주세요.">{{ old('contents_2') }}</textarea>
+                        </div>
+                        <x-input-error class="mt-2 text-danger" :messages="count($errors->get('title_2')) > 0
+                            ? $errors->get('title_2')
+                            : $errors->get('contents_2')" />
+                    </div>
+
+                    {{-- 프리미엄3,4 노출여부 --}}
+                    <div class="row">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">프리미엄3,4<br>노출여부</label>
+                        <div class="col-lg-9 fv-row d-flex align-items-center">
+                            <label class="form-check form-check-custom form-check-inline p-1">
+                                <input class="form-check-input" name="is_blind_1" id="is_blind_1" type="checkbox"
+                                    value="1" @if (!old('is_blind_1')) checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">노출안함</span>
+                            </label>
                         </div>
                     </div>
 
-                    {{-- 교통정보 --}}
+                    {{-- 프리미엄3 --}}
                     <div class="row mb-6">
-                        <label class="col-lg-2 col-form-label fw-semibold fs-6">교통정보</label>
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">프리미엄3</label>
                         <div class="col-lg-9 fv-row">
-                            <textarea name="traffic_info" class="form-control mb-5" rows="5" placeholder="주변 교통관련 정보를 입력해주세요.">{{ old('traffic_info') }}</textarea>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('traffic_info')" />
+                            <input type="text" name="title_3" class="form-control mb-1" placeholder="프리미엄 제목 입력"
+                                value="{{ old('title_3') }}" />
+                            <textarea name="contents_3" class="form-control" rows="5" placeholder="세부내용 입력해주세요.">{{ old('contents_3') }}</textarea>
+                        </div>
+                        <x-input-error class="mt-2 text-danger" :messages="count($errors->get('title_3')) > 0
+                            ? $errors->get('title_3')
+                            : $errors->get('contents_3')" />
+                    </div>
+
+                    {{-- 프리미엄4 --}}
+                    <div class="row">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">프리미엄4</label>
+                        <div class="col-lg-9 fv-row">
+                            <input type="text" name="title_4" class="form-control mb-1" placeholder="프리미엄 제목 입력"
+                                value="{{ old('title_4') }}" />
+                            <textarea name="contents_4" class="form-control" rows="5" placeholder="세부내용 입력해주세요.">{{ old('contents_4') }}</textarea>
+                        </div>
+                        <x-input-error class="mt-2 text-danger" :messages="count($errors->get('title_4')) > 0
+                            ? $errors->get('title_4')
+                            : $errors->get('contents_4')" />
+                    </div>
+
+                    {{-- 프리미엄5,6 노출여부 --}}
+                    <div class="row">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">프리미엄5,6<br>노출여부</label>
+                        <div class="col-lg-9 fv-row d-flex align-items-center">
+                            <label class="form-check form-check-custom form-check-inline p-1">
+                                <input class="form-check-input" name="is_blind_2" id="is_blind_2" type="checkbox"
+                                    value="1" @if (!old('is_blind_2')) checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">노출안함</span>
+                            </label>
                         </div>
                     </div>
 
-                    {{-- 현장설명 --}}
+                    {{-- 프리미엄5 --}}
                     <div class="row mb-6">
-                        <label class="col-lg-2 col-form-label fw-semibold fs-6">현장설명</label>
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">프리미엄5</label>
                         <div class="col-lg-9 fv-row">
-                            <textarea name="site_contents" class="form-control mb-5" rows="5" placeholder="주변 편의시설, 역세권 등의 정보를 입력해주세요.">{{ old('site_contents') }}</textarea>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('site_contents')" />
+                            <input type="text" name="title_5" class="form-control mb-1" placeholder="프리미엄 제목 입력"
+                                value="{{ old('title_5') }}" />
+                            <textarea name="contents_5" class="form-control" rows="5" placeholder="세부내용 입력해주세요.">{{ old('contents_5') }}</textarea>
                         </div>
+                        <x-input-error class="mt-2 text-danger" :messages="count($errors->get('title_5')) > 0
+                            ? $errors->get('title_5')
+                            : $errors->get('contents_5')" />
                     </div>
 
-                    {{-- 한줄 요약 --}}
-                    <div class="row mb-6">
-                        <label class="col-lg-2 col-form-label fw-semibold fs-6">한줄 요약</label>
+                    {{-- 프리미엄6 --}}
+                    <div class="row">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">프리미엄6</label>
                         <div class="col-lg-9 fv-row">
-                            <input type="text" name="comments" class="form-control" placeholder="한줄 요약을 입력해주세요."
-                                value="{{ old('comments') }}" />
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('comments')" />
+                            <input type="text" name="title_6" class="form-control mb-1" placeholder="프리미엄 제목 입력"
+                                value="{{ old('title_6') }}" />
+                            <textarea name="contents_6" class="form-control" rows="5" placeholder="세부내용 입력해주세요.">{{ old('contents_6') }}</textarea>
                         </div>
-                    </div>
-
-                    {{-- 버스 정류장 거리 --}}
-                    <div class="row mb-6">
-                        <label class="col-lg-2 col-form-label fw-semibold fs-6">버스 정류장 거리</label>
-                        <div class="col-lg-9 fv-row">
-                            <textarea name="bus_stop_contents" class="form-control mb-5" rows="5" placeholder="버스 정류장과의 거리를 입력하세요.">{{ old('bus_stop_contents') }}</textarea>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('bus_stop_contents')" />
-                        </div>
-                    </div>
-
-                    {{-- 편의 시설 --}}
-                    <div class="row mb-6">
-                        <label class="col-lg-2 col-form-label fw-semibold fs-6">편의 시설</label>
-                        <div class="col-lg-9 fv-row">
-                            <textarea name="facilities_contents" class="form-control mb-5" rows="5" placeholder="주변 편의 시설을 입력하세요.">{{ old('facilities_contents') }}</textarea>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('facilities_contents')" />
-                        </div>
-                    </div>
-
-                    {{-- 교육 시설 --}}
-                    <div class="row mb-6">
-                        <label class="col-lg-2 col-form-label fw-semibold fs-6">교육 시설</label>
-                        <div class="col-lg-9 fv-row">
-                            <textarea name="education_contents" class="form-control mb-5" rows="5" placeholder="주변 교 시설을 입력하세요.">{{ old('education_contents') }}</textarea>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('education_contents')" />
-                        </div>
+                        <x-input-error class="mt-2 text-danger" :messages="count($errors->get('title_6')) > 0
+                            ? $errors->get('title_6')
+                            : $errors->get('contents_6')" />
                     </div>
 
 
 
-                    {{-- Footer Bottom START --}}
-                    <div class="card-footer d-flex justify-content-end py-6 px-9">
-                        <button type="submit" class="btn btn-primary">등록</button>
-                    </div>
-                    {{-- Footer END --}}
                 </div>
+
+
+
             </x-screen-card>
 
-        </form>
-        {{-- FORM END --}}
+            <x-screen-card :title="'분양 일정'">
+                {{-- 내용 START --}}
+                <div class="card-body border-top p-9">
+                    {{-- 일정 정보 --}}
+                    <div id="schedule_info">
+
+                        @php
+                            $schedule_title = old('schedule_title') ?? [];
+                            $start_date = old('start_date') ?? [];
+                            $ended_date = old('ended_date') ?? [];
+                            $is_edned = old('is_edned') ?? [];
+                        @endphp
+                        <div class="row">
+                            <label class="col-lg-2 col-form-label fw-semibold fs-6">일정 정보</label>
+                            <div class="col-lg-2 fv-row">
+                                <input type="text" name="schedule_title[]" class="form-control mb-1"
+                                    placeholder="일정 제목" value="{{ old('schedule_title') }}" />
+                            </div>
+                            <div class="col-lg-7 fv-row row">
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon1">시작일</span>
+                                        <input type="text" name="start_date[]" class="form-control"
+                                            onfocus="initDatepickerCustom($(this))" readonly placeholder=""
+                                            value="{{ old('start_date') }}" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon1">마감일</span>
+                                        <input type="text" name="ended_date[]" class="form-control"
+                                            onfocus="initDatepickerCustom($(this))" readonly placeholder=""
+                                            value="{{ old('ended_date') }}" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 d-flex align-items-center">
+                                    <label class="form-check form-check-custom form-check-inline">
+                                        <input class="form-check-input" name="is_ended[]"
+                                            type="checkbox" value="1">
+                                        <span class="fw-semibold ps-2 fs-6">마감일</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-1">
+                                <button type="button" class="btn btn-primary"
+                                    onclick="schedule_delete(this)">삭제</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class=" d-flex justify-content-start py-6">
+                        <button type="button" class="btn btn-warning" onclick="schedule_add();">항목추가</button>
+                    </div>
+
+                </div>
+
+    </div>
+
+    </x-screen-card>
+    {{-- Footer Bottom START --}}
+    <div class="card-footer d-flex justify-content-end py-6 px-9">
+        <button type="submit" class="btn btn-primary">등록</button>
+    </div>
+    {{-- Footer END --}}
+
+    </form>
+    {{-- FORM END --}}
 
     </div>
 
@@ -441,6 +516,77 @@
        * 페이지에서 사용하는 자바스크립트
     --}}
     <script>
+        $(document).ready(function() {
+
+            // 페이지 로드 시 실행
+            toggleSolid();
+
+
+        });
+
+        function toggleSolid() {
+            if ($('#is_blind_1').is(':checked')) {
+                $('input[name="title_3"], textarea[name="contents_3"], input[name="title_4"], textarea[name="contents_4"]')
+                    .addClass('form-control-solid');
+            } else {
+                $('input[name="title_3"], textarea[name="contents_3"], input[name="title_4"], textarea[name="contents_4"]')
+                    .removeClass('form-control-solid');
+            }
+
+            if ($('#is_blind_2').is(':checked')) {
+                $('input[name="title_5"], textarea[name="contents_5"], input[name="title_6"], textarea[name="contents_6"]')
+                    .addClass('form-control-solid');
+            } else {
+                $('input[name="title_5"], textarea[name="contents_5"], input[name="title_6"], textarea[name="contents_6"]')
+                    .removeClass('form-control-solid');
+            }
+        }
+        // 체크박스 상태 변경 시 실행
+        $('#is_blind_1').change(function() {
+            toggleSolid();
+        });
+        $('#is_blind_2').change(function() {
+            toggleSolid();
+        });
+
+        function schedule_add() {
+            var schedule = `<div class="row">
+                            <label class="col-lg-2 col-form-label fw-semibold fs-6">일정 정보</label>
+                            <div class="col-lg-3 fv-row">
+                                <input type="text" name="schedule_title[]" class="form-control mb-1"
+                                    placeholder="일정 제목" value="" />
+                            </div>
+                            <div class="col-lg-5 fv-row row">
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon1">시작일</span>
+                                        <input type="text" name="start_date[]" id="start_date"
+                                            class="form-control" onfocus="initDatepickerCustom($(this))"
+                                            placeholder="" value="" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon1">마감일</span>
+                                        <input type="text" name="ended_date[]" id="ended_date"
+                                            class="form-control" onfocus="initDatepickerCustom($(this))"
+                                            placeholder="" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <button type="button" class="btn btn-primary"
+                                    onclick="schedule_delete(this)">삭제</button>
+                            </div>
+                        </div>`
+
+            $('#schedule_info').append(schedule);
+        }
+
+        function schedule_delete(element) {
+            $(element).parent().parent().remove();
+        }
+
         var prev = "";
         var regexp = /^\d*(\.\d{0,2})?$/;
 
@@ -462,7 +608,6 @@
                 var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
                 $('#' + area_name).val(convertedArea);
             }
-
         }
 
         function area_change(name) {

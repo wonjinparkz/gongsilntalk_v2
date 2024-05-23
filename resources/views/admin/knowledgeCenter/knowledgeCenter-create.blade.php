@@ -162,7 +162,7 @@
 
                     {{-- 대지면적 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">대지면적</label>
+                        <label class="required col-lg-3 col-form-label fw-semibold fs-6">대지면적</label>
                         <div class="col-lg-3 fv-row">
                             <div class="input-group">
                                 <input type="number" name="area" id="area" class="form-control"
@@ -193,7 +193,7 @@
 
                     {{-- 건축면적 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">건축면적</label>
+                        <label class="required col-lg-3 col-form-label fw-semibold fs-6">건축면적</label>
                         <div class="col-lg-3 fv-row">
                             <div class="input-group">
                                 <input type="number" name="building_area" id="building_area" class="form-control"
@@ -224,7 +224,7 @@
                     </div>
                     {{-- 연면적 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">연면적</label>
+                        <label class="required col-lg-3 col-form-label fw-semibold fs-6">연면적</label>
                         <div class="col-lg-3 fv-row">
                             <div class="input-group">
                                 <input type="number" name="total_floor_area" id="total_floor_area"
@@ -257,7 +257,7 @@
 
                     {{-- 총 층 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">총 층</label>
+                        <label class="required col-lg-3 col-form-label fw-semibold fs-6">총 층</label>
                         <div class="col-lg-3 d-flex align-items-center">
                             <div class="input-group mb-5">
                                 <input type="text" name="min_floor" class="form-control" placeholder="최저층"
@@ -279,7 +279,7 @@
 
                     {{-- 총 주차대수 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">총 주차대수</label>
+                        <label class="required col-lg-3 col-form-label fw-semibold fs-6">총 주차대수</label>
                         <div class="col-lg-3 d-flex align-items-center">
                             <div class="input-group mb-5">
                                 <input type="number" name="parking_count" class="form-control"
@@ -292,7 +292,7 @@
 
                     {{-- 총 세대수 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">총 세대수</label>
+                        <label class="required col-lg-3 col-form-label fw-semibold fs-6">총 세대수</label>
                         <div class="col-lg-3 d-flex align-items-center">
                             <div class="input-group mb-5">
                                 <input type="number" name="generation_count" class="form-control"
