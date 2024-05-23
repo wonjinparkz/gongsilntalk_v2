@@ -80,7 +80,7 @@
 
                         <div class="flex_between my_body_top only_pc">
                             <h1>내 자산 목록</h1>
-                            <button class="btn_point btn_sm" onclick="location.href='my_asset_reg_1.html'">신규 자산
+                            <button class="btn_point btn_sm" onclick="location.href='{{route('www.mypage.service.create.first.view')}}'">신규 자산
                                 등록</button>
                         </div>
 

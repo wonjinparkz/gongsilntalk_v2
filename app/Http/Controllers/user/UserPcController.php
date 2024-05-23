@@ -201,6 +201,38 @@ class UserPcController extends Controller
     }
 
     /**
+     * 내 자산관리 등록 1
+     */
+    public function serviceFirstCreateView(): View
+    {
+        return view('www.mypage.asset-create-first');
+    }
+
+    /**
+     * 내 자산관리 등록 2
+     */
+    public function serviceSecondCreateView(): View
+    {
+        return view('www.mypage.asset-create-second');
+    }
+
+    /**
+     * 내 자산관리 등록 3
+     */
+    public function serviceThirdCreateView(): View
+    {
+        return view('www.mypage.asset-create-third');
+    }
+
+    /**
+     * 내 자산관리 등록 4
+     */
+    public function serviceFourthCreateView(): View
+    {
+        return view('www.mypage.asset-create-fourth');
+    }
+
+    /**
      * 매물 제안서
      */
     public function proposalListView(): View

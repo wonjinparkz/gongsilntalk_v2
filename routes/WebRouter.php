@@ -103,10 +103,19 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::get('/mypage/main', 'mypageMainView')->name('www.mypage.mian.view');
     Route::get('/mypage/product/magagement/list', 'productMagagementListView')->name('www.mypage.product.magagement.list.view');
     Route::get('/mypage/corp/product/magagement/list', 'corpProductMagagementListView')->name('www.mypage.corp.product.magagement.list.view');
+
+    // 관심 매물/최근 본 매물
     Route::get('/mypage/product/interest/list', 'productInterestListView')->name('www.mypage.product.interest.list.view');
     Route::get('/mypage/product/recently/list', 'productRecentlyListView')->name('www.mypage.product.recently.list.view');
-    Route::get('/mypage/corp/proposal/list', 'corpProposalListView')->name('www.mypage.corp.proposal.list.view');
+
+    // 내 자산 관리
     Route::get('/mypage/service/list', 'serviceListView')->name('www.mypage.service.list.view');
+    Route::get('/mypage/service/create-first', 'serviceFirstCreateView')->name('www.mypage.service.create.first.view');
+    Route::get('/mypage/service/create-second', 'serviceSecondCreateView')->name('www.mypage.service.create.second.view');
+    Route::get('/mypage/service/create-third', 'serviceThirdCreateView')->name('www.mypage.service.create.third.view');
+    Route::get('/mypage/service/create-fourth', 'serviceFourthCreateView')->name('www.mypage.service.create.fourth.view');
+
+    Route::get('/mypage/corp/proposal/list', 'corpProposalListView')->name('www.mypage.corp.proposal.list.view');
     Route::get('/mypage/proposal/list', 'proposalListView')->name('www.mypage.proposal.list.view');
     Route::get('/mypage/calculator/revenue/list', 'calculatorRevenueListView')->name('www.mypage.calculator.revenue.list.view');
     Route::get('/mypage/calculator/loan/list', 'calculatorLoanListView')->name('www.mypage.calculator.loan.list.view');
