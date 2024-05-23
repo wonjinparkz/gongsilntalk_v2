@@ -115,6 +115,6 @@
 
     // 이미지 제거
     function removeFile(elem) {
-        $(elem).parent().remove();
+        $(elem).parent().parent().remove();
     }
 </script>

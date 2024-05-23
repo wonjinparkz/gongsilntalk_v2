@@ -36,6 +36,37 @@ var initDatepicker = (input, dateAt) => {
 }
 
 // 날짜 선택 초기화
+function initDatepickerCustom(input) {
+
+    var autoUpdateInput = false;
+
+    input.daterangepicker({
+        // startDate: start,
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: autoUpdateInput, // 날짜 자동 -> 처음 접근 시에는 빈값으로 나오도록 한다.
+        minYear: 1901,
+        minDate: false,
+        maxYear: parseInt(moment().format('YYYY'), 12),
+        locale: {
+            "format": "YYYY-MM-DD",
+            "separator": " ~ ",
+            "applyLabel": "확인",
+            "cancelLabel": "취소",
+            "fromLabel": "From",
+            "toLabel": "To",
+            "customRangeLabel": "범위지정",
+            "weekLabel": "W",
+            "daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
+            "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+        },
+
+    }, function (start, end, label) {
+        input.val(start.format("YYYYMMDD"));
+    });
+}
+
+// 날짜 선택 초기화
 var rangeOptionToSearch = {
     "오늘": [moment(), moment()],
     "어제": [moment().subtract(1, "days"), moment().subtract(1, "days")],

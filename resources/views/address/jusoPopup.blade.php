@@ -9,8 +9,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>주소정보연계 | 도로명주소 안내시스템</title>
     <script language="javascript">
-        var confmKey = "{{ env('CONFM_KEY') }}"; // 검색API 승인키
-        var coordinateKEY = "{{ env('COORDINATE_KEY') }}"; // 검색API 승인키
+        var confmKey = "{{ env('CONFM_KEY') }}"; // 검색주소API 승인키
+        var coordinateKEY = "{{ env('COORDINATE_KEY') }}"; // 검색좌표API 승인키
         var domain = "http://www.juso.go.kr"; // 인터넷망
 
         //특수문자, 특정문자열(sql예약어) 제거
@@ -648,6 +648,8 @@
                 crossDomain: true,
                 async: true,
                 success: function(jsonStr) {
+                    alert('실행');
+                    console.log(jsonStr);
                     var juso = jsonStr.results.juso[0];
                     $("#rtentX").val(juso.entX);
                     $("#rtentY").val(juso.entY);
