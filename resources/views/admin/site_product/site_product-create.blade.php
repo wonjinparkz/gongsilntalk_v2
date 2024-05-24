@@ -314,19 +314,106 @@
             <x-screen-card :title="'층별 정보'">
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
+                    <div class="dong-container">
 
-                    {{-- 동이름 --}}
-                    <div class="row mb-6">
-                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">동이름</label>
-                        <div class="col-lg-9 fv-row">
-                            <input type="text" name="developer" class="form-control" placeholder="동이름"
-                                value="{{ old('developer') }}" />
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('developer')" />
+                        <div class="row mb-6 dong_row" data-index="0">
+                            <div class="col-lg-12 row mb-6">
+                                <label class="required col-lg-2 col-form-label fw-semibold fs-6">동이름</label>
+                                <div class="col-lg-6 fv-row">
+                                    <input type="text" name="dong_info[0][dong_name]" class="form-control"
+                                        placeholder="동이름" value="" />
+                                </div>
+                                <div class="col-lg-4 fv-row">
+                                    <div class="d-flex justify-content-end">
+                                        <button type="button" class="btn btn-primary dong-delete">동 삭제</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 row mb-6">
+                                <div class="col-lg-2 fv-row d-flex flex-column justify-content-center">
+                                    <label class="required col-form-label fw-semibold fs-6 align-self-start">층
+                                        정보</label>
+                                    <button type="button" class="btn btn-warning btn-sm add-floor"
+                                        data-dong-index="0">층 정보 추가</button>
+                                </div>
+                                <div class="col-lg-10 fv-row floor-container" data-floor-container-index="0">
+                                    <div class="row floor_row col-lg-12" data-floor-index="0">
+                                        <div class="row col-lg-10">
+                                            <div class="row mb-5">
+                                                <label class="required col-lg-2 col-form-label fw-semibold fs-6">층
+                                                    명</label>
+                                                <div class="col-lg-5 fv-row">
+                                                    <input type="text"
+                                                        name="dong_info[0][floor_info][0][floor_name]"
+                                                        class="form-control" placeholder="층 명" value="" />
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5">
+                                                <label
+                                                    class="required col-lg-2 col-form-label fw-semibold fs-6">용도구분</label>
+                                                <div class="col-lg-9 fv-row">
+                                                    <label
+                                                        class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                                        <input class="form-check-input"
+                                                            name="dong_info[0][floor_info][0][is_neighborhood_life]"
+                                                            type="checkbox" value="1">
+                                                        <span class="fw-semibold ps-2 fs-6">근생지원시설</span>
+                                                    </label>
+                                                    <label
+                                                        class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                                        <input class="form-check-input"
+                                                            name="dong_info[0][floor_info][0][is_neighborhood_life]"
+                                                            type="checkbox" value="1">
+                                                        <span class="fw-semibold ps-2 fs-6">근생지원시설</span>
+                                                    </label>
+                                                    <label
+                                                        class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                                        <input class="form-check-input"
+                                                            name="dong_info[0][floor_info][0][is_neighborhood_life]"
+                                                            type="checkbox" value="1">
+                                                        <span class="fw-semibold ps-2 fs-6">근생지원시설</span>
+                                                    </label>
+                                                    <label
+                                                        class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                                        <input class="form-check-input"
+                                                            name="dong_info[0][floor_info][0][is_neighborhood_life]"
+                                                            type="checkbox" value="1">
+                                                        <span class="fw-semibold ps-2 fs-6">근생지원시설</span>
+                                                    </label>
+                                                </div>
+                                                <div class="row mb-6">
+                                                    <label class="col-lg-2 col-form-label fw-semibold fs-6">도면</label>
+                                                    <div class="col-lg-9">
+                                                        {{-- <button type="button" class="btn btn-secondary btn-sm"
+                                                            onclick="uploadFloorFile($(this).closest('.floor_row'))">도면첨부</button> --}}
+                                                        <input type="file" accept="image/*"
+                                                            onchange="uploadFloorFile(this)">
+                                                        <span class="fw-semibold ps-2 fs-6">공통창고B2층_도면.jpg</span>
+                                                        <input type="hidden"
+                                                            name="dong_info[0][floor_info][0][floor_image_idxs]"
+                                                            value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 fv-row">
+                                            <div class=" justify-content-end" style="height: 100%;">
+                                                <button type="button" class="btn btn-primary floor-delete">층
+                                                    삭제</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
+                    <div class="row mb-6">
+                        <button type="button" class="btn btn-secondary" onclick="dong_add();">동 추가</button>
+                    </div>
                 </div>
+
             </x-screen-card>
+
             <x-screen-card :title="'상세 정보'">
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
@@ -451,45 +538,90 @@
                             $schedule_title = old('schedule_title') ?? [];
                             $start_date = old('start_date') ?? [];
                             $ended_date = old('ended_date') ?? [];
-                            $is_edned = old('is_edned') ?? [];
+                            $is_ended = old('is_ended') ?? [];
                         @endphp
-                        <div class="row">
-                            <label class="col-lg-2 col-form-label fw-semibold fs-6">일정 정보</label>
-                            <div class="col-lg-2 fv-row">
-                                <input type="text" name="schedule_title[]" class="form-control mb-1"
-                                    placeholder="일정 제목" value="{{ old('schedule_title') }}" />
-                            </div>
-                            <div class="col-lg-7 fv-row row">
-                                <div class="col-lg-4">
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon1">시작일</span>
-                                        <input type="text" name="start_date[]" class="form-control"
-                                            onfocus="initDatepickerCustom($(this))" readonly placeholder=""
-                                            value="{{ old('start_date') }}" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon1">마감일</span>
-                                        <input type="text" name="ended_date[]" class="form-control"
-                                            onfocus="initDatepickerCustom($(this))" readonly placeholder=""
-                                            value="{{ old('ended_date') }}" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 d-flex align-items-center">
-                                    <label class="form-check form-check-custom form-check-inline">
-                                        <input class="form-check-input" name="is_ended[]"
-                                            type="checkbox" value="1">
-                                        <span class="fw-semibold ps-2 fs-6">마감일</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-1">
-                                <button type="button" class="btn btn-primary"
-                                    onclick="schedule_delete(this)">삭제</button>
-                            </div>
-                        </div>
 
+                        @if (count($schedule_title) > 0)
+                            @foreach ($schedule_title as $index => $schedule)
+                                {{-- 일정 정보 START --}}
+                                <div class="row">
+                                    <label class="col-lg-2 col-form-label fw-semibold fs-6">일정 정보</label>
+                                    <div class="col-lg-3 fv-row">
+                                        <input type="text" name="schedule_title[]" class="form-control mb-1"
+                                            placeholder="일정 제목" value="{{ $schedule }}" />
+                                    </div>
+                                    <div class="col-lg-6 fv-row row">
+                                        <div class="col-lg-4">
+                                            <div class="input-group">
+                                                <span class="input-group-text" id="basic-addon1">시작일</span>
+                                                <input type="text" name="start_date[]" class="form-control"
+                                                    onfocus="initDatepickerCustom($(this))" readonly placeholder=""
+                                                    value="{{ $start_date[$index] }}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="input-group">
+                                                <span class="input-group-text" id="basic-addon1">마감일</span>
+                                                <input type="text" name="ended_date[]"
+                                                    class="form-control ended-date"
+                                                    onfocus="initDatepickerCustom($(this))" readonly placeholder=""
+                                                    value="{{ $ended_date[$index] }}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 d-flex align-items-center">
+                                            <label class="form-check form-check-custom form-check-inline">
+                                                <input class="form-check-input is-ended" name="is_ended[]"
+                                                    type="checkbox" value="1"
+                                                    @if ($is_ended[$index] == 1) checked @endif>
+                                                <span class="fw-semibold ps-2 fs-6">마감일</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="schedule_delete(this)">삭제</button>
+                                    </div>
+                                </div>
+                                {{-- 일정 정보 END --}}
+                            @endforeach
+                        @else
+                            <div class="row">
+                                <label class="col-lg-2 col-form-label fw-semibold fs-6">일정 정보</label>
+                                <div class="col-lg-3 fv-row">
+                                    <input type="text" name="schedule_title[]" class="form-control mb-1"
+                                        placeholder="일정 제목" value="" />
+                                </div>
+                                <div class="col-lg-6 fv-row row">
+                                    <div class="col-lg-4">
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1">시작일</span>
+                                            <input type="text" name="start_date[]" class="form-control"
+                                                onfocus="initDatepickerCustom($(this))" readonly placeholder=""
+                                                value="" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1">마감일</span>
+                                            <input type="text" name="ended_date[]" class="form-control ended-date"
+                                                onfocus="initDatepickerCustom($(this))" readonly disabled
+                                                placeholder="" value="" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 d-flex align-items-center">
+                                        <label class="form-check form-check-custom form-check-inline">
+                                            <input class="form-check-input is-ended" name="is_ended[]"
+                                                type="checkbox" value="1">
+                                            <span class="fw-semibold ps-2 fs-6">마감일</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1">
+                                    <button type="button" class="btn btn-primary"
+                                        onclick="schedule_delete(this)">삭제</button>
+                                </div>
+                            </div>
+                        @endif
                     </div>
 
                     <div class=" d-flex justify-content-start py-6">
@@ -503,7 +635,7 @@
     </x-screen-card>
     {{-- Footer Bottom START --}}
     <div class="card-footer d-flex justify-content-end py-6 px-9">
-        <button type="submit" class="btn btn-primary">등록</button>
+        <button type="buttion" class="btn btn-primary" onclick="formSubmit();">등록</button>
     </div>
     {{-- Footer END --}}
 
@@ -521,7 +653,47 @@
             // 페이지 로드 시 실행
             toggleSolid();
 
+            function uploadFloorFile(input) {
+                const data = new FormData(); // Create a new FormData object to store the file data
+                let file = input.files[0]; // Get the selected file from the input element
+                data.append('image', file); // Append the selected file to the FormData object with key 'image'
 
+                $.ajax({
+                    url: "{{ route('api.imageupload') }}", // URL to the image upload API route
+                    method: "POST",
+                    data: data, // Data to be sent in the request (the FormData object containing the file)
+                    contentType: false, // Set contentType to false to prevent jQuery from automatically setting the content type
+                    processData: false, // Set processData to false to prevent jQuery from automatically processing the data
+                    success: function(response) {
+                        console.log(
+                        response); // Log the response from the server on successful upload
+                    },
+                    error: function() {
+                        alert(
+                            "파일 업로드 중 오류가 발생하였습니다."
+                            ); // Display an alert if an error occurs during file upload
+                    }
+                });
+            }
+
+        });
+
+        function formSubmit() {
+            $('input:disabled').prop('disabled', false);
+
+            $('form').submit();
+        }
+
+        // 이벤트 델리게이션을 사용하여 동적으로 추가된 요소에도 이벤트를 바인딩
+        $('#schedule_info').on('change', '.is-ended', function() {
+            var $row = $(this).closest('.row');
+            var $endedDateInput = $row.find('.ended-date');
+            if ($(this).is(':checked')) {
+                $endedDateInput.prop('disabled', false);
+            } else {
+                $endedDateInput.val('');
+                $endedDateInput.prop('disabled', true);
+            }
         });
 
         function toggleSolid() {
@@ -551,40 +723,47 @@
 
         function schedule_add() {
             var schedule = `<div class="row">
-                            <label class="col-lg-2 col-form-label fw-semibold fs-6">일정 정보</label>
-                            <div class="col-lg-3 fv-row">
-                                <input type="text" name="schedule_title[]" class="form-control mb-1"
-                                    placeholder="일정 제목" value="" />
-                            </div>
-                            <div class="col-lg-5 fv-row row">
-                                <div class="col-lg-6">
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon1">시작일</span>
-                                        <input type="text" name="start_date[]" id="start_date"
-                                            class="form-control" onfocus="initDatepickerCustom($(this))"
-                                            placeholder="" value="" />
+                                <label class="col-lg-2 col-form-label fw-semibold fs-6">일정 정보</label>
+                                <div class="col-lg-3 fv-row">
+                                    <input type="text" name="schedule_title[]" class="form-control mb-1"
+                                        placeholder="일정 제목" value="" />
+                                </div>
+                                <div class="col-lg-6 fv-row row">
+                                    <div class="col-lg-4">
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1">시작일</span>
+                                            <input type="text" name="start_date[]" class="form-control"
+                                                onfocus="initDatepickerCustom($(this))" readonly placeholder=""
+                                                value="" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1">마감일</span>
+                                            <input type="text" name="ended_date[]" class="form-control ended-date"
+                                                onfocus="initDatepickerCustom($(this))" readonly disabled
+                                                placeholder="" value="" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 d-flex align-items-center">
+                                        <label class="form-check form-check-custom form-check-inline">
+                                            <input class="form-check-input is-ended" name="is_ended[]"
+                                                type="checkbox" value="1">
+                                            <span class="fw-semibold ps-2 fs-6">마감일</span>
+                                        </label>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon1">마감일</span>
-                                        <input type="text" name="ended_date[]" id="ended_date"
-                                            class="form-control" onfocus="initDatepickerCustom($(this))"
-                                            placeholder="" value="" />
-                                    </div>
+                                <div class="col-lg-1">
+                                    <button type="button" class="btn btn-primary"
+                                        onclick="schedule_delete(this)">삭제</button>
                                 </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <button type="button" class="btn btn-primary"
-                                    onclick="schedule_delete(this)">삭제</button>
-                            </div>
-                        </div>`
+                            </div>`
 
             $('#schedule_info').append(schedule);
         }
 
         function schedule_delete(element) {
-            $(element).parent().parent().remove();
+            $(element).closest('.row').remove();
         }
 
         var prev = "";
@@ -630,6 +809,74 @@
             // 부모 <li> 요소 제거
             listItem.parentNode.removeChild(listItem);
         }
+
+
+        // 동 추가 함수
+        function dong_add() {
+            var index = $('.dong_row').length;
+            var template = `
+            <div class="row mb-6 dong_row" data-index="${index}">
+                <div class="col-lg-12 row mb-6">
+                    <label class="required col-lg-2 col-form-label fw-semibold fs-6">동이름</label>
+                    <div class="col-lg-6 fv-row">
+                        <input type="text" name="dong_info[${index}][dong_name]" class="form-control" placeholder="동이름" value="" />
+                    </div>
+                    <div class="col-lg-4 fv-row">
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary dong-delete">동 삭제</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 row mb-6">
+                    <div class="col-lg-2 fv-row d-flex flex-column justify-content-center">
+                        <label class="required col-form-label fw-semibold fs-6 align-self-start">층 정보</label>
+                        <button type="button" class="btn btn-warning btn-sm add-floor" data-dong-index="${index}">층 정보 추가</button>
+                    </div>
+                    <div class="col-lg-8 fv-row floor-container" data-floor-container-index="${index}">
+                        <!-- 층 정보는 여기에 추가됩니다. -->
+                    </div>
+                </div>
+            </div>`;
+            $('.dong-container').append(template);
+        }
+
+        // 층 추가 버튼 클릭 이벤트
+        $(document).on('click', '.add-floor', function() {
+            var dongIndex = $(this).data('dong-index');
+            var container = $('.floor-container[data-floor-container-index="' + dongIndex + '"]');
+            var floorIndex = container.find('.floor_row').length;
+            var template = `
+            <div class="row mb-6 floor_row" data-floor-index="${floorIndex}">
+                <label class="required col-lg-2 col-form-label fw-semibold fs-6">층 명</label>
+                <div class="col-lg-3 fv-row">
+                    <input type="text" name="dong_info[${dongIndex}][floor_info][${floorIndex}][floor_name]" class="form-control" placeholder="층 명" value="" />
+                </div>
+                <label class="required col-lg-2 col-form-label fw-semibold fs-6">용도구분</label>
+                <div class="col-lg-9 fv-row">
+                    <label class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                        <input class="form-check-input" name="dong_info[${dongIndex}][floor_info][${floorIndex}][is_neighborhood_life]" type="checkbox" value="1">
+                        <span class="fw-semibold ps-2 fs-6">근생지원시설</span>
+                    </label>
+                    <!-- Add other checkbox fields similarly -->
+                </div>
+                <div class="col-lg-1 fv-row">
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary floor-delete">층 삭제</button>
+                    </div>
+                </div>
+            </div>`;
+            container.append(template);
+        });
+
+        // 동 삭제 버튼 클릭 이벤트
+        $(document).on('click', '.dong-delete', function() {
+            $(this).closest('.dong_row').remove();
+        });
+
+        // 층 삭제 버튼 클릭 이벤트
+        $(document).on('click', '.floor-delete', function() {
+            $(this).closest('.floor_row').remove();
+        });
     </script>
 </x-admin-layout>
 
