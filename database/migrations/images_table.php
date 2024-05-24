@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('height')->comment('이미지 세로');
             $table->string('target_type')->nullable()->comment('타겟 타입');
             $table->integer('target_id')->nullable()->comment('타겟 아이디');
+            $table->integer('type')->nullable()->comment('이미지 타입');
             $table->timestamps();
         });
         DB::statement("ALTER TABLE images COMMENT='이미지 정보'");
