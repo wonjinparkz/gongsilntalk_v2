@@ -14,6 +14,7 @@ return new class extends Migration
         // 내 자산 상세 정보
         Schema::create('asset', function (Blueprint $table) {
             $table->id();
+            $table->integer('asset_address_id')->comment('자산 주소 아이디');
             $table->integer('type')->comment('부동산 유형 0-상업용, 1-주거용, 2-분양권');
             $table->integer('type_detail')->comment('부동산 유형 상세 0-지식산업센터, 1-사무실, 2-창고, 3-상가, 4-기숙사, 5-건물, 6-토지/임야, 7-단독 공장, 8-아파트, 9-오피스텔, 10-단독/다가구, 11-다세대/빌라/연립, 12-상가주택, 13-주택, 14-지식산업센터 분양권, 15-상가 분양권, 16-아파트 분양권, 17-오피스텔 분양권');
 

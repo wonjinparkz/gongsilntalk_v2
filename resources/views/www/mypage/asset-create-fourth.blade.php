@@ -9,7 +9,13 @@
     <!----------------------------- m::header bar : s ----------------------------->
 
     <div class="body">
+        @php
+            $data = $request->all();
 
+            foreach ($data as $key => $value) {
+                echo '<input type="hidden" id="' . $key . '" name="' . $key . '" value="' . $value . '">';
+            }
+        @endphp
         <!-- my_body : s -->
         <div class="inner_mid_wrap m_inner_wrap mid_body">
             <h1 class="t_center only_pc">자산 등록하기 <span class="step_number"><span class="txt_point">4</span>/4</span></h1>
@@ -81,10 +87,11 @@
 
 
                 <div class="step_btn_wrap">
-                    <button class="btn_full_basic btn_graylight_ghost"
-                        onclick="location.href='{{ route('www.mypage.service.create.third.view')}}'">이전</button>
+                    <button class="btn_full_basic btn_graylight_ghost" type="button"
+                        onclick="javascript:history.back();">이전</button>
                     <!-- <button class="btn_full_basic btn_point" disabled>완료</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                    <button class="btn_full_basic btn_point" onclick="location.href='{{ route('www.mypage.service.list.view')}}'">완료</button>
+                    <button class="btn_full_basic btn_point"
+                        onclick="location.href='{{ route('www.mypage.service.list.view') }}'">완료</button>
                 </div>
 
             </div>

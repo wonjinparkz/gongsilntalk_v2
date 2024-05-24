@@ -211,25 +211,28 @@ class UserPcController extends Controller
     /**
      * 내 자산관리 등록 2
      */
-    public function serviceSecondCreateView(): View
+    public function serviceSecondCreateView(Request $request): View
     {
-        return view('www.mypage.asset-create-second');
+        info($request);
+        return view('www.mypage.asset-create-second', compact('request'));
     }
 
     /**
      * 내 자산관리 등록 3
      */
-    public function serviceThirdCreateView(): View
+    public function serviceThirdCreateView(Request $request): View
     {
-        return view('www.mypage.asset-create-third');
+        info($request);
+        return view('www.mypage.asset-create-third', compact('request'));
     }
 
     /**
      * 내 자산관리 등록 4
      */
-    public function serviceFourthCreateView(): View
+    public function serviceFourthCreateView(Request $request): View
     {
-        return view('www.mypage.asset-create-fourth');
+        info($request);
+        return view('www.mypage.asset-create-fourth', compact('request'));
     }
 
     /**

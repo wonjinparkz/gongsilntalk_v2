@@ -10,232 +10,250 @@
 
     <div class="body">
 
-        <!-- my_body : s -->
-        <div class="inner_mid_wrap m_inner_wrap mid_body">
-            <h1 class="t_center only_pc">자산 등록하기 <span class="step_number"><span class="txt_point">1</span>/4</span></h1>
+        <form method="get" action="{{ route('www.mypage.service.create.second.view') }}">
 
-            <div class="offer_step_wrap">
-                <div class="box_01 box_reg">
-                    <h4>부동산 유형 <span class="txt_point">*</span></h4>
-                    <ul class="tab_type_3 tab_toggle_menu">
-                        <li class="active">상업용</li>
-                        <li>주거용</li>
-                        <li>분양권</li>
-                    </ul>
-                    <div class="tab_area_wrap">
-                        <div>
-                            <div class="btn_radioType">
-                                <input type="radio" name="commercial" id="commercial_1" value="Y">
-                                <label for="commercial_1">지식산업센터</label>
+            <!-- my_body : s -->
+            <div class="inner_mid_wrap m_inner_wrap mid_body">
+                <h1 class="t_center only_pc">자산 등록하기 <span class="step_number"><span class="txt_point">1</span>/4</span>
+                </h1>
 
-                                <input type="radio" name="commercial" id="commercial_2" value="Y">
-                                <label for="commercial_2">사무실</label>
+                <div class="offer_step_wrap">
+                    <div class="box_01 box_reg">
+                        <h4>부동산 유형 <span class="txt_point">*</span></h4>
+                        <ul class="tab_type_3 tab_toggle_menu">
+                            <li class="active">상업용</li>
+                            <li>주거용</li>
+                            <li>분양권</li>
+                        </ul>
+                        <div class="tab_area_wrap">
+                            <div>
+                                <div class="btn_radioType">
+                                    <input type="radio" name="type_detail" id="type_detail_1" value="0" checked>
+                                    <label for="type_detail_1">지식산업센터</label>
 
-                                <input type="radio" name="commercial" id="commercial_3" value="Y">
-                                <label for="commercial_3">창고</label>
+                                    <input type="radio" name="type_detail" id="type_detail_2" value="1">
+                                    <label for="type_detail_2">사무실</label>
 
-                                <input type="radio" name="commercial" id="commercial_4" value="Y">
-                                <label for="commercial_4">상가</label>
+                                    <input type="radio" name="type_detail" id="type_detail_3" value="2">
+                                    <label for="type_detail_3">창고</label>
 
-                                <input type="radio" name="commercial" id="commercial_5" value="Y">
-                                <label for="commercial_5">기숙사</label>
+                                    <input type="radio" name="type_detail" id="type_detail_4" value="3">
+                                    <label for="type_detail_4">상가</label>
 
-                                <input type="radio" name="commercial" id="commercial_6" value="Y">
-                                <label for="commercial_6">건물</label>
+                                    <input type="radio" name="type_detail" id="type_detail_5" value="4">
+                                    <label for="type_detail_5">기숙사</label>
 
-                                <input type="radio" name="commercial" id="commercial_7" value="Y">
-                                <label for="commercial_7">토지/임야</label>
+                                    <input type="radio" name="type_detail" id="type_detail_6" value="5">
+                                    <label for="type_detail_6">건물</label>
 
-                                <input type="radio" name="commercial" id="commercial_8" value="Y">
-                                <label for="commercial_8">단독 공장</label>
+                                    <input type="radio" name="type_detail" id="type_detail_7" value="6">
+                                    <label for="type_detail_7">토지/임야</label>
+
+                                    <input type="radio" name="type_detail" id="type_detail_8" value="7">
+                                    <label for="type_detail_8">단독 공장</label>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <div class="btn_radioType">
-                                <input type="radio" name="inhabitation" id="inhabitation_1" value="Y">
-                                <label for="inhabitation_1">아파트</label>
+                            <div>
+                                <div class="btn_radioType">
+                                    <input type="radio" name="type_detail" id="type_detail_9" value="8">
+                                    <label for="type_detail_9">아파트</label>
 
-                                <input type="radio" name="inhabitation" id="inhabitation_2" value="Y">
-                                <label for="inhabitation_2">오피스텔</label>
+                                    <input type="radio" name="type_detail" id="type_detail_10" value="9">
+                                    <label for="type_detail_10">오피스텔</label>
 
-                                <input type="radio" name="inhabitation" id="inhabitation_3" value="Y">
-                                <label for="inhabitation_3">단독/다가구</label>
+                                    <input type="radio" name="type_detail" id="type_detail_11" value="10">
+                                    <label for="type_detail_11">단독/다가구</label>
 
-                                <input type="radio" name="inhabitation" id="inhabitation_4" value="Y">
-                                <label for="inhabitation_4">다세대/빌라/연립</label>
+                                    <input type="radio" name="type_detail" id="type_detail_12" value="11">
+                                    <label for="type_detail_12">다세대/빌라/연립</label>
 
-                                <input type="radio" name="inhabitation" id="inhabitation_5" value="Y">
-                                <label for="inhabitation_5">상가주택</label>
+                                    <input type="radio" name="type_detail" id="type_detail_13" value="12">
+                                    <label for="type_detail_13">상가주택</label>
 
-                                <input type="radio" name="inhabitation" id="inhabitation_6" value="Y">
-                                <label for="inhabitation_6">주택</label>
+                                    <input type="radio" name="type_detail" id="type_detail_14" value="13">
+                                    <label for="type_detail_14">주택</label>
+                                </div>
                             </div>
-                        </div>
 
-                        <div>
-                            <div class="btn_radioType">
-                                <input type="radio" name="pre_sale" id="pre_sale_1" value="Y">
-                                <label for="pre_sale_1">지식산업센터 분양권</label>
+                            <div>
+                                <div class="btn_radioType">
+                                    <input type="radio" name="type_detail" id="type_detail_15" value="14">
+                                    <label for="type_detail_15">지식산업센터 분양권</label>
 
-                                <input type="radio" name="pre_sale" id="pre_sale_2" value="Y">
-                                <label for="pre_sale_2">상가 분양권</label>
+                                    <input type="radio" name="type_detail" id="type_detail_16" value="15">
+                                    <label for="type_detail_16">상가 분양권</label>
 
-                                <input type="radio" name="pre_sale" id="pre_sale_3" value="Y">
-                                <label for="pre_sale_3">아파트 분양권</label>
+                                    <input type="radio" name="type_detail" id="type_detail_17" value="16">
+                                    <label for="type_detail_17">아파트 분양권</label>
 
-                                <input type="radio" name="pre_sale" id="pre_sale_4" value="Y">
-                                <label for="pre_sale_4">오피스텔 분양권</label>
+                                    <input type="radio" name="type_detail" id="type_detail_18" value="17">
+                                    <label for="type_detail_18">오피스텔 분양권</label>
+                                </div>
                             </div>
+
                         </div>
 
                     </div>
 
-                </div>
+                    <div class="box_01 box_reg">
+                        <h4>위치 및 주소 <span class="txt_point">*</span></h4>
 
-                <div class="box_01 box_reg">
-                    <h4>위치 및 주소 <span class="txt_point">*</span></h4>
+                        <input type="hidden" name="address_lng" id="address_lng" value="">
+                        <input type="hidden" name="address_lat" id="address_lat" value="">
+                        <input type="hidden" name="region_code" id="region_code" value="">
+                        <input type="hidden" name="region_address" id="region_address" value="">
+                        <input type="text" name="address" id="address" value="" style="display: none;">
+                        <input type="hidden" name="old_address" id="old_address" value="">
 
-                    <input type="hidden" name="address_lng" id="address_lng" value="">
-                    <input type="hidden" name="address_lat" id="address_lat" value="">
-                    <input type="hidden" name="region_code" id="region_code" value="">
-                    <input type="hidden" name="region_address" id="region_address" value="">
-                    <input type="hidden" name="address" id="address" value="">
-                    <input type="hidden" name="jibunName" id="jibunName" value="">
+                        <input type="hidden" name="asset_address_id" id="asset_address_id" value="">
 
-                    <div class="address_reg_wrap">
-                        <div class="inner_item">
-                            <div class="search_address_1 active">
-                                <button class="btn_graylight_ghost btn_full_thin txt_r" onclick="getAddress()">주소
-                                    검색</button>
-                            </div>
-                            <div class="search_address_2">
-                                <button class="btn_graylight_ghost btn_full_thin txt_r"
-                                    onclick="modal_open('address_search')">가(임시)주소 검색</button>
-                            </div>
-                            <div class="mt8 gap_14">
-                                <input type="checkbox" name="temporary_address" id="temporary_address"
-                                    value="Y">
-                                <label for="temporary_address" class="gray_deep"><span></span> 가(임시)주소</label>
-
-                                <input type="checkbox" name="unregistered" id="unregistered" value="Y">
-                                <label for="unregistered" class="gray_deep"><span></span> 미등기</label>
-                            </div>
-                            <!----------------- M:: map : s ----------------->
-                            <div class="inner_item inner_map only_m">
-                                주소 검색 시,<br>해당 위치가 지도에 표시됩니다.
-                            </div>
-                            <!----------------- M:: map : e ----------------->
-                            <div class="inner_address">
-                                <div class="address_row" id="roadName">
+                        <div class="address_reg_wrap">
+                            <div class="inner_item">
+                                <div class="search_address_1 active">
+                                    <button class="btn_graylight_ghost btn_full_thin txt_r" type="button"
+                                        onclick="getAddress()">주소
+                                        검색</button>
                                 </div>
-                                <div class="address_row" id="jibunName">
+                                <div class="search_address_2">
+                                    <button class="btn_graylight_ghost btn_full_thin txt_r" type="button"
+                                        onclick="modal_open('address_search')">가(임시)주소 검색</button>
                                 </div>
-                            </div>
+                                <div class="mt8 gap_14">
+                                    <input type="checkbox" name="temporary_address" id="temporary_address"
+                                        value="Y">
+                                    <label for="temporary_address" class="gray_deep"><span></span> 가(임시)주소</label>
 
-
-                            <div class="detail_address_1 mt18 active">
-                                <div class="flex_2">
-                                    <div class="flex_1">
-                                        <input type="text">
-                                        <span>동</span>
+                                    <input type="checkbox" name="unregistered" id="unregistered" value="Y">
+                                    <label for="unregistered" class="gray_deep"><span></span> 미등기</label>
+                                </div>
+                                <!----------------- M:: map : s ----------------->
+                                <div class="inner_item inner_map only_m">
+                                    주소 검색 시,<br>해당 위치가 지도에 표시됩니다.
+                                </div>
+                                <!----------------- M:: map : e ----------------->
+                                <div class="inner_address">
+                                    <div class="address_row" id="roadName">
                                     </div>
-                                    <div class="flex_1">
-                                        <input type="text">
-                                        <span>호</span>
+                                    <div class="address_row" id="jibunName">
                                     </div>
                                 </div>
-                                <div class="mt8">
-                                    <input type="checkbox" name="address_no" id="address_no_1" value="Y">
-                                    <label for="address_no_1" class="gray_deep"><span></span> 동정보 없음</label>
-                                </div>
-                            </div>
 
-                            <div class="detail_address_2 mt18">
-                                <div>
+
+                                <div class="detail_address_1 mt18 active">
+                                    <div class="flex_2">
+                                        <div class="flex_1">
+                                            <input type="text" id="address_dong" name="address_dong"
+                                                value="{{ old('address_dong') }}">
+                                            <span>동</span>
+                                        </div>
+                                        <div class="flex_1">
+                                            <input type="text" id="address_detail_ho" name="address_detail_ho"
+                                                value="{{ old('address_detail_ho') }}">
+                                            <span>호</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt8">
+                                        <input type="checkbox" name="address_no" id="address_no_1" value="Y">
+                                        <label for="address_no_1" class="gray_deep"><span></span> 동정보 없음</label>
+                                    </div>
+                                </div>
+
+                                <div class="detail_address_2 mt18">
+                                    <div>
+                                        <input type="text" id="address_detail" name="address_detail"
+                                            value="{{ old('address_detail') }}"
+                                            placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호">
+                                    </div>
+                                    <div class="mt8">
+                                        <input type="checkbox" name="address_no" id="address_no_2" value="Y">
+                                        <label for="address_no_2" class="gray_deep"><span></span> 상세주소 없음</label>
+                                    </div>
+                                </div>
+                                <script type="text/javascript"
+                                    src="https://business.juso.go.kr/juso_support_center/js/addrlink/map/jusoro_map_api.min.js?confmKey={{ env('CONFM_MAP_KEY') }}&skinType=1">
+                                </script>
+                                <!-- <div class="mt18">
                                     <input type="text" placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호">
-                                </div>
-                                <div class="mt8">
-                                    <input type="checkbox" name="address_no" id="address_no_2" value="Y">
-                                    <label for="address_no_2" class="gray_deep"><span></span> 상세주소 없음</label>
-                                </div>
+                                </div> -->
                             </div>
-                            <script type="text/javascript"
-                                src="https://business.juso.go.kr/juso_support_center/js/addrlink/map/jusoro_map_api.min.js?confmKey={{ env('CONFM_MAP_KEY') }}&skinType=1">
-                            </script>
-                            <!-- <div class="mt18">
-                                <input type="text" placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호">
-                            </div> -->
-                        </div>
-                        <div class="inner_item inner_map only_pc">
-                            주소 검색 시,<br>해당 위치가 지도에 표시됩니다.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="box_01 box_reg">
-                    <h4>기본 정보</h4>
-
-                    <div class="reg_mid_wrap">
-                        <div class="reg_item">
-                            <label class="input_label">공급 면적 <span class="txt_point">*</span></label>
-                            <div class="input_pyeong_area">
-                                <div><input type="text" placeholder="전용면적"> <span class="gray_deep">평</span>
-                                </div>
-                                <span class="gray_deep">/</span>
-                                <div><input type="text" placeholder="평 입력시 자동"> <span class="gray_deep">㎡</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="reg_item">
-                            <label class="input_label">전용 면적 <span class="txt_point">*</span></label>
-                            <div class="input_pyeong_area">
-                                <div><input type="text" placeholder="전용면적"> <span class="gray_deep">평</span>
-                                </div>
-                                <span class="gray_deep">/</span>
-                                <div><input type="text" placeholder="평 입력시 자동"> <span class="gray_deep">㎡</span>
+                            <div class="inner_item inner_map only_pc">
+                                <div id="mapWrap" class="mapWrap"
+                                    style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
+                                <div id="is_temporary_1" style="display: none">
+                                    가(임시)주소 선택시,<br>지도 노출이 불가능합니다.
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="reg_mid_wrap">
-                        <div class="reg_item">
-                            <label class="input_label">명의구분 <span class="txt_point">*</span></label>
-                            <div class="btn_radioType">
-                                <input type="radio" name="div_1" id="div_1_1" value="Y">
-                                <label for="div_1_1">단독명의</label>
+                    <div class="box_01 box_reg">
+                        <h4>기본 정보</h4>
 
-                                <input type="radio" name="div_1" id="div_1_2" value="Y">
-                                <label for="div_1_2">공동명의</label>
+                        <div class="reg_mid_wrap">
+                            <div class="reg_item">
+                                <label class="input_label">공급 면적 <span class="txt_point">*</span></label>
+                                <div class="input_pyeong_area">
+                                    <div><input type="text" id="area" name="area" placeholder="전용면적">
+                                        <span class="gray_deep">평</span>
+                                    </div>
+                                    <span class="gray_deep">/</span>
+                                    <div><input type="text" id="square" name="square" placeholder="평 입력시 자동">
+                                        <span class="gray_deep">㎡</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="reg_item">
+                                <label class="input_label">전용 면적 <span class="txt_point">*</span></label>
+                                <div class="input_pyeong_area">
+                                    <div><input type="text" id="exclusive_area" name="exclusive_area"
+                                            placeholder="전용면적"> <span class="gray_deep">평</span>
+                                    </div>
+                                    <span class="gray_deep">/</span>
+                                    <div><input type="text" id="exclusive_square" name="exclusive_square"
+                                            placeholder="평 입력시 자동"> <span class="gray_deep">㎡</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="reg_item">
-                            <label class="input_label">사업자구분 <span class="txt_point">*</span></label>
-                            <div class="btn_radioType">
-                                <input type="radio" name="div_2" id="div_2_1" value="Y">
-                                <label for="div_2_1">개인사업자</label>
 
-                                <input type="radio" name="div_2" id="div_2_2" value="Y">
-                                <label for="div_2_2">법인사업자</label>
+                        <div class="reg_mid_wrap">
+                            <div class="reg_item">
+                                <label class="input_label">명의구분 <span class="txt_point">*</span></label>
+                                <div class="btn_radioType">
+                                    <input type="radio" name="name_type" id="name_type_1" value="0" checked>
+                                    <label for="name_type_1">단독명의</label>
 
-                                <input type="radio" name="div_2" id="div_2_3" value="Y">
-                                <label for="div_2_3">개인</label>
+                                    <input type="radio" name="name_type" id="name_type_2" value="1">
+                                    <label for="name_type_2">공동명의</label>
+                                </div>
+                            </div>
+                            <div class="reg_item">
+                                <label class="input_label">사업자구분 <span class="txt_point">*</span></label>
+                                <div class="btn_radioType">
+                                    <input type="radio" name="business_type" id="business_type_1" value="0"
+                                        checked>
+                                    <label for="business_type_1">개인사업자</label>
+
+                                    <input type="radio" name="business_type" id="business_type_2" value="1">
+                                    <label for="business_type_2">법인사업자</label>
+
+                                    <input type="radio" name="business_type" id="business_type_3" value="2">
+                                    <label for="business_type_3">개인</label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="step_btn_wrap">
-                    <span></span>
-                    <!-- <button class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                    <button class="btn_full_basic btn_point"
-                        onclick="location.href='{{ route('www.mypage.service.create.second.view') }}'">다음</button>
+                    <div class="step_btn_wrap">
+                        <span></span>
+                        <!-- <button class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
+                        <button class="btn_full_basic btn_point" id="nextPageButton" name="nextPageButton"
+                            type="submit" disabled>다음</button>
+                    </div>
                 </div>
-
             </div>
-        </div>
-        <!-- my_body : e -->
-
+            <!-- my_body : e -->
+        </form>
     </div>
 
     <!-- modal 가(임시)주소 검색 : s-->
@@ -287,6 +305,78 @@
 </x-layout>
 
 <script>
+    function isStringValue(val) {
+        return !!val?.trim()
+    }
+
+    function debounce(func, timeout = 300) {
+        let timer;
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                func.apply(this, args);
+            }, timeout);
+        };
+    }
+
+    function onFieldInputCheck() {
+
+        var checkVal = 1;
+        var minusVal = 0;
+
+        $("input[type=text]").each(function(index, item) {
+            checkVal = (isStringValue(item.value) == false) ? checkVal + 1 : checkVal;
+        });
+
+        // 임시 주소 체크 여부
+        if (document.getElementById('temporary_address').checked == false) {
+            minusVal = 1;
+        }
+
+        // 동 정보 없는지 체크
+        if (document.getElementById('address_no_1').checked || document.getElementById('temporary_address').checked ==
+            true) {
+            minusVal = 2;
+        }
+
+        // 상세 주소 없는지 체크
+        if (document.getElementById('address_no_2').checked) {
+            minusVal = 3;
+        }
+
+        checkVal -= minusVal;
+
+        if (checkVal == 1) {
+            document.getElementById('nextPageButton').disabled = false;
+        } else {
+            document.getElementById('nextPageButton').disabled = true;
+        }
+    }
+
+    const processChange = debounce(() => onFieldInputCheck());
+
+    addEventListener("input", (event) => {
+        processChange();
+    });
+
+    addEventListener("checkbox", (event) => {
+        processChange();
+    });
+
+
+    // 전용 면적 평수 변환
+    var exclusive_area = document.getElementById('exclusive_area');
+    exclusive_area.addEventListener('keyup', function(e) {
+        $('#exclusive_square').val((parseInt(e.target.value) * 3.3058).toFixed(2));
+    });
+
+    // 공급 면적 평수 변환
+    var area = document.getElementById('area');
+    area.addEventListener('keyup', function(e) {
+        $('#square').val((parseInt(e.target.value) * 3.3058).toFixed(2));
+    });
+
+
     $(document).ready(function() {
         var type = sessionStorage.getItem("typeSession");
 
@@ -693,7 +783,8 @@
         $('#roadName').html('<span>도로명</span>' + rtAddrPart1);
         $('#jibunName').html('<span>지번</span>' + rtJibunAddr);
 
-        $('#address').val(rtAddrPart1)
+        $('#address').val(rtAddrPart1);
+        $('#old_address').val(rtJibunAddr);
 
         if (!$("#address_detail").prop('disabled')) {
             $('#address_detail').val(rtAddrDetail);
@@ -712,7 +803,7 @@
         console.log('주소 검색 끝!');
 
         confrim_check();
-
+        onFieldInputCheck();
     }
 
     // type1.좌표정보(GRS80, EPSG:5179)

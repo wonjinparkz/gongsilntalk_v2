@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('is_unregistered')->comment('미등기 여부 0-아님, 1-미등기');
             $table->string('address_lat')->comment('위도');
             $table->string('address_lng')->comment('경도');
+            $table->bigInteger('region_code')->comment('법정동 코드');
+            $table->string('region_address')->comment('법정동 주소');
             $table->string('address')->comment('도로명 주소');
             $table->string('old_address')->comment('지번 주소');
             $table->timestamps();
