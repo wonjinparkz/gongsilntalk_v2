@@ -316,12 +316,14 @@
                 <div class="card-body border-top p-9">
                     <div class="dong-container">
 
-                        <div class="row mb-6 dong_row" data-index="0">
+                        @foreach (old('dong_info') as $dongIndex => $dongInfo)
+                        @endforeach
+                        <div class="row mb-6 dong_row" data-index="{{ $dongIndex }}">
                             <div class="col-lg-12 row mb-6">
                                 <label class="required col-lg-2 col-form-label fw-semibold fs-6">동이름</label>
                                 <div class="col-lg-6 fv-row">
-                                    <input type="text" name="dong_info[0][dong_name]" class="form-control"
-                                        placeholder="동이름" value="" />
+                                    <input type="text" name="dong_info[{{ $dongIndex }}][dong_name]"
+                                        class="form-control" placeholder="동이름" value="" />
                                 </div>
                                 <div class="col-lg-4 fv-row">
                                     <div class="d-flex justify-content-end">
@@ -334,70 +336,79 @@
                                     <label class="required col-form-label fw-semibold fs-6 align-self-start">층
                                         정보</label>
                                     <button type="button" class="btn btn-warning btn-sm add-floor"
-                                        data-dong-index="0">층 정보 추가</button>
+                                        data-dong-index="{{ $dongIndex }}">층 정보 추가</button>
                                 </div>
-                                <div class="col-lg-10 fv-row floor-container" data-floor-container-index="0">
-                                    <div class="row floor_row col-lg-12" data-floor-index="0">
+                                <div class="col-lg-10 fv-row floor-container"
+                                    data-floor-container-index="{{ $dongIndex }}">
+                                    @foreach (old('dong_info')[$dongIndex]['floor_info'] as $floorIndex => $floorInfo)
+                                    @endforeach
+                                    <div class="row floor_row col-lg-12 mb-1" data-floor-index="{{ $floorIndex }}">
                                         <div class="row col-lg-10">
                                             <div class="row mb-5">
                                                 <label class="required col-lg-2 col-form-label fw-semibold fs-6">층
                                                     명</label>
                                                 <div class="col-lg-5 fv-row">
                                                     <input type="text"
-                                                        name="dong_info[0][floor_info][0][floor_name]"
+                                                        name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_name]"
                                                         class="form-control" placeholder="층 명" value="" />
                                                 </div>
                                             </div>
                                             <div class="row mb-5">
                                                 <label
                                                     class="required col-lg-2 col-form-label fw-semibold fs-6">용도구분</label>
-                                                <div class="col-lg-9 fv-row">
+                                                <div class="col-lg-10 fv-row">
                                                     <label
                                                         class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
                                                         <input class="form-check-input"
-                                                            name="dong_info[0][floor_info][0][is_neighborhood_life]"
+                                                            name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][is_neighborhood_life]"
                                                             type="checkbox" value="1">
-                                                        <span class="fw-semibold ps-2 fs-6">근생지원시설</span>
+                                                        <span class="fw-semibold ps-2">근생지원시설</span>
                                                     </label>
                                                     <label
                                                         class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
                                                         <input class="form-check-input"
-                                                            name="dong_info[0][floor_info][0][is_neighborhood_life]"
+                                                            name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][is_industry_center]"
                                                             type="checkbox" value="1">
-                                                        <span class="fw-semibold ps-2 fs-6">근생지원시설</span>
+                                                        <span class="fw-semibold ps-2">지식산업센터</span>
                                                     </label>
                                                     <label
                                                         class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
                                                         <input class="form-check-input"
-                                                            name="dong_info[0][floor_info][0][is_neighborhood_life]"
+                                                            name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][is_warehouse]"
                                                             type="checkbox" value="1">
-                                                        <span class="fw-semibold ps-2 fs-6">근생지원시설</span>
+                                                        <span class="fw-semibold ps-2">공동창고</span>
                                                     </label>
                                                     <label
                                                         class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
                                                         <input class="form-check-input"
-                                                            name="dong_info[0][floor_info][0][is_neighborhood_life]"
+                                                            name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][is_dormitory]"
                                                             type="checkbox" value="1">
-                                                        <span class="fw-semibold ps-2 fs-6">근생지원시설</span>
+                                                        <span class="fw-semibold ps-2">기숙사,유치원</span>
+                                                    </label>
+                                                    <label
+                                                        class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                                        <input class="form-check-input"
+                                                            name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][is_business_support]"
+                                                            type="checkbox" value="1">
+                                                        <span class="fw-semibold ps-2">업무지원시설</span>
                                                     </label>
                                                 </div>
                                                 <div class="row mb-6">
                                                     <label class="col-lg-2 col-form-label fw-semibold fs-6">도면</label>
-                                                    <div class="col-lg-9">
-                                                        {{-- <button type="button" class="btn btn-secondary btn-sm"
-                                                            onclick="uploadFloorFile($(this).closest('.floor_row'))">도면첨부</button> --}}
+                                                    <div
+                                                        class="col-lg-9 file-upload-container
+                                                    file-upload-container">
                                                         <input type="file" accept="image/*"
                                                             onchange="uploadFloorFile(this)">
-                                                        <span class="fw-semibold ps-2 fs-6">공통창고B2층_도면.jpg</span>
                                                         <input type="hidden"
-                                                            name="dong_info[0][floor_info][0][floor_image_idxs]"
+                                                            name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_idxs]"
                                                             value="">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-2 fv-row">
-                                            <div class=" justify-content-end" style="height: 100%;">
+                                            <div class="d-flex justify-content-end" style="height: 100%;">
                                                 <button type="button" class="btn btn-primary floor-delete">층
                                                     삭제</button>
                                             </div>
@@ -653,30 +664,35 @@
             // 페이지 로드 시 실행
             toggleSolid();
 
-            function uploadFloorFile(input) {
-                const data = new FormData(); // Create a new FormData object to store the file data
-                let file = input.files[0]; // Get the selected file from the input element
-                data.append('image', file); // Append the selected file to the FormData object with key 'image'
-
-                $.ajax({
-                    url: "{{ route('api.imageupload') }}", // URL to the image upload API route
-                    method: "POST",
-                    data: data, // Data to be sent in the request (the FormData object containing the file)
-                    contentType: false, // Set contentType to false to prevent jQuery from automatically setting the content type
-                    processData: false, // Set processData to false to prevent jQuery from automatically processing the data
-                    success: function(response) {
-                        console.log(
-                        response); // Log the response from the server on successful upload
-                    },
-                    error: function() {
-                        alert(
-                            "파일 업로드 중 오류가 발생하였습니다."
-                            ); // Display an alert if an error occurs during file upload
-                    }
-                });
-            }
 
         });
+
+
+        function uploadFloorFile(input) {
+            console.log('이미지 업로드');
+            const data = new FormData(); // Create a new FormData object to store the file data
+            let file = input.files[0]; // Get the selected file from the input element
+            data.append('image', file); // Append the selected file to the FormData object with key 'image'
+
+            $.ajax({
+                url: "{{ route('api.imageupload') }}", // URL to the image upload API route
+                method: "POST",
+                data: data, // Data to be sent in the request (the FormData object containing the file)
+                contentType: false, // Set contentType to false to prevent jQuery from automatically setting the content type
+                processData: false, // Set processData to false to prevent jQuery from automatically processing the data
+                success: function(response) {
+                    console.log(response.result);
+                    const container = input.closest('.file-upload-container');
+                    const hiddenInput = container.querySelector('input[type="hidden"]');
+                    hiddenInput.value = response.result.id;
+                },
+                error: function() {
+                    alert(
+                        "파일 업로드 중 오류가 발생하였습니다."
+                    ); // Display an alert if an error occurs during file upload
+                }
+            });
+        }
 
         function formSubmit() {
             $('input:disabled').prop('disabled', false);
@@ -819,7 +835,8 @@
                 <div class="col-lg-12 row mb-6">
                     <label class="required col-lg-2 col-form-label fw-semibold fs-6">동이름</label>
                     <div class="col-lg-6 fv-row">
-                        <input type="text" name="dong_info[${index}][dong_name]" class="form-control" placeholder="동이름" value="" />
+                        <input type="text" name="dong_info[${index}][dong_name]" class="form-control"
+                            placeholder="동이름" value="" />
                     </div>
                     <div class="col-lg-4 fv-row">
                         <div class="d-flex justify-content-end">
@@ -832,7 +849,7 @@
                         <label class="required col-form-label fw-semibold fs-6 align-self-start">층 정보</label>
                         <button type="button" class="btn btn-warning btn-sm add-floor" data-dong-index="${index}">층 정보 추가</button>
                     </div>
-                    <div class="col-lg-8 fv-row floor-container" data-floor-container-index="${index}">
+                    <div class="col-lg-10 fv-row floor-container" data-floor-container-index="${index}">
                         <!-- 층 정보는 여기에 추가됩니다. -->
                     </div>
                 </div>
@@ -846,22 +863,73 @@
             var container = $('.floor-container[data-floor-container-index="' + dongIndex + '"]');
             var floorIndex = container.find('.floor_row').length;
             var template = `
-            <div class="row mb-6 floor_row" data-floor-index="${floorIndex}">
-                <label class="required col-lg-2 col-form-label fw-semibold fs-6">층 명</label>
-                <div class="col-lg-3 fv-row">
-                    <input type="text" name="dong_info[${dongIndex}][floor_info][${floorIndex}][floor_name]" class="form-control" placeholder="층 명" value="" />
+            <div class="row floor_row col-lg-12 mb-1" data-floor-index="${dongIndex}">
+                <div class="row col-lg-10">
+                    <div class="row mb-5">
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">층
+                            명</label>
+                        <div class="col-lg-5 fv-row">
+                            <input type="text"
+                                name="dong_info[${dongIndex}][floor_info][${floorIndex}][floor_name]"
+                                class="form-control" placeholder="층 명" value="" />
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+                        <label
+                            class="required col-lg-2 col-form-label fw-semibold fs-6">용도구분</label>
+                        <div class="col-lg-10 fv-row">
+                            <label
+                                class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                <input class="form-check-input"
+                                    name="dong_info[${dongIndex}][floor_info][${floorIndex}][is_neighborhood_life]"
+                                    type="checkbox" value="1">
+                                <span class="fw-semibold ps-2">근생지원시설</span>
+                            </label>
+                            <label
+                                class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                <input class="form-check-input"
+                                    name="dong_info[${dongIndex}][floor_info][${floorIndex}][is_industry_center]"
+                                    type="checkbox" value="1">
+                                <span class="fw-semibold ps-2">지식산업센터</span>
+                            </label>
+                            <label
+                                class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                <input class="form-check-input"
+                                    name="dong_info[${dongIndex}][floor_info][${floorIndex}][is_warehouse]"
+                                    type="checkbox" value="1">
+                                <span class="fw-semibold ps-2">공동창고</span>
+                            </label>
+                            <label
+                                class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                <input class="form-check-input"
+                                    name="dong_info[${dongIndex}][floor_info][${floorIndex}][is_dormitory]"
+                                    type="checkbox" value="1">
+                                <span class="fw-semibold ps-2">기숙사,유치원</span>
+                            </label>
+                            <label
+                                class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                <input class="form-check-input"
+                                    name="dong_info[${dongIndex}][floor_info][${floorIndex}][is_business_support]"
+                                    type="checkbox" value="1">
+                                <span class="fw-semibold ps-2">업무지원시설</span>
+                            </label>
+                        </div>
+                        <div class="row mb-6">
+                            <label class="col-lg-2 col-form-label fw-semibold fs-6">도면</label>
+                            <div class="col-lg-9 file-upload-container">
+                                <input type="file" accept="image/*"
+                                    onchange="uploadFloorFile(this)">
+                                <input type="hidden"
+                                    name="dong_info[${dongIndex}][floor_info][${floorIndex}][floor_image_idxs]"
+                                    value="">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <label class="required col-lg-2 col-form-label fw-semibold fs-6">용도구분</label>
-                <div class="col-lg-9 fv-row">
-                    <label class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
-                        <input class="form-check-input" name="dong_info[${dongIndex}][floor_info][${floorIndex}][is_neighborhood_life]" type="checkbox" value="1">
-                        <span class="fw-semibold ps-2 fs-6">근생지원시설</span>
-                    </label>
-                    <!-- Add other checkbox fields similarly -->
-                </div>
-                <div class="col-lg-1 fv-row">
-                    <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary floor-delete">층 삭제</button>
+                <div class="col-lg-2 fv-row">
+                    <div class="d-flex justify-content-end" style="height: 100%;">
+                        <button type="button" class="btn btn-primary floor-delete">층
+                            삭제</button>
                     </div>
                 </div>
             </div>`;
