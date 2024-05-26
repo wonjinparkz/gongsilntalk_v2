@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('site_product', function (Blueprint $table) {
             $table->id()->comment('분양현장 매물 아이디');
-            $table->integer('author')->nullable()->comment('작성자 - 관리자');
+            $table->integer('admins_id')->nullable()->comment('작성자 - 관리자');
             $table->integer('regoin_type')->nullable()->comment('지역 선택 - 0: 서울, 1: 성수동, 2: 문정동, 3: 영등포, 4: 가산/구로, 5: 인천/부천, 6: 시흥/안산, 7: 과천/광명, 8: 안양/군포, 9: 수원/의왕, 10: 하남/성남, 11: 김포/고양, 12: 구리/남양주, 13: 동탄/용인, 14: 오산/평택, 15: 부산, 16: 기타');
             $table->string('address_lat')->nullable()->comment('위도');
             $table->string('address_lng')->nullable()->comment('경도');

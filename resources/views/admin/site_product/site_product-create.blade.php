@@ -11,16 +11,18 @@
 
                     {{-- 지역 선택 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">지역 선택</label>
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">지역
+                            선택{{ old('region_type') }}</label>
                         <div class="col-lg-9 fv-row">
                             @for ($i = 0; $i < count(Lang::get('commons.site_product_region_type')); $i++)
                                 <label class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
                                     <input class="form-check-input" name="region_type" type="radio"
-                                        value="{{ $i }}" @if (old('region_type') ?? 0 == $i) checked @endif>
+                                        value="{{ $i }}" @if (old('region_type') == $i) checked @endif>
                                     <span
                                         class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.site_product_region_type.' . $i) }}</span>
                                 </label>
                             @endfor
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('region_type')" />
                         </div>
                     </div>
 
@@ -58,7 +60,7 @@
                     {{-- 대표 이미지 --}}
                     <x-admin-image-picker :title="'대표 이미지'" required="required" cnt='1' id="siteProductMain"
                         label_col='2' div_col='9' />
-                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('siteProductMain_file_ids')" />
+                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('siteProductMain_image_ids')" />
 
                     {{-- 제목 --}}
                     <div class="row mb-6">
@@ -316,107 +318,121 @@
                 <div class="card-body border-top p-9">
                     <div class="dong-container">
 
-                        @foreach (old('dong_info') as $dongIndex => $dongInfo)
-                        @endforeach
-                        <div class="row mb-6 dong_row" data-index="{{ $dongIndex }}">
-                            <div class="col-lg-12 row mb-6">
-                                <label class="required col-lg-2 col-form-label fw-semibold fs-6">동이름</label>
-                                <div class="col-lg-6 fv-row">
-                                    <input type="text" name="dong_info[{{ $dongIndex }}][dong_name]"
-                                        class="form-control" placeholder="동이름" value="" />
-                                </div>
-                                <div class="col-lg-4 fv-row">
-                                    <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-primary dong-delete">동 삭제</button>
+                        @foreach (old('dong_info', []) as $dongIndex => $dongInfo)
+                            <div class="row mb-6 dong_row" data-index="{{ $dongIndex }}">
+                                <div class="col-lg-12 row mb-6">
+                                    <label class="required col-lg-2 col-form-label fw-semibold fs-6">동이름</label>
+                                    <div class="col-lg-6 fv-row">
+                                        <input type="text" name="dong_info[{{ $dongIndex }}][dong_name]"
+                                            class="form-control" placeholder="동이름"
+                                            value="{{ $dongInfo['dong_name'] }}" />
+                                    </div>
+                                    <div class="col-lg-4 fv-row">
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn btn-primary dong-delete">동 삭제</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-12 row mb-6">
-                                <div class="col-lg-2 fv-row d-flex flex-column justify-content-center">
-                                    <label class="required col-form-label fw-semibold fs-6 align-self-start">층
-                                        정보</label>
-                                    <button type="button" class="btn btn-warning btn-sm add-floor"
-                                        data-dong-index="{{ $dongIndex }}">층 정보 추가</button>
-                                </div>
-                                <div class="col-lg-10 fv-row floor-container"
-                                    data-floor-container-index="{{ $dongIndex }}">
-                                    @foreach (old('dong_info')[$dongIndex]['floor_info'] as $floorIndex => $floorInfo)
-                                    @endforeach
-                                    <div class="row floor_row col-lg-12 mb-1" data-floor-index="{{ $floorIndex }}">
-                                        <div class="row col-lg-10">
-                                            <div class="row mb-5">
-                                                <label class="required col-lg-2 col-form-label fw-semibold fs-6">층
-                                                    명</label>
-                                                <div class="col-lg-5 fv-row">
-                                                    <input type="text"
-                                                        name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_name]"
-                                                        class="form-control" placeholder="층 명" value="" />
-                                                </div>
-                                            </div>
-                                            <div class="row mb-5">
-                                                <label
-                                                    class="required col-lg-2 col-form-label fw-semibold fs-6">용도구분</label>
-                                                <div class="col-lg-10 fv-row">
-                                                    <label
-                                                        class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
-                                                        <input class="form-check-input"
-                                                            name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][is_neighborhood_life]"
-                                                            type="checkbox" value="1">
-                                                        <span class="fw-semibold ps-2">근생지원시설</span>
-                                                    </label>
-                                                    <label
-                                                        class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
-                                                        <input class="form-check-input"
-                                                            name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][is_industry_center]"
-                                                            type="checkbox" value="1">
-                                                        <span class="fw-semibold ps-2">지식산업센터</span>
-                                                    </label>
-                                                    <label
-                                                        class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
-                                                        <input class="form-check-input"
-                                                            name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][is_warehouse]"
-                                                            type="checkbox" value="1">
-                                                        <span class="fw-semibold ps-2">공동창고</span>
-                                                    </label>
-                                                    <label
-                                                        class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
-                                                        <input class="form-check-input"
-                                                            name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][is_dormitory]"
-                                                            type="checkbox" value="1">
-                                                        <span class="fw-semibold ps-2">기숙사,유치원</span>
-                                                    </label>
-                                                    <label
-                                                        class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
-                                                        <input class="form-check-input"
-                                                            name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][is_business_support]"
-                                                            type="checkbox" value="1">
-                                                        <span class="fw-semibold ps-2">업무지원시설</span>
-                                                    </label>
-                                                </div>
-                                                <div class="row mb-6">
-                                                    <label class="col-lg-2 col-form-label fw-semibold fs-6">도면</label>
-                                                    <div
-                                                        class="col-lg-9 file-upload-container
+                                <div class="col-lg-12 row mb-6">
+                                    <div class="col-lg-2 fv-row d-flex flex-column justify-content-center">
+                                        <label class="required col-form-label fw-semibold fs-6 align-self-start">층
+                                            정보</label>
+                                        <button type="button" class="btn btn-warning btn-sm add-floor"
+                                            data-dong-index="{{ $dongIndex }}">층 정보 추가</button>
+                                    </div>
+                                    <div class="col-lg-10 fv-row floor-container"
+                                        data-floor-container-index="{{ $dongIndex }}">
+                                        @foreach (old('dong_info')[$dongIndex]['floor_info'] as $floorIndex => $floorInfo)
+                                            <div class="row floor_row col-lg-12 mb-1"
+                                                data-floor-index="{{ $floorIndex }}">
+                                                <div class="row col-lg-10">
+                                                    <div class="row mb-5">
+                                                        <label
+                                                            class="required col-lg-2 col-form-label fw-semibold fs-6">층
+                                                            명</label>
+                                                        <div class="col-lg-5 fv-row">
+                                                            <input type="text"
+                                                                name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_name]"
+                                                                class="form-control" placeholder="층 명"
+                                                                value="{{ $floorInfo['floor_name'] }}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-5">
+                                                        <label
+                                                            class="required col-lg-2 col-form-label fw-semibold fs-6">용도구분</label>
+                                                        <div class="col-lg-10 fv-row">
+                                                            <label
+                                                                class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                                                <input class="form-check-input"
+                                                                    name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][is_neighborhood_life]"
+                                                                    type="checkbox" value="1"
+                                                                    @if ($floorInfo['is_neighborhood_life'] ?? 0) checked @endif>
+                                                                <span class="fw-semibold ps-2">근생지원시설</span>
+                                                            </label>
+                                                            <label
+                                                                class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                                                <input class="form-check-input"
+                                                                    name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][is_industry_center]"
+                                                                    type="checkbox" value="1"
+                                                                    @if ($floorInfo['is_industry_center'] ?? 0) checked @endif>
+                                                                <span class="fw-semibold ps-2">지식산업센터</span>
+                                                            </label>
+                                                            <label
+                                                                class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                                                <input class="form-check-input"
+                                                                    name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][is_warehouse]"
+                                                                    type="checkbox" value="1"
+                                                                    @if ($floorInfo['is_warehouse'] ?? 0) checked @endif>
+                                                                <span class="fw-semibold ps-2">공동창고</span>
+                                                            </label>
+                                                            <label
+                                                                class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                                                <input class="form-check-input"
+                                                                    name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][is_dormitory]"
+                                                                    type="checkbox" value="1"
+                                                                    @if ($floorInfo['is_dormitory'] ?? 0) checked @endif>
+                                                                <span class="fw-semibold ps-2">기숙사,유치원</span>
+                                                            </label>
+                                                            <label
+                                                                class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                                                <input class="form-check-input"
+                                                                    name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][is_business_support]"
+                                                                    type="checkbox" value="1"
+                                                                    @if ($floorInfo['is_business_support'] ?? 0) checked @endif>
+                                                                <span class="fw-semibold ps-2">업무지원시설</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="row mb-6">
+                                                            <label
+                                                                class="col-lg-2 col-form-label fw-semibold fs-6">도면</label>
+                                                            <div
+                                                                class="col-lg-9 file-upload-container
                                                     file-upload-container">
-                                                        <input type="file" accept="image/*"
-                                                            onchange="uploadFloorFile(this)">
-                                                        <input type="hidden"
-                                                            name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_idxs]"
-                                                            value="">
+                                                                <input type="file" accept="image/*"
+                                                                    name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_value]"
+                                                                    onchange="uploadFloorFile(this)"
+                                                                    value="{{ $floorInfo['floor_image_value'] ?? 0 }}">
+                                                                <input type="hidden"
+                                                                    name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_idxs]"
+                                                                    value="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 fv-row">
+                                                    <div class="d-flex justify-content-end" style="height: 100%;">
+                                                        <button type="button" class="btn btn-primary floor-delete">층
+                                                            삭제</button>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-2 fv-row">
-                                            <div class="d-flex justify-content-end" style="height: 100%;">
-                                                <button type="button" class="btn btn-primary floor-delete">층
-                                                    삭제</button>
-                                            </div>
-                                        </div>
+                                        @endforeach
+
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
+
                     </div>
                     <div class="row mb-6">
                         <button type="button" class="btn btn-secondary" onclick="dong_add();">동 추가</button>
@@ -575,7 +591,8 @@
                                                 <span class="input-group-text" id="basic-addon1">마감일</span>
                                                 <input type="text" name="ended_date[]"
                                                     class="form-control ended-date"
-                                                    onfocus="initDatepickerCustom($(this))" readonly placeholder=""
+                                                    onfocus="initDatepickerCustom($(this))" readonly
+                                                    @if ($is_ended[$index] ?? 0) disabled @endif placeholder=""
                                                     value="{{ $ended_date[$index] }}" />
                                             </div>
                                         </div>
@@ -583,7 +600,7 @@
                                             <label class="form-check form-check-custom form-check-inline">
                                                 <input class="form-check-input is-ended" name="is_ended[]"
                                                     type="checkbox" value="1"
-                                                    @if ($is_ended[$index] == 1) checked @endif>
+                                                    @if ($is_ended[$index] ?? 0 == 1) checked @endif>
                                                 <span class="fw-semibold ps-2 fs-6">마감일</span>
                                             </label>
                                         </div>
