@@ -33,7 +33,7 @@
                 {{-- 검색 영역 --}}
                 <div class="card card-flush shadow-sm">
                     <form class="form card-body row border-top p-9 align-items-center" method="GET"
-                        action="{{ route('admin.product.list.view') }}">
+                        action="{{ route('admin.site.product.list.view') }}">
                         @csrf
 
                         <input type="hidden" name="user_type" value="0">
@@ -65,19 +65,19 @@
                             </div>
                         </div>
 
-                        {{-- 분양 종류 --}}
+                        {{-- 지역 --}}
                         <div class="col-lg-12 row mb-6">
-                            <label class="col-lg-2 col-form-label fw-semibold fs-6">분양 종류</label>
+                            <label class="col-lg-2 col-form-label fw-semibold fs-6">지역</label>
                             @php
-                                $type = Request::get('type') ?? [];
+                                $region_type = Request::get('region_type') ?? [];
                             @endphp
                             <div class="col-lg-10 fv-row">
-                                <select name="type[]"class="form-select form-select-solid" data-control="select2"
-                                    data-close-on-select="false" data-placeholder="분양 종류를 선택해주세요."
+                                <select name="region_type[]"class="form-select form-select-solid" data-control="select2"
+                                    data-close-on-select="false" data-placeholder="지역을 선택해주세요."
                                     data-allow-clear="true" multiple="multiple">
                                     @for ($i = 0; $i < count(Lang::get('commons.site_product_region_type')); $i++)
                                         <option value="{{ $i }}"
-                                            @if (in_array($i, $type)) selected @endif>
+                                            @if (in_array($i, $region_type)) selected @endif>
                                             {{ Lang::get('commons.site_product_region_type.' . $i) }}</option>
                                     @endfor
                                 </select>
@@ -90,7 +90,7 @@
 
                         <div class="d-flex justify-content-end mt-10">
                             <a class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical"
-                                href="{{ route('admin.product.export', Request::all()) }}" target="_blank">
+                                href="{{ route('admin.site.product.export', Request::all()) }}" target="_blank">
                                 엑셀 다운로드</a>
                         </div>
                     </form>
@@ -143,7 +143,7 @@
                                         {{-- 건물명 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                {{ $siteProduct->users->name }}
+                                                {{ $siteProduct->product_name }}
                                             </span>
                                         </td>
 
@@ -151,7 +151,7 @@
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 @inject('carbon', 'Carbon\Carbon')
-                                                {{ $carbon::parse($siteProduct->updated_at)->format('Y.m.d') }}
+                                                {{ $carbon::parse($siteProduct->completion_date)->format('Y.m.d') }}
                                             </span>
                                         </td>
 
@@ -194,7 +194,7 @@
                                                 {{-- 삭제 --}}
                                                 <div class="menu-item px-3">
                                                     <form id="deleteKnowledgeCenter{{ $siteProduct->id }}"
-                                                        action="{{ route('admin.siteProduct.delete') }}"
+                                                        action="{{ route('admin.site.product.delete') }}"
                                                         method="POST">
                                                         @csrf
                                                         <input type="hidden" name="id"

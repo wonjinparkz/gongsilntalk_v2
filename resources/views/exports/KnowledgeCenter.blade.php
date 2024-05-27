@@ -34,7 +34,7 @@
 
                 {{-- 준공일 --}}
                 <td>
-                    {{ $knowledgeCenter->completion_date }}
+                    {{ $carbon::parse($knowledgeCenter->completion_date)->format('Y.m.d') }}
                 </td>
 
                 {{-- 매매호가(단위:만원) --}}

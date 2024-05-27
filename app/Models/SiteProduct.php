@@ -19,8 +19,8 @@ class SiteProduct extends BaseModel
      * Fillable
      */
     protected $fillable = [
-        'author',
-        'regoin_type',
+        'admins_id',
+        'region_type',
         'address_lat',
         'address_lng',
         'region_code',

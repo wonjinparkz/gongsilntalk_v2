@@ -333,6 +333,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                <x-input-error class="mt-2 text-danger" :messages="$errors->get('dong_info.' . $dongIndex . '.dong_name')" />
+
                                 <div class="col-lg-12 row mb-6">
                                     <div class="col-lg-2 fv-row d-flex flex-column justify-content-center">
                                         <label class="required col-form-label fw-semibold fs-6 align-self-start">층
@@ -342,7 +344,7 @@
                                     </div>
                                     <div class="col-lg-10 fv-row floor-container"
                                         data-floor-container-index="{{ $dongIndex }}">
-                                        @foreach (old('dong_info')[$dongIndex]['floor_info'] as $floorIndex => $floorInfo)
+                                        @foreach (old('dong_info')[$dongIndex]['floor_info'] ?? [] as $floorIndex => $floorInfo)
                                             <div class="row floor_row col-lg-12 mb-1"
                                                 data-floor-index="{{ $floorIndex }}">
                                                 <div class="row col-lg-10">
@@ -404,18 +406,40 @@
                                                         </div>
                                                         <div class="row mb-6">
                                                             <label
-                                                                class="col-lg-2 col-form-label fw-semibold fs-6">도면</label>
-                                                            <div
-                                                                class="col-lg-9 file-upload-container
-                                                    file-upload-container">
+                                                                class="required col-lg-2 col-form-label fw-semibold fs-6">도면</label>
+                                                            <div class="col-lg-9 file-upload-container">
+                                                                <label class="custom-file-label"
+                                                                    for="fileInput_{{ $dongIndex }}_{{ $floorIndex }}">파일
+                                                                    선택</label>
                                                                 <input type="file" accept="image/*"
-                                                                    name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_value]"
-                                                                    onchange="uploadFloorFile(this)"
-                                                                    value="{{ $floorInfo['floor_image_value'] ?? 0 }}">
+                                                                    id="fileInput_{{ $dongIndex }}_{{ $floorIndex }}"
+                                                                    style="display:none" name=""
+                                                                    value="" onchange="uploadFloorFile(this)">
+                                                                <span id="fileName"
+                                                                    class="file-name">{{ $floorInfo['floor_image_text'] }}</span>
                                                                 <input type="hidden"
-                                                                    name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_idxs]"
-                                                                    value="">
+                                                                    name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_idxs][]"
+                                                                    value="{{ $floorInfo['floor_image_idxs'] }}">
+                                                                <input type="hidden" class="file-nameValue"
+                                                                    name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_text]"
+                                                                    value="{{ $floorInfo['floor_image_text'] }}">
                                                             </div>
+                                                            <x-input-error class="mt-2 text-danger"
+                                                                :messages="$errors->get(
+                                                                    'dong_info.' .
+                                                                        $dongIndex .
+                                                                        '.floor_info.' .
+                                                                        $floorIndex .
+                                                                        '.floor_name',
+                                                                )" />
+                                                            <x-input-error class="mt-2 text-danger"
+                                                                :messages="$errors->get(
+                                                                    'dong_info.' .
+                                                                        $dongIndex .
+                                                                        '.floor_info.' .
+                                                                        $floorIndex .
+                                                                        '.floor_image_idxs',
+                                                                )" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -432,8 +456,8 @@
                                 </div>
                             </div>
                         @endforeach
-
                     </div>
+
                     <div class="row mb-6">
                         <button type="button" class="btn btn-secondary" onclick="dong_add();">동 추가</button>
                     </div>
@@ -477,7 +501,7 @@
                         <div class="col-lg-9 fv-row d-flex align-items-center">
                             <label class="form-check form-check-custom form-check-inline p-1">
                                 <input class="form-check-input" name="is_blind_1" id="is_blind_1" type="checkbox"
-                                    value="1" @if (!old('is_blind_1')) checked @endif>
+                                    value="1" @if (old('is_blind_1')) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">노출안함</span>
                             </label>
                         </div>
@@ -515,7 +539,7 @@
                         <div class="col-lg-9 fv-row d-flex align-items-center">
                             <label class="form-check form-check-custom form-check-inline p-1">
                                 <input class="form-check-input" name="is_blind_2" id="is_blind_2" type="checkbox"
-                                    value="1" @if (!old('is_blind_2')) checked @endif>
+                                    value="1" @if (old('is_blind_2')) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">노출안함</span>
                             </label>
                         </div>
@@ -592,7 +616,7 @@
                                                 <input type="text" name="ended_date[]"
                                                     class="form-control ended-date"
                                                     onfocus="initDatepickerCustom($(this))" readonly
-                                                    @if ($is_ended[$index] ?? 0) disabled @endif placeholder=""
+                                                    @if (($is_ended[$index] ?? ($ended_date[$index] ?? 0)) == 0) disabled @endif placeholder=""
                                                     value="{{ $ended_date[$index] }}" />
                                             </div>
                                         </div>
@@ -600,7 +624,7 @@
                                             <label class="form-check form-check-custom form-check-inline">
                                                 <input class="form-check-input is-ended" name="is_ended[]"
                                                     type="checkbox" value="1"
-                                                    @if ($is_ended[$index] ?? 0 == 1) checked @endif>
+                                                    @if (($is_ended[$index] ?? ($ended_date[$index] ?? 0)) == 1) checked @endif>
                                                 <span class="fw-semibold ps-2 fs-6">마감일</span>
                                             </label>
                                         </div>
@@ -609,6 +633,7 @@
                                         <button type="button" class="btn btn-primary"
                                             onclick="schedule_delete(this)">삭제</button>
                                     </div>
+                                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('schedule_title.' . $index)" />
                                 </div>
                                 {{-- 일정 정보 END --}}
                             @endforeach
@@ -672,6 +697,17 @@
 
     </div>
 
+    <style>
+        .custom-file-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+
     {{--
        * 페이지에서 사용하는 자바스크립트
     --}}
@@ -701,6 +737,10 @@
                     console.log(response.result);
                     const container = input.closest('.file-upload-container');
                     const hiddenInput = container.querySelector('input[type="hidden"]');
+                    const fileNameValue = container.querySelector('.file-nameValue');
+                    const fileName = container.querySelector('.file-name');
+                    fileNameValue.value = input.files[0] ? input.files[0].name : '선택된 파일이 없음';
+                    fileName.textContent = input.files[0] ? input.files[0].name : '선택된 파일이 없음';
                     hiddenInput.value = response.result.id;
                 },
                 error: function() {
@@ -713,6 +753,15 @@
 
         function formSubmit() {
             $('input:disabled').prop('disabled', false);
+
+            $('.is-ended').each(function(index, item) {
+                if ($(this).is(":checked")) {
+                    $(this).val('1');
+                } else {
+                    $(this).val('0');
+                }
+                $(this).prop("checked", true);
+            });
 
             $('form').submit();
         }
@@ -932,13 +981,18 @@
                             </label>
                         </div>
                         <div class="row mb-6">
-                            <label class="col-lg-2 col-form-label fw-semibold fs-6">도면</label>
+                            <label class="required col-lg-2 col-form-label fw-semibold fs-6">도면</label>
                             <div class="col-lg-9 file-upload-container">
-                                <input type="file" accept="image/*"
-                                    onchange="uploadFloorFile(this)">
+                                <label class="custom-file-label" for="fileInput_${dongIndex}_${floorIndex}">파일 선택</label>
+                                <input type="file" accept="image/*" id="fileInput_${dongIndex}_${floorIndex}" style="display:none"
+                                name="" value="" onchange="uploadFloorFile(this)">
+                                <span class="file-name">선택된 파일이 없음</span>
                                 <input type="hidden"
-                                    name="dong_info[${dongIndex}][floor_info][${floorIndex}][floor_image_idxs]"
+                                    name="dong_info[${dongIndex}][floor_info][${floorIndex}][floor_image_idxs][]"
                                     value="">
+                                <input type="hidden" class="file-nameValue"
+                                    name="dong_info[${dongIndex}][floor_info][${floorIndex}][floor_image_text]"
+                                    value="선택된 파일이 없음">
                             </div>
                         </div>
                     </div>

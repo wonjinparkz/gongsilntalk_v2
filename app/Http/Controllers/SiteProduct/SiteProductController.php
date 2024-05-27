@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\SiteProduct;
 
+use App\Exports\SiteProductExport;
 use App\Http\Controllers\Controller;
 use App\Models\SiteProduct;
 use App\Models\SiteProductAddInfo;
@@ -9,14 +10,19 @@ use App\Models\SiteProductDong;
 use App\Models\SiteProductFloorInfo;
 use App\Models\SiteProductOptions;
 use App\Models\SiteProductPrice;
+use App\Models\SiteProductSchedule;
 use App\Models\SiteProductServices;
+use App\Rules\AtLeastOneChecked;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SiteProductController extends Controller
 {
@@ -25,7 +31,24 @@ class SiteProductController extends Controller
      */
     public function siteProductListView(Request $request): View
     {
-        $siteProductList = SiteProduct::select();
+        $siteProductList = SiteProduct::select()
+            ->where('site_product.is_delete', '=', '0');
+
+        // 분양 상태
+        if (isset($request->is_sale)) {
+            $siteProductList->where('site_product.is_sale', $request->is_sale);
+        }
+
+        // 지역
+        if ($request->has('region_type')) {
+            $regionTypeArray = $request->region_type;
+            $siteProductList->whereIn('site_product.region_type', $regionTypeArray);
+        }
+
+        // 게시 시작일 from ~ to
+        if (isset($request->from_created_at) && isset($request->to_created_at)) {
+            $siteProductList->DurationDate('created_at', $request->from_created_at, $request->to_created_at);
+        }
 
         // 정렬
         $siteProductList->orderBy('site_product.created_at', 'desc')->orderBy('id', 'desc');
@@ -76,9 +99,18 @@ class SiteProductController extends Controller
             'expected_move_date' => 'required',
             'title_1' => 'required',
             'contents_1' => 'required',
-            'title_1' => 'required',
+            'title_2' => 'required',
             'contents_2' => 'required',
-            'contents_3' => 'required',
+            'dong_info.*.dong_name' => 'required',
+            'dong_info.*.floor_info.*.floor_name' => 'required',
+            'dong_info.*.floor_info.*.floor_image_idxs' => 'required',
+            'schedule_title.*' => 'required',
+            'siteProductMain_image_ids' => 'required'
+        ], [
+            'dong_info.*.dong_name.required' => '동 이름은 필수 항목입니다.',
+            'dong_info.*.floor_info.*.floor_name.required' => '층 이름은 필수 항목입니다.',
+            'dong_info.*.floor_info.*.floor_image_idxs.required' => '층 도면은 필수 항목입니다.',
+            'schedule_title.*' => '일정 제목은 필수 항목입니다.',
         ]);
 
         if ($validator->fails()) {
@@ -130,19 +162,40 @@ class SiteProductController extends Controller
                 'site_product_id' => $result->id,
                 'dong_name' => $dongInfo['dong_name'],
             ]);
-            foreach ($dongInfo as $floorIndex => $floorInfo) {
+            foreach ($dongInfo['floor_info'] as $floorIndex => $floorInfo) {
                 $floorResult = SiteProductFloorInfo::create([
                     'site_product_dong_id' => $dongResult->id,
                     'floor_name' => $floorInfo['floor_name'],
-                    'is_neighborhood_life' =>$floorInfo['is_neighborhood_life'] ?? 0,
-                    'is_industry_center' =>$floorInfo['is_industry_center'] ?? 0,
-                    'is_warehouse' =>$floorInfo['is_warehouse'] ?? 0,
-                    'is_dormitory' =>$floorInfo['is_dormitory'] ?? 0,
-                    'is_business_support' =>$floorInfo['is_business_support'] ?? 0,
+                    'is_neighborhood_life' => $floorInfo['is_neighborhood_life'] ?? 0,
+                    'is_industry_center' => $floorInfo['is_industry_center'] ?? 0,
+                    'is_warehouse' => $floorInfo['is_warehouse'] ?? 0,
+                    'is_dormitory' => $floorInfo['is_dormitory'] ?? 0,
+                    'is_business_support' => $floorInfo['is_business_support'] ?? 0,
                 ]);
 
                 $this->imageWithCreate($floorInfo['floor_image_idxs'], SiteProductFloorInfo::class, $floorResult->id);
             }
         }
+
+        foreach ($request->schedule_title as $index => $schedule) {
+            $scheduleResult = SiteProductSchedule::create([
+                'site_product_id' => $result->id,
+                'title' => $schedule,
+                'start_date' => $request->start_date[$index],
+                'ended_date' => $request->ended_date[$index] ?? null,
+                'is_ended' => $request->is_ended[$index],
+            ]);
+        }
+
+        return Redirect::route('admin.site.product.list.view')->with('message', '분양현장 매물을 등록했습니다.');
+    }
+
+
+    /**
+     * 분양현장 매물 정보 다운로드
+     */
+    public function exportSiteProduct(Request $request)
+    {
+        return Excel::download(new SiteProductExport($request), '분양현장 매물_' . Carbon::now() . '.xlsx');
     }
 }

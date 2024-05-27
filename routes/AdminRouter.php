@@ -119,9 +119,12 @@ Route::middleware('admin.auth')->controller(SiteProductController::class)->group
     Route::post('/site/product/create', 'siteProductCreate')->name('admin.site.product.create');
 
     Route::get('/site/product/detail/view/{id}', 'siteProductDetailView')->name('admin.site.product.detail.view');
-    Route::get('/site/product/export', 'exportProduct')->name('admin.site.product.export');
+    Route::get('/site/product/export', 'exportSiteProduct')->name('admin.site.product.export');
     Route::post('/site/product/state/update', 'siteProductStateUpdate')->name('admin.site.product.state.update');
     Route::post('/stie/product/update', 'siteProductUpdate')->name('admin.site.product.update');
+    Route::post('/stie/product/sale/update', 'siteProductSaleUpdate')->name('admin.site.product.sale.update');
+    Route::post('/site/product/delete', 'siteProductDelete')->name('admin.site.product.delete');
+
 });
 
 /**

@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers\product;
 
+use App\Exports\ProductExport;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductAddInfo;
 use App\Models\ProductOptions;
 use App\Models\ProductPrice;
 use App\Models\ProductServices;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -22,9 +25,9 @@ class ProductController extends Controller
      */
     public function productListView(Request $request): View
     {
-        $productList = Product::select();
+        $productList = Product::select()
+            ->where('is_delete', '0');
 
-        $productList->with('images');
         $productList->with('users');
         $productList->with('priceInfo');
 
@@ -375,5 +378,13 @@ class ProductController extends Controller
         $this->imageWithEdit($request->product_image_ids, Product::class, $request->id);
 
         return redirect()->to($request->last_url)->with('message', '매물을 수정했습니다.');
+    }
+
+    /**
+     * 일반회원 매물 정보 다운로드
+     */
+    public function exportSiteProduct(Request $request)
+    {
+        return Excel::download(new ProductExport($request), '일반회원 매물_' . Carbon::now() . '.xlsx');
     }
 }

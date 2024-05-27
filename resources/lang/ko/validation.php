@@ -124,9 +124,22 @@ return [
 
         'title' => '제목',
 
-        'text' => '텍스트',
+        'title_1' => '프리미엄 제목',
+        'title_2' => '프리미엄 제목',
+        'title_3' => '프리미엄 제목',
+        'title_4' => '프리미엄 제목',
+        'title_5' => '프리미엄 제목',
+        'title_6' => '프리미엄 제목',
+        'contents_1' => '프리미엄 내용',
+        'contents_2' => '프리미엄 내용',
+        'contents_3' => '프리미엄 내용',
+        'contents_4' => '프리미엄 내용',
+        'contents_5' => '프리미엄 내용',
+        'contents_6' => '프리미엄 내용',
 
+        'text' => '텍스트',
         'content' => '내용',
+
         'recommend_content' => '내용',
         'property_content' => '내용',
         'asset_content' => '내용',
@@ -171,6 +184,7 @@ return [
         'recommend_service_image_ids' => '이미지',
         'property_service_image_ids' => '이미지',
         'asset_service_image_ids' => '이미지',
+        'siteProductMain_image_ids' => '분양현장 메인 이미지',
 
 
         // 지식산업센터 등록 페이지 입력칸 기준 순서
