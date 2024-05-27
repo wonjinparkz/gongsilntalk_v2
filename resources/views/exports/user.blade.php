@@ -55,13 +55,13 @@
 
                 {{-- 회원 가입일 --}}
                 <td>
-                    {{ $carbon::parse($user->created_at)->format('Y년 m월 d일') }}
+                    {{ $carbon::parse($user->created_at)->format('Y.m.d') }}
                 </td>
 
                 {{-- 최종 접속일 --}}
                 <td>
                     @if ($user->last_used_at != null)
-                        {{ $carbon::parse($user->last_used_at)->format('Y년 m월 d일') }}
+                        {{ $carbon::parse($user->last_used_at)->format('Y.m.d') }}
                     @else
                         -
                     @endif

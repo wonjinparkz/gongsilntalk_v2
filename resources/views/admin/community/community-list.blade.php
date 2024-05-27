@@ -152,7 +152,7 @@
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 @inject('carbon', 'Carbon\Carbon')
-                                                {{ $carbon::parse($community->created_at)->format('Y년 m월 d일') }}
+                                                {{ $carbon::parse($community->created_at)->format('Y.m.d') }}
                                             </span>
                                         </td>
 

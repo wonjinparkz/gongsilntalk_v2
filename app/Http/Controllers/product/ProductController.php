@@ -383,7 +383,7 @@ class ProductController extends Controller
     /**
      * 일반회원 매물 정보 다운로드
      */
-    public function exportSiteProduct(Request $request)
+    public function exportProduct(Request $request)
     {
         return Excel::download(new ProductExport($request), '일반회원 매물_' . Carbon::now() . '.xlsx');
     }

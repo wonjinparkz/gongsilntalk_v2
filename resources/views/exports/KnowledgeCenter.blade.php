@@ -49,7 +49,7 @@
 
                 {{-- 등록일 --}}
                 <td>
-                    {{ $carbon::parse($knowledgeCenter->created_at)->format('Y년 m월 d일') }}
+                    {{ $carbon::parse($knowledgeCenter->created_at)->format('Y.m.d') }}
                 </td>
 
                 {{-- 도면 여부 --}}

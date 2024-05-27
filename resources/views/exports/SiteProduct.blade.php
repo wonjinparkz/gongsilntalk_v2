@@ -40,7 +40,7 @@
 
                 {{-- 등록일 --}}
                 <td>
-                    {{ $carbon::parse($siteProduct->created_at)->format('Y년 m월 d일') }}
+                    {{ $carbon::parse($siteProduct->created_at)->format('Y.m.d') }}
                 </td>
 
             </tr>

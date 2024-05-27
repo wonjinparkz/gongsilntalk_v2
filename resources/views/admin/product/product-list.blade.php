@@ -188,7 +188,7 @@
                                             </span>
                                         </td>
 
-                                        {{-- 게시 타겟 --}}
+                                        {{-- 매물종류 --}}
                                         <td class="text-center">
 
                                             <span class="fw-bold fs-5">
@@ -196,7 +196,7 @@
                                             </span>
                                         </td>
 
-                                        {{-- 상태 --}}
+                                        {{-- 거래 유형 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 {{ Lang::get('commons.payment_type.' . $product->priceInfo->payment_type) }}
