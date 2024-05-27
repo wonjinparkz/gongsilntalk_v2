@@ -65,6 +65,7 @@
                     <div class="col-lg-3 fv-row">
                         <a onClick="removeFile(this)" class="btn btn-light-danger w-100px">삭제</a>
                     </div>
+                </div>
             @endforeach
         @endif
     </div>

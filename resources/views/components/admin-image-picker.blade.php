@@ -14,7 +14,7 @@
     <div class="col-lg-{{ $div_col }}">
         <p class="fw-light">최대 {{ $cnt }}장 업로드 가능
             <span style="color: #F16341"
-                id="{{ $id }}_image_count">{{ count($images) }}</span>/{{ $cnt }}
+                id="{{ $id }}_image_count">{{ count(old($id . '_image_ids', $images)) }}</span>/{{ $cnt }}
         </p>
         <div class="dropzone " id="{{ $id }}_drop">
             <div class="dz-message needsclick">

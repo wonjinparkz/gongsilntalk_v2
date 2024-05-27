@@ -40,4 +40,12 @@ class SiteProductFloorInfo extends BaseModel
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];
+
+    /**
+     * 도면 가져오기
+     */
+    public function images()
+    {
+        return $this->morphOne(Images::class, 'target');
+    }
 }

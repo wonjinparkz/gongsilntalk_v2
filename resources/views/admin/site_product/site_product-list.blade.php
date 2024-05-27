@@ -16,8 +16,7 @@
 
                 {{-- 페이지 버튼 --}}
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
-                    <a href="{{ route('admin.site.product.create.view') }}"
-                        class="btn btn-lm fw-bold btn-primary">등록</a>
+                    <a href="{{ route('admin.site.product.create.view') }}" class="btn btn-lm fw-bold btn-primary">등록</a>
                 </div>
             </div>
         </div>
@@ -73,8 +72,8 @@
                             @endphp
                             <div class="col-lg-10 fv-row">
                                 <select name="region_type[]"class="form-select form-select-solid" data-control="select2"
-                                    data-close-on-select="false" data-placeholder="지역을 선택해주세요."
-                                    data-allow-clear="true" multiple="multiple">
+                                    data-close-on-select="false" data-placeholder="지역을 선택해주세요." data-allow-clear="true"
+                                    multiple="multiple">
                                     @for ($i = 0; $i < count(Lang::get('commons.site_product_region_type')); $i++)
                                         <option value="{{ $i }}"
                                             @if (in_array($i, $region_type)) selected @endif>
@@ -136,8 +135,8 @@
 
                                         {{-- 주소 --}}
                                         <td class="text-center">
-                                            <a href="{{ route('admin.product.detail.view', [$siteProduct->id]) }}"
-                                                class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $siteProduct->address . ' ' . ($siteProduct->is_map == 1 ? $siteProduct->address_detail : $siteProduct->address_dong . ' ' . $siteProduct->address_number) }}</a>
+                                            <a href="{{ route('admin.site.product.detail.view', [$siteProduct->id]) }}"
+                                                class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $siteProduct->address }}</a>
                                         </td>
 
                                         {{-- 건물명 --}}

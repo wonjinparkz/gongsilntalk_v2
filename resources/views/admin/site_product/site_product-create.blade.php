@@ -97,7 +97,7 @@
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">규모</label>
                         <div class="col-lg-3 fv-row">
                             <div class="input-group mb-5">
-                                <input type="number" name="min_floor" class="form-control" placeholder="최저"
+                                <input type="text" name="min_floor" class="form-control" placeholder="최저"
                                     value="{{ old('min_floor') }}" />
                                 <span class="input-group-text" id="basic-addon2">층</span>
                             </div>
@@ -105,7 +105,7 @@
                         </div>
                         <div class="col-lg-3 fv-row">
                             <div class="input-group mb-5">
-                                <input type="number" name="max_floor" class="form-control" placeholder="최고"
+                                <input type="text" name="max_floor" class="form-control" placeholder="최고"
                                     value="{{ old('max_floor') }}" />
                                 <span class="input-group-text" id="basic-addon2">층</span>
                             </div>
@@ -418,8 +418,8 @@
                                                                 <span id="fileName"
                                                                     class="file-name">{{ $floorInfo['floor_image_text'] }}</span>
                                                                 <input type="hidden"
-                                                                    name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_idxs][]"
-                                                                    value="{{ $floorInfo['floor_image_idxs'] }}">
+                                                                    name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_ids][]"
+                                                                    value="{{ $floorInfo['floor_image_ids'] }}">
                                                                 <input type="hidden" class="file-nameValue"
                                                                     name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_text]"
                                                                     value="{{ $floorInfo['floor_image_text'] }}">
@@ -438,7 +438,7 @@
                                                                         $dongIndex .
                                                                         '.floor_info.' .
                                                                         $floorIndex .
-                                                                        '.floor_image_idxs',
+                                                                        '.floor_image_ids',
                                                                 )" />
                                                         </div>
                                                     </div>
@@ -988,7 +988,7 @@
                                 name="" value="" onchange="uploadFloorFile(this)">
                                 <span class="file-name">선택된 파일이 없음</span>
                                 <input type="hidden"
-                                    name="dong_info[${dongIndex}][floor_info][${floorIndex}][floor_image_idxs][]"
+                                    name="dong_info[${dongIndex}][floor_info][${floorIndex}][floor_image_ids][]"
                                     value="">
                                 <input type="hidden" class="file-nameValue"
                                     name="dong_info[${dongIndex}][floor_info][${floorIndex}][floor_image_text]"

@@ -10,6 +10,7 @@
             <th>거래 유형</th>
             <th>등록일</th>
             <th>처리일</th>
+            <th>전용평수</th>
         </tr>
     </thead>
     <tbody>
@@ -59,6 +60,11 @@
                 {{-- 처리일 --}}
                 <td>
                     {{ $carbon::parse($product->updated_at)->format('Y.m.d') }}
+                </td>
+
+                {{-- 전용평수 --}}
+                <td>
+                    {{ $product->exclusive_area }}평
                 </td>
 
             </tr>

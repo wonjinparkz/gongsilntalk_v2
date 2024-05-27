@@ -26,8 +26,7 @@ class SiteProductDong extends BaseModel
     /**
      * Hidden
      */
-    protected $hidden = [
-    ];
+    protected $hidden = [];
 
     /**
      * Cast
@@ -36,4 +35,13 @@ class SiteProductDong extends BaseModel
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];
+
+
+    /**
+     * 층 정보 가져오기
+     */
+    public function floorInfo()
+    {
+        return $this->hasMany(SiteProductFloorInfo::class, 'site_product_dong_id', 'id');
+    }
 }

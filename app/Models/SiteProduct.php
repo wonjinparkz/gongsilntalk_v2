@@ -65,4 +65,36 @@ class SiteProduct extends BaseModel
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];
+
+    /**
+     * 3D이미지 파일 가져오기
+     */
+    public function files()
+    {
+        return $this->morphMany(Files::class, 'target');
+    }
+
+    /**
+     * 동 정보 가져오기
+     */
+    public function dongInfo()
+    {
+        return $this->hasMany(SiteProductDong::class, 'site_product_id', 'id');
+    }
+
+    /**
+     * 프리미엄 정보 가져오기
+     */
+    public function premiumInfo()
+    {
+        return $this->hasOne(SiteProductPremium::class, 'site_product_id', 'id');
+    }
+
+    /**
+     * 프리미엄 정보 가져오기
+     */
+    public function scheduleInfo()
+    {
+        return $this->hasMany(SiteProductSchedule::class, 'site_product_id', 'id');
+    }
 }

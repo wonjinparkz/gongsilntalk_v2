@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
-class SiteProductPrimum extends BaseModel
+class SiteProductPremium extends BaseModel
 {
     use HasFactory, Notifiable;
 
     /**
      * Table Name
      */
-    protected $table = 'site_proudct_primum';
+    protected $table = 'site_proudct_premium';
 
     /**
      * Fillable

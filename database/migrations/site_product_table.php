@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('product_name')->nullable()->comment('건물명');
             $table->string('title')->nullable()->comment('제목');
             $table->longText('contents')->nullable()->comment('세부 내용');
-            $table->integer('min_floor')->nullable()->comment('규모 최저 층');
-            $table->integer('max_floor')->nullable()->comment('규모 최고 층');
+            $table->string('min_floor')->nullable()->comment('규모 최저 층');
+            $table->string('max_floor')->nullable()->comment('규모 최고 층');
             $table->integer('dong_count')->nullable()->comment('규모 총 동');
             $table->integer('parking_count')->nullable()->comment('규모 총 주차대수');
             $table->integer('generation_count')->nullable()->comment('규모 총 세대 수');
