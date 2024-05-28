@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class ProductPcController extends Controller
@@ -176,7 +177,11 @@ class ProductPcController extends Controller
      */
     public function corpProductCreate3View(Request $request): View
     {
-        return view('www.product.corp_product_create3', compact('request'));
+        Log::info($request->all());
+
+        $result = $request->all();
+
+        return view('www.product.corp_product_create3', compact('result'));
     }
     /**
      * 중개사 매물 등록 챕터4
@@ -238,13 +243,50 @@ class ProductPcController extends Controller
      */
     public function corpProductCreateAddressCheck(Request $request): RedirectResponse
     {
-        $validator = Validator::make($request->all(), []);
+        $validator = Validator::make($request->all(), [
+            'address' => 'required',
+            'region_code' => 'required',
+            'region_address' => 'required',
+            'address_lat' => 'required_if:is_map,1',
+            'address_lng' => 'required_if:is_map,1',
+            'address_detail' =>  [
+                Rule::requiredIf(function () use ($request) {
+                    return $request->input('is_map') == 0 && $request->input('is_address_detail') != 1;
+                }),
+            ],
+            'address_dong' =>  [
+                Rule::requiredIf(function () use ($request) {
+                    return $request->input('is_map') == 1 && $request->input('is_address_dong') != 1;
+                }),
+            ],
+        ]);
 
         if ($validator->fails()) {
             return redirect(route('www.corp.product.create2.view'))->withErrors($validator)
                 ->withInput();
         }
 
-        return Redirect::route('www.corp.product.create3.view', compact('request'));
+
+        $result['type'] = $request->type;
+        $result['payment_type'] = $request->payment_type;
+        $result['price'] = $request->price;
+        $result['month_price'] = $request->month_price;
+        $result['is_price_discussion'] = $request->is_price_discussion;
+        $result['is_use'] = $request->is_use;
+        $result['current_price'] = $request->current_price;
+        $result['current_month_price'] = $request->current_month_price;
+        $result['is_premium'] = $request->is_premium;
+        $result['premium_price'] = $request->premium_price;
+        $result['approve_date'] = $request->approve_date;
+        $result['address_lng'] = $request->address_lng;
+        $result['address_lat'] = $request->address_lat;
+        $result['region_code'] = $request->region_code;
+        $result['region_address'] = $request->region_address;
+        $result['address'] = $request->address;
+        $result['address_detail'] = $request->address_detail;
+        $result['address_dong'] = $request->address_dong;
+        $result['address_number'] = $request->address_number;
+
+        return Redirect::route('www.corp.product.create3.view', $result);
     }
 }

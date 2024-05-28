@@ -371,12 +371,12 @@
                     {{-- 건축물 용도 --}}
                     <div class="row mb-6 building_type_input">
                         <label
-                            class="required col-lg-2 col-form-label fw-semibold fs-6">{{ $type != 6 ? '건축물 용도' : '현재 용도' }}</label>
+                            class="required col-lg-2 col-form-label fw-semibold fs-6">{{ $type != 6 ? '건축물 용도' : '주용도' }}</label>
                         <div class="col-lg-3 fv-row">
                             <select name="building_type" class="form-select" data-control="select2"
                                 data-hide-search="true">
                                 <option value="">
-                                    {{ $type != 6 ? '건축물 용도' : '현재 용도' }} 선택
+                                    {{ $type != 6 ? '건축물 용도' : '주용도' }} 선택
                                 </option>
                                 @for ($i = 0; $i < count(Lang::get('commons.building_type')); $i++)
                                     <option value="{{ $i }}"
@@ -1875,7 +1875,7 @@
             }
         }
 
-        // 가임시 주소일 경우 동없음 체크여부
+        // 옵션 없음 체크 여부
         $('input[name="is_option"]').change(function() {
             if ($(this).val() == 0) {
                 $('.option_type').prop('checked', false);
@@ -1885,7 +1885,7 @@
             }
         });
 
-        // 가임시 주소일 경우 동없음 체크여부
+        // 관리비 없음 체크여부
         $('#is_service').click(function() {
             $('input[name="service_type"]').prop("checked", false)
             if ($(this).is(':checked')) {

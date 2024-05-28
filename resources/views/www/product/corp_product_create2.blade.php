@@ -2,17 +2,17 @@
 
     <form class="find_form" method="POST" action="{{ route('www.corp.product.create.address.check') }}"
         name="create_check">
-        <input type="hidden" name="type" id="type" value="">
-        <input type="hidden" name="payment_type" id="payment_type" value="">
-        <input type="hidden" name="price" id="price" value="">
-        <input type="hidden" name="month_price" id="month_price" value="">
-        <input type="hidden" name="is_price_discussion" id="is_price_discussion" value="">
-        <input type="hidden" name="is_use" id="is_use" value="">
-        <input type="hidden" name="current_price" id="current_price" value="">
-        <input type="hidden" name="current_month_price" id="current_month_price" value="">
-        <input type="hidden" name="is_premium" id="is_premium" value="">
-        <input type="hidden" name="premium_price" id="premium_price" value="">
-        <input type="hidden" name="approve_date" id="approve_date" value="">
+        <input type="hidden" name="type" id="type" value="{{ $result['type'] }}">
+        <input type="hidden" name="payment_type" id="payment_type" value="{{ $result['payment_type'] }}">
+        <input type="hidden" name="price" id="price" value="{{ $result['price'] }}">
+        <input type="hidden" name="month_price" id="month_price" value="{{ $result['month_price'] ?? '' }}">
+        <input type="hidden" name="is_price_discussion" id="is_price_discussion" value="{{ $result['is_price_discussion'] ?? '' }}">
+        <input type="hidden" name="is_use" id="is_use" value="{{ $result['is_use'] ?? '' }}">
+        <input type="hidden" name="current_price" id="current_price" value="{{ $result['current_price'] ?? '' }}">
+        <input type="hidden" name="current_month_price" id="current_month_price" value="{{ $result['current_month_price'] ?? '' }}">
+        <input type="hidden" name="is_premium" id="is_premium" value="{{ $result['is_premium'] ?? '' }}">
+        <input type="hidden" name="premium_price" id="premium_price" value="{{ $result['premium_price'] ?? '' }}">
+        <input type="hidden" name="approve_date" id="approve_date" value="{{ $result['approve_date'] ?? '' }}">
 
         <input type="hidden" name="address_lng" id="address_lng" value="">
         <input type="hidden" name="address_lat" id="address_lat" value="">
@@ -29,7 +29,6 @@
         <!----------------------------- m::header bar : s ----------------------------->
 
         <div class="body">
-            {{ $result['type'] }}
 
             <!-- my_body : s -->
             <div class="inner_mid_wrap m_inner_wrap mid_body">
@@ -62,8 +61,12 @@
                                     </div>
                                 </div>
                                 <!----------------- M:: map : s ----------------->
-                                <div class="inner_item inner_map only_m">
-                                    주소 검색 시,<br>해당 위치가 지도에 표시됩니다.
+                                <div class="inner_item inner_map only_m mapOnlyMobile">
+                                    <div id="mapWrap" class="mapWrap"
+                                        style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
+                                    <div class="is_temporary_1" style="display: none">
+                                        가(임시)주소 선택시,<br>지도 노출이 불가능합니다.
+                                    </div>
                                 </div>
                                 <!----------------- M:: map : e ----------------->
                                 <div class="inner_address">
@@ -103,14 +106,7 @@
 
                             </div>
 
-                            <div class="inner_item inner_map only_pc">
-                                <div id="is_temporary_0" style=" width: 100%; height: 100%; display:;">
-                                    <div id="mapWrap" class="mapWrap"
-                                        style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
-                                </div>
-                                <div id="is_temporary_1" style="display: none">
-                                    가(임시)주소 선택시,<br>지도 노출이 불가능합니다.
-                                </div>
+                            <div class="inner_item inner_map only_pc mapOnlyPc">
                             </div>
 
                         </div>
@@ -187,6 +183,16 @@
 
     <script>
         $(document).ready(function() {
+            // 지도 사이즈 별로 나오게
+            // 모바일 / PC 각 div 에 mapOnlyMobile / mapOnlyPc 클래스 명 추가해주세요!
+            if (document.body.offsetWidth > 767) {
+                var mobileDiv = document.querySelector(".mapOnlyMobile");
+                var pcDiv = document.querySelector(".mapOnlyPc");
+                while (mobileDiv.firstChild) {
+                    pcDiv.appendChild(mobileDiv.firstChild);
+                }
+            }
+
             $('#type').val(sessionStorage.getItem("typeSession"));
             $('#payment_type').val(sessionStorage.getItem("payment_typeSession"));
             $('#price').val(sessionStorage.getItem("priceSession"));
@@ -426,8 +432,8 @@
             var address_2 = document.querySelector(".detail_address_2");
             var search_1 = document.querySelector(".search_address_1");
             var search_2 = document.querySelector(".search_address_2");
-            var is_temporary_0 = document.querySelector("#is_temporary_0");
-            var is_temporary_1 = document.querySelector("#is_temporary_1");
+            var is_temporary_0 = document.querySelector("#mapWrap");
+            var is_temporary_1 = document.querySelector(".is_temporary_1");
 
             $('#address').val('');
             $('#roadName').empty();
