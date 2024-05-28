@@ -135,13 +135,10 @@ $(function () {
     // 슬라이드업메뉴 초기화
     let slide_modal = $('.modal_slide');
     let slide_height;
-    window.onload = function () {
-        for (let i = 0; i < slide_modal.length; i++) {
-            slide_height = slide_modal.eq(i).outerHeight();
-            slide_modal.eq(i).css('bottom', -slide_height);
-        };
-    };
-
+    slide_modal.each(function () {
+        slide_height = $(this).outerHeight();
+        $(this).css('bottom', -slide_height);
+    });
 });
 
 

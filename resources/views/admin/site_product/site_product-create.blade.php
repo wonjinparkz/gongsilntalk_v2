@@ -419,7 +419,7 @@
                                                                     class="file-name">{{ $floorInfo['floor_image_text'] }}</span>
                                                                 <input type="hidden"
                                                                     name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_ids][]"
-                                                                    value="{{ $floorInfo['floor_image_ids'] }}">
+                                                                    value="{{ $floorInfo['floor_image_ids'][0] }}">
                                                                 <input type="hidden" class="file-nameValue"
                                                                     name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_text]"
                                                                     value="{{ $floorInfo['floor_image_text'] }}">
@@ -438,7 +438,7 @@
                                                                         $dongIndex .
                                                                         '.floor_info.' .
                                                                         $floorIndex .
-                                                                        '.floor_image_ids',
+                                                                        '.floor_image_ids.0',
                                                                 )" />
                                                         </div>
                                                     </div>

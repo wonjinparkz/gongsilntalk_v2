@@ -7,7 +7,7 @@
             <div class="app-container container-xxl d-flex flex-stack">
                 {{-- 페이지 제목 --}}
                 <div class="d-inline-block position-relative">
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">일반 회원 매물
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">중개사 매물
                         관리
                     </h1>
                     <span
@@ -127,7 +127,6 @@
                     </form>
 
                 </div>
-
                 {{-- 테이블 영역 --}}
                 <div class="card card-flush shadow-sm mt-10">
                     {{ $result->links('components.pagination-info') }}

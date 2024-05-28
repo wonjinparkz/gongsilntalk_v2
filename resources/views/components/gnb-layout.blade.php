@@ -10,9 +10,15 @@
         </li>
         @guest
         @else
-            <li class="{{ str_contains(Route::currentRouteName(), 'mypage') ? 'active' : '' }}">
-                <a href="{{ route('www.mypage.product.magagement.list.view') }}">마이메뉴</a>
-            </li>
+            @if (Auth::guard('web')->user()->type == 0)
+                <li class="{{ str_contains(Route::currentRouteName(), 'mypage') ? 'active' : '' }}">
+                    <a href="{{ route('www.mypage.product.magagement.list.view') }}">마이메뉴</a>
+                </li>
+            @else
+                <li class="{{ str_contains(Route::currentRouteName(), 'mypage') ? 'active' : '' }}">
+                    <a href="{{ route('www.mypage.corp.product.magagement.list.view') }}">마이메뉴</a>
+                </li>
+            @endif
         @endguest
     </ul>
     <div>
@@ -20,14 +26,14 @@
             <ul class="util_menu">
                 <li><a href="{{ route('www.login.login') }}">로그인</a></li>
                 <li><a href="{{ route('www.register.register.view') }}">회원가입</a></li>
-                <li><a href="{{ route('www.register.corp.register.view')}}">중개사 가입</a></li>
+                <li><a href="{{ route('www.register.corp.register.view') }}">중개사 가입</a></li>
             </ul>
         @else
             <div class="util_area">
                 <div class="header_user_img">
-                    <div class="img_box"><img src="{{ asset('assets/media/default_user.png')}}"></div>
+                    <div class="img_box"><img src="{{ asset('assets/media/default_user.png') }}"></div>
                 </div>
-                {{ Auth::guard('web')->user()->name; }}
+                {{ Auth::guard('web')->user()->name }}
                 <ul class="util_menu">
                     <li><a href="{{ route('www.logout.logout') }}">로그아웃</a></li>
                 </ul>

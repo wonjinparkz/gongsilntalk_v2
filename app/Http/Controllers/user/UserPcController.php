@@ -44,7 +44,7 @@ class UserPcController extends Controller
     /**
      * 내 매물 관리
      */
-    public function productMagagementListView(Request $request): View
+    public function productMagagementListView(Request $request)
     {
         // 회원 정보
         $user = User::select()

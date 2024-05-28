@@ -116,13 +116,13 @@ class SiteProductController extends Controller
             'contents_2' => 'required',
             'dong_info.*.dong_name' => 'required',
             'dong_info.*.floor_info.*.floor_name' => 'required',
-            'dong_info.*.floor_info.*.floor_image_ids' => 'required',
+            'dong_info.*.floor_info.*.floor_image_ids.*' => 'required',
+            'siteProductMain_image_ids' => 'required',
             'schedule_title.*' => 'required',
-            'siteProductMain_image_ids' => 'required'
         ], [
             'dong_info.*.dong_name.required' => '동 이름은 필수 항목입니다.',
             'dong_info.*.floor_info.*.floor_name.required' => '층 이름은 필수 항목입니다.',
-            'dong_info.*.floor_info.*.floor_image_ids.required' => '층 도면은 필수 항목입니다.',
+            'dong_info.*.floor_info.*.floor_image_ids.*.required' => '층 도면은 필수 항목입니다.',
             'schedule_title.*' => '일정 제목은 필수 항목입니다.',
         ]);
 
@@ -221,10 +221,11 @@ class SiteProductController extends Controller
     }
 
     /**
-     *  분양현장 등록
+     *  분양현장 수정
      */
     public function siteProductUpdate(Request $request)
     {
+        Log::info($request);
         // 유효성 검사
         $validator = Validator::make($request->all(), [
             'region_type' => 'required',
@@ -256,13 +257,13 @@ class SiteProductController extends Controller
             'contents_2' => 'required',
             'dong_info.*.dong_name' => 'required',
             'dong_info.*.floor_info.*.floor_name' => 'required',
-            'dong_info.*.floor_info.*.floor_image_ids' => 'required',
+            'dong_info.*.floor_info.*.floor_image_ids.*' => 'required',
+            'siteProductMain_image_ids' => 'required',
             'schedule_title.*' => 'required',
-            'siteProductMain_image_ids' => 'required'
         ], [
             'dong_info.*.dong_name.required' => '동 이름은 필수 항목입니다.',
             'dong_info.*.floor_info.*.floor_name.required' => '층 이름은 필수 항목입니다.',
-            'dong_info.*.floor_info.*.floor_image_ids.required' => '층 도면은 필수 항목입니다.',
+            'dong_info.*.floor_info.*.floor_image_ids.*.required' => '층 도면은 필수 항목입니다.',
             'schedule_title.*' => '일정 제목은 필수 항목입니다.',
         ]);
 

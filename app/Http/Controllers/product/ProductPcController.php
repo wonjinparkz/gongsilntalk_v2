@@ -149,4 +149,69 @@ class ProductPcController extends Controller
 
         return Redirect::route('www.mypage.product.magagement.list.view')->with('message', '매물을 등록했습니다.');
     }
+
+    // 중개사 매물
+
+    /**
+     * 중개사 매물 등록 챕터1
+     */
+    public function corpProductCreateView(): View
+    {
+        return view('www.product.corp_product_create');
+    }
+    /**
+     * 중개사 매물 등록 챕터2
+     */
+    public function corpProductCreate2View(): View
+    {
+        return view('www.product.corp_product_create2');
+    }
+    /**
+     * 중개사 매물 등록 챕터3
+     */
+    public function corpProductCreate3View(): View
+    {
+        return view('www.product.corp_product_create3');
+    }
+    /**
+     * 중개사 매물 등록 챕터4
+     */
+    public function corpProductCreate4View(): View
+    {
+        return view('www.product.corp_product_create4');
+    }
+    /**
+     * 중개사 매물 등록 챕터5
+     */
+    public function corpProductCreate5View(): View
+    {
+        return view('www.product.corp_product_create5');
+    }
+
+    /**
+     * 매물 등록 매물유형 및 가격 체크
+     */
+    public function corpProductCreateTypeCheck(Request $request): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'type' => "required",
+            'payment_type' => "required",
+            'price' => "required",
+            'month_price' => 'required_if:payment_type,1,2,4',
+            'is_price_discussion' => 'required',
+            'is_use' => 'required',
+            'current_price' => 'required_if:is_use,1',
+            'current_month_price' => 'required_if:is_use,1',
+            'is_premium' => 'required_if:type,3',
+            'premium_price' => 'required_if:is_premium,1',
+            'approve_date' => 'required_if:type,>=,14',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(route('www.corp.product.create.view'))->withErrors($validator)
+                ->withInput();
+        }
+
+        return Redirect::route('www.corp.product.create2.view', compact('request'));
+    }
 }
