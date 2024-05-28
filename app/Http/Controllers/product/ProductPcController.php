@@ -8,6 +8,7 @@ use App\Models\ProductPrice;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
@@ -155,37 +156,41 @@ class ProductPcController extends Controller
     /**
      * 중개사 매물 등록 챕터1
      */
-    public function corpProductCreateView(): View
+    public function corpProductCreateView(Request $request): View
     {
         return view('www.product.corp_product_create');
     }
     /**
      * 중개사 매물 등록 챕터2
      */
-    public function corpProductCreate2View(): View
+    public function corpProductCreate2View(Request $request): View
     {
-        return view('www.product.corp_product_create2');
+        Log::info($request->all());
+
+        $result = $request->all();
+
+        return view('www.product.corp_product_create2', compact('result'));
     }
     /**
      * 중개사 매물 등록 챕터3
      */
-    public function corpProductCreate3View(): View
+    public function corpProductCreate3View(Request $request): View
     {
-        return view('www.product.corp_product_create3');
+        return view('www.product.corp_product_create3', compact('request'));
     }
     /**
      * 중개사 매물 등록 챕터4
      */
-    public function corpProductCreate4View(): View
+    public function corpProductCreate4View(Request $request): View
     {
-        return view('www.product.corp_product_create4');
+        return view('www.product.corp_product_create4', compact('request'));
     }
     /**
      * 중개사 매물 등록 챕터5
      */
-    public function corpProductCreate5View(): View
+    public function corpProductCreate5View(Request $request): View
     {
-        return view('www.product.corp_product_create5');
+        return view('www.product.corp_product_create5', compact('request'));
     }
 
     /**
@@ -193,6 +198,7 @@ class ProductPcController extends Controller
      */
     public function corpProductCreateTypeCheck(Request $request): RedirectResponse
     {
+        Log::info($request);
         $validator = Validator::make($request->all(), [
             'type' => "required",
             'payment_type' => "required",
@@ -212,6 +218,33 @@ class ProductPcController extends Controller
                 ->withInput();
         }
 
-        return Redirect::route('www.corp.product.create2.view', compact('request'));
+        $result['type'] = $request->type;
+        $result['payment_type'] = $request->payment_type;
+        $result['price'] = $request->price;
+        $result['month_price'] = $request->month_price;
+        $result['is_price_discussion'] = $request->is_price_discussion;
+        $result['is_use'] = $request->is_use;
+        $result['current_price'] = $request->current_price;
+        $result['current_month_price'] = $request->current_month_price;
+        $result['is_premium'] = $request->is_premium;
+        $result['premium_price'] = $request->premium_price;
+        $result['approve_date'] = $request->approve_date;
+
+        return Redirect::route('www.corp.product.create2.view', $result);
+    }
+
+    /**
+     * 매물 등록 매물유형 및 가격 체크
+     */
+    public function corpProductCreateAddressCheck(Request $request): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), []);
+
+        if ($validator->fails()) {
+            return redirect(route('www.corp.product.create2.view'))->withErrors($validator)
+                ->withInput();
+        }
+
+        return Redirect::route('www.corp.product.create3.view', compact('request'));
     }
 }
