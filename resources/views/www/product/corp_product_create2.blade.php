@@ -1,6 +1,19 @@
 <x-layout>
 
-    <form class="find_form" method="POST" action="{{ route('www.product.create.address.check') }}" name="create_check">
+    <form class="find_form" method="POST" action="{{ route('www.corp.product.create.address.check') }}"
+        name="create_check">
+        <input type="hidden" name="type" id="type" value="">
+        <input type="hidden" name="payment_type" id="payment_type" value="">
+        <input type="hidden" name="price" id="price" value="">
+        <input type="hidden" name="month_price" id="month_price" value="">
+        <input type="hidden" name="is_price_discussion" id="is_price_discussion" value="">
+        <input type="hidden" name="is_use" id="is_use" value="">
+        <input type="hidden" name="current_price" id="current_price" value="">
+        <input type="hidden" name="current_month_price" id="current_month_price" value="">
+        <input type="hidden" name="is_premium" id="is_premium" value="">
+        <input type="hidden" name="premium_price" id="premium_price" value="">
+        <input type="hidden" name="approve_date" id="approve_date" value="">
+
         <input type="hidden" name="address_lng" id="address_lng" value="">
         <input type="hidden" name="address_lat" id="address_lat" value="">
         <input type="hidden" name="region_code" id="region_code" value="">
@@ -8,17 +21,19 @@
         <input type="hidden" name="address" id="address" value="">
         <!----------------------------- m::header bar : s ----------------------------->
         <div class="m_header">
-            <div class="left_area"><a href="javascript:history.go(-1)"><img src="{{ asset('assets/media/header_btn_back.png')}}"></a></div>
+            <div class="left_area"><a href="javascript:history.go(-1)"><img
+                        src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
             <div class="m_title">매물 등록 <span class="gray_basic"><span class="txt_point">2</span>/5</span></div>
             <div class="right_area"></div>
         </div>
         <!----------------------------- m::header bar : s ----------------------------->
 
         <div class="body">
+            {{ $result['type'] }}
 
             <!-- my_body : s -->
             <div class="inner_mid_wrap m_inner_wrap mid_body">
-                <h1 class="t_center only_pc">매물 등록하기 <span class="step_number"><span class="txt_point">2</span>/3</span>
+                <h1 class="t_center only_pc">매물 등록하기 <span class="step_number"><span class="txt_point">2</span>/5</span>
                 </h1>
 
                 <div class="offer_step_wrap">
@@ -89,8 +104,10 @@
                             </div>
 
                             <div class="inner_item inner_map only_pc">
-                                <div id="mapWrap" class="mapWrap"
-                                    style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
+                                <div id="is_temporary_0" style=" width: 100%; height: 100%; display:;">
+                                    <div id="mapWrap" class="mapWrap"
+                                        style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
+                                </div>
                                 <div id="is_temporary_1" style="display: none">
                                     가(임시)주소 선택시,<br>지도 노출이 불가능합니다.
                                 </div>
@@ -170,8 +187,20 @@
 
     <script>
         $(document).ready(function() {
-            var type = sessionStorage.getItem("typeSession");
+            $('#type').val(sessionStorage.getItem("typeSession"));
+            $('#payment_type').val(sessionStorage.getItem("payment_typeSession"));
+            $('#price').val(sessionStorage.getItem("priceSession"));
+            $('#month_price').val(sessionStorage.getItem("month_priceSession"));
+            $('#is_price_discussion').val(sessionStorage.getItem("is_price_discussionSession"));
+            $('#is_use').val(sessionStorage.getItem("is_useSession"));
+            $('#current_price').val(sessionStorage.getItem("current_priceSession"));
+            $('#current_month_price').val(sessionStorage.getItem("current_month_priceSession"));
+            $('#is_premium').val(sessionStorage.getItem("is_premiumSession"));
+            $('#premium_price').val(sessionStorage.getItem("premium_priceSession"));
+            $('#approve_date').val(sessionStorage.getItem("approve_dateSession"));
 
+
+            var type = $('#type').val();
             // 매물 타입이 분양권일 경우 활성화
             if (type > 13) {
                 $('#is_unregistered').css('display', '');

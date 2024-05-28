@@ -90,7 +90,7 @@ Route::middleware('pc.auth')->controller(ProductPcController::class)->group(func
     Route::get('/corp/product/create2/view', 'corpProductCreate2View')->name('www.corp.product.create2.view');
     Route::get('/corp/product/create3/view', 'corpProductCreate3View')->name('www.corp.product.create3.view');
     Route::get('/corp/product/create4/view', 'corpProductCreate4View')->name('www.corp.product.create4.view');
-    Route::get('/corp/product/create5/view', 'corpProductCreate5View')->name('www.corp.product.create3.view');
+    Route::get('/corp/product/create5/view', 'corpProductCreate5View')->name('www.corp.product.create5.view');
     Route::post('/corp/product/create/type/check', 'corpProductCreateTypeCheck')->name('www.corp.product.create.type.check');
     Route::post('/corp/product/create/address/check', 'corpProductCreateAddressCheck')->name('www.corp.product.create.address.check');
     Route::post('/corp/product/create', 'corpProductCreate')->name('www.corp.product.create');

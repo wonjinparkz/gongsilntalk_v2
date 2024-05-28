@@ -1,17 +1,22 @@
 <x-layout>
+
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
-        <div class="left_area"><a href="javascript:history.go(-1)"><img src="images/header_btn_back.png"></a></div>
+        <div class="left_area"><a href="javascript:history.go(-1)"><img
+                    src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
         <div class="m_title">매물 등록 <span class="gray_basic"><span class="txt_point">3</span>/5</span></div>
         <div class="right_area"></div>
     </div>
     <!----------------------------- m::header bar : s ----------------------------->
 
+    {{ $result }}
+
     <div class="body">
 
         <!-- my_body : s -->
         <div class="inner_mid_wrap m_inner_wrap mid_body">
-            <h1 class="t_center only_pc">매물 등록하기 <span class="step_number"><span class="txt_point">3</span>/5</span></h1>
+            <h1 class="t_center only_pc">매물 등록하기 <span class="step_number"><span class="txt_point">3</span>/5</span>
+            </h1>
 
             <div class="offer_step_wrap">
                 <div class="box_01 box_reg">
@@ -27,7 +32,8 @@
                             </div>
                         </div>
                     </div>
-                    <!-- 단독공장 해당 : s
+
+                    <!-- 단독공장 해당 : s -->
                     <div class="reg_mid_wrap">
                         <div class="reg_item">
                             <label class="input_label">최저/최고층 <span class="txt_point">*</span></label>
@@ -42,11 +48,12 @@
                             <div class="input_pyeong_area">
                                 <div><input type="text" placeholder="대지면적"> <span class="gray_deep">평</span> </div>
                                 <span class="gray_deep">/</span>
-                                <div><input type="text" placeholder="평 입력시 자동"> <span class="gray_deep">㎡</span></div>
+                                <div><input type="text" placeholder="평 입력시 자동"> <span class="gray_deep">㎡</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                     단독공장 해당 : e -->
+                    <!-- 단독공장 해당 : e -->
 
                     <div class="reg_mid_wrap">
                         <div class="reg_item">
@@ -54,23 +61,29 @@
                             <div class="input_pyeong_area">
                                 <div><input type="text" placeholder="전용면적"> <span class="gray_deep">평</span> </div>
                                 <span class="gray_deep">/</span>
-                                <div><input type="text" placeholder="평 입력시 자동"> <span class="gray_deep">㎡</span></div>
+                                <div><input type="text" placeholder="평 입력시 자동"> <span class="gray_deep">㎡</span>
+                                </div>
                             </div>
                         </div>
-                        <!-- 단독공장 해당 <div class="reg_item">
+
+                        <!-- 단독공장 해당 : s -->
+                        <div class="reg_item">
                             <label class="input_label">연면적 <span class="txt_point">*</span></label>
                             <div class="input_pyeong_area">
                                 <div><input type="text" placeholder="연면적"> <span class="gray_deep">평</span> </div>
                                 <span class="gray_deep">/</span>
-                                <div><input type="text" placeholder="평 입력시 자동"> <span class="gray_deep">㎡</span></div>
+                                <div><input type="text" placeholder="평 입력시 자동"> <span class="gray_deep">㎡</span>
+                                </div>
                             </div>
-                        </div> -->
+                        </div>
+                        <!-- 단독공장 해당 : e -->
                         <div class="reg_item">
                             <label class="input_label">전용 면적 <span class="txt_point">*</span></label>
                             <div class="input_pyeong_area">
                                 <div><input type="text" placeholder="전용면적"> <span class="gray_deep">평</span> </div>
                                 <span class="gray_deep">/</span>
-                                <div><input type="text" placeholder="평 입력시 자동"> <span class="gray_deep">㎡</span></div>
+                                <div><input type="text" placeholder="평 입력시 자동"> <span class="gray_deep">㎡</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -102,7 +115,31 @@
                                     <li class="optionItem">기타</li>
                                     <li class="optionItem">구분없음</li>
                                 </ul>
-                              </div>
+                            </div>
+                        </div>
+                        <div class="reg_item">
+                            <label class="input_label">현재 용도 <span class="txt_point">*</span></label>
+                            <div class="dropdown_box">
+                                <button class="dropdown_label">현재 용도 선택</button>
+                                <ul class="optionList">
+                                    <li class="optionItem">단독주택</li>
+                                    <li class="optionItem">공동주택</li>
+                                    <li class="optionItem">업무시설</li>
+                                    <li class="optionItem">단기임대</li>
+                                    <li class="optionItem">근린생활시설</li>
+                                    <li class="optionItem">의료시설</li>
+                                    <li class="optionItem">교육연구시설</li>
+                                    <li class="optionItem">판매시설</li>
+                                    <li class="optionItem">운동시설</li>
+                                    <li class="optionItem">숙박시설</li>
+                                    <li class="optionItem">문화및집회시설</li>
+                                    <li class="optionItem">위락시설</li>
+                                    <li class="optionItem">창고시설</li>
+                                    <li class="optionItem">공장</li>
+                                    <li class="optionItem">기타</li>
+                                    <li class="optionItem">구분없음</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
@@ -219,9 +256,11 @@
 
 
                 <div class="step_btn_wrap">
-                    <button class="btn_full_basic btn_graylight_ghost" onclick="location.href='realtor_estate_reg_2.html'">이전</button>
+                    <button class="btn_full_basic btn_graylight_ghost"
+                        onclick="location.href='realtor_estate_reg_2.html'">이전</button>
                     <!-- <button class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                    <button class="btn_full_basic btn_point" onclick="location.href='realtor_estate_reg_4.html'">다음</button>
+                    <button class="btn_full_basic btn_point"
+                        onclick="location.href='realtor_estate_reg_4.html'">다음</button>
                 </div>
 
             </div>
@@ -231,15 +270,14 @@
     </div>
 
     <script>
-    //입력란 열고 닫기
-    function showDiv(className, index) {
-        var tabContents = document.querySelectorAll('.' + className + '_wrap .' + className + '_item');
-        tabContents.forEach(function(content) {
-            content.classList.remove('active');
-        });
-        tabContents[index].classList.add('active');
-    }
-
+        //입력란 열고 닫기
+        function showDiv(className, index) {
+            var tabContents = document.querySelectorAll('.' + className + '_wrap .' + className + '_item');
+            tabContents.forEach(function(content) {
+                content.classList.remove('active');
+            });
+            tabContents[index].classList.add('active');
+        }
     </script>
 
 </x-layout>
