@@ -27,7 +27,7 @@
             <a href="{{ route('www.mypage.product.magagement.list.view') }}">내 매물 관리</a>
         </li>
     @elseif($result->type == 1)
-        <li class="{{ str_contains(Route::currentRouteName(), 'mypage.product.magagement') ? 'active' : '' }}">
+        <li class="{{ str_contains(Route::currentRouteName(), 'mypage.corp.product.magagement') ? 'active' : '' }}">
             <a href="{{ route('www.mypage.corp.product.magagement.list.view') }}">매물 관리</a>
         </li>
     @endif
