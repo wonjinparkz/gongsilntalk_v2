@@ -74,7 +74,7 @@
                         @if (in_array('1', $permissions))
                             {{-- 중개사 관리 메뉴 --}}
                             <div class="menu-item">
-                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'admin.corp') && !str_contains(Route::currentRouteName(), 'admin.corp.proposal') ? 'active' : '' }}"
+                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'admin.corp') && !str_contains(Route::currentRouteName(), 'admin.corp.proposal') && !str_contains(Route::currentRouteName(), 'admin.corp.product') ? 'active' : '' }}"
                                     href="{{ route('admin.corp.list.view') }}">
                                     <span class="menu-icon">
                                         <i class="fa-solid fa-handshake"></i>
@@ -108,8 +108,8 @@
                         @if (in_array('3', $permissions))
                             {{-- 일반 회원 매물 관리 메뉴 --}}
                             <div class="menu-item">
-                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'admin.product') && request()->query('user_type') == 0 ? 'active' : '' }}"
-                                    href="{{ route('admin.product.list.view', ['user_type' => '0']) }}">
+                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'admin.product') ? 'active' : '' }}"
+                                    href="{{ route('admin.product.list.view') }}">
                                     <span class="menu-icon">
                                         <i class="fa-solid fa-house"></i>
                                     </span>
@@ -120,8 +120,8 @@
                         @if (in_array('4', $permissions))
                             {{-- 중개사 매물 관리 메뉴 --}}
                             <div class="menu-item">
-                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'admin.product') && request()->query('user_type') == 1 ? 'active' : '' }}"
-                                    href="{{ route('admin.product.list.view', ['user_type' => '1']) }}">
+                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'corp.product') ? 'active' : '' }}"
+                                    href="{{ route('admin.corp.product.list.view') }}">
                                     <span class="menu-icon">
                                         <i class="fa-solid fa-building-user"></i>
                                     </span>

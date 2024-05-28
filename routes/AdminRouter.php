@@ -94,6 +94,8 @@ Route::middleware('admin.auth')->controller(ProductController::class)->group(fun
     Route::post('/product/update', 'productUpdate')->name('admin.product.update');
 });
 
+
+
 /**
  * 건축물대장 관리
  */
@@ -108,6 +110,11 @@ Route::middleware('admin.auth')->controller(BuildingledgerController::class)->gr
 /**
  * 중개사 매물 관리
  */
+Route::middleware('admin.auth')->controller(ProductController::class)->group(function () {
+    Route::get('/corp/product/list/view', 'corpProductListView')->name('admin.corp.product.list.view');
+    Route::get('/corp/product/detail/view/{id}', 'productDetailView')->name('admin.corp.product.detail.view');
+    Route::get('/corp/product/export', 'exportProduct')->name('admin.product.export');
+});
 
 /**
  * 분양현장 매물 관리
@@ -124,7 +131,6 @@ Route::middleware('admin.auth')->controller(SiteProductController::class)->group
     Route::post('/stie/product/update', 'siteProductUpdate')->name('admin.site.product.update');
     Route::post('/stie/product/sale/update', 'siteProductSaleUpdate')->name('admin.site.product.sale.update');
     Route::post('/site/product/delete', 'siteProductDelete')->name('admin.site.product.delete');
-
 });
 
 /**

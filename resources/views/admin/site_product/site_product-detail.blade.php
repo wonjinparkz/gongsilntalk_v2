@@ -3,9 +3,10 @@
         <x-screen-card :title="'분양현장 매물 상세'">
         </x-screen-card>
         {{-- FORM START  --}}
+
         <form class="form" method="POST" action="{{ route('admin.site.product.update') }}">
             @csrf
-            <input name="id" value="{{ $result->id }}">
+            <input type="hidden" name="id" value="{{ $result->id }}">
             <x-screen-card :title="'기본 정보'">
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
@@ -422,13 +423,13 @@
                                                                     style="display:none" name=""
                                                                     value="" onchange="uploadFloorFile(this)">
                                                                 <span id="fileName"
-                                                                    class="file-name">{{ $floorInfo['floor_image_text'] }}{{ $floorInfo->images->path }}</span>
+                                                                    class="file-name">{{ $floorInfo['floor_image_text'] ?? $floorInfo->images->path }}</span>
                                                                 <input type="hidden"
                                                                     name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_ids][]"
-                                                                    value="{{ $floorInfo['floor_image_ids'] ?? $floorInfo->images->id }}">
+                                                                    value="{{ $floorInfo['floor_image_ids'][0] ?? $floorInfo->images->id }}">
                                                                 <input type="hidden" class="file-nameValue"
                                                                     name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_text]"
-                                                                    value="{{ $floorInfo['floor_image_text'] ?? $floorInfo->images->path }} }}">
+                                                                    value="{{ $floorInfo['floor_image_text'] ?? $floorInfo->images->path }}">
                                                             </div>
                                                             <x-input-error class="mt-2 text-danger"
                                                                 :messages="$errors->get(
@@ -444,7 +445,7 @@
                                                                         $dongIndex .
                                                                         '.floor_info.' .
                                                                         $floorIndex .
-                                                                        '.floor_image_ids',
+                                                                        '.floor_image_ids.0',
                                                                 )" />
                                                         </div>
                                                     </div>
@@ -667,15 +668,15 @@
                                                 <input type="text" name="ended_date[]"
                                                     class="form-control ended-date"
                                                     onfocus="initDatepickerCustom($(this))" readonly
-                                                    @if (($result->is_ended ?? ($result->ended_date ?? 0)) == 0) disabled @endif placeholder=""
-                                                    value="{{ $result->ended_date }}" />
+                                                    @if (($schedule->is_ended ?? ($schedule->ended_date ?? 0)) == 0) disabled @endif placeholder=""
+                                                    value="{{ $schedule->ended_date }}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-3 d-flex align-items-center">
                                             <label class="form-check form-check-custom form-check-inline">
                                                 <input class="form-check-input is-ended" name="is_ended[]"
                                                     type="checkbox" value="1"
-                                                    @if (($result->is_ended ?? ($result->ended_date ?? 0)) == 1) checked @endif>
+                                                    @if (($schedule->is_ended ?? ($schedule->ended_date ?? 0)) == 1) checked @endif>
                                                 <span class="fw-semibold ps-2 fs-6">마감일</span>
                                             </label>
                                         </div>
