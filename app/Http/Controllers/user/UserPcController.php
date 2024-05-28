@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Models\Asset;
+use App\Models\AssetAddress;
 use App\Models\CalculatorRevenue;
 use App\Models\Community;
 use App\Models\Product;
 use App\Models\SiteProduct;
 use App\Models\User;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -234,6 +237,34 @@ class UserPcController extends Controller
         info($request);
         return view('www.mypage.asset-create-fourth', compact('request'));
     }
+
+    /**
+     * 내 자산 등록
+     */
+    public function serviceCreate(Request $request): RedirectResponse
+    {
+        if ($request->asset_address_id == '') {
+            $assetAddress = AssetAddress::create([
+                'users_id' => Auth::guard('web')->user()->id,
+                'is_temporary' => $request->is_temporary,
+                'is_unregistered' => $request->is_unregistered,
+                'address_lat' => $request->address_lat,
+                'address_lng' => $request->address_lng,
+                'region_code' => $request->region_code,
+                'region_address' => $request->region_address,
+                'address' => $request->address,
+                'old_address' => $request->old_address
+            ]);
+        }
+
+
+        // $result = Asset::create([
+
+        // ]);
+
+        return Redirect::route('www.mypage.service.list.view')->with('message', "자산이 등록 되었습니다.");
+    }
+
 
     /**
      * 매물 제안서

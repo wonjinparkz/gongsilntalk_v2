@@ -9,95 +9,97 @@
     <!----------------------------- m::header bar : s ----------------------------->
 
     <div class="body">
-        @php
-            $data = $request->all();
+        <form method="post" action="{{ route('www.mypage.service.create') }}">
+            @php
+                $data = $request->all();
 
-            foreach ($data as $key => $value) {
-                echo '<input type="hidden" id="' . $key . '" name="' . $key . '" value="' . $value . '">';
-            }
-        @endphp
-        <!-- my_body : s -->
-        <div class="inner_mid_wrap m_inner_wrap mid_body">
-            <h1 class="t_center only_pc">자산 등록하기 <span class="step_number"><span class="txt_point">4</span>/4</span></h1>
+                foreach ($data as $key => $value) {
+                    echo '<input type="hidden" id="' . $key . '" name="' . $key . '" value="' . $value . '">';
+                }
+            @endphp
+            <!-- my_body : s -->
+            <div class="inner_mid_wrap m_inner_wrap mid_body">
+                <h1 class="t_center only_pc">자산 등록하기 <span class="step_number"><span class="txt_point">4</span>/4</span>
+                </h1>
 
-            <div class="offer_step_wrap">
+                <div class="offer_step_wrap">
 
-                <div class="box_01 box_reg">
-                    <h4>서류 등록</h4>
+                    <div class="box_01 box_reg">
+                        <h4>서류 등록</h4>
 
-                    <ul class="document_reg_list">
-                        <li>
-                            <div class="document_area">
-                                <div class="document_img_reg">
-                                    <img src="images/download_sample_1.png">
+                        <ul class="document_reg_list">
+                            <li>
+                                <div class="document_area">
+                                    <div class="document_img_reg">
+                                        <img src="images/download_sample_1.png">
+                                    </div>
+                                    <div class="document_name_wrap">
+                                        <p>매매계약서</p>
+                                        <p class="document_name"><span>KakaoTalk_20230323_0907263812542</span>.png</p>
+                                    </div>
                                 </div>
-                                <div class="document_name_wrap">
-                                    <p>매매계약서</p>
-                                    <p class="document_name"><span>KakaoTalk_20230323_0907263812542</span>.png</p>
+                                <div class="gap_8">
+                                    <button class="btn_graylight_ghost btn_sm">업로드</button>
+                                    <button class="btn_graylight_ghost btn_sm">삭제</button>
                                 </div>
-                            </div>
-                            <div class="gap_8">
-                                <button class="btn_graylight_ghost btn_sm">업로드</button>
-                                <button class="btn_graylight_ghost btn_sm">삭제</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="document_area">
-                                <div class="document_img_reg"></div>
-                                <div>
-                                    <p>사업자등록증</p>
-                                    <p class="mt8 gray_basic fs_13">png 또는 jpg 업로드</p>
+                            </li>
+                            <li>
+                                <div class="document_area">
+                                    <div class="document_img_reg"></div>
+                                    <div>
+                                        <p>사업자등록증</p>
+                                        <p class="mt8 gray_basic fs_13">png 또는 jpg 업로드</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="gap_8">
-                                <button class="btn_graylight_ghost btn_sm">업로드</button>
-                                <button class="btn_graylight_ghost btn_sm">삭제</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="document_area">
-                                <div class="document_img_reg"></div>
-                                <div>
-                                    <p>임대차계약서</p>
-                                    <p class="mt8 gray_basic fs_13">png 또는 jpg 업로드</p>
+                                <div class="gap_8">
+                                    <button class="btn_graylight_ghost btn_sm">업로드</button>
+                                    <button class="btn_graylight_ghost btn_sm">삭제</button>
                                 </div>
-                            </div>
-                            <div class="gap_8">
-                                <button class="btn_graylight_ghost btn_sm">업로드</button>
-                                <button class="btn_graylight_ghost btn_sm">삭제</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="document_area">
-                                <div class="document_img_reg"></div>
-                                <div>
-                                    <p>기타 서류</p>
-                                    <p class="mt8 gray_basic fs_13">png 또는 jpg 업로드</p>
+                            </li>
+                            <li>
+                                <div class="document_area">
+                                    <div class="document_img_reg"></div>
+                                    <div>
+                                        <p>임대차계약서</p>
+                                        <p class="mt8 gray_basic fs_13">png 또는 jpg 업로드</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="gap_8">
-                                <button class="btn_graylight_ghost btn_sm">업로드</button>
-                                <button class="btn_graylight_ghost btn_sm">삭제</button>
-                            </div>
-                        </li>
-                    </ul>
+                                <div class="gap_8">
+                                    <button class="btn_graylight_ghost btn_sm">업로드</button>
+                                    <button class="btn_graylight_ghost btn_sm">삭제</button>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="document_area">
+                                    <div class="document_img_reg"></div>
+                                    <div>
+                                        <p>기타 서류</p>
+                                        <p class="mt8 gray_basic fs_13">png 또는 jpg 업로드</p>
+                                    </div>
+                                </div>
+                                <div class="gap_8">
+                                    <button class="btn_graylight_ghost btn_sm">업로드</button>
+                                    <button class="btn_graylight_ghost btn_sm">삭제</button>
+                                </div>
+                            </li>
+                        </ul>
 
+
+                    </div>
+
+
+                    <div class="step_btn_wrap">
+                        <button class="btn_full_basic btn_graylight_ghost" type="button"
+                            onclick="javascript:history.back();">이전</button>
+                        <!-- <button class="btn_full_basic btn_point" disabled>완료</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
+                        <button class="btn_full_basic btn_point"
+                            onclick="location.href='{{ route('www.mypage.service.list.view') }}'">완료</button>
+                    </div>
 
                 </div>
-
-
-                <div class="step_btn_wrap">
-                    <button class="btn_full_basic btn_graylight_ghost" type="button"
-                        onclick="javascript:history.back();">이전</button>
-                    <!-- <button class="btn_full_basic btn_point" disabled>완료</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                    <button class="btn_full_basic btn_point"
-                        onclick="location.href='{{ route('www.mypage.service.list.view') }}'">완료</button>
-                </div>
-
             </div>
-        </div>
-        <!-- my_body : e -->
-
+            <!-- my_body : e -->
+        </form>
     </div>
 
     <script>

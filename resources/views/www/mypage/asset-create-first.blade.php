@@ -10,7 +10,8 @@
 
     <div class="body">
 
-        <form method="get" action="{{ route('www.mypage.service.create.second.view') }}">
+        <form method="get" action="{{ route('www.mypage.service.create.second.view') }}" id="create_form"
+            name="create_form">
 
             <!-- my_body : s -->
             <div class="inner_mid_wrap m_inner_wrap mid_body">
@@ -248,11 +249,14 @@
                         <span></span>
                         <!-- <button class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
                         <button class="btn_full_basic btn_point" id="nextPageButton" name="nextPageButton"
-                            type="submit" disabled>다음</button>
+                            type="button" onclick="onFormSubmit();" disabled>다음</button>
                     </div>
                 </div>
             </div>
             <!-- my_body : e -->
+
+            <input type="hidden" id="is_temporary" name="is_temporary" value="0">
+            <input type="hidden" id="is_unregistered" name="is_unregistered" value="0">
         </form>
     </div>
 
@@ -305,6 +309,22 @@
 </x-layout>
 
 <script>
+    function onFormSubmit() {
+
+        // 임시 주소 인지 체크
+        if (document.getElementById('temporary_address').checked == true) {
+            $('#is_temporary').val(1);
+        }
+
+        // 미등기 여부
+        if (document.getElementById('unregistered').checked == true) {
+            $('#is_unregistered').val(1);
+        }
+
+        var form = document.create_form;
+        form.submit();
+    }
+
     function isStringValue(val) {
         return !!val?.trim()
     }
@@ -345,6 +365,8 @@
         }
 
         checkVal -= minusVal;
+
+        console.log(checkVal);
 
         if (checkVal == 1) {
             document.getElementById('nextPageButton').disabled = false;
@@ -444,16 +466,6 @@
         var address_detail = $('#address_detail').val();
         var address_dong = $('#address_dong').val();
         var address_number = $('#address_number').val();
-
-        sessionStorage.setItem("address_lngSession", address_lng);
-        sessionStorage.setItem("address_latSession", address_lat);
-        sessionStorage.setItem("region_codeSession", region_code);
-        sessionStorage.setItem("region_addressSession", region_address);
-        sessionStorage.setItem("addressSession", address);
-
-        sessionStorage.setItem("address_dongSession", address_dong);
-        sessionStorage.setItem("address_numberSession", address_number);
-        sessionStorage.setItem("address_detailSession", address_detail);
 
         $('.find_form').submit();
     }
@@ -577,6 +589,7 @@
         $('#roadName').html('<span>도로명</span>' + address + ' 999-99');
         $('#address').val(address + ' 999-99');
         $('#region_address').val(address);
+        $('#old_address').val(address);
         confrim_check();
     }
 

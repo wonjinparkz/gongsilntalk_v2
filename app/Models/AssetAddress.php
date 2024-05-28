@@ -23,8 +23,10 @@ class AssetAddress extends BaseModel
         'users_id',
         'is_temporary',
         'is_unregistered',
+        'region_code',
         'address_lat',
         'address_lng',
+        'region_address',
         'address',
         'old_address'
     ];

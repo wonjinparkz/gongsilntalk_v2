@@ -9,7 +9,7 @@
     <!----------------------------- m::header bar : s ----------------------------->
 
     <div class="body">
-        <form method="get" action="{{ route('www.mypage.service.create.third.view') }}">
+        <form method="get" action="{{ route('www.mypage.service.create.fourth.view') }}">
             @php
                 $data = $request->all();
 

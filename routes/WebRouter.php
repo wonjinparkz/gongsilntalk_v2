@@ -114,6 +114,7 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::get('/mypage/service/create-second', 'serviceSecondCreateView')->name('www.mypage.service.create.second.view');
     Route::get('/mypage/service/create-third', 'serviceThirdCreateView')->name('www.mypage.service.create.third.view');
     Route::get('/mypage/service/create-fourth', 'serviceFourthCreateView')->name('www.mypage.service.create.fourth.view');
+    Route::post('/mypage/service/create', 'serviceCreate')->name('www.mypage.service.create');
 
     Route::get('/mypage/corp/proposal/list', 'corpProposalListView')->name('www.mypage.corp.proposal.list.view');
     Route::get('/mypage/proposal/list', 'proposalListView')->name('www.mypage.proposal.list.view');
