@@ -106,7 +106,7 @@
                         <input type="text" name="address" id="address" value="" style="display: none;">
                         <input type="hidden" name="old_address" id="old_address" value="">
 
-                        <input type="hidden" name="asset_address_id" id="asset_address_id" value="">
+                        <input type="hidden" name="asset_address_id" id="asset_address_id" value="N">
 
                         <div class="address_reg_wrap">
                             <div class="inner_item">
@@ -346,31 +346,37 @@
         var checkVal = 1;
         var minusVal = 0;
 
+        console.log($("input[type=text]").length);
+
         $("input[type=text]").each(function(index, item) {
-            checkVal = (isStringValue(item.value) == false) ? checkVal + 1 : checkVal;
+            if (item.id != '' && item.id != 'keyword' && item.id != 'roadintrvl_keyword') {
+                if (isStringValue(item.value) == false) {
+                    console.log(item.id);
+                }
+                checkVal = (isStringValue(item.value) == false) ? checkVal + 1 : checkVal;
+            }
         });
 
-        // 임시 주소 체크 여부
+        // 임시 주소 여부 체크
         if (document.getElementById('temporary_address').checked == false) {
             minusVal = 1;
+        } else {
+            minusVal = 2;
         }
 
-        // 동 정보 없는지 체크
-        if (document.getElementById('address_no_1').checked || document.getElementById('temporary_address').checked ==
-            true) {
-            minusVal = 2;
+        // 동 정보 없는지 체크 || 임시 주소 여부 체크
+        if (document.getElementById('address_no_1').checked) {
+            minusVal += 1;
         }
 
         // 상세 주소 없는지 체크
         if (document.getElementById('address_no_2').checked) {
-            minusVal = 3;
+            minusVal += 1;
         }
 
         checkVal -= minusVal;
 
-        console.log(checkVal);
-
-        if (checkVal == 1) {
+        if (checkVal == 0) {
             document.getElementById('nextPageButton').disabled = false;
         } else {
             document.getElementById('nextPageButton').disabled = true;

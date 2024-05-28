@@ -28,8 +28,8 @@
                         <h4>거래정보</h4>
 
                         <ul class="tab_type_3 tab_toggle_menu">
-                            <li class="active">매매</li>
-                            <li>분양권</li>
+                            <li class="active" onclick="onTabChange(0);">매매</li>
+                            <li onclick="onTabChange(1);">분양권</li>
                         </ul>
 
                         <div class="tab_area_wrap">
@@ -38,13 +38,13 @@
                                     <div class="reg_item">
                                         <label class="input_label">매매가 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text"> <span>원</span>
+                                            <input type="text" id="price_0" name="price_0"> <span>원</span>
                                         </div>
                                     </div>
                                     <div class="reg_item">
                                         <label class="input_label">계약일자 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text">
+                                            <input type="number" id="contracted_at_0" name="contracted_at_0" placeholder="예) 20230101">
                                         </div>
                                     </div>
                                 </div>
@@ -53,13 +53,14 @@
                                     <div class="reg_item">
                                         <label class="input_label">취득세율 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text" placeholder="소수점 두자리까지 입력"> <span>%</span>
+                                            <input type="number" id="acquisition_tax_rate_0"
+                                                name="acquisition_tax_rate_0" placeholder="소수점 두자리까지 입력"> <span>%</span>
                                         </div>
                                     </div>
                                     <div class="reg_item">
                                         <label class="input_label">기타비용</label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text"> <span>원</span>
+                                            <input type="text" id="etc_price_0" name="etc_price_0"> <span>원</span>
                                         </div>
                                     </div>
                                 </div>
@@ -68,13 +69,14 @@
                                     <div class="reg_item">
                                         <label class="input_label">세무비용</label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text" placeholder="소수점 두자리까지 입력"> <span>원</span>
+                                            <input type="text" id="tax_price_0" name="tax_price_0"> <span>원</span>
                                         </div>
                                     </div>
                                     <div class="reg_item">
                                         <label class="input_label">부동산수수료</label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text"> <span>원</span>
+                                            <input type="text" id="estate_price_0" name="estate_price_0">
+                                            <span>원</span>
                                         </div>
                                     </div>
                                 </div>
@@ -86,13 +88,14 @@
                                     <div class="reg_item">
                                         <label class="input_label">분양가 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text"> <span>원</span>
+                                            <input type="text" id="price_1" name="price_1"> <span>원</span>
                                         </div>
                                     </div>
                                     <div class="reg_item">
                                         <label class="input_label">계약일자 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text" placeholder="예) 20230101">
+                                            <input type="text" id="contracted_at_1" name="contracted_at_1"
+                                                placeholder="예) 20230101">
                                         </div>
                                     </div>
                                 </div>
@@ -104,13 +107,15 @@
                                             <span class="gray_basic">* 건물 준공 후 기입</span>
                                         </div>
                                         <div class="flex_1 flex_between">
-                                            <input type="text" disabled placeholder="예) 20240101">
+                                            <input type="text" id="registered_at_1" name="registered_at_1" disabled
+                                                placeholder="예) 20240101">
                                         </div>
                                     </div>
                                     <div class="reg_item">
                                         <label class="input_label">취득세율 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text" placeholder="소수점 두자리까지 입력"> <span>%</span>
+                                            <input type="text" id="acquisition_tax_rate_1"
+                                                name="acquisition_tax_rate_1" placeholder="소수점 두자리까지 입력"> <span>%</span>
                                         </div>
                                     </div>
                                 </div>
@@ -119,13 +124,15 @@
                                     <div class="reg_item">
                                         <label class="input_label">기타비용</label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text" placeholder="소수점 두자리까지 입력"> <span>원</span>
+                                            <input type="text" id="etc_price_1" name="etc_price_1"
+                                                placeholder="소수점 두자리까지 입력"> <span>원</span>
                                         </div>
                                     </div>
                                     <div class="reg_item">
                                         <label class="input_label">세무비용</label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text" placeholder="소수점 두자리까지 입력"> <span>원</span>
+                                            <input type="text" id="tax_price_1" name="tax_price_1"
+                                                placeholder="소수점 두자리까지 입력"> <span>원</span>
                                         </div>
                                     </div>
                                 </div>
@@ -134,7 +141,8 @@
                                     <div class="reg_item">
                                         <label class="input_label">부동산수수료</label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text" placeholder="소수점 두자리까지 입력"> <span>원</span>
+                                            <input type="text" id="estate_price_1" name="estate_price_1"
+                                                placeholder="소수점 두자리까지 입력"> <span>원</span>
                                         </div>
                                     </div>
                                 </div>
@@ -150,13 +158,14 @@
                             <div class="reg_item">
                                 <label class="input_label">대출금액</label>
                                 <div class="flex_1 flex_between">
-                                    <input type="text"> <span>원</span>
+                                    <input type="text" id="loan_price" name="loan_price"> <span>원</span>
                                 </div>
                             </div>
                             <div class="reg_item">
                                 <label class="input_label">대출금리</label>
                                 <div class="flex_1 flex_between">
-                                    <input type="text" placeholder="소수점 두자리까지 입력"> <span>%</span>
+                                    <input type="text" id="loan_rate" name="loan_rate"
+                                        placeholder="소수점 두자리까지 입력"> <span>%</span>
                                 </div>
                             </div>
                         </div>
@@ -165,13 +174,15 @@
                             <div class="reg_item">
                                 <label class="input_label">대출기간 </label>
                                 <div class="flex_1 flex_between">
-                                    <input type="text"> <span>개월</span>
+                                    <input type="number" max="12" min="0" id="loan_period"
+                                        name="loan_period"> <span>개월</span>
                                 </div>
                             </div>
                             <div class="reg_item">
                                 <label class="input_label">대출일자</label>
                                 <div class="flex_1 flex_between">
-                                    <input type="text" placeholder="예) 20230101"> <span>원</span>
+                                    <input type="text" id="loaned_at" name="loaned_at" placeholder="예) 20230101">
+                                    <span>원</span>
                                 </div>
                             </div>
                         </div>
@@ -180,16 +191,16 @@
                             <div class="">
                                 <label class="input_label">대출방식 </label>
                                 <div class="btn_radioType mt8">
-                                    <input type="radio" name="loan_type" id="loan_type_1" value="Y">
+                                    <input type="radio" name="loan_type" id="loan_type_1" value="0">
                                     <label for="loan_type_1">해당없음</label>
 
-                                    <input type="radio" name="loan_type" id="loan_type_2" value="Y">
+                                    <input type="radio" name="loan_type" id="loan_type_2" value="1" checked>
                                     <label for="loan_type_2">원리금균등분할</label>
 
-                                    <input type="radio" name="loan_type" id="loan_type_3" value="Y">
+                                    <input type="radio" name="loan_type" id="loan_type_3" value="2">
                                     <label for="loan_type_3">원금균등상환</label>
 
-                                    <input type="radio" name="loan_type" id="loan_type_4" value="Y">
+                                    <input type="radio" name="loan_type" id="loan_type_4" value="3">
                                     <label for="loan_type_4">만기상환</label>
                                 </div>
                             </div>
@@ -201,16 +212,77 @@
                     <div class="step_btn_wrap">
                         <button class="btn_full_basic btn_graylight_ghost" type="button"
                             onclick="javascript:history.back();">이전</button>
-                        <button class="btn_full_basic btn_point" type="submit">다음</button>
+                        <button class="btn_full_basic btn_point" id="nextPageButton" type="submit"
+                            disabled>다음</button>
                     </div>
 
                 </div>
             </div>
             <!-- my_body : e -->
+
+            <input type="hidden" id="price" name="price" value="">
         </form>
     </div>
 
     <script>
+        let tabIndex = 0;
+
+        function onTabChange(idx) {
+            tabIndex = idx;
+
+            $('#price_0').val('');
+            $('#price_1').val('');
+            $('#price').val('');
+        }
+
+        function debounce(func, timeout = 300) {
+            let timer;
+            return (...args) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    func.apply(this, args);
+                }, timeout);
+            };
+        }
+
+        function onFieldInputCheck() {
+
+            if (tabIndex == 0) {
+                if ($('#price_0').val() != '' && $('#contracted_at_0').val() != '' && $('#acquisition_tax_rate_0').val() !=
+                    '') {
+                    document.getElementById('nextPageButton').disabled = false;
+                }
+            } else {
+                if ($('#price_1').val() != '' && $('#contracted_at_1').val() != '' && $('#acquisition_tax_rate_1').val() !=
+                    '') {
+                    document.getElementById('nextPageButton').disabled = false;
+                }
+            }
+        }
+
+        // 매매 -> 매매가 한글 변환
+        $('#price_0').keyup(function() {
+            $('#price').val($('#price_0').val());
+            setTimeout(function() {
+                $('#price_0').val(numberToKorean(parseInt($('#price').val())));
+            }, 3000);
+        });
+
+        // 분양권 -> 분양가 한글 변환
+        $('#price_1').keyup(function() {
+            $('#price').val($('#price_1').val());
+            setTimeout(function() {
+                $('#price_1').val(numberToKorean(parseInt($('#price').val())));
+            }, 3000);
+        });
+
+
+        const processChange = debounce(() => onFieldInputCheck());
+
+        addEventListener("input", (event) => {
+            processChange();
+        });
+
         //기본 토글 이벤트
         $(".proposal_toggle_btn").click(function() {
             $(this).toggleClass("toggled");
@@ -223,6 +295,30 @@
             $(".proposal_table_wrap").stop().slideToggle(300);
             return false;
         });
+
+        function numberToKorean(number) {
+            var inputNumber = number < 0 ? false : number;
+            var unitWords = ['', '만', '억', '조', '경'];
+            var splitUnit = 10000;
+            var splitCount = unitWords.length;
+            var resultArray = [];
+            var resultString = '';
+
+            for (var i = 0; i < splitCount; i++) {
+                var unitResult = (inputNumber % Math.pow(splitUnit, i + 1)) / Math.pow(splitUnit, i);
+                unitResult = Math.floor(unitResult);
+                if (unitResult > 0) {
+                    resultArray[i] = unitResult;
+                }
+            }
+
+            for (var i = 0; i < resultArray.length; i++) {
+                if (!resultArray[i]) continue;
+                resultString = String(resultArray[i]) + unitWords[i] + resultString;
+            }
+
+            return resultString;
+        }
     </script>
 
 
