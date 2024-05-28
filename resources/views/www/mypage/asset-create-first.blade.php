@@ -128,8 +128,10 @@
                                     <label for="unregistered" class="gray_deep"><span></span> 미등기</label>
                                 </div>
                                 <!----------------- M:: map : s ----------------->
-                                <div class="inner_item inner_map only_m">
-                                    주소 검색 시,<br>해당 위치가 지도에 표시됩니다.
+                                <div class="inner_item inner_map only_m mapOnlyMobile">
+                                    <div id="mapWrap" class="mapWrap"
+                                        style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
+                                    {{-- 주소 검색 시,<br>해당 위치가 지도에 표시됩니다. --}}
                                 </div>
                                 <!----------------- M:: map : e ----------------->
                                 <div class="inner_address">
@@ -177,9 +179,9 @@
                                     <input type="text" placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호">
                                 </div> -->
                             </div>
-                            <div class="inner_item inner_map only_pc">
-                                <div id="mapWrap" class="mapWrap"
-                                    style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
+                            <div class="inner_item inner_map only_pc mapOnlyPc">
+                                {{-- <div id="mapWrap" class="mapWrap"
+                                    style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div> --}}
                                 <div id="is_temporary_1" style="display: none">
                                     가(임시)주소 선택시,<br>지도 노출이 불가능합니다.
                                 </div>
@@ -400,6 +402,12 @@
 
 
     $(document).ready(function() {
+        if (document.body.offsetWidth > 767) {
+            var mobileDiv = document.querySelector(".mapOnlyMobile").children[0];
+            var pcDiv = document.querySelector(".mapOnlyPc");
+            pcDiv.appendChild(mobileDiv);
+        }
+
         var type = sessionStorage.getItem("typeSession");
 
         // 매물 타입이 분양권일 경우 활성화

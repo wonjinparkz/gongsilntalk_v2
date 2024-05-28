@@ -146,7 +146,7 @@
 
                     </div>
                     <!----------------------- m:: s ----------------------->
-                    <div class="m_asset_reg only_m" onclick="location.href='my_asset_reg_1.html'">
+                    <div class="m_asset_reg only_m" onclick="location.href='{{ route('www.mypage.service.create.first.view')}}'">
                         <div class="fs_16"><img src="{{ asset('assets/media/ic_org_estate.png') }}" class="ic_estate">
                             신규 자산 등록</div>
                         <i><img src="{{ asset('assets/media/ic_list_arrow.png') }}"></i>
