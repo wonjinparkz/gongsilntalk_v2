@@ -74,7 +74,7 @@ Route::controller(UserAuthPcController::class)->group(function () {
     Route::get('/apple/oauth', 'appleCallback');
 });
 
-// 매물
+// 일반회원 매물
 Route::middleware('pc.auth')->controller(ProductPcController::class)->group(function () {
     Route::get('/product/create/view', 'productCreateView')->name('www.product.create.view');
     Route::get('/product/create2/view', 'productCreate2View')->name('www.product.create2.view');
@@ -82,6 +82,18 @@ Route::middleware('pc.auth')->controller(ProductPcController::class)->group(func
     Route::post('/product/create/type/check', 'productCreateTypeCheck')->name('www.product.create.type.check');
     Route::post('/product/create/address/check', 'productCreateAddressCheck')->name('www.product.create.address.check');
     Route::post('/product/create', 'productCreate')->name('www.product.create');
+});
+
+// 중개사 매물
+Route::middleware('pc.auth')->controller(ProductPcController::class)->group(function () {
+    Route::get('/corp/product/create/view', 'corpProductCreateView')->name('www.corp.product.create.view');
+    Route::get('/corp/product/create2/view', 'corpProductCreate2View')->name('www.corp.product.create2.view');
+    Route::get('/corp/product/create3/view', 'corpProductCreate3View')->name('www.corp.product.create3.view');
+    Route::get('/corp/product/create4/view', 'corpProductCreate4View')->name('www.corp.product.create4.view');
+    Route::get('/corp/product/create5/view', 'corpProductCreate5View')->name('www.corp.product.create3.view');
+    Route::post('/corp/product/create/type/check', 'corpProductCreateTypeCheck')->name('www.corp.product.create.type.check');
+    Route::post('/corp/product/create/address/check', 'corpProductCreateAddressCheck')->name('www.corp.product.create.address.check');
+    Route::post('/corp/product/create', 'corpProductCreate')->name('www.corp.product.create');
 });
 
 // 커뮤니티

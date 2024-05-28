@@ -135,7 +135,7 @@
                         </div>
                         <div class="right_spacing">
                             <button class="btn_gray_ghost btn_sm" onclick="modal_open('asset_delete')">선택 삭제</button>
-                            <button class="btn_point btn_sm" onclick="location.href='realtor_estate_reg_1.html'">신규 매물
+                            <button class="btn_point btn_sm" onclick="location.href='{{route('www.corp.product.create.view')}}'">신규 매물
                                 등록</button>
                         </div>
                     </div>

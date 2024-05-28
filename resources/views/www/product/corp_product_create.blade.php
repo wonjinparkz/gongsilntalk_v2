@@ -1,6 +1,6 @@
 <x-layout>
 
-    <form class="find_form" method="POST" action="{{ route('www.product.create.type.check') }}" name="create_check">
+    <form class="find_form" method="POST" action="{{ route('www.corp.product.create.type.check') }}" name="create_check">
         <input type="hidden" name="type" id="type" value="{{ old('type') ?? '0' }}">
         <input type="hidden" name="payment_type" id="payment_type" value="{{ old('payment_type') ?? '0' }}">
         <input type="hidden" name="price" id="price" value="{{ old('price') ?? '' }}">
@@ -15,11 +15,11 @@
         <input type="hidden" name="premium_price" id="premium_price" value="{{ old('premium_price') ?? '' }}">
         <input type="hidden" name="approve_date" id="approve_date" value="{{ old('approve_date') ?? '' }}">
     </form>
+
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
-        <div class="left_area"><a href="javascript:history.go(-1)"><img
-                    src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
-        <div class="m_title">매물 등록 <span class="gray_basic"><span class="txt_point">1</span>/3</span></div>
+        <div class="left_area"><a href="javascript:history.go(-1)"><img src="images/header_btn_back.png"></a></div>
+        <div class="m_title">매물 등록 <span class="gray_basic"><span class="txt_point">1</span>/5</span></div>
         <div class="right_area"></div>
     </div>
     <!----------------------------- m::header bar : s ----------------------------->
@@ -28,7 +28,7 @@
 
         <!-- my_body : s -->
         <div class="inner_mid_wrap m_inner_wrap mid_body">
-            <h1 class="t_center only_pc">매물 등록하기 <span class="step_number"><span class="txt_point">1</span>/3</span>
+            <h1 class="t_center only_pc">매물 등록하기 <span class="step_number"><span class="txt_point">1</span>/5</span>
             </h1>
 
             <div class="offer_step_wrap">
@@ -462,7 +462,6 @@
                     <span></span>
                     <button class="btn_full_basic btn_point confirm" disabled onclick="formSetting();">다음</button>
                 </div>
-
             </div>
         </div>
         <!-- my_body : e -->

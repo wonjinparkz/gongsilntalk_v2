@@ -6,15 +6,14 @@
         <input type="hidden" name="region_code" id="region_code" value="">
         <input type="hidden" name="region_address" id="region_address" value="">
         <input type="hidden" name="address" id="address" value="">
-
         <!----------------------------- m::header bar : s ----------------------------->
         <div class="m_header">
-            <div class="left_area"><a href="javascript:history.go(-1)"><img
-                        src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
+            <div class="left_area"><a href="javascript:history.go(-1)"><img src="{{ asset('assets/media/header_btn_back.png')}}"></a></div>
             <div class="m_title">매물 등록 <span class="gray_basic"><span class="txt_point">2</span>/5</span></div>
             <div class="right_area"></div>
         </div>
         <!----------------------------- m::header bar : s ----------------------------->
+
         <div class="body">
 
             <!-- my_body : s -->
@@ -112,6 +111,7 @@
             <!-- my_body : e -->
 
         </div>
+
     </form>
 
     <!-- modal 가(임시)주소 검색 : s-->
@@ -157,6 +157,7 @@
         </div>
     </div>
     <div class="md_overlay md_overlay_address_search" onclick="modal_close('address_search')"></div>
+
     <!-- modal 가(임시)주소 검색 : e-->
     <script type="text/javascript"
         src="https://business.juso.go.kr/juso_support_center/js/addrlink/map/jusoro_map_api.min.js?confmKey={{ env('CONFM_MAP_KEY') }}&skinType=1">
@@ -166,6 +167,7 @@
             padding: 0px !important;
         }
     </style>
+
     <script>
         $(document).ready(function() {
             var type = sessionStorage.getItem("typeSession");

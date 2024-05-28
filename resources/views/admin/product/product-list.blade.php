@@ -127,6 +127,7 @@
                     </form>
 
                 </div>
+
                 {{-- 테이블 영역 --}}
                 <div class="card card-flush shadow-sm mt-10">
                     {{ $result->links('components.pagination-info') }}
