@@ -402,6 +402,8 @@
 
 
     $(document).ready(function() {
+        // 지도 사이즈 별로 나오게
+        // 모바일 / PC 각 div 에 mapOnlyMobile / mapOnlyPc 클래스 명 추가해주세요!
         if (document.body.offsetWidth > 767) {
             var mobileDiv = document.querySelector(".mapOnlyMobile").children[0];
             var pcDiv = document.querySelector(".mapOnlyPc");
