@@ -174,32 +174,55 @@
                             신규 자산 등록</div>
                         <i><img src="{{ asset('assets/media/ic_list_arrow.png') }}"></i>
                     </div>
-                    <div class="m_asset_wrap only_m">
-                        <div>
-                            <div class="m_asset_top">
-                                <h5>서울시 금천구 디지털로9길 41</h5>
-                                <button class="btn_graylight_ghost btn_sm"
-                                    onclick="modal_open('asset_delete')">삭제</button>
-                            </div>
-                            <p class="asset_row_total">총 3개</p>
-                        </div>
-                        <ul class="m_asset_list">
-                            <li class="accordion">
-                                <p class="trigger">
-                                    삼성 해링턴 1303호
-                                    <img src="{{ asset('assets/media/dropdown_arrow.png') }}" class="dropdown_arrow">
-                                </p>
-                                <div class="m_asset_detail_row panel">
-                                    <div class="list_detail_item">보증금 <span class="gray_deep">145,000,000원</span></div>
-                                    <div class="list_detail_item">월임대료 <span class="gray_deep">8,500,000원</span></div>
-                                    <div class="list_detail_item">월순수익 <span class="txt_point">5,000,000원</span></div>
-                                    <div class="list_detail_item">수익률 <span class="txt_point">14.82%</span></div>
-                                    <button class="btn_graylight_ghost btn_sm_full mt10"
-                                        onclick="location.href='my_asset_detail.html'">자세히보기</button>
+                    @foreach ($addressList as $address)
+                        <div class="m_asset_wrap only_m">
+                            <div>
+                                <div class="m_asset_top">
+                                    <h5>{{ $address->address }}</h5>
+                                    <button class="btn_graylight_ghost btn_sm"
+                                        onclick="modal_open('asset_delete')">삭제</button>
                                 </div>
-                            </li>
-                        </ul>
-                    </div>
+                                <p class="asset_row_total">총 {{ count($address->asset) }}개</p>
+                            </div>
+                            <ul class="m_asset_list">
+                                @foreach ($address->asset as $key => $asset)
+                                    @php
+                                        if (isset($asset->loan_price)) {
+                                            $loanMonthPrice = $asset->loan_price / $asset->loan_period;
+                                            $loanMonthPrice = $asset->month_price - $loanMonthPrice;
+                                        } else {
+                                            $loanMonthPrice = $asset->month_price;
+                                        }
+
+                                        $addRate = $loanMonthPrice / $asset->price;
+                                    @endphp
+                                    <li class="accordion">
+                                        <p class="trigger">
+                                            {{ $asset->address_dong }} {{ $asset->address_detail }}
+                                            <img src="{{ asset('assets/media/dropdown_arrow.png') }}"
+                                                class="dropdown_arrow">
+                                        </p>
+                                        <div class="m_asset_detail_row panel">
+                                            <div class="list_detail_item">보증금 <span
+                                                    class="gray_deep">{{ number_format($asset->check_price) }}원</span>
+                                            </div>
+                                            <div class="list_detail_item">월임대료 <span
+                                                    class="gray_deep">{{ number_format($asset->month_price) }}원</span>
+                                            </div>
+                                            <div class="list_detail_item">월순수익 <span
+                                                    class="txt_point">{{ number_format($loanMonthPrice) }}원</span>
+                                            </div>
+                                            <div class="list_detail_item">수익률 <span
+                                                    class="txt_point">{{ round($addRate, 2) }}%</span>
+                                            </div>
+                                            <button class="btn_graylight_ghost btn_sm_full mt10"
+                                                onclick="location.href='my_asset_detail.html'">자세히보기</button>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endforeach
                     <!----------------------- m:: e ----------------------->
                 </div>
                 <!-- my_body : e -->
