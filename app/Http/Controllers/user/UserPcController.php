@@ -200,7 +200,9 @@ class UserPcController extends Controller
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
-        return view('www.mypage.service_list', compact('user'));
+        $addressList = AssetAddress::with('asset')->select()->where('users_id', Auth::guard('web')->user()->id)->orderBy('id', 'desc')->get();
+
+        return view('www.mypage.service_list', compact('user', 'addressList'));
     }
 
     /**

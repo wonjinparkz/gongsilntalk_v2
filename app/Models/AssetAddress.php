@@ -44,4 +44,12 @@ class AssetAddress extends BaseModel
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];
+
+    /**
+     * 상세 자산
+     */
+    public function asset()
+    {
+        return $this->hasMany(Asset::class, 'asset_address_id', 'id');
+    }
 }

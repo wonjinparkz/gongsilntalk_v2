@@ -80,73 +80,96 @@
 
                         <div class="flex_between my_body_top only_pc">
                             <h1>내 자산 목록</h1>
-                            <button class="btn_point btn_sm" onclick="location.href='{{route('www.mypage.service.create.first.view')}}'">신규 자산
+                            <button class="btn_point btn_sm"
+                                onclick="location.href='{{ route('www.mypage.service.create.first.view') }}'">신규 자산
                                 등록</button>
                         </div>
 
                         <!-- 데이터가 없을 경우 : s -->
-                        <!-- <div class="empty_wrap">
-                            <p>등록한 자산이 없습니다.</p>
-                            <span>자산을 등록하고 간편하게 관리해보세요.</span>
-                        </div> -->
+                        @if (count($addressList) < 1)
+                            <div class="empty_wrap">
+                                <p>등록한 자산이 없습니다.</p>
+                                <span>자산을 등록하고 간편하게 관리해보세요.</span>
+                            </div>
+                        @endif
                         <!-- 데이터가 없을 경우 : e -->
 
                         <!-- Only PC list : s -->
-                        <div class="box_01 only_pc">
-                            <div class="asset_top_row">
-                                <h4>서울시 금천구 디지털로9길 41</h4>
-                                <button class="btn_graylight_ghost btn_sm"
-                                    onclick="modal_open('asset_delete')">삭제</button>
+                        @foreach ($addressList as $address)
+                            <div class="box_01 only_pc">
+                                <div class="asset_top_row">
+                                    <h4>{{ $address->address }}</h4>
+                                    <button class="btn_graylight_ghost btn_sm"
+                                        onclick="modal_open('asset_delete')">삭제</button>
+                                </div>
+                                <p class="asset_row_total">총 {{ count($address->asset) }}개</p>
+                                <table class="table_basic mt10">
+                                    <colgroup>
+                                        <col width="60">
+                                        <col width="*">
+                                        <col width="120">
+                                        <col width="120">
+                                        <col width="150">
+                                        <col width="120">
+                                        <col width="120">
+                                        <col width="100">
+                                        <col width="30">
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th>번호</th>
+                                            <th>상세주소</th>
+                                            <th>부동산 유형</th>
+                                            <th>전용면적 <button class="inner_change_button"><img
+                                                        src="{{ asset('assets/media/ic_change.png') }}">
+                                                    <span class="txt_unit">평</span></button></th>
+                                            <th>보증금</th>
+                                            <th>월임대료 </th>
+                                            <th>월순수익</th>
+                                            <th>수익률</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach ($address->asset as $key => $asset)
+                                            @php
+                                                if (isset($asset->loan_price)) {
+                                                    $loanMonthPrice = $asset->loan_price / $asset->loan_period;
+                                                    $loanMonthPrice = $asset->month_price - $loanMonthPrice;
+                                                } else {
+                                                    $loanMonthPrice = $asset->month_price;
+                                                }
+
+                                                $addRate = $loanMonthPrice / $asset->price;
+                                            @endphp
+                                            <tr class="cursor_pointer" onclick="location.href='my_asset_detail.html'">
+                                                <td>{{ $key + 1 }}</td>
+                                                <td>{{ $asset->address_dong }} {{ $asset->address_detail }}</td>
+                                                <td>{{ Lang::get('commons.product_type.' . $asset->type_detail) }}</td>
+                                                <td>{{ $asset->exclusive_square }}㎡</td>
+                                                <td>{{ number_format($asset->check_price) }}원</td>
+                                                <td>{{ number_format($asset->month_price) }}원</td>
+                                                <td><span
+                                                        class="txt_point">{{ number_format($loanMonthPrice) }}원</span>
+                                                </td>
+                                                <td><span class="txt_point">{{ round($addRate, 2) }}%</span></td>
+                                                <td><img src="{{ asset('assets/media/ic_list_arrow.png') }}"
+                                                        class="w_8p">
+                                                </td>
+                                            </tr>
+                                        @endforeach
+
+                                    </tbody>
+                                </table>
                             </div>
-                            <p class="asset_row_total">총 3개</p>
-                            <table class="table_basic mt10">
-                                <colgroup>
-                                    <col width="60">
-                                    <col width="*">
-                                    <col width="120">
-                                    <col width="120">
-                                    <col width="150">
-                                    <col width="120">
-                                    <col width="120">
-                                    <col width="100">
-                                    <col width="30">
-                                </colgroup>
-                                <thead>
-                                    <tr>
-                                        <th>번호</th>
-                                        <th>상세주소</th>
-                                        <th>부동산 유형</th>
-                                        <th>전용면적 <button class="inner_change_button"><img
-                                                    src="{{ asset('assets/media/ic_change.png') }}">
-                                                <span class="txt_unit">평</span></button></th>
-                                        <th>보증금</th>
-                                        <th>월임대료 </th>
-                                        <th>월순수익</th>
-                                        <th>수익률</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="cursor_pointer" onclick="location.href='my_asset_detail.html'">
-                                        <td>1</td>
-                                        <td>삼성 해링턴 1303호</td>
-                                        <td>지식산업센터</td>
-                                        <td>1234.12㎡</td>
-                                        <td>145,000,000원</td>
-                                        <td>8,500,000원</td>
-                                        <td><span class="txt_point">5,000,000원</span></td>
-                                        <td><span class="txt_point">14.82%</span></td>
-                                        <td><img src="{{ asset('assets/media/ic_list_arrow.png') }}" class="w_8p">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        @endforeach
                         <!-- Only PC list : e -->
 
                     </div>
                     <!----------------------- m:: s ----------------------->
-                    <div class="m_asset_reg only_m" onclick="location.href='{{ route('www.mypage.service.create.first.view')}}'">
+                    <div class="m_asset_reg only_m"
+                        onclick="location.href='{{ route('www.mypage.service.create.first.view') }}'">
                         <div class="fs_16"><img src="{{ asset('assets/media/ic_org_estate.png') }}" class="ic_estate">
                             신규 자산 등록</div>
                         <i><img src="{{ asset('assets/media/ic_list_arrow.png') }}"></i>
