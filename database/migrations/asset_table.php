@@ -31,15 +31,15 @@ return new class extends Migration
             $table->integer('name_type')->comment('명의구분 0-단독명의, 1-공동명의');
             $table->integer('business_type')->comment('사업자 구분 0-개인사업자, 1-법인사업자, 2-개인');
 
-            $table->integer('price')->nullable()->comment('매매 - 매매가, 분양권 - 분양가');
+            $table->bigInteger('price')->nullable()->comment('매매 - 매매가, 분양권 - 분양가');
             $table->datetime('contracted_at')->nullable()->comment('계약일자');
             $table->datetime('registered_at')->nullable()->comment('등기일');
             $table->double('acquisition_tax_rate', 10, 2)->nullable()->comment('취득 세율');
-            $table->integer('etc_price')->nullable()->comment('기타 비용');
-            $table->integer('tax_price')->nullable()->comment('세무 비용');
-            $table->integer('estate_price')->nullable()->comment('부동산 수수료');
+            $table->bigInteger('etc_price')->nullable()->comment('기타 비용');
+            $table->bigInteger('tax_price')->nullable()->comment('세무 비용');
+            $table->bigInteger('estate_price')->nullable()->comment('부동산 수수료');
 
-            $table->integer('loan_price')->nullable()->comment('대출 금액');
+            $table->bigInteger('loan_price')->nullable()->comment('대출 금액');
             $table->double('loan_rate', 10, 2)->nullable()->comment('대출 금리');
             $table->integer('loan_period')->nullable()->comment('대출 기간');
             $table->datetime('loaned_at')->nullable()->comment('대출 일자');
@@ -49,8 +49,8 @@ return new class extends Migration
             $table->string('tenant_name')->nullable()->comment('임차인 명');
             $table->string('tenant_phone')->nullable()->comment('임차인 연락처');
             $table->integer('pay_type')->nullable()->comment('임대료 납부 방법');
-            $table->integer('check_price')->nullable()->comment('보증금');
-            $table->integer('month_price')->nullable()->comment('월 임대료');
+            $table->bigInteger('check_price')->nullable()->comment('보증금');
+            $table->bigInteger('month_price')->nullable()->comment('월 임대료');
             $table->string('deposit_day')->nullable()->comment('월세 입금일');
             $table->datetime('started_at')->nullable()->comment('계약 시작일');
             $table->datetime('ended_at')->nullable()->comment('계약 종료일');
