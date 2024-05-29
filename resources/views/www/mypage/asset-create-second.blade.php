@@ -38,13 +38,19 @@
                                     <div class="reg_item">
                                         <label class="input_label">매매가 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text" id="price_0" name="price_0"> <span>원</span>
+                                            <input type="text" id="price_0" name="price_0"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                onkeyup="onTextChangeEvent('price', 0);">
+                                            <span>원</span>
                                         </div>
                                     </div>
                                     <div class="reg_item">
                                         <label class="input_label">계약일자 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
-                                            <input type="number" id="contracted_at_0" name="contracted_at_0" placeholder="예) 20230101">
+                                            <input type="text" id="contracted_at_0" name="contracted_at_0"
+                                                placeholder="예) 20230101"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                onkeyup="onDateChangeEvent('contracted_at', 0);">
                                         </div>
                                     </div>
                                 </div>
@@ -53,14 +59,17 @@
                                     <div class="reg_item">
                                         <label class="input_label">취득세율 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
-                                            <input type="number" id="acquisition_tax_rate_0"
+                                            <input type="number" id="acquisition_tax_rate_0" step=0.01
                                                 name="acquisition_tax_rate_0" placeholder="소수점 두자리까지 입력"> <span>%</span>
                                         </div>
                                     </div>
                                     <div class="reg_item">
                                         <label class="input_label">기타비용</label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text" id="etc_price_0" name="etc_price_0"> <span>원</span>
+                                            <input type="text" id="etc_price_0" name="etc_price_0"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                onkeyup="onTextChangeEvent('etc_price', 0);">
+                                            <span>원</span>
                                         </div>
                                     </div>
                                 </div>
@@ -69,13 +78,18 @@
                                     <div class="reg_item">
                                         <label class="input_label">세무비용</label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text" id="tax_price_0" name="tax_price_0"> <span>원</span>
+                                            <input type="text" id="tax_price_0" name="tax_price_0"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                onkeyup="onTextChangeEvent('tax_price', 0);">
+                                            <span>원</span>
                                         </div>
                                     </div>
                                     <div class="reg_item">
                                         <label class="input_label">부동산수수료</label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text" id="estate_price_0" name="estate_price_0">
+                                            <input type="text" id="estate_price_0" name="estate_price_0"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                onkeyup="onTextChangeEvent('estate_price', 0);">
                                             <span>원</span>
                                         </div>
                                     </div>
@@ -88,14 +102,19 @@
                                     <div class="reg_item">
                                         <label class="input_label">분양가 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text" id="price_1" name="price_1"> <span>원</span>
+                                            <input type="text" id="price_1" name="price_1"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                onkeyup="onTextChangeEvent('price', 1);">
+                                            <span>원</span>
                                         </div>
                                     </div>
                                     <div class="reg_item">
                                         <label class="input_label">계약일자 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="contracted_at_1" name="contracted_at_1"
-                                                placeholder="예) 20230101">
+                                                placeholder="예) 20230101"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                onkeyup="onDateChangeEvent('contracted_at', 1);">
                                         </div>
                                     </div>
                                 </div>
@@ -107,15 +126,17 @@
                                             <span class="gray_basic">* 건물 준공 후 기입</span>
                                         </div>
                                         <div class="flex_1 flex_between">
-                                            <input type="text" id="registered_at_1" name="registered_at_1" disabled
-                                                placeholder="예) 20240101">
+                                            <input type="text" id="registered_at_1" name="registered_at_1"
+                                                disabled placeholder="예) 20240101"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                                         </div>
                                     </div>
                                     <div class="reg_item">
                                         <label class="input_label">취득세율 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
-                                            <input type="text" id="acquisition_tax_rate_1"
-                                                name="acquisition_tax_rate_1" placeholder="소수점 두자리까지 입력"> <span>%</span>
+                                            <input type="number" id="acquisition_tax_rate_1"
+                                                name="acquisition_tax_rate_1" placeholder="소수점 두자리까지 입력">
+                                            <span>%</span>
                                         </div>
                                     </div>
                                 </div>
@@ -125,14 +146,18 @@
                                         <label class="input_label">기타비용</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="etc_price_1" name="etc_price_1"
-                                                placeholder="소수점 두자리까지 입력"> <span>원</span>
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                onkeyup="onTextChangeEvent('etc_price', 1);">
+                                            <span>원</span>
                                         </div>
                                     </div>
                                     <div class="reg_item">
                                         <label class="input_label">세무비용</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="tax_price_1" name="tax_price_1"
-                                                placeholder="소수점 두자리까지 입력"> <span>원</span>
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                onkeyup="onTextChangeEvent('tax_price', 1);">
+                                            <span>원</span>
                                         </div>
                                     </div>
                                 </div>
@@ -142,7 +167,9 @@
                                         <label class="input_label">부동산수수료</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="estate_price_1" name="estate_price_1"
-                                                placeholder="소수점 두자리까지 입력"> <span>원</span>
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                onkeyup="onTextChangeEvent('estate_price', 1);">
+                                            <span>원</span>
                                         </div>
                                     </div>
                                 </div>
@@ -158,7 +185,9 @@
                             <div class="reg_item">
                                 <label class="input_label">대출금액</label>
                                 <div class="flex_1 flex_between">
-                                    <input type="text" id="loan_price" name="loan_price"> <span>원</span>
+                                    <input type="text" id="loan_price_0" name="loan_price_0"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                        onkeyup="onTextChangeEvent('loan_price', 0);"> <span>원</span>
                                 </div>
                             </div>
                             <div class="reg_item">
@@ -181,8 +210,10 @@
                             <div class="reg_item">
                                 <label class="input_label">대출일자</label>
                                 <div class="flex_1 flex_between">
-                                    <input type="text" id="loaned_at" name="loaned_at" placeholder="예) 20230101">
-                                    <span>원</span>
+                                    <input type="text" id="loaned_at_0" name="loaned_at_0"
+                                        placeholder="예) 20230101"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                        onkeyup="onDateChangeEvent('loaned_at', 0);">
                                 </div>
                             </div>
                         </div>
@@ -221,18 +252,35 @@
             <!-- my_body : e -->
 
             <input type="hidden" id="price" name="price" value="">
+            <input type="hidden" id="etc_price" name="etc_price" value="">
+            <input type="hidden" id="tax_price" name="tax_price" value="">
+            <input type="hidden" id="estate_price" name="estate_price" value="">
+            <input type="hidden" id="contracted_at" name="contracted_at" value="">
+
+            <input type="hidden" id="loan_price" name="loan_price" value="">
+            <input type="hidden" id="loaned_at" name="loaned_at" value="">
         </form>
     </div>
 
     <script>
         let tabIndex = 0;
 
+        // 매매 / 분양권 인덱스 변경
         function onTabChange(idx) {
             tabIndex = idx;
 
-            $('#price_0').val('');
-            $('#price_1').val('');
+            $('#price_' + idx).val('');
+            $('#etc_price_' + idx).val('');
+            $('#tax_price_' + idx).val('');
+            $('#estate_price_' + idx).val('');
+            $('#contracted_at_' + idx).val('');
+            $('#acquisition_tax_rate_' + idx).val('');
+
             $('#price').val('');
+            $('#etc_price').val('');
+            $('#tax_price').val('');
+            $('#estate_price').val('');
+            $('#contracted_at').val('');
         }
 
         function debounce(func, timeout = 300) {
@@ -245,6 +293,7 @@
             };
         }
 
+        // 다음 버튼 활성화
         function onFieldInputCheck() {
 
             if (tabIndex == 0) {
@@ -260,28 +309,28 @@
             }
         }
 
-        // 매매 -> 매매가 한글 변환
-        $('#price_0').keyup(function() {
-            $('#price').val($('#price_0').val());
-            setTimeout(function() {
-                $('#price_0').val(numberToKorean(parseInt($('#price').val())));
-            }, 3000);
-        });
-
-        // 분양권 -> 분양가 한글 변환
-        $('#price_1').keyup(function() {
-            $('#price').val($('#price_1').val());
-            setTimeout(function() {
-                $('#price_1').val(numberToKorean(parseInt($('#price').val())));
-            }, 3000);
-        });
-
-
         const processChange = debounce(() => onFieldInputCheck());
 
         addEventListener("input", (event) => {
             processChange();
         });
+
+
+        // 금액 한글 변환
+        function onTextChangeEvent(name, index) {
+            $('#' + name).val($('#' + name + '_' + index).val());
+            setTimeout(function() {
+                $('#' + name + '_' + index).val(numberToKorean(parseInt($('#' + name).val())));
+            }, 3000);
+        }
+
+        // 숫자 날짜 포맷
+        function onDateChangeEvent(name, index) {
+            $('#' + name).val($('#' + name + '_' + index).val());
+            setTimeout(function() {
+                $('#' + name + '_' + index).val(numberToDate(parseInt($('#' + name).val())));
+            }, 3000);
+        }
 
         //기본 토글 이벤트
         $(".proposal_toggle_btn").click(function() {
@@ -296,6 +345,7 @@
             return false;
         });
 
+        // 숫자 => 한글로 변경
         function numberToKorean(number) {
             var inputNumber = number < 0 ? false : number;
             var unitWords = ['', '만', '억', '조', '경'];
@@ -319,7 +369,23 @@
 
             return resultString;
         }
+
+        // 숫자 => 날짜로 변경
+        function numberToDate(number) {
+            var inputNumber = (number < 0) ? false : number;
+            var resultString = '';
+
+            inputNumber = inputNumber + '';
+
+            var year = inputNumber.substr(0, 4);
+            var month = inputNumber.substr(4, 2);
+            var day = inputNumber.substr(6, 2);
+
+            resultString = year + "." + month + "." + day;
+
+            let date = new Date(year + "-" + month + "-" + day);
+
+            return resultString;
+        }
     </script>
-
-
 </x-layout>
