@@ -243,7 +243,12 @@ class UserPcController extends Controller
      */
     public function serviceCreate(Request $request): RedirectResponse
     {
-        if ($request->asset_address_id == '') {
+
+        info($request);
+
+        $asset_address_id = 0;
+
+        if ($request->asset_address_id == 'N') {
             $assetAddress = AssetAddress::create([
                 'users_id' => Auth::guard('web')->user()->id,
                 'is_temporary' => $request->is_temporary,
@@ -255,16 +260,63 @@ class UserPcController extends Controller
                 'address' => $request->address,
                 'old_address' => $request->old_address
             ]);
+
+            $asset_address_id = $assetAddress->id;
+        } else {
+            $asset_address_id = $request->asset_address_id;
         }
 
+        $result = Asset::create([
+            'asset_address_id' => $asset_address_id,
+            'type' => $request->type,
+            'type_detail' => $request->type_detail,
+            'address_dong' => isset($request->address_dong) ? $request->address_dong : null,
+            'address_detail' => $request->address_detail_ho,
+            'area' => $request->area,
+            'square' => $request->square,
+            'exclusive_area' => $request->exclusive_area,
+            'exclusive_square' => $request->exclusive_square,
+            'name_type' => $request->name_type,
+            'business_type' => $request->business_type,
 
-        // $result = Asset::create([
+            'price' => $request->price,
+            'contracted_at' => isset($request->contracted_at) ? $this->integerToDate($request->contracted_at) : null,
+            'registered_at' => isset($request->registered_at) ? $this->integerToDate($request->registered_at) : null,
+            'acquisition_tax_rate' => $request->secoundType == 0 ? $request->acquisition_tax_rate_0 : $request->acquisition_tax_rate_1,
+            'etc_price' => $request->etc_price,
+            'tax_price' => $request->tax_price,
+            'estate_price' => $request->estate_price,
+            'loan_price' => $request->loan_price,
+            'loan_rate' => $request->loan_rate,
+            'loan_period' => $request->loan_period,
+            'loaned_at' => isset($request->loaned_at) ? $this->integerToDate($request->loaned_at) : null,
+            'loan_type' => $request->loan_type,
 
-        // ]);
+            'is_vacancy' => $request->vacancy,
+            'tenant_name' => $request->tenant_name,
+            'tenant_phone' => $request->tenant_phone,
+            'pay_type' => $request->pay_type,
+            'check_price' => $request->check_price,
+            'month_price' => $request->month_price,
+            'deposit_day' => $request->deposit_day,
+            'started_at' => isset($request->started_at) ? $this->integerToDate($request->started_at) : null,
+            'ended_at' => isset($request->ended_at) ? $this->integerToDate($request->ended_at) : null
+        ]);
+
+        $this->imageTypeWithCreate($request->sale_image_ids, Asset::class, $result->id, 0);
+        $this->imageTypeWithCreate($request->entre_image_ids, Asset::class, $result->id, 1);
+        $this->imageTypeWithCreate($request->rental_image_ids, Asset::class, $result->id, 2);
+        $this->imageTypeWithCreate($request->etc_image_ids, Asset::class, $result->id, 3);
 
         return Redirect::route('www.mypage.service.list.view')->with('message', "자산이 등록 되었습니다.");
     }
 
+    public function integerToDate($int)
+    {
+        $date = substr($int, 0, 4) . '-' . substr($int, 4, 2) . '-' . substr($int, 6, 2);
+
+        return $date;
+    }
 
     /**
      * 매물 제안서

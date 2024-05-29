@@ -134,7 +134,7 @@
                                     <div class="reg_item">
                                         <label class="input_label">취득세율 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
-                                            <input type="number" id="acquisition_tax_rate_1"
+                                            <input type="number" id="acquisition_tax_rate_1"  step=0.01
                                                 name="acquisition_tax_rate_1" placeholder="소수점 두자리까지 입력">
                                             <span>%</span>
                                         </div>
@@ -259,6 +259,8 @@
 
             <input type="hidden" id="loan_price" name="loan_price" value="">
             <input type="hidden" id="loaned_at" name="loaned_at" value="">
+
+            <input type="hidden" id="secoundType" name="secoundType" value="">
         </form>
     </div>
 
@@ -268,6 +270,8 @@
         // 매매 / 분양권 인덱스 변경
         function onTabChange(idx) {
             tabIndex = idx;
+
+            $('#secoundType').val(tabIndex);
 
             $('#price_' + idx).val('');
             $('#etc_price_' + idx).val('');
@@ -328,7 +332,9 @@
         function onDateChangeEvent(name, index) {
             $('#' + name).val($('#' + name + '_' + index).val());
             setTimeout(function() {
-                $('#' + name + '_' + index).val(numberToDate(parseInt($('#' + name).val())));
+                if ($('#' + name + '_' + index).val() != '') {
+                    $('#' + name + '_' + index).val(numberToDate(parseInt($('#' + name).val())));
+                }
             }, 3000);
         }
 

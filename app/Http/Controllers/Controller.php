@@ -110,6 +110,53 @@ class Controller extends BaseController
     }
 
     /**
+     * 이미지 추가
+     * $imageId = 업데이트 될 이미지 ID 목록
+     * $targetType = 이미지 타겟
+     * $targetId = 등록 ID
+     */
+    public function imageTypeWithCreate($imageId, $targetType, $targetId, $type)
+    {
+        if ($imageId != null) {
+            // 이미지 업데이트
+            Images::whereIn('id', $imageId)
+                ->update([
+                    'target_type' => $targetType,
+                    'target_id' => $targetId,
+                    'type' => $type
+                ]);
+        }
+    }
+
+    /**
+     * 글 수정 할 때 이미지 삭제 후 수정
+     * $imageId = 업데이트 될 이미지 ID 목록
+     * $targetType = 이미지 타겟
+     * $targetId = 등록 ID
+     */
+    public function imageTypeWithEdit($imageId, $targetType, $targetId, $type)
+    {
+        if ($imageId != null) {
+            // 기존 데이터 초기화 하고 이미지 업데이트
+            Images::where('target_id', '=', $targetId)
+                ->where('target_type', '=', $targetType)
+                ->where('type', '=', $type)
+                ->update([
+                    'target_type' => null,
+                    'target_id' => null,
+                    'type' => null
+                ]);
+
+            Images::whereIn('id', $imageId)
+                ->update([
+                    'target_type' => $targetType,
+                    'target_id' => $targetId,
+                    'type' => $type
+                ]);
+        }
+    }
+
+    /**
      * 알림 발송
      */
     public function sendAlarm($iosFcmTokens, $androidFcmTokens, $data)

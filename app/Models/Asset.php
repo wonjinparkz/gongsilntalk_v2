@@ -20,6 +20,7 @@ class Asset extends BaseModel
      */
     protected $fillable =
     [
+        'asset_address_id',
         'type',
         'type_detail',
         'address_dong',

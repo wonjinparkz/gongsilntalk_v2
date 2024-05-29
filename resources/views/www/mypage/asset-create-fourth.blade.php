@@ -21,17 +21,25 @@
             <div class="inner_mid_wrap m_inner_wrap mid_body">
                 <h1 class="t_center only_pc">자산 등록하기 <span class="step_number"><span class="txt_point">4</span>/4</span>
                 </h1>
-
                 <div class="offer_step_wrap">
 
                     <div class="box_01 box_reg">
                         <h4>서류 등록</h4>
 
                         <ul class="document_reg_list">
-                            <li>
+                            <x-service-create-image-picker :title="'매매계약서'" id="sale" cnt="1" />
+
+                            <x-service-create-image-picker :title="'사업자등록증'" id="entre" cnt="1" />
+
+                            <x-service-create-image-picker :title="'임대차계약서'" id="rental" cnt="1" />
+
+                            <x-service-create-image-picker :title="'기타서류'" id="etc" cnt="1" />
+
+
+                            {{-- <li>
                                 <div class="document_area">
                                     <div class="document_img_reg">
-                                        <img src="images/download_sample_1.png">
+                                        <img src="{{ asset('assets/media/download_sample_1.png') }}">
                                     </div>
                                     <div class="document_name_wrap">
                                         <p>매매계약서</p>
@@ -39,7 +47,7 @@
                                     </div>
                                 </div>
                                 <div class="gap_8">
-                                    <button class="btn_graylight_ghost btn_sm">업로드</button>
+                                    <button class="btn_graylight_ghost btn_sm" type="button">업로드</button>
                                     <button class="btn_graylight_ghost btn_sm">삭제</button>
                                 </div>
                             </li>
@@ -81,7 +89,7 @@
                                     <button class="btn_graylight_ghost btn_sm">업로드</button>
                                     <button class="btn_graylight_ghost btn_sm">삭제</button>
                                 </div>
-                            </li>
+                            </li> --}}
                         </ul>
 
 

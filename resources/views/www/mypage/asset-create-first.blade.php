@@ -22,9 +22,9 @@
                     <div class="box_01 box_reg">
                         <h4>부동산 유형 <span class="txt_point">*</span></h4>
                         <ul class="tab_type_3 tab_toggle_menu">
-                            <li class="active">상업용</li>
-                            <li>주거용</li>
-                            <li>분양권</li>
+                            <li class="active" onclick="onTypeChange(0);">상업용</li>
+                            <li onclick="onTypeChange(1);">주거용</li>
+                            <li onclick="onTypeChange(2);">분양권</li>
                         </ul>
                         <div class="tab_area_wrap">
                             <div>
@@ -259,6 +259,7 @@
 
             <input type="hidden" id="is_temporary" name="is_temporary" value="0">
             <input type="hidden" id="is_unregistered" name="is_unregistered" value="0">
+            <input type="hidden" id="type" name="type" value="0">
         </form>
     </div>
 
@@ -311,6 +312,17 @@
 </x-layout>
 
 <script>
+    function onTypeChange(index) {
+        $('#type').val(index);
+        if (index == 1) {
+            $("#type_detail_9").prop("checked", true);
+        } else if (index == 2) {
+            $("#type_detail_15").prop("checked", true);
+        } else {
+            $("#type_detail_1").prop("checked", true);
+        }
+    }
+
     function onFormSubmit() {
 
         // 임시 주소 인지 체크

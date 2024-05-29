@@ -108,7 +108,9 @@
                                     </button>
                                     <ul class="optionList">
                                         @for ($i = 1; $i < 31; $i++)
-                                            <li class="optionItem" onclick="depositDayChange('{{$i}}일');">{{ $i }}일</li>
+                                            <li class="optionItem"
+                                                onclick="depositDayChange('{{ $i }}일');">
+                                                {{ $i }}일</li>
                                         @endfor
                                         <li class="optionItem" onclick="depositDayChange('말일');">말일</li>
                                     </ul>
@@ -195,8 +197,10 @@
         function onDateChangeEvent(name) {
             $('#' + name).val($('#' + name + '_temp').val());
             setTimeout(function() {
-                $('#' + name + '_temp').val(numberToDate(parseInt($('#' + name).val())));
-            }, 3000);
+                if ($('#' + name + '_temp').val() != '') {
+                    $('#' + name + '_temp').val(numberToDate(parseInt($('#' + name).val())));
+                }
+            }, 4000);
         }
 
         //기본 토글 이벤트

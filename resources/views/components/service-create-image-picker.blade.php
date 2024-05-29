@@ -1,0 +1,94 @@
+@props(['title' => '이미지', 'id' => 'image', 'images' => []])
+
+
+
+
+{{-- 업로드 이미지 미리보기 --}}
+
+@php
+    $oldIds = old($id . '_image_ids');
+    $oldPaths = old($id . '_image_paths');
+@endphp
+@if ($oldIds != null)
+    @for ($i = 0; $i < count($oldIds); $i++)
+        <li>
+            <div class="document_area">
+                <div class="document_img_reg">
+                    <img src="{{ $oldPaths[$i] }}">
+                </div>
+                <input type="hidden" name="{{ $id }}_image_ids[]" value="{{ $oldIds[$i] }}" />
+                <input type="hidden" name="{{ $id }}_image_paths[]" value="{{ $oldPaths[$i] }}" />
+                <div class="document_name_wrap">
+                    <p>{{ $title }}</p>
+                    <p class="document_name"><span>{{ $oldPaths[$i] }}</span></p>
+                </div>
+            </div>
+            <div class="gap_8">
+                <button class="btn_graylight_ghost btn_sm" type="button" id="{{ $id }}_drop">업로드</button>
+                <button class="btn_graylight_ghost btn_sm">삭제</button>
+            </div>
+        </li>
+    @endfor
+@else
+    <li>
+        <div class="document_area" id="{{ $id }}ImageName">
+            <div class="document_img_reg">
+                <div class="document_img_reg"></div>
+            </div>
+            <div class="document_name_wrap">
+                <p>{{ $title }}</p>
+                <p class="mt8 gray_basic fs_13">png 또는 jpg 업로드</p>
+            </div>
+        </div>
+        <div class="gap_8">
+            <button class="btn_graylight_ghost btn_sm" type="button" id="{{ $id }}_drop">업로드</button>
+            <button class="btn_graylight_ghost btn_sm">삭제</button>
+        </div>
+    </li>
+@endif
+
+
+<script>
+    var {{ $id }}imageDropzone = new Dropzone("#{{ $id }}_drop", {
+        url: "{{ route('api.imageupload') }}", // URL
+        method: 'post', // method
+        paramName: "image", // 파라미터 이름
+        maxFiles: 1, // 파일 갯수
+        maxFilesize: 10, // MB
+        timeout: 300000, // 타임아웃 30초 기본 설정
+        addRemoveLinks: false, // 업로드 후 파일 삭제버튼 표시 여부
+        acceptedFiles: '.jpeg,.jpg,.png,.JPEG,.JPG,.PNG', // 이미지 파일 포맷만 허
+        accept: function(file, done) {
+            done();
+        },
+        success: function(file, responseText) {
+
+            var imagePath = '{{ Storage::url('image/') }}' + responseText.result.path;
+
+            var image =
+
+                `<input type="hidden" name="{{ $id }}_image_ids[]" value="${responseText.result.id}" />
+                <input type="hidden" name="{{ $id }}_image_paths[]" value="${imagePath}" />
+
+                <div class="document_img_reg">
+                    <img src="${imagePath}" style="max-width:120px;">
+                </div>
+                <div class="document_name_wrap">
+                    <p>{{ $title }}</p>
+                    <p class="document_name"><span>${responseText.result.path}</span></p>
+                </div>`
+
+            $("#{{ $id }}ImageName").html(image);
+
+            {{ $id }}imageDropzone.removeFile(file);
+        }
+    });
+
+
+
+    // 이미지 제거
+    function {{ $id }}removeImage() {
+        $('.{{ $id }}_drop_zone').html('');
+        $("#{{ $id }}_drop").show()
+    }
+</script>
