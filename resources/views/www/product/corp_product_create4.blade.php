@@ -1,6 +1,6 @@
 <x-layout>
     <form class="find_form" method="POST" action="{{ route('www.corp.product.create.info.check') }}" name="create_check">
-        <input type="hidden" name="type" id="type" value="{{ $result['type'] = 0 }}">
+        <input type="hidden" name="type" id="type" value="{{ $result['type'] = 13 }}">
         <input type="hidden" name="payment_type" id="payment_type" value="{{ $result['payment_type'] }}">
         <input type="hidden" name="price" id="price" value="{{ $result['price'] }}">
         <input type="hidden" name="month_price" id="month_price" value="{{ $result['month_price'] ?? '' }}">
@@ -620,7 +620,63 @@
         function optionSetting(type) {
             $('.option_row').hide();
 
-            if ([0, 1, 2, 4].indexOf(parseInt(type)) !== -1) {
+            if ([0, 1, 2, 4, 5, 7].indexOf(parseInt(type)) !== -1) {
+                // 옵션 구성
+                if (type != 7) {
+                    $('.option_facility_row').show();
+                }
+                $('.option_security_row').show();
+
+                var option_security_valeu = [2, 7, 8, 9, 10, 11]; // 선택 가능한 옵션 value
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+
+                    if (!option_security_valeu.includes(value)) {
+                        $(this).hide();
+                        $('label[for="option_' + value + '"]').hide();
+
+                    }
+                });
+            } else if (type == 3) {
+                // 옵션 구성
+                $('.option_facility_row').show();
+                $('.option_security_row').show();
+
+                var option_security_valeu = [2, 7, 8, 9, 10, 12]; // 선택 가능한 옵션 value
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+
+                    if (!option_security_valeu.includes(value)) {
+                        $(this).hide();
+                        $('label[for="option_' + value + '"]').hide();
+
+                    }
+                });
+
+            } else if ([8, 9, 10, 11, 12, 13].indexOf(parseInt(type)) !== -1) {
+
+                // 옵션 구성
+                $('.option_kitchen_row').show();
+                $('.option_home_appliances_row').show();
+                $('.option_furniture_row').show();
+                $('.option_etc_row').show();
+                $('.option_security_row').show();
+
+                var option_security_valeu = [7, 9, 12]; // 선택 가능한 옵션 value
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+
+                    if (!option_security_valeu.includes(value)) {
+                        $(this).hide();
+                        $('label[for="option_' + value + '"]').hide();
+
+                    }
+                });
+
+            } else if (type > 13) {
                 // 옵션 구성
                 $('.option_facility_row').show();
                 $('.option_security_row').show();
@@ -629,25 +685,13 @@
 
                 $('.option_security').each(function() {
                     var value = parseInt($(this).val());
-                    console.log('value : ', value);
 
                     if (!option_security_valeu.includes(value)) {
-                        console.log('삭제');
                         $(this).hide();
+                        $('label[for="option_' + value + '"]').hide();
+
                     }
                 });
-            } else if (type == 3) {
-                2
-            } else if (type == 5) {
-                3
-            } else if (type == 7) {
-                4
-            } else if ([8, 10, 11, 12, 13].indexOf(parseInt(type)) !== -1) {
-                5
-            } else if (type == 9) {
-                6
-            } else if (type > 13) {
-
             }
         }
 
