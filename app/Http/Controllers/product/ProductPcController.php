@@ -188,14 +188,22 @@ class ProductPcController extends Controller
      */
     public function corpProductCreate4View(Request $request): View
     {
-        return view('www.product.corp_product_create4', compact('request'));
+        Log::info($request->all());
+
+        $result = $request->all();
+
+        return view('www.product.corp_product_create4', compact('result'));
     }
     /**
      * 중개사 매물 등록 챕터5
      */
     public function corpProductCreate5View(Request $request): View
     {
-        return view('www.product.corp_product_create5', compact('request'));
+        Log::info($request->all());
+
+        $result = $request->all();
+
+        return view('www.product.corp_product_create5', compact('result'));
     }
 
     /**
@@ -239,7 +247,7 @@ class ProductPcController extends Controller
     }
 
     /**
-     * 매물 등록 매물유형 및 가격 체크
+     * 매물 등록 매물 주소 체크
      */
     public function corpProductCreateAddressCheck(Request $request): RedirectResponse
     {
@@ -288,5 +296,97 @@ class ProductPcController extends Controller
         $result['address_number'] = $request->address_number;
 
         return Redirect::route('www.corp.product.create3.view', $result);
+    }
+
+    /**
+     * 매물 등록 매물 주소 체크
+     */
+    public function corpProductCreateInfoCheck(Request $request): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'floor_number' => [
+                Rule::requiredIf(function () use ($request) {
+                    return $request->input('type') != 6 && $request->input('type') != 7;
+                }),
+            ],
+            'total_floor_number' => [
+                Rule::requiredIf(function () use ($request) {
+                    return $request->input('type') != 6 && $request->input('type') != 7;
+                }),
+            ],
+            'lowest_floor_number' => 'required_if:type,7',
+            'top_floor_number' => 'required_if:type,7',
+            'area' => 'required',
+            'square' => 'required',
+            'total_floor_area' => 'required_if:type,7',
+            'total_floor_square' => 'required_if:type,7',
+            'exclusive_area' => 'required_unless:type,6',
+            'exclusive_square' => 'required_unless:type,6',
+            'approve_date' => 'required_unless:type,6',
+            'building_type' => 'required',
+            'move_type' => 'required_unless:type,6',
+            'move_date' => 'required_if:move_type,2',
+            'service_price' => 'required_unless:is_service,1',
+            'service_type' => 'required_unless:is_service,1',
+            'loan_type' => 'required',
+            'loan_price' => 'required_unless:loan_type,0',
+            'parking_type' => 'required_unless:type,6',
+            'parking_price' => [
+                Rule::requiredIf(function () use ($request) {
+                    return $request->input('type') != 6 && $request->input('parking_type') == 1 && $request->input('is_parking') != 1;
+                }),
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(route('www.corp.product.create3.view'))->withErrors($validator)
+                ->withInput();
+        }
+
+
+        $result['type'] = $request->type;
+        $result['payment_type'] = $request->payment_type;
+        $result['price'] = $request->price;
+        $result['month_price'] = $request->month_price;
+        $result['is_price_discussion'] = $request->is_price_discussion;
+        $result['is_use'] = $request->is_use;
+        $result['current_price'] = $request->current_price;
+        $result['current_month_price'] = $request->current_month_price;
+        $result['is_premium'] = $request->is_premium;
+        $result['premium_price'] = $request->premium_price;
+        $result['approve_date'] = $request->approve_date;
+        $result['address_lng'] = $request->address_lng;
+        $result['address_lat'] = $request->address_lat;
+        $result['region_code'] = $request->region_code;
+        $result['region_address'] = $request->region_address;
+        $result['address'] = $request->address;
+        $result['address_detail'] = $request->address_detail;
+        $result['address_dong'] = $request->address_dong;
+        $result['address_number'] = $request->address_number;
+
+        $result['floor_number'] = $request->floor_number;
+        $result['total_floor_number'] = $request->total_floor_number;
+        $result['lowest_floor_number'] = $request->lowest_floor_number;
+        $result['top_floor_number'] = $request->top_floor_number;
+        $result['area'] = $request->area;
+        $result['square'] = $request->square;
+        $result['total_floor_area'] = $request->total_floor_area;
+        $result['total_floor_square'] = $request->total_floor_square;
+        $result['exclusive_area'] = $request->exclusive_area;
+        $result['exclusive_square'] = $request->exclusive_square;
+        $result['approve_date'] = $request->approve_date;
+        $result['building_type'] = $request->building_type;
+        $result['move_type'] = $request->move_type;
+        $result['move_date'] = $request->move_date;
+        $result['is_service'] = $request->is_service;
+        $result['service_price'] = $request->service_price;
+        $result['service_type'] = $request->service_type;
+        $result['loan_type'] = $request->loan_type;
+        $result['loan_price'] = $request->loan_price;
+        $result['parking_type'] = $request->parking_type;
+        $result['parking_price'] = $request->parking_price;
+
+
+        return Redirect::route('www.corp.product.create4.view', $result);
     }
 }

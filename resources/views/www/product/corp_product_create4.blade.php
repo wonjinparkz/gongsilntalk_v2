@@ -1,337 +1,664 @@
 <x-layout>
-    <!----------------------------- m::header bar : s ----------------------------->
-    <div class="m_header">
-        <div class="left_area"><a href="javascript:history.go(-1)"><img src="images/header_btn_back.png"></a></div>
-        <div class="m_title">매물 등록 <span class="gray_basic"><span class="txt_point">4</span>/5</span></div>
-        <div class="right_area"></div>
-    </div>
-    <!----------------------------- m::header bar : s ----------------------------->
+    <form class="find_form" method="POST" action="{{ route('www.corp.product.create.info.check') }}" name="create_check">
+        <input type="hidden" name="type" id="type" value="{{ $result['type'] = 0 }}">
+        <input type="hidden" name="payment_type" id="payment_type" value="{{ $result['payment_type'] }}">
+        <input type="hidden" name="price" id="price" value="{{ $result['price'] }}">
+        <input type="hidden" name="month_price" id="month_price" value="{{ $result['month_price'] ?? '' }}">
+        <input type="hidden" name="is_price_discussion" id="is_price_discussion"
+            value="{{ $result['is_price_discussion'] ?? '' }}">
+        <input type="hidden" name="is_use" id="is_use" value="{{ $result['is_use'] ?? '' }}">
+        <input type="hidden" name="current_price" id="current_price" value="{{ $result['current_price'] ?? '' }}">
+        <input type="hidden" name="current_month_price" id="current_month_price"
+            value="{{ $result['current_month_price'] ?? '' }}">
+        <input type="hidden" name="is_premium" id="is_premium" value="{{ $result['is_premium'] ?? '' }}">
+        <input type="hidden" name="premium_price" id="premium_price" value="{{ $result['premium_price'] ?? '' }}">
+        <input type="hidden" name="approve_date" id="approve_date" value="{{ $result['approve_date'] ?? '' }}">
 
-    <div class="body">
+        <input type="hidden" name="address_lng" id="address_lng" value="{{ $result['address_lng'] ?? '' }}">
+        <input type="hidden" name="address_lat" id="address_lat" value="{{ $result['address_lat'] ?? '' }}">
+        <input type="hidden" name="region_code" id="region_code" value="{{ $result['region_code'] ?? '' }}">
+        <input type="hidden" name="region_address" id="region_address" value="{{ $result['region_address'] }}">
+        <input type="hidden" name="address" id="address" value="{{ $result['address'] }}">
+        <input type="hidden" name="address_detail" id="address_detail" value="{{ $result['address_detail'] ?? '' }}">
+        <input type="hidden" name="address_dong" id="address_dong" value="{{ $result['address_dong'] ?? '' }}">
+        <input type="hidden" name="address_number" id="address_number" value="{{ $result['address_number'] ?? '' }}">
 
-        <!-- my_body : s -->
-        <div class="inner_mid_wrap m_inner_wrap mid_body">
-            <h1 class="t_center only_pc">매물 등록하기 <span class="step_number"><span class="txt_point">4</span>/5</span></h1>
+        <input type="hidden" name ="floor_number" id="floor_number" value="{{ $result['floor_number'] ?? '' }}">
+        <input type="hidden" name ="total_floor_number" id="total_floor_number"
+            value="{{ $result['total_floor_number'] ?? '' }}">
+        <input type="hidden" name ="lowest_floor_number" id="lowest_floor_number"
+            value="{{ $result['lowest_floor_number'] ?? '' }}">
+        <input type="hidden" name ="top_floor_number" id="top_floor_number"
+            value="{{ $result['top_floor_number'] ?? '' }}">
+        <input type="hidden" name ="area" id="area" value="{{ $result['area'] ?? '' }}">
+        <input type="hidden" name ="square" id="square" value="{{ $result['square'] ?? '' }}">
+        <input type="hidden" name ="total_floor_area" id="total_floor_area"
+            value="{{ $result['total_floor_area'] ?? '' }}">
+        <input type="hidden" name ="total_floor_square" id="total_floor_square"
+            value="{{ $result['total_floor_square'] ?? '' }}">
+        <input type="hidden" name ="exclusive_area" id="exclusive_area"
+            value="{{ $result['exclusive_area'] ?? '' }}">
+        <input type="hidden" name ="exclusive_square" id="exclusive_square"
+            value="{{ $result['exclusive_square'] ?? '' }}">
+        <input type="hidden" name ="approve_date" id="approve_date" value="{{ $result['approve_date'] ?? '' }}">
+        <input type="hidden" name ="building_type" id="building_type"
+            value="{{ $result['building_type'] ?? '' }}">
+        <input type="hidden" name ="move_type" id="move_type" value="{{ $result['move_type'] ?? '' }}">
+        <input type="hidden" name ="move_date" id="move_date" value="{{ $result['move_date'] ?? '' }}">
+        <input type="hidden" name ="is_service" id="is_service" value="{{ $result['is_service'] ?? '' }}">
+        <input type="hidden" name ="service_price" id="service_price"
+            value="{{ $result['service_price'] ?? '' }}">
+        <input type="hidden" name ="service_type" id="service_type" value="{{ $result['service_type'] ?? '' }}">
+        <input type="hidden" name ="loan_type" id="loan_type" value="{{ $result['loan_type'] ?? '' }}">
+        <input type="hidden" name ="loan_price" id="loan_price" value="{{ $result['loan_price'] ?? '' }}">
+        <input type="hidden" name ="parking_type" id="parking_type" value="{{ $result['parking_type'] ?? '' }}">
+        <input type="hidden" name ="parking_price" id="parking_price"
+            value="{{ $result['parking_price'] ?? '' }}">
 
-            <div class="offer_step_wrap">
-                <div class="box_01 box_reg">
-                    <h4>추가 정보</h4>
+        @php
+            $type = $result['type'];
+        @endphp
 
-                    <div class="reg_mid_wrap">
-                        <div class="reg_item">
-                            <label class="input_label">건물 방향</label>
-                            <div class="dropdown_box">
-                                <button class="dropdown_label">건물 방향 선택</button>
-                                <ul class="optionList">
-                                    <li class="optionItem">동</li>
-                                    <li class="optionItem">서</li>
-                                    <li class="optionItem">남</li>
-                                    <li class="optionItem">북</li>
-                                    <li class="optionItem">북동</li>
-                                    <li class="optionItem">남동</li>
-                                    <li class="optionItem">북서</li>
-                                    <li class="optionItem">남서</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="reg_item">
-                            <label class="input_label">난방 종류</label>
-                            <div class="dropdown_box">
-                                <button class="dropdown_label">난방 종류 선택</button>
-                                <ul class="optionList">
-                                    <li class="optionItem">개별난방</li>
-                                    <li class="optionItem">중앙난방</li>
-                                    <li class="optionItem">지역난방</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+        <!----------------------------- m::header bar : s ----------------------------->
+        <div class="m_header">
+            <div class="left_area"><a href="javascript:history.go(-1)"><img
+                        src="{{ asset('assets/media/header_btn_back.png') }}"></a>
+            </div>
+            <div class="m_title">매물 등록 <span class="gray_basic"><span class="txt_point">4</span>/5</span></div>
+            <div class="right_area"></div>
+        </div>
+        <!----------------------------- m::header bar : s ----------------------------->
 
-                    <div class="reg_mid_wrap">
-                        <div class="reg_item">
-                            <label class="input_label">하중(평당)</label>
-                            <div class="flex_1 mt10">
-                                <input type="number" placeholder="예) 0.8" class="w_input_150"><span>톤</span>
-                            </div>
-                        </div>
-                        <div class="reg_item">
-                            <label class="input_label">승강시설 <span class="txt_point">*</span></label>
-                            <div class="btn_radioType mt18">
-                                <input type="radio" name="elevator" id="elevator_1" checked="">
-                                <label for="elevator_1" >있음</label>
+        <div class="body">
 
-                                <input type="radio" name="elevator" id="elevator_2">
-                                <label for="elevator_2">없음</label>
+            <!-- my_body : s -->
+            <div class="inner_mid_wrap m_inner_wrap mid_body">
+                <h1 class="t_center only_pc">매물 등록하기 <span class="step_number"><span
+                            class="txt_point">4</span>/5</span>
+                </h1>
 
-                                <input type="checkbox" name="elevator" id="elevator_3" value="Y">
-                                <label for="elevator_3" class="gray_deep"><span></span> 화물용</label>
-                            </div>
-                        </div>
-                    </div>
+                <div class="offer_step_wrap">
+                    <div class="box_01 box_reg">
+                        <h4>추가 정보</h4>
 
-                    <div class="reg_mid_wrap">
-                        <div class="reg_item">
-                            <label class="input_label">인테리어 여부</label>
-                            <div class="btn_radioType">
-                                <input type="radio" name="interior" id="interior_1" value="Y" checked="">
-                                <label for="interior_1">선택 안함</label>
-
-                                <input type="radio" name="interior" id="interior_2" value="Y">
-                                <label for="interior_2">있음</label>
-
-                                <input type="radio" name="interior" id="interior_3" value="Y">
-                                <label for="interior_3">없음</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="reg_mid_wrap">
-                        <div class="reg_item">
-                            <label class="input_label">층고</label>
-                            <div class="btn_radioType">
-                                <input type="radio" name="floor_height" id="floor_height_1" value="Y" checked="">
-                                <label for="floor_height_1">선택 안함</label>
-
-                                <input type="radio" name="floor_height" id="floor_height_2" value="Y">
-                                <label for="floor_height_2">3.5M 이하</label>
-
-                                <input type="radio" name="floor_height" id="floor_height_3" value="Y">
-                                <label for="floor_height_3">3.6~4.5M</label>
-
-                                <input type="radio" name="floor_height" id="floor_height_4" value="Y">
-                                <label for="floor_height_4">4.6~5.5M</label>
-
-                                <input type="radio" name="floor_height" id="floor_height_5" value="Y">
-                                <label for="floor_height_5">5.6~6.5M</label>
-
-                                <input type="radio" name="floor_height" id="floor_height_6" value="Y">
-                                <label for="floor_height_6">6.6M 이상</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="reg_item">
-                            <label class="input_label">사용전력</label>
-                            <div class="btn_radioType">
-                                <input type="radio" name="power" id="power_1" value="Y" checked="">
-                                <label for="power_1">선택 안함</label>
-
-                                <input type="radio" name="power" id="power_2" value="Y">
-                                <label for="power_2">10KW 이하</label>
-
-                                <input type="radio" name="power" id="power_3" value="Y">
-                                <label for="power_3">11~25KW</label>
-
-                                <input type="radio" name="power" id="power_4" value="Y">
-                                <label for="power_4">26~50KW</label>
-
-                                <input type="radio" name="power" id="power_5" value="Y">
-                                <label for="power_5">51~100KW</label>
-
-                                <input type="radio" name="power" id="power_6" value="Y">
-                                <label for="power_6">101~1000KW</label>
-
-                                <input type="radio" name="power" id="power_6" value="Y">
-                                <label for="power_6">1001KW 이상</label>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="box_01 box_reg">
-                    <h4>옵션 정보</h4>
-
-                    <div>
-                        <div class="reg_item">
-                            <label class="input_label">옵션 여부</label>
-                            <div class="btn_radioType">
-                                <input type="radio" name="option_info" id="option_info_1" value="Y" checked="">
-                                <label for="option_info_1" onclick="showDiv('option_info', 0)">있음</label>
-
-                                <input type="radio" name="option_info" id="option_info_2" value="Y">
-                                <label for="option_info_2" onclick="showDiv('option_info', 1)">없음</label>
-                            </div>
-                            <div class="option_info_wrap">
-                                <div class="option_info_item open_key active">
-                                    <div class="option_row">
-                                        <div class="option_tit">시설</div>
-                                        <div class="checkbox_btn">
-                                            <input type="checkbox" name="option_1" id="option_1_1">
-                                            <label for="option_1_1">창고</label>
-
-                                            <input type="checkbox" name="option_1" id="option_1_2">
-                                            <label for="option_1_2">급수시설</label>
-
-                                            <input type="checkbox" name="option_1" id="option_1_3">
-                                            <label for="option_1_3">급배기시설</label>
-
-                                            <input type="checkbox" name="option_1" id="option_1_4">
-                                            <label for="option_1_4">환기시설</label>
-
-                                            <input type="checkbox" name="option_1" id="option_1_5">
-                                            <label for="option_1_5">휴게공간</label>
-
-                                            <input type="checkbox" name="option_1" id="option_1_6">
-                                            <label for="option_1_6">베란다</label>
-
-                                            <input type="checkbox" name="option_1" id="option_1_7">
-                                            <label for="option_1_7">테라스</label>
+                        @if (in_array($type, [4, 8, 9, 10, 11, 12, 13]))
+                            <div class="reg_mid_wrap">
+                                <div class="reg_item">
+                                    <label class="input_label">방/욕실 수 <span class="txt_point">*</span></label>
+                                    <div class="input_pyeong_area">
+                                        <div><input type="text" name="room_count" placeholder="방 수">
+                                            <span class="gray_deep">개</span>
                                         </div>
-                                    </div>
-                                    <div class="option_row">
-                                        <div class="option_tit">보안</div>
-                                        <div class="checkbox_btn">
-                                            <input type="checkbox" name="option_2" id="option_2_1">
-                                            <label for="option_2_1">CCTV</label>
-
-                                            <input type="checkbox" name="option_2" id="option_2_2">
-                                            <label for="option_2_2">자체경비원</label>
-
-                                            <input type="checkbox" name="option_2" id="option_2_3">
-                                            <label for="option_2_3">디지털도어락</label>
-
-                                            <input type="checkbox" name="option_2" id="option_2_4">
-                                            <label for="option_2_4">관리인상주</label>
-
-                                            <input type="checkbox" name="option_2" id="option_2_5">
-                                            <label for="option_2_5">소화기</label>
-
-                                            <input type="checkbox" name="option_2" id="option_2_6">
-                                            <label for="option_2_6">화재감지기</label>
-
-                                            <input type="checkbox" name="option_2" id="option_2_7">
-                                            <label for="option_2_7">화재경보기</label>
-
-                                            <input type="checkbox" name="option_2" id="option_2_8">
-                                            <label for="option_2_8">카드키</label>
-
-                                            <input type="checkbox" name="option_2" id="option_2_9">
-                                            <label for="option_2_9">무인택배함</label>
-
-                                            <input type="checkbox" name="option_2" id="option_2_10">
-                                            <label for="option_2_10">방범창</label>
-
-                                            <input type="checkbox" name="option_2" id="option_2_11">
-                                            <label for="option_2_11">비디오폰</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="option_row">
-                                        <div class="option_tit">주방</div>
-                                        <div class="checkbox_btn">
-                                            <input type="checkbox" name="option_3" id="option_3_1">
-                                            <label for="option_3_1">인덕션</label>
-
-                                            <input type="checkbox" name="option_3" id="option_3_2">
-                                            <label for="option_3_2">가스레인지</label>
-
-                                            <input type="checkbox" name="option_3" id="option_3_3">
-                                            <label for="option_3_3">전자레인지</label>
-
-                                            <input type="checkbox" name="option_3" id="option_3_4">
-                                            <label for="option_3_4">오븐</label>
-
-                                            <input type="checkbox" name="option_3" id="option_3_5">
-                                            <label for="option_3_5">식기세척기</label>
-
-                                            <input type="checkbox" name="option_3" id="option_3_6">
-                                            <label for="option_3_6">싱크대</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="option_row">
-                                        <div class="option_tit">가전</div>
-                                        <div class="checkbox_btn">
-                                            <input type="checkbox" name="option_4" id="option_4_1">
-                                            <label for="option_4_1">무선인터넷</label>
-
-                                            <input type="checkbox" name="option_4" id="option_4_2">
-                                            <label for="option_4_2">에어컨</label>
-
-                                            <input type="checkbox" name="option_4" id="option_4_3">
-                                            <label for="option_4_3">세탁기</label>
-
-                                            <input type="checkbox" name="option_4" id="option_4_4">
-                                            <label for="option_4_4">냉장고</label>
-
-                                            <input type="checkbox" name="option_4" id="option_4_5">
-                                            <label for="option_4_5">비데</label>
-
-                                            <input type="checkbox" name="option_4" id="option_4_6">
-                                            <label for="option_4_6">TV</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="option_row">
-                                        <div class="option_tit">가구</div>
-                                        <div class="checkbox_btn">
-                                            <input type="checkbox" name="option_5" id="option_5_1">
-                                            <label for="option_5_1">붙박이장</label>
-
-                                            <input type="checkbox" name="option_5" id="option_5_2">
-                                            <label for="option_5_2">드레스룸</label>
-
-                                            <input type="checkbox" name="option_5" id="option_5_3">
-                                            <label for="option_5_3">신발장</label>
-
-                                            <input type="checkbox" name="option_5" id="option_5_4">
-                                            <label for="option_5_4">욕조</label>
-
-                                            <input type="checkbox" name="option_5" id="option_5_5">
-                                            <label for="option_5_5">식탁</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="option_row">
-                                        <div class="option_tit">기타</div>
-                                        <div class="checkbox_btn">
-                                            <input type="checkbox" name="option_6" id="option_6_1">
-                                            <label for="option_6_1">베란다</label>
-
-                                            <input type="checkbox" name="option_6" id="option_6_2">
-                                            <label for="option_6_2">테라스</label>
-
-                                            <input type="checkbox" name="option_6" id="option_6_3">
-                                            <label for="option_6_3">발코니</label>
-
-                                            <input type="checkbox" name="option_6" id="option_6_4">
-                                            <label for="option_6_4">마당</label>
+                                        <span class="gray_deep">/</span>
+                                        <div><input type="text" name="bathroom_count" placeholder="욕실 수">
+                                            <span class="gray_deep">개</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="option_info_item open_key"></div>
+                            </div>
+                        @endif
 
+                        @if (in_array($type, [3]))
+                            <div class="reg_mid_wrap">
+                                <div class="reg_item">
+                                    <input type="hidden" name="current_business_type" value="">
+                                    <label class="input_label">현 업종</label>
+                                    <div class="dropdown_box">
+                                        <button type="button" class="dropdown_label">현 업종 선택</button>
+                                        <ul class="optionList">
+                                            <li class="optionItem" onclick="selectType('current_business_type','')">
+                                                현 업종 선택
+                                            </li>
+                                            @foreach (Lang::get('commons.product_business_type') as $index => $business_type)
+                                                <li class="optionItem"
+                                                    onclick="selectType('current_business_type','{{ $index }}')">
+                                                    {{ $business_type }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="reg_item">
+                                    <input type="hidden" name="recommend_business_type" value="">
+                                    <label class="input_label">추천 업종</label>
+                                    <div class="dropdown_box">
+                                        <button type="button" class="dropdown_label">추천 업종 선택</button>
+                                        <ul class="optionList">
+                                            <li class="optionItem" onclick="selectType('recommend_business_type','')">
+                                                추천 업종 선택
+                                            </li>
+                                            @foreach (Lang::get('commons.product_business_type') as $index => $business_type)
+                                                <li class="optionItem"
+                                                    onclick="selectType('recommend_business_type','{{ $index }}')">
+                                                    {{ $business_type }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if ($type != 6)
+                            <div class="reg_mid_wrap">
+                                <div class="reg_item">
+                                    <input type="hidden" name="direction_type" value="">
+                                    <label class="input_label">건물 방향{{ $type == 5 ? '(주 출입구 기준)' : '' }}</label>
+                                    <div class="dropdown_box">
+                                        <button type="button" class="dropdown_label">건물 방향 선택</button>
+                                        <ul class="optionList">
+                                            <li class="optionItem" onclick="selectType('direction_type','')">
+                                                건물 방향 선택
+                                            </li>
+                                            @foreach (Lang::get('commons.direction_type') as $index => $directionType)
+                                                <li class="optionItem"
+                                                    onclick="selectType('direction_type','{{ $index }}')">
+                                                    {{ $directionType }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="reg_item">
+                                    <input type="hidden" name="cooling_type" value="">
+                                    <label class="input_label">냉방 종류</label>
+                                    <div class="dropdown_box">
+                                        <button type="button" class="dropdown_label">냉방 종류 선택</button>
+                                        <ul class="optionList">
+                                            <li class="optionItem" onclick="selectType('cooling_type','')">
+                                                냉방 종류 선택
+                                            </li>
+                                            @foreach (Lang::get('commons.cooling_type') as $index => $coolingType)
+                                                <li class="optionItem"
+                                                    onclick="selectType('cooling_type','{{ $index }}')">
+                                                    {{ $coolingType }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="reg_item">
+                                    <input type="hidden" name="heating_type" value="">
+                                    <label class="input_label">난방 종류</label>
+                                    <div class="dropdown_box">
+                                        <button type="button" class="dropdown_label">난방 종류 선택</button>
+                                        <ul class="optionList">
+                                            <li class="optionItem" onclick="selectType('heating_type','')">
+                                                난방 종류 선택
+                                            </li>
+                                            @foreach (Lang::get('commons.heating_type') as $index => $heatingType)
+                                                <li class="optionItem"
+                                                    onclick="selectType('heating_type','{{ $index }}')">
+                                                    {{ $heatingType }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+
+                        <div class="reg_mid_wrap">
+                            @if (in_array($type, [0, 1, 2]) || $type > 13)
+                                <div class="reg_item">
+                                    <label class="input_label">하중(평당)</label>
+                                    <div class="flex_1 mt10">
+                                        <input type="text" name="weight" placeholder="예) 0.8"
+                                            class="w_input_150">
+                                        <span>톤</span>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if ($type != 6)
+                                <div class="reg_item">
+                                    <label class="input_label">승강시설 <span class="txt_point">*</span></label>
+                                    <div class="btn_radioType mt18">
+                                        <input type="radio" name="is_elevator" id="is_elevator_1" checked
+                                            value="1">
+                                        <label for="is_elevator_1">있음</label>
+
+                                        <input type="radio" name="is_elevator" id="is_elevator_0" value="0">
+                                        <label for="is_elevator_0">없음</label>
+
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if (in_array($type, [0, 1, 2, 7]) || $type > 13)
+                                <div class="reg_item">
+                                    <label class="input_label">화물용 승강시설 <span class="txt_point">*</span></label>
+                                    <div class="btn_radioType mt18">
+                                        <input type="radio" name="is_goods_elevator" id="is_goods_elevator_1"
+                                            checked value="1">
+                                        <label for="is_goods_elevator_1">있음</label>
+
+                                        <input type="radio" name="is_goods_elevator" id="is_goods_elevator_2"
+                                            value="0">
+                                        <label for="is_goods_elevator_2">없음</label>
+
+                                    </div>
+                                </div>
+                            @endif
+
+                        </div>
+
+                        @if (in_array($type, [4, 9]))
+                            <div class="reg_mid_wrap">
+                                <div class="reg_item">
+                                    <label class="input_label">구조</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="structure_type" id="structure_type_0" checked
+                                            value="0">
+                                        <label for="structure_type_0">선택 안함</label>
+
+                                        <input type="radio" name="structure_type" id="structure_type_1"
+                                            value="1">
+                                        <label for="structure_type_1">복층</label>
+
+                                        <input type="radio" name="structure_type" id="structure_type_2"
+                                            value="2">
+                                        <label for="structure_type_2">1.5룸/주방분리형</label>
+                                    </div>
+                                </div>
+
+                                <div class="reg_item">
+                                    <label class="input_label">빌트인</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="builtin_type" id="builtin_type_0" value="0"
+                                            checked>
+                                        <label for="builtin_type_0">선택 안함</label>
+
+                                        <input type="radio" name="builtin_type" id="builtin_type_1"
+                                            value="1">
+                                        <label for="builtin_type_1">있음</label>
+
+                                        <input type="radio" name="builtin_type" id="builtin_type_2"
+                                            value="2">
+                                        <label for="builtin_type_2">없음</label>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="reg_mid_wrap">
+                            @if (in_array($type, [0, 1, 2]) || $type > 13)
+                                <div class="reg_item">
+                                    <label class="input_label">인테리어 여부</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="interior_type" id="interior_type_0"
+                                            value="0" checked>
+                                        <label for="interior_type_0">선택 안함</label>
+
+                                        <input type="radio" name="interior_type" id="interior_type_1"
+                                            value="1">
+                                        <label for="interior_type_1">있음</label>
+                                        <input type="radio" name="interior_type" id="interior_type_2"
+                                            value="2">
+                                        <label for="interior_type_2">없음</label>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if (in_array($type, [4, 9]))
+                                <div class="reg_item">
+                                    <label class="input_label">전입신고 가능 여부</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="declare_type" id="declare_type_0" value="0"
+                                            checked>
+                                        <label for="declare_type_0">선택 안함</label>
+                                        <input type="radio" name="declare_type" id="declare_type_1"
+                                            value="1">
+                                        <label for="declare_type_1">가능</label>
+                                        <input type="radio" name="declare_type" id="declare_type_2"
+                                            value="2">
+                                        <label for="declare_type_2">불가능</label>
+                                    </div>
+                                </div>
+                            @endif
+
+                        </div>
+
+                        @if ($type == 7)
+                            <div class="reg_mid_wrap">
+                                <div class="reg_item">
+                                    <label class="input_label">도크</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="is_dock" id="is_dock_1" value="1" checked>
+                                        <label for="is_dock_1">있음</label>
+                                        <input type="radio" name="is_dock" id="is_dock_0" value="0">
+                                        <label for="is_dock_0">없음</label>
+                                    </div>
+                                </div>
+
+                                <div class="reg_item">
+                                    <label class="input_label">호이스트</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="is_hoist" id="is_hoist_1" value="1"
+                                            checked>
+                                        <label for="is_hoist_1">가능</label>
+                                        <input type="radio" name="is_hoist" id="is_hoist_0" value="0">
+                                        <label for="is_hoist_0">불가능</label>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if (in_array($type, [0, 1, 2, 7]) || $type > 13)
+                            <div>
+                                <div class="reg_item">
+                                    <label class="input_label">층고</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="floor_height_type" id="floor_height_type_"
+                                            value="" checked>
+                                        <label for="floor_height_type_">선택 안함</label>
+                                        @foreach (Lang::get('commons.floor_height_type') as $index => $floorHeightType)
+                                            <input type="radio" name="floor_height_type"
+                                                id="floor_height_type_{{ $index }}"
+                                                value="{{ $index }}">
+                                            <label
+                                                for="floor_height_type_{{ $index }}">{{ $floorHeightType }}</label>
+                                        @endforeach
+
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if (in_array($type, [0, 1, 2, 7]) || $type > 13)
+                            <div>
+                                <div class="reg_item">
+                                    <label class="input_label">사용전력</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="wattage_type" id="wattage_type_" value=""
+                                            checked>
+                                        <label for="wattage_type_">선택 안함</label>
+                                        @foreach (Lang::get('commons.wattage_type') as $index => $wattageType)
+                                            <input type="radio" name="wattage_type"
+                                                id="wattage_type_{{ $index }}" value="{{ $index }}">
+                                            <label for="wattage_type_{{ $index }}">{{ $wattageType }}</label>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if ($type == 6)
+                            <div class="reg_mid_wrap">
+                                <div class="reg_item">
+                                    <label class="input_label">국토이용</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="land_use_type" id="land_use_type_0"
+                                            value="0" checked>
+                                        <label for="land_use_type_0">선택 안함</label>
+
+                                        <input type="radio" name="land_use_type" id="land_use_type_1"
+                                            value="1">
+                                        <label for="land_use_type_1">해당</label>
+
+                                        <input type="radio" name="land_use_type" id="land_use_type_2"
+                                            value="2">
+                                        <label for="land_use_type_2">미해당</label>
+                                    </div>
+                                </div>
+
+                                <div class="reg_item">
+                                    <label class="input_label">도시계획</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="city_plan_type" id="city_plan_type_0"
+                                            value="0" checked>
+                                        <label for="city_plan_type_0">선택 안함</label>
+
+                                        <input type="radio" name="city_plan_type" id="city_plan_type_1"
+                                            value="1">
+                                        <label for="city_plan_type_1">있음</label>
+
+                                        <input type="radio" name="city_plan_type" id="city_plan_type_2"
+                                            value="2">
+                                        <label for="city_plan_type_2">없음</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="reg_mid_wrap">
+                                <div class="reg_item">
+                                    <label class="input_label">건축허가</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="building_permit_type" id="building_permit_type_0"
+                                            value="0" checked>
+                                        <label for="building_permit_type_0">선택 안함</label>
+
+                                        <input type="radio" name="building_permit_type" id="building_permit_type_1"
+                                            value="1">
+                                        <label for="building_permit_type_1">발급</label>
+
+                                        <input type="radio" name="building_permit_type" id="building_permit_type_2"
+                                            value="2">
+                                        <label for="building_permit_type_2">미발급</label>
+                                    </div>
+                                </div>
+
+                                <div class="reg_item">
+                                    <label class="input_label">토지거래허가구역</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="land_permit_type" id="land_permit_type_0"
+                                            value="0" checked>
+                                        <label for="land_permit_type_0">선택 안함</label>
+
+                                        <input type="radio" name="land_permit_type" id="land_permit_type_1"
+                                            value="1">
+                                        <label for="land_permit_type_1">해당</label>
+
+                                        <input type="radio" name="land_permit_type" id="land_permit_type_2"
+                                            value="2">
+                                        <label for="land_permit_type_2">미해당</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="reg_mid_wrap">
+                                <div class="reg_item">
+                                    <label class="input_label">진입도로</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="access_load_type" id="access_load_type_0"
+                                            value="0" checked>
+                                        <label for="access_load_type_0">선택 안함</label>
+
+                                        <input type="radio" name="access_load_type" id="access_load_type_1"
+                                            value="1">
+                                        <label for="access_load_type_1">있음</label>
+
+                                        <input type="radio" name="access_load_type" id="access_load_type_2"
+                                            value="2">
+                                        <label for="access_load_type_2">없음</label>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                    </div>
+
+                    @php
+                        $option_count = 0;
+                    @endphp
+
+                    @if ($type != 6)
+                        <div class="box_01 box_reg">
+                            <h4>옵션 정보</h4>
+                            <div>
+                                <div class="reg_item">
+                                    <label class="input_label">옵션 여부</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="is_option" id="is_option_1" value="1"
+                                            checked>
+                                        <label for="is_option_1" onclick="showDiv('is_option', 0)">있음</label>
+
+                                        <input type="radio" name="is_option" id="is_option_0" value="0">
+                                        <label for="is_option_0" onclick="showDiv('is_option', 1)">없음</label>
+                                    </div>
+                                    <div class="is_option_wrap">
+                                        <div class="is_option_item open_key active">
+
+                                            <div class="option_row option_facility_row">
+                                                <div class="option_tit">시설</div>
+                                                <div class="checkbox_btn">
+                                                    @for ($i = 0; $i < count(Lang::get('commons.option_facility')); $i++)
+                                                        <input class="option_facility" type="checkbox"
+                                                            name="option[]" id="option_{{ $option_count }}"
+                                                            value="{{ $option_count }}">
+                                                        <label for="option_{{ $option_count }}">
+                                                            {{ Lang::get('commons.option_facility.' . $option_count++) }}
+                                                        </label>
+                                                    @endfor
+                                                </div>
+                                            </div>
+
+                                            <div class="option_row option_security_row">
+                                                <div class="option_tit">보안</div>
+                                                <div class="checkbox_btn">
+                                                    @for ($i = 0; $i < count(Lang::get('commons.option_security')); $i++)
+                                                        <input class="option_security" type="checkbox"
+                                                            name="option[]" id="option_{{ $option_count }}"
+                                                            value="{{ $option_count }}">
+                                                        <label for="option_{{ $option_count }}">
+                                                            {{ Lang::get('commons.option_security.' . $option_count++) }}
+                                                        </label>
+                                                    @endfor
+                                                </div>
+                                            </div>
+
+                                            <div class="option_row option_kitchen_row">
+                                                <div class="option_tit">주방</div>
+                                                <div class="checkbox_btn">
+                                                    @for ($i = 0; $i < count(Lang::get('commons.option_kitchen')); $i++)
+                                                        <input class="option_kitchen" type="checkbox" name="option[]"
+                                                            id="option_{{ $option_count }}"
+                                                            value="{{ $option_count }}">
+                                                        <label for="option_{{ $option_count }}">
+                                                            {{ Lang::get('commons.option_kitchen.' . $option_count++) }}
+                                                        </label>
+                                                    @endfor
+                                                </div>
+                                            </div>
+
+                                            <div class="option_row option_home_appliances_row">
+                                                <div class="option_tit">가전</div>
+                                                <div class="checkbox_btn">
+                                                    @for ($i = 0; $i < count(Lang::get('commons.option_home_appliances')); $i++)
+                                                        <input class="option_home_appliances" type="checkbox"
+                                                            name="option[]" id="option_{{ $option_count }}"
+                                                            value="{{ $option_count }}">
+                                                        <label for="option_{{ $option_count }}">
+                                                            {{ Lang::get('commons.option_home_appliances.' . $option_count++) }}
+                                                        </label>
+                                                    @endfor
+                                                </div>
+                                            </div>
+
+                                            <div class="option_row option_furniture_row">
+                                                <div class="option_tit">가구</div>
+                                                <div class="checkbox_btn">
+                                                    @for ($i = 0; $i < count(Lang::get('commons.option_furniture')); $i++)
+                                                        <input class="option_furniture" type="checkbox"
+                                                            name="option[]" id="option_{{ $option_count }}"
+                                                            value="{{ $option_count }}">
+                                                        <label for="option_{{ $option_count }}">
+                                                            {{ Lang::get('commons.option_furniture.' . $option_count++) }}
+                                                        </label>
+                                                    @endfor
+                                                </div>
+                                            </div>
+
+                                            <div class="option_row option_etc_row">
+                                                <div class="option_tit">기타</div>
+                                                <div class="checkbox_btn">
+                                                    @for ($i = 0; $i < count(Lang::get('commons.option_etc')); $i++)
+                                                        <input class="option_etc" type="checkbox" name="option[]"
+                                                            id="option_{{ $option_count }}"
+                                                            value="{{ $option_count }}">
+                                                        <label for="option_{{ $option_count }}">
+                                                            {{ Lang::get('commons.option_etc.' . $option_count++) }}
+                                                        </label>
+                                                    @endfor
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="option_info_item open_key"></div>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    @endif
+
+
+
+                    <div class="step_btn_wrap">
+                        <button type="button" class="btn_full_basic btn_graylight_ghost"
+                            onclick="location.href='realtor_estate_reg_3.html'">이전</button>
+                        <!-- <button type="button" class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
+                        <button type="button" class="btn_full_basic btn_point"
+                            onclick="location.href='realtor_estate_reg_5.html'">다음</button>
                     </div>
+
                 </div>
-
-
-
-                <div class="step_btn_wrap">
-                    <button class="btn_full_basic btn_graylight_ghost" onclick="location.href='realtor_estate_reg_3.html'">이전</button>
-                    <!-- <button class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                    <button class="btn_full_basic btn_point" onclick="location.href='realtor_estate_reg_5.html'">다음</button>
-                </div>
-
             </div>
-        </div>
-        <!-- my_body : e -->
+            <!-- my_body : e -->
 
-    </div>
+        </div>
+
+    </form>
 
     <script>
-    //입력란 열고 닫기
-    function showDiv(className, index) {
-        var tabContents = document.querySelectorAll('.' + className + '_wrap .' + className + '_item');
-        tabContents.forEach(function(content) {
-            content.classList.remove('active');
+        $(document).ready(function() {
+            optionSetting($('#type').val());
         });
-        tabContents[index].classList.add('active');
-    }
 
+        function optionSetting(type) {
+            $('.option_row').hide();
+
+            if ([0, 1, 2, 4].indexOf(parseInt(type)) !== -1) {
+                // 옵션 구성
+                $('.option_facility_row').show();
+                $('.option_security_row').show();
+
+                var option_security_valeu = [2, 7, 8, 9, 10, 11]; // 선택 가능한 옵션 value
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+                    console.log('value : ', value);
+
+                    if (!option_security_valeu.includes(value)) {
+                        console.log('삭제');
+                        $(this).hide();
+                    }
+                });
+            } else if (type == 3) {
+                2
+            } else if (type == 5) {
+                3
+            } else if (type == 7) {
+                4
+            } else if ([8, 10, 11, 12, 13].indexOf(parseInt(type)) !== -1) {
+                5
+            } else if (type == 9) {
+                6
+            } else if (type > 13) {
+
+            }
+        }
+
+        //입력란 열고 닫기
+        function showDiv(className, index) {
+            var tabContents = document.querySelectorAll('.' + className + '_wrap .' + className + '_item');
+            tabContents.forEach(function(content) {
+                content.classList.remove('active');
+            });
+            tabContents[index].classList.add('active');
+        }
     </script>
 
 </x-layout>

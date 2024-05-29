@@ -1,7 +1,7 @@
 <x-layout>
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
-        <div class="left_area"><a href="javascript:history.go(-1)"><img src="images/header_btn_back.png"></a></div>
+        <div class="left_area"><a href="javascript:history.go(-1)"><img src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
         <div class="m_title">매물 등록 <span class="gray_basic"><span class="txt_point">5</span>/5</span></div>
         <div class="right_area"></div>
     </div>

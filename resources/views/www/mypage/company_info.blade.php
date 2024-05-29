@@ -50,7 +50,7 @@
 
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
-        <div class="left_area"><a href="javascript:history.go(-1)"><img src="images/header_btn_back.png"></a></div>
+        <div class="left_area"><a href="javascript:history.go(-1)"><img src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
         <div class="m_title">마이메뉴</div>
         <div class="right_area"></div>
     </div>

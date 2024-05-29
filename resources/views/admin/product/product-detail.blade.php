@@ -839,8 +839,11 @@
                     <div class="row mb-6 add_info_input weight_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">하중 (평당)</label>
                         <div class="col-lg-3 fv-row">
-                            <input type="text" name="weight" class="form-control" placeholder="예) 0.8"
-                                value="{{ old('weight') ?? ($result->productAddInfo->weight ?? '') }}" />
+                            <div class="input-group">
+                                <input type="text" name="weight" class="form-control" placeholder="예) 0.8"
+                                    value="{{ old('weight') ?? ($result->productAddInfo->weight ?? '') }}" />
+                                <span class="input-group-text" id="basic-addon2">톤</span>
+                            </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('weight')" />
                         </div>
                     </div>
@@ -1501,7 +1504,7 @@
 
             if ($('#is_service').is(":checked")) {
                 $('#service_price').val('');
-                $('input[name="service_type"]').attr('disabled', true);
+                $('input[name="service_type[]"]').attr('disabled', true);
                 $('#service_price').attr('disabled', true);
             }
 
@@ -1887,14 +1890,14 @@
 
         // 관리비 없음 체크여부
         $('#is_service').click(function() {
-            $('input[name="service_type"]').prop("checked", false)
+            $('input[name="service_type[]"]').prop("checked", false)
             if ($(this).is(':checked')) {
                 $('#service_price').val('');
-                $('input[name="service_type"]').attr('disabled', true);
+                $('input[name="service_type[]"]').attr('disabled', true);
                 $('#service_price').attr('disabled', true);
             } else {
                 $('#service_price').attr('disabled', false);
-                $('input[name="service_type"]').attr('disabled', false);
+                $('input[name="service_type[]"]').attr('disabled', false);
             }
         });
 

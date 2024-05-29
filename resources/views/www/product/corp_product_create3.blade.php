@@ -1,7 +1,6 @@
 <x-layout>
-    <form class="find_form" method="POST" action="{{ route('www.corp.product.create.address.check') }}"
-        name="create_check">
-        <input type="hidden" name="type" id="type" value="{{ $result['type'] = 1 }}">
+    <form class="find_form" method="POST" action="{{ route('www.corp.product.create.info.check') }}" name="create_check">
+        <input type="hidden" name="type" id="type" value="{{ $result['type'] }}">
         <input type="hidden" name="payment_type" id="payment_type" value="{{ $result['payment_type'] }}">
         <input type="hidden" name="price" id="price" value="{{ $result['price'] }}">
         <input type="hidden" name="month_price" id="month_price" value="{{ $result['month_price'] ?? '' }}">
@@ -166,29 +165,19 @@
                                 </div>
                             @endif
 
-                            <input type="hidden" name="building_type" value="">
+                            <input type="hidden" name="building_type" id="building_type" value="">
                             @if ($result['type'] != 6)
                                 <div class="reg_item no_forest">
                                     <label class="input_label">주용도 <span class="txt_point">*</span></label>
                                     <div class="dropdown_box">
                                         <button type="button" class="dropdown_label">주용도 선택</button>
                                         <ul class="optionList">
-                                            <li class="optionItem">단독주택</li>
-                                            <li class="optionItem">공동주택</li>
-                                            <li class="optionItem">업무시설</li>
-                                            <li class="optionItem">단기임대</li>
-                                            <li class="optionItem">근린생활시설</li>
-                                            <li class="optionItem">의료시설</li>
-                                            <li class="optionItem">교육연구시설</li>
-                                            <li class="optionItem">판매시설</li>
-                                            <li class="optionItem">운동시설</li>
-                                            <li class="optionItem">숙박시설</li>
-                                            <li class="optionItem">문화및집회시설</li>
-                                            <li class="optionItem">위락시설</li>
-                                            <li class="optionItem">창고시설</li>
-                                            <li class="optionItem">공장</li>
-                                            <li class="optionItem">기타</li>
-                                            <li class="optionItem">구분없음</li>
+                                            @for ($i = 0; $i < 15; $i++)
+                                                <li class="optionItem"
+                                                    onclick="buildingTypeSelect('{{ $i }}')">
+                                                    {{ Lang::get('commons.building_type.' . $i) }}
+                                                </li>
+                                            @endfor
                                         </ul>
                                     </div>
                                 </div>
@@ -198,97 +187,73 @@
                                     <div class="dropdown_box">
                                         <button type="button" class="dropdown_label">현재 용도 선택</button>
                                         <ul class="optionList">
-                                            <li class="optionItem">단독주택</li>
-                                            <li class="optionItem">공동주택</li>
-                                            <li class="optionItem">업무시설</li>
-                                            <li class="optionItem">단기임대</li>
-                                            <li class="optionItem">근린생활시설</li>
-                                            <li class="optionItem">의료시설</li>
-                                            <li class="optionItem">교육연구시설</li>
-                                            <li class="optionItem">판매시설</li>
-                                            <li class="optionItem">운동시설</li>
-                                            <li class="optionItem">숙박시설</li>
-                                            <li class="optionItem">문화및집회시설</li>
-                                            <li class="optionItem">위락시설</li>
-                                            <li class="optionItem">창고시설</li>
-                                            <li class="optionItem">공장</li>
-                                            <li class="optionItem">기타</li>
-                                            <li class="optionItem">구분없음</li>
+                                            @for ($i = 15; $i < Count(Lang::get('commons.building_type')); $i++)
+                                                <li class="optionItem"
+                                                    onclick="buildingTypeSelect('{{ $i }}')">
+                                                    {{ Lang::get('commons.building_type.' . $i) }}
+                                                </li>
+                                            @endfor
                                         </ul>
                                     </div>
                                 </div>
                             @endif
                         </div>
 
-                        <div class="reg_mid_wrap no_forest">
-                            <div class="reg_item">
-                                <label class="input_label">입주가능일 <span class="txt_point">*</span></label>
-                                <div class="btn_radioType">
-                                    <input type="radio" name="move_type" id="move_type_1" value="0"
-                                        checked="">
-                                    <label for="move_type_1" onclick="showDiv('move_type', 0)">즉시 입주</label>
+                        @if ($result['type'] != 6)
+                            <div class="reg_mid_wrap no_forest">
+                                <div class="reg_item">
+                                    <label class="input_label">입주가능일 <span class="txt_point">*</span></label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="move_type" id="move_type_1" value="0"
+                                            checked="">
+                                        <label for="move_type_1" onclick="showDiv('move_type', 0)">즉시 입주</label>
 
-                                    <input type="radio" name="move_type" id="move_type_2" value="1">
-                                    <label for="move_type_2" onclick="showDiv('move_type', 0)">날짜 협의</label>
+                                        <input type="radio" name="move_type" id="move_type_2" value="1">
+                                        <label for="move_type_2" onclick="showDiv('move_type', 0)">날짜 협의</label>
 
-                                    <input type="radio" name="move_type" id="move_type_3" value="2">
-                                    <label for="move_type_3" onclick="showDiv('move_type', 1)">직접 입력</label>
+                                        <input type="radio" name="move_type" id="move_type_3" value="2">
+                                        <label for="move_type_3" onclick="showDiv('move_type', 1)">직접 입력</label>
+                                    </div>
+                                    <div class="move_type_wrap mt8">
+                                        <div class="move_type_item open_key"></div>
+                                        <div class="move_type_item open_key">
+                                            <input type="text" name="move_date" placeholder="예) 20230101"
+                                                class="">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="move_type_wrap mt8">
-                                    <div class="move_type_item open_key"></div>
-                                    <div class="move_type_item open_key">
-                                        <input type="text" name="move_date" placeholder="예) 20230101"
-                                            class="">
+                                <div class="reg_item only_pc"></div>
+                            </div>
+                        @endif
+
+                        @if ($result['type'] != 6)
+                            <div class="reg_mid_wrap no_forest">
+                                <div class="reg_item">
+                                    <label class="input_label">월 관리비 <span class="txt_point">*</span></label>
+                                    <div class="input_area_1">
+                                        <input type="number" name="service_price"> <span class="gray_deep">원</span>
+                                        <input type="checkbox" name="is_service" id="is_service_1" value="1">
+                                        <label for="is_service_1" class="gray_deep"><span></span> 관리비 없음</label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="reg_item only_pc"></div>
-                        </div>
+                        @endif
 
-                        <div class="reg_mid_wrap no_forest">
-                            <div class="reg_item">
-                                <label class="input_label">월 관리비 <span class="txt_point">*</span></label>
-                                <div class="input_area_1">
-                                    <input type="number"> <span class="gray_deep">원</span>
-                                    <input type="checkbox" name="is_service" id="is_service_1" value="1">
-                                    <label for="is_service_1" class="gray_deep"><span></span> 관리비 없음</label>
+
+                        @if ($result['type'] != 6)
+                            <div class="no_forest">
+                                <label class="input_label">관리비 항목</label>
+                                <div class="checkbox_btn">
+                                    @foreach (Lang::get('commons.service_type') as $index => $service_type)
+                                        <input type="checkbox" name="service_type[]"
+                                            id="service_type_{{ $index }}" value="{{ $index }}">
+                                        <label for="service_type_{{ $index }}">
+                                            {{ Lang::get('commons.service_type.' . $index) }}
+                                        </label>
+                                    @endforeach
                                 </div>
                             </div>
-                        </div>
-
-
-
-                        <div class="no_forest">
-                            <label class="input_label">관리비 항목</label>
-                            <div class="checkbox_btn">
-                                <input type="checkbox" name="mngt_item" id="mngt_item_1">
-                                <label for="mngt_item_1">청소비</label>
-
-                                <input type="checkbox" name="mngt_item" id="mngt_item_2">
-                                <label for="mngt_item_2">경비비</label>
-
-                                <input type="checkbox" name="mngt_item" id="mngt_item_3">
-                                <label for="mngt_item_3">인터넷</label>
-
-                                <input type="checkbox" name="mngt_item" id="mngt_item_4">
-                                <label for="mngt_item_4">승강기유지비</label>
-
-                                <input type="checkbox" name="mngt_item" id="mngt_item_5">
-                                <label for="mngt_item_5">수선유지비</label>
-
-                                <input type="checkbox" name="mngt_item" id="mngt_item_6">
-                                <label for="mngt_item_6">전기세</label>
-
-                                <input type="checkbox" name="mngt_item" id="mngt_item_7">
-                                <label for="mngt_item_7">수도세</label>
-
-                                <input type="checkbox" name="mngt_item" id="mngt_item_8">
-                                <label for="mngt_item_8">도시가스비</label>
-
-                                <input type="checkbox" name="mngt_item" id="mngt_item_9">
-                                <label for="mngt_item_9">기타</label>
-                            </div>
-                        </div>
+                        @endif
 
                         <div class="reg_mid_wrap">
                             <div class="reg_item">
@@ -305,34 +270,36 @@
                                     <label for="loan_type_2">30%이상</label>
                                 </div>
                                 <div class="flex_1 mt10">
-                                    <input type="number" name="loan_price" class="w_input_150"
+                                    <input type="number" name="loan_price" id="loan_price" class="w_input_150"
                                         disabled><span>원</span>
                                 </div>
                             </div>
                             <div class="reg_item only_pc"></div>
                         </div>
 
-                        <div class="reg_mid_wrap no_forest">
-                            <div class="reg_item">
-                                <label class="input_label">주차 가능 여부</label>
-                                <div class="btn_radioType">
-                                    <input type="radio" name="parking_type"id="parking_type_0" value="0"
-                                        checked="">
-                                    <label for="parking_type_0">선택 안함</label>
+                        @if ($result['type'] != 6)
+                            <div class="reg_mid_wrap no_forest">
+                                <div class="reg_item">
+                                    <label class="input_label">주차 가능 여부</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="parking_type"id="parking_type_0" value="0"
+                                            checked="">
+                                        <label for="parking_type_0">선택 안함</label>
 
-                                    <input type="radio" name="parking_type"id="parking_type_1" value="1">
-                                    <label for="parking_type_1">가능</label>
+                                        <input type="radio" name="parking_type"id="parking_type_1" value="1">
+                                        <label for="parking_type_1">가능</label>
 
-                                    <input type="radio" name="parking_type"id="parking_type_2" value="2">
-                                    <label for="parking_type_2">불가능</label>
+                                        <input type="radio" name="parking_type"id="parking_type_2" value="2">
+                                        <label for="parking_type_2">불가능</label>
+                                    </div>
+                                    <div class="flex_1 mt10">
+                                        <input type="number" name="parking_price" class="w_input_150"
+                                            disabled><span>원</span>
+                                    </div>
                                 </div>
-                                <div class="flex_1 mt10">
-                                    <input type="number" name="parking_price" class="w_input_150"
-                                        disabled><span>원</span>
-                                </div>
+                                <div class="reg_item only_pc"></div>
                             </div>
-                            <div class="reg_item only_pc"></div>
-                        </div>
+                        @endif
 
                     </div>
 
@@ -341,9 +308,7 @@
                     <div class="step_btn_wrap">
                         <button type="button" class="btn_full_basic btn_graylight_ghost"
                             onclick="location.href='javascript:history.go(-1)'">이전</button>
-                        <!-- <button type="button" class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                        <button type="button" class="btn_full_basic btn_point"
-                            onclick="location.href=''">다음</button>
+                        <button type="submit" class="btn_full_basic btn_point confirm" disabled>다음</button>
                     </div>
 
                 </div>
@@ -360,13 +325,91 @@
             }
         });
 
-        //입력란 열고 닫기
-        function showDiv(className, index) {
-            var tabContents = document.querySelectorAll('.' + className + '_wrap .' + className + '_item');
-            tabContents.forEach(function(content) {
-                content.classList.remove('active');
-            });
-            tabContents[index].classList.add('active');
+        $('input[type="text"]').on('keyup', function() {
+            inputCheck();
+        });
+        $('input[type="number"]').on('keyup', function() {
+            inputCheck();
+        });
+        $('input[type="checkbox"]').change(function() {
+            inputCheck();
+        });
+        $('input[type="radio"]').change(function() {
+            inputCheck();
+        });
+
+        // function inputCheck() {
+        //     var type = $('#type').val();
+
+        //     console.log('type : ', type);
+
+        //     if ([0, 1, 2].indexOf(type) !== -1) {
+        //         console.log('지식, 사무실, 창고');
+        //     }else if(type == 3) {
+        //         console.log('상가');
+        //     }else if(type == )
+        // }
+
+        function inputCheck() {
+            var type = $('#type').val();
+
+            var floor_number = $('input[name="floor_number"]').val();
+            var total_floor_number = $('input[name="total_floor_number"]').val();
+            var lowest_floor_number = $('input[name="lowest_floor_number"]').val();
+            var top_floor_number = $('input[name="top_floor_number"]').val();
+            var area = $('#area').val();
+            var square = $('#square').val();
+            var total_floor_area = $('input[name="total_floor_area"]').val();
+            var total_floor_square = $('input[name="total_floor_square"]').val();
+            var exclusive_area = $('input[name="exclusive_area"]').val();
+            var exclusive_square = $('input[name="exclusive_square"]').val();
+            var building_type = $('input[name="building_type"]').val();
+            var move_type = $('input[name="move_type"]:checked').val();
+            var move_date = $('input[name="move_date"]').val();
+            var is_service = $('input[name="is_service"]').is(":checked");
+            var service_price = $('input[name="service_price"]').val();
+            var service_type = $('input[name="service_type[]"]:checked').length;
+            var loan_type = $('input[name="loan_type"]:checked').val();
+            var loan_price = $('input[name="loan_price"]').val();
+            var parking_type = $('input[name="parking_type"]:checked').val();
+            var parking_price = $('input[name="parking_price"]').val();
+
+
+            var checkConfirm = false;
+
+            if (type == 6) {
+                if (area != '' && square != '' && building_type != '' && (loan_type == 0 || (loan_type != 0 && loan_price !=
+                        ''))) {
+                    checkConfirm = true;
+                } else {
+                    checkConfirm = false;
+                }
+            } else {
+                if (area != '' && square != '' && approve_date != '' && building_type != '' &&
+                    (move_type != 2 || (move_type == 2 && move_date != '')) &&
+                    (is_service || is_service == false && service_price != '' && service_type > 0) &&
+                    (loan_type == 0 || (loan_type != 0 && loan_price != '')) &&
+                    (parking_type != 1 || (parking_type != 1 && parking_price != ''))) {
+
+                    checkConfirm = true;
+                    if (type == 7) {
+                        if (total_floor_area != '' && total_floor_square != '') {
+                            checkConfirm = true;
+                        } else {
+                            checkConfirm = false
+                        }
+                    }
+
+                } else {
+                    checkConfirm = false;
+                }
+            }
+
+            if (checkConfirm) {
+                $('.confirm').attr("disabled", false);
+            } else {
+                $('.confirm').attr("disabled", true);
+            }
         }
 
         // 평수 제곱 변환
@@ -392,19 +435,39 @@
             $('#' + square_name).val(convertedSquare.substr(0, decimalIndex));
         }
 
+        // 용도 선택
+        function buildingTypeSelect(buildingType) {
+
+            $('#building_type').val(buildingType);
+
+            inputCheck();
+        }
+
+        //입력란 열고 닫기
+        function showDiv(className, index) {
+            var tabContents = document.querySelectorAll('.' + className + '_wrap .' + className + '_item');
+            tabContents.forEach(function(content) {
+                content.classList.remove('active');
+            });
+            tabContents[index].classList.add('active');
+
+            inputCheck();
+        }
+
         //관리비 없음 체크여부
-        $('#is_service').click(function() {
+        $('input[name="is_service"]').change(function() {
             isService($(this).is(':checked'));
         });
 
         function isService(element) {
-            if ($(this).is(':checked')) {
-                $('#service_price').val('');
-                $('input[name="service_type"]').attr('disabled', true);
-                $('#service_price').attr('disabled', true);
+            $('input[name="service_price"]').val('');
+            $('input[name="service_type[]"]').prop("checked", false)
+            if (element) {
+                $('input[name="service_type[]"]').attr('disabled', true);
+                $('input[name="service_price"]').attr('disabled', true);
             } else {
-                $('#service_price').attr('disabled', false);
-                $('input[name="service_type"]').attr('disabled', false);
+                $('input[name="service_price"]').attr('disabled', false);
+                $('input[name="service_type[]"]').attr('disabled', false);
             }
         }
 
@@ -415,11 +478,13 @@
         });
 
         function loanType(element) {
+            $('#loan_price').val('');
             if (element == 0) {
                 $('input[name="loan_price"]').attr('disabled', true);
             } else {
                 $('input[name="loan_price"]').attr('disabled', false);
             }
+            inputCheck();
         }
 
         // 주차 가능 여부

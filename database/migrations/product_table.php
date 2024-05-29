@@ -34,8 +34,8 @@ return new class extends Migration
             $table->integer('floor_number')->nullable()->comment('해당 층');
             $table->integer('total_floor_number')->nullable()->comment('전체 층');
 
-            $table->integer('lowest_floor_number')->nullable()->comment('최저층');
-            $table->integer('top_floor_number')->nullable()->comment('최고층');
+            $table->string('lowest_floor_number')->nullable()->comment('최저층');
+            $table->string('top_floor_number')->nullable()->comment('최고층');
 
             $table->integer('area')->nullable()->comment('공급면적 -  타입이 3 또는 4일 경우 대지면적으로 사용 (단위 평)');
             $table->double('square', 10, 2)->nullable()->comment('공급면적 - 타입이 3 또는 4일 경우 대지면적으로 사용 (단위 제곱미터)');
