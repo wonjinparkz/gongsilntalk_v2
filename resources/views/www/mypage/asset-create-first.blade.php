@@ -309,24 +309,23 @@
     <!-- modal 가(임시)주소 검색 : e-->
 
     <!-- modal 주소 추가 할건지 안내 : s-->
-    <div class="modal modal_mid modal_address_add" width="300px;">
+    <div class="modal modal_address_add">
         <div class="modal_container">
-            <div class="t_center mt20 txt_normal" style="line-height: 1.8;">
-                등록 내역이 있는 주소 입니다.<br>
-                <div style="color:#F16341;">동일한 주소로 신규 부동산 등록을<br>진행하시겠습니까?</div>
+            <div class="modal_mss_wrap">
+                <p class="txt_item_1">등록 내역이 있는 주소 입니다.</p>
+                <p class="txt_item_1 txt_point">동일한 주소로 신규 부동산 등록을</p>
+                <p class="txt_item_1 txt_point">진행하시겠습니까?</p>
             </div>
-            <div class="t_center btn_half_wrap">
-                <button class="btn_basic btn_gray mt20" type="button"
-                    onclick="onAssetAddressDelete();">취소</button>
-                <button class="btn_basic btn_point mt20" type="button"
-                    onclick="modal_close('address_add')">등록
+
+            <div class="modal_btn_wrap">
+                <button class="btn_gray btn_full_thin" type="button" onclick="onAssetAddressDelete();">취소</button>
+                <button class="btn_point btn_full_thin" type="button" onclick="modal_close('address_add')">등록
                     진행</button>
             </div>
         </div>
     </div>
     <div class="md_overlay md_overlay_address_add" onclick="modal_close('address_add')"></div>
     <!-- modal 주소 추가 할건지 안내 : e-->
-
 
 </x-layout>
 
@@ -390,7 +389,7 @@
 
         // 임시 주소 여부 체크
         if (document.getElementById('temporary_address').checked == false) {
-            minusVal = 1;
+            minusVal = 2;
         } else {
             minusVal = 2;
         }
@@ -407,6 +406,7 @@
 
         checkVal -= minusVal;
 
+        console.log(checkVal);
         if (checkVal == 0) {
             document.getElementById('nextPageButton').disabled = false;
         } else {
