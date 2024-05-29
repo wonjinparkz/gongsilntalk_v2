@@ -121,7 +121,9 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::get('/mypage/product/recently/list', 'productRecentlyListView')->name('www.mypage.product.recently.list.view');
 
     // 내 자산 관리
+    Route::get('/my-asset/address/list', 'addressList')->name('www.my.address.list');
     Route::get('/mypage/service/list', 'serviceListView')->name('www.mypage.service.list.view');
+
     Route::get('/mypage/service/create-first', 'serviceFirstCreateView')->name('www.mypage.service.create.first.view');
     Route::get('/mypage/service/create-second', 'serviceSecondCreateView')->name('www.mypage.service.create.second.view');
     Route::get('/mypage/service/create-third', 'serviceThirdCreateView')->name('www.mypage.service.create.third.view');

@@ -308,6 +308,25 @@
     <div class="md_overlay md_overlay_address_search" onclick="modal_close('address_search')"></div>
     <!-- modal 가(임시)주소 검색 : e-->
 
+    <!-- modal 주소 추가 할건지 안내 : s-->
+    <div class="modal modal_mid modal_address_add" width="300px;">
+        <div class="modal_container">
+            <div class="t_center mt20 txt_normal" style="line-height: 1.8;">
+                등록 내역이 있는 주소 입니다.<br>
+                <div style="color:#F16341;">동일한 주소로 신규 부동산 등록을<br>진행하시겠습니까?</div>
+            </div>
+            <div class="t_center btn_half_wrap">
+                <button class="btn_basic btn_gray mt20" type="button"
+                    onclick="onAssetAddressDelete();">취소</button>
+                <button class="btn_basic btn_point mt20" type="button"
+                    onclick="modal_close('address_add')">등록
+                    진행</button>
+            </div>
+        </div>
+    </div>
+    <div class="md_overlay md_overlay_address_add" onclick="modal_close('address_add')"></div>
+    <!-- modal 주소 추가 할건지 안내 : e-->
+
 
 </x-layout>
 
@@ -441,36 +460,6 @@
         $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/common.css"]').remove();
         $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/map/addrlinkMap.css"]')
             .remove();
-    });
-
-    function confrim_check() {
-        var is_temporary = $('#temporary_address').is(':checked');
-        var is_address_no_1 = $('#address_no_1').is(':checked');
-        var is_address_no_2 = $('#address_no_2').is(':checked');
-
-        var region_code = $('#region_code').val();
-        var address = $('#address').val();
-        var address_detail = $('#address_detail').val();
-        var address_dong = $('#address_dong').val();
-        var address_number = $('#address_number').val();
-
-        if (is_temporary) {
-            if (region_code == '' || address == '' || address_number == '' || (!is_address_no_1 && address_dong ==
-                    '')) {
-                return $('.confirm').attr("disabled", true);
-            }
-        } else {
-            if (region_code == '' || address == '' || (!is_address_no_2 && address_detail ==
-                    '')) {
-                return $('.confirm').attr("disabled", true);
-            }
-        }
-
-        $('.confirm').attr("disabled", false);
-    }
-
-    $('input').on("change click", function() {
-        confrim_check();
     });
 
     function formSetting() {
@@ -618,7 +607,8 @@
         $('#address').val(address + ' 999-99');
         $('#region_address').val(address);
         $('#old_address').val(address);
-        confrim_check();
+
+        usersAddressList($('#region_code').val());
     }
 
     $('#address_no_1').click(function() {
@@ -672,36 +662,6 @@
             is_temporary_1.style.display = "none";
         }
     });
-
-    // //가(임시)주소 선택하기
-    // document.addEventListener("DOMContentLoaded", function() {
-    //     document.querySelectorAll('.label').forEach(function(label) {
-    //         label.addEventListener("click", function() {
-    //             var index = label.getAttribute("for").split("_")[1]; // 인덱스 추출
-    //             var regionInputId = "region_input_" + index;
-    //             var span = document.getElementById(regionInputId);
-    //             span.textContent = label.textContent; // 클릭된 라벨의 텍스트를 span에 입력
-    //         });
-    //     });
-    // });
-
-    // DOMContentLoaded 이벤트가 먼저 실행되므로,
-    // 이벤트 리스너를 사용하여 동적으로 생성된 요소에 대한 처리를 추가합니다.
-    // document.addEventListener("DOMContentLoaded", function() {
-    //     // 모든 라벨에 대한 클릭 이벤트 처리
-    //     document.addEventListener("click", function(event) {
-    //         var clickedElement = event.target; // 클릭된 요소를 가져옴
-
-    //         // 클릭된 요소가 라벨인 경우
-    //         if (clickedElement.classList.contains('label')) {
-    //             var forAttr = clickedElement.getAttribute("for"); // for 속성 값 가져오기
-    //             var index = forAttr.split("_")[1]; // 인덱스 추출
-    //             var regionInputId = "region_input_" + index;
-    //             var span = document.getElementById(regionInputId);
-    //             span.textContent = clickedElement.textContent; // 클릭된 라벨의 텍스트를 span에 입력
-    //         }
-    //     });
-    // });
 
     document.addEventListener("DOMContentLoaded", function() {
 
@@ -790,36 +750,6 @@
     function jusoCallBack(rtRoadFullAddr, rtAddrPart1, rtAddrDetail, rtAddrPart2, rtEngAddr, rtJibunAddr, rtZipNo,
         rtAdmCd, rtRnMgtSn, rtBdMgtSn, rtDetBdNmList, rtBdNm, rtBdKdcd, rtSiNm, rtSggNm, rtEmdNm, rtLiNm, rtRn,
         rtUdrtYn, rtBuldMnnm, rtBuldSlno, rtMtYn, rtLnbrMnnm, rtLnbrSlno, rtEmdNo, relJibun, rtentX, rtentY) {
-        // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
-
-        // console.log('RoadFullAddr:', rtRoadFullAddr);
-        // console.log('AddrPart1:', rtAddrPart1);
-        // console.log('AddrDetail:', rtAddrDetail);
-        // console.log('AddrPart2:', rtAddrPart2);
-        // console.log('EngAddr:', rtEngAddr);
-        // console.log('JibunAddr:', rtJibunAddr);
-        // console.log('ZipNo:', rtZipNo);
-        // console.log('AdmCd:', rtAdmCd);
-        // console.log('RnMgtSn:', rtRnMgtSn);
-        // console.log('BdMgtSn:', rtBdMgtSn);
-        // console.log('DetBdNmList:', rtDetBdNmList);
-        // console.log('BdNm:', rtBdNm);
-        // console.log('BdKdcd:', rtBdKdcd);
-        // console.log('SiNm:', rtSiNm);
-        // console.log('SggNm:', rtSggNm);
-        // console.log('EmdNm:', rtEmdNm);
-        // console.log('LiNm:', rtLiNm);
-        // console.log('Rn:', rtRn);
-        // console.log('UdrtYn:', rtUdrtYn);
-        // console.log('BuldMnnm:', rtBuldMnnm);
-        // console.log('BuldSlno:', rtBuldSlno);
-        // console.log('MtYn:', rtMtYn);
-        // console.log('LnbrMnnm:', rtLnbrMnnm);
-        // console.log('LnbrSlno:', rtLnbrSlno);
-        // console.log('EmdNo:', rtEmdNo);
-        // console.log('lJibun:', relJibun);
-        // console.log('entX:', rtentX);
-        // console.log('entY:', rtentY);
 
         $('#roadName').html('<span>도로명</span>' + rtAddrPart1);
         $('#jibunName').html('<span>지번</span>' + rtJibunAddr);
@@ -843,8 +773,8 @@
 
         console.log('주소 검색 끝!');
 
-        confrim_check();
         onFieldInputCheck();
+        usersAddressList($('#region_code').val());
     }
 
     // type1.좌표정보(GRS80, EPSG:5179)
@@ -853,5 +783,35 @@
             functionName: 'callJusoroMapApi',
             params: [rtentX, rtentY]
         }, '*');
+    }
+
+    function usersAddressList(code) {
+
+        $.ajax({
+            type: "GET",
+            url: "{{ route('www.my.address.list') }}",
+            data: {
+                'region_code': code
+            },
+            success: function(result) {
+                console.log(result.result);
+                if (result.result == null) {
+                    console.log('없어요');
+                } else {
+                    $('#asset_address_id').val(result.result.id);
+                    modal_open('address_add');
+                    console.log('있네여');
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("주소 목록을 불러오지 못했습니다.")
+            }
+        });
+    }
+
+    function onAssetAddressDelete() {
+        $('#asset_address_id').val('N');
+
+        modal_close('address_add');
     }
 </script>

@@ -204,6 +204,21 @@ class UserPcController extends Controller
     }
 
     /**
+     * 내 자산 주소 목록
+     */
+    public function addressList(Request $request)
+    {
+        $noticeList = AssetAddress::select();
+
+        $noticeList->where('users_id', Auth::guard('web')->user()->id);
+        $noticeList->where('region_code', $request->region_code);
+
+        $result = $noticeList->first();
+
+        return $this->sendResponse($result, '검색이 완료 되었습니다.');
+    }
+
+    /**
      * 내 자산관리 등록 1
      */
     public function serviceFirstCreateView(): View
