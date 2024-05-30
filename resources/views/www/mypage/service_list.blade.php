@@ -32,50 +32,58 @@
                                             class="w_100"></button>
                                 </div>
 
-                                <h1>350,234,156원</h1>
+                                <h1>{{ number_format($addressData->price) }}원</h1>
                                 <ul class="main_price_wrap">
-                                    <li>실투자금<p>952,356,124원</p>
+                                    <li>실투자금<p>{{ number_format($addressData->price - $addressData->loan_price) }}원</p>
                                     </li>
-                                    <li>월순수익<p>27,750,000원 <span>(14.08%)</span></p>
+                                    @php
+                                        $monthProfitPrice = 0;
+                                    @endphp
+                                    <li>월순수익<p id="monthProfit">27,750,000원 <span>(14.08%)</span></p>
                                     </li>
                                 </ul>
                                 <div class="detail_price_wrap simple_toggle_layer">
                                     <ul class="detail_price">
-                                        <li>임대 보증금<p>45,000,000원</p>
+                                        <li>임대 보증금<p>{{ number_format($addressData->check_price) }}원</p>
                                         </li>
-                                        <li>월임대료<p>29,750,000원</p>
-                                        </li>
-                                    </ul>
-                                    <hr>
-                                    <ul class="detail_price">
-                                        <li>총 대출금액<p>156,004,200원</p>
-                                        </li>
-                                        <li>총 대출이자<p>750,000원</p>
+                                        <li>월임대료<p>{{ number_format($addressData->month_price) }}원</p>
                                         </li>
                                     </ul>
                                     <hr>
                                     <ul class="detail_price">
-                                        <li>취득세<p>8,375,200원</p>
+                                        <li>총 대출금액<p>{{ number_format($addressData->loan_price) }}원</p>
                                         </li>
-                                        <li>기타비용<p>11,560,000원</p>
+                                        <li>총 대출이자<p>{{ number_format($addressData->loan_rate_price) }}원</p>
+                                        </li>
+                                    </ul>
+                                    <hr>
+                                    <ul class="detail_price">
+                                        <li>취득세<p>{{ number_format($addressData->price * 0.4) }}원</p>
+                                        </li>
+                                        <li>기타비용<p>
+                                                {{ number_format($addressData->etc_price) }}원
+                                            </p>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="ds_item_2">
                                 <div>임대 보증금</div>
-                                <div>45,000,000원</div>
+                                <div>{{ number_format($addressData->check_price) }}원</div>
                                 <div>월임대료</div>
-                                <div>29,750,000원</div>
+                                <div>{{ number_format($addressData->month_price) }}원</div>
                                 <div>총 대출금액</div>
-                                <div>156,004,200원</div>
+                                <div>{{ number_format($addressData->loan_price) }}원</div>
                                 <div>총 대출이자</div>
-                                <div>750,000원</div>
+                                <div>{{ number_format($addressData->loan_rate_price) }}원</div>
                                 <div>취득세</div>
-                                <div>8,375,200원</div>
+                                <div>{{ number_format($addressData->price * 0.4) }}원</div>
                                 <div>기타비용</div>
-                                <div>11,560,000원</div>
+                                <div>
+                                    {{ number_format($addressData->etc_price) }}원
+                                </div>
                             </div>
+
                         </div>
 
                         <div class="flex_between my_body_top only_pc">
@@ -145,6 +153,7 @@
                                                     $loanMonthPrice = $asset->month_price;
                                                 }
 
+                                                $monthProfitPrice += $loanMonthPrice;
                                                 $addRate = $loanMonthPrice / $asset->price;
                                             @endphp
                                             <tr class="cursor_pointer" onclick="location.href='my_asset_detail.html'">
@@ -168,6 +177,7 @@
                                             </tr>
                                         @endforeach
 
+
                                     </tbody>
                                 </table>
                             </div>
@@ -175,6 +185,15 @@
                         <!-- Only PC list : e -->
 
                     </div>
+
+                    @php
+                        $monthProfitRate = 0;
+                        $price_1 = isset($monthProfitPrice) ? $monthProfitPrice : 1;
+                        $price_2 = isset($addressData->price) ? $addressData->price : 1;
+                        $monthProfitRate = round($price_1 / $price_2, 2);
+                    @endphp
+
+
                     <!----------------------- m:: s ----------------------->
                     <div class="m_asset_reg only_m"
                         onclick="location.href='{{ route('www.mypage.service.create.first.view') }}'">
@@ -196,7 +215,9 @@
                                 @foreach ($address->asset as $key => $asset)
                                     @php
                                         if (isset($asset->loan_price)) {
-                                            $loanMonthPrice = $asset->loan_price / $asset->loan_period;
+                                            $loanMonthPrice =
+                                                (($asset->loan_price * ($asset->loan_rate / 100)) / 365) *
+                                                ($asset->loan_period * 30);
                                             $loanMonthPrice = $asset->month_price - $loanMonthPrice;
                                         } else {
                                             $loanMonthPrice = $asset->month_price;
@@ -265,6 +286,9 @@
 
     </div>
     <script>
+        document.getElementById('monthProfit').innerText =
+            "{{ number_format($monthProfitPrice) }}원 ({{ number_format($monthProfitRate) }}%)";
+
         // 평 변환
         function sizeChange(id) {
 
@@ -313,6 +337,7 @@
                     });
                     modal_close('asset_delete_' + id);
 
+                    location.reload();
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     alert("다시 시도해주세요.")
