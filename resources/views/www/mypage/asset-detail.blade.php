@@ -125,47 +125,55 @@
 
                             <h1>{{ number_format($result->price) }}원</h1>
                             <ul class="main_price_wrap">
-                                <li>실투자금<p>952,356,124원</p>
+                                <li>실투자금<p>{{ number_format($realPrice) }}원</p>
                                 </li>
-                                <li>월순수익<p>27,750,000원 <span>(14.08%)</span></p>
+                                <li>월순수익<p>{{ number_format($myPrice) }}원
+                                        <span>({{ round(($myPrice / $realPrice) * 100, 2) }}%)</span>
+                                    </p>
                                 </li>
                             </ul>
                             <div class="detail_price_wrap simple_toggle_layer">
                                 <ul class="detail_price">
-                                    <li>임대 보증금<p>45,000,000원</p>
+                                    <li>임대 보증금<p>{{ number_format($result->check_price) }}원</p>
                                     </li>
-                                    <li>월임대료<p>29,750,000원</p>
-                                    </li>
-                                </ul>
-                                <hr>
-                                <ul class="detail_price">
-                                    <li>대출금액<p>156,004,200원</p>
-                                    </li>
-                                    <li>대출이자<p class="txt_point">750,000원 <span class="gray_basic">금리 4.2%</span></p>
+                                    <li>월임대료<p>{{ number_format($result->month_price) }}원</p>
                                     </li>
                                 </ul>
                                 <hr>
                                 <ul class="detail_price">
-                                    <li>취득세<p>8,375,200원 <span class="gray_basic">(4.60%)</span></p>
+                                    <li>대출금액<p>{{ number_format($result->loan_price) }}원</p>
                                     </li>
-                                    <li>기타비용<p>11,560,000원</p>
+                                    <li>대출이자<p class="txt_point">
+                                            {{ number_format(($result->loan_price * ($result->loan_rate / 100)) / 12) }}원
+                                            <span class="gray_basic">금리 {{ $result->loan_rate }}%</span>
+                                        </p>
+                                    </li>
+                                </ul>
+                                <hr>
+                                <ul class="detail_price">
+                                    <li>취득세<p>{{ number_format($acquisition_tax_price) }}원 <span
+                                                class="gray_basic">({{ $result->acquisition_tax_rate }}%)</span></p>
+                                    </li>
+                                    <li>기타비용<p>{{ number_format($etc_price) }}원</p>
                                     </li>
                                 </ul>
 
-                                <div class="price_status_box">
-                                    <div class="status_item">
-                                        <p>평당</p>
-                                        <div><span class="status_item_blue">548만원 (10.7%)</span></div>
+                                @if ($result->type_detail == 0)
+                                    <div class="price_status_box">
+                                        <div class="status_item">
+                                            <p>평당</p>
+                                            <div><span class="status_item_blue">548만원 (10.7%)</span></div>
+                                        </div>
+                                        <div class="status_item">
+                                            <p>시세차익</p>
+                                            <div><span class="status_item_red">15,248만원</span></div>
+                                        </div>
+                                        <div class="status_item">
+                                            <p>양도세 납부 후 시세차익</p>
+                                            <div><span class="status_item_red">6,935만원</span></div>
+                                        </div>
                                     </div>
-                                    <div class="status_item">
-                                        <p>시세차익</p>
-                                        <div><span class="status_item_red">15,248만원</span></div>
-                                    </div>
-                                    <div class="status_item">
-                                        <p>양도세 납부 후 시세차익</p>
-                                        <div><span class="status_item_red">6,935만원</span></div>
-                                    </div>
-                                </div>
+                                @endif
                             </div>
 
                         </div>

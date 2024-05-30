@@ -146,15 +146,20 @@
                                     <tbody>
                                         @foreach ($address->asset as $key => $asset)
                                             @php
-                                                if (isset($asset->loan_price)) {
-                                                    $loanMonthPrice = $asset->loan_price / $asset->loan_period;
-                                                    $loanMonthPrice = $asset->month_price - $loanMonthPrice;
-                                                } else {
-                                                    $loanMonthPrice = $asset->month_price;
-                                                }
+                                                $acquisition_tax_price =
+                                                    $asset->price * ($asset->acquisition_tax_rate / 100);
+                                                $etc_price =
+                                                    $asset->etc_price + $asset->tax_price + $asset->estate_price;
+                                                $realPrice =
+                                                    $asset->price +
+                                                    $acquisition_tax_price +
+                                                    $etc_price -
+                                                    $asset->loan_price -
+                                                    $asset->check_price;
 
-                                                $monthProfitPrice += $loanMonthPrice;
-                                                $addRate = $loanMonthPrice / $asset->price;
+                                                $myPrice =
+                                                    $asset->month_price -
+                                                    ($asset->loan_price * ($asset->loan_rate / 100)) / 12;
                                             @endphp
                                             <tr class="cursor_pointer"
                                                 onclick="location.href='{{ route('www.mypage.service.detail.view', [$asset->id]) }}'">
@@ -175,10 +180,11 @@
                                                 </td>
                                                 <td>{{ number_format($asset->check_price) }}원</td>
                                                 <td>{{ number_format($asset->month_price) }}원</td>
-                                                <td><span
-                                                        class="txt_point">{{ number_format($loanMonthPrice) }}원</span>
+                                                <td><span class="txt_point">{{ number_format($myPrice) }}원</span>
                                                 </td>
-                                                <td><span class="txt_point">{{ round($addRate, 2) }}%</span></td>
+                                                <td><span
+                                                        class="txt_point">{{ round(($myPrice / $realPrice) * 100, 2) }}%</span>
+                                                </td>
                                                 <td><img src="{{ asset('assets/media/ic_list_arrow.png') }}"
                                                         class="w_8p">
                                                 </td>
@@ -222,16 +228,17 @@
                             <ul class="m_asset_list">
                                 @foreach ($address->asset as $key => $asset)
                                     @php
-                                        if (isset($asset->loan_price)) {
-                                            $loanMonthPrice =
-                                                (($asset->loan_price * ($asset->loan_rate / 100)) / 365) *
-                                                ($asset->loan_period * 30);
-                                            $loanMonthPrice = $asset->month_price - $loanMonthPrice;
-                                        } else {
-                                            $loanMonthPrice = $asset->month_price;
-                                        }
+                                        $acquisition_tax_price = $asset->price * ($asset->acquisition_tax_rate / 100);
+                                        $etc_price = $asset->etc_price + $asset->tax_price + $asset->estate_price;
+                                        $realPrice =
+                                            $asset->price +
+                                            $acquisition_tax_price +
+                                            $etc_price -
+                                            $asset->loan_price -
+                                            $asset->check_price;
 
-                                        $addRate = $loanMonthPrice / $asset->price;
+                                        $myPrice =
+                                            $asset->month_price - ($asset->loan_price * ($asset->loan_rate / 100)) / 12;
                                     @endphp
                                     <li class="accordion">
                                         <p class="trigger">
@@ -247,10 +254,10 @@
                                                     class="gray_deep">{{ number_format($asset->month_price) }}원</span>
                                             </div>
                                             <div class="list_detail_item">월순수익 <span
-                                                    class="txt_point">{{ number_format($loanMonthPrice) }}원</span>
+                                                    class="txt_point">{{ number_format($myPrice) }}원</span>
                                             </div>
                                             <div class="list_detail_item">수익률 <span
-                                                    class="txt_point">{{ round($addRate, 2) }}%</span>
+                                                    class="txt_point">{{ round(($myPrice / $realPrice) * 100, 2) }}%</span>
                                             </div>
                                             <button class="btn_graylight_ghost btn_sm_full mt10"
                                                 onclick="location.href='{{ route('www.mypage.service.detail.view', [$asset->id]) }}'">자세히보기</button>
