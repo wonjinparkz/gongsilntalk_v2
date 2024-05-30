@@ -156,9 +156,17 @@
                                                 $monthProfitPrice += $loanMonthPrice;
                                                 $addRate = $loanMonthPrice / $asset->price;
                                             @endphp
-                                            <tr class="cursor_pointer" onclick="location.href='my_asset_detail.html'">
+                                            <tr class="cursor_pointer"
+                                                onclick="location.href='{{ route('www.mypage.service.detail.view', [$asset->id]) }}'">
                                                 <td>{{ $key + 1 }}</td>
-                                                <td>{{ $asset->address_dong }} {{ $asset->address_detail }}</td>
+                                                @php
+                                                    $address_detail = isset($asset->address_dong)
+                                                        ? $asset->address_dong . '동 '
+                                                        : '';
+                                                    $address_detail .= $asset->address_detail . '호';
+                                                @endphp
+                                                <td>{{ $asset->is_temporary == 0 ? $address_detail : $asset->address_detail }}
+                                                </td>
                                                 <td>{{ Lang::get('commons.product_type.' . $asset->type_detail) }}</td>
                                                 <td class="square_{{ $address->id }}">{{ $asset->exclusive_square }}㎡
                                                 </td>
@@ -245,7 +253,7 @@
                                                     class="txt_point">{{ round($addRate, 2) }}%</span>
                                             </div>
                                             <button class="btn_graylight_ghost btn_sm_full mt10"
-                                                onclick="location.href='my_asset_detail.html'">자세히보기</button>
+                                                onclick="location.href='{{ route('www.mypage.service.detail.view', [$asset->id]) }}'">자세히보기</button>
                                         </div>
                                     </li>
                                 @endforeach
@@ -261,7 +269,7 @@
                     <div class="modal modal_asset_delete_{{ $address->id }}">
                         <div class="modal_container">
                             <div class="modal_mss_wrap">
-                                <p class="txt_item_1 txt_point">서울시 금천구 디지털로9길 41</p>
+                                <p class="txt_item_1 txt_point">{{ $address->address }}</p>
                                 <p class="txt_item_1">자산 목록을 삭제하시겠습니까?</p>
                                 <p class="mt8 txt_item_2">삭제 후에는 되돌릴 수 없습니다.</p>
                             </div>
