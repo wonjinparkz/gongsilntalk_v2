@@ -31,6 +31,7 @@ return new class extends Migration
             $table->integer('name_type')->comment('명의구분 0-단독명의, 1-공동명의');
             $table->integer('business_type')->comment('사업자 구분 0-개인사업자, 1-법인사업자, 2-개인');
 
+            $table->integer('tran_type')->nullable()->comment('거래 타입 0-매매, 1-분양권');
             $table->bigInteger('price')->nullable()->comment('매매 - 매매가, 분양권 - 분양가');
             $table->datetime('contracted_at')->nullable()->comment('계약일자');
             $table->datetime('registered_at')->nullable()->comment('등기일');

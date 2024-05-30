@@ -33,6 +33,7 @@ class Asset extends BaseModel
         'total_floor_square',
         'name_type',
         'business_type',
+        'tran_type',
         'price',
         'contracted_at',
         'registered_at',
@@ -74,4 +75,12 @@ class Asset extends BaseModel
         'started_at' => 'datetime',
         'ended_at' => 'datetime'
     ];
+
+    /**
+     * 자산 주소
+     */
+    public function asset_address()
+    {
+        return $this->hasOne(AssetAddress::class, 'id', 'asset_address_id');
+    }
 }
