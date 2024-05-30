@@ -14,6 +14,7 @@ use GuzzleHttp\Promise\Create;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
@@ -202,9 +203,23 @@ class UserPcController extends Controller
 
         $addressList = AssetAddress::with('asset')->select()->where('users_id', Auth::guard('web')->user()->id)->orderBy('id', 'desc')->get();
 
-        return view('www.mypage.service_list', compact('user', 'addressList'));
-    }
+        $addressData = Asset::select(
+            DB::raw('SUM(asset.price) AS price'),
+            DB::raw('SUM(asset.check_price) AS check_price'),
+            DB::raw('SUM(asset.month_price) AS month_price'),
+            DB::raw('SUM(asset.loan_price) AS loan_price'),
+            DB::raw('SUM(asset.etc_price +asset.tax_price+asset.estate_price) AS etc_price'),
+            DB::raw('SUM(IFNULL((loan_price*(loan_rate/100)/365) * (loan_period*30), 0)) AS loan_rate_price')
+        )
+            ->leftJoin('asset_address', function ($report) {
+                $report->on('asset_address.id', '=', 'asset.asset_address_id')
+                    ->where('asset_address.users_id', '=', Auth::guard('web')->user()->id);
+            })
+            ->where('asset_address.users_id', '=', Auth::guard('web')->user()->id)
+            ->first();
 
+        return view('www.mypage.service_list', compact('user', 'addressList', 'addressData'));
+    }
 
     /**
      * 내 자산 삭제
@@ -218,16 +233,27 @@ class UserPcController extends Controller
     }
 
     /**
+     * 내 자산 상세
+     */
+    public function serviceDetailView($id): View
+    {
+        $result = Asset::with('asset_address', 'images')->select()->where('id', $id)->first();
+
+        info($result);
+        return view('www.mypage.asset-detail', compact('result'));
+    }
+
+    /**
      * 내 자산 주소 목록
      */
     public function addressList(Request $request)
     {
-        $noticeList = AssetAddress::select();
+        $addressList = AssetAddress::select();
 
-        $noticeList->where('users_id', Auth::guard('web')->user()->id);
-        $noticeList->where('region_code', $request->region_code);
+        $addressList->where('users_id', Auth::guard('web')->user()->id);
+        $addressList->where('region_code', $request->region_code);
 
-        $result = $noticeList->first();
+        $result = $addressList->first();
 
         return $this->sendResponse($result, '검색이 완료 되었습니다.');
     }
@@ -308,6 +334,7 @@ class UserPcController extends Controller
             'name_type' => $request->name_type,
             'business_type' => $request->business_type,
 
+            'tran_type' => $request->secoundType,
             'price' => $request->price,
             'contracted_at' => isset($request->contracted_at) ? $this->integerToDate($request->contracted_at) : null,
             'registered_at' => isset($request->registered_at) ? $this->integerToDate($request->registered_at) : null,

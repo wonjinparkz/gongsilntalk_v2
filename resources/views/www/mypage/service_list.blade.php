@@ -32,50 +32,58 @@
                                             class="w_100"></button>
                                 </div>
 
-                                <h1>350,234,156원</h1>
+                                <h1>{{ number_format($addressData->price) }}원</h1>
                                 <ul class="main_price_wrap">
-                                    <li>실투자금<p>952,356,124원</p>
+                                    <li>실투자금<p>{{ number_format($addressData->price - $addressData->loan_price) }}원</p>
                                     </li>
-                                    <li>월순수익<p>27,750,000원 <span>(14.08%)</span></p>
+                                    @php
+                                        $monthProfitPrice = 0;
+                                    @endphp
+                                    <li>월순수익<p id="monthProfit">27,750,000원 <span>(14.08%)</span></p>
                                     </li>
                                 </ul>
                                 <div class="detail_price_wrap simple_toggle_layer">
                                     <ul class="detail_price">
-                                        <li>임대 보증금<p>45,000,000원</p>
+                                        <li>임대 보증금<p>{{ number_format($addressData->check_price) }}원</p>
                                         </li>
-                                        <li>월임대료<p>29,750,000원</p>
-                                        </li>
-                                    </ul>
-                                    <hr>
-                                    <ul class="detail_price">
-                                        <li>총 대출금액<p>156,004,200원</p>
-                                        </li>
-                                        <li>총 대출이자<p>750,000원</p>
+                                        <li>월임대료<p>{{ number_format($addressData->month_price) }}원</p>
                                         </li>
                                     </ul>
                                     <hr>
                                     <ul class="detail_price">
-                                        <li>취득세<p>8,375,200원</p>
+                                        <li>총 대출금액<p>{{ number_format($addressData->loan_price) }}원</p>
                                         </li>
-                                        <li>기타비용<p>11,560,000원</p>
+                                        <li>총 대출이자<p>{{ number_format($addressData->loan_rate_price) }}원</p>
+                                        </li>
+                                    </ul>
+                                    <hr>
+                                    <ul class="detail_price">
+                                        <li>취득세<p>{{ number_format($addressData->price * 0.4) }}원</p>
+                                        </li>
+                                        <li>기타비용<p>
+                                                {{ number_format($addressData->etc_price) }}원
+                                            </p>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="ds_item_2">
                                 <div>임대 보증금</div>
-                                <div>45,000,000원</div>
+                                <div>{{ number_format($addressData->check_price) }}원</div>
                                 <div>월임대료</div>
-                                <div>29,750,000원</div>
+                                <div>{{ number_format($addressData->month_price) }}원</div>
                                 <div>총 대출금액</div>
-                                <div>156,004,200원</div>
+                                <div>{{ number_format($addressData->loan_price) }}원</div>
                                 <div>총 대출이자</div>
-                                <div>750,000원</div>
+                                <div>{{ number_format($addressData->loan_rate_price) }}원</div>
                                 <div>취득세</div>
-                                <div>8,375,200원</div>
+                                <div>{{ number_format($addressData->price * 0.4) }}원</div>
                                 <div>기타비용</div>
-                                <div>11,560,000원</div>
+                                <div>
+                                    {{ number_format($addressData->etc_price) }}원
+                                </div>
                             </div>
+
                         </div>
 
                         <div class="flex_between my_body_top only_pc">
@@ -138,18 +146,32 @@
                                     <tbody>
                                         @foreach ($address->asset as $key => $asset)
                                             @php
-                                                if (isset($asset->loan_price)) {
-                                                    $loanMonthPrice = $asset->loan_price / $asset->loan_period;
-                                                    $loanMonthPrice = $asset->month_price - $loanMonthPrice;
-                                                } else {
-                                                    $loanMonthPrice = $asset->month_price;
-                                                }
+                                                $acquisition_tax_price =
+                                                    $asset->price * ($asset->acquisition_tax_rate / 100);
+                                                $etc_price =
+                                                    $asset->etc_price + $asset->tax_price + $asset->estate_price;
+                                                $realPrice =
+                                                    $asset->price +
+                                                    $acquisition_tax_price +
+                                                    $etc_price -
+                                                    $asset->loan_price -
+                                                    $asset->check_price;
 
-                                                $addRate = $loanMonthPrice / $asset->price;
+                                                $myPrice =
+                                                    $asset->month_price -
+                                                    ($asset->loan_price * ($asset->loan_rate / 100)) / 12;
                                             @endphp
-                                            <tr class="cursor_pointer" onclick="location.href='my_asset_detail.html'">
+                                            <tr class="cursor_pointer"
+                                                onclick="location.href='{{ route('www.mypage.service.detail.view', [$asset->id]) }}'">
                                                 <td>{{ $key + 1 }}</td>
-                                                <td>{{ $asset->address_dong }} {{ $asset->address_detail }}</td>
+                                                @php
+                                                    $address_detail = isset($asset->address_dong)
+                                                        ? $asset->address_dong . '동 '
+                                                        : '';
+                                                    $address_detail .= $asset->address_detail . '호';
+                                                @endphp
+                                                <td>{{ $asset->is_temporary == 0 ? $address_detail : $asset->address_detail }}
+                                                </td>
                                                 <td>{{ Lang::get('commons.product_type.' . $asset->type_detail) }}</td>
                                                 <td class="square_{{ $address->id }}">{{ $asset->exclusive_square }}㎡
                                                 </td>
@@ -158,15 +180,17 @@
                                                 </td>
                                                 <td>{{ number_format($asset->check_price) }}원</td>
                                                 <td>{{ number_format($asset->month_price) }}원</td>
-                                                <td><span
-                                                        class="txt_point">{{ number_format($loanMonthPrice) }}원</span>
+                                                <td><span class="txt_point">{{ number_format($myPrice) }}원</span>
                                                 </td>
-                                                <td><span class="txt_point">{{ round($addRate, 2) }}%</span></td>
+                                                <td><span
+                                                        class="txt_point">{{ round(($myPrice / $realPrice) * 100, 2) }}%</span>
+                                                </td>
                                                 <td><img src="{{ asset('assets/media/ic_list_arrow.png') }}"
                                                         class="w_8p">
                                                 </td>
                                             </tr>
                                         @endforeach
+
 
                                     </tbody>
                                 </table>
@@ -175,6 +199,15 @@
                         <!-- Only PC list : e -->
 
                     </div>
+
+                    @php
+                        $monthProfitRate = 0;
+                        $price_1 = isset($monthProfitPrice) ? $monthProfitPrice : 1;
+                        $price_2 = isset($addressData->price) ? $addressData->price : 1;
+                        $monthProfitRate = round($price_1 / $price_2, 2);
+                    @endphp
+
+
                     <!----------------------- m:: s ----------------------->
                     <div class="m_asset_reg only_m"
                         onclick="location.href='{{ route('www.mypage.service.create.first.view') }}'">
@@ -195,14 +228,17 @@
                             <ul class="m_asset_list">
                                 @foreach ($address->asset as $key => $asset)
                                     @php
-                                        if (isset($asset->loan_price)) {
-                                            $loanMonthPrice = $asset->loan_price / $asset->loan_period;
-                                            $loanMonthPrice = $asset->month_price - $loanMonthPrice;
-                                        } else {
-                                            $loanMonthPrice = $asset->month_price;
-                                        }
+                                        $acquisition_tax_price = $asset->price * ($asset->acquisition_tax_rate / 100);
+                                        $etc_price = $asset->etc_price + $asset->tax_price + $asset->estate_price;
+                                        $realPrice =
+                                            $asset->price +
+                                            $acquisition_tax_price +
+                                            $etc_price -
+                                            $asset->loan_price -
+                                            $asset->check_price;
 
-                                        $addRate = $loanMonthPrice / $asset->price;
+                                        $myPrice =
+                                            $asset->month_price - ($asset->loan_price * ($asset->loan_rate / 100)) / 12;
                                     @endphp
                                     <li class="accordion">
                                         <p class="trigger">
@@ -218,13 +254,13 @@
                                                     class="gray_deep">{{ number_format($asset->month_price) }}원</span>
                                             </div>
                                             <div class="list_detail_item">월순수익 <span
-                                                    class="txt_point">{{ number_format($loanMonthPrice) }}원</span>
+                                                    class="txt_point">{{ number_format($myPrice) }}원</span>
                                             </div>
                                             <div class="list_detail_item">수익률 <span
-                                                    class="txt_point">{{ round($addRate, 2) }}%</span>
+                                                    class="txt_point">{{ round(($myPrice / $realPrice) * 100, 2) }}%</span>
                                             </div>
                                             <button class="btn_graylight_ghost btn_sm_full mt10"
-                                                onclick="location.href='my_asset_detail.html'">자세히보기</button>
+                                                onclick="location.href='{{ route('www.mypage.service.detail.view', [$asset->id]) }}'">자세히보기</button>
                                         </div>
                                     </li>
                                 @endforeach
@@ -240,7 +276,7 @@
                     <div class="modal modal_asset_delete_{{ $address->id }}">
                         <div class="modal_container">
                             <div class="modal_mss_wrap">
-                                <p class="txt_item_1 txt_point">서울시 금천구 디지털로9길 41</p>
+                                <p class="txt_item_1 txt_point">{{ $address->address }}</p>
                                 <p class="txt_item_1">자산 목록을 삭제하시겠습니까?</p>
                                 <p class="mt8 txt_item_2">삭제 후에는 되돌릴 수 없습니다.</p>
                             </div>
@@ -265,6 +301,9 @@
 
     </div>
     <script>
+        document.getElementById('monthProfit').innerText =
+            "{{ number_format($monthProfitPrice) }}원 ({{ number_format($monthProfitRate) }}%)";
+
         // 평 변환
         function sizeChange(id) {
 
@@ -313,6 +352,7 @@
                     });
                     modal_close('asset_delete_' + id);
 
+                    location.reload();
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     alert("다시 시도해주세요.")

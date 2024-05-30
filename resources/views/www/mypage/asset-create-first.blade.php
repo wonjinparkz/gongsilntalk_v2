@@ -387,21 +387,16 @@
             }
         });
 
-        // 임시 주소 여부 체크
         if (document.getElementById('temporary_address').checked == false) {
-            minusVal = 2;
+            minusVal = 1;
+            if (document.getElementById('address_no_1').checked == true) {
+                minusVal = 2;
+            }
         } else {
             minusVal = 2;
-        }
-
-        // 동 정보 없는지 체크 || 임시 주소 여부 체크
-        if (document.getElementById('address_no_1').checked) {
-            minusVal += 1;
-        }
-
-        // 상세 주소 없는지 체크
-        if (document.getElementById('address_no_2').checked) {
-            minusVal += 1;
+            if (document.getElementById('address_no_2').checked == true) {
+                minusVal = 3;
+            }
         }
 
         checkVal -= minusVal;

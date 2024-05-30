@@ -33,6 +33,7 @@ class Asset extends BaseModel
         'total_floor_square',
         'name_type',
         'business_type',
+        'tran_type',
         'price',
         'contracted_at',
         'registered_at',
@@ -74,4 +75,41 @@ class Asset extends BaseModel
         'started_at' => 'datetime',
         'ended_at' => 'datetime'
     ];
+
+    /**
+     * 자산 주소
+     */
+    public function asset_address()
+    {
+        return $this->hasOne(AssetAddress::class, 'id', 'asset_address_id');
+    }
+
+    /**
+     * 매매 계약서 이미지 가져오기
+     */
+    public function sale_images()
+    {
+        return $this->morphOne(Images::class, 'target')->where('type', 0);
+    }
+    /**
+     * 사업자등록증 이미지 가져오기
+     */
+    public function entre_images()
+    {
+        return $this->morphOne(Images::class, 'target')->where('type', 1);
+    }
+    /**
+     * 임대차 계약서 이미지 가져오기
+     */
+    public function rental_images()
+    {
+        return $this->morphOne(Images::class, 'target')->where('type', 2);
+    }
+    /**
+     * 기타서류 이미지 가져오기
+     */
+    public function etc_images()
+    {
+        return $this->morphOne(Images::class, 'target')->where('type', 3);
+    }
 }
