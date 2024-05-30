@@ -96,11 +96,11 @@
 
                         <!-- Only PC list : s -->
                         @foreach ($addressList as $address)
-                            <div class="box_01 only_pc">
+                            <div class="box_01 only_pc addressBox{{ $address->id }}">
                                 <div class="asset_top_row">
                                     <h4>{{ $address->address }}</h4>
                                     <button class="btn_graylight_ghost btn_sm"
-                                        onclick="modal_open('asset_delete')">삭제</button>
+                                        onclick="modal_open('asset_delete_{{ $address->id }}')">삭제</button>
                                 </div>
                                 <p class="asset_row_total">총 {{ count($address->asset) }}개</p>
                                 <table class="table_basic mt10">
@@ -120,9 +120,13 @@
                                             <th>번호</th>
                                             <th>상세주소</th>
                                             <th>부동산 유형</th>
-                                            <th>전용면적 <button class="inner_change_button"><img
-                                                        src="{{ asset('assets/media/ic_change.png') }}">
-                                                    <span class="txt_unit">평</span></button></th>
+                                            <th>전용면적
+                                                <button class="inner_change_button sizeBtnEvent{{ $address->id }}"
+                                                    type="button" onclick="sizeChange('{{ $address->id }}');">
+                                                    <img src="{{ asset('assets/media/ic_change.png') }}">
+                                                    <span class="txt_unit sizeBtn{{ $address->id }}">평</span>
+                                                </button>
+                                            </th>
                                             <th>보증금</th>
                                             <th>월임대료 </th>
                                             <th>월순수익</th>
@@ -147,7 +151,11 @@
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $asset->address_dong }} {{ $asset->address_detail }}</td>
                                                 <td>{{ Lang::get('commons.product_type.' . $asset->type_detail) }}</td>
-                                                <td>{{ $asset->exclusive_square }}㎡</td>
+                                                <td class="square_{{ $address->id }}">{{ $asset->exclusive_square }}㎡
+                                                </td>
+                                                <td class="area_{{ $address->id }}" style="display:none;">
+                                                    {{ $asset->exclusive_area }}평
+                                                </td>
                                                 <td>{{ number_format($asset->check_price) }}원</td>
                                                 <td>{{ number_format($asset->month_price) }}원</td>
                                                 <td><span
@@ -175,12 +183,12 @@
                         <i><img src="{{ asset('assets/media/ic_list_arrow.png') }}"></i>
                     </div>
                     @foreach ($addressList as $address)
-                        <div class="m_asset_wrap only_m">
+                        <div class="m_asset_wrap only_m addressBox{{ $address->id }}">
                             <div>
                                 <div class="m_asset_top">
                                     <h5>{{ $address->address }}</h5>
                                     <button class="btn_graylight_ghost btn_sm"
-                                        onclick="modal_open('asset_delete')">삭제</button>
+                                        onclick="modal_open('asset_delete_{{ $address->id }}')">삭제</button>
                                 </div>
                                 <p class="asset_row_total">총 {{ count($address->asset) }}개</p>
                             </div>
@@ -228,22 +236,27 @@
                 <!-- my_body : e -->
 
                 <!-- modal 삭제 : s -->
-                <div class="modal modal_asset_delete">
-                    <div class="modal_container">
-                        <div class="modal_mss_wrap">
-                            <p class="txt_item_1 txt_point">서울시 금천구 디지털로9길 41</p>
-                            <p class="txt_item_1">자산 목록을 삭제하시겠습니까?</p>
-                            <p class="mt8 txt_item_2">삭제 후에는 되돌릴 수 없습니다.</p>
+                @foreach ($addressList as $address)
+                    <div class="modal modal_asset_delete_{{ $address->id }}">
+                        <div class="modal_container">
+                            <div class="modal_mss_wrap">
+                                <p class="txt_item_1 txt_point">서울시 금천구 디지털로9길 41</p>
+                                <p class="txt_item_1">자산 목록을 삭제하시겠습니까?</p>
+                                <p class="mt8 txt_item_2">삭제 후에는 되돌릴 수 없습니다.</p>
+                            </div>
+
+                            <div class="modal_btn_wrap">
+                                <button class="btn_gray btn_full_thin"
+                                    onclick="modal_close('asset_delete_{{ $address->id }}')">취소</button>
+                                <button class="btn_point btn_full_thin"
+                                    onclick="addressDelete('{{ $address->id }}')">삭제</button>
+                            </div>
                         </div>
 
-                        <div class="modal_btn_wrap">
-                            <button class="btn_gray btn_full_thin" onclick="modal_close('asset_delete')">취소</button>
-                            <button class="btn_point btn_full_thin" onclick="modal_close('asset_delete')">삭제</button>
-                        </div>
                     </div>
-
-                </div>
-                <div class="md_overlay md_overlay_asset_delete" onclick="modal_close('asset_delete')"></div>
+                    <div class="md_overlay md_overlay_asset_delete_{{ $address->id }}"
+                        onclick="modal_close('asset_delete_{{ $address->id }}')"></div>
+                @endforeach
                 <!-- modal 삭제 : e -->
 
             </div>
@@ -252,18 +265,60 @@
 
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const button = document.querySelector(".inner_change_button");
-            const unitSpan = button.querySelector(".txt_unit");
+        // 평 변환
+        function sizeChange(id) {
 
-            button.addEventListener("click", function() {
-                if (unitSpan.textContent === "평") {
-                    unitSpan.textContent = "㎡";
-                } else {
-                    unitSpan.textContent = "평";
+            let squareText = '';
+            let areaText = '';
+
+            const btnInfo = document.querySelector(".sizeBtn" + id);
+            const button = document.querySelector(".sizeBtnEvent" + id);
+
+
+            if (btnInfo.textContent === "평") {
+                btnInfo.textContent = "㎡";
+                squareText = 'none';
+                areaText = 'block';
+            } else {
+                btnInfo.textContent = "평";
+                squareText = 'block';
+                areaText = 'none';
+            }
+
+            const squareList = document.querySelectorAll(".square_" + id);
+            const areaList = document.querySelectorAll(".area_" + id);
+
+            squareList.forEach(element => {
+                element.style.display = squareText;
+            });
+            areaList.forEach(element => {
+                element.style.display = areaText;
+            });
+        }
+
+        // 주소 삭제
+        function addressDelete(id) {
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('www.mypage.service.delete') }}",
+                data: {
+                    'id': id
+                },
+                success: function(result) {
+                    const boxList = document.querySelectorAll(".addressBox" + id);
+
+                    boxList.forEach(element => {
+                        element.style.display = "none";
+                    });
+                    modal_close('asset_delete_' + id);
+
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("다시 시도해주세요.")
                 }
             });
-        });
+        }
     </script>
 
 </x-layout>

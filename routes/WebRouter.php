@@ -124,6 +124,7 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     // 내 자산 관리
     Route::get('/my-asset/address/list', 'addressList')->name('www.my.address.list');
     Route::get('/mypage/service/list', 'serviceListView')->name('www.mypage.service.list.view');
+    Route::post('/mypage/service/delete', 'addressDelete')->name('www.mypage.service.delete');
 
     Route::get('/mypage/service/create-first', 'serviceFirstCreateView')->name('www.mypage.service.create.first.view');
     Route::get('/mypage/service/create-second', 'serviceSecondCreateView')->name('www.mypage.service.create.second.view');

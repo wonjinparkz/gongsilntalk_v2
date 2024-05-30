@@ -205,6 +205,18 @@ class UserPcController extends Controller
         return view('www.mypage.service_list', compact('user', 'addressList'));
     }
 
+
+    /**
+     * 내 자산 삭제
+     */
+    public function addressDelete(Request $request)
+    {
+        $result = AssetAddress::select()->where('id', $request->id)->delete();
+        $result = Asset::select()->where('asset_address_id', $request->id)->delete();
+
+        return $this->sendResponse($result, '주소가 삭제 되었습니다.');
+    }
+
     /**
      * 내 자산 주소 목록
      */
