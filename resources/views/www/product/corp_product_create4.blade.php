@@ -1,6 +1,7 @@
 <x-layout>
-    <form class="find_form" method="POST" action="{{ route('www.corp.product.create.info.check') }}" name="create_check">
-        <input type="hidden" name="type" id="type" value="{{ $result['type'] = 13 }}">
+    <form class="find_form" method="POST" action="{{ route('www.corp.product.create.add.info.check') }}"
+        name="create_check">
+        <input type="hidden" name="type" id="type" value="{{ $result['type'] }}">
         <input type="hidden" name="payment_type" id="payment_type" value="{{ $result['payment_type'] }}">
         <input type="hidden" name="price" id="price" value="{{ $result['price'] }}">
         <input type="hidden" name="month_price" id="month_price" value="{{ $result['month_price'] ?? '' }}">
@@ -14,6 +15,7 @@
         <input type="hidden" name="premium_price" id="premium_price" value="{{ $result['premium_price'] ?? '' }}">
         <input type="hidden" name="approve_date" id="approve_date" value="{{ $result['approve_date'] ?? '' }}">
 
+        <input type="hidden" name="is_map" id="is_map" value="{{ $result['is_map'] ?? '' }}">
         <input type="hidden" name="address_lng" id="address_lng" value="{{ $result['address_lng'] ?? '' }}">
         <input type="hidden" name="address_lat" id="address_lat" value="{{ $result['address_lat'] ?? '' }}">
         <input type="hidden" name="region_code" id="region_code" value="{{ $result['region_code'] ?? '' }}">
@@ -23,37 +25,36 @@
         <input type="hidden" name="address_dong" id="address_dong" value="{{ $result['address_dong'] ?? '' }}">
         <input type="hidden" name="address_number" id="address_number" value="{{ $result['address_number'] ?? '' }}">
 
-        <input type="hidden" name ="floor_number" id="floor_number" value="{{ $result['floor_number'] ?? '' }}">
-        <input type="hidden" name ="total_floor_number" id="total_floor_number"
+        <input type="hidden" name="floor_number" id="floor_number" value="{{ $result['floor_number'] ?? '' }}">
+        <input type="hidden" name="total_floor_number" id="total_floor_number"
             value="{{ $result['total_floor_number'] ?? '' }}">
-        <input type="hidden" name ="lowest_floor_number" id="lowest_floor_number"
+        <input type="hidden" name="lowest_floor_number" id="lowest_floor_number"
             value="{{ $result['lowest_floor_number'] ?? '' }}">
-        <input type="hidden" name ="top_floor_number" id="top_floor_number"
+        <input type="hidden" name="top_floor_number" id="top_floor_number"
             value="{{ $result['top_floor_number'] ?? '' }}">
-        <input type="hidden" name ="area" id="area" value="{{ $result['area'] ?? '' }}">
-        <input type="hidden" name ="square" id="square" value="{{ $result['square'] ?? '' }}">
-        <input type="hidden" name ="total_floor_area" id="total_floor_area"
+        <input type="hidden" name="area" id="area" value="{{ $result['area'] ?? '' }}">
+        <input type="hidden" name="square" id="square" value="{{ $result['square'] ?? '' }}">
+        <input type="hidden" name="total_floor_area" id="total_floor_area"
             value="{{ $result['total_floor_area'] ?? '' }}">
-        <input type="hidden" name ="total_floor_square" id="total_floor_square"
+        <input type="hidden" name="total_floor_square" id="total_floor_square"
             value="{{ $result['total_floor_square'] ?? '' }}">
-        <input type="hidden" name ="exclusive_area" id="exclusive_area"
+        <input type="hidden" name="exclusive_area" id="exclusive_area"
             value="{{ $result['exclusive_area'] ?? '' }}">
-        <input type="hidden" name ="exclusive_square" id="exclusive_square"
+        <input type="hidden" name="exclusive_square" id="exclusive_square"
             value="{{ $result['exclusive_square'] ?? '' }}">
-        <input type="hidden" name ="approve_date" id="approve_date" value="{{ $result['approve_date'] ?? '' }}">
-        <input type="hidden" name ="building_type" id="building_type"
-            value="{{ $result['building_type'] ?? '' }}">
-        <input type="hidden" name ="move_type" id="move_type" value="{{ $result['move_type'] ?? '' }}">
-        <input type="hidden" name ="move_date" id="move_date" value="{{ $result['move_date'] ?? '' }}">
-        <input type="hidden" name ="is_service" id="is_service" value="{{ $result['is_service'] ?? '' }}">
-        <input type="hidden" name ="service_price" id="service_price"
-            value="{{ $result['service_price'] ?? '' }}">
-        <input type="hidden" name ="service_type" id="service_type" value="{{ $result['service_type'] ?? '' }}">
-        <input type="hidden" name ="loan_type" id="loan_type" value="{{ $result['loan_type'] ?? '' }}">
-        <input type="hidden" name ="loan_price" id="loan_price" value="{{ $result['loan_price'] ?? '' }}">
-        <input type="hidden" name ="parking_type" id="parking_type" value="{{ $result['parking_type'] ?? '' }}">
-        <input type="hidden" name ="parking_price" id="parking_price"
-            value="{{ $result['parking_price'] ?? '' }}">
+        <input type="hidden" name="approve_date" id="approve_date" value="{{ $result['approve_date'] ?? '' }}">
+        <input type="hidden" name="building_type" id="building_type" value="{{ $result['building_type'] ?? '' }}">
+        <input type="hidden" name="move_type" id="move_type" value="{{ $result['move_type'] ?? '' }}">
+        <input type="hidden" name="move_date" id="move_date" value="{{ $result['move_date'] ?? '' }}">
+        <input type="hidden" name="is_service" id="is_service" value="{{ $result['is_service'] ?? '' }}">
+        <input type="hidden" name="service_price" id="service_price" value="{{ $result['service_price'] ?? '' }}">
+        @foreach ($result['service_type'] ?? [] as $serviceType)
+            <input type="hidden" name="service_type[]" value="{{ $serviceType }}">
+        @endforeach
+        <input type="hidden" name="loan_type" id="loan_type" value="{{ $result['loan_type'] ?? '' }}">
+        <input type="hidden" name="loan_price" id="loan_price" value="{{ $result['loan_price'] ?? '' }}">
+        <input type="hidden" name="parking_type" id="parking_type" value="{{ $result['parking_type'] ?? '' }}">
+        <input type="hidden" name="parking_price" id="parking_price" value="{{ $result['parking_price'] ?? '' }}">
 
         @php
             $type = $result['type'];
@@ -229,7 +230,7 @@
 
                             @if (in_array($type, [0, 1, 2, 7]) || $type > 13)
                                 <div class="reg_item">
-                                    <label class="input_label">화물용 승강시설 <span class="txt_point">*</span></label>
+                                    <label class="input_label">화물용 승강시설 </label>
                                     <div class="btn_radioType mt18">
                                         <input type="radio" name="is_goods_elevator" id="is_goods_elevator_1"
                                             checked value="1">
@@ -489,14 +490,14 @@
                             <h4>옵션 정보</h4>
                             <div>
                                 <div class="reg_item">
-                                    <label class="input_label">옵션 여부</label>
+                                    <label class="input_label">옵션 여부 <span class="txt_point">*</span></label>
                                     <div class="btn_radioType">
                                         <input type="radio" name="is_option" id="is_option_1" value="1"
                                             checked>
-                                        <label for="is_option_1" onclick="showDiv('is_option', 0)">있음</label>
+                                        <label for="is_option_1">있음</label>
 
                                         <input type="radio" name="is_option" id="is_option_0" value="0">
-                                        <label for="is_option_0" onclick="showDiv('is_option', 1)">없음</label>
+                                        <label for="is_option_0">없음</label>
                                     </div>
                                     <div class="is_option_wrap">
                                         <div class="is_option_item open_key active">
@@ -506,7 +507,7 @@
                                                 <div class="checkbox_btn">
                                                     @for ($i = 0; $i < count(Lang::get('commons.option_facility')); $i++)
                                                         <input class="option_facility" type="checkbox"
-                                                            name="option[]" id="option_{{ $option_count }}"
+                                                            name="option_type[]" id="option_{{ $option_count }}"
                                                             value="{{ $option_count }}">
                                                         <label for="option_{{ $option_count }}">
                                                             {{ Lang::get('commons.option_facility.' . $option_count++) }}
@@ -520,7 +521,7 @@
                                                 <div class="checkbox_btn">
                                                     @for ($i = 0; $i < count(Lang::get('commons.option_security')); $i++)
                                                         <input class="option_security" type="checkbox"
-                                                            name="option[]" id="option_{{ $option_count }}"
+                                                            name="option_type[]" id="option_{{ $option_count }}"
                                                             value="{{ $option_count }}">
                                                         <label for="option_{{ $option_count }}">
                                                             {{ Lang::get('commons.option_security.' . $option_count++) }}
@@ -533,8 +534,8 @@
                                                 <div class="option_tit">주방</div>
                                                 <div class="checkbox_btn">
                                                     @for ($i = 0; $i < count(Lang::get('commons.option_kitchen')); $i++)
-                                                        <input class="option_kitchen" type="checkbox" name="option[]"
-                                                            id="option_{{ $option_count }}"
+                                                        <input class="option_kitchen" type="checkbox"
+                                                            name="option_type[]" id="option_{{ $option_count }}"
                                                             value="{{ $option_count }}">
                                                         <label for="option_{{ $option_count }}">
                                                             {{ Lang::get('commons.option_kitchen.' . $option_count++) }}
@@ -548,7 +549,7 @@
                                                 <div class="checkbox_btn">
                                                     @for ($i = 0; $i < count(Lang::get('commons.option_home_appliances')); $i++)
                                                         <input class="option_home_appliances" type="checkbox"
-                                                            name="option[]" id="option_{{ $option_count }}"
+                                                            name="option_type[]" id="option_{{ $option_count }}"
                                                             value="{{ $option_count }}">
                                                         <label for="option_{{ $option_count }}">
                                                             {{ Lang::get('commons.option_home_appliances.' . $option_count++) }}
@@ -562,7 +563,7 @@
                                                 <div class="checkbox_btn">
                                                     @for ($i = 0; $i < count(Lang::get('commons.option_furniture')); $i++)
                                                         <input class="option_furniture" type="checkbox"
-                                                            name="option[]" id="option_{{ $option_count }}"
+                                                            name="option_type[]" id="option_{{ $option_count }}"
                                                             value="{{ $option_count }}">
                                                         <label for="option_{{ $option_count }}">
                                                             {{ Lang::get('commons.option_furniture.' . $option_count++) }}
@@ -575,8 +576,8 @@
                                                 <div class="option_tit">기타</div>
                                                 <div class="checkbox_btn">
                                                     @for ($i = 0; $i < count(Lang::get('commons.option_etc')); $i++)
-                                                        <input class="option_etc" type="checkbox" name="option[]"
-                                                            id="option_{{ $option_count }}"
+                                                        <input class="option_etc" type="checkbox"
+                                                            name="option_type[]" id="option_{{ $option_count }}"
                                                             value="{{ $option_count }}">
                                                         <label for="option_{{ $option_count }}">
                                                             {{ Lang::get('commons.option_etc.' . $option_count++) }}
@@ -600,8 +601,7 @@
                         <button type="button" class="btn_full_basic btn_graylight_ghost"
                             onclick="location.href='realtor_estate_reg_3.html'">이전</button>
                         <!-- <button type="button" class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                        <button type="button" class="btn_full_basic btn_point"
-                            onclick="location.href='realtor_estate_reg_5.html'">다음</button>
+                        <button type="submit" class="btn_full_basic btn_point confirm" disabled>다음</button>
                     </div>
 
                 </div>
@@ -615,7 +615,52 @@
     <script>
         $(document).ready(function() {
             optionSetting($('#type').val());
+
+            inputCheck();
         });
+
+
+        $('input[type="text"]').on('keyup', function() {
+            inputCheck();
+        });
+        $('input[type="number"]').on('keyup', function() {
+            inputCheck();
+        });
+        $('input[type="checkbox"]').change(function() {
+            inputCheck();
+        });
+        $('input[type="radio"]').change(function() {
+            inputCheck();
+        });
+
+
+        function inputCheck() {
+            var room_count = $('input[name="room_count"]');
+            var bathroom_count = $('input[name="bathroom_count"]');
+            var is_option = $('input[name="is_option"]:checked').val();
+            var options_checked = $('input[name="option_type[]"]:checked').length;
+
+            var checkConfirm = false;
+
+            if (is_option == "1" && options_checked <= 0) {
+                checkConfirm = false;
+            } else if (room_count.length > 0) {
+                if (room_count.val() != '' && bathroom_count.val() != '') {
+                    checkConfirm = true;
+                } else {
+                    checkConfirm = false
+                }
+            } else {
+                checkConfirm = true;
+            }
+
+            console.log('checkConfirm : ', checkConfirm);
+            if (checkConfirm) {
+                $('.confirm').attr("disabled", false);
+            } else {
+                $('.confirm').attr("disabled", true);
+            }
+        }
 
         function optionSetting(type) {
             $('.option_row').hide();
@@ -695,13 +740,19 @@
             }
         }
 
-        //입력란 열고 닫기
-        function showDiv(className, index) {
-            var tabContents = document.querySelectorAll('.' + className + '_wrap .' + className + '_item');
-            tabContents.forEach(function(content) {
-                content.classList.remove('active');
-            });
-            tabContents[index].classList.add('active');
+        $('input[name="is_option"]').change(function() {
+            $('input[name="option_type[]"]').prop("checked", false)
+            if ($(this).val() == 1) {
+                $('.is_option_wrap').show();
+            } else {
+                $('.is_option_wrap').hide();
+            }
+        });
+
+        function selectType(name, index) {
+            $('input[name="' + name + '"]').val(index);
+
+            console.log($('input[name="' + name + '"]').val());
         }
     </script>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\product;
 
+use App\Exports\CorpProductExport;
 use App\Exports\ProductExport;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
@@ -83,8 +84,8 @@ class ProductController extends Controller
 
         $productList->whereHas('users', function ($query) use ($request) {
             // 사용자 이름
-            if (isset($request->name)) {
-                $query->where('users.name', 'like', "%{$request->name}%");
+            if (isset($request->company_name)) {
+                $query->where('users.company_name', 'like', "%{$request->company_name}%");
             }
         });
 
@@ -126,6 +127,18 @@ class ProductController extends Controller
         $result = Product::with('images', 'users', 'priceInfo', 'productAddInfo', 'productOptions', 'productServices')->where('id', $id)->first();
 
         return view('admin.product.product-detail', compact('result'));
+    }
+
+    /**
+     * 중개사 매물 상세 화면 보기
+     */
+    public function corpProductDetailView($id): View
+    {
+        $result = Product::with('images', 'users', 'priceInfo', 'productAddInfo', 'productOptions', 'productServices')->where('id', $id)->first();
+
+        $productCount = Product::where('is_delete', '0')->where('users_id', $result->users->id)->count();
+
+        return view('admin.product.corp_product-detail', compact('result', 'productCount'));
     }
 
 
@@ -436,5 +449,13 @@ class ProductController extends Controller
     public function exportProduct(Request $request)
     {
         return Excel::download(new ProductExport($request), '일반회원 매물_' . Carbon::now() . '.xlsx');
+    }
+
+    /**
+     * 일반회원 매물 정보 다운로드
+     */
+    public function exportCorpProduct(Request $request)
+    {
+        return Excel::download(new CorpProductExport($request), '중개사 매물_' . Carbon::now() . '.xlsx');
     }
 }

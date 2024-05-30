@@ -28,7 +28,6 @@
                             @else
                                 <img src="{{ asset('assets/media/default_user.png') }}" />
                             @endif
-
                         </div>
                     </div>
 

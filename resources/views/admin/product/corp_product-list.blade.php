@@ -15,30 +15,24 @@
                 </div>
             </div>
         </div>
-        {{-- 메인 내용 --}}
-        <form id="stateUpdate" action="{{ route('admin.product.state.update') }}" method="POST">
-            @csrf
-            <input type="hidden" name="id" value="" />
-            <input type="hidden" name="state" value="" />
-        </form>
 
         <div class="app-content flex-column-fluid">
             <div class="app-container container-xxl">
                 {{-- 검색 영역 --}}
                 <div class="card card-flush shadow-sm">
                     <form class="form card-body row border-top p-9 align-items-center" method="GET"
-                        action="{{ route('admin.product.list.view') }}">
+                        action="{{ route('admin.corp.product.list.view') }}">
                         @csrf
 
                         <input type="hidden" name="user_type" value="0">
 
-                        {{-- 등록자 이름 --}}
+                        {{-- 중개사무소명 --}}
                         <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">등록자 이름</label>
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">중개사무소 명</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" id="name" name="name"
-                                    class="form-control form-control-solid" placeholder="이름을 입력해 주세요."
-                                    value="{{ Request::get('name') }}" />
+                                <input type="text" id="company_name" name="company_name"
+                                    class="form-control form-control-solid" placeholder="중개사무소 명을 입력해 주세요."
+                                    value="{{ Request::get('company_name') }}" />
                             </div>
                         </div>
 
@@ -60,8 +54,6 @@
                                 <select name="state" class="form-select form-select-solid" data-control="select2"
                                     data-hide-search="true">
                                     <option value="" @if ($state < 0) selected @endif>전체
-                                    </option>
-                                    <option value="0" @if ($state == 0) selected @endif>등록 요청
                                     </option>
                                     <option value="1" @if ($state == 1) selected @endif>거래중
                                     </option>
@@ -121,7 +113,7 @@
 
                         <div class="d-flex justify-content-end mt-10">
                             <a class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical"
-                                href="{{ route('admin.product.export', Request::all()) }}" target="_blank">
+                                href="{{ route('admin.corp.product.export', Request::all()) }}" target="_blank">
                                 엑셀 다운로드</a>
                         </div>
                     </form>
@@ -142,12 +134,10 @@
                                     <th class="text-center">매물번호</th>
                                     <th class="text-center">매물상태</th>
                                     <th class="text-center min-w-250px">주소</th>
-                                    <th class="text-center">요청자 명</th>
+                                    <th class="text-center">중개사무소명</th>
                                     <th class="text-center">매물종류</th>
                                     <th class="text-center">거래 유형</th>
                                     <th class="text-center">등록일</th>
-                                    <th class="text-center">처리일</th>
-                                    <th class="text-center">동작</th>
                                 </tr>
                             </thead>
 
@@ -177,14 +167,14 @@
 
                                         {{-- 주소 --}}
                                         <td class="text-center">
-                                            <a href="{{ route('admin.product.detail.view', [$product->id]) }}"
+                                            <a href="{{ route('admin.corp.product.detail.view', [$product->id]) }}"
                                                 class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $product->address . ' ' . ($product->is_map == 1 ? $product->address_detail : $product->address_dong . ' ' . $product->address_number) }}</a>
                                         </td>
 
-                                        {{-- 요청자 명 --}}
+                                        {{-- 중개사 명 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                {{ $product->users->name }}
+                                                {{ $product->users->company_name }}
                                             </span>
                                         </td>
 
@@ -211,38 +201,6 @@
                                             </span>
                                         </td>
 
-                                        {{-- 처리일 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                @inject('carbon', 'Carbon\Carbon')
-                                                {{ $carbon::parse($product->updated_at)->format('Y.m.d') }}
-                                            </span>
-                                        </td>
-
-                                        {{-- 동작 : 수정, 삭제 --}}
-                                        <td class="text-center">
-                                            {{-- 동작 버튼 --}}
-                                            <a class="btn btn-sm btn-success btn-active-light-primary"
-                                                data-kt-menu-trigger="click"
-                                                data-kt-menu-placement="bottom-end">더보기</a>
-                                            {{-- 동작 메뉴 --}}
-                                            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
-                                                data-kt-menu="true">
-                                                {{-- 수정 --}}
-                                                <div class="menu-item px-3">
-                                                    @for ($i = 1; $i < count(Lang::get('commons.product_state')); $i++)
-                                                        @if ($product->state != $i)
-                                                            <a onclick="stateUpdate({{ $product->id }}, {{ $i }})"
-                                                                class="menu-link px-3">
-                                                                {{ Lang::get('commons.product_state.' . $i) }}
-                                                            </a>
-                                                        @endif
-                                                    @endfor
-                                                    </form>
-                                                </div>
-
-                                            </div>
-                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -265,48 +223,5 @@
             initDaterangepicker();
             initDaterangepicker2();
 
-            // 삭제 물음
-            function deleteAlert(id) {
-                Swal.fire({
-                    text: "삭제하시겠습니까?\n삭제후에는 되돌릴 수 없습니다!",
-                    icon: "question",
-                    dangerMode: true,
-                    buttonsStyling: false,
-                    showCancelButton: true,
-                    cancelButtonText: "취소",
-                    confirmButtonText: "확인",
-                    customClass: {
-                        confirmButton: "btn btn-danger",
-                        cancelButton: "btn btn-secondary"
-                    }
-                }).then(function(result) {
-                    if (result.value) {
-                        $('#deleteNotice' + id).submit();
-                    }
-                });
-            }
-
-            function stateUpdate(id, state) {
-
-                Swal.fire({
-                    text: "상태를 변경하시겠습니까?",
-                    icon: "question",
-                    dangerMode: true,
-                    buttonsStyling: false,
-                    showCancelButton: true,
-                    cancelButtonText: "취소",
-                    confirmButtonText: "확인",
-                    customClass: {
-                        confirmButton: "btn btn-danger",
-                        cancelButton: "btn btn-secondary"
-                    }
-                }).then(function(result) {
-                    if (result.value) {
-                        $('#stateUpdate input[name="id"]').val(id);
-                        $('#stateUpdate input[name="state"]').val(state);
-                        $('#stateUpdate').submit();
-                    }
-                });
-            }
         </script>
 </x-admin-layout>

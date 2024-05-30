@@ -7,7 +7,7 @@ use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromView;
 
-class ProductExport implements FromView
+class CorpProductExport implements FromView
 {
     use Exportable;
 
@@ -22,14 +22,15 @@ class ProductExport implements FromView
         $request = $this->request;
 
         $productList = Product::select()
-            ->where('product.user_type', '0')
-            ->where('product.is_delete', '=', '0');
+            ->where('product.is_delete', '0')
+            ->where('product.user_type', '1');
+
 
 
         $productList->whereHas('users', function ($query) use ($request) {
             // 사용자 이름
-            if (isset($request->name)) {
-                $query->where('users.name', 'like', "%{$request->name}%");
+            if (isset($request->company_name)) {
+                $query->where('users.company_name', 'like', "%{$request->company_name}%");
             }
         });
 
@@ -58,7 +59,7 @@ class ProductExport implements FromView
         // 정렬
         $productList->orderBy('product.created_at', 'desc')->orderBy('id', 'desc');
 
-        return view('exports.Product', [
+        return view('exports.CorpProduct', [
             'result' => $productList->get()
         ]);
     }

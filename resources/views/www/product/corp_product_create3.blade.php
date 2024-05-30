@@ -14,6 +14,7 @@
         <input type="hidden" name="premium_price" id="premium_price" value="{{ $result['premium_price'] ?? '' }}">
         <input type="hidden" name="approve_date" id="approve_date" value="{{ $result['approve_date'] ?? '' }}">
 
+        <input type="hidden" name="is_map" id="is_map" value="{{ $result['is_map'] ?? '' }}">
         <input type="hidden" name="address_lng" id="address_lng" value="{{ $result['address_lng'] ?? '' }}">
         <input type="hidden" name="address_lat" id="address_lat" value="{{ $result['address_lat'] ?? '' }}">
         <input type="hidden" name="region_code" id="region_code" value="{{ $result['region_code'] ?? '' }}">
@@ -389,7 +390,7 @@
                     (move_type != 2 || (move_type == 2 && move_date != '')) &&
                     (is_service || is_service == false && service_price != '' && service_type > 0) &&
                     (loan_type == 0 || (loan_type != 0 && loan_price != '')) &&
-                    (parking_type != 1 || (parking_type != 1 && parking_price != ''))) {
+                    (parking_type != 1 || (parking_type == 1 && parking_price != ''))) {
 
                     checkConfirm = true;
                     if (type == 7) {
@@ -493,6 +494,7 @@
         });
 
         function parkingType(element) {
+            $('input[name="parking_price"]').val('');
             if (element != 1) {
                 $('input[name="parking_price"]').attr('disabled', true);
             } else {

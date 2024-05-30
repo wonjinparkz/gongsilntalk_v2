@@ -2,6 +2,7 @@
 
     <form class="find_form" method="POST" action="{{ route('www.corp.product.create.address.check') }}"
         name="create_check">
+        {{$errors}}
         <input type="hidden" name="type" id="type" value="{{ $result['type'] }}">
         <input type="hidden" name="payment_type" id="payment_type" value="{{ $result['payment_type'] }}">
         <input type="hidden" name="price" id="price" value="{{ $result['price'] }}">
@@ -52,11 +53,11 @@
                                         onclick="modal_open('address_search')">가(임시)주소 검색</button>
                                 </div>
                                 <div class="mt8 gap_14">
-                                    <input type="checkbox" name="temporary_address" id="temporary_address"
-                                        value="Y">
-                                    <label for="temporary_address" class="gray_deep"><span></span> 가(임시)주소</label>
+                                    <input type="checkbox" name="is_map" id="is_map"
+                                        value="0">
+                                    <label for="is_map" class="gray_deep"><span></span> 가(임시)주소</label>
                                     <div id="is_unregistered" style="display: none">
-                                        <input type="checkbox" name="unregistered" id="unregistered" value="Y">
+                                        <input type="checkbox" name="unregistered" id="unregistered" value="1">
                                         <label for="unregistered" class="gray_deep"><span></span> 미등기</label>
                                     </div>
                                 </div>
@@ -64,7 +65,7 @@
                                 <div class="inner_item inner_map only_m mapOnlyMobile">
                                     <div id="mapWrap" class="mapWrap"
                                         style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
-                                    <div class="is_temporary_1" style="display: none">
+                                    <div class="is_map_1" style="display: none">
                                         가(임시)주소 선택시,<br>지도 노출이 불가능합니다.
                                     </div>
                                 </div>
@@ -82,8 +83,8 @@
                                             placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호">
                                     </div>
                                     <div class="mt8">
-                                        <input type="checkbox" name="address_no" id="address_no_2" value="Y">
-                                        <label for="address_no_2" class="gray_deep"><span></span> 상세주소 없음</label>
+                                        <input type="checkbox" name="is_address_detail" id="is_address_detail" value="1">
+                                        <label for="is_address_detail" class="gray_deep"><span></span> 상세주소 없음</label>
                                     </div>
                                 </div>
 
@@ -99,8 +100,8 @@
                                         </div>
                                     </div>
                                     <div class="mt8">
-                                        <input type="checkbox" name="address_no" id="address_no_1" value="Y">
-                                        <label for="address_no_1" class="gray_deep"><span></span> 동정보 없음</label>
+                                        <input type="checkbox" name="is_address_dong" id="is_address_dong" value="1">
+                                        <label for="is_address_dong" class="gray_deep"><span></span> 동정보 없음</label>
                                     </div>
                                 </div>
 
@@ -193,19 +194,6 @@
                 }
             }
 
-            $('#type').val(sessionStorage.getItem("typeSession"));
-            $('#payment_type').val(sessionStorage.getItem("payment_typeSession"));
-            $('#price').val(sessionStorage.getItem("priceSession"));
-            $('#month_price').val(sessionStorage.getItem("month_priceSession"));
-            $('#is_price_discussion').val(sessionStorage.getItem("is_price_discussionSession"));
-            $('#is_use').val(sessionStorage.getItem("is_useSession"));
-            $('#current_price').val(sessionStorage.getItem("current_priceSession"));
-            $('#current_month_price').val(sessionStorage.getItem("current_month_priceSession"));
-            $('#is_premium').val(sessionStorage.getItem("is_premiumSession"));
-            $('#premium_price').val(sessionStorage.getItem("premium_priceSession"));
-            $('#approve_date').val(sessionStorage.getItem("approve_dateSession"));
-
-
             var type = $('#type').val();
             // 매물 타입이 분양권일 경우 활성화
             if (type > 13) {
@@ -221,9 +209,9 @@
         });
 
         function confrim_check() {
-            var is_temporary = $('#temporary_address').is(':checked');
-            var is_address_no_1 = $('#address_no_1').is(':checked');
-            var is_address_no_2 = $('#address_no_2').is(':checked');
+            var is_map = $('#is_map').is(':checked');
+            var is_address_dong = $('#is_address_dong').is(':checked');
+            var is_address_detail = $('#is_address_detail').is(':checked');
 
             var region_code = $('#region_code').val();
             var address = $('#address').val();
@@ -231,13 +219,13 @@
             var address_dong = $('#address_dong').val();
             var address_number = $('#address_number').val();
 
-            if (is_temporary) {
-                if (region_code == '' || address == '' || address_number == '' || (!is_address_no_1 && address_dong ==
+            if (is_map) {
+                if (region_code == '' || address == '' || address_number == '' || (!is_address_dong && address_dong ==
                         '')) {
                     return $('.confirm').attr("disabled", true);
                 }
             } else {
-                if (region_code == '' || address == '' || (!is_address_no_2 && address_detail ==
+                if (region_code == '' || address == '' || (!is_address_detail && address_detail ==
                         '')) {
                     return $('.confirm').attr("disabled", true);
                 }
@@ -252,35 +240,16 @@
 
         function formSetting() {
 
-            var is_temporary = $('#temporary_address').is(':checked');
-            var is_address_no_1 = $('#address_no_1').is(':checked');
-            var is_address_no_2 = $('#address_no_2').is(':checked');
+            var is_map = $('#is_map').is(':checked');
+            var is_address_dong = $('#is_address_dong').is(':checked');
+            var is_address_detail = $('#is_address_detail').is(':checked');
 
-            if (is_temporary) {
+            if (is_map) {
                 $('#address_detail').val('')
             } else {
                 $('#address_dong').val('')
                 $('#address_number').val('')
             }
-
-            var address_lng = $('#address_lng').val();
-            var address_lat = $('#address_lat').val();
-            var region_code = $('#region_code').val();
-            var region_address = $('#region_address').val();
-            var address = $('#address').val();
-            var address_detail = $('#address_detail').val();
-            var address_dong = $('#address_dong').val();
-            var address_number = $('#address_number').val();
-
-            sessionStorage.setItem("address_lngSession", address_lng);
-            sessionStorage.setItem("address_latSession", address_lat);
-            sessionStorage.setItem("region_codeSession", region_code);
-            sessionStorage.setItem("region_addressSession", region_address);
-            sessionStorage.setItem("addressSession", address);
-
-            sessionStorage.setItem("address_dongSession", address_dong);
-            sessionStorage.setItem("address_numberSession", address_number);
-            sessionStorage.setItem("address_detailSession", address_detail);
 
             $('.find_form').submit();
         }
@@ -407,7 +376,7 @@
             confrim_check();
         }
 
-        $('#address_no_1').click(function() {
+        $('#is_address_dong').click(function() {
             if ($(this).is(':checked')) {
                 $('#address_dong').val('');
                 $('#address_dong').attr('disabled', true);
@@ -416,7 +385,7 @@
             }
         });
 
-        $('#address_no_2').click(function() {
+        $('#is_address_detail').click(function() {
             if ($(this).is(':checked')) {
                 $('#address_detail').val('');
                 $('#address_detail').attr('disabled', true);
@@ -427,13 +396,13 @@
 
 
         //가(임시)주소 클릭 이벤트
-        document.getElementById("temporary_address").addEventListener("change", function() {
+        document.getElementById("is_map").addEventListener("change", function() {
             var address_1 = document.querySelector(".detail_address_1");
             var address_2 = document.querySelector(".detail_address_2");
             var search_1 = document.querySelector(".search_address_1");
             var search_2 = document.querySelector(".search_address_2");
-            var is_temporary_0 = document.querySelector("#mapWrap");
-            var is_temporary_1 = document.querySelector(".is_temporary_1");
+            var is_map_0 = document.querySelector("#mapWrap");
+            var is_map_1 = document.querySelector(".is_map_1");
 
             $('#address').val('');
             $('#roadName').empty();
@@ -447,15 +416,15 @@
                 address_2.classList.add("active");
                 search_1.style.display = "none";
                 search_2.classList.add("active");
-                is_temporary_0.style.display = "none";
-                is_temporary_1.style.display = "block";
+                is_map_0.style.display = "none";
+                is_map_1.style.display = "block";
             } else {
                 address_1.style.display = "block";
                 address_2.classList.remove("active");
                 search_1.style.display = "block";
                 search_2.classList.remove("active");
-                is_temporary_0.style.display = "block";
-                is_temporary_1.style.display = "none";
+                is_map_0.style.display = "block";
+                is_map_1.style.display = "none";
             }
         });
 

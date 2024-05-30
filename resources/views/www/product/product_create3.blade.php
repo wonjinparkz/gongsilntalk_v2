@@ -24,6 +24,7 @@
         <input type="hidden" name="premium_price" id="premium_price" value="">
         <input type="hidden" name="approve_date" id="approve_date" value="">
 
+        <input type="hidden" name="is_map" id="is_map" value="">
         <input type="hidden" name="address_lng" id="address_lng" value="">
         <input type="hidden" name="address_lat" id="address_lat" value="">
         <input type="hidden" name="region_code" id="region_code" value="">
@@ -102,6 +103,7 @@
             $('#premium_price').val(sessionStorage.getItem("premium_priceSession"));
             $('#approve_date').val(sessionStorage.getItem("approve_dateSession"));
 
+            $('#is_map').val(sessionStorage.getItem("is_mapSession"));
             $('#address_lng').val(sessionStorage.getItem("address_lngSession"));
             $('#address_lat').val(sessionStorage.getItem("address_latSession"));
             $('#region_code').val(sessionStorage.getItem("region_codeSession"));

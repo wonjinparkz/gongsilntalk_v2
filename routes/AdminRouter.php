@@ -112,8 +112,8 @@ Route::middleware('admin.auth')->controller(BuildingledgerController::class)->gr
  */
 Route::middleware('admin.auth')->controller(ProductController::class)->group(function () {
     Route::get('/corp/product/list/view', 'corpProductListView')->name('admin.corp.product.list.view');
-    Route::get('/corp/product/detail/view/{id}', 'productDetailView')->name('admin.corp.product.detail.view');
-    Route::get('/corp/product/export', 'exportProduct')->name('admin.product.export');
+    Route::get('/corp/product/detail/view/{id}', 'corpProductDetailView')->name('admin.corp.product.detail.view');
+    Route::get('/corp/product/export', 'exportCorpProduct')->name('admin.corp.product.export');
 });
 
 /**

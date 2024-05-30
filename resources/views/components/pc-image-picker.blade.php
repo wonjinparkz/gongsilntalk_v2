@@ -1,4 +1,11 @@
-@props(['title' => '이미지', 'required' => '', 'cnt' => '5', 'id' => 'image', 'images' => []])
+@props([
+    'title' => '이미지',
+    'required' => '',
+    'cnt' => '5',
+    'id' => 'image',
+    'images' => [],
+    'inputCheck' => 'false',
+])
 
 <div class="cell">
     <button type="button">
@@ -83,6 +90,10 @@
             $(".img_add_wrap").append(image);
             {{ $id }}imageDropzone.removeFile(file);
             refreshFsLightbox();
+
+            if ({{ $inputCheck }} == true) {
+                inputCheck();
+            }
         }
     });
 
