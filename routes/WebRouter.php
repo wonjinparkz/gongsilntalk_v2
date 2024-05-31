@@ -136,7 +136,12 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::get('/mypage/service/create-fourth', 'serviceFourthCreateView')->name('www.mypage.service.create.fourth.view');
     Route::post('/mypage/service/create', 'serviceCreate')->name('www.mypage.service.create');
 
-    // 기업이전 제안서
+    Route::get('/mypage/service/update-first/{id}', 'serviceFirstUpdateView')->name('www.mypage.service.update.first.view');
+    Route::get('/mypage/service/update-second', 'serviceSecondUpdateView')->name('www.mypage.service.update.second.view');
+    Route::get('/mypage/service/update-third', 'serviceThirdUpdateView')->name('www.mypage.service.update.third.view');
+    Route::get('/mypage/service/update-fourth', 'serviceFourthUpdateView')->name('www.mypage.service.update.fourth.view');
+    Route::post('/mypage/service/update', 'serviceUpdate')->name('www.mypage.service.update');
+
     Route::get('/mypage/corp/proposal/list', 'corpProposalListView')->name('www.mypage.corp.proposal.list.view');
     Route::get('/mypage/proposal/list', 'proposalListView')->name('www.mypage.proposal.list.view');
 

@@ -215,7 +215,8 @@ class UserPcController extends Controller
             DB::raw('SUM(asset.month_price) AS month_price'),
             DB::raw('SUM(asset.loan_price) AS loan_price'),
             DB::raw('SUM(asset.etc_price +asset.tax_price+asset.estate_price) AS etc_price'),
-            DB::raw('SUM(IFNULL((loan_price*(loan_rate/100)/365) * (loan_period*30), 0)) AS loan_rate_price')
+            DB::raw('SUM(IFNULL(((asset.loan_price * (asset.loan_rate / 100)) / 12), 0)) AS loan_rate_price'),
+            DB::raw('SUM(IFNULL((asset.price * (asset.acquisition_tax_rate / 100)), 0)) AS acquisition_tax_price')
         )
             ->leftJoin('asset_address', function ($report) {
                 $report->on('asset_address.id', '=', 'asset.asset_address_id')
@@ -371,6 +372,52 @@ class UserPcController extends Controller
         $this->imageTypeWithCreate($request->etc_image_ids, Asset::class, $result->id, 3);
 
         return Redirect::route('www.mypage.service.list.view')->with('message', "자산이 등록 되었습니다.");
+    }
+
+    /**
+     * 내 자산관리 수정 1
+     */
+    public function serviceFirstUpdateView($id): View
+    {
+        $result = Asset::with('asset_address')->select()->where('id', $id)->first();
+
+        return view('www.mypage.asset-update-first', compact('result'));
+    }
+
+    /**
+     * 내 자산관리 수정 2
+     */
+    public function serviceSecondUpdateView(Request $request): View
+    {
+        info($request);
+
+        $result = Asset::with('asset_address')->select()->where('id', $request->id)->first();
+
+        return view('www.mypage.asset-update-second', compact('request', 'result'));
+    }
+
+    /**
+     * 내 자산관리 수정 3
+     */
+    public function serviceThirdUpdateView(Request $request): View
+    {
+        info($request);
+
+        $result = Asset::with('asset_address')->select()->where('id', $request->id)->first();
+
+        return view('www.mypage.asset-update-third', compact('request', 'result'));
+    }
+
+    /**
+     * 내 자산관리 수정 4
+     */
+    public function serviceFourthUpdateView(Request $request): View
+    {
+        info($request);
+
+        $result = Asset::with('asset_address')->select()->where('id', $request->id)->first();
+
+        return view('www.mypage.asset-update-fourth', compact('request', 'result'));
     }
 
     public function integerToDate($int)

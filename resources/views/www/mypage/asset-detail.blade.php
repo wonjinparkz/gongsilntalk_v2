@@ -45,7 +45,8 @@
 
                     <h1>{{ $result->is_temporary == 0 ? $address_detail : $result->address_detail }}</h1>
                     <div class="gap_8">
-                        <button class="btn_point btn_sm">수정</button>
+                        <button class="btn_point btn_sm" type="button"
+                            onclick="location.href='{{ route('www.mypage.service.update.first.view', [$result->id]) }}'">수정</button>
                         <button class="btn_graylight_ghost btn_sm">삭제</button>
                     </div>
                 </div>
