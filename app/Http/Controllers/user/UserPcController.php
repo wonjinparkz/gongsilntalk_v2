@@ -368,6 +368,52 @@ class UserPcController extends Controller
         return Redirect::route('www.mypage.service.list.view')->with('message', "자산이 등록 되었습니다.");
     }
 
+    /**
+     * 내 자산관리 수정 1
+     */
+    public function serviceFirstUpdateView($id): View
+    {
+        $result = Asset::with('asset_address')->select()->where('id', $id)->first();
+
+        return view('www.mypage.asset-update-first', compact('result'));
+    }
+
+    /**
+     * 내 자산관리 수정 2
+     */
+    public function serviceSecondUpdateView(Request $request): View
+    {
+        info($request);
+
+        $result = Asset::with('asset_address')->select()->where('id', $request->id)->first();
+
+        return view('www.mypage.asset-update-second', compact('request', 'result'));
+    }
+
+    /**
+     * 내 자산관리 수정 3
+     */
+    public function serviceThirdUpdateView(Request $request): View
+    {
+        info($request);
+
+        $result = Asset::with('asset_address')->select()->where('id', $request->id)->first();
+
+        return view('www.mypage.asset-update-third', compact('request', 'result'));
+    }
+
+    /**
+     * 내 자산관리 수정 4
+     */
+    public function serviceFourthUpdateView(Request $request): View
+    {
+        info($request);
+
+        $result = Asset::with('asset_address')->select()->where('id', $request->id)->first();
+
+        return view('www.mypage.asset-update-fourth', compact('request', 'result'));
+    }
+
     public function integerToDate($int)
     {
         $date = substr($int, 0, 4) . '-' . substr($int, 4, 2) . '-' . substr($int, 6, 2);
