@@ -77,7 +77,7 @@
                                 <div>총 대출이자</div>
                                 <div>{{ number_format($addressData->loan_rate_price) }}원</div>
                                 <div>취득세</div>
-                                <div>{{ number_format($addressData->price * 0.4) }}원</div>
+                                <div>{{ number_format($addressData->acquisition_tax_price) }}원</div>
                                 <div>기타비용</div>
                                 <div>
                                     {{ number_format($addressData->etc_price) }}원

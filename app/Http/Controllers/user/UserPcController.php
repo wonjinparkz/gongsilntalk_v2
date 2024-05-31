@@ -209,7 +209,8 @@ class UserPcController extends Controller
             DB::raw('SUM(asset.month_price) AS month_price'),
             DB::raw('SUM(asset.loan_price) AS loan_price'),
             DB::raw('SUM(asset.etc_price +asset.tax_price+asset.estate_price) AS etc_price'),
-            DB::raw('SUM(IFNULL((loan_price*(loan_rate/100)/365) * (loan_period*30), 0)) AS loan_rate_price')
+            DB::raw('SUM(IFNULL(((asset.loan_price * (asset.loan_rate / 100)) / 12), 0)) AS loan_rate_price'),
+            DB::raw('SUM(IFNULL((asset.price * (asset.acquisition_tax_rate / 100)), 0)) AS acquisition_tax_price')
         )
             ->leftJoin('asset_address', function ($report) {
                 $report->on('asset_address.id', '=', 'asset.asset_address_id')
