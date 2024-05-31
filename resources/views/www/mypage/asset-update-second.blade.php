@@ -8,7 +8,7 @@
     </div>
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="body">
-        <form method="get" action="{{ route('www.mypage.service.create.third.view') }}">
+        <form method="get" action="{{ route('www.mypage.service.update.third.view') }}">
             @php
                 $data = $request->all();
 
@@ -39,6 +39,7 @@
                                         <label class="input_label">매매가 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="price_0" name="price_0"
+                                                value="{{ $result->tran_type == 0 ? $result->price : '' }}"
                                                 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                                 onkeyup="onTextChangeEvent('price', 0);">
                                             <span>원</span>
@@ -49,6 +50,7 @@
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="contracted_at_0" name="contracted_at_0"
                                                 placeholder="예) 20230101"
+                                                value="{{ $result->tran_type == 0 ? $result->contracted_at : '' }}"
                                                 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                                 onkeyup="onDateChangeEvent('contracted_at', 0);">
                                         </div>
@@ -60,6 +62,7 @@
                                         <label class="input_label">취득세율 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
                                             <input type="number" id="acquisition_tax_rate_0" step=0.01
+                                                value="{{ $result->tran_type == 0 ? $result->acquisition_tax_rate : '' }}"
                                                 name="acquisition_tax_rate_0" placeholder="소수점 두자리까지 입력"> <span>%</span>
                                         </div>
                                     </div>
@@ -67,6 +70,7 @@
                                         <label class="input_label">기타비용</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="etc_price_0" name="etc_price_0"
+                                                value="{{ $result->tran_type == 0 ? $result->etc_price : '' }}"
                                                 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                                 onkeyup="onTextChangeEvent('etc_price', 0);">
                                             <span>원</span>
@@ -79,6 +83,7 @@
                                         <label class="input_label">세무비용</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="tax_price_0" name="tax_price_0"
+                                                value="{{ $result->tran_type == 0 ? $result->tax_price : '' }}"
                                                 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                                 onkeyup="onTextChangeEvent('tax_price', 0);">
                                             <span>원</span>
@@ -88,6 +93,7 @@
                                         <label class="input_label">부동산수수료</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="estate_price_0" name="estate_price_0"
+                                                value="{{ $result->tran_type == 0 ? $result->estate_price : '' }}"
                                                 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                                 onkeyup="onTextChangeEvent('estate_price', 0);">
                                             <span>원</span>
@@ -103,6 +109,7 @@
                                         <label class="input_label">분양가 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="price_1" name="price_1"
+                                                value="{{ $result->tran_type == 1 ? $result->price : '' }}"
                                                 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                                 onkeyup="onTextChangeEvent('price', 1);">
                                             <span>원</span>
@@ -134,7 +141,7 @@
                                     <div class="reg_item">
                                         <label class="input_label">취득세율 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
-                                            <input type="number" id="acquisition_tax_rate_1"  step=0.01
+                                            <input type="number" id="acquisition_tax_rate_1" step=0.01
                                                 name="acquisition_tax_rate_1" placeholder="소수점 두자리까지 입력">
                                             <span>%</span>
                                         </div>
@@ -186,6 +193,7 @@
                                 <label class="input_label">대출금액</label>
                                 <div class="flex_1 flex_between">
                                     <input type="text" id="loan_price_0" name="loan_price_0"
+                                        value="{{ $result->loan_price }}"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                         onkeyup="onTextChangeEvent('loan_price', 0);"> <span>원</span>
                                 </div>
@@ -193,8 +201,8 @@
                             <div class="reg_item">
                                 <label class="input_label">대출금리</label>
                                 <div class="flex_1 flex_between">
-                                    <input type="text" id="loan_rate" name="loan_rate"
-                                        placeholder="소수점 두자리까지 입력"> <span>%</span>
+                                    <input type="text" id="loan_rate" name="loan_rate" step=0.01
+                                        value="{{ $result->loan_rate }}" placeholder="소수점 두자리까지 입력"> <span>%</span>
                                 </div>
                             </div>
                         </div>
@@ -204,7 +212,7 @@
                                 <label class="input_label">대출기간 </label>
                                 <div class="flex_1 flex_between">
                                     <input type="number" max="12" min="0" id="loan_period"
-                                        name="loan_period"> <span>개월</span>
+                                        value="{{ $result->loan_period }}" name="loan_period"> <span>개월</span>
                                 </div>
                             </div>
                             <div class="reg_item">
@@ -222,16 +230,20 @@
                             <div class="">
                                 <label class="input_label">대출방식 </label>
                                 <div class="btn_radioType mt8">
-                                    <input type="radio" name="loan_type" id="loan_type_1" value="0">
+                                    <input type="radio" name="loan_type" id="loan_type_1" value="0"
+                                        {{ $result->loan_type == 0 ? 'checked' : '' }}>
                                     <label for="loan_type_1">해당없음</label>
 
-                                    <input type="radio" name="loan_type" id="loan_type_2" value="1" checked>
+                                    <input type="radio" name="loan_type" id="loan_type_2" value="1"
+                                        {{ $result->loan_type == 1 ? 'checked' : '' }}>
                                     <label for="loan_type_2">원리금균등분할</label>
 
-                                    <input type="radio" name="loan_type" id="loan_type_3" value="2">
+                                    <input type="radio" name="loan_type" id="loan_type_3" value="2"
+                                        {{ $result->loan_type == 2 ? 'checked' : '' }}>
                                     <label for="loan_type_3">원금균등상환</label>
 
-                                    <input type="radio" name="loan_type" id="loan_type_4" value="3">
+                                    <input type="radio" name="loan_type" id="loan_type_4" value="3"
+                                        {{ $result->loan_type == 3 ? 'checked' : '' }}>
                                     <label for="loan_type_4">만기상환</label>
                                 </div>
                             </div>
@@ -251,20 +263,49 @@
             </div>
             <!-- my_body : e -->
 
-            <input type="hidden" id="price" name="price" value="">
-            <input type="hidden" id="etc_price" name="etc_price" value="">
-            <input type="hidden" id="tax_price" name="tax_price" value="">
-            <input type="hidden" id="estate_price" name="estate_price" value="">
-            <input type="hidden" id="contracted_at" name="contracted_at" value="">
+            @php
+                $contracted_at = explode(' ', $result->contracted_at);
+                $contracted_at = preg_replace('/[^0-9]*/s', '', $contracted_at[0]);
 
-            <input type="hidden" id="loan_price" name="loan_price" value="">
-            <input type="hidden" id="loaned_at" name="loaned_at" value="">
+                $registered_at = explode(' ', $result->registered_at);
+                $registered_at = preg_replace('/[^0-9]*/s', '', $registered_at[0]);
 
-            <input type="hidden" id="secoundType" name="secoundType" value="">
+                $loaned_at = explode(' ', $result->loaned_at);
+                $loaned_at = preg_replace('/[^0-9]*/s', '', $loaned_at[0]);
+            @endphp
+
+            <input type="hidden" id="price" name="price" value="{{ $result->price }}">
+            <input type="hidden" id="etc_price" name="etc_price" value="{{ $result->etc_price }}">
+            <input type="hidden" id="tax_price" name="tax_price" value="{{ $result->tax_price }}">
+            <input type="hidden" id="estate_price" name="estate_price" value="{{ $result->estate_price }}">
+            <input type="hidden" id="contracted_at" name="contracted_at" value="{{ $contracted_at }}">
+            <input type="hidden" id="registered_at" name="registered_at" value="{{ $registered_at }}">
+
+            <input type="hidden" id="loan_price" name="loan_price" value="{{ $result->loan_price }}">
+            <input type="hidden" id="loaned_at" name="loaned_at" value="{{ $loaned_at }}">
+
+            <input type="hidden" id="secoundType" name="secoundType" value="{{ $result->tran_type }}">
         </form>
     </div>
 
     <script>
+        window.onload = () => {
+            let priceArray = ['price', 'etc_price', 'tax_price', 'estate_price'];
+
+            priceArray.forEach(element => {
+                $(`#${element}_{{ $result->tran_type }}`).val(numberToKorean(parseInt($(
+                    `#${element}_{{ $result->tran_type }}`).val())));
+            });
+
+            $(`#loan_price_0`).val(numberToKorean(parseInt($(`#loan_price`).val())));
+
+            $(`#contracted_at_{{ $result->tran_type }}`).val(numberToDate(parseInt($('#contracted_at').val())));
+            $(`#registered_at_{{ $result->tran_type }}`).val(numberToDate(parseInt($('#registered_at').val())));
+            $(`#loaned_at_0`).val(numberToDate(parseInt($('#loaned_at').val())));
+
+            onFieldInputCheck();
+        }
+
         let tabIndex = 0;
 
         // 매매 / 분양권 인덱스 변경
@@ -336,6 +377,13 @@
                     $('#' + name + '_' + index).val(numberToDate(parseInt($('#' + name).val())));
                 }
             }, 3000);
+        }
+
+        // 날짜 초기화
+        function onDateInit(string) {
+            let date = new Date(string);
+
+            return date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate();
         }
 
         //기본 토글 이벤트

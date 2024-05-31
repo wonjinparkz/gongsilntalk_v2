@@ -9,7 +9,7 @@
     <!----------------------------- m::header bar : s ----------------------------->
 
     <div class="body">
-        <form method="post" action="{{ route('www.mypage.service.create') }}">
+        <form method="post" action="">
             @php
                 $data = $request->all();
 
@@ -34,67 +34,8 @@
                             <x-service-create-image-picker :title="'임대차계약서'" id="rental" cnt="1" />
 
                             <x-service-create-image-picker :title="'기타서류'" id="etc" cnt="1" />
-
-
-                            {{-- <li>
-                                <div class="document_area">
-                                    <div class="document_img_reg">
-                                        <img src="{{ asset('assets/media/download_sample_1.png') }}">
-                                    </div>
-                                    <div class="document_name_wrap">
-                                        <p>매매계약서</p>
-                                        <p class="document_name"><span>KakaoTalk_20230323_0907263812542</span>.png</p>
-                                    </div>
-                                </div>
-                                <div class="gap_8">
-                                    <button class="btn_graylight_ghost btn_sm" type="button">업로드</button>
-                                    <button class="btn_graylight_ghost btn_sm">삭제</button>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="document_area">
-                                    <div class="document_img_reg"></div>
-                                    <div>
-                                        <p>사업자등록증</p>
-                                        <p class="mt8 gray_basic fs_13">png 또는 jpg 업로드</p>
-                                    </div>
-                                </div>
-                                <div class="gap_8">
-                                    <button class="btn_graylight_ghost btn_sm">업로드</button>
-                                    <button class="btn_graylight_ghost btn_sm">삭제</button>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="document_area">
-                                    <div class="document_img_reg"></div>
-                                    <div>
-                                        <p>임대차계약서</p>
-                                        <p class="mt8 gray_basic fs_13">png 또는 jpg 업로드</p>
-                                    </div>
-                                </div>
-                                <div class="gap_8">
-                                    <button class="btn_graylight_ghost btn_sm">업로드</button>
-                                    <button class="btn_graylight_ghost btn_sm">삭제</button>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="document_area">
-                                    <div class="document_img_reg"></div>
-                                    <div>
-                                        <p>기타 서류</p>
-                                        <p class="mt8 gray_basic fs_13">png 또는 jpg 업로드</p>
-                                    </div>
-                                </div>
-                                <div class="gap_8">
-                                    <button class="btn_graylight_ghost btn_sm">업로드</button>
-                                    <button class="btn_graylight_ghost btn_sm">삭제</button>
-                                </div>
-                            </li> --}}
                         </ul>
-
-
                     </div>
-
 
                     <div class="step_btn_wrap">
                         <button class="btn_full_basic btn_graylight_ghost" type="button"

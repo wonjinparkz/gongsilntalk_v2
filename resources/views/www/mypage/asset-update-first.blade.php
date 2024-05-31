@@ -11,7 +11,9 @@
     <div class="body">
 
         <form method="get" action="{{ route('www.mypage.service.update.second.view') }}" id="update_form"
-            name="create_form">
+            name="update_form">
+
+            <input type="hidden" id="id" name="id" value="{{ $result->id }}">
 
             <!-- my_body : s -->
             <div class="inner_mid_wrap m_inner_wrap mid_body">
@@ -306,9 +308,11 @@
             </div>
             <!-- my_body : e -->
 
-            <input type="hidden" id="is_temporary" name="is_temporary" value="0">
-            <input type="hidden" id="is_unregistered" name="is_unregistered" value="0">
-            <input type="hidden" id="type" name="type" value="0">
+            <input type="hidden" id="is_temporary" name="is_temporary"
+                value="{{ $result->asset_address->is_temporary }}">
+            <input type="hidden" id="is_unregistered" name="is_unregistered"
+                value="{{ $result->asset_address->is_unregistered }}">
+            <input type="hidden" id="type" name="type" value="{{ $result->type }}">
         </form>
     </div>
 
@@ -404,7 +408,7 @@
             $('#is_unregistered').val(1);
         }
 
-        var form = document.create_form;
+        var form = document.update_form;
         form.submit();
     }
 
