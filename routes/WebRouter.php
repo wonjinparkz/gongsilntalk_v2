@@ -78,7 +78,7 @@ Route::controller(UserAuthPcController::class)->group(function () {
 
 // 일반회원 매물
 Route::middleware('pc.auth')->controller(ProductPcController::class)->group(function () {
-    Route::get('/product/create/view', 'productCreateView')->name('www.proposal.');
+    Route::get('/product/create/view', 'productCreateView')->name('www.product.create.view');
     Route::get('/product/create2/view', 'productCreate2View')->name('www.product.create2.view');
     Route::get('/product/create3/view', 'productCreate3View')->name('www.product.create3.view');
     Route::post('/product/create/type/check', 'productCreateTypeCheck')->name('www.product.create.type.check');
@@ -88,7 +88,7 @@ Route::middleware('pc.auth')->controller(ProductPcController::class)->group(func
 
 // 중개사 매물
 Route::middleware('pc.auth')->controller(ProductPcController::class)->group(function () {
-    Route::get('/corp/product/create/view', 'corpProductCreateView')->name('www.corp.proposal.');
+    Route::get('/corp/product/create/view', 'corpProductCreateView')->name('www.corp.product.create.view');
     Route::get('/corp/product/create2/view', 'corpProductCreate2View')->name('www.corp.product.create2.view');
     Route::get('/corp/product/create3/view', 'corpProductCreate3View')->name('www.corp.product.create3.view');
     Route::get('/corp/product/create4/view', 'corpProductCreate4View')->name('www.corp.product.create4.view');
