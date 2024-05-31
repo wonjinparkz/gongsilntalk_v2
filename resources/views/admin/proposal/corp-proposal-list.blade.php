@@ -138,7 +138,7 @@
                                         <td class="text-center">
                                             <a href="{{ route('admin.corp.proposal.detail.view', [$corpProposal->id]) }}"
                                                 class="text-gray-800 text-hover-primary fs-5 fw-bold">
-                                                {{ $corpProposal->title }}
+                                                {{ $corpProposal->corp_name }}
                                             </a>
                                         </td>
 

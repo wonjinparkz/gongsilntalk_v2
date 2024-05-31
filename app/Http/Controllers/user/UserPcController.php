@@ -7,6 +7,7 @@ use App\Models\Asset;
 use App\Models\AssetAddress;
 use App\Models\CalculatorRevenue;
 use App\Models\Community;
+use App\Models\CorpProposal;
 use App\Models\Product;
 use App\Models\SiteProduct;
 use App\Models\User;
@@ -179,7 +180,7 @@ class UserPcController extends Controller
     }
 
     /**
-     * 기업 이전 제안서
+     * 기업 이전 제안서 리스트
      */
     public function corpProposalListView(): View
     {
@@ -188,7 +189,12 @@ class UserPcController extends Controller
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
-        return view('www.mypage.corpProposal_list', compact('user'));
+        $proposalList = CorpProposal::with('users')->select()
+            ->where('users_id', Auth::guard('web')->user()->id)
+            ->where('is_delete', '0')
+            ->get();
+
+        return view('www.mypage.corpProposal_list', compact('user', 'proposalList'));
     }
 
     /**

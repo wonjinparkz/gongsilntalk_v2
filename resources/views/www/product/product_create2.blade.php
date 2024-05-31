@@ -463,7 +463,6 @@
 
         document.addEventListener("DOMContentLoaded", function() {
 
-
             // 초기 텍스트 배열
             var initialTexts = ["시/도", "시/군/구", "읍/면/동", "리"];
 

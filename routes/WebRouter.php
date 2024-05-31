@@ -8,6 +8,7 @@ use App\Http\Controllers\commons\VerificationController;
 use App\Http\Controllers\community\CommunityPcController;
 use App\Http\Controllers\main\MainPcController;
 use App\Http\Controllers\product\ProductPcController;
+use App\Http\Controllers\proposal\ProposalPcController;
 use App\Http\Controllers\terms\TermsController;
 use App\Http\Controllers\user\UserPcController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,7 @@ Route::controller(MainPcController::class)->group(function () {
  * 회원 인증
  */
 Route::controller(UserAuthPcController::class)->group(function () {
+    Route::get('/map', 'map')->name('www.map.map');
 
     // 로그인
     Route::middleware('pc.check')->get('/login', 'loginView')->name('www.login.login');
@@ -76,7 +78,7 @@ Route::controller(UserAuthPcController::class)->group(function () {
 
 // 일반회원 매물
 Route::middleware('pc.auth')->controller(ProductPcController::class)->group(function () {
-    Route::get('/product/create/view', 'productCreateView')->name('www.product.create.view');
+    Route::get('/product/create/view', 'productCreateView')->name('www.proposal.');
     Route::get('/product/create2/view', 'productCreate2View')->name('www.product.create2.view');
     Route::get('/product/create3/view', 'productCreate3View')->name('www.product.create3.view');
     Route::post('/product/create/type/check', 'productCreateTypeCheck')->name('www.product.create.type.check');
@@ -86,7 +88,7 @@ Route::middleware('pc.auth')->controller(ProductPcController::class)->group(func
 
 // 중개사 매물
 Route::middleware('pc.auth')->controller(ProductPcController::class)->group(function () {
-    Route::get('/corp/product/create/view', 'corpProductCreateView')->name('www.corp.product.create.view');
+    Route::get('/corp/product/create/view', 'corpProductCreateView')->name('www.corp.proposal.');
     Route::get('/corp/product/create2/view', 'corpProductCreate2View')->name('www.corp.product.create2.view');
     Route::get('/corp/product/create3/view', 'corpProductCreate3View')->name('www.corp.product.create3.view');
     Route::get('/corp/product/create4/view', 'corpProductCreate4View')->name('www.corp.product.create4.view');
@@ -134,8 +136,11 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::get('/mypage/service/create-fourth', 'serviceFourthCreateView')->name('www.mypage.service.create.fourth.view');
     Route::post('/mypage/service/create', 'serviceCreate')->name('www.mypage.service.create');
 
+    // 기업이전 제안서
     Route::get('/mypage/corp/proposal/list', 'corpProposalListView')->name('www.mypage.corp.proposal.list.view');
     Route::get('/mypage/proposal/list', 'proposalListView')->name('www.mypage.proposal.list.view');
+
+
     Route::get('/mypage/calculator/revenue/list', 'calculatorRevenueListView')->name('www.mypage.calculator.revenue.list.view');
     Route::get('/mypage/calculator/loan/list', 'calculatorLoanListView')->name('www.mypage.calculator.loan.list.view');
     Route::get('/mypage/my/info', 'myInfoView')->name('www.mypage.my.info');
@@ -148,7 +153,13 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::post('/mypage/calculator/revenue/delete', 'calculatorRevenueDelete')->name('www.calculator.revenue.delete');
 });
 
-
+Route::middleware('pc.auth')->controller(ProposalPcController::class)->group(function () {
+    Route::post('/corp/proposal/create', 'corpProposalCreate')->name('www.corp.proposal.create');
+    Route::get('/corp/proposal/product/create/{id}', 'corpProposalProductCreateView')->name('www.corp.proposal.product.create.view');
+    Route::get('/corp/proposal/product/create2', 'corpProposalProductCreate2View')->name('www.corp.proposal.product.create2.view');
+    Route::get('/mypage/corp/proposalproduct/list/{id}', 'corpProposalProductListView')->name('www.mypage.corp.proposalproduct.list.view');
+    Route::post('/corp/proposal/product/create/type/check', 'corpProposalProductCreateTypeCheck')->name('www.corp.proposal.product.create.type.check');
+});
 
 /**
  * 이용약관
@@ -164,6 +175,8 @@ Route::controller(PasswordResetController::class)->group(function () {
     Route::get('/password/reset/view', 'passwordResetView')->name('password.reset.view');
     Route::get('/password/expire', 'passwordExpireView')->name('password.expire.view');
     Route::post('/password/reset', 'passwordReset')->name('password.reset');
+    Route::post('/password/user/check', 'passwordUserCheck')->name('password.user.check');
+    Route::post('/password/change', 'passwordChange')->name('password.change');
 });
 
 /**

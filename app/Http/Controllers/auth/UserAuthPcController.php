@@ -22,6 +22,10 @@ use Laravel\Socialite\Facades\Socialite;
 
 class UserAuthPcController extends Controller
 {
+    public function map(): View
+    {
+        return view('www.map.map');
+    }
     public function loginView(): View
     {
         return view('www.login.login');
