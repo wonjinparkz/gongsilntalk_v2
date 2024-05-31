@@ -831,25 +831,25 @@
         var valueMax = document.querySelector("#item_1_max");
         var item1txt = document.querySelector("#item_1_txt");
 
-        noUiSlider.create(slider, {
-            start: [0, 100],
-            connect: true,
-            range: {
-                "min": 0,
-                "max": 100
-            }
-        });
+        // noUiSlider.create(slider, {
+        //     start: [0, 100],
+        //     connect: true,
+        //     range: {
+        //         "min": 0,
+        //         "max": 100
+        //     }
+        // });
 
-        slider.noUiSlider.on("update", function(values, handle) {
-            if (values[0] < 0 || values[1] > 99) {
-                item1txt.innerHTML = "전체";
-            } else {
-                valueMin.innerHTML = values[0];
-                valueMax.innerHTML = values[1];
-                item1txt.innerHTML = "<span id='kt_slider_basic_min'>" + values[0] +
-                    "원</span> ~ <span id='kt_slider_basic_max'>" + values[1] + "원</span>";
-            }
-        });
+        // slider.noUiSlider.on("update", function(values, handle) {
+        //     if (values[0] < 0 || values[1] > 99) {
+        //         item1txt.innerHTML = "전체";
+        //     } else {
+        //         valueMin.innerHTML = values[0];
+        //         valueMax.innerHTML = values[1];
+        //         item1txt.innerHTML = "<span id='kt_slider_basic_min'>" + values[0] +
+        //             "원</span> ~ <span id='kt_slider_basic_max'>" + values[1] + "원</span>";
+        //     }
+        // });
     </script>
 
 

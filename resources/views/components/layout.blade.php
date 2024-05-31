@@ -49,8 +49,10 @@
 
 </body>
 
-<x-footer-layout>
-</x-footer-layout>
+@if (!str_contains(Route::currentRouteName(), 'www.map'))
+    <x-footer-layout>
+    </x-footer-layout>
+@endif
 
 
 </html>
