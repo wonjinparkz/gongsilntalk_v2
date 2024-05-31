@@ -14,6 +14,7 @@
     <!--내부 기본 CSS : 내부에서 생성한 CSS만 사용-->
     <link rel="stylesheet" href="{{ asset('assets/css/reset.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/common.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/common_responsive.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/user_style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style_responsive.css') }}">
@@ -21,6 +22,7 @@
 
     <!--외부 CSS : 외부 모듈에서 제공된 CSS만 사용-->
     <link rel="stylesheet" href="{{ asset('assets/css/swiper-bundle.min.css') }}">
+    <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
 
     <!--내부 기본 JS : 내부에서 생성한 JS 경우만 사용 하며. 이를 사용하기 위한 라이브러만사용(jquery.js) -->
     <script src="{{ asset('assets/js/jquery-1.12.4.min.js') }}"></script>
