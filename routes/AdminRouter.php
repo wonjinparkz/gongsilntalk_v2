@@ -332,7 +332,7 @@ Route::middleware('admin.auth')->controller(AdminController::class)->group(funct
  * 데이터 수집
  */
 Route::controller(DataController::class)->group(function () {
-    Route::get('/data/apt', 'getApt');
+    Route::get('/data/apt', 'getApt')->name('data.apt');
 });
 
 /**

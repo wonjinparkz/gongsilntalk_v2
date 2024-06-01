@@ -71,6 +71,18 @@
 
     var hostUrl = "assets/";
 
+    var isMobile = {
+            Android: function() {
+                return navigator.userAgent.match(/Chrome/) == null ? false : true;
+            },
+            iOS: function() {
+                return navigator.userAgent.match(/iPhone|iPad|iPod/i) == null ? false : true;
+            },
+            any: function() {
+                return (isMobile.Android() || isMobile.iOS());
+            }
+        };
+
     // 공통 메세지 출력
     @if (session('message') != null)
         toastr.options = {

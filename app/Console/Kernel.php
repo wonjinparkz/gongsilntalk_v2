@@ -15,9 +15,9 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('app:get-apt-info')->everyMinute();
 
-        // $schedule->call(function () {
+        $schedule->call(function () {
 
-        // })->everyMinute();
+        })->everyMinute();
     }
 
     /**

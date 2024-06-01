@@ -1,8 +1,8 @@
 <x-layout>
 
-    <form class="find_form" method="POST" action="{{ route('www.corp.proposal.product.create.type.check') }}"
+    <form class="find_form" method="POST" action="{{ route('www.corp.proposal.product.create.info.check') }}"
         name="create_check">
-        <input type="hidden" name="payment_type" id="payment_type" value="">
+        <input type="hidden" name="payment_type" id="payment_type" value="0">
         <input type="hidden" name="price" id="price" value="">
         <input type="hidden" name="month_price" id="month_price" value="">
 
@@ -40,7 +40,7 @@
                                             <label class="input_label">매매(전매)가 <span class="txt_point">*</span>
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="text" name="price_0" placeholder="매매(전매)가"
+                                                <input type="number" name="price_0" placeholder="매매(전매)가"
                                                     class="w_input_150">
                                                 <span>원</span>
                                             </div>
@@ -48,7 +48,7 @@
                                         <div class="reg_item">
                                             <label class="input_label">프리미엄</label>
                                             <div class="flex_1 mt10">
-                                                <input type="text" name="premium_price" placeholder="프리미엄"
+                                                <input type="number" name="premium_price" placeholder="프리미엄"
                                                     class="w_input_150">
                                                 <span>원</span>
                                             </div>
@@ -60,7 +60,7 @@
                                             <label class="input_label">취득세율 <span class="txt_point">*</span>
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="text" name="acquisition_tax" placeholder="소수점 두자리까지만 입력"
+                                                <input type="number" name="acquisition_tax" placeholder="소수점 두자리까지만 입력"
                                                     class="w_input_150" onkeyup="imsi(this)">
                                                 <span>%</span>
                                             </div>
@@ -70,7 +70,7 @@
                                                 지원금액<span class="gray_basic">(인테리어 등)</span>
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="text" name="support_price" placeholder="지원금액"
+                                                <input type="number" name="support_price" placeholder="지원금액"
                                                     class="w_input_150">
                                                 <span>원</span>
                                             </div>
@@ -82,7 +82,7 @@
                                                 기타비용<span class="gray_basic">(세무비용,부동산수수료,기타비용)</span>
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="text" name="etc_price" placeholder="기타비용"
+                                                <input type="number" name="etc_price" placeholder="기타비용"
                                                     class="w_input_150">
                                                 <span>원</span>
                                             </div>
@@ -97,7 +97,7 @@
                                                 대출 가능률1 <span class="txt_point">*</span>
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="text" name="loan_rate_one" placeholder="예) 80"
+                                                <input type="number" name="loan_rate_one" placeholder="예) 80"
                                                     class="w_input_150">
                                                 <span>%</span>
                                             </div>
@@ -107,7 +107,7 @@
                                                 대출 가능률2 <span class="txt_point">*</span>
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="text" name="loan_rate_two" placeholder="예) 80"
+                                                <input type="number" name="loan_rate_two" placeholder="예) 80"
                                                     class="w_input_150">
                                                 <span>%</span>
                                             </div>
@@ -120,7 +120,7 @@
                                                 대출금리
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="text" name="loan_interest"
+                                                <input type="number" name="loan_interest"
                                                     placeholder="소수점 두자리까지만 입력" class="w_input_150"
                                                     onkeyup="imsi(this)">
                                                 <span>%</span>
@@ -139,7 +139,6 @@
                                                 <input type="radio" name="is_invest" id="is_invest_2"
                                                     value="1" checked>
                                                 <label for="is_invest_2" onclick="showDiv('invest', 1)">투자</label>
-
                                                 <input type="radio" name="is_invest" id="is_invest_1"
                                                     value="0">
                                                 <label for="is_invest_1" onclick="showDiv('invest', 0)">실입주</label>
@@ -158,14 +157,14 @@
                                                     <div>
                                                         <label class="input_label">
                                                             보증금
-                                                        </label><input type="text" name="invest_price"
+                                                        </label><input type="number" name="invest_price"
                                                             placeholder="보증금"> <span class="gray_deep"></span>
                                                         <span class="gray_deep">/</span>
                                                     </div>
                                                     <div>
                                                         <label class="input_label">
                                                             월임대료
-                                                        </label><input type="text" name="invest_month_price"
+                                                        </label><input type="number" name="invest_month_price"
                                                             placeholder="월임대료"> <span class="gray_deep">원</span>
                                                     </div>
                                                 </div>
@@ -185,7 +184,7 @@
                                             <label class="input_label">전세보증금 <span class="txt_point">*</span>
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="text" name="price_3" placeholder="전세보증금"
+                                                <input type="number" name="price_3" placeholder="전세보증금"
                                                     class="w_input_150">
                                                 <span>원</span>
                                             </div>
@@ -203,13 +202,13 @@
                                             <div>
                                                 <label class="input_label">
                                                     보증금 <span class="txt_point">*</span>
-                                                </label><input type="text" placeholder="보증금" name="price_4">
+                                                </label><input type="number" placeholder="보증금" name="price_4">
                                                 <span class="gray_deep">/</span>
                                             </div>
                                             <div>
                                                 <label class="input_label">
                                                     월임대료 <span class="txt_point">*</span>
-                                                </label><input type="text" placeholder="월임대료"
+                                                </label><input type="number" placeholder="월임대료"
                                                     name="month_price_4">
                                                 <span class="gray_deep">원</span>
                                             </div>
@@ -251,12 +250,15 @@
             }
         }
 
-        $('input[name="input_type"]').click(function() {
-            $('#type').val($(this).val());
+        $('input[type="checkbox"]').change(function() {
             confrim_check();
         });
 
-        $('input[name="product_name"]').change(function() {
+        $('input[type="radio"]').change(function() {
+            confrim_check();
+        });
+
+        $('input[type="number"]').change(function() {
             confrim_check();
         });
 
@@ -267,20 +269,41 @@
             var acquisition_tax = $('input[name="acquisition_tax"]').val();
             var loan_rate_one = $('input[name="loan_rate_one"]').val();
             var loan_rate_two = $('input[name="loan_rate_two"]').val();
-            var invest_price = $('#invest_price').val();
-            var invest_month_price = $('#invest_month_price').val();
+            var invest_price = $('input[name="invest_price"]').val();
+            var invest_month_price = $('input[name="invest_month_price"]').val();
+            var is_invest = $('input[name="is_invest"]:checked').val();
 
             var confirm = false;
 
-            if (payment_type == 0) {
-                if(price != ){
+            console.log('is_invest : ', is_invest);
+            // console.log(payment_type,
+            //     price,
+            //     month_price,
+            //     acquisition_tax,
+            //     loan_rate_one,
+            //     loan_rate_two,
+            //     invest_price,
+            //     invest_month_price,
+            //     is_invest,
+            //     confirm);
 
+            if (is_invest == 1 && invest_price != '') {
+                console.log('gd');
+            }
+
+            if (payment_type == 0) {
+                if (price != '' && acquisition_tax != '' && loan_rate_one != '' && loan_rate_two != '') {
+                    confirm = true;
                 }
             } else if (payment_type == 3) {
-
+                if (price != '') {
+                    confirm = true;
+                }
             } else if (payment_type == 4) {
-
-            }else {
+                if (price != '' && month_price != '') {
+                    confirm = true;
+                }
+            } else {
                 confirm = false;
             }
 
@@ -289,6 +312,7 @@
             } else {
                 return $('.confirm').attr("disabled", true);
             }
+            console.log('is_invest : ', is_invest);
         }
 
         function formSetting() {
@@ -321,7 +345,7 @@
 
         //입력란 열고 닫기
         function paymentCheck(index) {
-            $('#payment').val(index);
+            $('#payment_type').val(index);
             confrim_check();
         }
 
@@ -332,7 +356,6 @@
                 content.classList.remove('active');
             });
             tabContents[index].classList.add('active');
-            confrim_check();
         }
     </script>
 
