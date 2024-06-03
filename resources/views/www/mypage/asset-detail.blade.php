@@ -44,6 +44,52 @@
             return $percent;
         }
 
+        function yearRate($date)
+        {
+            $percent = 0.1;
+
+            $nowYear = date('Y');
+            $dateYear = date_format($date, 'Y');
+
+            $year = $nowYear - $dateYear;
+
+            if ($year < 1) {
+                $percent = 0.5;
+            } elseif ($year < 2) {
+                $percent = 0.6;
+            } elseif ($year < 3) {
+                $percent = 0.01;
+            } elseif ($year >= 3 && $year < 4) {
+                $percent = 0.06;
+            } elseif ($year >= 4 && $year < 5) {
+                $percent = 0.08;
+            } elseif ($year >= 5 && $year < 6) {
+                $percent = 0.1;
+            } elseif ($year >= 6 && $year < 7) {
+                $percent = 0.12;
+            } elseif ($year >= 7 && $year < 8) {
+                $percent = 0.14;
+            } elseif ($year >= 8 && $year < 9) {
+                $percent = 0.16;
+            } elseif ($year >= 9 && $year < 10) {
+                $percent = 0.18;
+            } elseif ($year >= 10 && $year < 11) {
+                $percent = 0.2;
+            } elseif ($year >= 11 && $year < 12) {
+                $percent = 0.22;
+            } elseif ($year >= 12 && $year < 13) {
+                $percent = 0.24;
+            } elseif ($year >= 13 && $year < 14) {
+                $percent = 0.26;
+            } elseif ($year >= 14 && $year < 15) {
+                $percent = 0.28;
+            } elseif ($year >= 15) {
+                $percent = 0.3;
+            }
+
+            return $percent;
+        }
+
         function format_phone($phone)
         {
             $phone = preg_replace('/[^0-9]/', '', $phone);
@@ -78,7 +124,7 @@
                 $result->etc_price -
                 $avgPrice * $result->area * 0.1;
 
-            $BPrice = $APrice;
+            $BPrice = $APrice * yearRate($result->contracted_at);
 
             $DPrice = $BPrice - 2500000;
             $lastPrice = $DPrice * taxRate($DPrice);
