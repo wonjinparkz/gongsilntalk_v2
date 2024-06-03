@@ -114,4 +114,21 @@ class ProposalPcController extends Controller
 
         return Redirect::route('www.corp.proposal.product.create2.view', compact('request'));
     }
+
+    /**
+     * 기업 이전 제안서 등록 체크
+     */
+    public function corpProposalProductCreatePriceCheck(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(route('www.product.create.view'))->withErrors($validator)
+                ->withInput();
+        }
+
+        return Redirect::route('www.corp.proposal.product.create2.view', compact('request'));
+    }
 }

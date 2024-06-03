@@ -57,7 +57,7 @@
                                 <label for="gender_0">남성</label>
 
                                 <input type="radio" name="gender" id="gender_1" value="1"
-                                @if ((old('gender') ?? 0) == 1) checked @endif>>
+                                    @if ((old('gender') ?? 0) == 1) checked @endif>
                                 <label for="gender_1">여성</label>
                             </div>
                         </li>
@@ -155,17 +155,17 @@
         var checkOne_3 = $('#checkOne_3').is(':checked');
         var checkOne_4 = $('#checkOne_4').is(':checked');
 
-        if(checkOne_4){
+        if (checkOne_4) {
             $('#is_marketing').val('1');
-        }else {
+        } else {
             $('#is_marketing').val('0');
         }
         var gender = $('input[name="gender"]').is(':checked');
 
-        if (email !== '' && password !== '' && password_confirmation !== '' && nickname !== '') {
+        // if (email !== '' && password !== '' && password_confirmation !== '' && nickname !== '') {
 
-            // if (email !== '' && password !== '' && password_confirmation !== '' && nickname !== '' && verification == 'Y' &&
-            //     checkOne_1 !== false && checkOne_2 !== false && checkOne_3 !== false && gender !== false) {
+        if (email !== '' && password !== '' && password_confirmation !== '' && nickname !== '' && verification == 'Y' &&
+            checkOne_1 !== false && checkOne_2 !== false && checkOne_3 !== false && gender !== false) {
             $('#button_active').attr('disabled', false);
         } else {
             $('#button_active').attr('disabled', true);

@@ -1,6 +1,6 @@
 <x-layout>
 
-    <form class="find_form" method="POST" action="{{ route('www.corp.proposal.product.create.info.check') }}"
+    <form class="find_form" method="POST" action="{{ route('www.corp.proposal.product.create.price.check') }}"
         name="create_check">
         <input type="hidden" name="payment_type" id="payment_type" value="0">
         <input type="hidden" name="price" id="price" value="">
