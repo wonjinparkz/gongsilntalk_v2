@@ -125,7 +125,8 @@
         }
 
         var data = {};
-        data.key = "E2C5234B-AE55-3D0D-91C0-6A61FFE0A48B";
+        // data.key = "E2C5234B-AE55-3D0D-91C0-6A61FFE0A48B";
+        data.key = "{{ env('V_WORD_KEY') }}";
         data.domain = "k-late.com";
         data.format = "json";
         data.numOfRows = "30";
