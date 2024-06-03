@@ -66,7 +66,6 @@ class DataController extends Controller
 
         return Redirect::route('admin.apt.complex.list.view')->with('아파트 단지를 불러왔습니다.');
     }
-
     public function getAptBaseInfo()
     {
         // 최대 실행 시간 설정 (예: 300초)
@@ -82,45 +81,59 @@ class DataController extends Controller
         $url = "http://apis.data.go.kr/1613000/AptBasisInfoService1/getAphusBassInfo";
         $serviceKey = '58+BxzpkxifZ5RGHKDirbnr5Y3l1iK7+y6WxyiyR6sIp8jwIMXeQDAi8zXNY+kyFHznaAHVFxb33c40XOGqaqg==';
 
-        $promises = [];
+        $batchSize = 10; // 한 번에 처리할 배치 크기
+        $delay = 2; // 각 배치 사이의 딜레이 (초)
 
-        foreach ($baseInfo as $base) {
-            Log::info('아파트 기본정보 : ' . $base);
+        $baseInfoChunks = $baseInfo->chunk($batchSize);
 
-            $param = [
-                'serviceKey' => $serviceKey,
-                'kaptCode' => $base->kaptCode
-            ];
+        foreach ($baseInfoChunks as $chunk) {
+            $promises = [];
 
-            $promises[] = Http::async()->get($url, $param)->then(
-                function ($response) use ($base) {
-                    try {
-                        $xml = simplexml_load_string($response->getBody(), 'SimpleXMLElement', LIBXML_NOCDATA);
-                        $json = json_encode($xml);
-                        $jsonDecode = json_decode($json, true);
+            foreach ($chunk as $base) {
+                Log::info('아파트 기본정보 : ' . $base);
 
-                        if (isset($jsonDecode['body']) && isset($jsonDecode['body']['item'])) {
-                            $body = $jsonDecode['body'];
-                            $item = $body['item'];
-                            $item['is_base_info'] = 1;
-                            $base->update($item);
-                            Log::info('$item : ' . json_encode($item));
-                        } else {
-                            Log::error('Invalid response structure: ' . json_encode($jsonDecode));
+                $param = [
+                    'serviceKey' => $serviceKey,
+                    'kaptCode' => $base->kaptCode
+                ];
+
+                $promises[] = Http::async()->get($url, $param)->then(
+                    function ($response) use ($base) {
+                        try {
+                            $xml = simplexml_load_string($response->getBody(), 'SimpleXMLElement', LIBXML_NOCDATA);
+                            $json = json_encode($xml);
+                            $jsonDecode = json_decode($json, true);
+
+                            if (isset($jsonDecode['body']) && isset($jsonDecode['body']['item'])) {
+                                $body = $jsonDecode['body'];
+                                $item = $body['item'];
+                                $item['is_base_info'] = 1;
+                                $base->update($item);
+                                Log::info('$item : ' . json_encode($item));
+                            } else {
+                                Log::error('Invalid response structure: ' . json_encode($jsonDecode));
+                            }
+                        } catch (\Exception $e) {
+                            Log::error('Exception: ' . $e->getMessage());
                         }
-                    } catch (\Exception $e) {
-                        Log::error('Exception: ' . $e->getMessage());
+                    },
+                    function ($exception) use ($base) {
+                        if ($exception instanceof \GuzzleHttp\Exception\ConnectException) {
+                            Log::error('Connection error for kaptCode ' . $base->kaptCode . ': ' . $exception->getMessage());
+                        } else {
+                            Log::error('HTTP Request failed for kaptCode ' . $base->kaptCode . ': ' . $exception->getMessage());
+                        }
                     }
-                },
-                function ($exception) use ($base) {
-                    Log::error('HTTP Request failed for kaptCode ' . $base->kaptCode . ': ' . $exception->getMessage());
-                }
-            );
-        }
+                );
+            }
 
-        // 모든 프라미스를 대기
-        foreach ($promises as $promise) {
-            $promise->wait();
+            // 모든 프라미스를 대기
+            foreach ($promises as $promise) {
+                $promise->wait();
+            }
+
+            // 딜레이 추가
+            sleep($delay);
         }
     }
 
