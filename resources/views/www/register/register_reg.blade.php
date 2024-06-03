@@ -56,7 +56,7 @@
                                 <label for="gender_0">남성</label>
 
                                 <input type="radio" name="gender" id="gender_1" value="1"
-                                    @if ((old('gender') ?? 0) == 1) checked @endif>>
+                                    @if ((old('gender') ?? 0) == 1) checked @endif>
                                 <label for="gender_1">여성</label>
                             </div>
                         </li>
