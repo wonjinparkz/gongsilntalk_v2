@@ -682,8 +682,8 @@
                                 </div>
                             </div>
                             <div class="btn_view_type">
-                                <button>지적도</button>
-                                <button>위성뷰</button>
+                                <button id="cadastral">지적도</button>
+                                <button onclick="toggleSatelliteView()">위성뷰</button>
                             </div>
                             <button><img src="{{ asset('assets/media/ic_map_activate4.png') }}"></button>
                         </div>
@@ -843,162 +843,249 @@
         <script type="text/javascript"
             src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}"></script>
         <script>
-            w = window.innerWidth;
-            h = window.innerHeight;
+            // window.addEventListener('load', function() {
+            // 매물 데이터
+            // 내 줌위치 이동 시 몇미터만 가져오게 api 변경해야댐
             const maps = {!! json_encode($maps) !!};
 
-            var markers = [];
+            // 폴리라인
             var polylines = [];
+            // 마커
+            var markers = [];
+
+            var map;
 
             window.initMap = function() {
-                const map = new naver.maps.Map('map', {
-                    center: {
-                        lat: 37.5400456,
-                        lng: 126.9921017
-                    },
+                map = new naver.maps.Map('map', {
+                    center: new naver.maps.LatLng(37.5665, 126.9780),
                     zoom: 15,
-                    size: new naver.maps.Size(w, h),
+                    size: new naver.maps.Size(window.innerWidth, window.innerHeight),
+                    mapTypeId: naver.maps.MapTypeId.NORMAL
                 });
 
-                const bounds = new naver.maps.LatLngBounds();
-                const pathCoordinates = [];
-                const infoWindow = new naver.maps.InfoWindow();
+                var bounds = new naver.maps.LatLngBounds();
+                var pathCoordinates = [];
+                var infoWindow = new naver.maps.InfoWindow();
 
                 maps.forEach(({
                     address_lat,
-                    address_lng
+                    address_lng,
+                    region_address
                 }) => {
-                    const marker = new naver.maps.Marker({
+                    var name = region_address;
+                    var trade = '234~1,234';
+                    var lease = '1.2~3.4';
+
+                    var contentString = `
+                        <div class="iw_inner detail_info_toggle">
+                            <h3>${name}</h3>
+                            <div class="inner_info">
+                                <p>매매 <span>${trade}</span></p>
+                                <p>임대 <span>${lease}</span></p>
+                            </div>
+                        </div>
+                    `;
+
+                    var position = new naver.maps.LatLng(address_lat, address_lng);
+                    var marker = new naver.maps.Marker({
                         map: map,
-                        position: {
-                            lat,
-                            lng
-                        },
+                        position: position,
+                        icon: {
+                            content: contentString
+                        }
                     });
 
-                    bounds.extend(marker.position);
+                    bounds.extend(position);
+                    pathCoordinates.push(position);
 
-                    pathCoordinates.push({
-                        address_lat,
-                        address_lng
+                    naver.maps.Event.addListener(marker, 'click', function(index) {
+                        document.querySelector('.map_side').classList.toggle('active');
+
                     });
-                })
-            };
 
-            // // 지도 옵션 설정
-            var mapOptions = {
-                center: new naver.maps.LatLng(37.5665, 126.9780),
-                zoom: 10,
-                size: new naver.maps.Size(w, h),
-            };
+                    // marker.addListener("click", () => {
+                    //     document.querySelector('.map_side').classList.toggle('active');
+                    //     document.querySelector('.detail_info_toggle').addEventListener('click', function() {
+                    //         document.querySelector('.map_side').classList.toggle('active');
+                    //     });
+                    //     infoWindow.setContent(contentString);
+                    //     infoWindow.open(map, marker);
+                    // });
 
-            // // 지도 객체 생성
-            var map = new naver.maps.Map('map', mapOptions);
+                    markers.push(marker);
 
-            var contentEl = $(
-                '<div style="width:350px;position:absolute;top:0;right:0;z-index:1000;background-color:#fff;border:solid 1px #333;">' +
-                '<h3>Map States</h3>' +
-                '<p style="font-size:14px;">zoom : <em class="zoom">' + map.getZoom() + '</em></p>' +
-                '<p style="font-size:14px;">centerPoint : <em class="center">' + map.getCenterPoint() + '</em></p>' +
-                '</div>');
+                });
 
-            contentEl.appendTo(map.getElement());
+                map.fitBounds(bounds);
 
 
-            naver.maps.Event.addListener(map, 'zoom_changed', function(zoom) {
-                contentEl.find('.zoom').text(zoom);
-            });
+                // 지적도 세팅
+                var cadastralLayer = new naver.maps.CadastralLayer();
+                var btn = $('#cadastral');
 
-            naver.maps.Event.addListener(map, 'bounds_changed', function(bounds) {
-                // contentEl.find('.center').text(map.getCenterPoint());
-                // console.log('Center: ' + map.getCenter().toString() + ', Bounds: ' + bounds.toString());
-            });
-
-
-            navigator.geolocation.getCurrentPosition((position) => {
-                console.log(position)
-                var lat = position.coords.latitude;
-                var lng = position.coords.longitude;
-
-                var currentLocation = new naver.maps.LatLng(lat, lng)
-                map.setZoom(18, true);
-                map.setCenter(currentLocation);
-            });
-
-            // map.addListener('idle', function(zoom) {
-            //     console.log('idle');
-            //     contentEl.find('.center').text(map.getCenterPoint());
-            //     console.log('Center: ' + map.getCenter().toString() + ', Bounds: ' + bounds.toString());
-            // });
-
-
-
-
-            // console.log('지도 초기화 완료');
-            // console.log('maps 배열:', maps);
-
-            // // maps 배열을 순회하며 마커 추가
-            maps.forEach(function(location, index) {
-                console.log('마커 추가 중:', location);
-
-                var contentString = [
-                    '<div class="iw_inner detail_info_toggle">',
-                    '   <h3>서울특별시청</h3>',
-                    '     <div class="inner_info">',
-                    '       <p>매매 <span>1,234~1,234</span></p>',
-                    '       <p>임대 <span>1.2~3.4</span></p>',
-                    '     </div>',
-                    '</div>'
-                ].join('')
-
-
-                var marker = new naver.maps.Marker({
-                    position: new naver.maps.LatLng(location.address_lat, location.address_lng),
-                    map: map,
-                    icon: {
-                        content: contentString
+                naver.maps.Event.addListener(map, 'cadastralLayer_changed', function() {
+                    if (cadastralLayer.getMap()) {
+                        btn.addClass('control-on').val('지적도 끄기');
+                    } else {
+                        btn.removeClass('control-on').val('지적도 켜기');
                     }
                 });
 
-                naver.maps.Event.addListener(marker, 'click', function(index) {
-                    document.querySelector('.map_side').classList.toggle('active');
+                btn.on('click', function(e) {
+                    e.preventDefault();
 
+                    if (cadastralLayer.getMap()) {
+                        cadastralLayer.setMap(null);
+                        btn.removeClass('control-on').val('지적도 켜기');
+                    } else {
+                        cadastralLayer.setMap(map);
+                        btn.addClass('control-on').val('지적도 끄기');
+                    }
                 });
 
-                markers.push(marker);
-                polylines.push(new naver.maps.LatLng(location.address_lat, location.address_lng));
-            });
-            // var htmlMarker1 = {
-            //     content: '<div>클러스터</div>',
-            //     size: N.Size(40, 40),
-            //     anchor: N.Point(20, 20)
-            // };
+                // naver.maps.Event.once(map, 'init', function() {
+                //     cadastralLayer.setMap(map);
+                // });
+                window.toggleSatelliteView = function() {
+                    var currentMapTypeId = map.getMapTypeId();
+                    if (currentMapTypeId === naver.maps.MapTypeId.NORMAL) {
+                        map.setMapTypeId(naver.maps.MapTypeId.SATELLITE);
+                    } else {
+                        map.setMapTypeId(naver.maps.MapTypeId.NORMAL);
+                    }
+                };
+            };
 
-            // var markerClustering = new MarkerClustering({
-            //     minClusterSize: 2,
-            //     maxZoom: 18,
-            //     map: map,
-            //     markers: markers,
-            //     disableClickZoom: false,
-            //     gridSize: 3,
-            //     icons: [htmlMarker1],
-            //     indexGenerator: [10],
-            //     stylingFunction: function(clusterMarker, count) {
-            //         // $(clusterMarker.getElement()).find('div:first-child').text(count);
+            window.initMap();
+
+
+
+            // var map = new naver.maps.Map('map', {
+            //     center: new naver.maps.LatLng(37.3595704, 127.105399),
+            //     mapTypeControl: true,
+            //     mapTypeControlOptions: {
+            //         style: naver.maps.MapTypeControlStyle.DROPDOWN
             //     }
             // });
 
-            var polygon = new naver.maps.Polygon({
-                map: map,
-                paths: [
-                    polylines
-                ],
-                fillColor: '#ff0000',
-                fillOpacity: 0.3,
-                strokeColor: '#ff0000',
-                strokeOpacity: 0.6,
-                strokeWeight: 3
-            });
+
+
+
+            // });
+            // // // 지도 옵션 설정
+            // var mapOptions = {
+            //     center: new naver.maps.LatLng(37.5665, 126.9780),
+            //     zoom: 10,
+            //     size: new naver.maps.Size(w, h),
+            // };
+
+            // // 지도 객체 생성
+            // var map = new naver.maps.Map('map', map);
+
+            // var contentEl = $(
+            //     '<div style="width:350px;position:absolute;top:0;right:0;z-index:1000;background-color:#fff;border:solid 1px #333;">' +
+            //     '<h3>Map States</h3>' +
+            //     '<p style="font-size:14px;">zoom : <em class="zoom">' + map.getZoom() + '</em></p>' +
+            //     '<p style="font-size:14px;">centerPoint : <em class="center">' + map.getCenterPoint() + '</em></p>' +
+            //     '</div>');
+
+            // contentEl.appendTo(map.getElement());
+
+
+            // naver.maps.Event.addListener(map, 'zoom_changed', function(zoom) {
+            //     contentEl.find('.zoom').text(zoom);
+            // });
+
+            // naver.maps.Event.addListener(map, 'bounds_changed', function(bounds) {
+            //     // contentEl.find('.center').text(map.getCenterPoint());
+            //     // console.log('Center: ' + map.getCenter().toString() + ', Bounds: ' + bounds.toString());
+            // });
+
+
+            // navigator.geolocation.getCurrentPosition((position) => {
+            //     console.log(position)
+            //     var lat = position.coords.latitude;
+            //     var lng = position.coords.longitude;
+
+            //     var currentLocation = new naver.maps.LatLng(lat, lng)
+            //     map.setZoom(18, true);
+            //     map.setCenter(currentLocation);
+            // });
+
+            // // map.addListener('idle', function(zoom) {
+            // //     console.log('idle');
+            // //     contentEl.find('.center').text(map.getCenterPoint());
+            // //     console.log('Center: ' + map.getCenter().toString() + ', Bounds: ' + bounds.toString());
+            // // });
+
+
+
+
+            // // console.log('지도 초기화 완료');
+            // // console.log('maps 배열:', maps);
+
+            // // // maps 배열을 순회하며 마커 추가
+            // maps.forEach(function(location, index) {
+            //     console.log('마커 추가 중:', location);
+
+            //     var contentString = [
+            //         '<div class="iw_inner detail_info_toggle">',
+            //         '   <h3>서울특별시청</h3>',
+            //         '     <div class="inner_info">',
+            //         '       <p>매매 <span>1,234~1,234</span></p>',
+            //         '       <p>임대 <span>1.2~3.4</span></p>',
+            //         '     </div>',
+            //         '</div>'
+            //     ].join('')
+
+
+            //     var marker = new naver.maps.Marker({
+            //         position: new naver.maps.LatLng(location.address_lat, location.address_lng),
+            //         map: map,
+            //         icon: {
+            //             content: contentString
+            //         }
+            //     });
+
+            //     naver.maps.Event.addListener(marker, 'click', function(index) {
+            //         document.querySelector('.map_side').classList.toggle('active');
+
+            //     });
+
+            //     markers.push(marker);
+            //     polylines.push(new naver.maps.LatLng(location.address_lat, location.address_lng));
+            // });
+            // // var htmlMarker1 = {
+            // //     content: '<div>클러스터</div>',
+            // //     size: N.Size(40, 40),
+            // //     anchor: N.Point(20, 20)
+            // // };
+
+            // // var markerClustering = new MarkerClustering({
+            // //     minClusterSize: 2,
+            // //     maxZoom: 18,
+            // //     map: map,
+            // //     markers: markers,
+            // //     disableClickZoom: false,
+            // //     gridSize: 3,
+            // //     icons: [htmlMarker1],
+            // //     indexGenerator: [10],
+            // //     stylingFunction: function(clusterMarker, count) {
+            // //         // $(clusterMarker.getElement()).find('div:first-child').text(count);
+            // //     }
+            // // });
+
+            // var polygon = new naver.maps.Polygon({
+            //     map: map,
+            //     paths: [
+            //         polylines
+            //     ],
+            //     fillColor: '#ff0000',
+            //     fillOpacity: 0.3,
+            //     strokeColor: '#ff0000',
+            //     strokeOpacity: 0.6,
+            //     strokeWeight: 3
+            // });
 
             // console.log('마커 추가 완료');
 
