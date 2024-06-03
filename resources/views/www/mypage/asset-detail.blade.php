@@ -47,7 +47,8 @@
                     <div class="gap_8">
                         <button class="btn_point btn_sm" type="button"
                             onclick="location.href='{{ route('www.mypage.service.update.first.view', [$result->id]) }}'">수정</button>
-                        <button class="btn_graylight_ghost btn_sm">삭제</button>
+                        <button class="btn_graylight_ghost btn_sm" type="button"
+                            onclick="modal_open('asset_delete');">삭제</button>
                     </div>
                 </div>
 
@@ -394,6 +395,28 @@
                     </div>
 
                 </div>
+
+                <!-- modal 삭제 : s -->
+                <div class="modal modal_asset_delete">
+                    <div class="modal_container">
+                        <div class="modal_mss_wrap">
+                            <p class="txt_item_1 txt_point">{{ $result->address }}</p>
+                            <p class="txt_item_1">자산 목록을 삭제하시겠습니까?</p>
+                            <p class="mt8 txt_item_2">삭제 후에는 되돌릴 수 없습니다.</p>
+                        </div>
+
+                        <div class="modal_btn_wrap">
+                            <button class="btn_gray btn_full_thin" onclick="modal_close('asset_delete')">취소</button>
+                            <button class="btn_point btn_full_thin"
+                                onclick="onMyAssetDelete('{{ $result->id }}')">삭제</button>
+                        </div>
+                    </div>
+                </div>
+                <form id="deleteForm" name="deleteForm" method="post" action="{{ route('www.mypage.service.one.delete') }}">
+                    <input type="hidden" id="id" name="id" value="{{ $result->id }}">
+                </form>
+                <div class="md_overlay md_overlay_asset_delete" onclick="modal_close('asset_delete')"></div>
+                <!-- modal 삭제 : e -->
             </div>
 
 
@@ -401,6 +424,8 @@
         <!-- my_body : e -->
 
     </div>
+
+
 
     <!-- 이미지 확대 : s-->
     <div class="modal modal_mid modal_big_document">
@@ -429,6 +454,14 @@
             $(".proposal_table_wrap").stop().slideToggle(300);
             return false;
         });
+
+        // 내 자산 삭제
+        var onMyAssetDelete = (id) => {
+            console.log('저의 아이디는 ' + id + ' 이네요?');
+
+            var form = document.deleteForm;
+            form.submit();
+        }
     </script>
 
 

@@ -240,6 +240,24 @@ class UserPcController extends Controller
     }
 
     /**
+     * 내 자산 개별 삭제
+     */
+    public function addressOneDelete(Request $request): RedirectResponse
+    {
+        $asset = Asset::select()->where('id', $request->id)->select()->first();
+
+        $count = Asset::select()->where('asset_address_id', $asset->asset_address_id)->count();
+
+        if ($count < 2) {
+            AssetAddress::select()->where('id', $asset->asset_address_id)->select()->delete();
+        }
+
+        $asset->delete();
+
+        return Redirect::route('www.mypage.service.list.view')->with('message', "자산이 삭제 되었습니다.");
+    }
+
+    /**
      * 내 자산 상세
      */
     public function serviceDetailView($id): View

@@ -129,6 +129,7 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::get('/mypage/service/list', 'serviceListView')->name('www.mypage.service.list.view');
     Route::get('/mypage/service/detail/{id}', 'serviceDetailView')->name('www.mypage.service.detail.view');
     Route::post('/mypage/service/delete', 'addressDelete')->name('www.mypage.service.delete');
+    Route::post('/mypage/service/one-delete', 'addressOneDelete')->name('www.mypage.service.one.delete');
 
     Route::get('/mypage/service/create-first', 'serviceFirstCreateView')->name('www.mypage.service.create.first.view');
     Route::get('/mypage/service/create-second', 'serviceSecondCreateView')->name('www.mypage.service.create.second.view');

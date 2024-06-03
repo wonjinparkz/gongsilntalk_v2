@@ -5,7 +5,7 @@
 
 @if (isset($result->id))
     <li>
-        <div class="document_area"  id="{{ $id }}ImageName">
+        <div class="document_area" id="{{ $id }}ImageName">
             <div class="document_img_reg">
                 <img src="{{ Storage::url('image/') . $result->path }}">
             </div>
@@ -19,7 +19,8 @@
         </div>
         <div class="gap_8">
             <button class="btn_graylight_ghost btn_sm" type="button" id="{{ $id }}_drop">업로드</button>
-            <button class="btn_graylight_ghost btn_sm">삭제</button>
+            <button class="btn_graylight_ghost btn_sm" type="button"
+                onclick="onImageDeleteUpdate('{{ $id }}');">삭제</button>
         </div>
     </li>
 @else
@@ -35,7 +36,8 @@
         </div>
         <div class="gap_8">
             <button class="btn_graylight_ghost btn_sm" type="button" id="{{ $id }}_drop">업로드</button>
-            <button class="btn_graylight_ghost btn_sm">삭제</button>
+            <button class="btn_graylight_ghost btn_sm" type="button"
+                onclick="onImageDeleteUpdate('{{ $id }}');">삭제</button>
         </div>
     </li>
 @endif
@@ -77,7 +79,21 @@
         }
     });
 
+    // 이미지 삭제
+    var onImageDeleteUpdate = (id) => {
 
+        var image =
+
+            `<div class="document_img_reg">
+                    <div class="document_img_reg"></div>
+                </div>
+                <div class="document_name_wrap">
+                    <p>{{ $title }}</p>
+                    <p class="mt8 gray_basic fs_13">png 또는 jpg 업로드</p>
+                </div>`
+
+        $("#" + id + "ImageName").html(image);
+    }
 
     // 이미지 제거
     function {{ $id }}removeImage() {
