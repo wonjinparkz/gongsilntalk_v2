@@ -472,7 +472,7 @@
                         @if (in_array('27', $permissions))
                             {{-- 아파트 단지 관리 메뉴 --}}
                             <div class="menu-item">
-                                <a class="menu-link" href="{{ route('data.apt')}}">
+                                <a class="menu-link" href="{{route('admin.apt.complex.list.view')}}">
                                     <span class="menu-icon">
                                         <i class="fa-solid fa-city"></i>
                                     </span>
