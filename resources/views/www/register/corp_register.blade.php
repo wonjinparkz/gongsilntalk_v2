@@ -132,101 +132,95 @@
         data.pageNo = "1";
         var searchQuery = $('#corp_ceo').val();
 
-        function searchByBsnmCmpnm(callback) {
-            data.bsnmCmpnm = searchQuery;
-            data.brkrNm = "";
-            $.ajax({
-                type: "get",
-                dataType: "jsonp",
-                url: "https://api.vworld.kr/ned/data/getEBBrokerInfo",
-                data: data,
-                async: false,
-                success: function(data) {
-                    callback(data);
-                },
-                error: function(xhr, stat, err) {
-                    callback(null);
-                }
-            });
-        }
 
-        function searchByBrkrNm(callback) {
-            data.bsnmCmpnm = "";
-            data.brkrNm = searchQuery;
-            $.ajax({
-                type: "get",
-                dataType: "jsonp",
-                url: "https://api.vworld.kr/ned/data/getEBBrokerInfo",
-                data: data,
-                async: false,
-                success: function(data) {
-                    callback(data);
-                },
-                error: function(xhr, stat, err) {
-                    callback(null);
-                }
-            });
-        }
+        data.bsnmCmpnm = searchQuery;
+        data.brkrNm = "";
+        $.ajax({
+            type: "get",
+            dataType: "jsonp",
+            url: "https://api.vworld.kr/ned/data/getEBBrokerInfo",
+            data: data,
+            async: false,
+            success: function(data) {
+                callback(data);
+            },
+            error: function(xhr, stat, err) {
+                callback(null);
+            }
+        });
 
-        function highlight(text, keyword) {
-            var regex = new RegExp('(' + keyword + ')', 'gi');
-            return text.replace(regex, '<span class="highlight">$1</span>');
-        }
+        data.bsnmCmpnm = "";
+        data.brkrNm = searchQuery;
+        $.ajax({
+            type: "get",
+            dataType: "jsonp",
+            url: "https://api.vworld.kr/ned/data/getEBBrokerInfo",
+            data: data,
+            async: false,
+            success: function(data) {
+                callback(data);
+            },
+            error: function(xhr, stat, err) {
+                callback(null);
+            }
+        });
 
-        function renderResults(results) {
-            var $wrap = $('.search_result_wrap');
-            var $emptyWrap = $('.empty_wrap');
-            $wrap.find('.result_row').remove();
+        var regex = new RegExp('(' + keyword + ')', 'gi');
+        return text.replace(regex, '<span class="highlight">$1</span>');
 
-            if (results && results.EDBrokers && results.EDBrokers.field && results.EDBrokers.field.length > 0) {
-                $emptyWrap.hide();
-                results.EDBrokers.field.forEach(function(result) {
-                    console.log(result);
-                    var bsnmCmpnm = result.bsnmCmpnm || "";
-                    var brkrNm = result.brkrNm || "";
-                    var ldCodeNm = result.ldCodeNm || "";
-                    var jurirno = result.jurirno || "";
+        var $wrap = $('.search_result_wrap');
+        var $emptyWrap = $('.empty_wrap');
+        $wrap.find('.result_row').remove();
 
-                    var highlightedBsnmCmpnm = highlight(bsnmCmpnm, searchQuery);
+        if (results && results.EDBrokers && results.EDBrokers.field && results.EDBrokers.field.length > 0) {
+            $emptyWrap.hide();
+            results.EDBrokers.field.forEach(function(result) {
+                console.log(result);
+                var bsnmCmpnm = result.bsnmCmpnm || "";
+                var brkrNm = result.brkrNm || "";
+                var ldCodeNm = result.ldCodeNm || "";
+                var jurirno = result.jurirno || "";
 
-                    var resultHtml = `
+                var highlightedBsnmCmpnm = highlight(bsnmCmpnm, searchQuery);
+
+                var resultHtml = `
                     <div class="result_row" data-bsnmcmpnm="${bsnmCmpnm}" data-brkrnm="${brkrNm}" data-jurirno="${jurirno}">
                             ${highlightedBsnmCmpnm}
                             <p>${brkrNm}, ${ldCodeNm}</p>
                         </div>`;
-                    $wrap.append(resultHtml);
-                });
+                $wrap.append(resultHtml);
+            });
 
-                // Add click event listener to result rows
-                $('.result_row').click(function() {
-                    $('#company_name').text($(this).data('bsnmcmpnm'));
-                    $('#company_ceo').text($(this).data('brkrnm'));
-                    $('#brokerage_number').text($(this).data('jurirno'));
-                    $('input[name="company_name"').val($(this).data('bsnmcmpnm'));
-                    $('input[name="company_ceo"').val($(this).data('brkrnm'));
-                    $('input[name="brokerage_number"').val($(this).data('jurirno')).trigger('change');;
-                    modal_close('realtor_search');
-                });
-            } else {
-                $emptyWrap.show();
-            }
+            // Add click event listener to result rows
+            $('.result_row').click(function() {
+                $('#company_name').text($(this).data('bsnmcmpnm'));
+                $('#company_ceo').text($(this).data('brkrnm'));
+                $('#brokerage_number').text($(this).data('jurirno'));
+                $('input[name="company_name"').val($(this).data('bsnmcmpnm'));
+                $('input[name="company_ceo"').val($(this).data('brkrnm'));
+                $('input[name="brokerage_number"').val($(this).data('jurirno')).trigger('change');;
+                modal_close('realtor_search');
+            });
+        } else {
+            $emptyWrap.show();
         }
+    }
 
-        searchByBsnmCmpnm(function(resultByBsnmCmpnm) {
-            if (resultByBsnmCmpnm && resultByBsnmCmpnm.EDBrokers && resultByBsnmCmpnm.EDBrokers.field
-                .length > 0) {
-                renderResults(resultByBsnmCmpnm);
-            } else {
-                searchByBrkrNm(function(resultByBrkrNm) {
-                    if (resultByBrkrNm && resultByBrkrNm.EDBrokers && resultByBrkrNm.EDBrokers
-                        .field.length > 0) {
-                        renderResults(resultByBrkrNm);
-                    } else {
-                        renderResults(null);
-                    }
-                });
-            }
-        });
+    searchByBsnmCmpnm(function(resultByBsnmCmpnm) {
+        if (resultByBsnmCmpnm && resultByBsnmCmpnm.EDBrokers && resultByBsnmCmpnm.EDBrokers.field
+            .length > 0) {
+            renderResults(resultByBsnmCmpnm);
+        } else {
+            searchByBrkrNm(function(resultByBrkrNm) {
+                if (resultByBrkrNm && resultByBrkrNm.EDBrokers && resultByBrkrNm.EDBrokers
+                    .field.length > 0) {
+                    renderResults(resultByBrkrNm);
+                } else {
+                    renderResults(null);
+                }
+            });
+        }
+    });
     });
 
     function getAddress() {
