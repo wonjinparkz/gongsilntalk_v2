@@ -5,6 +5,9 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\Asset;
 use App\Models\AssetAddress;
+use App\Models\CalculatorLoan;
+use App\Models\CalculatorLoanPayment;
+use App\Models\CalculatorLoanRate;
 use App\Models\CalculatorRevenue;
 use App\Models\Community;
 use App\Models\CorpProposal;
@@ -555,7 +558,7 @@ class UserPcController extends Controller
     }
 
     /**
-     * 수익률 계산기
+     * 대출 이자 계산기
      */
     public function calculatorLoanListView(): View
     {
@@ -564,7 +567,48 @@ class UserPcController extends Controller
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
-        return view('www.mypage.calculatorLoan_list', compact('user'));
+        $loanList = CalculatorLoan::with('prepayments', 'loan_rates')->select()->where('users_id', Auth::guard('web')->user()->id)->orderBy('created_at', 'asc')->get();
+
+        info($loanList);
+
+        return view('www.mypage.calculatorLoan_list', compact('user', 'loanList'));
+    }
+
+    /**
+     * 내 자산 등록
+     */
+    public function calculatorLoanCreate(Request $request): RedirectResponse
+    {
+        $result = CalculatorLoan::create([
+            'users_id' => Auth::guard('web')->user()->id,
+            'type' => $request->type,
+            'loan_price' => $request->loan_price,
+            'loan_rate' => $request->loan_rate,
+            'loan_month' => $request->loan_month,
+            'holding_month' => $request->holding_month,
+        ]);
+
+        if (isset($request->prePay)) {
+            foreach ($request->prePay as $key => $pay) {
+                CalculatorLoanPayment::create([
+                    'calculator_loan_id' => $result->id,
+                    'sequence' => $request->prePayCount[$key],
+                    'pay_price' => $pay,
+                ]);
+            }
+        }
+
+        if (isset($request->interestRate)) {
+            foreach ($request->interestRate as $key => $rate) {
+                CalculatorLoanRate::create([
+                    'calculator_loan_id' => $result->id,
+                    'sequence' => $request->rateCount[$key],
+                    'interest_rate' => $rate,
+                ]);
+            }
+        }
+
+        return Redirect::route('www.mypage.calculator.loan.list.view')->with('message', "계산이 완료 되었습니다.");
     }
 
     /**

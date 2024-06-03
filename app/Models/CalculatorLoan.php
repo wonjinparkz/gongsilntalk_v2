@@ -40,4 +40,21 @@ class CalculatorLoan extends BaseModel
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];
+
+
+    /**
+     * 중도 상환
+     */
+    public function prepayments()
+    {
+        return $this->hasMany(CalculatorLoanPayment::class, 'calculator_loan_id', 'id');
+    }
+
+    /**
+     * 변동 금리
+     */
+    public function loan_rates()
+    {
+        return $this->hasMany(CalculatorLoanRate::class, 'calculator_loan_id', 'id');
+    }
 }
