@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 
 class DataController extends Controller
 {
@@ -46,12 +47,14 @@ class DataController extends Controller
                         'kaptCode' => $value['kaptCode'],
                         'kaptName' => $value['kaptName'],
                     ];
-
                     array_push($originItem, $obj);
                 }
 
                 foreach (array_chunk($originItem, 1000) as $t) {
                     DataApt::upsert($t, 'kaptCode');
+                    $this->getAptBaseInfo();
+                    $this->getAptDetailInfo();
+                    $this->getAptMapInfo();
                 }
 
 
@@ -60,39 +63,65 @@ class DataController extends Controller
         );
 
         $promise->wait();
+
+        return Redirect::route('admin.apt.complex.list.view')->with('아파트 단지를 불러왔습니다.');
     }
 
-    // 아파트 기본 정보
     public function getAptBaseInfo()
     {
-        $baseInfo = DataApt::where('is_base_info', 0)->first();
+        // 최대 실행 시간 설정 (예: 300초)
+        set_time_limit(300);
+
+        $baseInfo = DataApt::where('is_base_info', 0)->get();
 
         // 베이스 정보가 없을 때
         if ($baseInfo == null) {
             return;
         }
 
-
         $url = "http://apis.data.go.kr/1613000/AptBasisInfoService1/getAphusBassInfo";
+        $serviceKey = '58+BxzpkxifZ5RGHKDirbnr5Y3l1iK7+y6WxyiyR6sIp8jwIMXeQDAi8zXNY+kyFHznaAHVFxb33c40XOGqaqg==';
 
-        $param = [
-            'serviceKey' => '58+BxzpkxifZ5RGHKDirbnr5Y3l1iK7+y6WxyiyR6sIp8jwIMXeQDAi8zXNY+kyFHznaAHVFxb33c40XOGqaqg==',
-            'kaptCode' => $baseInfo->kaptCode
-        ];
+        $promises = [];
 
-        $promise = Http::async()->get($url, $param)->then(
-            function (Response|TransferException $response) use ($baseInfo) {
-                $xml = simplexml_load_string($response->getBody(), 'SimpleXMLElement', LIBXML_NOCDATA);
-                $json = json_encode($xml);
-                $jsonDecode = json_decode($json, true);
-                $body = $jsonDecode['body'];
-                $item = $body['item'];
-                $item['is_base_info'] = 1;
-                $baseInfo->update($item);
-            }
-        );
+        foreach ($baseInfo as $base) {
+            Log::info('아파트 기본정보 : ' . $base);
 
-        $promise->wait();
+            $param = [
+                'serviceKey' => $serviceKey,
+                'kaptCode' => $base->kaptCode
+            ];
+
+            $promises[] = Http::async()->get($url, $param)->then(
+                function ($response) use ($base) {
+                    try {
+                        $xml = simplexml_load_string($response->getBody(), 'SimpleXMLElement', LIBXML_NOCDATA);
+                        $json = json_encode($xml);
+                        $jsonDecode = json_decode($json, true);
+
+                        if (isset($jsonDecode['body']) && isset($jsonDecode['body']['item'])) {
+                            $body = $jsonDecode['body'];
+                            $item = $body['item'];
+                            $item['is_base_info'] = 1;
+                            $base->update($item);
+                            Log::info('$item : ' . json_encode($item));
+                        } else {
+                            Log::error('Invalid response structure: ' . json_encode($jsonDecode));
+                        }
+                    } catch (\Exception $e) {
+                        Log::error('Exception: ' . $e->getMessage());
+                    }
+                },
+                function ($exception) use ($base) {
+                    Log::error('HTTP Request failed for kaptCode ' . $base->kaptCode . ': ' . $exception->getMessage());
+                }
+            );
+        }
+
+        // 모든 프라미스를 대기
+        foreach ($promises as $promise) {
+            $promise->wait();
+        }
     }
 
     // 아파트 상세 정보
