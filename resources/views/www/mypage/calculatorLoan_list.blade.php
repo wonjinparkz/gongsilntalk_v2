@@ -43,33 +43,46 @@
                     <div class="calculator_container">
                         @foreach ($loanList as $key => $loan)
                             <!-- 계산서 : s -->
-                            <div class="loan_item">
+                            <div class="loan_item" id="loanItem{{ $loan->id }}">
                                 <div class="item_tit_wrap">
                                     <h4>
                                         <span>
-                                            @switch($loan->type)
-                                                @case(0)
-                                                    원금균등분할
-                                                @break
+                                            @php
+                                                $title = '';
+                                                switch ($loan->type) {
+                                                    case 0:
+                                                        $title = '원금균등분할';
+                                                        break;
+                                                    case 1:
+                                                        $title = '원리금균등분할';
+                                                        break;
+                                                    case 2:
+                                                        $title = '만기일시';
+                                                        break;
 
-                                                @case(1)
-                                                    원리금균등분할
-                                                @break
-
-                                                @case(2)
-                                                    만기일시
-                                                @break
-
-                                                @default
-                                            @endswitch
+                                                    default:
+                                                        $title = '원금균등분할';
+                                                        break;
+                                                }
+                                            @endphp
+                                            {{ $title }}
                                         </span>
                                         계산서 {{ $key + 1 }}
                                     </h4>
                                     <div class="btn_area">
-                                        <button type="button" class="btn_graylight_ghost btn_sm">공유</button>
-                                        <button type="button" class="btn_graylight_ghost btn_sm">삭제</button>
+                                        <button type="button" class="btn_graylight_ghost btn_sm"
+                                            onclick="PrintDiv($('#loanItem{{ $loan->id }}'), '{{ $title }}_계산서_{{ $key + 1 }}')">저장</button>
+                                        <button type="button" onclick="onDataDelete('{{ $loan->id }}');"
+                                            class="btn_graylight_ghost btn_sm">삭제</button>
                                     </div>
                                 </div>
+
+                                <form method="post" name="deleteForm{{ $loan->id }}"
+                                    id="deleteForm{{ $loan->id }}"
+                                    action="{{ route('www.calculator.loan.delete') }}">
+                                    <input type="hidden" id="id" name="id" value="{{ $loan->id }}">
+                                </form>
+
                                 <div class="table_container columns_2">
                                     <div class="td">대출금액</div>
                                     <div class="td">{{ number_format($loan->loan_price) }}원</div>
@@ -434,6 +447,27 @@
         addEventListener("checkbox", (event) => {
             processChange();
         });
+
+        function onDataDelete(id) {
+            $("#deleteForm" + id).submit();
+        }
+
+        //이미지(png)로 다운로드
+        function PrintDiv(div, title) {
+            div = div[0]
+            html2canvas(div).then(function(canvas) {
+                var myImage = canvas.toDataURL();
+                downloadURI(myImage, title + ".png")
+            });
+        }
+
+        function downloadURI(uri, name) {
+            var link = document.createElement("a")
+            link.download = name;
+            link.href = uri;
+            document.body.appendChild(link);
+            link.click();
+        }
     </script>
 
 </x-layout>
