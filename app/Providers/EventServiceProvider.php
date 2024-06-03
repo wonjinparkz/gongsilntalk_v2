@@ -22,7 +22,7 @@ class EventServiceProvider extends ServiceProvider
         'SocialiteProviders\Manager\SocialiteWasCalled' => [
             'SocialiteProviders\Kakao\KakaoExtendSocialite@handle',
             'SocialiteProviders\Naver\NaverExtendSocialite@handle',
-            'SocialiteProviders\Apple\AppleExtendSocialite@handle',
+            // 'SocialiteProviders\Apple\AppleExtendSocialite@handle',
         ],
     ];
 
