@@ -267,8 +267,21 @@ class UserPcController extends Controller
     {
         $result = Asset::with('asset_address', 'images')->select()->where('id', $id)->first();
 
-        info($result);
-        return view('www.mypage.asset-detail', compact('result'));
+        $industryCenterAvgPrice = Asset::select()
+            ->leftJoin('asset_address', function ($report) use ($result) {
+                $report->on('asset_address.id', '=', 'asset.asset_address_id')
+                    ->where('asset_address.region_code', '=', $result->asset_address->region_code);
+            })
+            ->where('asset.type_detail', 0)->avg('price');
+
+        $industryCenterArea = Asset::select()
+            ->leftJoin('asset_address', function ($report) use ($result) {
+                $report->on('asset_address.id', '=', 'asset.asset_address_id')
+                    ->where('asset_address.region_code', '=', $result->asset_address->region_code);
+            })
+            ->where('asset.type_detail', 0)->sum('area');
+
+        return view('www.mypage.asset-detail', compact('result', 'industryCenterAvgPrice', 'industryCenterArea'));
     }
 
     /**
@@ -575,7 +588,7 @@ class UserPcController extends Controller
     }
 
     /**
-     * 내 자산 등록
+     * 대출 이자 계산 등록
      */
     public function calculatorLoanCreate(Request $request): RedirectResponse
     {
@@ -609,6 +622,19 @@ class UserPcController extends Controller
         }
 
         return Redirect::route('www.mypage.calculator.loan.list.view')->with('message', "계산이 완료 되었습니다.");
+    }
+
+    /**
+     * 대출 이자 계산 삭제
+     */
+    public function calculatorLoanDelete(Request $request): RedirectResponse
+    {
+        $result = CalculatorLoan::select()->where('id', $request->id)->delete();
+
+        CalculatorLoanRate::select()->where('calculator_loan_id', $request->id)->delete();
+        CalculatorLoanPayment::select()->where('calculator_loan_id', $request->id)->delete();
+
+        return Redirect::route('www.mypage.calculator.loan.list.view')->with('message', "계산이 삭제 되었습니다.");
     }
 
     /**

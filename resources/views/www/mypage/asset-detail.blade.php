@@ -1,5 +1,49 @@
 <x-layout>
     @php
+        function taxRate($price)
+        {
+            $percent = 0;
+            switch ($price) {
+                case $price < 12000000:
+                    $percent = 0.06;
+                    break;
+
+                case $price < 46000000:
+                    $percent = 0.15;
+                    break;
+
+                case $price < 88000000:
+                    $percent = 0.24;
+                    break;
+
+                case $price < 150000000:
+                    $percent = 0.35;
+                    break;
+
+                case $price < 300000000:
+                    $percent = 0.38;
+                    break;
+
+                case $price < 500000000:
+                    $percent = 0.4;
+                    break;
+
+                case $price < 1000000000:
+                    $percent = 0.42;
+                    break;
+
+                case $price >= 1000000000:
+                    $percent = 0.45;
+                    break;
+
+                default:
+                    $percent = 0.1;
+                    break;
+            }
+
+            return $percent;
+        }
+
         function format_phone($phone)
         {
             $phone = preg_replace('/[^0-9]/', '', $phone);
@@ -20,7 +64,27 @@
         $address_detail = isset($result->address_dong) ? $result->address_dong . '동 ' : '';
         $address_detail .= $result->address_detail . '호';
 
+        if ($result->type_detail == 0) {
+            $avgPrice = ($result->price / $result->area - $industryCenterAvgPrice) / 10000;
+
+            $avgRate = $avgPrice / $result->price;
+
+            $addPrice = (($result->price / $result->area - $industryCenterAvgPrice) * $industryCenterArea) / 10000;
+
+            $APrice =
+                $avgPrice * $result->area -
+                $result->price -
+                $result->price * ($result->acquisition_tax_rate / 100) -
+                $result->etc_price -
+                $avgPrice * $result->area * 0.1;
+
+            $BPrice = $APrice;
+
+            $DPrice = $BPrice - 2500000;
+            $lastPrice = $DPrice * taxRate($DPrice);
+        }
     @endphp
+
     @inject('carbon', 'Carbon\Carbon')
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
@@ -187,15 +251,27 @@
                     <div class="price_status_box only_pc">
                         <div class="status_item">
                             <p>평당</p>
-                            <div><span class="status_item_blue">548만원 (10.7%)</span></div>
+                            <div>
+                                <span {{ $avgPrice > 0 ? 'class=status_item_red' : 'class=status_item_blue' }}>
+                                    {{ number_format($avgPrice) }}만원 ({{ number_format($avgRate) }}%)
+                                </span>
+                            </div>
                         </div>
                         <div class="status_item">
                             <p>시세차익</p>
-                            <div><span class="status_item_red">15,248만원</span></div>
+                            <div>
+                                <span {{ $addPrice > 0 ? 'class=status_item_red' : 'class=status_item_blue' }}>
+                                    {{ number_format($addPrice) }}만원
+                                </span>
+                            </div>
                         </div>
                         <div class="status_item">
                             <p>양도세 납부 후 시세차익</p>
-                            <div><span class="status_item_red">6,935만원</span></div>
+                            <div>
+                                <span {{ $lastPrice > 0 ? 'class=status_item_red' : 'class=status_item_blue' }}>
+                                    {{ number_format($lastPrice) }}만원
+                                </span>
+                            </div>
                         </div>
                     </div>
                 @endif
@@ -412,7 +488,8 @@
                         </div>
                     </div>
                 </div>
-                <form id="deleteForm" name="deleteForm" method="post" action="{{ route('www.mypage.service.one.delete') }}">
+                <form id="deleteForm" name="deleteForm" method="post"
+                    action="{{ route('www.mypage.service.one.delete') }}">
                     <input type="hidden" id="id" name="id" value="{{ $result->id }}">
                 </form>
                 <div class="md_overlay md_overlay_asset_delete" onclick="modal_close('asset_delete')"></div>

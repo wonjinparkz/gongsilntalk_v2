@@ -442,26 +442,17 @@
         });
 
         if (document.getElementById('temporary_address').checked == false) {
-            console.log('왜일럴까');
             minusVal = 2;
             if (document.getElementById('address_no_1').checked == true) {
                 minusVal = 3;
-                console.log('왜이럴까');
             }
         } else {
             minusVal = 2;
-            console.log('왜삼럴까');
             if (document.getElementById('address_no_2').checked == true) {
                 minusVal = 3;
-                console.log('왜사럴까');
             }
         }
 
-        console.log('결과 : ' + checkVal);
-        console.log('빼기 : ' + minusVal);
-        checkVal -= minusVal;
-
-        console.log('결과 : ' + checkVal);
         if (checkVal == 0) {
             document.getElementById('nextPageButton').disabled = false;
         } else {
