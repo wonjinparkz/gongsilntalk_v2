@@ -413,11 +413,85 @@ class UserPcController extends Controller
      */
     public function serviceFourthUpdateView(Request $request): View
     {
+        $result = Asset::with('asset_address', 'sale_images', 'entre_images', 'rental_images', 'etc_images')->select()->where('id', $request->id)->first();
+        info('수정 해보자');
         info($request);
 
-        $result = Asset::with('asset_address')->select()->where('id', $request->id)->first();
-
         return view('www.mypage.asset-update-fourth', compact('request', 'result'));
+    }
+
+
+    /**
+     * 내 자산 수정
+     */
+    public function serviceUpdate(Request $request): RedirectResponse
+    {
+
+        info('수정 해보자');
+        info($request);
+
+        if ($request->asset_address_id == 'N') {
+            $assetAddress = AssetAddress::create([
+                'users_id' => Auth::guard('web')->user()->id,
+                'is_temporary' => $request->is_temporary,
+                'is_unregistered' => $request->is_unregistered,
+                'address_lat' => $request->address_lat,
+                'address_lng' => $request->address_lng,
+                'region_code' => $request->region_code,
+                'region_address' => $request->region_address,
+                'address' => $request->address,
+                'old_address' => $request->old_address
+            ]);
+
+            $asset_address_id = $assetAddress->id;
+        } else {
+            $asset_address_id = $request->asset_address_id;
+        }
+
+        $result = Asset::where('id', $request->id)->update([
+            'asset_address_id' => $asset_address_id,
+            'type' => $request->type,
+            'type_detail' => $request->type_detail,
+            'address_dong' => isset($request->address_dong) ? $request->address_dong : null,
+            'address_detail' => $request->address_detail_ho,
+            'area' => $request->area,
+            'square' => $request->square,
+            'exclusive_area' => $request->exclusive_area,
+            'exclusive_square' => $request->exclusive_square,
+            'name_type' => $request->name_type,
+            'business_type' => $request->business_type,
+
+            'tran_type' => $request->secoundType,
+            'price' => $request->price,
+            'contracted_at' => isset($request->contracted_at) ? $this->integerToDate($request->contracted_at) : null,
+            'registered_at' => isset($request->registered_at) ? $this->integerToDate($request->registered_at) : null,
+            'acquisition_tax_rate' => $request->secoundType == 0 ? $request->acquisition_tax_rate_0 : $request->acquisition_tax_rate_1,
+            'etc_price' => $request->etc_price,
+            'tax_price' => $request->tax_price,
+            'estate_price' => $request->estate_price,
+            'loan_price' => $request->loan_price,
+            'loan_rate' => $request->loan_rate,
+            'loan_period' => $request->loan_period,
+            'loaned_at' => isset($request->loaned_at) ? $this->integerToDate($request->loaned_at) : null,
+            'loan_type' => $request->loan_type,
+
+            'is_vacancy' => $request->vacancy,
+            'tenant_name' => $request->vacancy == 1 ? $request->tenant_name : null,
+            'tenant_phone' => $request->vacancy == 1 ? $request->tenant_phone : null,
+            'pay_type' => $request->pay_type,
+            'check_price' =>  $request->vacancy == 1 ? $request->check_price : null,
+            'month_price' =>  $request->vacancy == 1 ? $request->month_price : null,
+            'deposit_day' => $request->vacancy == 1 ? $request->deposit_day : null,
+            'started_at' => $request->vacancy == 1 ? (isset($request->started_at) ? $this->integerToDate($request->started_at) : null) : null,
+            'ended_at' => $request->vacancy == 1 ? (isset($request->ended_at) ? $this->integerToDate($request->ended_at) : null) : null
+        ]);
+
+        $this->imageTypeWithEdit($request->sale_image_ids, Asset::class, $request->id, 0);
+        $this->imageTypeWithEdit($request->entre_image_ids, Asset::class, $request->id, 1);
+        $this->imageTypeWithEdit($request->rental_image_ids, Asset::class, $request->id, 2);
+        $this->imageTypeWithEdit($request->etc_image_ids, Asset::class, $request->id, 3);
+
+        return Redirect::route('www.mypage.service.list.view')->with('message', "자산이 수정 되었습니다.");
     }
 
     public function integerToDate($int)
