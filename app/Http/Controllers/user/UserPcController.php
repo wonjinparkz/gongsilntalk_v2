@@ -267,8 +267,21 @@ class UserPcController extends Controller
     {
         $result = Asset::with('asset_address', 'images')->select()->where('id', $id)->first();
 
-        info($result);
-        return view('www.mypage.asset-detail', compact('result'));
+        $industryCenterAvgPrice = Asset::select()
+            ->leftJoin('asset_address', function ($report) use ($result) {
+                $report->on('asset_address.id', '=', 'asset.asset_address_id')
+                    ->where('asset_address.region_code', '=', $result->asset_address->region_code);
+            })
+            ->where('asset.type_detail', 0)->avg('price');
+
+        $industryCenterArea = Asset::select()
+            ->leftJoin('asset_address', function ($report) use ($result) {
+                $report->on('asset_address.id', '=', 'asset.asset_address_id')
+                    ->where('asset_address.region_code', '=', $result->asset_address->region_code);
+            })
+            ->where('asset.type_detail', 0)->sum('area');
+
+        return view('www.mypage.asset-detail', compact('result', 'industryCenterAvgPrice', 'industryCenterArea'));
     }
 
     /**
