@@ -179,8 +179,8 @@
             $(`#check_price_temp`).val(numberToKorean(parseInt($(`#check_price`).val())));
             $(`#month_price_temp`).val(numberToKorean(parseInt($(`#month_price`).val())));
 
-            $(`#started_at_temp`).val(numberToDate(parseInt($(`#started_at`).val())));
-            $(`#ended_at_temp`).val(numberToDate(parseInt($(`#ended_at`).val())));
+            $(`#started_at_temp`).val($(`#started_at`).val() != '' ? numberToDate(parseInt($(`#started_at`).val())) : '');
+            $(`#ended_at_temp`).val($(`#ended_at`).val() != '' ? numberToDate(parseInt($(`#ended_at`).val())) : '');
         }
 
 
