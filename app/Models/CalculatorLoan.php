@@ -20,7 +20,12 @@ class CalculatorLoan extends BaseModel
      * 모델
      */
     protected $fillable = [
-
+        'users_id',
+        'type',
+        'loan_price',
+        'loan_rate',
+        'loan_month',
+        'holding_month'
     ];
 
     /**
