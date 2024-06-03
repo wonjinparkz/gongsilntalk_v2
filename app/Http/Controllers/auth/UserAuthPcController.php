@@ -5,6 +5,7 @@ namespace App\Http\Controllers\auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PcLoginRequest;
 use App\Models\PasswordReset;
+use App\Models\Product;
 use App\Models\Terms;
 use App\Models\User;
 use Carbon\Carbon;
@@ -22,10 +23,38 @@ use Laravel\Socialite\Facades\Socialite;
 
 class UserAuthPcController extends Controller
 {
-    public function map(): View
+    public function map(Request $request): View
     {
-        return view('www.map.map');
+        $maps = Product::select()
+            ->where('is_delete', '0')
+            ->where('is_blind', '0')
+            ->where('is_map', '0')
+            ->where('state', '>', '0');
+
+        // 검색
+        // if ($request->has('type')) {
+        //     $maps->whereIn('product.type', $request->type);
+        // }
+        // 매물종류
+        // if ($request->has('type')) {
+        //     $maps->whereIn('product.type', $request->type);
+        // }
+        // 준공연차
+        // if ($request->has('type')) {
+        //     $maps->whereIn('product.type', $request->type);
+        // }
+        // 실거래가지도, 매물지도
+        // if ($request->has('from_created_at') && $request->has('to_created_at')) {
+        //     $maps->DurationDate('created_at', $request->from_created_at, $request->to_created_at);
+        // }
+
+        $maps = $maps->get();
+
+        info('$maps' . $maps);
+
+        return view('www.map.map', compact('maps'));
     }
+
     public function loginView(): View
     {
         return view('www.login.login');

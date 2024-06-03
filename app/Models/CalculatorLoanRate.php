@@ -2,25 +2,26 @@
 
 namespace App\Models;
 
-use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class CalculatorLoan extends BaseModel
+class CalculatorLoanRate extends BaseModel
 {
     use HasFactory, Notifiable;
 
     /**
      * 테이블 명
      */
-    protected $table = 'calculator_loan';
+    protected $table = 'calculator_loan_rate';
 
     /**
      * 모델
      */
     protected $fillable = [
-
+        'calculator_loan_id',
+        'sequence',
+        'interest_rate'
     ];
 
     /**

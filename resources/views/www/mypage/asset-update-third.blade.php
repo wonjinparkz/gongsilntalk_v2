@@ -9,7 +9,7 @@
     <!----------------------------- m::header bar : s ----------------------------->
 
     <div class="body">
-        <form method="get" action="{{ route('www.mypage.service.create.fourth.view') }}">
+        <form method="get" action="{{ route('www.mypage.service.update.fourth.view') }}">
             @php
                 $data = $request->all();
 
@@ -19,7 +19,7 @@
             @endphp
             <!-- my_body : s -->
             <div class="inner_mid_wrap m_inner_wrap mid_body">
-                <h1 class="t_center only_pc">자산 등록하기 <span class="step_number"><span class="txt_point">3</span>/4</span>
+                <h1 class="t_center only_pc">자산 수정하기 <span class="step_number"><span class="txt_point">3</span>/4</span>
                 </h1>
 
                 <div class="offer_step_wrap">
@@ -30,7 +30,7 @@
                         <div>
                             <label class="input_label">공실여부 <span class="txt_point">*</span></label>
                             <div class="btn_radioType mt8">
-                                <input type="radio" name="vacancy" id="vacancy_1" value="0" checked>
+                                <input type="radio" name="vacancy" id="vacancy_1" value="0">
                                 <label for="vacancy_1">공실</label>
 
                                 <input type="radio" name="vacancy" id="vacancy_2" value="1">
@@ -46,14 +46,15 @@
                                 <label class="input_label">임차인명</label>
                                 <div class="flex_1 flex_between">
                                     <input type="text" id="tenant_name" name="tenant_name" class="tenantClass"
-                                        disabled>
+                                        value="{{ $result->tenant_name }}" disabled>
                                 </div>
                             </div>
                             <div class="reg_item">
                                 <label class="input_label">임차인 연락처</label>
                                 <div class="flex_1 flex_between">
                                     <input type="number" placeholder="예) 01012345678" class="tenantClass"
-                                        id="tenant_phone" name="tenant_phone" disabled>
+                                        id="tenant_phone" name="tenant_phone" value="{{ $result->tenant_phone }}"
+                                        disabled>
                                 </div>
                             </div>
                         </div>
@@ -63,15 +64,15 @@
                                 <label class="input_label">임대료 납부 방법</label>
                                 <div class="btn_radioType mt8">
                                     <input type="radio" class="tenantClass" name="pay_type" id="pay_type_1"
-                                        value="0" checked>
+                                        value="0" {{ $result->pay_type == 0 ? 'checked' : '' }}>
                                     <label for="pay_type_1">선택 안함</label>
 
                                     <input type="radio" class="tenantClass" name="pay_type" id="pay_type_2"
-                                        value="1">
+                                        value="1" {{ $result->pay_type == 1 ? 'checked' : '' }}>
                                     <label for="pay_type_2">후불</label>
 
                                     <input type="radio" class="tenantClass"name="pay_type" id="pay_type_3"
-                                        value="2">
+                                        value="2" {{ $result->pay_type == 2 ? 'checked' : '' }}>
                                     <label for="pay_type_3">선불</label>
                                 </div>
                             </div>
@@ -104,7 +105,8 @@
                                 <label class="input_label">월세 입금일</label>
                                 <div class="dropdown_box w_full ">
                                     <button class="dropdown_label disabled" id="deposit_day_button"
-                                        name="deposit_day_button" type="button" class="tenantClass">월세 입금일 선택
+                                        name="deposit_day_button" type="button" class="tenantClass">
+                                        {{ $result->deposit_day != '' ? $result->deposit_day : '월세 입금일 선택' }}
                                     </button>
                                     <ul class="optionList">
                                         @for ($i = 1; $i < 31; $i++)
@@ -152,16 +154,36 @@
             </div>
             <!-- my_body : e -->
 
-            <input type="hidden" id="is_vacancy" name="is_vacancy">
-            <input type="hidden" id="month_price" name="month_price">
-            <input type="hidden" id="check_price" name="check_price">
-            <input type="hidden" id="started_at" name="started_at">
-            <input type="hidden" id="ended_at" name="ended_at">
-            <input type="hidden" id="deposit_day" name="deposit_day">
+            @php
+                $started_at = explode(' ', $result->started_at);
+                $started_at = preg_replace('/[^0-9]*/s', '', $started_at[0]);
+
+                $ended_at = explode(' ', $result->ended_at);
+                $ended_at = preg_replace('/[^0-9]*/s', '', $ended_at[0]);
+            @endphp
+
+
+            <input type="hidden" id="is_vacancy" name="is_vacancy" value="{{ $result->is_vacancy }}">
+            <input type="hidden" id="month_price" name="month_price" value="{{ $result->month_price }}">
+            <input type="hidden" id="check_price" name="check_price" value="{{ $result->check_price }}">
+            <input type="hidden" id="started_at" name="started_at" value="{{ $started_at }}">
+            <input type="hidden" id="ended_at" name="ended_at" value="{{ $ended_at }}">
+            <input type="hidden" id="deposit_day" name="deposit_day" value="{{ $result->deposit_day }}">
         </form>
     </div>
 
     <script>
+        window.onload = () => {
+            $("#vacancy_{{ $result->is_vacancy + 1 }}").trigger('click');
+
+            $(`#check_price_temp`).val(numberToKorean(parseInt($(`#check_price`).val())));
+            $(`#month_price_temp`).val(numberToKorean(parseInt($(`#month_price`).val())));
+
+            $(`#started_at_temp`).val($(`#started_at`).val() != '' ? numberToDate(parseInt($(`#started_at`).val())) : '');
+            $(`#ended_at_temp`).val($(`#ended_at`).val() != '' ? numberToDate(parseInt($(`#ended_at`).val())) : '');
+        }
+
+
         // 계약중 선택 아닐시 disabled
         $('input[type=radio][name=vacancy]').change(function() {
             let checkedValue = document.querySelector('input[name="vacancy"]:checked').value;

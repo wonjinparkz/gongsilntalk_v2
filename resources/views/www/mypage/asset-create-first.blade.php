@@ -402,7 +402,7 @@
         checkVal -= minusVal;
 
         console.log(checkVal);
-        if (checkVal == 0) {
+        if (checkVal < 3) {
             document.getElementById('nextPageButton').disabled = false;
         } else {
             document.getElementById('nextPageButton').disabled = true;

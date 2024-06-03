@@ -129,6 +129,7 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::get('/mypage/service/list', 'serviceListView')->name('www.mypage.service.list.view');
     Route::get('/mypage/service/detail/{id}', 'serviceDetailView')->name('www.mypage.service.detail.view');
     Route::post('/mypage/service/delete', 'addressDelete')->name('www.mypage.service.delete');
+    Route::post('/mypage/service/one-delete', 'addressOneDelete')->name('www.mypage.service.one.delete');
 
     Route::get('/mypage/service/create-first', 'serviceFirstCreateView')->name('www.mypage.service.create.first.view');
     Route::get('/mypage/service/create-second', 'serviceSecondCreateView')->name('www.mypage.service.create.second.view');
@@ -145,17 +146,19 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::get('/mypage/corp/proposal/list', 'corpProposalListView')->name('www.mypage.corp.proposal.list.view');
     Route::get('/mypage/proposal/list', 'proposalListView')->name('www.mypage.proposal.list.view');
 
-
+    // 수익률 계산기
     Route::get('/mypage/calculator/revenue/list', 'calculatorRevenueListView')->name('www.mypage.calculator.revenue.list.view');
+    Route::post('/mypage/calculator/revenue/create', 'calculatorRevenueCreate')->name('www.calculator.revenue.create');
+    Route::post('/mypage/calculator/revenue/delete', 'calculatorRevenueDelete')->name('www.calculator.revenue.delete');
+
+    // 대출 이자 계산기
     Route::get('/mypage/calculator/loan/list', 'calculatorLoanListView')->name('www.mypage.calculator.loan.list.view');
+    Route::post('/mypage/calculator/loan/create', 'calculatorLoanCreate')->name('www.calculator.loan.create');
+
     Route::get('/mypage/my/info', 'myInfoView')->name('www.mypage.my.info');
     Route::get('/mypage/company/info', 'companyInfoView')->name('www.mypage.company.info');
     Route::get('/mypage/community/list', 'communityListView')->name('www.mypage.community.list.view');
     Route::get('/mypage/alarm/list', 'alarmListView')->name('www.mypage.alarm.list.view');
-
-    //수익률 계산기 등록 삭제
-    Route::post('/mypage/calculator/revenue/create', 'calculatorRevenueCreate')->name('www.calculator.revenue.create');
-    Route::post('/mypage/calculator/revenue/delete', 'calculatorRevenueDelete')->name('www.calculator.revenue.delete');
 });
 
 Route::middleware('pc.auth')->controller(ProposalPcController::class)->group(function () {

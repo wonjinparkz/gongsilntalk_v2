@@ -1,34 +1,28 @@
-@props(['title' => '이미지', 'id' => 'image', 'images' => []])
-
-
+@props(['title' => '이미지', 'id' => 'image', 'images' => [], 'result' => []])
 
 
 {{-- 업로드 이미지 미리보기 --}}
 
-@php
-    $oldIds = old($id . '_image_ids');
-    $oldPaths = old($id . '_image_paths');
-@endphp
-@if ($oldIds != null)
-    @for ($i = 0; $i < count($oldIds); $i++)
-        <li>
-            <div class="document_area">
-                <div class="document_img_reg">
-                    <img src="{{ $oldPaths[$i] }}">
-                </div>
-                <input type="hidden" name="{{ $id }}_image_ids[]" value="{{ $oldIds[$i] }}" />
-                <input type="hidden" name="{{ $id }}_image_paths[]" value="{{ $oldPaths[$i] }}" />
-                <div class="document_name_wrap">
-                    <p>{{ $title }}</p>
-                    <p class="document_name"><span>{{ $oldPaths[$i] }}</span></p>
-                </div>
+@if (isset($result->id))
+    <li>
+        <div class="document_area" id="{{ $id }}ImageName">
+            <div class="document_img_reg">
+                <img src="{{ Storage::url('image/') . $result->path }}">
             </div>
-            <div class="gap_8">
-                <button class="btn_graylight_ghost btn_sm" type="button" id="{{ $id }}_drop">업로드</button>
-                <button class="btn_graylight_ghost btn_sm">삭제</button>
+            <input type="hidden" name="{{ $id }}_image_ids[]" value="{{ $result->id }}" />
+            <input type="hidden" name="{{ $id }}_image_paths[]"
+                value="{{ Storage::url('image/') . $result->path }}" />
+            <div class="document_name_wrap">
+                <p>{{ $title }}</p>
+                <p class="document_name"><span>{{ $result->path }}</span></p>
             </div>
-        </li>
-    @endfor
+        </div>
+        <div class="gap_8">
+            <button class="btn_graylight_ghost btn_sm" type="button" id="{{ $id }}_drop">업로드</button>
+            <button class="btn_graylight_ghost btn_sm" type="button"
+                onclick="onImageDeleteUpdate('{{ $id }}');">삭제</button>
+        </div>
+    </li>
 @else
     <li>
         <div class="document_area" id="{{ $id }}ImageName">
@@ -42,7 +36,8 @@
         </div>
         <div class="gap_8">
             <button class="btn_graylight_ghost btn_sm" type="button" id="{{ $id }}_drop">업로드</button>
-            <button class="btn_graylight_ghost btn_sm">삭제</button>
+            <button class="btn_graylight_ghost btn_sm" type="button"
+                onclick="onImageDeleteUpdate('{{ $id }}');">삭제</button>
         </div>
     </li>
 @endif
@@ -84,7 +79,21 @@
         }
     });
 
+    // 이미지 삭제
+    var onImageDeleteUpdate = (id) => {
 
+        var image =
+
+            `<div class="document_img_reg">
+                    <div class="document_img_reg"></div>
+                </div>
+                <div class="document_name_wrap">
+                    <p>{{ $title }}</p>
+                    <p class="mt8 gray_basic fs_13">png 또는 jpg 업로드</p>
+                </div>`
+
+        $("#" + id + "ImageName").html(image);
+    }
 
     // 이미지 제거
     function {{ $id }}removeImage() {
