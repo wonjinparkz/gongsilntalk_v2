@@ -1,5 +1,16 @@
 <x-layout>
 
+
+    <!----------------------------- m::header bar : s ----------------------------->
+    <div class="m_header">
+        <div class="left_area"><a href="javascript:history.go(-1)"><img
+                    src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
+        <div class="m_title">회원정보 입력</div>
+        <div class="right_area"></div>
+    </div>
+    <!----------------------------- m::header bar : s ----------------------------->
+
+
     <div class="body">
         <div class="inner_wrap">
             <form class="form" method="POST" action="{{ route('www.register.create') }}">
@@ -13,7 +24,7 @@
                 <input type="hidden" id="unique_key" name="unique_key" value='{{ old('unique_key') ?? '' }}'>
 
                 <div class="col-md-6 box_member">
-                    <h2>회원정보 입력</h2>
+                    <h2 class="only_pc">회원정보 입력</h2>
                     <ul class="login_wrap reg_bascic">
                         <li>
                             <label>이메일</label>
@@ -45,7 +56,7 @@
                                 <label for="gender_0">남성</label>
 
                                 <input type="radio" name="gender" id="gender_1" value="1"
-                                @if ((old('gender') ?? 0) == 1) checked @endif>>
+                                    @if ((old('gender') ?? 0) == 1) checked @endif>
                                 <label for="gender_1">여성</label>
                             </div>
                         </li>
