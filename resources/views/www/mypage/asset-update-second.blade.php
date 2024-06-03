@@ -19,7 +19,7 @@
 
             <!-- my_body : s -->
             <div class="inner_mid_wrap m_inner_wrap mid_body">
-                <h1 class="t_center only_pc">자산 등록하기 <span class="step_number"><span class="txt_point">2</span>/4</span>
+                <h1 class="t_center only_pc">자산 수정하기 <span class="step_number"><span class="txt_point">2</span>/4</span>
                 </h1>
 
                 <div class="offer_step_wrap">
@@ -28,8 +28,8 @@
                         <h4>거래정보</h4>
 
                         <ul class="tab_type_3 tab_toggle_menu">
-                            <li class="active" onclick="onTabChange(0);">매매</li>
-                            <li onclick="onTabChange(1);">분양권</li>
+                            <li id="tran_type_0_btn" class="active" onclick="onTabChange(0);">매매</li>
+                            <li id="tran_type_1_btn" onclick="onTabChange(1);">분양권</li>
                         </ul>
 
                         <div class="tab_area_wrap">
@@ -134,8 +134,9 @@
                                         </div>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="registered_at_1" name="registered_at_1"
-                                                disabled placeholder="예) 20240101"
-                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                placeholder="예) 20240101"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                onkeyup="onDateChangeEvent('registered_at', 1);">
                                         </div>
                                     </div>
                                     <div class="reg_item">
@@ -290,17 +291,30 @@
 
     <script>
         window.onload = () => {
+
+            if ('{{ $result->tran_type }}' == 1) {
+                $("#tran_type_1_btn").trigger('click');
+
+                $('#price').val("{{ $result->price }}");
+                $('#etc_price').val("{{ $result->etc_price }}");
+                $('#tax_price').val("{{ $result->tax_price }}");
+                $('#estate_price').val("{{ $result->estate_price }}");
+                $('#contracted_at').val("{{ $contracted_at }}");
+
+                $('#acquisition_tax_rate_1').val('{{ $result->acquisition_tax_rate }}');
+            }
+
             let priceArray = ['price', 'etc_price', 'tax_price', 'estate_price'];
 
             priceArray.forEach(element => {
                 $(`#${element}_{{ $result->tran_type }}`).val(numberToKorean(parseInt($(
-                    `#${element}_{{ $result->tran_type }}`).val())));
+                    `#${element}`).val())));
             });
 
             $(`#loan_price_0`).val(numberToKorean(parseInt($(`#loan_price`).val())));
 
             $(`#contracted_at_{{ $result->tran_type }}`).val(numberToDate(parseInt($('#contracted_at').val())));
-            $(`#registered_at_{{ $result->tran_type }}`).val(numberToDate(parseInt($('#registered_at').val())));
+            $(`#registered_at_{{ $result->tran_type }}`).val($('#registered_at').val() != '' ? numberToDate(parseInt($('#registered_at').val())) : '');
             $(`#loaned_at_0`).val(numberToDate(parseInt($('#loaned_at').val())));
 
             onFieldInputCheck();
