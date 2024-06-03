@@ -2,7 +2,8 @@
 
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
-        <div class="left_area"><a href="javascript:history.go(-1)"><img src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
+        <div class="left_area"><a href="javascript:history.go(-1)"><img
+                    src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
         <div class="m_title">마이메뉴</div>
         <div class="right_area"></div>
     </div>
@@ -35,100 +36,150 @@
                     </div>
 
                     <div class="calculator_btn_wrap">
-                        <button class="btn_point btn_basic" onclick="modal_open('rev_calculator')">대출 이자 계산기</button>
+                        <button type="button" class="btn_point btn_basic" onclick="modal_open('rev_calculator')">대출 이자
+                            계산기</button>
                     </div>
 
                     <div class="calculator_container">
-                        <!-- 계산서 : s -->
-                        <div class="loan_item">
-                            <div class="item_tit_wrap">
-                                <h4><span>원금균등분할</span> 계산서 1</h4>
-                                <div class="btn_area">
-                                    <button class="btn_graylight_ghost btn_sm">공유</button>
-                                    <button class="btn_graylight_ghost btn_sm">삭제</button>
-                                </div>
-                            </div>
-                            <div class="table_container columns_2">
-                                <div class="td">대출금액</div>
-                                <div class="td">100,000,000원</div>
-                                <div class="td">상환기간</div>
-                                <div class="td">24개월 <span class="gray_basic">거치기간 3개월</span></div>
-                                <div class="td">월납입원금</div>
-                                <div class="td">4,920,617원</div>
-                                <div class="td">총 이자액</div>
-                                <div class="td">3,595,851원<span class="txt_point">(금리 3.6%)</span></div>
-                                <div class="td">총 상환금액</div>
-                                <div class="td">103,595,851원</div>
-                            </div>
-                            <div class="flex_between mt20">
-                                <h4>상환 스케줄 </h4>
-                                <div class="fs_13 gray_basic">(단위 : 원)</div>
-                            </div>
-                            <div class="repayment_schedule_wrap">
-                                <div class="repayment_schedule_item">
-                                    <div class="schedule_tit_tiem">
-                                        <span>1회차</span>
-                                        <span>잔금 : 100,000,000</span>
+                        @foreach ($loanList as $key => $loan)
+                            <!-- 계산서 : s -->
+                            <div class="loan_item">
+                                <div class="item_tit_wrap">
+                                    <h4>
+                                        <span>
+                                            @switch($loan->type)
+                                                @case(0)
+                                                    원금균등분할
+                                                @break
+
+                                                @case(1)
+                                                    원리금균등분할
+                                                @break
+
+                                                @case(2)
+                                                    만기일시
+                                                @break
+
+                                                @default
+                                            @endswitch
+                                        </span>
+                                        계산서 {{ $key + 1 }}
+                                    </h4>
+                                    <div class="btn_area">
+                                        <button type="button" class="btn_graylight_ghost btn_sm">공유</button>
+                                        <button type="button" class="btn_graylight_ghost btn_sm">삭제</button>
                                     </div>
-                                    <table class="repayment_table">
-                                        <tr>
-                                            <th>월상환금</th>
-                                            <th>납입원금</th>
-                                            <th>이자액</th>
-                                        </tr>
-                                        <tr>
-                                            <td>300,000</td>
-                                            <td>0</td>
-                                            <td>300,000</td>
-                                        </tr>
-                                    </table>
                                 </div>
-                                <div class="repayment_schedule_item">
-                                    <div class="schedule_tit_tiem">
-                                        <span>2회차</span>
-                                        <span>잔금 : 100,000,000</span>
+                                <div class="table_container columns_2">
+                                    <div class="td">대출금액</div>
+                                    <div class="td">{{ number_format($loan->loan_price) }}원</div>
+
+                                    @php
+                                        // 총 이자액 = ((대출금액*금리) / 12)
+                                        // 월 상환 금액 = (대출금액 / 상환기간) + 총 이자액
+                                        $monthPayPrice = ($loan->loan_price * ($loan->loan_rate / 100)) / 12;
+                                        $payPrice = $loan->loan_price / $loan->loan_month + $monthPayPrice;
+                                    @endphp
+
+                                    @if ($loan->type != 2)
+                                        <div class="td">대출기간</div>
+                                        <div class="td">{{ $loan->loan_month }}개월
+                                            @if ($loan->holding_month != '')
+                                                <span class="gray_basic">거치기간 {{ $loan->holding_month }}개월</span>
+                                            @endif
+                                        </div>
+                                        <div class="td">월상환금액</div>
+                                        <div class="td">{{ number_format($payPrice) }}원</div>
+                                    @else
+                                        <div class="td">상환기간</div>
+                                        <div class="td">{{ $loan->loan_month }}개월</div>
+                                    @endif
+
+                                    <div class="td">총 이자액</div>
+                                    <div class="td">{{ number_format($monthPayPrice * $loan->loan_month) }}원
+                                        <span class="txt_point"> (금리{{ $loan->loan_rate }}%)</span>
                                     </div>
-                                    <table class="repayment_table">
-                                        <tr>
-                                            <th>월상환금</th>
-                                            <th>납입원금</th>
-                                            <th>이자액</th>
-                                        </tr>
-                                        <tr>
-                                            <td>300,000</td>
-                                            <td>0</td>
-                                            <td>300,000</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="repayment_schedule_item">
-                                    <div class="schedule_tit_tiem">
-                                        <span>3회차</span>
-                                        <span>잔금 : 100,000,000</span>
+                                    <div class="td">총 상환금액</div>
+                                    <div class="td">
+                                        {{ number_format($loan->loan_price + $monthPayPrice * $loan->loan_month) }}원
                                     </div>
-                                    <table class="repayment_table">
-                                        <tr>
-                                            <th>월상환금</th>
-                                            <th>납입원금</th>
-                                            <th>이자액</th>
-                                        </tr>
-                                        <tr>
-                                            <td>300,000</td>
-                                            <td>0</td>
-                                            <td>300,000</td>
-                                        </tr>
-                                    </table>
                                 </div>
 
-                            </div>
-                        </div>
-                        <!-- 계산서 : e -->
+                                <div class="flex_between mt20">
+                                    <h4>상환 스케줄 </h4>
+                                    <div class="fs_13 gray_basic">(단위 : 원)</div>
+                                </div>
 
-                        <!-- 계산서 : s -->
-                        <div class="loan_item">
-                            2
-                        </div>
-                        <!-- 계산서 : e -->
+                                <div class="repayment_schedule_wrap">
+                                    @php
+                                        $balance = $loan->loan_price; // 잔금 계산
+                                        $loan_price = $loan->loan_price; // 잔금
+
+                                        $addPrice = ($loan->loan_price * ($loan->loan_rate / 100)) / 12; // 월 이자
+
+                                        if ($loan->holding_month != '') {
+                                            $month = $loan->loan_month - $loan->holding_month;
+                                        }
+                                    @endphp
+
+                                    @for ($i = 1; $i <= $loan->loan_month; $i++)
+                                        @php
+
+                                            // 금리 변동 있을 시
+                                            foreach ($loan->loan_rates as $key => $rate) {
+                                                if ($rate->sequence == $i) {
+                                                    $addPrice = ($loan->loan_price * ($rate->interest_rate / 100)) / 12; // 월 이자
+                                                }
+                                            }
+
+                                            $payPrice = 0; // 납입 원금
+                                            $prePriceAll = 0;
+
+                                            if ($loan->holding_month != '') {
+                                                if ($i <= $loan->holding_month) {
+                                                    // 거치 기간 존재 시 잔금 / 납입 원금 변화 X
+                                                    $payPrice = 0;
+                                                } else {
+                                                    // 거치 기간 없을 시 잔금 - 상환 금액
+                                                    $payPrice = $loan_price / $month;
+                                                }
+                                            } else {
+                                                $payPrice = $loan_price / $loan->loan_month;
+                                            }
+
+                                            // 중도 상환금 있을 시
+                                            foreach ($loan->prepayments as $key => $pre) {
+                                                if ($pre->sequence == $i) {
+                                                    $payPrice += $pre->pay_price;
+                                                    $loan_price -= $pre->pay_price;
+                                                }
+                                            }
+
+                                            $balance -= $payPrice;
+                                        @endphp
+                                        <div class="repayment_schedule_item">
+                                            <div class="schedule_tit_tiem">
+                                                <span>{{ $i }}회차</span>
+                                                <span>잔금 : {{ number_format($balance) }}</span>
+                                            </div>
+                                            <table class="repayment_table">
+                                                <tr>
+                                                    <th>월상환금</th>
+                                                    <th>납입원금</th>
+                                                    <th>이자액</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{ number_format($payPrice + $addPrice) }}</td>
+                                                    <td>{{ number_format($payPrice) }}</td>
+                                                    <td>{{ number_format($addPrice) }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    @endfor
+                                </div>
+                            </div>
+                            <!-- 계산서 : e -->
+                        @endforeach
                     </div>
                 </div>
                 <!-- my_body : e -->
@@ -149,96 +200,137 @@
                     </div>
                 </div>
 
-                <div class="md_inner_scroll">
+                <form method="post" action="{{ route('www.calculator.loan.create') }}">
+                    <div class="md_inner_scroll">
 
-                    <ul class="tab_toggle_menu tab_type_4">
-                        <li class="active"><a href="javascript:(0)">원금균등분할</a></li>
-                        <li><a href="javascript:(0)">원리금균등분할</a></li>
-                        <li><a href="javascript:(0)">만기일시</a></li>
-                    </ul>
+                        <ul class="tab_toggle_menu tab_type_4">
+                            <li class="active" onclick="onTypeChange(0);"><a href="javascript:(0)">원금균등분할</a></li>
+                            <li onclick="onTypeChange(1);"><a href="javascript:(0)">원리금균등분할</a></li>
+                            <li onclick="onTypeChange(2);"><a href="javascript:(0)">만기일시</a></li>
+                        </ul>
 
-                    <div class="checkbox_wrap mt20">
-                        <div>
-                            <input type="checkbox" name="check" id="check_1" value="Y">
-                            <label for="check_1"><span></span>거치기간</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" name="check" id="check_2" value="Y">
-                            <label for="check_2"><span></span>중도상환/금리변동</label>
-                        </div>
-                    </div>
-
-                    <ul class="reg_bascic mt18">
-                        <li>
-                            <div class="btn_half_wrap">
-                                <div>
-                                    <label>대출원금</label>
-                                    <div class="flex_1">
-                                        <input type="number">
-                                        <span>원</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label>이자율</label>
-                                    <div class="flex_1">
-                                        <input type="number">
-                                        <span>%</span>
-                                    </div>
-                                </div>
+                        <div class="checkbox_wrap mt20">
+                            <div id="dateCheckBox">
+                                <input type="checkbox" name="check" id="check_1" value="Y">
+                                <label for="check_1"><span></span>거치기간</label>
                             </div>
-                        </li>
-                        <li>
-                            <div class="btn_half_wrap">
-                                <div>
-                                    <label>대출기간</label>
-                                    <div class="flex_1">
-                                        <input type="number">
-                                        <span>개월</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <!-- 만기일시는 거치기간을 삭제해 주세요. -->
-                                    <label>거치기간</label>
-                                    <div class="flex_1">
-                                        <input type="number">
-                                        <span>개월</span>
-                                    </div>
-                                </div>
+                            <div>
+                                <input type="checkbox" name="check" id="check_2" value="Y">
+                                <label for="check_2"><span></span>중도상환/금리변동</label>
                             </div>
-                        </li>
-                    </ul>
-                    <hr>
-                    <div class="btn_half_wrap">
-                        <button class="btn_additem_1 btn_point_ghost btn_full_thin txt_r" id="additem_1">중도상환
-                            추가</button>
-                        <button class="btn_additem_2 btn_point_ghost btn_full_thin txt_r" id="additem_2">금리변동
-                            추가</button>
-                    </div>
-                    <div class="item_wrap_1">
-                        <h6 class="mt20">중도상환</h6>
-                        <div id="itemContaniner_1"></div>
-                        <hr class="mt18">
+                        </div>
+
+                        <ul class="reg_bascic mt18">
+                            <li>
+                                <div class="btn_half_wrap">
+                                    <div>
+                                        <label>대출원금</label>
+                                        <div class="flex_1">
+                                            <input type="number" id="loan_price" name="loan_price">
+                                            <span>원</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label>이자율</label>
+                                        <div class="flex_1">
+                                            <input type="number" placeholder="소수점 두자리까지 입력" id="loan_rate"
+                                                name="loan_rate" step=0.01>
+                                            <span>%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="btn_half_wrap">
+                                    <div>
+                                        <label>대출기간</label>
+                                        <div class="flex_1">
+                                            <input type="number" id="loan_month" name="loan_month">
+                                            <span>개월</span>
+                                        </div>
+                                    </div>
+                                    <div id="doneDate" style="display:none;">
+                                        <!-- 만기일시는 거치기간을 삭제해 주세요. -->
+                                        <label>거치기간</label>
+                                        <div class="flex_1">
+                                            <input type="number" id="holding_month" name="holding_month">
+                                            <span>개월</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <hr>
+                        <div class="btn_half_wrap dataAddButton" style="display:none;">
+                            <button type="button" class="btn_additem_1 btn_point_ghost btn_full_thin txt_r"
+                                id="additem_1">중도상환
+                                추가</button>
+                            <button type="button" class="btn_additem_2 btn_point_ghost btn_full_thin txt_r"
+                                id="additem_2">금리변동
+                                추가</button>
+                        </div>
+
+                        <div class="item_wrap_1">
+                            <h6 class="mt20">중도상환</h6>
+                            <div id="itemContaniner_1"></div>
+                            <hr class="mt18">
+                        </div>
+
+                        <div class="item_wrap_2">
+                            <h6 class="mt20">금리변동</h6>
+                            <div id="itemContaniner_2"></div>
+                        </div>
                     </div>
 
-                    <div class="item_wrap_2">
-                        <h6 class="mt20">금리변동</h6>
-                        <div id="itemContaniner_2"></div>
+                    <input type="hidden" id="type" name="type" value="0">
+                    <div class="modal_container">
+                        <button type="submit" class="btn_point btn_full_basic" id="nextPageButton" disabled><b>대출이자
+                                계산하기</b></button>
                     </div>
-                </div>
+                </form>
 
-                <div class="modal_container">
-                    <button class="btn_point btn_full_basic" disabled><b>대출이자 계산하기</b></button>
-                </div>
 
             </div>
             <div class="md_overlay md_overlay_rev_calculator" onclick="modal_close('rev_calculator')"></div>
             <!-- modal 대출계산기 : e -->
+
 
         </div>
 
     </div>
 
     <script>
+        var onTypeChange = (type) => {
+            $('#type').val(type);
+            if (type != 2) {
+                $('#dateCheckBox').show();
+            } else {
+                document.getElementById('check_1').checked = false;
+                $('#dateCheckBox').hide();
+                $('#doneDate').hide();
+            }
+        }
+
+        // 거치 기간 선택 시
+        $('#check_1').click(function() {
+            const checkbox = document.getElementById('check_1');
+            if (checkbox.checked == true) {
+                $('#doneDate').show();
+            } else {
+                $('#doneDate').hide();
+            }
+        });
+
+        // 중도 상환 / 금리 변동 선택 시
+        $('#check_2').click(function() {
+            const checkbox = document.getElementById('check_2');
+            if (checkbox.checked == true) {
+                $('.dataAddButton').show();
+            } else {
+                $('.dataAddButton').hide();
+            }
+        });
+
         //중도상환 추가
         $('.btn_additem_1').click(function() {
             $('.item_wrap_1').css('display', 'block');
@@ -252,16 +344,16 @@
                 <div>
                     <label class="input_label">회차</label>
                     <div class="flex_1">
-                        <input type="text" placeholder="1">
+                        <input type="number" placeholder="1" name="prePayCount[]">
                         <span>/</span>
                     </div>
                 </div>
                 <div>
                     <label class="input_label">상환 금액</label>
                     <div class="flex_1">
-                        <input type="text">
+                        <input type="number" name="prePay[]">
                         <span>원</span>
-                        <button class="btn_graylight_ghost btn_input txt_r deleteBtn_1">삭제</button>
+                        <button type="button" class="btn_graylight_ghost btn_input txt_r deleteBtn_1">삭제</button>
                     </div>
                 </div>
             </div>
@@ -290,16 +382,16 @@
                 <div>
                     <label class="input_label">회차</label>
                     <div class="flex_1">
-                        <input type="text" placeholder="1">
+                        <input type="number" placeholder="1"  name="rateCount[]">
                         <span>/</span>
                     </div>
                 </div>
                 <div>
                     <label class="input_label">변동 금리</label>
                     <div class="flex_1">
-                        <input type="text">
+                        <input type="number" name="interestRate[]" step=0.01>
                         <span>%</span>
-                        <button class="btn_graylight_ghost btn_input txt_r deleteBtn_2">삭제</button>
+                        <button type="button" class="btn_graylight_ghost btn_input txt_r deleteBtn_2">삭제</button>
                     </div>
                 </div>
             </div>
@@ -313,6 +405,34 @@
                     document.querySelector('.item_wrap_2').style.display = 'none';
                 }
             });
+        });
+
+        function debounce(func, timeout = 300) {
+            let timer;
+            return (...args) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    func.apply(this, args);
+                }, timeout);
+            };
+        }
+
+        function onFieldInputCheck() {
+            if ($('#loan_price').val() != '' && $('#loan_rate').val() != '' && $('#loan_month').val() != '') {
+                document.getElementById('nextPageButton').disabled = false;
+            } else {
+                document.getElementById('nextPageButton').disabled = true;
+            }
+        }
+
+        const processChange = debounce(() => onFieldInputCheck());
+
+        addEventListener("input", (event) => {
+            processChange();
+        });
+
+        addEventListener("checkbox", (event) => {
+            processChange();
         });
     </script>
 
