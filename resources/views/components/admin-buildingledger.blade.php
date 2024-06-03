@@ -1,5 +1,6 @@
 @props([
     'class' => '',
+    'isUpdate' => 'true',
     'result' => [],
 ])
 @inject('carbon', 'Carbon\Carbon')
@@ -15,7 +16,7 @@
             <input type="hidden" name="BrTitleInfo" id="BrTitleInfo" class="form-control form-control-solid " readonly
                 placeholder=""
                 value="{{ old('BrTitleInfo') ? old('BrTitleInfo') : $result->BrTitleInfo->json_data ?? '' }}" />
-            <div class="col-lg-4 fv-row">
+            <div class="col-lg-4 fv-row isUpdate">
                 <a onclick="get_buildingledger('{{ $result->pnu }}', 'BrTitleInfo')" class="btn btn-secondary">업데이트</a>
             </div>
         </div>
@@ -31,7 +32,7 @@
             <input type="hidden" name="BrRecapTitleInfo" id="BrRecapTitleInfo" class="form-control form-control-solid "
                 readonly placeholder=""
                 value="{{ old('BrRecapTitleInfo') ? old('BrRecapTitleInfo') : $result->BrRecapTitleInfo->json_data ?? '' }}" />
-            <div class="col-lg-4 fv-row">
+            <div class="col-lg-4 fv-row isUpdate">
                 <a onclick="get_buildingledger('{{ $result->pnu }}', 'BrRecapTitleInfo')"
                     class="btn btn-secondary">업데이트</a>
             </div>
@@ -47,7 +48,7 @@
             <input type="hidden" name="BrFlrOulnInfo" id="BrFlrOulnInfo" class="form-control form-control-solid "
                 readonly placeholder=""
                 value="{{ old('BrFlrOulnInfo') ? old('BrFlrOulnInfo') : $result->BrFlrOulnInfo->json_data ?? '' }}" />
-            <div class="col-lg-4 fv-row">
+            <div class="col-lg-4 fv-row isUpdate">
                 <a onclick="get_buildingledger('{{ $result->pnu }}', 'BrFlrOulnInfo')"
                     class="btn btn-secondary">업데이트</a>
             </div>
@@ -63,7 +64,7 @@
             <input type="hidden" name="BrExposInfo" id="BrExposInfo" class="form-control form-control-solid " readonly
                 placeholder=""
                 value="{{ old('BrExposInfo') ? old('BrExposInfo') : $result->BrExposInfo->json_data ?? '' }}" />
-            <div class="col-lg-4 fv-row">
+            <div class="col-lg-4 fv-row isUpdate">
                 <a onclick="get_buildingledger('{{ $result->pnu }}', 'BrExposInfo')"
                     class="btn btn-secondary">업데이트</a>
             </div>
@@ -80,7 +81,7 @@
             <input type="hidden" name="BrExposPubuseAreaInfo" id="BrExposPubuseAreaInfo"
                 class="form-control form-control-solid " readonly placeholder=""
                 value="{{ old('BrExposPubuseAreaInfo') ? old('BrExposPubuseAreaInfo') : $result->BrExposPubuseAreaInfo->json_data ?? '' }}" />
-            <div class="col-lg-4 fv-row">
+            <div class="col-lg-4 fv-row isUpdate">
                 <a onclick="get_buildingledger('{{ $result->pnu }}', 'BrExposPubuseAreaInfo')"
                     class="btn btn-secondary">업데이트</a>
             </div>
@@ -89,6 +90,11 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        if (!{{ $isUpdate ?? true }}) {
+            $('.isUpdate').hide();
+        }
+    });
     // 건축물 대장 가져오는 api
     function get_buildingledger(pnu, get_type) {
         loadingStart();

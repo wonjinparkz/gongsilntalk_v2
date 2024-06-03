@@ -4,6 +4,7 @@ use App\Http\Controllers\alarm\AlaramController;
 use App\Http\Controllers\dashboard\AdaminDashboardController;
 use App\Http\Controllers\admin\AdminAuthController;
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\apt\AptController;
 use App\Http\Controllers\community\CommunityCategoryController;
 use App\Http\Controllers\community\CommunityController;
 use App\Http\Controllers\faq\FaqController;
@@ -326,13 +327,20 @@ Route::middleware('admin.auth')->controller(AdminController::class)->group(funct
 /**
  * 데이터 관리
  */
+Route::middleware('admin.auth')->controller(AptController::class)->group(function () {
+    Route::get('/apt/complex/list/view', 'aptComplexListView')->name('admin.apt.complex.list.view');
+    Route::get('/apt/complex/detail/view/{id}', 'aptComplexDetailView')->name('admin.apt.complex.detail.view');
+    Route::post('/apt/complex/update', 'aptComplexUpdate')->name('admin.apt.complex.update');
+    Route::post('/apt/complex/delete', 'aptComplexDelete')->name('admin.apt.complex.delete');
+});
 
 
 /**
  * 데이터 수집
  */
 Route::controller(DataController::class)->group(function () {
-    Route::get('/data/apt', 'getApt')->name('data.apt');
+    Route::get('/data/apt', 'getAptBaseInfo')->name('data.apt');
+    Route::get('/data/apt/base', 'getAptBaseInfo')->name('data.apt.base');
 });
 
 /**

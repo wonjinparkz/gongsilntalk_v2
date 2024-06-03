@@ -33,6 +33,7 @@
     <script src="{{ asset('assets/js/swiper.jquery.js') }}"></script>
     <script src="{{ asset('assets/js/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/proj4.js') }}"></script>
+    <script src="{{ asset('assets/external_js/html2canvas.js') }}"></script>
 
     <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
     <script src="{{ asset('assets/plugins/custom/fslightbox/fslightbox.bundle.js') }}"></script>
@@ -72,16 +73,16 @@
     var hostUrl = "assets/";
 
     var isMobile = {
-            Android: function() {
-                return navigator.userAgent.match(/Chrome/) == null ? false : true;
-            },
-            iOS: function() {
-                return navigator.userAgent.match(/iPhone|iPad|iPod/i) == null ? false : true;
-            },
-            any: function() {
-                return (isMobile.Android() || isMobile.iOS());
-            }
-        };
+        Android: function() {
+            return navigator.userAgent.match(/Chrome/) == null ? false : true;
+        },
+        iOS: function() {
+            return navigator.userAgent.match(/iPhone|iPad|iPod/i) == null ? false : true;
+        },
+        any: function() {
+            return (isMobile.Android() || isMobile.iOS());
+        }
+    };
 
     // 공통 메세지 출력
     @if (session('message') != null)

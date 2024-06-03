@@ -154,6 +154,7 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     // 대출 이자 계산기
     Route::get('/mypage/calculator/loan/list', 'calculatorLoanListView')->name('www.mypage.calculator.loan.list.view');
     Route::post('/mypage/calculator/loan/create', 'calculatorLoanCreate')->name('www.calculator.loan.create');
+    Route::post('/mypage/calculator/loan/delete', 'calculatorLoanDelete')->name('www.calculator.loan.delete');
 
     Route::get('/mypage/my/info', 'myInfoView')->name('www.mypage.my.info');
     Route::get('/mypage/company/info', 'companyInfoView')->name('www.mypage.company.info');
