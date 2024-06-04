@@ -20,7 +20,7 @@ class ReplyBlock extends BaseModel
     /**
      * 모델
      */
-    protected $fillable = ['user_id', 'reply_id'];
+    protected $fillable = ['users_id', 'reply_id'];
 
     /**
      * 직렬화에서 감출것

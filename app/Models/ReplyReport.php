@@ -20,7 +20,7 @@ class ReplyReport extends BaseModel
     /**
      * 모델
      */
-    protected $fillable = ['user_id', 'reply_id', 'report_type', 'report_reason'];
+    protected $fillable = ['users_id', 'reply_id', 'type', 'reason'];
 
 
     /**
