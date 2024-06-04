@@ -13,7 +13,7 @@ class CorpProductPrice extends BaseModel
     /**
      * Table Name
      */
-    protected $table = 'corp_product';
+    protected $table = 'corp_product_price';
 
 
     /**
