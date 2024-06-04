@@ -23,35 +23,64 @@
                     <h1 class="t_center only_pc">기업 이전 제안서</h1>
 
                     <div class="flex_between my_body_top">
-                        <div class="gray_deep fs_16_v">총 8개의 제안서</div>
-                        <button class="btn_point btn_sm" onclick="modal_open('add')">신규 기업 추가</button>
+                        <div class="gray_deep fs_16_v">총 {{ count($proposalList) }}개의 제안서</div>
+                        <button class="btn_point btn_sm" type="button" onclick="modal_open('add')">신규 기업 추가</button>
                     </div>
 
 
-
-                    <div class="proposal_list_2_wrap">
+                    <div class="proposal_list_2_wrap mt20">
                         @inject('carbon', 'Carbon\Carbon')
 
                         @if (count($proposalList) > 0)
                             @foreach ($proposalList as $proposal)
                                 <div class="proposal_list_row">
-                                    <div class="cursor_pointer" onclick="location.href='{{route('www.mypage.corp.proposalproduct.list.view', $proposal->id)}}'">
+                                    <div class="cursor_pointer"
+                                        onclick="location.href='{{ route('www.mypage.corp.proposalproduct.list.view', $proposal->id) }}'">
                                         <h5>{{ $proposal->corp_name }}</h5>
-                                        <p class="list_item_1">제안한 매물 <span>0개</span></p>
+                                        <p class="list_item_1">제안한 매물 <span>{{ count($proposal->products) }}개</span></p>
                                     </div>
                                     <div class="list_item_2">
                                         <span
                                             class="txt_date">{{ $carbon::parse($proposal->created_at)->format('Y.m.d') }}</span>
                                         <div class="gap_8">
-                                            <button class="btn_gray_ghost btn_sm"
-                                                onclick="location.href='proposal_type.html'">제안서 미리보기</button>
-                                            <button class="btn_gray_ghost btn_sm"
-                                                onclick="modal_open('delete')">삭제</button>
+                                            <button class="btn_gray_ghost btn_sm" type="button"
+                                                onclick="location.href='{{ route('www.mypage.corp.proposal.type.detail.view', [$proposal->id]) }}'"
+                                                {{ count($proposal->products) < 1 ? 'disabled' : '' }}>제안서 미리보기</button>
+                                            <button class="btn_gray_ghost btn_sm" type="button"
+                                                onclick="modal_open('delete_{{ $proposal->id }}')">삭제</button>
                                         </div>
-                                        <button class="btn_arrow"
-                                            onclick="location.href='realtor_proposal_detail.html'"></button>
+                                        <button class="btn_arrow" type="button"
+                                            onclick="location.href='{{ route('www.mypage.corp.proposalproduct.list.view', $proposal->id) }}'"></button>
                                     </div>
                                 </div>
+
+                                <form id="deleteForm_{{ $proposal->id }}" method="post"
+                                    action="{{ route('www.mypage.proposal.delete') }}">
+                                    <input type="hidden" id="id" name="id" value="{{ $proposal->id }}">
+                                </form>
+
+                                <!-- modal 삭제 : s -->
+                                <div class="modal modal_delete_{{ $proposal->id }}">
+
+                                    <div class="modal_container">
+                                        <div class="modal_mss_wrap">
+                                            <p class="txt_item_1 txt_point">{{ $proposal->corp_name }}</p>
+                                            <p class="txt_item_1">기업을 삭제하시겠습니까?</p>
+                                            <p class="mt8 txt_item_2">삭제 후에는 되돌릴 수 없습니다.</p>
+                                        </div>
+
+                                        <div class="modal_btn_wrap">
+                                            <button class="btn_gray btn_full_thin" type="button"
+                                                onclick="modal_close('delete_{{ $proposal->id }}')">취소</button>
+                                            <button class="btn_point btn_full_thin" type="button"
+                                                onclick="onDeleteFormSubmit('{{ $proposal->id }}');">삭제</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="md_overlay md_overlay_delete_{{ $proposal->id }}"
+                                    onclick="modal_close('delete_{{ $proposal->id }}')"></div>
+                                <!-- modal 삭제 : e -->
                             @endforeach
                         @else
                             <!-- 데이터가 없을 경우 : s -->
@@ -84,7 +113,7 @@
                                 <input type="text" name="corp_name" id="corp_name" placeholder="기업명을 입력해주세요.">
                             </li>
                             <li>
-                                <label>중개사 직책 *<span>*</span></label>
+                                <label>중개사 직책 <span>*</span></label>
                                 <input type="text" name="position" id="position"
                                     placeholder="제안서에 노출될 중개사의 직책 입력. 예) 대표">
                             </li>
@@ -98,25 +127,6 @@
             <div class="md_overlay md_overlay_add" onclick="modal_close('add')"></div>
             <!-- modal 추가 : e -->
 
-            <!-- modal 삭제 : s -->
-            <div class="modal modal_delete">
-
-                <div class="modal_container">
-                    <div class="modal_mss_wrap">
-                        <p class="txt_item_1 txt_point">주식회사 에스엔디</p>
-                        <p class="txt_item_1">기업을 삭제하시겠습니까?</p>
-                        <p class="mt8 txt_item_2">삭제 후에는 되돌릴 수 없습니다.</p>
-                    </div>
-
-                    <div class="modal_btn_wrap">
-                        <button class="btn_gray btn_full_thin" onclick="modal_close('delete')">취소</button>
-                        <button class="btn_point btn_full_thin" onclick="modal_close('delete')">삭제</button>
-                    </div>
-                </div>
-
-            </div>
-            <div class="md_overlay md_overlay_delete" onclick="modal_close('delete')"></div>
-            <!-- modal 삭제 : e -->
 
         </div>
     </div>
@@ -138,6 +148,10 @@
             } else {
                 $('.proposal_confirm').attr('disabled', true);
             }
+        }
+
+        function onDeleteFormSubmit(id) {
+            $('#deleteForm_' + id).submit();
         }
     </script>
 </x-layout>

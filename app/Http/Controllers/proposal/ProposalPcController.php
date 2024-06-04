@@ -66,7 +66,7 @@ class ProposalPcController extends Controller
             ->first();
 
 
-        $proposal = CorpProposal::select()->where('id', $id)->where('users_id', Auth::guard('web')->user()->id)->first();
+        $proposal = CorpProposal::with('products')->select()->where('id', $id)->where('users_id', Auth::guard('web')->user()->id)->first();
 
         if (!isset($proposal)) {
             return redirect(route('www.mypage.corp.proposal.list.view'))
@@ -75,6 +75,18 @@ class ProposalPcController extends Controller
         }
 
         return view('www.proposal.corpProposalProduct_list', compact('user', 'proposal'));
+    }
+
+    /**
+     * 중개사 기업 이름 변경
+     */
+    public function corpProposalNameUpdate(Request $request): RedirectResponse
+    {
+        $result = CorpProposal::where('id', $request->corp_id)->update([
+            'corp_name' => $request->corp_name
+        ]);
+
+        return Redirect::back()->with('message', '기업명을 수정했습니다.');
     }
 
     /**
@@ -103,9 +115,7 @@ class ProposalPcController extends Controller
      */
     public function corpProposalProductCreateTypeCheck(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-
-        ]);
+        $validator = Validator::make($request->all(), []);
 
         if ($validator->fails()) {
             return redirect(route('www.product.create.view'))->withErrors($validator)
@@ -120,9 +130,7 @@ class ProposalPcController extends Controller
      */
     public function corpProposalProductCreatePriceCheck(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-
-        ]);
+        $validator = Validator::make($request->all(), []);
 
         if ($validator->fails()) {
             return redirect(route('www.product.create.view'))->withErrors($validator)
@@ -130,5 +138,19 @@ class ProposalPcController extends Controller
         }
 
         return Redirect::route('www.corp.proposal.product.create2.view', compact('request'));
+    }
+
+
+    /**
+     * 기업 이전 제안서 타입
+     */
+    public function corpProposalTypeDetailView(Request $request): View
+    {
+        $user = User::select()
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
+
+
+        return view('www.proposal.proposal-type', compact('user'));
     }
 }

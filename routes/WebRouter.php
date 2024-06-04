@@ -143,7 +143,10 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::get('/mypage/service/update-fourth', 'serviceFourthUpdateView')->name('www.mypage.service.update.fourth.view');
     Route::post('/mypage/service/update', 'serviceUpdate')->name('www.mypage.service.update');
 
+    // 중개사 기업 이전 제안서
     Route::get('/mypage/corp/proposal/list', 'corpProposalListView')->name('www.mypage.corp.proposal.list.view');
+    Route::post('/mypage/proposal/delete', 'corpProposalDelete')->name('www.mypage.proposal.delete');
+
     Route::get('/mypage/proposal/list', 'proposalListView')->name('www.mypage.proposal.list.view');
 
     // 수익률 계산기
@@ -168,7 +171,11 @@ Route::middleware('pc.auth')->controller(ProposalPcController::class)->group(fun
     Route::get('/corp/proposal/product/create2', 'corpProposalProductCreate2View')->name('www.corp.proposal.product.create2.view');
     Route::get('/mypage/corp/proposalproduct/list/{id}', 'corpProposalProductListView')->name('www.mypage.corp.proposalproduct.list.view');
     Route::post('/corp/proposal/product/create/type/check', 'corpProposalProductCreateTypeCheck')->name('www.corp.proposal.product.create.type.check');
+    Route::post('/corp/proposal/product/name-update', 'corpProposalNameUpdate')->name('www.corp.proposal.name.update');
+    Route::get('/mypage/corp/proposal/type/{id}', 'corpProposalTypeDetailView')->name('www.mypage.corp.proposal.type.detail.view');
+
     Route::post('/corp/proposal/product/create/info/check', 'corpProposalProductCreateinfoCheck')->name('www.corp.proposal.product.create.info.check');
+    Route::post('/corp/proposal/product/create/price/check', 'corpProposalProductCreatePriceCheck')->name('www.corp.proposal.product.create.price.check');
 });
 
 /**
