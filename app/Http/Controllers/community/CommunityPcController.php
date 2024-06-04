@@ -4,6 +4,8 @@ namespace App\Http\Controllers\community;
 
 use App\Http\Controllers\Controller;
 use App\Models\Community;
+use App\Models\CommunityBlock;
+use App\Models\CommunityReport;
 use App\Models\Magazine;
 use App\Models\Notice;
 use App\Models\Reply;
@@ -119,7 +121,7 @@ class CommunityPcController extends Controller
             'users.type AS author_type',
             'reply_block.id AS block_id'
         )
-            ->leftJoin('reply_block', function ($block){
+            ->leftJoin('reply_block', function ($block) {
                 $block->on('reply.id', '=', 'reply_block.reply_id')
                     ->where('reply_block.users_id', '=', Auth::guard('web')->user()->id ?? "");
             });
@@ -129,6 +131,8 @@ class CommunityPcController extends Controller
 
         // 해당 댓글만
         $ReplyList->where('reply.target_id', '=', $request->id);
+        $ReplyList->where('reply.is_delete', '=', 0);
+        $ReplyList->where('reply.is_blind', '=', 0);
 
         if ($is_community == 0) {
             $ReplyList->where('reply.target_type', '=', 'magazine');
@@ -143,7 +147,10 @@ class CommunityPcController extends Controller
         $replys = $ReplyList->paginate(10);
         $replys->appends(request()->except('page'));
 
-        $replyCount = Reply::select()->where('target_id', $request->id)->where('target_type', $is_community == 0 ? 'magazine' : 'community')->count();
+        $replyCount = Reply::select()->where('target_id', $request->id)->where('target_type', $is_community == 0 ? 'magazine' : 'community')
+            ->where('is_delete', 0)
+            ->where('is_blind', 0)
+            ->count();
 
         return view('www.community.community_detail', compact('result', 'replys', 'replyCount'));
     }
@@ -209,6 +216,19 @@ class CommunityPcController extends Controller
 
 
         return view('www.community.community_search_list', compact('result', 'searchInput'));
+    }
+
+    /**
+     * 커뮤니티 삭제
+     */
+    public function communityDelete(Request $request): RedirectResponse
+    {
+
+        Community::where('id', $request->id)->update([
+            'is_delete' => 1
+        ]);
+
+        return Redirect::route('www.community.list.view', ['is_community' => '1'])->with('message', '게시글을 삭제했습니다.');
     }
 
     /**
@@ -352,6 +372,68 @@ class CommunityPcController extends Controller
         return Redirect::back();
     }
 
+    /**
+     * 게시글 신고
+     */
+    public function communityReport(Request $request): RedirectResponse
+    {
+
+        // 유효성 검사
+        $ArrayData =  [
+            'target_id' => "required",
+            'target_type' => "required",
+            'community_report_type' => "required",
+            'community_report_reason' => "required",
+        ];
+
+        $validator = Validator::make($request->all(), $ArrayData);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // DB 추가
+        $result = CommunityReport::create([
+            'users_id' => Auth::guard('web')->user()->id ?? 0,
+            'target_id' => $request->target_id,
+            'target_type' => ($request->target_type == 0) ? Magazine::class : Community::class,
+            'type' => $request->community_report_type,
+            'reason' => $request->community_report_reason,
+        ]);
+
+        return Redirect::back()->with('message', '신고가 등록 되었습니다.');
+    }
+
+    /**
+     * 게시글 차단
+     */
+    public function communityBlock(Request $request): RedirectResponse
+    {
+
+        // 유효성 검사
+        $ArrayData =  [
+            'block_community_id' => "required"
+        ];
+
+        $validator = Validator::make($request->all(), $ArrayData);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // DB 추가
+        $result = CommunityBlock::create([
+            'users_id' => Auth::guard('web')->user()->id ?? 0,
+            'community_id' => $request->block_community_id
+        ]);
+
+        return Redirect::route('www.community.list.view')->with('message', '게시글을 차단했습니다.');
+    }
+
 
     /**
      * 댓글 신고
@@ -376,7 +458,7 @@ class CommunityPcController extends Controller
 
         // DB 추가
         $result = ReplyReport::create([
-            'users_id' => Auth::guard('api')->user()->id ?? 0,
+            'users_id' => Auth::guard('web')->user()->id ?? 0,
             'reply_id' => $request->report_reply_id,
             'type' => $request->report_type,
             'reason' => $request->report_reason,
@@ -411,5 +493,18 @@ class CommunityPcController extends Controller
         ]);
 
         return Redirect::back()->with('message', '차단 되었습니다.');
+    }
+
+    /**
+     * 댓글 삭제
+     */
+    public function replyDelete(Request $request): RedirectResponse
+    {
+
+        Reply::where('id', $request->id)->update([
+            'is_delete' => 1
+        ]);
+
+        return Redirect::back()->with('message', '삭제 되었습니다.');
     }
 }

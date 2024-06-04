@@ -111,7 +111,7 @@ class Reply extends BaseModel
             'reply.*',
             'users.name AS author_name',
         );
-        $child->join('users', 'reply.author', '=', 'users.id');
+        $child->join('users', 'reply.author', '=', 'users.id')->where('reply.is_delete', 0);
         $child->orderBy('reply.created_at', 'asc')->orderBy('id', 'asc');
 
         return $child;
@@ -122,6 +122,6 @@ class Reply extends BaseModel
      */
     public function rereplies()
     {
-        return $this->rereply()->with('rereplies');
+        return $this->rereply()->with('rereplies')->where('is_delete', 0);
     }
 }

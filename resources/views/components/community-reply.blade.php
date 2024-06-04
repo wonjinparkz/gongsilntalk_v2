@@ -21,7 +21,7 @@
                         <div class="more_menu">
                             @if ($nowUser == $reply->author)
                                 <a href="javascript:(0)">수정</a>
-                                <a href="#">삭제</a>
+                                <a href="{{ route('www.reply.delete', ['id' => $reply->id]) }}">삭제</a>
                             @else
                                 <a
                                     onclick="reportReplyIdSetting('{{ $reply->id }}');modal_open('reply_report')">신고</a>
@@ -55,7 +55,7 @@
                         <div class="more_menu">
                             @if ($nowUser == $rereply->author)
                                 <a href="javascript:(0)">수정</a>
-                                <a href="#">삭제</a>
+                                <a href="{{ route('www.reply.delete', ['id' => $rereply->id]) }}">삭제</a>
                             @else
                                 <a
                                     onclick="reportReplyIdSetting('{{ $rereply->id }}');modal_open('reply_report')">신고</a>
@@ -88,7 +88,7 @@
                             <div class="more_menu">
                                 @if ($nowUser == $rerereply->author)
                                     <a href="javascript:(0)">수정</a>
-                                    <a href="#">삭제</a>
+                                    <a href="{{ route('www.reply.delete', ['id' => $rerereply->id]) }}">삭제</a>
                                 @else
                                     <a
                                         onclick="reportReplyIdSetting('{{ $rerereply->id }}');modal_open('reply_report')">신고</a>

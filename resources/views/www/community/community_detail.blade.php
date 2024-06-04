@@ -77,12 +77,13 @@
                             @if (request()->query('community') == 1 && $result->author == (Auth::guard('web')->user()->id ?? 0))
                                 <div class="layer_menu">
                                     <a href="{{ route('www.community.update.view', [$result->id]) }}">수정</a>
-                                    <a href="#">삭제</a>
+                                    <a href="{{ route('www.community.delete', ['id' => $result->id]) }}">삭제</a>
                                 </div>
                             @else
                                 <div class="layer_menu">
-                                    <a href="community_modify.html">신고</a>
-                                    <a href="#">차단</a>
+                                    <a onclick="modal_open('report');">신고</a>
+                                    <a
+                                        href="{{ route('www.community.block', ['block_community_id' => $result->id]) }}">차단</a>
                                 </div>
                             @endif
                         </div>
@@ -185,30 +186,43 @@
                 onclick="modal_close('report')">
         </div>
         <div class="modal_container">
-            <div class="dropdown_box w_full">
-                <button class="dropdown_label">신고항목을 선택 하세요. </button>
-                <ul class="optionList">
-                    <li class="optionItem">욕설, 비방, 차별, 혐오</li>
-                    <li class="optionItem">광고, 홍보, 영리목적</li>
-                    <li class="optionItem">불법정보</li>
-                    <li class="optionItem">음란, 청소년 유해</li>
-                    <li class="optionItem">개인정보 노출, 유포</li>
-                    <li class="optionItem">도배, 스팸</li>
-                    <li class="optionItem">기타</li>
-                </ul>
-            </div>
-            <div class="mt10">
-                <textarea placeholder="신고사유를 입력하세요."></textarea>
-            </div>
-            <div class="mt10">
-                <button class="btn_point btn_full_basic"><b>신고하기</b></button>
-            </div>
+            <form id="communityReportForm" method="post" action="{{ route('www.community.report') }}">
+                <div class="dropdown_box w_full">
+                    <button class="dropdown_label" type="button">신고항목을 선택 하세요. </button>
+                    <ul class="optionList">
+                        <li class="optionItem" onclick="reportTypeSettingCommunity(0);">욕설, 비방, 차별, 혐오</li>
+                        <li class="optionItem" onclick="reportTypeSettingCommunity(1);">광고, 홍보, 영리목적</li>
+                        <li class="optionItem" onclick="reportTypeSettingCommunity(2);">불법정보</li>
+                        <li class="optionItem" onclick="reportTypeSettingCommunity(3);">음란, 청소년 유해</li>
+                        <li class="optionItem" onclick="reportTypeSettingCommunity(4);">개인정보 노출, 유포</li>
+                        <li class="optionItem" onclick="reportTypeSettingCommunity(5);">도배, 스팸</li>
+                        <li class="optionItem" onclick="reportTypeSettingCommunity(6);">기타</li>
+                    </ul>
+                </div>
+                <input type="hidden" id="target_id" name="target_id" value="{{ $result->id }}">
+                <input type="hidden" id="target_type" name="target_type"
+                    value="{{ request()->query('community') }}">
+                <input type="hidden" id="community_report_type" name="community_report_type" value="">
+                <div class="mt10">
+                    <textarea id="community_report_reason" name="community_report_reason" placeholder="신고사유를 입력하세요."></textarea>
+                </div>
+                <div class="mt10">
+                    <button class="btn_point btn_full_basic" type="button" onclick="onCommunityReportSubmit();"><b>신고하기</b></button>
+                </div>
+            </form>
         </div>
     </div>
     <div class="md_overlay md_overlay_report" onclick="modal_close('report')"></div>
     <!-- modal 신고하기 : s -->
 
     <script>
+        function onCommunityReportSubmit() {
+            $('#communityReportForm').submit();
+        }
+
+        function reportTypeSettingCommunity(index) {
+            $('#community_report_type').val(index);
+        }
         // 좋아요 토글버튼
         function btn_like(element) {
             var login_check =
