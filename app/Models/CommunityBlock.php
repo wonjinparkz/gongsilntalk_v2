@@ -19,7 +19,7 @@ class CommunityBlock extends BaseModel
     /**
      * 모델
      */
-    protected $fillable = ['user_id', 'community_id'];
+    protected $fillable = ['users_id', 'community_id'];
 
 
     /**
