@@ -55,8 +55,6 @@ class DataController extends Controller
                     DataApt::upsert($t, 'kaptCode');
                 }
 
-
-                Log::debug("국토교통부 - 아파트 전체 :" . $json);
             }
         );
 
@@ -160,7 +158,6 @@ class DataController extends Controller
             $promises = [];
 
             foreach ($chunk as $detailInfo) {
-                Log::info('아파트 상세정보 : ' . $detailInfo);
 
                 $param = [
                     'serviceKey' => $serviceKey,
