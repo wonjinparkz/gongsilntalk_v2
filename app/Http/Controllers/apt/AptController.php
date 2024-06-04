@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 /*
@@ -130,7 +131,35 @@ class AptController extends Controller
      */
     public function aptNameCreateView(): View
     {
-        $aptList = DataApt::select('id','kaptName')->whereNull('complex_name')->get();
+        $aptList = DataApt::select('id', 'kaptName')->whereNull('complex_name')->get();
         return view('admin.apt.apt-name-create', compact('aptList'));
+    }
+
+    /**
+     * 배너 등록
+     */
+    public function aptNameCreate(Request $request): RedirectResponse
+    {
+        // 유효성 검사
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:1|max:50',
+            'title' => 'required|min:1|max:50',
+            'content' => 'required|min:1|max:80',
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $complex_name = $request->complex_name
+
+        $result = DataApt::create([
+            'id' => $request->apt_id,
+            'complex_name' => $complex_name,
+        ]);
+
+        return Redirect::route('admin.apt.name.list.view')->with('message', '배너를 등록했습니다.');
     }
 }

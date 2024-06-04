@@ -59,16 +59,16 @@ class DataController extends Controller
 
         $promise->wait();
 
-        // $this->getAptBaseInfo();
+        $this->getAptBaseInfo();
         $this->getAptDetailInfo();
-        // $this->getAptMapInfo();
+        $this->getAptMapInfo();
 
         return Redirect::route('admin.apt.complex.list.view')->with('아파트 단지를 불러왔습니다.');
     }
 
     public function getAptBaseInfo()
     {
-        $baseInfo = DataApt::where('is_base_info', 0)->limit(1000)->get();
+        $baseInfo = DataApt::where('is_base_info', 0)->limit(100)->get();
 
         // 베이스 정보가 없을 때
         if ($baseInfo->isEmpty()) {
@@ -144,7 +144,7 @@ class DataController extends Controller
         // 최대 실행 시간 설정 (예: 300초)
         // set_time_limit(300);
 
-        $allDetailInfo = DataApt::where('is_detail_info', 0)->limit(2000)->get();
+        $allDetailInfo = DataApt::where('is_detail_info', 0)->limit(100)->get();
 
         // 베이스 정보가 없을 때
         if ($allDetailInfo->isEmpty()) {
@@ -208,43 +208,45 @@ class DataController extends Controller
     // 아파트 지도 정보 위도 경도 - 네이버
     public function getAptMapInfo()
     {
-        $mapInfo = DataApt::where('is_map_info', 0)->first();
+
+        $mapInfo = DataApt::where('is_map_info', 0)->limit(100)->get();
         if ($mapInfo == null) {
             return;
         }
 
-        $address = $mapInfo->doroJuso == null ? $mapInfo->kaptAddr : $mapInfo->doroJuso;
+        foreach ($mapInfo as $map) {
+            $address = $map->doroJuso == null ? implode(' ', array_slice(explode(' ', $map->kaptAddr), 2)) : $map->doroJuso;
 
-        $url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode";
-        $param = [
-            'query' => $address
-        ];
+            $url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode";
+            $param = [
+                'query' => $address
+            ];
 
-        $promise = Http::withHeaders([
-            'X-NCP-APIGW-API-KEY-ID' => 'iipoiiuz42',
-            'X-NCP-APIGW-API-KEY' => '733JkOIwJF6wOkI66OWBe8jDen72TrzP6qbTSkbP',
-            'Accept' => 'application/json'
-        ])->async()->get($url, $param)->then(
-            function (Response|TransferException $response) use ($mapInfo) {
-                $jsonDecode = json_decode($response->body(), true);
-                $addresses = $jsonDecode['addresses'];
-                if (count($addresses) > 0) {
-                    $address = $addresses[0];
-                    $obj = [
-                        'is_map_info' => 1,
-                        'x' => $address['x'],
-                        'y' => $address['y'],
-                    ];
-                    $mapInfo->update($obj);
-                } else {
-                    $address = $addresses[0];
-                    $obj = [
-                        'is_map_info' => 1,
-                    ];
-                    $mapInfo->update($obj);
+            $promise = Http::withHeaders([
+                'X-NCP-APIGW-API-KEY-ID' => 'iipoiiuz42',
+                'X-NCP-APIGW-API-KEY' => '733JkOIwJF6wOkI66OWBe8jDen72TrzP6qbTSkbP',
+                'Accept' => 'application/json'
+            ])->async()->get($url, $param)->then(
+                function (Response|TransferException $response) use ($map) {
+                    $jsonDecode = json_decode($response->body(), true);
+                    $addresses = $jsonDecode['addresses'];
+                    if (count($addresses) > 0) {
+                        $address = $addresses[0];
+                        $obj = [
+                            'is_map_info' => 1,
+                            'x' => $address['x'],
+                            'y' => $address['y'],
+                        ];
+                        $map->update($obj);
+                    } else {
+                        $obj = [
+                            'is_map_info' => 1,
+                        ];
+                        $map->update($obj);
+                    }
                 }
-            }
-        );
-        $promise->wait();
+            );
+            $promise->wait();
+        }
     }
 }

@@ -13,7 +13,7 @@
                     <div class="row mb-6">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">아파트 단지 선택</label>
                         <div class="col-lg-5 fv-row">
-                            <select class="form-select form-select-solid" data-control="select2"
+                            <select class="form-select form-select-solid" name="apt_id" data-control="select2"
                                 data-placeholder="단지명으로 검색">
                                 <option></option>
                                 @foreach ($aptList as $apt)
@@ -78,7 +78,7 @@
             var complexName =
                 `<div class="row">
                     <div class="col-md-8">
-                        <input name="vote_item" type="text" class="form-control mb-2 mb-md-0" placeholder="유사 단지명을 입력해주세요." value="${complexNameInput}"/>
+                        <input name="complex_name[]" type="text" class="form-control mb-2 mb-md-0" placeholder="유사 단지명을 입력해주세요." value="${complexNameInput}"/>
                     </div>
                     <div class="col-md-4">
                         <a onclick="complexNameDelete(this)" class="btn btn-light-danger">삭제</a>

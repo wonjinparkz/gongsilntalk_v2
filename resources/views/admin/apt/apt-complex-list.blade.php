@@ -56,12 +56,19 @@
                         <button type="button" onclick="location.href='{{ route('data.apt') }}'"
                             class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
                             1. 데이터 가져오기</button>
-                        <button type="button" onclick="location.href='{{ route('data.apt.base') }}'"
+                        <button type="button" onclick="location.href='{{ route('data.apt') }}'"
+                            class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
+                            2. 실거래가 연결하기</button>
+                        {{-- <button type="button" onclick="location.href='{{ route('data.apt.base') }}'"
                             class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
                             2. 데이터 가져오기</button>
                         <button type="button" onclick="location.href='{{ route('data.apt.detail') }}'"
                             class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
                             3. 데이터 가져오기</button>
+                        <button type="button" onclick="location.href='{{ route('data.apt.map') }}'"
+                            class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
+                            4. 데이터 가져오기</button> --}}
+
                     </div>
 
                 </div>
