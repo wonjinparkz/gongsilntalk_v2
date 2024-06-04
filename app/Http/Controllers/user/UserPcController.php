@@ -192,12 +192,23 @@ class UserPcController extends Controller
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
-        $proposalList = CorpProposal::with('users')->select()
+        $proposalList = CorpProposal::with('users', 'products')->select()
             ->where('users_id', Auth::guard('web')->user()->id)
             ->where('is_delete', '0')
             ->get();
 
         return view('www.mypage.corpProposal_list', compact('user', 'proposalList'));
+    }
+
+    /**
+     * 기업 이전 제안서 삭제
+     */
+    public function corpProposalDelete(Request $request): RedirectResponse
+    {
+
+        $result = CorpProposal::select()->where('id', $request->id)->delete();
+
+        return Redirect::route('www.mypage.corp.proposal.list.view')->with('message', "기업이 삭제 되었습니다.");
     }
 
     /**

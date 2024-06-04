@@ -60,7 +60,7 @@
                                             <label class="input_label">취득세율 <span class="txt_point">*</span>
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="number" name="acquisition_tax" placeholder="소수점 두자리까지만 입력"
+                                                <input type="number" name="acquisition_tax" placeholder="소수점 두자리까지만 입력" step=0.01
                                                     class="w_input_150" onkeyup="imsi(this)">
                                                 <span>%</span>
                                             </div>
