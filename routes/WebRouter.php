@@ -112,6 +112,8 @@ Route::controller(CommunityPcController::class)->group(function () {
     Route::get('/community/detail', 'communityDetailView')->name('www.community.detail.view');
 
     Route::middleware('pc.auth')->post('/reply/create', 'replyCreate')->name('www.reply.create');
+    Route::middleware('pc.auth')->post('/reply/report', 'replyReport')->name('www.reply.report');
+    Route::middleware('pc.auth')->get('/reply/block', 'replyBlock')->name('www.reply.block');
 });
 
 /**
