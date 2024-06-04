@@ -38,7 +38,8 @@
 
             <!-- my_body : s -->
             <div class="inner_mid_wrap m_inner_wrap mid_body">
-                <h1 class="t_center only_pc">매물 등록하기 <span class="step_number"><span class="txt_point">3</span>/3</span>
+                <h1 class="t_center only_pc">매물 등록하기 <span class="step_number"><span
+                            class="txt_point">3</span>/3</span>
                 </h1>
 
                 <div class="offer_step_wrap">
@@ -85,9 +86,9 @@
                 </div>
             </div>
             <!-- my_body : e -->
+        </div>
     </form>
 
-    </div>
 
     <script>
         $(document).ready(function() {

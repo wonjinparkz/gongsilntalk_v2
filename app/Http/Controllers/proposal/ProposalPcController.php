@@ -111,6 +111,18 @@ class ProposalPcController extends Controller
     }
 
     /**
+     * 기업 이전 제안서 등록 화면
+     */
+    public function corpProposalProductCreate3View(Request $request): View
+    {
+        Log::info($request->all());
+
+        $result = $request->all();
+
+        return view('www.proposal.corpProduct_create3', compact('result'));
+    }
+
+    /**
      * 기업 이전 제안서 등록 체크
      */
     public function corpProposalProductCreateTypeCheck(Request $request)
@@ -133,11 +145,11 @@ class ProposalPcController extends Controller
         $validator = Validator::make($request->all(), []);
 
         if ($validator->fails()) {
-            return redirect(route('www.product.create.view'))->withErrors($validator)
+            return redirect(route('www.product.create2.view'))->withErrors($validator)
                 ->withInput();
         }
 
-        return Redirect::route('www.corp.proposal.product.create2.view', compact('request'));
+        return Redirect::route('www.corp.proposal.product.create3.view', compact('request'));
     }
 
 
