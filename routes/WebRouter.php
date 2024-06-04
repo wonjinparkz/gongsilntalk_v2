@@ -110,6 +110,8 @@ Route::controller(CommunityPcController::class)->group(function () {
     Route::middleware('pc.auth')->get('/community/update/{id}', 'communityUpdateView')->name('www.community.update.view');
     Route::middleware('pc.auth')->post('/community/update', 'communityUpdate')->name('www.community.update');
     Route::get('/community/detail', 'communityDetailView')->name('www.community.detail.view');
+
+    Route::middleware('pc.auth')->post('/reply/create', 'replyCreate')->name('www.reply.create');
 });
 
 /**

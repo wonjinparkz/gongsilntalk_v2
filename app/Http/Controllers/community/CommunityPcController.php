@@ -122,9 +122,9 @@ class CommunityPcController extends Controller
         // 해당 댓글만
         $ReplyList->where('reply.target_id', '=', $request->id);
         if ($is_community == 0) {
-            $ReplyList->where('reply.target_type', '=', Magazine::class);
+            $ReplyList->where('reply.target_type', '=', 'magazine');
         } else {
-            $ReplyList->where('reply.target_type', '=', Community::class);
+            $ReplyList->where('reply.target_type', '=', 'community');
         }
 
         // 댓글일 경우만
@@ -304,5 +304,41 @@ class CommunityPcController extends Controller
         } else {
             return Redirect::route('www.community.detail.view', ['id' => $result->id, 'community' => '1'])->with('error', '해당 커뮤니티를 찾을 수 없습니다.');
         }
+    }
+
+    /**
+     * 댓글 등록
+     */
+    public function replyCreate(Request $request): RedirectResponse
+    {
+        // 유효성 검사
+        $validator = Validator::make($request->all(), [
+            'reply_comment' => 'required',
+            'community_id' => 'required',
+            'community_type' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // DB 추가
+        $result = Reply::create([
+            'target_id' => $request->community_id,
+            'target_type' => $request->community_type,
+            'author' => Auth::guard('web')->user()->id,
+            'parent_id' => $request->parent_id,
+            'depth' => ($request->parent_id !='') ? 1 : 0,
+            'content' => $request->reply_comment,
+            'block_count' => 0,
+            'like_count' => 0,
+            'report_count' => 0,
+            'is_blind' => 0,
+            'is_delete' => 0
+        ]);
+
+        return Redirect::back();
     }
 }

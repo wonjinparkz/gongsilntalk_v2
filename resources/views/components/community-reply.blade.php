@@ -1,61 +1,91 @@
+@props(['replys' => [], 'community_id' => 0])
+
 <!-- comment : s -->
-<div class="comment_total">댓글 278</div>
+
+@inject('carbon', 'Carbon\Carbon')
+
+<div class="comment_total">댓글 {{ $replys->count() }}</div>
 <ul class="comment_list">
-    <li>
-        <div class="txt_user">
-            <p>주이사</p>
-            <div class="more_menu_wrap">
-                <button class="more_button"><img src="{{ asset('assets/media/btn_dot.png') }}" class="menu_more"></button>
-                <div class="more_menu">
-                    <a href="javascript:(0)" onclick="modal_open('report')">신고</a>
-                    <a href="#">차단</a>
+    @foreach ($replys as $reply)
+        <li>
+            <div class="txt_user">
+                <p>{{ $reply->author_name }}</p>
+                <div class="more_menu_wrap">
+                    <button class="more_button"><img src="{{ asset('assets/media/btn_dot.png') }}"
+                            class="menu_more"></button>
+                    <div class="more_menu">
+                        <a href="javascript:(0)" onclick="modal_open('report')">신고</a>
+                        <a href="#">차단</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="comment_con">본질을 담고 있는 것 같아서 읽으며 많이 공감했습니다. 지금의 세대는 '못'하는 것이 아니라 '안'하는 것이라고
-            생각하는데, 그만큼 그 길만이 정답이 아니라는 걸 알아버렸기 때문이라는 생각도 듭니다. 옛날 같았으면 흔히들 말하는 적령기에 달성해햐하는 과업(?)들이
-            있었죠.</div>
-        <div class="mt8">
-            <span class="txt_date">2023.04.02 · 16:23 </span>
-            <button class="btn_re" onclick="reg_reply(0)">답글 쓰기</button>
-        </div>
-    </li>
-    <li>
-        <div class="txt_user">
-            <p>홍길동</p>
-            <div class="more_menu_wrap">
-                <button class="more_button"><img src="{{ asset('assets/media/btn_dot.png') }}"
-                        class="menu_more"></button>
-                <div class="more_menu">
-                    <a href="javascript:(0)" onclick="modal_open('report')">신고</a>
-                    <a href="#">차단</a>
-                </div>
+            <div class="comment_con">
+                @php
+                    echo $reply->content;
+                @endphp
             </div>
-        </div>
-        <div class="comment_con"><span class="txt_user_tag">@user194</span> 분위기도 정말 한 몫하는 것 같구요..
-            사회적으로 어쩌구저쩌구 해라하는 분위기가 아니니깐요.. 서로를 배려하는 분위기도 아니죠.</div>
-        <div class="mt8">
-            <span class="txt_date">2023.04.02 · 16:23 </span>
-            <button class="btn_re" onclick="reg_reply(0)">답글 쓰기</button>
-        </div>
-    </li>
-    <li>
-        <div class="txt_user">
-            <p>이주임</p>
-            <div class="more_menu_wrap">
-                <button class="more_button"><img src="{{ asset('assets/media/btn_dot.png') }}"
-                        class="menu_more"></button>
-                <div class="more_menu">
-                    <a href="#">삭제</a>
-                </div>
+            <div class="mt8">
+                <span class="txt_date">{{ $carbon::parse($reply->created_at)->format('Y.m.d H:m') }}</span>
+                <button class="btn_re"
+                    onclick="replyInfoSetting('{{ $reply->author_name }}', '{{ $reply->id }}');reg_reply(0)">답글
+                    쓰기</button>
             </div>
-        </div>
-        <div class="comment_con">진짜 틀린말이 하나도 없는 글이네요... 어렵디 어렵습니다.</div>
-        <div class="mt8">
-            <span class="txt_date">2023.04.02 · 16:23 </span>
-            <button class="btn_re" onclick="reg_reply(0)">답글 쓰기</button>
-        </div>
-    </li>
+        </li>
+
+        {{-- 밑에는 대댓! --}}
+        @foreach ($reply->rereplies as $rereply)
+            <li>
+                <div class="txt_user">
+                    <p>{{ $rereply->author_name }}</p>
+                    <div class="more_menu_wrap">
+                        <button class="more_button"><img src="{{ asset('assets/media/btn_dot.png') }}"
+                                class="menu_more"></button>
+                        <div class="more_menu">
+                            <a href="javascript:(0)" onclick="modal_open('report')">신고</a>
+                            <a href="#">차단</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment_con">
+                    <span class="txt_user_tag">@ {{ $reply->author_name }}</span>
+                    @php
+                        echo $rereply->content;
+                    @endphp
+                </div>
+                <div class="mt8">
+                    <span class="txt_date">{{ $carbon::parse($rereply->created_at)->format('Y.m.d H:m') }} </span>
+                    <button class="btn_re" onclick="replyInfoSetting('{{ $rereply->author_name }}', '{{ $rereply->id }}');reg_reply(0)">답글 쓰기</button>
+                </div>
+            </li>
+            @foreach ($rereply->rereplies as $rerereply)
+                <li>
+                    <div class="txt_user">
+                        <p>{{ $rerereply->author_name }}</p>
+                        <div class="more_menu_wrap">
+                            <button class="more_button"><img src="{{ asset('assets/media/btn_dot.png') }}"
+                                    class="menu_more"></button>
+                            <div class="more_menu">
+                                <a href="javascript:(0)" onclick="modal_open('report')">신고</a>
+                                <a href="#">차단</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment_con">
+                        <span class="txt_user_tag">@ {{ $rereply->author_name }}</span>
+                        @php
+                            echo $rerereply->content;
+                        @endphp
+                    </div>
+                    <div class="mt8">
+                        <span class="txt_date">{{ $carbon::parse($rerereply->created_at)->format('Y.m.d H:m') }}
+                        </span>
+                        <button class="btn_re" onclick="replyInfoSetting('{{ $rerereply->author_name }}', '{{ $rerereply->id }}');reg_reply(0)">답글 쓰기</button>
+                    </div>
+                </li>
+            @endforeach
+        @endforeach
+    @endforeach
+
 </ul>
 <!-- comment : e -->
 
@@ -77,16 +107,32 @@
 </div>
 <!-- paging : e -->
 
+
 <!-- 댓글 작성 : s -->
 <div class="comment_reg_wrap" id="cmt_area">
-    <span class="comment_nik">@주이사</span>
-    <textarea placeholder="공실앤톡에 로그인하고 댓글을 작성해보세요." class="comment_reg"></textarea>
-    <button class="comment_reg_btn">등록</button>
+    <form id="replyCreateForm" method="post" action="{{ route('www.reply.create') }}">
+        <span class="comment_nik" id="reNickname" name="reNickname">@주이사</span>
+        <textarea placeholder="공실앤톡에 로그인하고 댓글을 작성해보세요." id="reply_comment" name="reply_comment" class="comment_reg"></textarea>
+        <input type="hidden" id="community_id" name="community_id" value="{{ $community_id }}">
+        <input type="hidden" id="parent_id" name="parent_id" value="">
+        <input type="hidden" id="community_type" name="community_type"
+            value="{{ request()->query('community') == 0 ? 'magazine' : 'community' }}">
+    </form>
+    <button class="comment_reg_btn" type="button" onclick="replyCreateSubmit();">등록</button>
 </div>
 <!-- 댓글 작성 : e -->
 
 
 <script>
+    function replyInfoSetting(name, parent_id) {
+        $('#reNickname').text('@' + name);
+        $('#parent_id').val(parent_id);
+    }
+
+    function replyCreateSubmit() {
+        $('#replyCreateForm').submit();
+    }
+
     // 댓글 입력되면 버튼 노출/토글
     $(".comment_reg").on("propertychange change keyup paste input", function() {
         if ($(this).val().length === 0) {

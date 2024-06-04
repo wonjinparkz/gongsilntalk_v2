@@ -156,7 +156,7 @@
                     </div>
                     <!-- contents : e -->
 
-                    <x-community-reply />
+                    <x-community-reply :replys="$replys" :community_id="$result->id" />
 
                 </div>
 
