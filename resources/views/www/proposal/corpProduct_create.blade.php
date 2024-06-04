@@ -1,6 +1,6 @@
 <x-layout>
 
-    <form class="find_form" method="POST" action="{{ route('www.corp.proposal.product.create.type.check') }}"
+    <form class="find_form" method="GET" action="{{ route('www.corp.proposal.product.create2.view') }}"
         name="create_check">
         <input type="hidden" name="corp_proposal_id" id="corp_proposal_id" value="{{ $corp_proposal_id }}">
         <input type="hidden" name="product_type" id="product_type" value="{{ old('product_type') ?? '0' }}">
@@ -10,6 +10,7 @@
         <input type="hidden" name="region_code" id="region_code" value="{{ old('region_code') ?? '' }}">
         <input type="hidden" name="region_address" id="region_address" value="{{ old('region_address') ?? '' }}">
         <input type="hidden" name="address" id="address" value="{{ old('address') ?? '' }}">
+        <input type="hidden" name="address_detail" id="address_detail" value="{{ old('address_detail') ?? '' }}">
 
         <!----------------------------- m::header bar : s ----------------------------->
         <div class="m_header">
@@ -395,6 +396,8 @@
 
             $('#roadName').html('<span>도로명</span>' + address + ' 999-99');
             $('#address').val(address + ' 999-99');
+            $('#address_detail').val('');
+
             $('#region_address').val(address);
             confrim_check();
         }
@@ -530,6 +533,7 @@
             $('#jibunName').html('<span>지번</span>' + rtJibunAddr);
 
             $('#address').val(rtAddrPart1)
+            $('#address_detail').val(rtAddrDetail)
 
             $('#region_code').val(rtAdmCd);
             $('#region_address').val(rtSiNm + ' ' + rtSggNm + ' ' + rtEmdNm + ' ' + rtLiNm);

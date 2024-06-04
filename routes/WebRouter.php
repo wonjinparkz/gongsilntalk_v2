@@ -181,6 +181,7 @@ Route::middleware('pc.auth')->controller(ProposalPcController::class)->group(fun
     Route::get('/mypage/corp/proposalproduct/list/{id}', 'corpProposalProductListView')->name('www.mypage.corp.proposalproduct.list.view');
     Route::post('/corp/proposal/product/create/type/check', 'corpProposalProductCreateTypeCheck')->name('www.corp.proposal.product.create.type.check');
     Route::post('/corp/proposal/product/name-update', 'corpProposalNameUpdate')->name('www.corp.proposal.name.update');
+    Route::post('/corp/proposal/product/create', 'corpProposalProductCreate')->name('www.corp.proposal.name.create');
     Route::get('/mypage/corp/proposal/type/{id}', 'corpProposalTypeDetailView')->name('www.mypage.corp.proposal.type.detail.view');
 
     Route::post('/corp/proposal/product/create/info/check', 'corpProposalProductCreateinfoCheck')->name('www.corp.proposal.product.create.info.check');

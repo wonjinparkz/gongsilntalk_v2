@@ -1,10 +1,18 @@
 <x-layout>
 
-    <form class="find_form" method="POST" action="{{ route('www.corp.proposal.product.create.price.check') }}"
+    <form class="find_form" method="GET" action="{{ route('www.corp.proposal.product.create3.view') }}"
         name="create_check">
         <input type="hidden" name="payment_type" id="payment_type" value="0">
         <input type="hidden" name="price" id="price" value="">
         <input type="hidden" name="month_price" id="month_price" value="">
+
+        @php
+            $data = $request->all();
+
+            foreach ($data as $key => $value) {
+                echo '<input type="hidden" id="' . $key . '" name="' . $key . '" value="' . $value . '">';
+            }
+        @endphp
 
         <!----------------------------- m::header bar : s ----------------------------->
         <div class="m_header">
@@ -60,8 +68,8 @@
                                             <label class="input_label">취득세율 <span class="txt_point">*</span>
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="number" name="acquisition_tax" placeholder="소수점 두자리까지만 입력" step=0.01
-                                                    class="w_input_150" onkeyup="imsi(this)">
+                                                <input type="number" name="acquisition_tax" placeholder="소수점 두자리까지만 입력"
+                                                    step=0.01 class="w_input_150" onkeyup="imsi(this)">
                                                 <span>%</span>
                                             </div>
                                         </div>
@@ -121,7 +129,7 @@
                                             </label>
                                             <div class="flex_1 mt10">
                                                 <input type="number" name="loan_interest"
-                                                    placeholder="소수점 두자리까지만 입력" class="w_input_150"
+                                                    placeholder="소수점 두자리까지만 입력" class="w_input_150" step=0.01
                                                     onkeyup="imsi(this)">
                                                 <span>%</span>
                                             </div>
@@ -275,18 +283,6 @@
 
             var confirm = false;
 
-            console.log('is_invest : ', is_invest);
-            // console.log(payment_type,
-            //     price,
-            //     month_price,
-            //     acquisition_tax,
-            //     loan_rate_one,
-            //     loan_rate_two,
-            //     invest_price,
-            //     invest_month_price,
-            //     is_invest,
-            //     confirm);
-
             if (is_invest == 1 && invest_price != '') {
                 console.log('gd');
             }
@@ -316,28 +312,20 @@
         }
 
         function formSetting() {
-            var is_map = $('#is_map').is(":checked");
-
-            var corp_proposal_id = $('#corp_proposal_id').val();
-            var product_type = $('#product_type').val();
-            var type = $('#type').val();
-            var address_lng = $('#address_lng').val();
-            var address_lat = $('#address_lat').val();
-            var region_code = $('#region_code').val();
-            var region_address = $('#region_address').val();
-            var address = $('#address').val();
-            var product_name = $('#product_name').val();
-
-            sessionStorage.setItem("is_mapSession", is_map ? '0' : '1');
-            sessionStorage.setItem("corp_proposal_idSession", corp_proposal_id);
-            sessionStorage.setItem("product_typeSession", product_type);
-            sessionStorage.setItem("typeSession", type);
-            sessionStorage.setItem("address_lngSession", address_lng);
-            sessionStorage.setItem("address_latSession", address_lat);
-            sessionStorage.setItem("region_codeSession", region_code);
-            sessionStorage.setItem("region_addressSession", region_address);
-            sessionStorage.setItem("addressSession", address);
-            sessionStorage.setItem("product_nameSession", address_detail);
+            switch ($('#payment_type').val()) {
+                case 0:
+                    $('#price').val($('#price_0').val());
+                    $('#month_price').val();
+                    break;
+                case 3:
+                    $('#price').val($('#price_3').val());
+                    $('#month_price').val();
+                    break;
+                case 4:
+                    $('#price').val($('#price_4').val());
+                    $('#month_price').val($('#month_price_4').val());
+                    break;
+            }
 
             $('.find_form').submit();
         }

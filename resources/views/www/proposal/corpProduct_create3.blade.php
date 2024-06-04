@@ -1,10 +1,14 @@
 <x-layout>
 
-    <form class="find_form" method="POST" action="{{ route('www.corp.proposal.product.create.price.check') }}"
-        name="create_check">
-        <input type="hidden" name="payment_type" id="payment_type" value="0">
-        <input type="hidden" name="price" id="price" value="">
-        <input type="hidden" name="month_price" id="month_price" value="">
+    <form class="find_form" method="POST" action="{{ route('www.corp.proposal.name.create') }}" name="create_check">
+
+        @php
+            $data = $request->all();
+
+            foreach ($data as $key => $value) {
+                echo '<input type="hidden" id="' . $key . '" name="' . $key . '" value="' . $value . '">';
+            }
+        @endphp
 
         <!----------------------------- m::header bar : s ----------------------------->
         <div class="m_header">
@@ -87,15 +91,14 @@
                                 <div class="move_type_wrap mt8">
                                     <div class="move_type_item open_key"></div>
                                     <div class="move_type_item open_key">
-                                        <input type="text" name="move_date" placeholder="예) 20230101"
-                                            class="">
+                                        <input type="text" name="move_date" placeholder="예) 20230101" class="">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="reg_mid_wrap">
                             <div class="reg_item">
-                                <input type="hidden" name="cooling_type" value="">
+                                <input type="hidden" name="cooling_type" id="cooling_type" value="">
                                 <label class="input_label">냉방 종류</label>
                                 <div class="dropdown_box">
                                     <button type="button" class="dropdown_label">냉방 종류 선택</button>
@@ -113,7 +116,7 @@
                                 </div>
                             </div>
                             <div class="reg_item">
-                                <input type="hidden" name="heating_type" value="">
+                                <input type="hidden" name="heating_type" id="heating_type" value="">
                                 <label class="input_label">난방 종류</label>
                                 <div class="dropdown_box">
                                     <button type="button" class="dropdown_label">난방 종류 선택</button>
@@ -154,13 +157,10 @@
                         <div class="img_add_wrap reg_step_type draggable-zone">
                             <x-pc-image-picker :title="''" id="product" cnt="4" required="required" />
                         </div>
-                        <div class="img_add_wrap reg_step_type draggable-zone">
-                            <x-pc-image-picker :title="'건물 내부 사진'" id="product" cnt="4" required="required" />
-                        </div>
 
                         <div class="offer_textarea_wrap">
                             <label class="input_label">상세 설명 <span class="txt_point">*</span></label>
-                            <textarea name="content" id="content" placeholder="건물의 특징이나 장점을 설명해주세요."></textarea>
+                            <textarea name="product_content" id="product_content" placeholder="건물의 특징이나 장점을 설명해주세요."></textarea>
                         </div>
 
                         <div class="offer_textarea_wrap">
@@ -174,7 +174,7 @@
                         <button type="button" class="btn_full_basic btn_graylight_ghost"
                             onclick="javascript:history.go(-1)">이전</button>
                         <!-- <button class="btn_full_basic btn_point" disabled>등록</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                        <button type="button" class="btn_full_basic btn_point confirm" onclick="createButton()"
+                        <button type="button" class="btn_full_basic btn_point confirm" onclick="formSetting()"
                             disabled>등록</button>
                     </div>
 
@@ -280,18 +280,11 @@
             var address = $('#address').val();
             var product_name = $('#product_name').val();
 
-            sessionStorage.setItem("is_mapSession", is_map ? '0' : '1');
-            sessionStorage.setItem("corp_proposal_idSession", corp_proposal_id);
-            sessionStorage.setItem("product_typeSession", product_type);
-            sessionStorage.setItem("typeSession", type);
-            sessionStorage.setItem("address_lngSession", address_lng);
-            sessionStorage.setItem("address_latSession", address_lat);
-            sessionStorage.setItem("region_codeSession", region_code);
-            sessionStorage.setItem("region_addressSession", region_address);
-            sessionStorage.setItem("addressSession", address);
-            sessionStorage.setItem("product_nameSession", address_detail);
-
             $('.find_form').submit();
+        }
+
+        function selectType(name, index) {
+            $('#' + name).val(index);
         }
     </script>
 

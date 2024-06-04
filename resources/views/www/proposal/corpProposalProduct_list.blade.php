@@ -1,4 +1,34 @@
 <x-layout>
+    @php
+        function priceChange($price)
+        {
+            if ($price < 0 || empty($price)) {
+                $price = 0;
+            }
+
+            $priceUnit = ['원', '만', '억', '조', '경'];
+            $expUnit = 10000;
+            $resultArray = [];
+            $result = '';
+
+            foreach ($priceUnit as $k => $v) {
+                $unitResult = ($price % pow($expUnit, $k + 1)) / pow($expUnit, $k);
+                $unitResult = floor($unitResult);
+
+                if ($unitResult > 0) {
+                    $resultArray[$k] = $unitResult;
+                }
+            }
+
+            if (count($resultArray) > 0) {
+                foreach ($resultArray as $k => $v) {
+                    $result = $v . $priceUnit[$k] . ' ' . $result;
+                }
+            }
+
+            return $result;
+        }
+    @endphp
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
@@ -70,10 +100,18 @@
                                                 <td>{{ $product->product_name }}</td>
                                                 <td>{{ $product->address }}</td>
                                                 <td class="area">{{ $product->exclusive_area }}</td>
-                                                <td class="square">{{ $product->exclusive_square }}</td>
-                                                <td>{{ Lang::get('commons.payment_type.' . $product->payment_type) }}
-                                                    14억2,000만원</td>
-                                                <td>13층/20층</td>
+                                                <td class="square" style="display:none;">
+                                                    {{ $product->exclusive_square }}</td>
+                                                <td>{{ Lang::get('commons.payment_type.' . $product->price->payment_type) }}
+                                                    @if ($product->price->payment_type == 4)
+                                                        {{ priceChange($product->price->price) }} /
+                                                        {{ priceChange($product->price->month_price) }}원
+                                                    @else
+                                                        {{ priceChange($product->price->price) }}원
+                                                    @endif
+                                                </td>
+                                                <td>{{ $product->floor_number }}층/{{ $product->total_floor_number }}층
+                                                </td>
                                                 <td>
                                                     <button class="btn_gray_ghost btn_sm">수정</button>
                                                     <button class="btn_gray_ghost btn_sm">삭제</button>
