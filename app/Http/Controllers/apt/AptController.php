@@ -130,6 +130,7 @@ class AptController extends Controller
      */
     public function aptNameCreateView(): View
     {
-        return view('admin.apt.apt-name-create');
+        $aptList = DataApt::select('id','kaptName')->whereNull('complex_name')->get();
+        return view('admin.apt.apt-name-create', compact('aptList'));
     }
 }

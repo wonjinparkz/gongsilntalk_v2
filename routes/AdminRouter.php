@@ -348,6 +348,7 @@ Route::middleware('admin.auth')->controller(AptController::class)->group(functio
 Route::controller(DataController::class)->group(function () {
     Route::get('/data/apt', 'getApt')->name('data.apt');
     Route::get('/data/apt/base', 'getAptBaseInfo')->name('data.apt.base');
+    Route::get('/data/apt/detail', 'getAptDetailInfo')->name('data.apt.detail');
 });
 
 /**

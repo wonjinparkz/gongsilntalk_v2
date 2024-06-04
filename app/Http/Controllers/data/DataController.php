@@ -54,32 +54,32 @@ class DataController extends Controller
                 foreach (array_chunk($originItem, 1000) as $t) {
                     DataApt::upsert($t, 'kaptCode');
                 }
-
             }
         );
 
         $promise->wait();
 
-        $this->getAptBaseInfo();
-        // $this->getAptDetailInfo();
+        // $this->getAptBaseInfo();
+        $this->getAptDetailInfo();
         // $this->getAptMapInfo();
 
         return Redirect::route('admin.apt.complex.list.view')->with('아파트 단지를 불러왔습니다.');
     }
+
     public function getAptBaseInfo()
     {
-        $baseInfo = DataApt::where('is_base_info', 0)->get();
+        $baseInfo = DataApt::where('is_base_info', 0)->limit(1000)->get();
 
         // 베이스 정보가 없을 때
-        if ($baseInfo == null) {
+        if ($baseInfo->isEmpty()) {
             return;
         }
 
         $url = "http://apis.data.go.kr/1613000/AptBasisInfoService1/getAphusBassInfo";
         $serviceKey = 'OOOeb2NMDrvDEatMXUQZ/bLs8pjBm+0c4X5snSQHQ/rWaslq3lhn0rbXISZf7yRCzLU5C0hSKHUnYw8CcFvg5A==';
 
-        $batchSize = 10; // 한 번에 처리할 배치 크기
-        $delay = 2; // 각 배치 사이의 딜레이 (초)
+        $batchSize = 100; // 한 번에 처리할 배치 크기
+        $delay = 5; // 각 배치 사이의 딜레이 (초)
 
         $baseInfoChunks = $baseInfo->chunk($batchSize);
 
@@ -110,14 +110,19 @@ class DataController extends Controller
                                 Log::error('Invalid response structure: ' . json_encode($jsonDecode));
                             }
                         } catch (\Exception $e) {
-                            Log::error('Exception: ' . $e->getMessage());
+                            Log::error('Exception while processing response for kaptCode ' . $base->kaptCode . ': ' . $e->getMessage());
                         }
                     },
                     function ($exception) use ($base) {
                         if ($exception instanceof \GuzzleHttp\Exception\ConnectException) {
                             Log::error('Connection error for kaptCode ' . $base->kaptCode . ': ' . $exception->getMessage());
-                        } else {
+                        } elseif ($exception instanceof \GuzzleHttp\Exception\RequestException) {
                             Log::error('HTTP Request failed for kaptCode ' . $base->kaptCode . ': ' . $exception->getMessage());
+                            if ($exception->hasResponse()) {
+                                Log::error('Response: ' . $exception->getResponse()->getBody()->getContents());
+                            }
+                        } else {
+                            Log::error('Unexpected exception for kaptCode ' . $base->kaptCode . ': ' . get_class($exception) . ': ' . $exception->getMessage());
                         }
                     }
                 );
@@ -137,9 +142,9 @@ class DataController extends Controller
     public function getAptDetailInfo()
     {
         // 최대 실행 시간 설정 (예: 300초)
-        set_time_limit(300);
+        // set_time_limit(300);
 
-        $allDetailInfo = DataApt::where('is_detail_info', 0)->get();
+        $allDetailInfo = DataApt::where('is_detail_info', 0)->limit(2000)->get();
 
         // 베이스 정보가 없을 때
         if ($allDetailInfo->isEmpty()) {
@@ -149,8 +154,8 @@ class DataController extends Controller
         $url = "http://apis.data.go.kr/1613000/AptBasisInfoService1/getAphusDtlInfo";
         $serviceKey = 'OOOeb2NMDrvDEatMXUQZ/bLs8pjBm+0c4X5snSQHQ/rWaslq3lhn0rbXISZf7yRCzLU5C0hSKHUnYw8CcFvg5A==';
 
-        $batchSize = 10; // 한 번에 처리할 배치 크기
-        $delay = 2; // 각 배치 사이의 딜레이 (초)
+        $batchSize = 100; // 한 번에 처리할 배치 크기
+        $delay = 5; // 각 배치 사이의 딜레이 (초)
 
         $allDetailInfoChunks = $allDetailInfo->chunk($batchSize);
 

@@ -2,82 +2,63 @@
     {{-- FORM START  --}}
     <form class="form" method="POST" action="{{ route('admin.apt.name.create') }}">
         @csrf
-        <input type="hidden" name="id" value="{{ $result->id }}" />
-        <input type="hidden" name="lasturl" value="{{ URL::previous() }}">
-        <div class="app-container container-xxl">
 
+        <div class="app-container container-xxl">
             <x-screen-card :title="'아파트 단지명 등록'">
 
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
 
-                    {{-- 단지코드 --}}
+                    {{-- 아파트 단지 선택 --}}
                     <div class="row mb-6">
-                        <label class="col-lg-3 col-form-label fw-semibold fs-6">단지코드</label>
-                        <div class="col-lg-8 fv-row">
-                            <input type="text" disabled class="form-control form-control-solid" placeholder="단지코드"
-                                value="{{ $result->kaptCode }}" />
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">아파트 단지 선택</label>
+                        <div class="col-lg-5 fv-row">
+                            <select class="form-select form-select-solid" data-control="select2"
+                                data-placeholder="단지명으로 검색">
+                                <option></option>
+                                @foreach ($aptList as $apt)
+                                    <option value="{{ $apt->id }}">{{ $apt->kaptName }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
-                    {{-- 단지명 --}}
+                    {{-- 유사 단지명 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-3 col-form-label fw-semibold fs-6">단지명</label>
-                        <div class="col-lg-8 fv-row">
-                            <input type="text" name="kaptName" class="form-control" placeholder="단지명"
-                                value="{{ old('kaptName') ? old('kaptName') : $result->kaptName }}" />
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('kaptName')" />
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">유사 단지명</label>
+                        <div class="col-lg-5 fv-row">
+                            <div class="form-group">
+                                <div>
+                                    <div class="form-group row mb-5">
+                                        <div class="col-md-8">
+                                            <input name="complex_name_input" type="text"
+                                                class="form-control mb-2 mb-md-0" placeholder="유사 단지명을 입력해주세요." />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a onclick="complexNameCreate();" class="btn btn-light-primary">
+                                                추가
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-5 complex_preview">
 
+                            </div>
                         </div>
                     </div>
-
-                    {{-- 법정동코드 --}}
-                    <div class="row mb-6">
-                        <label class="col-lg-3 col-form-label fw-semibold fs-6">법정동코드</label>
-                        <div class="col-lg-8 fv-row">
-                            <input type="text" disabled class="form-control form-control-solid" placeholder="법정동코드"
-                                value="{{ $result->kaptCode }}" />
-                        </div>
-                    </div>
-
-                    {{-- 시도 --}}
-                    <div class="row mb-6">
-                        <label class="col-lg-3 col-form-label fw-semibold fs-6">시도</label>
-                        <div class="col-lg-8 fv-row">
-                            <input type="text" disabled class="form-control form-control-solid" placeholder="시도"
-                                value="{{ $result->as1 }}" />
-                        </div>
-                    </div>
-
-                    {{-- 시군구 --}}
-                    <div class="row mb-6">
-                        <label class="col-lg-3 col-form-label fw-semibold fs-6">시군구</label>
-                        <div class="col-lg-8 fv-row">
-                            <input type="text" disabled class="form-control form-control-solid" placeholder="시군구"
-                                value="{{ $result->as2 }}" />
-                        </div>
-                    </div>
-
-                    {{-- 읍면동 --}}
-                    <div class="row mb-6">
-                        <label class="col-lg-3 col-form-label fw-semibold fs-6">읍면동</label>
-                        <div class="col-lg-8 fv-row">
-                            <input type="text" disabled class="form-control form-control-solid" placeholder="읍면동"
-                                value="{{ $result->as3 }}" />
-                        </div>
-                    </div>
-
 
                 </div>
                 <!--내용 END-->
 
+                {{-- Footer Bottom START --}}
+                <div class="card-footer d-flex justify-content-end py-6 px-9">
+                    <button type="submit" class="btn btn-primary">저장</button>
+                </div>
+                {{-- Footer END --}}
+
             </x-screen-card>
 
-            {{-- Footer Bottom START --}}
-            <div class="card-footer d-flex justify-content-end py-6 px-9">
-                <button type="submit" class="btn btn-primary">저장</button>
-            </div>
-            {{-- Footer END --}}
 
             {{-- FORM END --}}
 
@@ -87,7 +68,30 @@
     {{--
         * 페이지에서 사용하는 자바스크립트
     --}}
+
     <script>
         var hostUrl = "assets/";
+
+        // 유사 단지명 추가
+        function complexNameCreate() {
+            var complexNameInput = $('input[name="complex_name_input"]').val();
+            var complexName =
+                `<div class="row">
+                    <div class="col-md-8">
+                        <input name="vote_item" type="text" class="form-control mb-2 mb-md-0" placeholder="유사 단지명을 입력해주세요." value="${complexNameInput}"/>
+                    </div>
+                    <div class="col-md-4">
+                        <a onclick="complexNameDelete(this)" class="btn btn-light-danger">삭제</a>
+                    </div>
+                </div>`
+
+            $('.complex_preview').append(complexName);
+            $('input[name="complex_name_input"]').val('');
+        }
+
+        // 유사 단지명 삭제
+        function complexNameDelete(elem) {
+            $(elem).closest('.row').remove();
+        }
     </script>
 </x-admin-layout>
