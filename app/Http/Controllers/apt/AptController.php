@@ -104,7 +104,8 @@ class AptController extends Controller
      */
     public function aptNameListView(Request $request): View
     {
-        $aptList = DataApt::select();
+        $aptList = DataApt::select()
+            ->whereNotNull('complex_name');
 
         // 검색어
         if (isset($request->kaptName)) {
@@ -122,5 +123,13 @@ class AptController extends Controller
         $result = $aptList->paginate($request->per_page == null ? 10 : $request->per_page);
 
         return view('admin.apt.apt-name-list', compact('result'));
+    }
+
+    /**
+     * 아파트 단지명 등록
+     */
+    public function aptNameCreateView(): View
+    {
+        return view('admin.apt.apt-name-create');
     }
 }

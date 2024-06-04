@@ -91,9 +91,12 @@ return new class extends Migration
             $table->string('x')->nullable()->comment('경도');
             $table->string('y')->nullable()->comment('위도');
 
+
             $table->timestamps();
 
             $table->unique('kaptCode');
+
+            $table->string('complex_name')->nullable()->comment('유사 단지명 (,으로 구분지어 사용)');
         });
 
         DB::statement("ALTER TABLE data_apt COMMENT='법정동코드'");
