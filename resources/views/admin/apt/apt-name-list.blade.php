@@ -13,6 +13,10 @@
                     <span
                         class="d-inline-block position-absolute mt-3 h-8px bottom-0 end-0 start-0 bg-success translate rounded" />
                 </div>
+                {{-- 페이지 버튼 --}}
+                <div class="d-flex align-items-center gap-2 gap-lg-3">
+                    <a href="{{ route('admin.apt.name.create.view') }}" class="btn btn-lm fw-bold btn-primary">등록</a>
+                </div>
             </div>
         </div>
         {{-- 메인 내용 --}}
@@ -52,18 +56,6 @@
 
                     </form>
 
-                    <div class="d-flex justify-content-end mb-10">
-                        <button type="button" onclick="location.href='{{ route('data.apt') }}'"
-                            class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
-                            1. 데이터 가져오기</button>
-                        <button type="button" onclick="location.href='{{ route('data.apt.base') }}'"
-                            class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
-                            2. 데이터 가져오기</button>
-                        <button type="button" onclick="location.href='{{ route('data.apt') }}'"
-                            class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
-                            1. 데이터 가져오기</button>
-                    </div>
-
                 </div>
                 {{-- 테이블 영역 --}}
                 <div class="card card-flush shadow-sm mt-10">
@@ -79,14 +71,7 @@
                                     <th class="text-center w-20px">No.</th>
                                     <th class="text-center min-w-100px">아파트 단지명</th>
                                     <th class="text-center">단지코드</th>
-                                    <th class="text-center">시도</th>
-                                    <th class="text-center">시군구</th>
-                                    <th class="text-center">읍면동</th>
-                                    <th class="text-center">실거래 매매<br>건수</th>
-                                    <th class="text-center">마지막 매매<br>거래일</th>
-                                    <th class="text-center">실거래 전/월세<br>건수</th>
-                                    <th class="text-center">마지막 전/월세<br>거래일</th>
-                                    <th class="text-center">건축물대장<br>마지막 업데이트일</th>
+                                    <th class="text-center">유사 단지명</th>
                                     <th class="text-center">동작</th>
                                 </tr>
                             </thead>
@@ -114,61 +99,13 @@
                                             </span>
                                         </td>
 
-                                        {{-- 시도 --}}
+                                        {{-- 단지코드 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                {{ $apt->as1 }}
+                                                {{ $apt->complex_naem }}
                                             </span>
                                         </td>
 
-                                        {{-- 시군구 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                {{ $apt->as2 }}
-                                            </span>
-                                        </td>
-
-                                        {{-- 읍면동 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                {{ $apt->as3 }}
-                                            </span>
-                                        </td>
-
-                                        {{-- 실거래 매매 건수 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                0
-                                            </span>
-                                        </td>
-
-                                        {{-- 마지막 매매 거래일 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                0
-                                            </span>
-                                        </td>
-
-                                        {{-- 실거래 전/월세 건수 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                0
-                                            </span>
-                                        </td>
-
-                                        {{-- 마지막 전/월세 거래일 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                0
-                                            </span>
-                                        </td>
-
-                                        {{-- 건축물대장 마지막 업데이트일 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                0
-                                            </span>
-                                        </td>
 
                                         {{-- 동작 : 수정, 삭제 --}}
                                         <td class="text-center">
@@ -203,6 +140,26 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- modal 등록 : s -->
+        <div class="modal modal_reg">
+
+            <div class="modal_container">
+                <div class="modal_mss_wrap">
+                    <p class="txt_item_1">게시글을 등록하시겠습니까?</p>
+                </div>
+
+                <div class="modal_btn_wrap">
+                    <button class="btn_gray btn_full_thin" onclick="modal_close('reg')">취소</button>
+                    <button class="btn_point btn_full_thin" onclick="$('.form').submit();">게시글 등록</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="md_overlay md_overlay_reg" onclick="modal_close('reg')"></div>
+        <!-- modal 등록 : e -->
+
 
 
         {{--

@@ -335,6 +335,8 @@ Route::middleware('admin.auth')->controller(AptController::class)->group(functio
 
     Route::get('/apt/name/list/view', 'aptNameListView')->name('admin.apt.name.list.view');
     Route::get('/apt/name/detail/view/{id}', 'aptNameDetailView')->name('admin.apt.name.detail.view');
+    Route::get('/apt/name/create/view', 'aptNameCreateView')->name('admin.apt.name.create.view');
+    Route::post('/apt/name/create', 'aptNameCreate')->name('admin.apt.name.create');
     Route::post('/apt/name/update', 'aptNameUpdate')->name('admin.apt.name.update');
     Route::post('/apt/name/delete', 'aptNameDelete')->name('admin.apt.name.delete');
 });

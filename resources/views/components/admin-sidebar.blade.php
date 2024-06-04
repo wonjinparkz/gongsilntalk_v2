@@ -485,7 +485,7 @@
                         @if (in_array('28', $permissions))
                             {{-- 아파트 단지명 관리 메뉴 --}}
                             <div class="menu-item">
-                                <a class="menu-link" href="#">
+                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'apt.name') ? 'active' : '' }}" href="{{ route('admin.apt.name.list.view') }}">
                                     <span class="menu-icon">
                                         <i class="fa-solid fa-file-signature"></i>
                                     </span>

@@ -94,6 +94,9 @@ class DataApt extends BaseModel
         'is_map_info',
         'x',
         'y',
+
+        // 유사 단지명
+        'complex_name',
     ];
 
     /**
