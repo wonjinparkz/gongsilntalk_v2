@@ -1,15 +1,12 @@
 <x-admin-layout>
-
-    {{-- 기본 - 모양 --}}
-    <div class="d-flex flex-column flex-column-fluid">
-        {{-- 화면 툴바 - 제목, 버튼 --}}
+    <div class="app-container container-xxl">
         <div class="app-toolbar py-3 py-lg-6">
             <div class="app-container container-xxl d-flex flex-stack">
                 {{-- 페이지 제목 --}}
                 <div class="d-inline-block position-relative">
                     <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">기업 이전
                         제안서
-                        관리
+                        상세
                     </h1>
                     <span
                         class="d-inline-block position-absolute mt-3 h-8px bottom-0 end-0 start-0 bg-success translate rounded" />
@@ -18,203 +15,247 @@
             </div>
         </div>
 
-        {{-- 메인 내용 --}}
-        <div class="app-content flex-column-fluid">
-            <div class="app-container container-xxl">
+        <x-screen-card :title="'요청자 정보'">
+            <div class="card-body border-top p-9">
+                <div class="row">
 
-                {{-- 검색 영역 --}}
-                <div class="card card-flush shadow-sm">
-                    <form class="form card-body row border-top p-9 align-items-center" method="GET"
-                        action="{{ route('admin.corp.proposal.list.view') }}">
-                        @csrf
-
-                        {{-- 중개사 회원 담당자 명 --}}
-                        <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">중개사 회원 담당자 명</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" id="name" name="name"
-                                    class="form-control form-control-solid" placeholder="검색어를 입력해 주세요."
-                                    value="{{ Request::get('name') }}" />
-                            </div>
+                    <div class="row-lg-12 mb-10">
+                        <div class="symbol symbol-150px symbol-circle mb-5">
+                            @if ($result->users->images != null)
+                                @foreach ($result->users->images as $image)
+                                    <img src="{{ Storage::url('image/' . $image->path) }}" />
+                                @endforeach
+                            @else
+                                <img src="{{ asset('assets/media/default_user.png') }}" />
+                            @endif
                         </div>
+                    </div>
 
-                        {{-- 중개사 회원 담당자 연락처 --}}
-                        <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">중개사 회원 담당자 연락처</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" id="phone" name="phone"
-                                    class="form-control form-control-solid" placeholder="검색어를 입력해 주세요."
-                                    value="{{ Request::get('phone') }}" />
-                            </div>
+                    {{-- 담당자 이름 --}}
+                    <div class="col-lg-12 row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">담당자 이름</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="담당자 이름"
+                                value="{{ $result->users->name }}" />
                         </div>
+                    </div>
 
-                        {{-- 중개사무소 명 --}}
-                        <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">중개사무소 명</label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" id="company_name" name="company_name"
-                                    class="form-control form-control-solid" placeholder="검색어를 입력해 주세요."
-                                    value="{{ Request::get('company_name') }}" />
-                            </div>
+                    {{-- 아이디 --}}
+                    <div class="col-lg-12 row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">ID</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="아이디"
+                                value="{{ $result->users->email }}" />
                         </div>
+                    </div>
 
-
-                        {{-- 등록일 --}}
-                        <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">등록일</label>
-                            <div class="col-lg-8 fv-row">
-                                <x-admin-date-picker :title="'등록일을 선택해주세요.'" :from_name="'from_created_at'" :to_name="'to_created_at'" />
-                            </div>
+                    {{-- 담당자 연락처 --}}
+                    <div class="col-lg-12 row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">담당자 연락처</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="담당자 연락처"
+                                value="{{ $result->users->phone }}" />
                         </div>
+                    </div>
 
-                        <div class="d-flex justify-content-center mt-10">
-                            <button type="submit" class="btn me-10 col-lg-1 btn-primary">검색</button>
+                    {{-- 중개사무소명 --}}
+                    <div class="col-lg-12 row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">중개사무소명</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="중개사무소명"
+                                value="{{ $result->users->company_name }}" />
                         </div>
+                    </div>
 
-                        <div class="d-flex justify-content-end mt-10">
-                            <a class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical"
-                                href="{{ route('admin.corp.proposal.export', Request::all()) }}" target="_blank">
-                                엑셀 다운로드</a>
+                    {{-- 대표자명 --}}
+                    <div class="col-lg-12 row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">대표자명</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="대표자명"
+                                value="{{ $result->users->company_ceo }}" />
                         </div>
+                    </div>
 
-                    </form>
+                    {{-- 주소 --}}
+                    <div class="col-lg-12 row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">주소</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="주소"
+                                value="{{ $result->users->company_address . $result->users->company_address_detail }}" />
+                        </div>
+                    </div>
+
+                    {{-- 대표 전화번호 --}}
+                    <div class="col-lg-12 row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">대표 전화번호</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="대표 전화번호"
+                                value="{{ $result->users->company_phone }}" />
+                        </div>
+                    </div>
+
+                    {{-- 중개등록번호 --}}
+                    <div class="col-lg-12 row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">중개등록번호</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="중개등록번호"
+                                value="{{ $result->users->brokerage_number }}" />
+                        </div>
+                    </div>
+
+                    {{-- 사업자 등록번호 --}}
+                    <div class="col-lg-12 row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">사업자 등록번호</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid"
+                                placeholder="사업자 등록번호" value="{{ $result->users->company_number }}" />
+                        </div>
+                    </div>
+
+                    {{-- 등록매물 --}}
+                    <div class="col-lg-12 row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">등록매물</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="등록매물"
+                                value="123개" />
+                        </div>
+                    </div>
+
+                    {{-- 작성 제안서 개수 --}}
+                    <div class="col-lg-12 row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">작성 제안서 개수</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid"
+                                placeholder="작성 제안서 개수" value="123개" />
+                        </div>
+                    </div>
+
+                    {{-- 등록일 --}}
+                    <div class="col-lg-12 row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">등록일</label>
+                        <div class="col-lg-8 fv-row">
+                            @inject('carbon', 'Carbon\Carbon')
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="등록일"
+                                value=" {{ $carbon::parse($result->users->created_at)->format('Y.m.d') }}" />
+                        </div>
+                    </div>
 
                 </div>
 
-                {{-- 테이블 영역 --}}
-                <div class="card card-flush shadow-sm mt-10">
-                    {{ $result->links('components.pagination-info') }}
-                    {{-- 데이터 내용 --}}
+            </div>
+        </x-screen-card>
+
+        <x-screen-card :title="'제안서 정보'">
+            <div class="card-body border-top p-9">
+                <div class="row">
+
+                    {{-- 기업명 --}}
+                    <div class="col-lg-12 row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">기업명</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="기업명"
+                                value="{{ $result->corp_name }}" />
+                        </div>
+                    </div>
+
+                    {{-- 생성일 --}}
+                    <div class="col-lg-12 row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">생성일</label>
+                        <div class="col-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="생성일"
+                                value=" {{ $carbon::parse($result->created_at)->format('Y.m.d') }}" />
+                        </div>
+                    </div>
+
+                    {{-- 제안서 상세보기 --}}
+                    <div class="col-lg-12 row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">제안서 상세보기</label>
+                        <div class="col-lg-8 fv-row">
+                            <a href="" class="ps-2 pe-2 btn btn-secondary " target='_blank'>제안서
+                                상세보기</a>
+                        </div>
+                    </div>
+
+
                     <div class="card-body pt-0 table-responsive">
+                        <span class="fs-6">서울특별시 영등포구 </span>
 
                         {{-- 테이블 --}}
-                        <table id="proposal_table"
-                            class="table align-middle table-bordered table-row-dashed table-hover fs-6 gy-5">
+                        <table id="proposal_table" class="table align-middle table-row-dashed fs-6 gy-4">
                             {{-- 테이블 헤더 --}}
                             <thead>
                                 <tr class="text-start text-gray-400 fw-bold fl-7 text-uppercase gs-0">
-                                    <th class="text-center w-20px">No.</th>
-                                    <th class="text-center">중개사무소 명</th>
-                                    <th class="text-center">담당자 명</th>
-                                    <th class="text-center">담당자 연락처</th>
-                                    <th class="text-center w-200px">제안서 명</th>
-                                    <th class="text-center">제안서 수</th>
-                                    <th class="text-center">기업명</th>
-                                    <th class="text-center">등록일</th>
+                                    <th class="text-center w-60px">번호</th>
+                                    <th class="text-center">건물명</th>
+                                    <th class="text-center">주소</th>
+                                    <th class="text-center">전용면적</th>
+                                    <th class="text-center">거래정보</th>
+                                    <th class="text-center">층정보</th>
                                 </tr>
                             </thead>
 
                             {{-- 테이블 내용 --}}
                             <tbody class="fw-semibold text-gray-600">
-                                @foreach ($result as $corpProposal)
-                                    <tr>
-                                        {{-- 매물 제안서 번호 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">{{ $corpProposal->id }}</span>
-                                        </td>
+                                <tr>
+                                    {{-- 매물 제안서 건물 번호 --}}
+                                    <td class="text-center">
+                                        <span class="fw-bold fs-5">1</span>
+                                    </td>
 
-                                        {{-- 일반 회원 이름 또는 중개사무소 명 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                {{$corpProposal->users->company_name }}
-                                            </span>
-                                        </td>
+                                    {{-- 건물명 --}}
+                                    <td class="text-center">
+                                        <span class="fw-bold fs-5 text-dark">
+                                            하이빌골드타워 313호
+                                        </span>
+                                    </td>
 
-                                        {{--  담당자 명 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                {{ $corpProposal->users->name }}
-                                            </span>
-                                        </td>
+                                    {{-- 주소 --}}
+                                    <td class="text-center">
+                                        <span class="fw-bold fs-5 text-dark">
+                                            강남구 역삼동 123-12
+                                        </span>
+                                    </td>
 
-                                        {{--  담당자 연락처 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                {{ $corpProposal->users->phone }}
-                                            </span>
-                                        </td>
+                                    {{-- 면적 --}}
+                                    <td class="text-center">
+                                        <span class="fw-bold fs-5 text-dark">
+                                            전용 112.05㎡/100평
+                                        </span>
+                                    </td>
 
-                                        {{-- 제안서 명 --}}
-                                        <td class="text-center">
-                                            <a href="{{ route('admin.corp.proposal.detail.view', [$corpProposal->id]) }}"
-                                                class="text-gray-800 text-hover-primary fs-5 fw-bold">
-                                                {{ $corpProposal->corp_name }}
-                                            </a>
-                                        </td>
+                                    {{-- 거래정보 --}}
+                                    <td class="text-center">
+                                        <span class="fw-bold fs-5 text-dark">
+                                            임대 3억 2,220만/4,500만
+                                        </span>
+                                        <p class="fs-6">(800만/㎡)</p>
+                                    </td>
 
-                                        {{-- 제안서 개수 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                123
-                                            </span>
-                                        </td>
+                                    {{-- 층 정보 --}}
+                                    <td class="text-center">
+                                        <span class="fw-bold fs-5 text-dark">
+                                            3층/12층
+                                        </span>
+                                    </td>
 
-                                        {{-- 기업명 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                {{ $corpProposal->corp_name }}
-                                            </span>
-                                        </td>
 
-                                        {{-- 등록일 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                @inject('carbon', 'Carbon\Carbon')
-                                                {{ $carbon::parse($corpProposal->created_at)->format('Y.m.d') }}
-                                            </span>
-                                        </td>
-
-                                    </tr>
-                                @endforeach
+                                </tr>
                             </tbody>
                         </table>
-
                     </div>
-                    {{ $result->onEachSide(1)->links('components.pagination') }}
+
+
                 </div>
 
             </div>
-
-        </div>
+        </x-screen-card>
 
 
     </div>
 
+
     {{--
        * 페이지에서 사용하는 자바스크립트
     --}}
-
-    <script>
-        var hostUrl = "assets/";
-
-        initDaterangepicker();
-
-        $("#proposal_table").DataTable({
-            "scrollY": "500px",
-            "scrollCollapse": true,
-            "paging": false,
-            "dom": "<'table-responsive'tr>"
-        });
-
-        // 삭제 물음
-        function deleteAlert(id) {
-            Swal.fire({
-                text: "삭제하시겠습니까?\n삭제후에는 되돌릴 수 없습니다!",
-                icon: "question",
-                dangerMode: true,
-                buttonsStyling: false,
-                showCancelButton: true,
-                cancelButtonText: "취소",
-                confirmButtonText: "확인",
-                customClass: {
-                    confirmButton: "btn btn-danger",
-                    cancelButton: "btn btn-secondary"
-                }
-            }).then(function(result) {
-                if (result.value) {
-                    $('#deleteproposal' + id).submit();
-                }
-            });
-        }
-    </script>
+    <script></script>
 </x-admin-layout>

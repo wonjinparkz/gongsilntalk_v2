@@ -10,6 +10,7 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Client\ConnectionException;
 
 class DataController extends Controller
 {
@@ -22,7 +23,7 @@ class DataController extends Controller
         $url = "http://apis.data.go.kr/1613000/AptListService2/getTotalAptList";
 
         $param = [
-            'serviceKey' => '58+BxzpkxifZ5RGHKDirbnr5Y3l1iK7+y6WxyiyR6sIp8jwIMXeQDAi8zXNY+kyFHznaAHVFxb33c40XOGqaqg==',
+            'serviceKey' => 'OOOeb2NMDrvDEatMXUQZ/bLs8pjBm+0c4X5snSQHQ/rWaslq3lhn0rbXISZf7yRCzLU5C0hSKHUnYw8CcFvg5A==',
             'numOfRows' => '20000'
         ];
 
@@ -52,9 +53,6 @@ class DataController extends Controller
 
                 foreach (array_chunk($originItem, 1000) as $t) {
                     DataApt::upsert($t, 'kaptCode');
-                    $this->getAptBaseInfo();
-                    $this->getAptDetailInfo();
-                    $this->getAptMapInfo();
                 }
 
 
@@ -64,13 +62,14 @@ class DataController extends Controller
 
         $promise->wait();
 
+        // $this->getAptBaseInfo();
+        $this->getAptDetailInfo();
+        // $this->getAptMapInfo();
+
         return Redirect::route('admin.apt.complex.list.view')->with('아파트 단지를 불러왔습니다.');
     }
     public function getAptBaseInfo()
     {
-        // 최대 실행 시간 설정 (예: 300초)
-        set_time_limit(300);
-
         $baseInfo = DataApt::where('is_base_info', 0)->get();
 
         // 베이스 정보가 없을 때
@@ -79,7 +78,7 @@ class DataController extends Controller
         }
 
         $url = "http://apis.data.go.kr/1613000/AptBasisInfoService1/getAphusBassInfo";
-        $serviceKey = '58+BxzpkxifZ5RGHKDirbnr5Y3l1iK7+y6WxyiyR6sIp8jwIMXeQDAi8zXNY+kyFHznaAHVFxb33c40XOGqaqg==';
+        $serviceKey = 'OOOeb2NMDrvDEatMXUQZ/bLs8pjBm+0c4X5snSQHQ/rWaslq3lhn0rbXISZf7yRCzLU5C0hSKHUnYw8CcFvg5A==';
 
         $batchSize = 10; // 한 번에 처리할 배치 크기
         $delay = 2; // 각 배치 사이의 딜레이 (초)
@@ -90,7 +89,6 @@ class DataController extends Controller
             $promises = [];
 
             foreach ($chunk as $base) {
-                Log::info('아파트 기본정보 : ' . $base);
 
                 $param = [
                     'serviceKey' => $serviceKey,
@@ -137,34 +135,72 @@ class DataController extends Controller
         }
     }
 
-    // 아파트 상세 정보
+
     public function getAptDetailInfo()
     {
-        $detailInfo = DataApt::where('is_detail_info', 0)->first();
+        // 최대 실행 시간 설정 (예: 300초)
+        set_time_limit(300);
+
+        $allDetailInfo = DataApt::where('is_detail_info', 0)->get();
+
         // 베이스 정보가 없을 때
-        if ($detailInfo == null) {
+        if ($allDetailInfo->isEmpty()) {
             return;
         }
 
         $url = "http://apis.data.go.kr/1613000/AptBasisInfoService1/getAphusDtlInfo";
-        $param = [
-            'serviceKey' => '58+BxzpkxifZ5RGHKDirbnr5Y3l1iK7+y6WxyiyR6sIp8jwIMXeQDAi8zXNY+kyFHznaAHVFxb33c40XOGqaqg==',
-            'kaptCode' => $detailInfo->kaptCode
-        ];
+        $serviceKey = 'OOOeb2NMDrvDEatMXUQZ/bLs8pjBm+0c4X5snSQHQ/rWaslq3lhn0rbXISZf7yRCzLU5C0hSKHUnYw8CcFvg5A==';
 
-        $promise = Http::async()->get($url, $param)->then(
-            function (Response|TransferException $response) use ($detailInfo) {
-                $xml = simplexml_load_string($response->getBody(), 'SimpleXMLElement', LIBXML_NOCDATA);
-                $json = json_encode($xml);
-                $jsonDecode = json_decode($json, true);
-                $body = $jsonDecode['body'];
-                $item = $body['item'];
-                $item['is_detail_info'] = 1;
-                $detailInfo->update($item);
+        $batchSize = 10; // 한 번에 처리할 배치 크기
+        $delay = 2; // 각 배치 사이의 딜레이 (초)
+
+        $allDetailInfoChunks = $allDetailInfo->chunk($batchSize);
+
+        foreach ($allDetailInfoChunks as $chunk) {
+            $promises = [];
+
+            foreach ($chunk as $detailInfo) {
+                Log::info('아파트 상세정보 : ' . $detailInfo);
+
+                $param = [
+                    'serviceKey' => $serviceKey,
+                    'kaptCode' => $detailInfo->kaptCode
+                ];
+
+                $promises[] = Http::async()->get($url, $param)->then(
+                    function (Response $response) use ($detailInfo) {
+                        try {
+                            $xml = simplexml_load_string($response->getBody(), 'SimpleXMLElement', LIBXML_NOCDATA);
+                            $json = json_encode($xml);
+                            $jsonDecode = json_decode($json, true);
+
+                            if (isset($jsonDecode['body']) && isset($jsonDecode['body']['item'])) {
+                                $body = $jsonDecode['body'];
+                                $item = $body['item'];
+                                $item['is_detail_info'] = 1;
+                                $detailInfo->update($item);
+                                Log::info('$item : ' . json_encode($item));
+                            } else {
+                                Log::error('Invalid response structure: ' . json_encode($jsonDecode));
+                            }
+                        } catch (\Exception $e) {
+                            Log::error('Exception: ' . $e->getMessage());
+                        }
+                    },
+                    function (ConnectionException $exception) use ($detailInfo) {
+                        Log::error('Connection error for kaptCode ' . $detailInfo->kaptCode . ': ' . $exception->getMessage());
+                    }
+                );
             }
-        );
 
-        $promise->wait();
+            // 모든 프라미스를 대기
+            foreach ($promises as $promise) {
+                $promise->wait();
+            }
+
+            // 딜레이 추가
+            sleep($delay);
+        }
     }
 
     // 아파트 지도 정보 위도 경도 - 네이버

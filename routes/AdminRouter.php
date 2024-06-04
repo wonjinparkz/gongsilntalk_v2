@@ -339,7 +339,7 @@ Route::middleware('admin.auth')->controller(AptController::class)->group(functio
  * 데이터 수집
  */
 Route::controller(DataController::class)->group(function () {
-    Route::get('/data/apt', 'getAptBaseInfo')->name('data.apt');
+    Route::get('/data/apt', 'getApt')->name('data.apt');
     Route::get('/data/apt/base', 'getAptBaseInfo')->name('data.apt.base');
 });
 

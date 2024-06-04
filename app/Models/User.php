@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -114,5 +115,40 @@ class User extends BaseModel
     public function block()
     {
         return $this->hasOne(UsersBlocks::class, 'block_id', 'id');
+    }
+
+    // 생성일 포멧
+    public function getCreatedAtAttribute($date)
+    {
+        // API 에서는 format('Y-m-d H:i:s') 형식
+        $is_api = request()->is('api/*') || request()->is('admin/*') || request()->wantsJson();
+        if ($is_api) {
+            return Carbon::parse($date)->format('Y-m-d H:i:s');
+        }
+
+        //    1일 이내 (당일) : 등록된 시.분 노출
+        //    24시간 이후~작성년도의 12월 31일까지 : 등록된 월.일 까지 노출
+        //    작성년도의 12월 31일 이후 ~ : 등록된 년.월.일 까지 노출
+        $createdAtDay = Carbon::parse($date);
+        $nowDay = Carbon::now();
+        // $this->pullup_at > $date;
+        info($this->pullup_at);
+        if ($this->pullup_at > $date) {
+            if ($this->pullup_at->isSameDay($nowDay)) {
+                return $this->pullup_at->format('H:i');
+            } elseif ($nowDay->year == $this->pullup_at->year) {
+                return $this->pullup_at->format('m.d');
+            } else {
+                return $this->pullup_at->format('Y년 m월 d일');
+            }
+        } else {
+            if ($createdAtDay->isSameDay($nowDay)) {
+                return Carbon::parse($date)->format('H:i');
+            } elseif ($nowDay->year == $createdAtDay->year) {
+                return Carbon::parse($date)->format('m.d');
+            } else {
+                return Carbon::parse($date)->format('Y년 m월 d일');
+            }
+        }
     }
 }
