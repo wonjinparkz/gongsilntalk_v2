@@ -62,8 +62,8 @@ class DataController extends Controller
 
         $promise->wait();
 
-        // $this->getAptBaseInfo();
-        $this->getAptDetailInfo();
+        $this->getAptBaseInfo();
+        // $this->getAptDetailInfo();
         // $this->getAptMapInfo();
 
         return Redirect::route('admin.apt.complex.list.view')->with('아파트 단지를 불러왔습니다.');

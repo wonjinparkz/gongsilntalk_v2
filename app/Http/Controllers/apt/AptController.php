@@ -98,4 +98,29 @@ class AptController extends Controller
 
         return back()->with('message', '아파트 단지를 삭제했습니다.');
     }
+
+    /**
+     * 아파트 단지 목록 보기
+     */
+    public function aptNameListView(Request $request): View
+    {
+        $aptList = DataApt::select();
+
+        // 검색어
+        if (isset($request->kaptName)) {
+            $aptList->where('data_apt.kaptName', 'like', "%{$request->kaptName}%");
+        }
+
+        // 검색어
+        if (isset($request->kaptCode)) {
+            $aptList->where('data_apt.kaptCode', 'like', "%{$request->kaptCode}%");
+        }
+
+        // 정렬
+        $aptList->orderBy('data_apt.created_at', 'desc')->orderBy('id', 'desc');
+
+        $result = $aptList->paginate($request->per_page == null ? 10 : $request->per_page);
+
+        return view('admin.apt.apt-name-list', compact('result'));
+    }
 }
