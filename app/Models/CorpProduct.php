@@ -21,6 +21,7 @@ class CorpProduct extends BaseModel
      */
     protected $fillable = [
         'corp_proposal_id',
+        'corp_product_address_id',
         'product_type',
         'type',
         'address_lat',

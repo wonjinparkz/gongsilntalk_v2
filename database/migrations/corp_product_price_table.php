@@ -22,8 +22,8 @@ return new class extends Migration
             $table->double('acquisition_tax', 10,2)->nullable()->comment('취득세율 소수점 2자리까지');
             $table->integer('support_price')->nullable()->comment('지원금액');
             $table->integer('etc_price')->nullable()->comment('기타 비용');
-            $table->integer('loan_rate_one')->comment('대출 가능률');
-            $table->integer('loan_rate_two')->comment('대출 가능률');
+            $table->integer('loan_rate_one')->nullable()->comment('대출 가능률');
+            $table->integer('loan_rate_two')->nullable()->comment('대출 가능률');
             $table->double('loan_interest', 10, 2)->nullable()->comment('대출 금리 소수점 2자리까지');
             $table->integer('is_invest')->comment('실입주/투자여부 - 0: 실입주, 1: 투자');
             $table->integer('invest_price')->nullable()->comment('투자 보증금');
