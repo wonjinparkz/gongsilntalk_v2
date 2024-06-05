@@ -237,7 +237,8 @@ class ProposalPcController extends Controller
             'invest_month_price' => $request->invest_month_price
         ]);
 
-        $this->imageWithCreate($request->product_image_ids, CorpProduct::class, $result->id);
+        $this->imageTypeWithCreate($request->product_image_ids, CorpProduct::class, $result->id, 0);
+        $this->imageTypeWithCreate($request->product_detail_image_ids, CorpProduct::class, $result->id, 1);
 
         return Redirect::route('www.mypage.corp.proposalproduct.list.view', [$request->corp_proposal_id]);
     }
@@ -245,13 +246,17 @@ class ProposalPcController extends Controller
     /**
      * 기업 이전 제안서 타입
      */
-    public function corpProposalTypeDetailView(Request $request): View
+    public function corpProposalTypeDetailView($id): View
     {
         $user = User::select()
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
+        $corpInfo = CorpProposal::select()->where('id', $id)->where('users_id', Auth::guard('web')->user()->id)->first();
+        $address = CorpProductAddress::select()->where('corp_proposal_id', $id)->where('users_id', Auth::guard('web')->user()->id)->orderBy('id', 'asc')->get();
 
-        return view('www.proposal.proposal-type', compact('user'));
+        $products = CorpProduct::select()->where('corp_proposal_id', $id)->orderBy('corp_product_address_id', 'asc')->get();
+
+        return view('www.proposal.proposal-type', compact('user', 'address', 'corpInfo', 'products'));
     }
 }

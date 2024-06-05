@@ -71,4 +71,20 @@ class CorpProduct extends BaseModel
     {
         return $this->hasMany(CorpProductFacility::class, 'corp_product_id', 'id');
     }
+
+    /**
+     * 건물 외관 이미지
+     */
+    public function main_images()
+    {
+        return $this->morphOne(Images::class, 'target')->where('type', 0);
+    }
+
+    /**
+     * 건물 내부 이미지
+     */
+    public function detail_images()
+    {
+        return $this->morphMany(Images::class, 'target')->where('type', 1);
+    }
 }
