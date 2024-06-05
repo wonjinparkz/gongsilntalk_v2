@@ -152,11 +152,21 @@
                     <div class="box_01 box_reg">
                         <div class="flex_between">
                             <h4>사진 및 상세 설명</h4>
-                            <p class="gray_basic">최대 4장 업로드 가능 <span class="txt_point imageCount">0</span> / 4</p>
                         </div>
 
-                        <div class="img_add_wrap reg_step_type draggable-zone">
+                        <div class="offer_textarea_wrap" style="margin-bottom:-35px;">
+                            <label class="input_label">건물 외관 사진 <span class="gray_basic">(1장)</span> <span class="txt_point">*</span></label>
+                        </div>
+
+                        <div class="img_add_wrap reg_step_type draggable-zone product_img_add_wrap">
                             <x-pc-proposal-image-picker :title="'건물 외관 사진(1장)'" id="product" cnt="1" required="required" />
+                        </div>
+
+                        <div class="offer_textarea_wrap" style="margin-bottom:-35px;">
+                            <label class="input_label">건물 내부 사진 <span class="gray_basic">(최대 4장)</span> <span class="txt_point">*</span></label>
+                        </div>
+
+                        <div class="img_add_wrap reg_step_type draggable-zone product_detail_img_add_wrap">
                             <x-pc-proposal-image-picker :title="'건물 내부 사진(최대 4장)'" id="product_detail" cnt="4" required="required" />
                         </div>
 

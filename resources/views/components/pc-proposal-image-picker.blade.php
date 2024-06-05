@@ -88,7 +88,7 @@
                 '<div class="img_box draggable-handle"><img src="' + imagePath + '"></div>' +
                 '</div>'
 
-            $(".img_add_wrap").append(image);
+            $(".{{ $id }}_img_add_wrap").append(image);
             {{ $id }}imageDropzone.removeFile(file);
             refreshFsLightbox();
 
