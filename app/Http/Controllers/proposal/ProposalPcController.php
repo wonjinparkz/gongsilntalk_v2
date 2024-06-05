@@ -259,4 +259,25 @@ class ProposalPcController extends Controller
 
         return view('www.proposal.proposal-type', compact('user', 'address', 'corpInfo', 'products'));
     }
+
+    /**
+     * 기업 이전 제안서 개별 삭제
+     */
+    public function corpProposalDelete(Request $request): RedirectResponse
+    {
+        $result = CorpProduct::select()->where('id', $request->delete_id)->first();
+
+        $addressCount = CorpProduct::select()->where('corp_product_address_id', $result->corp_product_address_id)->count();
+
+        if ($addressCount < 2) {
+            CorpProductAddress::select()->where('id', $result->corp_product_address_id)->delete();
+        }
+
+        CorpProductPrice::select()->where('corp_product_id', $request->delete_id)->delete();
+        CorpProductFacility::select()->where('corp_product_id', $request->delete_id)->delete();
+
+        $result->delete();
+
+        return Redirect::back();
+    }
 }

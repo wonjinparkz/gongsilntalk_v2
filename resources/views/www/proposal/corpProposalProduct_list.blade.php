@@ -124,9 +124,40 @@
                                                     </td>
                                                     <td>
                                                         <button class="btn_gray_ghost btn_sm">수정</button>
-                                                        <button class="btn_gray_ghost btn_sm">삭제</button>
+                                                        <button class="btn_gray_ghost btn_sm" type="button"
+                                                            onclick="modal_open('delete_{{ $product->id }}')">삭제</button>
                                                     </td>
                                                 </tr>
+
+                                                <form method="POST" id="deleteForm_{{ $product->id }}"
+                                                    action="{{ route('www.corp.proposal.product.delete') }}">
+                                                    <input type="hidden" id="delete_id" name="delete_id"
+                                                        value="{{ $product->id }}">
+                                                </form>
+
+                                                <!-- modal 삭제 : s -->
+                                                <div class="modal modal_delete_{{ $product->id }}">
+
+                                                    <div class="modal_container">
+                                                        <div class="modal_mss_wrap">
+                                                            <p class="txt_item_1 txt_point">
+                                                                {{ $product->product_name }}</p>
+                                                            <p class="txt_item_1">건물을 삭제하시겠습니까?</p>
+                                                            <p class="mt8 txt_item_2">삭제 후에는 되돌릴 수 없습니다.</p>
+                                                        </div>
+
+                                                        <div class="modal_btn_wrap">
+                                                            <button class="btn_gray btn_full_thin" type="button"
+                                                                onclick="modal_close('delete_{{ $product->id }}')">취소</button>
+                                                            <button class="btn_point btn_full_thin" type="button"
+                                                                onclick="onDelete('{{ $product->id }}');">삭제</button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="md_overlay md_overlay_delete_{{ $product->id }}"
+                                                    onclick="modal_close('delete_{{ $product->id }}')"></div>
+                                                <!-- modal 삭제 : e -->
                                             @endforeach
 
                                         </tbody>
@@ -168,9 +199,11 @@
                                                         <div class="gap_8">
                                                             <button class="btn_graylight_ghost btn_sm_full mt10"
                                                                 onclick="location.href='#'">수정</button>
-                                                            <button
-                                                                class="btn_graylight_ghost btn_sm_full mt10">삭제</button>
+                                                            <button class="btn_graylight_ghost btn_sm_full mt10"
+                                                                type="button"
+                                                                onclick="modal_open('delete_{{ $product->id }}')">삭제</button>
                                                         </div>
+
                                                     </div>
                                                 </li>
                                             </ul>
@@ -227,6 +260,10 @@
     <!-- modal 제목수정 : e -->
 
     <script>
+        function onDelete(id) {
+            $('#deleteForm_' + id).submit();
+        }
+
         function downloadPDF() {
             const element = document.getElementById(
                 'proposalList');

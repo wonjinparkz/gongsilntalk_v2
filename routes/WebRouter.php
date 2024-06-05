@@ -186,6 +186,7 @@ Route::middleware('pc.auth')->controller(ProposalPcController::class)->group(fun
 
     Route::post('/corp/proposal/product/create/info/check', 'corpProposalProductCreateinfoCheck')->name('www.corp.proposal.product.create.info.check');
     Route::post('/corp/proposal/product/create/price/check', 'corpProposalProductCreatePriceCheck')->name('www.corp.proposal.product.create.price.check');
+    Route::post('/corp/proposal/product/delete', 'corpProposalDelete')->name('www.corp.proposal.product.delete');
 });
 
 /**
