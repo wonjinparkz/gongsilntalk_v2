@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('corp_product_address', function (Blueprint $table) {
             $table->id()->comment('매물 주소 아이디');
             $table->integer('users_id')->comment('사용자 아이디');
+            $table->integer('corp_proposal_id')->comment('제안서 아이디');
             $table->string('city')->comment('구분 주소명');
             $table->timestamps();
         });

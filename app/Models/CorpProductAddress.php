@@ -21,7 +21,8 @@ class CorpProductAddress extends BaseModel
      */
     protected $fillable = [
         'users_id',
-        'city'
+        'city',
+        'corp_proposal_id'
     ];
 
     /**
