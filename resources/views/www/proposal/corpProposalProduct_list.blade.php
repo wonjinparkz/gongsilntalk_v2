@@ -1,4 +1,6 @@
 <x-layout>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
     @php
         function priceChange($price)
         {
@@ -49,7 +51,7 @@
                 <!-- my_side : e -->
 
                 <!-- my_body : s -->
-                <div class="my_body">
+                <div class="my_body" id="proposalList">
                     <div class="inner_wrap m_inner_wrap">
                         <h1 class="t_center only_pc">기업 이전 제안서</h1>
 
@@ -131,38 +133,60 @@
                                     </table>
                                 </div>
                                 <!-- Only PC list : e -->
+
+                                @if (count($proposal) > 0)
+                                    <!----------------------- m:: s ----------------------->
+                                    <div class="m_inner_wrap only_m">
+                                        @foreach ($address->products as $index => $product)
+                                            <ul class="m_asset_list">
+                                                <li class="accordion">
+                                                    <p class="trigger">
+                                                        {{ $product->product_name }}
+                                                        <img src="{{ asset('assets/media/dropdown_arrow.png') }}"
+                                                            class="dropdown_arrow">
+                                                    </p>
+                                                    <div class="m_asset_detail_row panel">
+                                                        <div class="list_detail_item">주소 <span
+                                                                class="gray_deep">양{{ $product->address }}</span>
+                                                        </div>
+                                                        <div class="list_detail_item">층정보 <span
+                                                                class="gray_deep">{{ $product->floor_number }}층/{{ $product->total_floor_number }}층</span>
+                                                        </div>
+                                                        <div class="list_detail_item">전용면적 <span
+                                                                class="gray_deep">{{ $product->exclusive_square }}평</span>
+                                                        </div>
+                                                        <div class="list_detail_item">거래정보 <span
+                                                                class="txt_point">{{ Lang::get('commons.payment_type.' . $product->price->payment_type) }}
+                                                                @if ($product->price->payment_type == 4)
+                                                                    {{ priceChange($product->price->price) }} /
+                                                                    {{ priceChange($product->price->month_price) }}원
+                                                                @else
+                                                                    {{ priceChange($product->price->price) }}원
+                                                                @endif
+                                                            </span>
+                                                        </div>
+                                                        <div class="gap_8">
+                                                            <button class="btn_graylight_ghost btn_sm_full mt10"
+                                                                onclick="location.href='#'">수정</button>
+                                                            <button
+                                                                class="btn_graylight_ghost btn_sm_full mt10">삭제</button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        @endforeach
+                                    </div>
+                                    <!----------------------- m:: e ----------------------->
+                                @endif
                             @endforeach
                     </div>
-
-                    <!----------------------- m:: s ----------------------->
-                    <div class="m_inner_wrap only_m">
-                        <ul class="m_asset_list">
-                            <li class="accordion">
-                                <p class="trigger">
-                                    영등포 양평자이타워
-                                    <img src="{{ asset('assets/media/dropdown_arrow.png') }}" class="dropdown_arrow">
-                                </p>
-                                <div class="m_asset_detail_row panel">
-                                    <div class="list_detail_item">주소 <span class="gray_deep">양평동1가 104-1</span></div>
-                                    <div class="list_detail_item">층정보 <span class="gray_deep">13/20층</span></div>
-                                    <div class="list_detail_item">전용면적 <span class="gray_deep">1234.12평</span></div>
-                                    <div class="list_detail_item">거래정보 <span class="txt_point">매매 14억 2,000만</span>
-                                    </div>
-                                    <div class="gap_8">
-                                        <button class="btn_graylight_ghost btn_sm_full mt10"
-                                            onclick="location.href='#'">수정</button>
-                                        <button class="btn_graylight_ghost btn_sm_full mt10">삭제</button>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <!----------------------- m:: e ----------------------->
-
                     @endif
 
+
+
                     <div class="bottom_btn_wrap">
-                        <button class="btn_basic btn_point_ghost" onclick="location.href='#'">제안서 다운</button>
+                        <button class="btn_basic btn_point_ghost" type="button" onclick="downloadPDF();">제안서
+                            다운</button>
                         <button class="btn_basic btn_point"
                             onclick="location.href='{{ route('www.corp.proposal.product.create.view', $corpInfo->id) }}'">
                             신규 건물 추가
@@ -203,6 +227,22 @@
     <!-- modal 제목수정 : e -->
 
     <script>
+        function downloadPDF() {
+            const element = document.getElementById(
+                'proposalList');
+            html2canvas(element).then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jspdf.jsPDF();
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save("기업_이전_제안서.pdf");
+            });
+        }
+
+
         function onNameChange() {
             $('#nameUpdateForm').submit();
         }
