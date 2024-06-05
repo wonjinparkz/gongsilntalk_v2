@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class DataBuilding extends Model
+class DataBuilding extends BaseModel
 {
     use HasFactory, Notifiable;
 
