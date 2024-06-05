@@ -118,6 +118,7 @@ return [
     |
     */
     'attributes' => [
+        'apt_id' => '아파트',
         'id' => '해당',
         'permissions' => '권한',
         'admins_id' => '관리자 정보',
@@ -171,6 +172,7 @@ return [
 
         'target' => '타겟',
 
+        'complex_name' => '단지명',
         'categoryTitle' => '카테고리 이름',
         'mainText' => '메인 텍스트',
         'magazine_category_id' => '카테고리',

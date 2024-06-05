@@ -20,6 +20,7 @@
                                     <option value="{{ $apt->id }}">{{ $apt->kaptName }}</option>
                                 @endforeach
                             </select>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('apt_id')" />
                         </div>
                     </div>
 
@@ -39,11 +40,22 @@
                                                 추가
                                             </a>
                                         </div>
+                                        <x-input-error class="mt-2 text-danger" :messages="$errors->get('complex_name')" />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group mt-5 complex_preview">
-
+                                @foreach (old('complex_name', []) as $aptComplex)
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <input name="complex_name[]" type="text" class="form-control mb-2"
+                                                placeholder="유사 단지명을 입력해주세요." readonly value="{{ $aptComplex }}" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a onclick="complexNameDelete(this)" class="btn btn-light-danger">삭제</a>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -72,13 +84,22 @@
     <script>
         var hostUrl = "assets/";
 
+        $(document).ready(function() {
+            $('select[name="apt_id"]').val("{{ old('apt_id', '') }}").trigger('change');
+        })
+
         // 유사 단지명 추가
         function complexNameCreate() {
             var complexNameInput = $('input[name="complex_name_input"]').val();
+
+            if (complexNameInput == '') {
+                return alert('유사 단지명 입력 후에 추가 버튼을 눌러주세요.');
+            }
+
             var complexName =
                 `<div class="row">
                     <div class="col-md-8">
-                        <input name="complex_name[]" type="text" class="form-control mb-2 mb-md-0" placeholder="유사 단지명을 입력해주세요." value="${complexNameInput}"/>
+                        <input name="complex_name[]" type="text" class="form-control mb-2" placeholder="유사 단지명을 입력해주세요." readonly value="${complexNameInput}"/>
                     </div>
                     <div class="col-md-4">
                         <a onclick="complexNameDelete(this)" class="btn btn-light-danger">삭제</a>

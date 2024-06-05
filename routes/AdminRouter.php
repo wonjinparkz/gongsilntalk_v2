@@ -328,16 +328,17 @@ Route::middleware('admin.auth')->controller(AdminController::class)->group(funct
  * 데이터 관리
  */
 Route::middleware('admin.auth')->controller(AptController::class)->group(function () {
+    // 아파트 단지 관리
     Route::get('/apt/complex/list/view', 'aptComplexListView')->name('admin.apt.complex.list.view');
     Route::get('/apt/complex/detail/view/{id}', 'aptComplexDetailView')->name('admin.apt.complex.detail.view');
     Route::post('/apt/complex/update', 'aptComplexUpdate')->name('admin.apt.complex.update');
     Route::post('/apt/complex/delete', 'aptComplexDelete')->name('admin.apt.complex.delete');
 
+    // 아파트 단지명 관리
     Route::get('/apt/name/list/view', 'aptNameListView')->name('admin.apt.name.list.view');
     Route::get('/apt/name/detail/view/{id}', 'aptNameDetailView')->name('admin.apt.name.detail.view');
     Route::get('/apt/name/create/view', 'aptNameCreateView')->name('admin.apt.name.create.view');
     Route::post('/apt/name/create', 'aptNameCreate')->name('admin.apt.name.create');
-    Route::post('/apt/name/update', 'aptNameUpdate')->name('admin.apt.name.update');
     Route::post('/apt/name/delete', 'aptNameDelete')->name('admin.apt.name.delete');
 });
 

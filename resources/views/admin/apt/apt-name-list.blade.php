@@ -26,7 +26,7 @@
                 {{-- 검색 영역 --}}
                 <div class="card card-flush shadow-sm">
                     <form class="form card-body row border-top p-9 align-items-center" method="GET"
-                        action="{{ route('admin.apt.complex.list.view') }}">
+                        action="{{ route('admin.apt.name.list.view') }}">
                         @csrf
 
                         {{-- 아파트 단지명 --}}
@@ -87,7 +87,7 @@
 
                                         {{-- 아파트 단지명 --}}
                                         <td class="text-center">
-                                            <a href="{{ route('admin.apt.complex.detail.view', [$apt->id]) }}"
+                                            <a href="{{ route('admin.apt.name.detail.view', [$apt->id]) }}"
                                                 class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $apt->kaptName }}</a>
                                         </td>
 
@@ -102,7 +102,7 @@
                                         {{-- 단지코드 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                {{ $apt->complex_naem }}
+                                                {{ $apt->complex_name }}
                                             </span>
                                         </td>
 
@@ -119,7 +119,7 @@
                                                 {{-- 삭제 --}}
                                                 <div class="menu-item px-3">
                                                     <form id="deletebanner{{ $apt->id }}"
-                                                        action="{{ route('admin.apt.complex.delete') }}"
+                                                        action="{{ route('admin.apt.name.delete') }}"
                                                         method="POST">
                                                         @csrf
                                                         <input type="hidden" name="id"

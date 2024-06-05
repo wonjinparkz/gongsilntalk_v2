@@ -127,7 +127,20 @@ class AptController extends Controller
     }
 
     /**
-     * 아파트 단지명 등록
+     * 아파트 단지 관리 상세 화면 보기
+     */
+    public function aptNameDetailView($id): View
+    {
+        $aptList = DataApt::select('id', 'kaptName')->whereNull('complex_name')->get();
+
+        $result = DataApt::select('id', 'kaptName', 'complex_name')->where('id', $id)->first();
+
+        return view('admin.apt.apt-name-detail', compact('aptList', 'result'));
+    }
+
+
+    /**
+     * 아파트 단지명 등록 화면
      */
     public function aptNameCreateView(): View
     {
@@ -136,15 +149,15 @@ class AptController extends Controller
     }
 
     /**
-     * 배너 등록
+     * 아파트 단지명 등록
      */
     public function aptNameCreate(Request $request): RedirectResponse
     {
         // 유효성 검사
         $validator = Validator::make($request->all(), [
-            'name' => 'required|min:1|max:50',
-            'title' => 'required|min:1|max:50',
-            'content' => 'required|min:1|max:80',
+            'apt_id' => 'required|exists:data_apt,id',
+            'complex_name' => 'required',
+            'complex_name.*' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -153,13 +166,21 @@ class AptController extends Controller
                 ->withInput();
         }
 
-        $complex_name = $request->complex_name
+        $complex_name = implode(',', $request->complex_name);
 
-        $result = DataApt::create([
+        $result = DataApt::where('id', $request->apt_id)->update([
             'id' => $request->apt_id,
             'complex_name' => $complex_name,
         ]);
 
-        return Redirect::route('admin.apt.name.list.view')->with('message', '배너를 등록했습니다.');
+        return Redirect::route('admin.apt.name.list.view')->with('message', '아파트 유사 단지명을 등록했습니다.');
+    }
+
+    public function aptNameDelete(Request $request): RedirectResponse
+    {
+        $result = DataApt::where('id', $request->id)->first()
+            ->update(['complex_name' => Null]);
+
+        return back()->with('message', '아파트 유사 단지명을 삭제했습니다.');
     }
 }
