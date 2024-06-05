@@ -51,11 +51,10 @@ class BuildingledgerController extends Controller
                 'target_id' => $request->id,
             ]);
 
-            return Redirect::route('admin.knowledgeCenter.detail.view', [$request->id])->with('message', '표지부 업데이터를 했습니다.');
+            return back()->with('message', '표지부 업데이터를 했습니다.');
         }
 
-
-        return Redirect::route('admin.knowledgeCenter.detail.view', [$request->id])->with('message', '표지부 업데이터 실패했습니다.');
+        return back()->with('message', '표지부 업데이터 실패했습니다.');
     }
     /**
      * 건출대장 업데이트
@@ -71,17 +70,16 @@ class BuildingledgerController extends Controller
                     'target_id' => null,
                 ]);
 
-                BrRecapTitleInfo::create([
+            BrRecapTitleInfo::create([
                 'json_data' => $request->BrRecapTitleInfo,
                 'target_type' => $request->class,
                 'target_id' => $request->id,
             ]);
 
-            return Redirect::route('admin.knowledgeCenter.detail.view', [$request->id])->with('message', '총괄표제부 업데이터를 했습니다.');
+            return back()->with('message', '총괄표제부 업데이터를 했습니다.');
         }
 
-
-        return Redirect::route('admin.knowledgeCenter.detail.view', [$request->id])->with('message', '총괄표제부 업데이터 실패했습니다.');
+        return back()->with('message', '총괄표제부 업데이터 실패했습니다.');
     }
     /**
      * 건출대장 업데이트
@@ -103,11 +101,11 @@ class BuildingledgerController extends Controller
                 'target_id' => $request->id,
             ]);
 
-            return Redirect::route('admin.knowledgeCenter.detail.view', [$request->id])->with('message', '층별개요 업데이터를 했습니다.');
+            return back()->with('message', '층별개요 업데이터를 했습니다.');
         }
 
 
-        return Redirect::route('admin.knowledgeCenter.detail.view', [$request->id])->with('message', '층별개요 업데이터 실패했습니다.');
+        return back()->with('message', '층별개요 업데이터 실패했습니다.');
     }
     /**
      * 건출대장 업데이트
@@ -129,11 +127,11 @@ class BuildingledgerController extends Controller
                 'target_id' => $request->id,
             ]);
 
-            return Redirect::route('admin.knowledgeCenter.detail.view', [$request->id])->with('message', '전유부 업데이터를 했습니다.');
+            return back()->with('message', '전유부 업데이터를 했습니다.');
         }
 
 
-        return Redirect::route('admin.knowledgeCenter.detail.view', [$request->id])->with('message', '전유부 업데이터 실패했습니다.');
+        return back()->with('message', '전유부 업데이터 실패했습니다.');
     }
     /**
      * 건출대장 업데이트
@@ -155,12 +153,10 @@ class BuildingledgerController extends Controller
                 'target_id' => $request->id,
             ]);
 
-            return Redirect::route('admin.knowledgeCenter.detail.view', [$request->id])->with('message', '전유공용면적 업데이터를 했습니다.');
+            return back()->with('message', '전유공용면적 업데이터를 했습니다.');
         }
 
 
-        return Redirect::route('admin.knowledgeCenter.detail.view', [$request->id])->with('message', '전유공용면적 업데이터 실패했습니다.');
+        return back()->with('message', '전유공용면적 업데이터 실패했습니다.');
     }
-
-
 }

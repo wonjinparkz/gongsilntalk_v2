@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class DataStore extends BaseModel
+class DataBuilding extends BaseModel
 {
     use HasFactory, Notifiable;
 
     /**
      * Table Name
      */
-    protected $table = 'data_store';
+    protected $table = 'data_building';
 
 
     /**
@@ -26,65 +26,65 @@ class DataStore extends BaseModel
         'as3',
         'as4',
         'bjdCode',
-        'kstoreName',
+        'kbuildingName',
 
 
         // 상가 기본 정보
-        'kstoreAddr',
+        'kbuildingAddr',
         'codeSaleNm',
         'codeHeatNm',
-        'kstoreTarea',
-        'kstoreDongCnt',
-        'kstoredaCnt',
-        'kstoreBcompany',
-        'kstoreAcompany',
-        'kstoreTel',
-        'kstoreFax',
-        'kstoreUrl',
+        'kbuildingTarea',
+        'kbuildingDongCnt',
+        'kbuildingdaCnt',
+        'kbuildingBcompany',
+        'kbuildingAcompany',
+        'kbuildingTel',
+        'kbuildingFax',
+        'kbuildingUrl',
         'codeAptNm',
         'doroJuso',
         'hoCnt',
         'codeMgrNm',
         'codeHallNm',
-        'kstoreUsedate',
-        'kstoreMarea',
-        'kstoreMparea_60',
-        'kstoreMparea_85',
-        'kstoreMparea_135',
-        'kstoreMparea_136',
+        'kbuildingUsedate',
+        'kbuildingMarea',
+        'kbuildingMparea_60',
+        'kbuildingMparea_85',
+        'kbuildingMparea_135',
+        'kbuildingMparea_136',
         'privArea',
 
 
         // 상가 상세 정보
         'codeMgr',
-        'kstoreMgrCnt',
-        'kstoreCcompany',
+        'kbuildingMgrCnt',
+        'kbuildingCcompany',
         'codeSec',
-        'kstoredScnt',
-        'kstoredSecCom',
+        'kbuildingdScnt',
+        'kbuildingdSecCom',
         'codeClean',
-        'kstoredClcnt',
+        'kbuildingdClcnt',
         'codeGarbage',
         'codeDisinf',
-        'kstoredDcnt',
+        'kbuildingdDcnt',
         'disposalType',
         'codeStr',
-        'kstoredEcapa',
+        'kbuildingdEcapa',
         'codeEcon',
         'codeEmgr',
         'codeFalarm',
         'codeWsupply',
         'codeElev',
-        'kstoredEcnt',
-        'kstoredPcnt',
-        'kstoredPcntu',
+        'kbuildingdEcnt',
+        'kbuildingdPcnt',
+        'kbuildingdPcntu',
         'codeNet',
-        'kstoredCccnt',
+        'kbuildingdCccnt',
         'welfareFacility',
-        'kstoredWtimebus',
+        'kbuildingdWtimebus',
         'subwayLine',
         'subwayStation',
-        'kstoredWtimesub',
+        'kbuildingdWtimesub',
         'convenientFacility',
         'educationFacility',
 
