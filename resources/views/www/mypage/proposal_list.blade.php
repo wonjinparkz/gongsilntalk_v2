@@ -24,7 +24,8 @@
 
                     <div class="flex_between my_body_top">
                         <div class="gray_deep fs_16_v">총 8개의 제안서</div>
-                        <button class="btn_point btn_sm" onclick="location.href='offer_step_1.html'">신규 매물 제안서
+                        <button class="btn_point btn_sm"
+                            onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'">신규 매물 제안서
                             받기</button>
                     </div>
                     <p class="gray_basic fs_14_v mt18">*최대 7일까지만 보관됩니다.</p>

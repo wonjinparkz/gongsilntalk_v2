@@ -174,6 +174,7 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
 });
 
 Route::middleware('pc.auth')->controller(ProposalPcController::class)->group(function () {
+    // 중개사 기업 이전 제안서
     Route::post('/corp/proposal/create', 'corpProposalCreate')->name('www.corp.proposal.create');
     Route::get('/corp/proposal/product/create/{id}', 'corpProposalProductCreateView')->name('www.corp.proposal.product.create.view');
     Route::get('/corp/proposal/product/create2', 'corpProposalProductCreate2View')->name('www.corp.proposal.product.create2.view');
@@ -187,6 +188,11 @@ Route::middleware('pc.auth')->controller(ProposalPcController::class)->group(fun
     Route::post('/corp/proposal/product/create/info/check', 'corpProposalProductCreateinfoCheck')->name('www.corp.proposal.product.create.info.check');
     Route::post('/corp/proposal/product/create/price/check', 'corpProposalProductCreatePriceCheck')->name('www.corp.proposal.product.create.price.check');
     Route::post('/corp/proposal/product/delete', 'corpProposalDelete')->name('www.corp.proposal.product.delete');
+
+    // 사용자 매물 제안서
+    Route::get('/mypage/proposal/offer-first', 'userProposalCreateFirst')->name('www.mypage.user.offer.first.create.view');
+    Route::get('/mypage/proposal/offer-second', 'userProposalCreateSecond')->name('www.mypage.user.offer.second.create.view');
+    Route::get('/mypage/proposal/offer-third', 'userProposalCreateThird')->name('www.mypage.user.offer.third.create.view');
 });
 
 /**

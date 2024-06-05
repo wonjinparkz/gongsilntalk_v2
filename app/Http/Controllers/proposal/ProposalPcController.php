@@ -280,4 +280,33 @@ class ProposalPcController extends Controller
 
         return Redirect::back();
     }
+
+
+
+    /** ------------------------- 사용자 ------------------------- */
+
+
+    /**
+     * 매물 제안서 등록 1
+     */
+    public function userProposalCreateFirst(Request $request): View
+    {
+        return view('www.proposal.user-offer-first', compact('request'));
+    }
+
+    /**
+     * 매물 제안서 등록 2
+     */
+    public function userProposalCreateSecond(Request $request): View
+    {
+        return view('www.proposal.user-offer-second', compact('request'));
+    }
+
+    /**
+     * 매물 제안서 등록 3
+     */
+    public function userProposalCreateThird(Request $request): View
+    {
+        return view('www.proposal.user-offer-third', compact('request'));
+    }
 }
