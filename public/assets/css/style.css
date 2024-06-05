@@ -147,7 +147,7 @@
 .sales_list_wish.on{background: url('../images/btn_like_on.png') no-repeat; background-size:20px auto;}
 .sales_list_wish{background: url('../images/btn_like_w.png') no-repeat; background-size:20px auto; cursor: pointer; width: 20px; height: 18px; position: absolute; right:10px; top:10px;}
 .sales_list_con{margin-top: 18px;}
-.sales_list_con .txt_item_1{font-family:'font-b'; font-size: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.4; margin-top: 14px;} 
+.sales_list_con .txt_item_1{font-family:'font-b'; font-size: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.4; margin-top: 14px;}
 .sales_list_con .txt_item_2{color:#63605F; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.6;}
 .sales_list_con .txt_item_3{color:#9D9999; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.6;}
 .sales_list_con .txt_item_4{font-size: 16px; color:#2A2828; line-height: 1.6;}
@@ -590,8 +590,8 @@ a.btn_like{background: url('../images/btn_like_off.png') no-repeat; background-s
 .alarm_list .alarm_info{margin-top: 8px; color:var(--color-gray-2); line-height: 1.4; font-family: 'font-r';}
 .alarm_list .alarm_date{font-family: 'font-r'; color: var(--color-gray-3); margin-top: 6px; position: relative; display: block;}
 /* .alarm_list .alarm_date::before{position: absolute; width:4px; height:4px; border-radius:5px; background: #D2D1D0; content: ''; left: -8px; top:7px;} */
-.alarm_list .alarm_dday{width:250px;} 
-.alarm_list .alarm_address{width:calc(100% - 258px); margin-top: 0;} 
+.alarm_list .alarm_dday{width:250px;}
+.alarm_list .alarm_address{width:calc(100% - 258px); margin-top: 0;}
 .alarm_list_2{cursor: pointer; padding: 24px 28px;}
 .alarm_arrow{width: 8px;}
 
