@@ -12,9 +12,11 @@ use App\Http\Controllers\qa\QaController;
 use App\Http\Controllers\notice\NoticeController;
 use App\Http\Controllers\popup\PopupController;
 use App\Http\Controllers\banner\BannerController;
+use App\Http\Controllers\building\DataBuildingController;
 use App\Http\Controllers\buildingledger\BuildingledgerController;
 use App\Http\Controllers\commons\PopupOpenController;
 use App\Http\Controllers\data\DataController;
+use App\Http\Controllers\store\DataStoreController;
 use App\Http\Controllers\knowledgecenter\KnowledgeCneter_Controller;
 use App\Http\Controllers\magazine\MagazineController;
 use App\Http\Controllers\maintext\MainTextController;
@@ -24,6 +26,7 @@ use App\Http\Controllers\report\ReportController;
 use App\Http\Controllers\service\ServiceController;
 use App\Http\Controllers\SiteProduct\SiteProductController;
 use App\Http\Controllers\terms\TermsController;
+use App\Http\Controllers\transactions\TransactionsController;
 use App\Http\Controllers\user\UserController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
@@ -325,7 +328,7 @@ Route::middleware('admin.auth')->controller(AdminController::class)->group(funct
 
 
 /**
- * 데이터 관리
+ * 아파트 단지 관리 && 아파트 단지명 관리
  */
 Route::middleware('admin.auth')->controller(AptController::class)->group(function () {
     // 아파트 단지 관리
@@ -340,6 +343,49 @@ Route::middleware('admin.auth')->controller(AptController::class)->group(functio
     Route::get('/apt/name/create/view', 'aptNameCreateView')->name('admin.apt.name.create.view');
     Route::post('/apt/name/create', 'aptNameCreate')->name('admin.apt.name.create');
     Route::post('/apt/name/delete', 'aptNameDelete')->name('admin.apt.name.delete');
+
+});
+
+/**
+ * 상가 관리
+ */
+Route::middleware('admin.auth')->controller(DataStoreController::class)->group(function () {
+    // 상가 관리
+    Route::get('/store/list/view', 'storeListView')->name('admin.store.list.view');
+    Route::get('/store/create/view', 'storeCreateView')->name('admin.store.create.view');
+    Route::get('/store/detail/view/{id}', 'storeDetailView')->name('admin.store.detail.view');
+    Route::post('/store/create', 'storeCreate')->name('admin.store.create');
+    Route::post('/store/update', 'storeUpdate')->name('admin.store.update');
+    Route::post('/store/delete', 'storeDelete')->name('admin.store.delete');
+    Route::post('/store/state/update', 'storeStateUpdate')->name('admin.store.state.update');
+});
+
+/**
+ * 상가 관리
+ */
+Route::middleware('admin.auth')->controller(DataBuildingController::class)->group(function () {
+    // 상가 관리
+    Route::get('/building/list/view', 'buildingListView')->name('admin.building.list.view');
+    Route::get('/building/create/view', 'buildingCreateView')->name('admin.building.create.view');
+    Route::get('/building/detail/view/{id}', 'buildingDetailView')->name('admin.building.detail.view');
+    Route::post('/building/create', 'buildingCreate')->name('admin.building.create');
+    Route::post('/building/update', 'buildingUpdate')->name('admin.building.update');
+    Route::post('/building/delete', 'buildingDelete')->name('admin.building.delete');
+    Route::post('/building/state/update', 'buildingStateUpdate')->name('admin.building.state.update');
+});
+
+/**
+ * 아파트 실거래 관리
+ */
+Route::middleware('admin.auth')->controller(TransactionsController::class)->group(function () {
+    // 실거래 관리
+    Route::get('/ransactions/list/view', 'ransactionsListView')->name('admin.ransactions.list.view');
+    Route::get('/ransactions/create/view', 'ransactionsCreateView')->name('admin.ransactions.create.view');
+    Route::get('/ransactions/detail/view/{id}', 'ransactionsDetailView')->name('admin.ransactions.detail.view');
+    Route::post('/ransactions/create', 'ransactionsCreate')->name('admin.ransactions.create');
+    Route::post('/ransactions/update', 'ransactionsUpdate')->name('admin.ransactions.update');
+    Route::post('/ransactions/delete', 'ransactionsDelete')->name('admin.ransactions.delete');
+    Route::post('/ransactions/state/update', 'ransactionsStateUpdate')->name('admin.ransactions.state.update');
 });
 
 

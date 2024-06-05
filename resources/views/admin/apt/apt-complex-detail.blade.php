@@ -85,8 +85,8 @@
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">주소</label>
                         <div class="col-lg-10 fv-row">
                             <span class="fw-bolder">{{ $result->kaptAddr }}</span>
-                            <input type="hidden" name="address_lat" id="address_lat" value="{{ $result->x }}">
-                            <input type="hidden" name="address_lng" id="address_lng" value="{{ $result->y }}">
+                            <input type="hidden" name="address_lat" id="address_lat" value="{{ $result->y }}">
+                            <input type="hidden" name="address_lng" id="address_lng" value="{{ $result->x }}">
                             <div class="mb-6"
                                 style="border: 1px solid #D2D1D0; border-radius: 5px; display: flex; align-items: center; color:#D2D1D0; justify-content:center; text-align: center; line-height: 1.4; height: 500px; margin-top:18px; position: relative;">
                                 <div id="is_temporary_0"
@@ -259,7 +259,7 @@
             var address_lng = $('input[name=address_lng]').val();
 
             if (address_lat != '' && address_lng != '') {
-                var wgs84Coords = get_coordinate_conversion1(address_lat, address_lng)
+                var wgs84Coords = get_coordinate_conversion1(address_lng, address_lat)
                 setTimeout(function() {
                     callJusoroMapApiType1(wgs84Coords[0], wgs84Coords[1]);
                 }, 2000);
