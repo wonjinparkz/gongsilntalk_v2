@@ -68,8 +68,8 @@ class ProposalPcController extends Controller
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
-
-        $proposal = CorpProposal::with('products')->select()->where('id', $id)->where('users_id', Auth::guard('web')->user()->id)->first();
+        $corpInfo = CorpProposal::select()->where('id', $id)->where('users_id', Auth::guard('web')->user()->id)->first();
+        $proposal = CorpProductAddress::select()->where('corp_proposal_id', $id)->where('users_id', Auth::guard('web')->user()->id)->get();
 
         if (!isset($proposal)) {
             return redirect(route('www.mypage.corp.proposal.list.view'))
@@ -77,7 +77,7 @@ class ProposalPcController extends Controller
                 ->withInput();
         }
 
-        return view('www.proposal.corpProposalProduct_list', compact('user', 'proposal'));
+        return view('www.proposal.corpProposalProduct_list', compact('user', 'proposal', 'corpInfo'));
     }
 
     /**
@@ -166,13 +166,17 @@ class ProposalPcController extends Controller
         $address_id = 0;
 
         $address_city = explode(' ', $request->address);
-        $address_city = $address_city[0].' '.$address_city[1];
+        $address_city = $address_city[0] . ' ' . $address_city[1];
 
-        $addressList = CorpProductAddress::select()->where('city', $address_city)->where('users_id',  Auth::guard('web')->user()->id)->first();
+        $addressList = CorpProductAddress::select()
+            ->where('city', $address_city)
+            ->where('users_id',  Auth::guard('web')->user()->id)
+            ->where('corp_proposal_id', $request->corp_proposal_id)->first();
 
         if (!isset($addressList)) {
             $address = CorpProductAddress::create([
                 'users_id' =>  Auth::guard('web')->user()->id,
+                'corp_proposal_id' =>  $request->corp_proposal_id,
                 'city' => $address_city
             ]);
 

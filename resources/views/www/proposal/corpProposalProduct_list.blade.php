@@ -54,12 +54,12 @@
                         <h1 class="t_center only_pc">기업 이전 제안서</h1>
 
                         <div class="company_name">
-                            <h3>{{ $proposal->corp_name }}</h3>
+                            <h3>{{ $corpInfo->corp_name }}</h3>
                             <button><img src="{{ asset('assets/media/ic_pen.png') }}" class="w_20p"
                                     onclick="modal_open('modify')"></button>
                         </div>
 
-                        @if (count($proposal->products) < 1)
+                        @if (count($proposal) < 1)
                             <!-- 데이터가 없을 경우 : s -->
                             <div class="empty_wrap">
                                 <p>작성한 제안 건물이 없습니다.</p>
@@ -68,61 +68,70 @@
                             <!-- 데이터가 없을 경우 : e -->
                         @else
                             <!-- Only PC list : s -->
-                            <div class="proposal_group">
-                                <p class="group_tit">서울특별시 영등포구</p>
-                                <table class="table_basic only_pc">
-                                    <colgroup>
-                                        <col width="60">
-                                        <col width="150">
-                                        <col width="*">
-                                        <col width="150">
-                                        <col width="200">
-                                        <col width="120">
-                                        <col width="140">
-                                    </colgroup>
-                                    <thead>
-                                        <tr>
-                                            <th>번호</th>
-                                            <th>건물명</th>
-                                            <th>주소</th>
-                                            <th>면적 <button class="inner_change_button"><img
-                                                        src="{{ asset('assets/media/ic_change.png') }}">
-                                                    <span class="txt_unit">평</span></button></th>
-                                            <th>거래정보</th>
-                                            <th>층정보</th>
-                                            <th>관리</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($proposal->products as $index => $product)
+                            @foreach ($proposal as $address)
+                                <div class="proposal_group">
+                                    <p class="group_tit">{{ $address->city }}</p>
+                                    <table class="table_basic only_pc">
+                                        <colgroup>
+                                            <col width="60">
+                                            <col width="150">
+                                            <col width="*">
+                                            <col width="150">
+                                            <col width="200">
+                                            <col width="120">
+                                            <col width="140">
+                                        </colgroup>
+                                        <thead>
                                             <tr>
-                                                <td class="td_center">{{ $index + 1 }}</td>
-                                                <td>{{ $product->product_name }}</td>
-                                                <td>{{ $product->address }}</td>
-                                                <td class="area">{{ $product->exclusive_area }}</td>
-                                                <td class="square" style="display:none;">
-                                                    {{ $product->exclusive_square }}</td>
-                                                <td>{{ Lang::get('commons.payment_type.' . $product->price->payment_type) }}
-                                                    @if ($product->price->payment_type == 4)
-                                                        {{ priceChange($product->price->price) }} /
-                                                        {{ priceChange($product->price->month_price) }}원
-                                                    @else
-                                                        {{ priceChange($product->price->price) }}원
-                                                    @endif
-                                                </td>
-                                                <td>{{ $product->floor_number }}층/{{ $product->total_floor_number }}층
-                                                </td>
-                                                <td>
-                                                    <button class="btn_gray_ghost btn_sm">수정</button>
-                                                    <button class="btn_gray_ghost btn_sm">삭제</button>
-                                                </td>
+                                                <th>번호</th>
+                                                <th>건물명</th>
+                                                <th>주소</th>
+                                                <th>면적 <button
+                                                        class="inner_change_button sizeBtnEvent{{ $address->id }}"
+                                                        type="button" onclick="sizeChange('{{ $address->id }}');">
+                                                        <img src="{{ asset('assets/media/ic_change.png') }}">
+                                                        <span
+                                                            class="txt_unit sizeBtn{{ $address->id }}">평</span></button>
+                                                </th>
+                                                <th>거래정보</th>
+                                                <th>층정보</th>
+                                                <th>관리</th>
                                             </tr>
-                                        @endforeach
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($address->products as $index => $product)
+                                                <tr>
+                                                    <td class="td_center">{{ $index + 1 }}</td>
+                                                    <td>{{ $product->product_name }}</td>
+                                                    <td>{{ $product->address }}</td>
 
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- Only PC list : e -->
+                                                    <td class="square_{{ $address->id }}">
+                                                        {{ $product->exclusive_area }}㎡</td>
+                                                    <td class="area_{{ $address->id }}" style="display:none;">
+                                                        {{ $product->exclusive_square }}평</td>
+
+                                                    <td>{{ Lang::get('commons.payment_type.' . $product->price->payment_type) }}
+                                                        @if ($product->price->payment_type == 4)
+                                                            {{ priceChange($product->price->price) }} /
+                                                            {{ priceChange($product->price->month_price) }}원
+                                                        @else
+                                                            {{ priceChange($product->price->price) }}원
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $product->floor_number }}층/{{ $product->total_floor_number }}층
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn_gray_ghost btn_sm">수정</button>
+                                                        <button class="btn_gray_ghost btn_sm">삭제</button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Only PC list : e -->
+                            @endforeach
                     </div>
 
                     <!----------------------- m:: s ----------------------->
@@ -155,7 +164,7 @@
                     <div class="bottom_btn_wrap">
                         <button class="btn_basic btn_point_ghost" onclick="location.href='#'">제안서 다운</button>
                         <button class="btn_basic btn_point"
-                            onclick="location.href='{{ route('www.corp.proposal.product.create.view', $proposal->id) }}'">
+                            onclick="location.href='{{ route('www.corp.proposal.product.create.view', $corpInfo->id) }}'">
                             신규 건물 추가
                         </button>
                     </div>
@@ -180,8 +189,8 @@
                 <ul class="reg_bascic">
                     <li>
                         <label>기업명</label>
-                        <input type="text" id="corp_name" name="corp_name" value="{{ $proposal->corp_name }}">
-                        <input type="hidden" id="corp_id" name="corp_id" value="{{ $proposal->id }}">
+                        <input type="text" id="corp_name" name="corp_name" value="{{ $corpInfo->corp_name }}">
+                        <input type="hidden" id="corp_id" name="corp_id" value="{{ $corpInfo->id }}">
                     </li>
                 </ul>
                 <div class="mt40">
@@ -194,21 +203,38 @@
     <!-- modal 제목수정 : e -->
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const button = document.querySelector(".inner_change_button");
-            const unitSpan = button.querySelector(".txt_unit");
-
-            button.addEventListener("click", function() {
-                if (unitSpan.textContent === "평") {
-                    unitSpan.textContent = "㎡";
-                } else {
-                    unitSpan.textContent = "평";
-                }
-            });
-        });
-
         function onNameChange() {
             $('#nameUpdateForm').submit();
+        }
+
+        // 평 변환
+        function sizeChange(id) {
+
+            let squareText = '';
+            let areaText = '';
+
+            const btnInfo = document.querySelector(".sizeBtn" + id);
+            const button = document.querySelector(".sizeBtnEvent" + id);
+
+            if (btnInfo.textContent === "평") {
+                btnInfo.textContent = "㎡";
+                squareText = 'none';
+                areaText = '';
+            } else {
+                btnInfo.textContent = "평";
+                squareText = '';
+                areaText = 'none';
+            }
+
+            const squareList = document.querySelectorAll(".square_" + id);
+            const areaList = document.querySelectorAll(".area_" + id);
+
+            squareList.forEach(element => {
+                element.style.display = squareText;
+            });
+            areaList.forEach(element => {
+                element.style.display = areaText;
+            });
         }
     </script>
 </x-layout>

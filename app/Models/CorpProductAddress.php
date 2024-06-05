@@ -37,4 +37,21 @@ class CorpProductAddress extends BaseModel
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];
+
+    /**
+     * 기업 매물 리스트
+     */
+    public function products()
+    {
+        return $this->hasMany(CorpProduct::class, 'corp_product_address_id', 'id')
+            ->where('is_delete', 0);
+    }
+
+    /**
+     * 기업 매물 리스트
+     */
+    public function proposal()
+    {
+        return $this->hasOne(CorpProposal::class, 'id', 'corp_proposal_id');
+    }
 }
