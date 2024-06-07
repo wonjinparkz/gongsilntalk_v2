@@ -119,6 +119,7 @@ return [
     */
     'attributes' => [
         'apt_id' => '아파트',
+        'region_id' => '지역 선택은',
         'id' => '해당',
         'permissions' => '권한',
         'admins_id' => '관리자 정보',

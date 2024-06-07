@@ -5,6 +5,7 @@ namespace App\Http\Controllers\data;
 use App\Http\Controllers\Controller;
 use App\Models\DataApt;
 use App\Models\Transactions;
+use App\Models\TransactionsRegionUpdate;
 use DateTime;
 use GuzzleHttp\Exception\TransferException;
 use Illuminate\Contracts\View\View;
@@ -264,15 +265,27 @@ class DataController extends Controller
 
         // 유효성 검사
         $validator = Validator::make($request->all(), [
-            'cityCode' => 'required',
-            'dealYm' => 'required',
+            'region_id' => 'required',
+            'year' => 'required',
+            'month' => 'required',
         ]);
 
 
         if ($validator->fails()) {
             return redirect(route('admin.transactions.list.view'))
                 ->withErrors($validator)
-                ->withInput();
+                ->withInput()
+                ->with('error', '아파트 매매 실거래가를 불러오기를 실패하였습니다.');
+        }
+
+        $newLastUpdatedAt = $request->year . str_pad($request->month, 2, '0', STR_PAD_LEFT);
+
+        $region = TransactionsRegionUpdate::select()->where('type', '0')->where('id', $request->region_id)->first();
+
+        if (strtotime($newLastUpdatedAt) > strtotime($region->last_updated_at)) {
+            $region->update([
+                'last_updated_at' => $newLastUpdatedAt,
+            ]);
         }
 
         $url = "http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev";
@@ -280,8 +293,8 @@ class DataController extends Controller
         $param = [
             'serviceKey' => '58+BxzpkxifZ5RGHKDirbnr5Y3l1iK7+y6WxyiyR6sIp8jwIMXeQDAi8zXNY+kyFHznaAHVFxb33c40XOGqaqg==',
             'numOfRows' => '20000',
-            'LAWD_CD' => $request->cityCode,
-            'DEAL_YMD' => $request->dealYm,
+            'LAWD_CD' => $region->lawd_cd,
+            'DEAL_YMD' => $newLastUpdatedAt,
         ];
 
         $promise = Http::async()->get($url, $param)->then(
@@ -298,6 +311,7 @@ class DataController extends Controller
                     foreach ($item as $value) {
 
                         $obj = [
+                            'type' => '0',
                             'transactionPrice' => isset($value['거래금액']) ? $value['거래금액'] : '',
                             'constructionYear' => isset($value['건축년도']) ? $value['건축년도'] : '',
                             'year' => isset($value['년']) ? $value['년'] : '',
@@ -325,7 +339,7 @@ class DataController extends Controller
                             'unique_code' => (isset($value['년']) ? $value['년'] : '') . (isset($value['월']) ? $value['월'] : '') . (isset($value['일']) ? $value['일'] : '') . (isset($value['일련번호']) ? $value['일련번호'] : '') . (isset($value['층']) ? $value['층'] : '') . (isset($value['거래금액']) ? $value['거래금액'] : ''),
                         ];
 
-                        //Transactions::create($obj);
+                        // Transactions::create($obj);
                         array_push($originItem, $obj);
                     }
                     foreach (array_chunk($originItem, 1000) as $t) {
@@ -338,6 +352,6 @@ class DataController extends Controller
 
         $promise->wait();
 
-        return back()->with('아파트 단지를 불러왔습니다.');
+        return back()->with('message', '아파트 매매 실거래가를 불러왔습니다.');
     }
 }

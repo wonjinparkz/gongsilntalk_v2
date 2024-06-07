@@ -1,5 +1,5 @@
 <x-admin-layout>
-
+    {{ session('error') }}
     {{-- 기본 - 모양 --}}
     <div class="d-flex flex-column flex-column-fluid">
         {{-- 화면 툴바 - 제목, 버튼 --}}
@@ -13,10 +13,6 @@
                     <span
                         class="d-inline-block position-absolute mt-3 h-8px bottom-0 end-0 start-0 bg-success translate rounded" />
                 </div>
-                {{-- 페이지 버튼 --}}
-                <div class="d-flex align-items-center gap-2 gap-lg-3">
-                    <a href="{{ route('admin.store.create.view') }}" class="btn btn-lm fw-bold btn-primary">등록</a>
-                </div>
             </div>
         </div>
         {{-- 메인 내용 --}}
@@ -26,16 +22,35 @@
                 {{-- 검색 영역 --}}
                 <div class="card card-flush shadow-sm">
                     <form class="form card-body row border-top p-9 align-items-center" method="GET"
-                        action="{{ route('admin.store.list.view') }}">
+                        action="{{ route('admin.transactions.list.view') }}">
                         @csrf
 
                         {{-- 아파트 명 --}}
                         <div class="col-lg-6 row mb-6">
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">아파트 명</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" id="kstoreName" name="kstoreName"
+                                <input type="text" id="aptName" name="aptName"
                                     class="form-control form-control-solid" placeholder="검색어 입력"
-                                    value="{{ Request::get('kstoreName') }}" />
+                                    value="{{ Request::get('aptName') }}" />
+                            </div>
+                        </div>
+
+                        {{-- 매칭 여부 --}}
+                        <div class="col-lg-6 row mb-6">
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">매칭 여부</label>
+                            @php
+                                $is_matching = Request::get('is_matching') ?? -1;
+                            @endphp
+                            <div class="col-lg-8 fv-row">
+                                <select name="is_matching" class="form-select form-select-solid" data-control="select2"
+                                    data-hide-search="true">
+                                    <option value="" @if ($is_matching < 0) selected @endif>전체
+                                    </option>
+                                    <option value="0" @if ($is_matching == 0) selected @endif>매칭 전
+                                    </option>
+                                    <option value="1" @if ($is_matching == 1) selected @endif>매칭 완료
+                                    </option>
+                                </select>
                             </div>
                         </div>
 
@@ -43,9 +58,6 @@
                             <button type="submit" class="btn col-lg-1 btn-primary">검색</button>
                         </div>
                         <div class="d-flex justify-content-end mb-10">
-                            {{-- <button type="button" onclick="location.href='{{ route('data.transcations.apt') }}'"
-                                class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
-                                1. 데이터 가져오기</button> --}}
                             <a class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" data-bs-toggle="modal"
                                 data-bs-target="#kt_modal_1">
                                 데이터 가져오기</a>
@@ -114,7 +126,7 @@
 
                                         {{-- 아파트 명 --}}
                                         <td class="text-center">
-                                            <a href="{{ route('admin.store.detail.view', [$store->id]) }}"
+                                            <a href="{{ route('admin.transactions.detail.view', [$store->id]) }}"
                                                 class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $store->aptName }}</a>
                                         </td>
 
@@ -193,21 +205,52 @@
                         <!--end::Close-->
                     </div>
 
-                    <form action="{{ route('data.transcations.apt') }}" method="POST"
-                        enctype="multipart/form-data">
+                    <form action="{{ route('data.transcations.apt') }}" method="POST">
                         @csrf
                         <div class="modal-body row">
                             <div class="col-lg-12 row mb-6">
-                                <label class="col-lg-2 col-form-label fw-semibold fs-6">지역 선택</label>
-                                <div class="col-lg-10 fv-row">
-                                    <select name="type[]"class="form-select form-select-solid" data-control="select2"
+                                <label class="col-lg-3 col-form-label fw-semibold fs-6">지역 선택</label>
+                                <div class="col-lg-9 fv-row">
+                                    @inject('carbon', 'Carbon\Carbon')
+                                    <select class="form-select form-select-solid" name="region_id" id="region_id"
+                                        data-control="select2" data-dropdown-parent="#kt_modal_1"
                                         data-placeholder="지역 선택" data-allow-clear="true">
                                         <option value=""></option>
-                                        @for ($i = 0; $i < count(Lang::get('commons.product_type')); $i++)
-                                            <option value="{{ $i }}">
-                                                {{ Lang::get('commons.product_type.' . $i) }}</option>
-                                        @endfor
+                                        @foreach ($regionList as $region)
+                                            <option value="{{ $region->id }}">
+                                                {{ $region->region_name }}
+                                                ({{ $region->last_updated_at != '' ? $carbon::parse($region->last_updated_at)->format('Y.m') . ' 실거래가 업데이트' : '-' }})
+                                            </option>
+                                        @endforeach
                                     </select>
+                                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('region_id')" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12 row mb-6">
+                                <label class="col-lg-3 col-form-label fw-semibold fs-6">계약 월 선택</label>
+                                <div class="col-lg-5 fv-row">
+                                    <div class="input-group">
+                                        @php
+                                            $currentYear = date('Y');
+                                            $currentMonth = date('m');
+                                        @endphp
+                                        <select name="year" id="year" class="form-select form-select-solid">
+                                            @for ($year = 2006; $year <= $currentYear; $year++)
+                                                <option value="{{ $year }}">{{ $year }}</option>
+                                            @endfor
+                                        </select>
+                                        <span class="input-group-text" id="basic_addon2">년</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 fv-row">
+                                    <div class="input-group">
+                                        <select name="month" id="month" class="form-select form-select-solid">
+                                            @for ($month = 1; $month < 13; $month++)
+                                                <option value="{{ $month }}">{{ $month }}</option>
+                                            @endfor
+                                        </select>
+                                        <span class="input-group-text" id="basic_addon2">월</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -228,6 +271,29 @@
     --}}
         <script>
             var hostUrl = "assets/";
+
+            $(document).ready(function() {
+                var currentYear = {{ $currentYear }};
+                var currentMonth = {{ $currentMonth }};
+
+                $('#year').on('change', function() {
+                    var selectedYear = parseInt($(this).val());
+                    var monthSelect = $('#month');
+                    monthSelect.empty();
+
+                    var monthLimit = (selectedYear === currentYear) ? currentMonth : 12;
+
+                    for (var month = 1; month <= monthLimit; month++) {
+                        monthSelect.append($('<option>', {
+                            value: month,
+                            text: month
+                        }));
+                    }
+                });
+
+                // Trigger change event to set initial state
+                $('#year').trigger('change');
+            });
 
             // 삭제 물음
             function deleteAlert(id) {

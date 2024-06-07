@@ -15,6 +15,7 @@ return new class extends Migration
         //
         Schema::create('transactions_apt', function (Blueprint $table) {
             $table->id();
+            $table->integer('type')->comment('아파트 거래 타입 - 0: 매매, 1: 전월세');
             $table->string('transactionPrice')->nullable()->comment('거래금액');
             $table->integer('constructionYear')->nullable()->comment('건축년도');
             $table->integer('year')->nullable()->comment('년');

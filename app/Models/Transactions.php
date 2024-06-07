@@ -19,6 +19,7 @@ class Transactions extends BaseModel
      * Fillable
      */
     protected $fillable = [
+        'type',
         'transactionPrice',
         'constructionYear',
         'year',

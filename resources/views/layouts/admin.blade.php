@@ -76,6 +76,28 @@
             toastr.success("{{ session('message') }}");
         @endif
 
+        @if (session('error') != null)
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": false,
+                "positionClass": "toastr-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+
+            toastr.error("{{ session('error') }}");
+        @endif
+
         // 페이지 로딩 함수
         const loadingEl = document.createElement("div");
         document.body.prepend(loadingEl);
