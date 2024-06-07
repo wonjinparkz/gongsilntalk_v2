@@ -34,6 +34,7 @@ class Proposal extends BaseModel
         'price',
         'month_price',
         'client_name',
+        'client_type',
         'interior_type',
         'contents',
         'is_delete'
