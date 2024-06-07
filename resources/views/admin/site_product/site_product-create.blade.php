@@ -251,7 +251,7 @@
                             <div class="input-group mb-5">
                                 <input type="text" name="floor_area_ratio" class="form-control"
                                     onkeyup="imsi(this)" placeholder="용적률" value="{{ old('floor_area_ratio') }}" />
-                                <span class="input-group-text" id="basic-addon2">만원</span>
+                                <span class="input-group-text" id="basic-addon2">%</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('floor_area_ratio')" />
                         </div>
@@ -259,7 +259,7 @@
                             <div class="input-group mb-5">
                                 <input type="text" name="builging_ratio" class="form-control"
                                     onkeyup="imsi(this)" placeholder="건폐율" value="{{ old('builging_ratio') }}" />
-                                <span class="input-group-text" id="basic-addon2">만원</span>
+                                <span class="input-group-text" id="basic-addon2">%</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('builging_ratio')" />
                         </div>

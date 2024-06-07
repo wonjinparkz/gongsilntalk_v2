@@ -84,7 +84,6 @@ class SiteProductController extends Controller
      */
     public function siteProductCreate(Request $request)
     {
-        Log::info($request);
         // 유효성 검사
         $validator = Validator::make($request->all(), [
             'region_type' => 'required',
@@ -167,9 +166,11 @@ class SiteProductController extends Controller
 
 
         $this->imageWithCreate($request->siteProductMain_image_ids, SiteProduct::class, $result->id);
+        // $this->imageWithCreate($request->siteProductMain_image_ids, SiteProduct::class., $result->id);
         $this->fileWithCreate($request->dimension_file_ids, SiteProduct::class, $result->id);
 
         $premiumResult = SiteProductPremium::create([
+            'site_product_id' => $result->id,
             'title_1' => $request->title_1,
             'title_2' => $request->title_2,
             'title_3' => $request->title_3,
