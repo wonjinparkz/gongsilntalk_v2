@@ -426,10 +426,10 @@
                                                                     class="file-name">{{ $floorInfo['floor_image_text'] ?? $floorInfo->images->path }}</span>
                                                                 <input type="hidden"
                                                                     name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_ids][]"
-                                                                    value="{{ $floorInfo['floor_image_ids'][0] ?? $floorInfo->images->id }}">
+                                                                    value="{{ $floorInfo['floor_image_ids'][0] ?? ($floorInfo->images->id ?? '') }}">
                                                                 <input type="hidden" class="file-nameValue"
                                                                     name="dong_info[{{ $dongIndex }}][floor_info][{{ $floorIndex }}][floor_image_text]"
-                                                                    value="{{ $floorInfo['floor_image_text'] ?? $floorInfo->images->path }}">
+                                                                    value="{{ $floorInfo['floor_image_text'] ?? ($floorInfo->images->path ?? '') }}">
                                                             </div>
                                                             <x-input-error class="mt-2 text-danger"
                                                                 :messages="$errors->get(
