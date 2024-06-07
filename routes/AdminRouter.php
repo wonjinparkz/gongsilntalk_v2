@@ -398,6 +398,7 @@ Route::controller(DataController::class)->group(function () {
     Route::get('/data/apt/detail', 'getAptDetailInfo')->name('data.apt.detail');
     Route::get('/data/apt/map', 'getAptMapInfo')->name('data.apt.map');
     Route::post('/data/transcations/apt', 'getTranscationsApt')->name('data.transcations.apt');
+    Route::post('/data/transcations/apt/connextion', 'getTranscationsAptConnection')->name('data.transcations.apt.connextion');
 });
 
 /**

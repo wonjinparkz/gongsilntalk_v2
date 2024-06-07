@@ -45,7 +45,16 @@ class Transactions extends BaseModel
         'regionCode',
         'floor',
         'unique_code',
-        'is_matching'
+
+        // 월세에서만 사용
+        'transactionPrice',
+        'renuewalRight',
+        'contract_type',
+        'contract_at',
+        'contract_at',
+        'previousTransactionPrice',
+        'previousTransactionMonthPrice',
+        'is_matching',
     ];
 
 

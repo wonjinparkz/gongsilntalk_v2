@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('transactions_apt', function (Blueprint $table) {
             $table->id();
             $table->integer('type')->comment('아파트 거래 타입 - 0: 매매, 1: 전월세');
-            $table->string('transactionPrice')->nullable()->comment('거래금액');
+            $table->string('transactionPrice')->nullable()->comment('거래금액 - 전월세일 경우 보증금액');
             $table->integer('constructionYear')->nullable()->comment('건축년도');
             $table->integer('year')->nullable()->comment('년');
             $table->string('roadName')->nullable()->comment('도로명');
@@ -42,6 +42,16 @@ return new class extends Migration
             $table->integer('floor')->nullable()->comment('층');
             $table->string('unique_code')->unique()->nullable()->comment('유니크 코드 (년.월.일.일련번호.건물명 조합하여 만듬)');
             $table->integer('is_matching')->default(0)->comment('매칭 여부 - 0: 매칭전, 1: 매칭완료');
+
+            //전월세일 경우에만 사용
+            $table->string('transactionPrice')->nullable()->comment('월세금액');
+            $table->string('renuewalRight')->nullable()->comment('갱신요구권사용');
+            $table->string('contract_type')->nullable()->comment('계약 구분');
+            $table->string('contract_at')->nullable()->comment('계약 기간');
+            $table->string('contract_at')->nullable()->comment('계약 기간');
+            $table->string('previousTransactionPrice')->nullable()->comment('종전계약보증금');
+            $table->string('previousTransactionMonthPrice')->nullable()->comment('종전계약월세');
+
             $table->timestamps();
         });
 
