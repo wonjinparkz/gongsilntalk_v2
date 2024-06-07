@@ -157,7 +157,7 @@
                         <div class="scroll_wrap_1">
                             <hr class="space">
                             <div class="estate_link">
-                                <a href="#" class="flex_between">
+                                <a href="{{ route('www.product.create.view') }}" class="flex_between">
                                     <span><img src="{{ asset('assets/media/ic_org_estate.png') }}"
                                             class="ic_left_20"> 부동산 내놓기</span>
                                     <span><img src="{{ asset('assets/media/ic_list_arrow.png') }}"
@@ -626,9 +626,11 @@
                                     <div class="side_section">
                                         <div class="btn_half_wrap">
                                             <button class="btn_point btn_full_thin"
-                                                onclick="location.href='offer_step_1.html'">매물 구하기</button>
+                                                onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'">매물
+                                                구하기</button>
                                             <button class="btn_point btn_full_thin"
-                                                onclick="location.href='estate_reg_1.html'">매물 내놓기</button>
+                                                onclick="location.href='{{ route('www.product.create.view') }}'">매물
+                                                내놓기</button>
                                         </div>
                                     </div>
                                 </div>
@@ -658,9 +660,9 @@
                         </div>
                         <button class="map_view_btn">익선동 <span class="txt_point">실거래가</span> 보기</button>
                         <div class="map_bottom_btn">
-                            <button onclick="location.href='estate_reg_1.html'"><img
+                            <button onclick="location.href='{{ route('www.product.create.view') }}'"><img
                                     src="{{ asset('assets/media/ic_org_estate.png') }}">매물 내놓기</button>
-                            <button onclick="location.href='offer_step_1.html'"><img
+                            <button onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'"><img
                                     src="{{ asset('assets/media/btn_point_search.png') }}">매물 구하기</button>
                         </div>
 
