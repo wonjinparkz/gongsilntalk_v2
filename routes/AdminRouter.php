@@ -379,13 +379,13 @@ Route::middleware('admin.auth')->controller(DataBuildingController::class)->grou
  */
 Route::middleware('admin.auth')->controller(TransactionsController::class)->group(function () {
     // 실거래 관리
-    Route::get('/ransactions/list/view', 'ransactionsListView')->name('admin.ransactions.list.view');
-    Route::get('/ransactions/create/view', 'ransactionsCreateView')->name('admin.ransactions.create.view');
-    Route::get('/ransactions/detail/view/{id}', 'ransactionsDetailView')->name('admin.ransactions.detail.view');
-    Route::post('/ransactions/create', 'ransactionsCreate')->name('admin.ransactions.create');
-    Route::post('/ransactions/update', 'ransactionsUpdate')->name('admin.ransactions.update');
-    Route::post('/ransactions/delete', 'ransactionsDelete')->name('admin.ransactions.delete');
-    Route::post('/ransactions/state/update', 'ransactionsStateUpdate')->name('admin.ransactions.state.update');
+    Route::get('/transactions/list/view', 'transactionsListView')->name('admin.transactions.list.view');
+    Route::get('/transactions/create/view', 'transactionsCreateView')->name('admin.transactions.create.view');
+    Route::get('/transactions/detail/view/{id}', 'transactionsDetailView')->name('admin.transactions.detail.view');
+    Route::post('/transactions/create', 'transactionsCreate')->name('admin.transactions.create');
+    Route::post('/transactions/update', 'transactionsUpdate')->name('admin.transactions.update');
+    Route::post('/transactions/delete', 'transactionsDelete')->name('admin.transactions.delete');
+    Route::post('/transactions/state/update', 'transactionsStateUpdate')->name('admin.transactions.state.update');
 });
 
 
@@ -397,6 +397,7 @@ Route::controller(DataController::class)->group(function () {
     Route::get('/data/apt/base', 'getAptBaseInfo')->name('data.apt.base');
     Route::get('/data/apt/detail', 'getAptDetailInfo')->name('data.apt.detail');
     Route::get('/data/apt/map', 'getAptMapInfo')->name('data.apt.map');
+    Route::post('/data/transcations/apt', 'getTranscationsApt')->name('data.transcations.apt');
 });
 
 /**
