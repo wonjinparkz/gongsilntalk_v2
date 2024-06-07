@@ -243,7 +243,7 @@
             var address_dong = $('#address_dong').val();
             var address_number = $('#address_number').val();
 
-            sessionStorage.setItem("is_mapSession", is_map.val());
+            sessionStorage.setItem("is_mapSession", is_map.is(':checked') ? '1' : '0');
             sessionStorage.setItem("address_lngSession", address_lng);
             sessionStorage.setItem("address_latSession", address_lat);
             sessionStorage.setItem("region_codeSession", region_code);
@@ -254,7 +254,8 @@
             sessionStorage.setItem("address_numberSession", address_number);
             sessionStorage.setItem("address_detailSession", address_detail);
 
-            $('.find_form').submit();
+            // $('.find_form').submit();
+            console.log('is_map : ' + is_map);
         }
 
 

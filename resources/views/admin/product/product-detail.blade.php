@@ -124,7 +124,7 @@
 
                             <label class="form-check form-check-custom form-check-inline p-1">
                                 <input class="form-check-input" name="is_map" id="is_map_1" type="checkbox"
-                                    value="{{ $is_map }}" {{ $is_map != 0 ? '' : 'checked' }}>
+                                    value="{{ $is_map }}" {{ $is_map == 0 ? '' : 'checked' }}>
                                 <span class="fw-semibold ps-2 fs-6">가(임시)주소</span>
                             </label>
 

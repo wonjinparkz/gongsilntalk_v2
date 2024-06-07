@@ -31,8 +31,8 @@ return new class extends Migration
             $table->string('address_dong')->nullable()->comment('주소 동 정보');
             $table->string('address_number')->nullable()->comment('주소 호 정보');
 
-            $table->integer('floor_number')->nullable()->comment('해당 층');
-            $table->integer('total_floor_number')->nullable()->comment('전체 층');
+            $table->string('floor_number')->nullable()->comment('해당 층');
+            $table->string('total_floor_number')->nullable()->comment('전체 층');
 
             $table->string('lowest_floor_number')->nullable()->comment('최저층');
             $table->string('top_floor_number')->nullable()->comment('최고층');

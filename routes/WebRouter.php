@@ -9,6 +9,7 @@ use App\Http\Controllers\community\CommunityPcController;
 use App\Http\Controllers\main\MainPcController;
 use App\Http\Controllers\product\ProductPcController;
 use App\Http\Controllers\proposal\ProposalPcController;
+use App\Http\Controllers\SiteProduct\SiteProductPcController;
 use App\Http\Controllers\terms\TermsController;
 use App\Http\Controllers\user\UserPcController;
 use Illuminate\Support\Facades\Route;
@@ -74,6 +75,11 @@ Route::controller(UserAuthPcController::class)->group(function () {
 
     Route::get('/apple', 'appleLogin')->name('www.login.apple');
     Route::get('/apple/oauth', 'appleCallback');
+});
+
+Route::controller(SiteProductPcController::class)->group(function () {
+    Route::get('/site/product/list', 'siteProductListView')->name('www.site.product.list.view');
+    Route::get('/site/product/detail/{id}', 'siteProductDetailView')->name('www.site.product.detail.view');
 });
 
 // 일반회원 매물

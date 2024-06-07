@@ -69,7 +69,7 @@ class SiteProductController extends Controller
 
 
     /**
-     * 일반회원 매물 상세 화면 보기
+     * 분양현장 상세 화면 보기
      */
     public function siteProductDetailView($id): View
     {
