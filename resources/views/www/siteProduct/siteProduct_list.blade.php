@@ -95,7 +95,8 @@
                 @foreach ($result as $siteProduct)
                     <!-- card : s -->
                     <div class="sales_card">
-                        <span class="sales_list_wish" onclick="btn_wish(this)"></span>
+                        <span class="sales_list_wish  {{ $siteProduct->like_id > 0 ? 'on' : '' }}"
+                            onclick="btn_like(this, {{ $siteProduct->id }})"></span>
                         <a href="{{ route('www.site.product.detail.view', $siteProduct->id) }}">
                             <div class="sales_card_img">
                                 <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
@@ -151,11 +152,44 @@
     </div>
     <script>
         // 관심매물 토글버튼
-        function btn_wish(element) {
-            if ($(element).hasClass("on")) {
-                $(element).removeClass("on");
+        function btn_like(element, id) {
+            var login_check =
+                @if (Auth::guard('web')->check())
+                    false
+                @else
+                    true
+                @endif ;
+
+            if (login_check) {
+                // dialog('로그인이 필요합니다.\n로그인 하시겠어요?', '로그인', '아니요', login);
+                return;
             } else {
-                $(element).addClass("on");
+
+                var formData = {
+                    'target_id': id,
+                    'target_type': 'siteProduct',
+                };
+
+                var likeCount = parseInt($("#like_count").text());
+
+
+                if ($(element).hasClass("on")) {
+                    $(element).removeClass("on");
+                    likeCount--;
+                } else {
+                    $(element).addClass("on");
+                    likeCount++;
+                }
+
+                $("#like_count").text(likeCount);
+
+                $.ajax({
+                    type: "post", //전송타입
+                    url: "{{ route('www.commons.like') }}",
+                    data: formData,
+                    success: function(data, status, xhr) {},
+                    error: function(xhr, status, e) {}
+                });
             }
         }
     </script>

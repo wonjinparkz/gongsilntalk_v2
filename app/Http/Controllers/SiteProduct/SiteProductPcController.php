@@ -5,6 +5,7 @@ namespace App\Http\Controllers\SiteProduct;
 use App\Http\Controllers\Controller;
 use App\Models\SiteProduct;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class SiteProductPcController extends Controller
@@ -16,6 +17,10 @@ class SiteProductPcController extends Controller
     {
 
         $siteProductList = SiteProduct::select()->where('is_delete', 0);
+
+        if (Auth::guard('web')->user() != null) {
+            $siteProductList->like('siteProduct', Auth::guard('web')->user()->id ?? "");
+        }
 
         // 정렬
         $siteProductList->orderBy('site_product.created_at', 'desc')->orderBy('id', 'desc');
