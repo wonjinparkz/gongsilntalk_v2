@@ -18,9 +18,9 @@ class SiteProductPcController extends Controller
 
         $siteProductList = SiteProduct::select()->where('is_delete', 0);
 
-        // if (Auth::guard('web')->user() != null) {
-        //     $siteProductList->like('site_product', Auth::guard('web')->user()->id ?? "");
-        // }
+        if (Auth::guard('web')->user() != null) {
+            $siteProductList->like('site_product', Auth::guard('web')->user()->id ?? "");
+        }
 
         // 정렬
         $siteProductList->orderBy('site_product.created_at', 'desc')->orderBy('id', 'desc');
