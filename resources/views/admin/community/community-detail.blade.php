@@ -27,7 +27,7 @@
 
 
                 {{-- 업로드 이미지 미리보기 --}}
-                <div class="row mb-6">
+                {{-- <div class="row mb-6">
                     <label class="col-lg-4 col-form-label fw-semibold fs-6">대표 이미지</label>
                     <div class="x_scroll_img_reg col-lg-8">
                         <ul class="img_reg_ul" id="image_reg">
@@ -46,7 +46,7 @@
                             @endforeach
                         </ul>
                     </div>
-                </div>
+                </div> --}}
 
                 {{-- 업로드 이미지 미리보기 --}}
                 <div class="row mb-6">

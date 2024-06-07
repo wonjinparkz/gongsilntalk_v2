@@ -252,7 +252,7 @@ class UserAuthPcController extends Controller
 
         $result = User::create($joinReg);
 
-        return Redirect::route('www.register.complete')->with('message', '회원가입이 완료되었습니다.');
+        return Redirect::route('www.login.login')->with('message', '회원가입이 완료되었습니다.');
     }
 
     /**
