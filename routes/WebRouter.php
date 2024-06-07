@@ -193,6 +193,7 @@ Route::middleware('pc.auth')->controller(ProposalPcController::class)->group(fun
     Route::get('/mypage/proposal/offer-first', 'userProposalCreateFirst')->name('www.mypage.user.offer.first.create.view');
     Route::get('/mypage/proposal/offer-second', 'userProposalCreateSecond')->name('www.mypage.user.offer.second.create.view');
     Route::get('/mypage/proposal/offer-third', 'userProposalCreateThird')->name('www.mypage.user.offer.third.create.view');
+    Route::post('/mypage/proposal/create', 'userProposalCreate')->name('www.mypage.user.offer.create');
 });
 
 /**
