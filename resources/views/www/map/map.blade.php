@@ -1,7 +1,6 @@
 <x-layout>
 
     <body>
-
         <!----------------------------- m::header bar : s ----------------------------->
         <div class="m_header">
             <div class="left_area"></div>
@@ -23,10 +22,8 @@
         </div>
         <div class="md_slide_overlay md_slide_overlay_menu_map" onclick="modal_close_slide('menu_map')"></div>
         <!----------------------------- m::header bar : s ----------------------------->
-
         <div class="body">
             <div class="map_wrap">
-
                 <div class="map_head_wrap">
                     <div class="map_filter_wrap">
                         <div class="dropdown_box type_2">
@@ -47,17 +44,13 @@
                                         <div class="btn_radioType">
                                             <input type="radio" name="estate_type" id="estate_type_1" value="Y">
                                             <label for="estate_type_1">지식산업센터</label>
-
                                             <input type="radio" name="estate_type" id="estate_type_2" value="Y">
                                             <label for="estate_type_2">상가</label>
-
                                             <input type="radio" name="estate_type" id="estate_type_3" value="Y">
                                             <label for="estate_type_3">건물</label>
-
                                             <input type="radio" name="estate_type" id="estate_type_4" value="Y">
                                             <label for="estate_type_4">아파트</label>
                                         </div>
-
                                     </div>
                                     <div class="filter_panel_bottom">
                                         <button class="btn_graylight_ghost btn_md_full"><img
@@ -77,22 +70,16 @@
                                         <div class="btn_radioType">
                                             <input type="radio" name="year" id="year_1" value="Y">
                                             <label for="year_1">전체</label>
-
                                             <input type="radio" name="year" id="year_2" value="Y">
                                             <label for="year_2">1년 이내</label>
-
                                             <input type="radio" name="year" id="year_3" value="Y">
                                             <label for="year_3">2년 이내</label>
-
                                             <input type="radio" name="year" id="year_4" value="Y">
                                             <label for="year_4">5년 이내</label>
-
                                             <input type="radio" name="year" id="year_5" value="Y">
                                             <label for="year_5">10년 이내</label>
-
                                             <input type="radio" name="year" id="year_6" value="Y">
                                             <label for="year_6">15년 이내</label>
-
                                             <input type="radio" name="year" id="year_7" value="Y">
                                             <label for="year_7">15년 이상</label>
                                         </div>
@@ -105,9 +92,7 @@
                                 </div>
                             </div>
                             <!-- filter 준공연차 : e -->
-
                         </div>
-
                     </div>
                     <div>
                         <button class="btn_graylight_ghost btn_sm"><img
@@ -127,7 +112,7 @@
                         <div class="side_header">
                             <div class="left_area"><a href="javascript:history.go(-1)"><img
                                         src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
-                            <div class="m_title">성강케렌시아</div>
+                            <div class="m_title" id="apt_title">성강케렌시아</div>
                             <div class="right_area"><a href="#" class="btn_share"><img
                                         src="{{ asset('assets/media/header_btn_share_deep.png') }}"></a></div>
                             <!-- 공유하기 : s -->
@@ -180,7 +165,6 @@
                                 </a>
                             </div>
                             <hr class="space">
-
                             <div class="side_info_wrap">
                                 <div>
                                     <img src="{{ asset('assets/media/map_sample_sm.png') }}" class="size_100p">
@@ -240,7 +224,6 @@
                                                         8200만</span>(11층)</div>
                                                 <div class="status_item_blue">1억(+4.1%)</div>
                                             </div>
-
                                             <div class="table_container2_sm mt10">
                                                 <div class="td">거래일시</div>
                                                 <div class="td">2023년 02월 4일</div>
@@ -304,7 +287,6 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-
                                                 <div class="btn_more_open">더보기</div>
                                             </div>
                                         </div>
@@ -347,7 +329,6 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-
                                             <div class="btn_more_open">더보기</div>
                                         </div>
                                     </div>
@@ -358,7 +339,6 @@
                                     <div class="side_section">
                                         <h4>건물·토지정보</h4>
                                     </div>
-
                                     <div class="open_con_wrap building_item_1">
                                         <div class="open_trigger">동별정보 <span><img
                                                     src="{{ asset('assets/media/dropdown_arrow.png') }}"></span></div>
@@ -408,7 +388,6 @@
                                             </div>
                                             <div class="btn_more_open">더보기</div>
                                         </div>
-
                                     </div>
 
                                     <div class="building_item_0">
@@ -440,8 +419,6 @@
                                         </div>
                                         <div class="btn_more_open">더보기</div>
                                     </div>
-
-
                                     <div class="open_con_wrap building_item_2">
                                         <div class="open_trigger">층별 정보 <span><img
                                                     src="{{ asset('assets/media/dropdown_arrow.png') }}"></span></div>
@@ -482,7 +459,6 @@
                                             <div class="btn_more_open">더보기</div>
                                         </div>
                                     </div>
-
                                     <div class="open_con_wrap building_item_3">
                                         <div class="open_trigger">전유부 <span><img
                                                     src="{{ asset('assets/media/dropdown_arrow.png') }}"></span></div>
@@ -493,7 +469,6 @@
                                                     <li class="optionItem">103동 - 102</li>
                                                 </ul>
                                             </div>
-
                                             <div class="default_box showstep1 mt10">
                                                 <table class="table_type_1">
                                                     <colgroup>
@@ -530,7 +505,6 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-
                                         </div>
                                     </div>
 
@@ -563,7 +537,6 @@
                                             <div class="btn_more_open">더보기</div>
                                         </div>
                                     </div>
-
                                     <!-- 건물·토지정보 : e -->
                                 </div>
                                 <div class="sction_item">
@@ -584,11 +557,9 @@
                                                             src="{{ asset('assets/media/ic_subway.png') }}">지하철</div>
                                                     <p class="traffic_row">가산디지털단지역 1호선, 3호선 <span>15~20분이내</span></p>
                                                     <p class="traffic_row">가산디지털단지역 7호선 <span>15~20분이내</span></p>
-
                                                     <div class="traffic_tit mt28"><img
                                                             src="{{ asset('assets/media/ic_bus.png') }}">버스</div>
                                                     <p class="traffic_row">정류장 <span>15~20분이내</span></p>
-
                                                 </div>
                                                 <div>
                                                     <div class="facility_wrap">
@@ -623,7 +594,6 @@
                                                     onclick="location.href='property_map.html'">매물 검색하기</button></div>
                                         </div>
                                     </div>
-
 
                                     <div class="property_sm_list">
                                         <div class="frame_img_mid">
@@ -661,31 +631,30 @@
                                                 onclick="location.href='estate_reg_1.html'">매물 내놓기</button>
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
-
                         </div>
-
-
                     </div>
                     <!-- map side : e -->
 
                     <div class="map_area">
                         <div class="map_side_btn">
                             <div>
-                                <button><img src="{{ asset('assets/media/ic_map_activate1.png') }}"></button>
+                                <button id="current"><img
+                                        src="{{ asset('assets/media/ic_map_activate1.png') }}"></button>
                                 <div class="btn_zoom">
-                                    <button><img src="{{ asset('assets/media/ic_map_activate2.png') }}"></button>
-                                    <button><img src="{{ asset('assets/media/ic_map_activate3.png') }}"></button>
+                                    <button id="zoomout"><img
+                                            src="{{ asset('assets/media/ic_map_activate2.png') }}"></button>
+                                    <button id="zoomin"><img
+                                            src="{{ asset('assets/media/ic_map_activate3.png') }}"></button>
                                 </div>
                             </div>
                             <div class="btn_view_type">
                                 <button id="cadastral">지적도</button>
                                 <button onclick="toggleSatelliteView()">위성뷰</button>
                             </div>
-                            <button><img src="{{ asset('assets/media/ic_map_activate4.png') }}"></button>
+                            <button id="streetView"><img
+                                    src="{{ asset('assets/media/ic_map_activate4.png') }}"></button>
                         </div>
                         <button class="map_view_btn">익선동 <span class="txt_point">실거래가</span> 보기</button>
                         <div class="map_bottom_btn">
@@ -697,10 +666,9 @@
 
                         {{--  네이버 지도 --}}
                         <div id="map" style="width:100%; height:100%;"></div>
-
+                        <div id="pano" style="width:100%; height:100%;"></div>
                     </div>
                 </div>
-
             </div>
         </div>
         <!-- nav : s -->
@@ -729,7 +697,238 @@
             </ul>
         </nav>
         <!-- nav : e -->
+        <script type="text/javascript"
+            src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
+        </script>
         <script>
+            // 매물 데이터
+            // 내 줌위치 이동 시 몇미터만 가져오게 api 변경해야댐
+            const data = {!! json_encode($data) !!};
+
+            // 폴리라인
+            var polylines = [];
+            // 마커
+            var markers = [];
+            var map;
+            var pano = null;
+
+            // var htmlMarker = {
+            //     content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url({{ asset('assets/media/cluster_marker_1.png') }});background-size:contain;"></div>',
+            //     size: N.Size(40, 40),
+            //     anchor: N.Point(20, 20)
+            // };
+
+            window.initMap = function() {
+                map = new naver.maps.Map('map', {
+                    center: new naver.maps.LatLng(37.5665, 126.9780),
+                    zoom: 15,
+                    minZoom: 8,
+                    maxZoom: 21,
+                    size: new naver.maps.Size(window.innerWidth, window.innerHeight),
+                    mapTypeId: naver.maps.MapTypeId.NORMAL,
+                });
+
+                var bounds = new naver.maps.LatLngBounds();
+                var pathCoordinates = [];
+                var infoWindow = new naver.maps.InfoWindow();
+
+                var markerData = data.maps.concat(data.knowledges);
+                markerData.forEach(({
+                    address_lat,
+                    address_lng,
+                    region_address
+                }) => {
+                    var name = region_address;
+                    var trade = '234~1,234';
+                    var lease = '1.2~3.4';
+
+                    var contentString = `
+                        <div class="iw_inner detail_info_toggle">
+                            <h3>${name}</h3>
+                            <div class="inner_info">
+                                <p>매매 <span>${trade}</span></p>
+                                <p>임대 <span>${lease}</span></p>
+                            </div>
+                        </div>
+                    `;
+
+                    var position = new naver.maps.LatLng(address_lat, address_lng);
+                    var marker = new naver.maps.Marker({
+                        map: map,
+                        position: position,
+                        icon: {
+                            content: contentString
+                        }
+                    });
+
+                    bounds.extend(position);
+                    pathCoordinates.push(position);
+                    naver.maps.Event.addListener(marker, 'click', function(index) {
+                        document.querySelector('.map_side').classList.toggle('active');
+                        $("#apt_title").text(name);
+                    });
+                    markers.push(marker);
+                });
+
+                map.fitBounds(bounds);
+
+
+                // 지적도 세팅
+                var cadastralLayer = new naver.maps.CadastralLayer();
+                var cadastralbtn = $('#cadastral');
+
+                naver.maps.Event.addListener(map, 'cadastralLayer_changed', function() {
+                    if (cadastralLayer.getMap()) {
+                        cadastralbtn.addClass('control-on').val('지적도 끄기');
+                    } else {
+                        cadastralbtn.removeClass('control-on').val('지적도 켜기');
+                    }
+                });
+
+                cadastralbtn.on('click', function(e) {
+                    e.preventDefault();
+                    if (cadastralLayer.getMap()) {
+                        cadastralLayer.setMap(null);
+                        cadastralbtn.removeClass('control-on').val('지적도 켜기');
+                    } else {
+                        cadastralLayer.setMap(map);
+                        cadastralbtn.addClass('control-on').val('지적도 끄기');
+                    }
+                });
+
+                // 위성뷰 세팅
+                window.toggleSatelliteView = function() {
+                    var currentMapTypeId = map.getMapTypeId();
+                    if (currentMapTypeId === naver.maps.MapTypeId.NORMAL) {
+                        map.setMapTypeId(naver.maps.MapTypeId.SATELLITE);
+                    } else {
+                        map.setMapTypeId(naver.maps.MapTypeId.NORMAL);
+                    }
+                };
+
+                naver.maps.onJSContentLoaded = function() {
+                    // 아이디 혹은 지도 좌표로 파노라마를 표시할 수 있습니다.
+                    pano = new naver.maps.Panorama("pano", {
+                        position: new naver.maps.LatLng(37.3599605, 127.1058814),
+                        pov: {
+                            pan: -133,
+                            tilt: 0,
+                            fov: 100
+                        }
+                    });
+
+                    // 파노라마 위치가 갱신되었을 때 발생하는 이벤트를 받아 지도의 중심 위치를 갱신합니다.
+                    naver.maps.Event.addListener(pano, 'pano_changed', function() {
+                        var latlng = pano.getPosition();
+
+                        if (!latlng.equals(map.getCenter())) {
+                            map.setCenter(latlng);
+                        }
+                    });
+                };
+
+                // 거리뷰 세팅
+                var streetLayer = new naver.maps.StreetLayer();
+                var streetbtn = $('#streetView');
+                streetbtn.on("click", function(e) {
+                    e.preventDefault();
+                    if (streetLayer.getMap()) {
+                        streetLayer.setMap(null);
+                    } else {
+                        streetLayer.setMap(map);
+                    }
+                });
+
+                // 지도를 클릭했을 때 발생하는 이벤트를 받아 파노라마 위치를 갱신합니다. 이때 거리뷰 레이어가 있을 때만 갱신하도록 합니다.
+                naver.maps.Event.addListener(map, 'click', function(e) {
+                    if (streetLayer.getMap()) {
+                        var latlng = e.coord;
+
+                        // 파노라마의 setPosition()은 해당 위치에서 가장 가까운 파노라마(검색 반경 300미터)를 자동으로 설정합니다.
+                        pano.setPosition(latlng);
+
+                        document.getElementById('map').style.visibility = "hidden";
+                        document.getElementById('pano').style.visibility = "visible";
+                    }
+                });
+
+
+                var zoominbtn = $('#zoomin');
+                var zoomoutbtn = $('#zoomout');
+
+                // 줌인
+                zoominbtn.on('click', function(e) {
+                    e.preventDefault();
+                    map.setZoom(map.getZoom() + 1, true);
+                });
+
+                // 줌아웃
+                zoomoutbtn.on('click', function(e) {
+                    e.preventDefault();
+                    map.setZoom(map.getZoom() - 1, true);
+                });
+
+                //줌을 땡기면 마커업데이트
+                naver.maps.Event.addListener(map, 'zoom_changed', function() {
+                    updateCenter();
+                });
+
+                //드래그를 하면 마커업데이트
+                naver.maps.Event.addListener(map, 'dragend', function() {
+                    updateCenter();
+                });
+            };
+
+            window.initMap();
+
+            // 현재 내 gps 위치로 이동
+            var currentbtn = $('#current');
+            currentbtn.on("click", function(e) {
+                e.preventDefault();
+                navigator.geolocation.getCurrentPosition((position) => {
+                    console.log(position)
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+
+                    var currentLocation = new naver.maps.LatLng(lat, lng)
+                    map.setZoom(18, true);
+                    map.setCenter(currentLocation);
+
+                    updateCenter();
+                });
+            });
+
+            // 마커 업데이트
+            function markerUpdate(lat, lng, zoomLv) {
+                console.log('lat:', lat);
+                console.log('lng:', lng);
+                console.log('zoomLv:', zoomLv);
+                var formData = {
+                    'lat': lat,
+                    'lng': lng,
+                    'zoomLv': zoomLv,
+                };
+                $.ajax({
+                    type: "get", // 전송타입
+                    url: "{{ route('www.map.map') }}",
+                    data: formData,
+                    success: function(data, status, xhr) {
+                        console.log("Success: ", status);
+                    },
+                    error: function(xhr, status, e) {
+                        console.error("Error: ", e);
+                    }
+                });
+            }
+
+            // 화면 가운데 좌표 가져오기 > 좌표 업데이트
+            function updateCenter() {
+                var center = map.getCenter();
+                var zoom = map.getZoom();
+                markerUpdate(center.lat(), center.lng(), zoom);
+            }
+
+
             //공유하기 레이어
             $(".btn_share").click(function() {
                 $(".layer_share_wrap").stop().slideToggle(0);
@@ -760,8 +959,6 @@
                     prevEl: ".swiper-button-prev",
                 },
             });
-
-
 
             //컨텐츠 더보기 기능
             document.addEventListener('DOMContentLoaded', function() {
@@ -811,9 +1008,7 @@
                     });
                 }
             });
-        </script>
 
-        <script>
             var slider = document.querySelector("#rangeItem_1");
             var valueMin = document.querySelector("#item_1_min");
             var valueMax = document.querySelector("#item_1_max");
@@ -838,125 +1033,6 @@
             //             "원</span> ~ <span id='kt_slider_basic_max'>" + values[1] + "원</span>";
             //     }
             // });
-        </script>
-
-        <script type="text/javascript"
-            src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}"></script>
-        <script>
-            // window.addEventListener('load', function() {
-            // 매물 데이터
-            // 내 줌위치 이동 시 몇미터만 가져오게 api 변경해야댐
-            const maps = {!! json_encode($maps) !!};
-
-            // 폴리라인
-            var polylines = [];
-            // 마커
-            var markers = [];
-
-            var map;
-
-            window.initMap = function() {
-                map = new naver.maps.Map('map', {
-                    center: new naver.maps.LatLng(37.5665, 126.9780),
-                    zoom: 15,
-                    size: new naver.maps.Size(window.innerWidth, window.innerHeight),
-                    mapTypeId: naver.maps.MapTypeId.NORMAL
-                });
-
-                var bounds = new naver.maps.LatLngBounds();
-                var pathCoordinates = [];
-                var infoWindow = new naver.maps.InfoWindow();
-
-                maps.forEach(({
-                    address_lat,
-                    address_lng,
-                    region_address
-                }) => {
-                    var name = region_address;
-                    var trade = '234~1,234';
-                    var lease = '1.2~3.4';
-
-                    var contentString = `
-                        <div class="iw_inner detail_info_toggle">
-                            <h3>${name}</h3>
-                            <div class="inner_info">
-                                <p>매매 <span>${trade}</span></p>
-                                <p>임대 <span>${lease}</span></p>
-                            </div>
-                        </div>
-                    `;
-
-                    var position = new naver.maps.LatLng(address_lat, address_lng);
-                    var marker = new naver.maps.Marker({
-                        map: map,
-                        position: position,
-                        icon: {
-                            content: contentString
-                        }
-                    });
-
-                    bounds.extend(position);
-                    pathCoordinates.push(position);
-
-                    naver.maps.Event.addListener(marker, 'click', function(index) {
-                        document.querySelector('.map_side').classList.toggle('active');
-
-                    });
-
-                    // marker.addListener("click", () => {
-                    //     document.querySelector('.map_side').classList.toggle('active');
-                    //     document.querySelector('.detail_info_toggle').addEventListener('click', function() {
-                    //         document.querySelector('.map_side').classList.toggle('active');
-                    //     });
-                    //     infoWindow.setContent(contentString);
-                    //     infoWindow.open(map, marker);
-                    // });
-
-                    markers.push(marker);
-
-                });
-
-                map.fitBounds(bounds);
-
-
-                // 지적도 세팅
-                var cadastralLayer = new naver.maps.CadastralLayer();
-                var btn = $('#cadastral');
-
-                naver.maps.Event.addListener(map, 'cadastralLayer_changed', function() {
-                    if (cadastralLayer.getMap()) {
-                        btn.addClass('control-on').val('지적도 끄기');
-                    } else {
-                        btn.removeClass('control-on').val('지적도 켜기');
-                    }
-                });
-
-                btn.on('click', function(e) {
-                    e.preventDefault();
-
-                    if (cadastralLayer.getMap()) {
-                        cadastralLayer.setMap(null);
-                        btn.removeClass('control-on').val('지적도 켜기');
-                    } else {
-                        cadastralLayer.setMap(map);
-                        btn.addClass('control-on').val('지적도 끄기');
-                    }
-                });
-
-                // naver.maps.Event.once(map, 'init', function() {
-                //     cadastralLayer.setMap(map);
-                // });
-                window.toggleSatelliteView = function() {
-                    var currentMapTypeId = map.getMapTypeId();
-                    if (currentMapTypeId === naver.maps.MapTypeId.NORMAL) {
-                        map.setMapTypeId(naver.maps.MapTypeId.SATELLITE);
-                    } else {
-                        map.setMapTypeId(naver.maps.MapTypeId.NORMAL);
-                    }
-                };
-            };
-
-            window.initMap();
 
 
 
@@ -967,9 +1043,6 @@
             //         style: naver.maps.MapTypeControlStyle.DROPDOWN
             //     }
             // });
-
-
-
 
             // });
             // // // 지도 옵션 설정
@@ -1000,130 +1073,6 @@
             //     // contentEl.find('.center').text(map.getCenterPoint());
             //     // console.log('Center: ' + map.getCenter().toString() + ', Bounds: ' + bounds.toString());
             // });
-
-
-            // navigator.geolocation.getCurrentPosition((position) => {
-            //     console.log(position)
-            //     var lat = position.coords.latitude;
-            //     var lng = position.coords.longitude;
-
-            //     var currentLocation = new naver.maps.LatLng(lat, lng)
-            //     map.setZoom(18, true);
-            //     map.setCenter(currentLocation);
-            // });
-
-            // // map.addListener('idle', function(zoom) {
-            // //     console.log('idle');
-            // //     contentEl.find('.center').text(map.getCenterPoint());
-            // //     console.log('Center: ' + map.getCenter().toString() + ', Bounds: ' + bounds.toString());
-            // // });
-
-
-
-
-            // // console.log('지도 초기화 완료');
-            // // console.log('maps 배열:', maps);
-
-            // // // maps 배열을 순회하며 마커 추가
-            // maps.forEach(function(location, index) {
-            //     console.log('마커 추가 중:', location);
-
-            //     var contentString = [
-            //         '<div class="iw_inner detail_info_toggle">',
-            //         '   <h3>서울특별시청</h3>',
-            //         '     <div class="inner_info">',
-            //         '       <p>매매 <span>1,234~1,234</span></p>',
-            //         '       <p>임대 <span>1.2~3.4</span></p>',
-            //         '     </div>',
-            //         '</div>'
-            //     ].join('')
-
-
-            //     var marker = new naver.maps.Marker({
-            //         position: new naver.maps.LatLng(location.address_lat, location.address_lng),
-            //         map: map,
-            //         icon: {
-            //             content: contentString
-            //         }
-            //     });
-
-            //     naver.maps.Event.addListener(marker, 'click', function(index) {
-            //         document.querySelector('.map_side').classList.toggle('active');
-
-            //     });
-
-            //     markers.push(marker);
-            //     polylines.push(new naver.maps.LatLng(location.address_lat, location.address_lng));
-            // });
-            // // var htmlMarker1 = {
-            // //     content: '<div>클러스터</div>',
-            // //     size: N.Size(40, 40),
-            // //     anchor: N.Point(20, 20)
-            // // };
-
-            // // var markerClustering = new MarkerClustering({
-            // //     minClusterSize: 2,
-            // //     maxZoom: 18,
-            // //     map: map,
-            // //     markers: markers,
-            // //     disableClickZoom: false,
-            // //     gridSize: 3,
-            // //     icons: [htmlMarker1],
-            // //     indexGenerator: [10],
-            // //     stylingFunction: function(clusterMarker, count) {
-            // //         // $(clusterMarker.getElement()).find('div:first-child').text(count);
-            // //     }
-            // // });
-
-            // var polygon = new naver.maps.Polygon({
-            //     map: map,
-            //     paths: [
-            //         polylines
-            //     ],
-            //     fillColor: '#ff0000',
-            //     fillOpacity: 0.3,
-            //     strokeColor: '#ff0000',
-            //     strokeOpacity: 0.6,
-            //     strokeWeight: 3
-            // });
-
-            // console.log('마커 추가 완료');
-
-            // var cityhall = new naver.maps.LatLng(37.5666805, 126.9784147),
-            //     map = new naver.maps.Map('map', {
-            //         center: cityhall.destinationPoint(0, 500),
-            //         zoom: 15,
-            //         size: new naver.maps.Size(w, h),
-            //     }),
-            //     marker = new naver.maps.Marker({
-            //         map: map,
-            //         position: cityhall
-            //     });
-            // var contentString = [
-            //     '<div class="iw_inner detail_info_toggle">',
-            //     '   <h3>서울특별시청</h3>',
-            //     '     <div class="inner_info">',
-            //     '       <p>매매 <span>1,234~1,234</span></p>',
-            //     '       <p>임대 <span>1.2~3.4</span></p>',
-            //     '     </div>',
-            //     '</div>'
-            // ].join('');
-
-            // var infowindow = new naver.maps.InfoWindow({
-            //     content: contentString,
-            //     borderColor: "#",
-            //     backgroundColor: "#",
-            //     anchorColor: "#",
-            //     pixelOffset: new naver.maps.Point(60, 50)
-            // });
-
-            // infowindow.open(map, marker);
-
-            // // side 상세화면 열기
-            // document.querySelector('.detail_info_toggle').addEventListener('click', function() {
-            //     document.querySelector('.map_side').classList.toggle('active');
-            // });
         </script>
     </body>
-
 </x-layout>
