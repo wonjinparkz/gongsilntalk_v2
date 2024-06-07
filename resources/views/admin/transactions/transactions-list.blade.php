@@ -8,7 +8,7 @@
                 {{-- 페이지 제목 --}}
                 <div class="d-inline-block position-relative">
                     <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">
-                        아파트 매매 실거래가 관리1
+                        아파트 매매 실거래가 관리
                     </h1>
                     <span
                         class="d-inline-block position-absolute mt-3 h-8px bottom-0 end-0 start-0 bg-success translate rounded" />

@@ -30,7 +30,7 @@ class DataController extends Controller
 
         $param = [
             'serviceKey' => 'OOOeb2NMDrvDEatMXUQZ/bLs8pjBm+0c4X5snSQHQ/rWaslq3lhn0rbXISZf7yRCzLU5C0hSKHUnYw8CcFvg5A==',
-            'numOfRows' => '20000'
+            'numOfRows' => '100000'
         ];
 
         $promise = Http::async()->get($url, $param)->then(
@@ -69,12 +69,12 @@ class DataController extends Controller
         $this->getAptDetailInfo();
         $this->getAptMapInfo();
 
-        return Redirect::route('admin.apt.complex.list.view')->with('아파트 단지를 불러왔습니다.');
+        return Redirect::route('admin.apt.complex.list.view')->with('message', '아파트 단지를 불러왔습니다.');
     }
 
     public function getAptBaseInfo()
     {
-        $baseInfo = DataApt::where('is_base_info', 0)->limit(10000)->get();
+        $baseInfo = DataApt::where('is_base_info', 0)->limit(3000)->get();
 
         // 베이스 정보가 없을 때
         if ($baseInfo->isEmpty()) {
@@ -114,6 +114,7 @@ class DataController extends Controller
                                 Log::info('$item : ' . json_encode($item));
                             } else {
                                 Log::error('Invalid response structure: ' . json_encode($jsonDecode));
+                                return back()->with('message', '아파트 단지 정보를 불러오기 실패하였습니다.');
                             }
                         } catch (\Exception $e) {
                             Log::error('Exception while processing response for kaptCode ' . $base->kaptCode . ': ' . $e->getMessage());
@@ -150,7 +151,7 @@ class DataController extends Controller
         // 최대 실행 시간 설정 (예: 300초)
         // set_time_limit(300);
 
-        $allDetailInfo = DataApt::where('is_detail_info', 0)->limit(10000)->get();
+        $allDetailInfo = DataApt::where('is_detail_info', 0)->limit(3000)->get();
 
         // 베이스 정보가 없을 때
         if ($allDetailInfo->isEmpty()) {
@@ -189,6 +190,7 @@ class DataController extends Controller
                                 $detailInfo->update($item);
                             } else {
                                 Log::error('Invalid response structure: ' . json_encode($jsonDecode));
+                                return back()->with('message', '아파트 단지 정보를 불러오기 실패하였습니다.');
                             }
                         } catch (\Exception $e) {
                             Log::error('Exception: ' . $e->getMessage());
@@ -214,44 +216,62 @@ class DataController extends Controller
     public function getAptMapInfo()
     {
 
-        $mapInfo = DataApt::where('is_map_info', 0)->limit(10000)->get();
-        if ($mapInfo == null) {
-            return;
+        $mapInfo = DataApt::where('is_map_info', 0)->where('is_detail_info', 1)->limit(3000)->get();
+
+        if ($mapInfo->isEmpty()) {
+            return back()->with('message', '아파트 단지 정보를 불러오기 실패하였습니다.');
         }
 
-        foreach ($mapInfo as $map) {
-            $address = $map->doroJuso == null ? implode(' ', array_slice(explode(' ', $map->kaptAddr), 2)) : $map->doroJuso;
 
-            $url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode";
-            $param = [
-                'query' => $address
-            ];
+        $batchSize = 100; // 한 번에 처리할 배치 크기
+        $delay = 5; // 각 배치 사이의 딜레이 (초)
 
-            $promise = Http::withHeaders([
-                'X-NCP-APIGW-API-KEY-ID' => 'iipoiiuz42',
-                'X-NCP-APIGW-API-KEY' => '733JkOIwJF6wOkI66OWBe8jDen72TrzP6qbTSkbP',
-                'Accept' => 'application/json'
-            ])->async()->get($url, $param)->then(
-                function (Response|TransferException $response) use ($map) {
-                    $jsonDecode = json_decode($response->body(), true);
-                    $addresses = $jsonDecode['addresses'];
-                    if (count($addresses) > 0) {
-                        $address = $addresses[0];
-                        $obj = [
-                            'is_map_info' => 1,
-                            'x' => $address['x'],
-                            'y' => $address['y'],
-                        ];
-                        $map->update($obj);
-                    } else {
-                        $obj = [
-                            'is_map_info' => 1,
-                        ];
-                        $map->update($obj);
+        $mapInfoChunks = $mapInfo->chunk($batchSize);
+
+        foreach ($mapInfoChunks as $chunk) {
+            $promises = [];
+
+            foreach ($chunk as $map) {
+                $address = $map->doroJuso == null ? implode(' ', array_slice(explode(' ', $map->kaptAddr), 2)) : $map->doroJuso;
+
+                $url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode";
+                $param = [
+                    'query' => $address
+                ];
+
+                $promises[] = Http::withHeaders([
+                    'X-NCP-APIGW-API-KEY-ID' => 'iipoiiuz42',
+                    'X-NCP-APIGW-API-KEY' => '733JkOIwJF6wOkI66OWBe8jDen72TrzP6qbTSkbP',
+                    'Accept' => 'application/json'
+                ])->async()->get($url, $param)->then(
+                    function (Response|TransferException $response) use ($map) {
+                        $jsonDecode = json_decode($response->body(), true);
+                        $addresses = $jsonDecode['addresses'];
+                        if (count($addresses) > 0) {
+                            $address = $addresses[0];
+                            $obj = [
+                                'is_map_info' => 1,
+                                'x' => $address['x'],
+                                'y' => $address['y'],
+                            ];
+                            $map->update($obj);
+                        } else {
+                            $obj = [
+                                'is_map_info' => 1,
+                            ];
+                            $map->update($obj);
+                        }
                     }
-                }
-            );
-            $promise->wait();
+                );
+            }
+
+            // 모든 프라미스를 대기
+            foreach ($promises as $promise) {
+                $promise->wait();
+            }
+
+            // 딜레이 추가
+            sleep($delay);
         }
     }
 

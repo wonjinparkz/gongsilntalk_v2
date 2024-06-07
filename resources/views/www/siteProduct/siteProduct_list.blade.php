@@ -88,7 +88,7 @@
         <!-- M::filter : e -->
 
         <div class="inner_wrap bottom_space">
-            <div class="txt_search_total">분양목록 총 <span class="txt_point">44건</span></div>
+            <div class="txt_search_total">분양목록 총 <span class="txt_point">{{ count($result) }}건</span></div>
 
             <div class="sales_list_wrap">
 
