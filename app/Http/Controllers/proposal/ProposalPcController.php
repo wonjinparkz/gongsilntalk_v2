@@ -9,7 +9,9 @@ use App\Models\CorpProductFacility;
 use App\Models\CorpProductPrice;
 use App\Models\CorpProposal;
 use App\Models\Proposal;
+use App\Models\ProposalRegion;
 use App\Models\User;
+use App\Models\Zcode;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -289,9 +291,23 @@ class ProposalPcController extends Controller
     /**
      * 매물 제안서 등록 1
      */
-    public function userProposalCreateFirst(Request $request): View
+    public function userProposalCreateFirst(Request $request)
     {
-        return view('www.proposal.user-offer-first', compact('request'));
+        $zcodeList = Zcode::select()->get();
+
+        if ($request->ajax()) {
+
+            $zcodeList = Zcode::select();
+
+            if ($request->zone != '') {
+                $zcodeList->where('zone', 'like', "%{$request->zone}%");
+            }
+
+            $zcodeList = $zcodeList->get();
+            return response()->json(['zcodeList' => $zcodeList]);
+        }
+
+        return view('www.proposal.user-offer-first', compact('request', 'zcodeList'));
     }
 
     /**
@@ -308,5 +324,54 @@ class ProposalPcController extends Controller
     public function userProposalCreateThird(Request $request): View
     {
         return view('www.proposal.user-offer-third', compact('request'));
+    }
+
+    /**
+     * 메물 제안서 등록
+     */
+    public function userProposalCreate(Request $request)
+    {
+        $validator = Validator::make($request->all(), []);
+
+        if ($validator->fails()) {
+            return redirect(route('www.corp.proposal.product.create3.view'))->withErrors($validator)
+                ->withInput();
+        }
+
+        info($request);
+
+        $proposal = Proposal::create([
+            'users_id' => Auth::guard('web')->user()->id,
+            'title' => '',
+            'type' => $request->type,
+            'area' => $request->area,
+            'square' => $request->square,
+            'business_type' => $request->type == 0 ? $request->business_type : null,
+            'move_type' => $request->day,
+            'users_count' => $request->users_count ?? 0,
+            'start_move_date' => $request->start_move_date,
+            'ended_move_date' => $request->ended_move_date,
+            'payment_type' => $request->budget_type,
+            'price' => $request->{'price_' . $request->budget_type},
+            'month_price' => $request->month_price,
+            'client_name' => $request->{'client_name_' . $request->budget_type},
+            'client_type' => $request->client_type,
+            'floor_type' => $request->floor,
+            'interior_type' => $request->interior,
+            'content' => $request->content,
+            'is_delete' => 0
+        ]);
+
+        foreach ($request->region_zone as $key => $region) {
+            $regionArr = explode(' ', $region);
+            ProposalRegion::create([
+                'proposal_id' => $proposal->id,
+                'region_code' => $request->region_code[$key],
+                'city_name' => $regionArr[0],
+                'region_name' => $regionArr[1],
+            ]);
+        }
+
+        return Redirect::route('www.mypage.proposal.list.view')->with('message', '제안서가 등록 되었습니다.');
     }
 }

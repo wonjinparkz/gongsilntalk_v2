@@ -1,5 +1,40 @@
 <x-layout>
 
+    <style>
+        .dropdown_search .optionList {
+            position: sticky;
+            z-index: 101;
+            margin-top: 5px;
+            top: 45px;
+            left: 0;
+            width: 100%;
+            color: #63605F;
+            background: #fff;
+            border: 1px solid #D2D1D0;
+            border-radius: 5px;
+            box-sizing: border-box;
+            padding: 0;
+            overflow: hidden;
+            max-height: 0;
+            display: none;
+        }
+
+        .dropdown_search.active {
+            z-index: 101;
+            position: sticky;
+        }
+
+        .dropdown_search.active .optionList {
+            max-height: 222px;
+            overflow-y: auto;
+            display: block;
+        }
+
+        .dropdown_search .optionItem {
+            padding: 10px 15px 10px;
+            transition: .1s;
+        }
+    </style>
 
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
@@ -12,156 +47,180 @@
 
 
     <div class="body">
+        <form method="get" action="{{ route('www.mypage.user.offer.second.create.view') }}" id="create_form"
+            name="create_form">
+            <!-- my_body : s -->
+            <div class="inner_mid_wrap m_inner_wrap mid_body">
+                <h1 class="t_center only_pc">매물 제안서 받기 <span class="step_number"><span
+                            class="txt_point">1</span>/3</span>
+                </h1>
 
-        <!-- my_body : s -->
-        <div class="inner_mid_wrap m_inner_wrap mid_body">
-            <h1 class="t_center only_pc">매물 제안서 받기 <span class="step_number"><span class="txt_point">1</span>/3</span>
-            </h1>
-
-            <div class="offer_step_wrap">
-                <div class="box_01 box_reg">
-                    <h4>어디에 매물을 얻고 싶으신가요?</h4>
-                    <div class="w_30">
-                        <div class="search_wrap">
-                            <input type="text" placeholder="시·군·구로 검색해주세요">
-                            <button><img src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button>
-                        </div>
-                        <p class="mt4 gray_basic fs_13">서울특별시, 경기도권 지역만 검색 가능합니다.</p>
-                    </div>
-                    <div>
-                        <p class="txt_max_count">중복선택가능 <span>3</span> / 3</p>
-                        <div class="keyword_wrap">
-                            <div class="keyword_item">서울시 서초구 <button onclick="keyword_item(this)"><img
-                                        src="{{ asset('assets/media/btn_solid_delete.png') }}"></button></div>
-                            <div class="keyword_item">서울시 동대문구 <button onclick="keyword_item(this)"><img
-                                        src="{{ asset('assets/media/btn_solid_delete.png') }}"></button></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="box_01 box_reg">
-                    <h4>원하시는 매물 조건을 알려주세요.</h4>
-                    <div class="btn_radioType">
-                        <input type="radio" name="type" id="type_1" value="Y" checked>
-                        <label for="type_1" onclick="showContent(0)">상가</label>
-
-                        <input type="radio" name="type" id="type_2" value="Y">
-                        <label for="type_2" onclick="showContent(1)">지산/사무실/창고</label>
-
-                        <input type="radio" name="type" id="type_3" value="Y">
-                        <label for="type_3" onclick="showContent(1)">단독공장</label>
-                    </div>
-
-                    <div>
-                        <label class="input_label">희망 면적 <span>*</span></label>
-                        <div class="input_pyeong_area w_30">
-                            <input type="text" placeholder="희망 면적"> <span class="gray_deep">평 /</span>
-                            <input type="text" placeholder="평 입력시 자동"> <span class="gray_deep">㎡</span>
-                        </div>
-                    </div>
-
-                    <div class="type_item_wrap">
-                        <div class="type_item active">
-                            <div>
-                                <label class="input_label">희망 업종</label>
-                                <div class="dropdown_box only_pc mt8 w_30">
-                                    <button class="dropdown_label">희망 업종 선택 </button>
-                                    <ul class="optionList">
-                                        <li class="optionItem">휴게음식점</li>
-                                        <li class="optionItem">일반음식점</li>
-                                        <li class="optionItem">주류점</li>
-                                        <li class="optionItem">오락스포츠</li>
-                                        <li class="optionItem">판매업</li>
-                                        <li class="optionItem">숙박업</li>
-                                        <li class="optionItem">기타업종</li>
-                                    </ul>
-                                </div>
-                                <!----------------------- M::희망 업종 : s ----------------------->
-                                <div class="dropdown_box m_full only_m mt8">
-                                    <button class="dropdown_label" onclick="modal_open_slide('biz_type')">희망 업종
-                                        선택</button>
-                                </div>
-                                <div class="modal_slide modal_slide_biz_type">
-                                    <div class="slide_title_wrap">
-                                        <span>희망 업종 선택</span>
-                                        <img src="{{ asset('assets/media/btn_md_close.png') }}"
-                                            onclick="modal_close_slide('biz_type')">
-                                    </div>
-                                    <ul class="slide_modal_menu">
-                                        <li><a href="#">휴게음식점</a></li>
-                                        <li><a href="#">일반음식점</a></li>
-                                        <li><a href="#">주류점</a></li>
-                                        <li><a href="#">오락스포츠</a></li>
-                                        <li><a href="#">판매업</a></li>
-                                        <li><a href="#">숙박업</a></li>
-                                        <li><a href="#">기타업종</a></li>
-                                    </ul>
-                                </div>
-                                <div class="md_slide_overlay md_slide_overlay_biz_type"
-                                    onclick="modal_close_slide('biz_type')"></div>
-                                <!----------------------- M::희망 업종 : e ----------------------->
-
+                <div class="offer_step_wrap">
+                    <div class="box_01 box_reg">
+                        <h4>어디에 매물을 얻고 싶으신가요?</h4>
+                        <div class="w_30">
+                            <div class="search_wrap" onclick="onShowRegionList();">
+                                <input type="text" id="regionSearch" name="regionSearch" placeholder="시·군·구로 검색해주세요">
+                                <button type="button"><img src="{{ asset('assets/media/btn_search.png') }}"
+                                        alt="검색"></button>
                             </div>
+                            <div class="dropdown_search" style="display:none;" id="regionList">
+                                <ul class="optionList" id="regionOptionList">
+                                    @foreach ($zcodeList as $zcode)
+                                        <li class="optionItem"
+                                            onclick="onAddRegion('{{ $zcode->zone }}', '{{ $zcode->region_code }}');">
+                                            {{ $zcode->zone }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <p class="mt4 gray_basic fs_13">서울특별시, 경기도권 지역만 검색 가능합니다.</p>
                         </div>
-
-                        <div class="type_item">
-                            <div class="reg_item w_30">
-                                <label class="input_label">사용 인원<span>*</span></label>
-                                <div class="flex_1 flex_between">
-                                    <input type="text"> <span>명</span>
-                                </div>
-                                <p class="fs_13 gray_basic mt8">인원 당 2.5평을 추천해드립니다.</p>
+                        <div>
+                            <p class="txt_max_count">중복선택가능 <span id="regionBoxCount">0</span> / 3</p>
+                            <div class="keyword_wrap" id="regionCreateBox">
                             </div>
                         </div>
                     </div>
 
-                    <div>
-                        <label class="input_label">입주 가능일 <span>*</span></label>
-                        <div class="btn_radioType self_day_check mt8">
-                            <input type="radio" name="day" id="day_1" value="Y">
-                            <label for="day_1" onclick="toggleCalendar(0)">즉시 입주</label>
+                    <div class="box_01 box_reg">
+                        <h4>원하시는 매물 조건을 알려주세요.</h4>
+                        <div class="btn_radioType">
+                            <input type="radio" name="type" id="type_1" value="Y" checked>
+                            <label for="type_1" onclick="showContent(0, 0)">상가</label>
 
-                            <input type="radio" name="day" id="day_2" value="Y">
-                            <label for="day_2" onclick="toggleCalendar(0)">날짜 협의</label>
+                            <input type="radio" name="type" id="type_2" value="Y">
+                            <label for="type_2" onclick="showContent(1, 1)">지산/사무실/창고</label>
 
-                            <input type="radio" name="day" id="day_3" value="Y">
-                            <label for="day_3" onclick="toggleCalendar(1)">직접 입력</label>
+                            <input type="radio" name="type" id="type_3" value="Y">
+                            <label for="type_3" onclick="showContent(1, 2)">단독공장</label>
                         </div>
-                        <div class="self_day_wrap">
-                            <div class="self_day_item"></div>
-                            <div class="self_day_item w_30">
-                                <div class="input_calendar_term">
-                                    <div>
-                                        <label class="input_label">계약시작일</label>
-                                        <input type="text" placeholder="예) 20230101">
+
+                        <div>
+                            <label class="input_label">희망 면적 <span>*</span></label>
+                            <div class="input_pyeong_area w_30">
+                                <input type="text" id="area" name="area" placeholder="희망 면적"> <span
+                                    class="gray_deep">평 /</span>
+                                <input type="text" id="square" name="square" placeholder="평 입력시 자동"> <span
+                                    class="gray_deep">㎡</span>
+                            </div>
+                        </div>
+
+                        <div class="type_item_wrap">
+                            <div class="type_item active">
+                                <div>
+                                    <label class="input_label">희망 업종</label>
+                                    <div class="dropdown_box only_pc mt8 w_30">
+                                        <button class="dropdown_label" type="button">희망 업종 선택 </button>
+                                        <ul class="optionList">
+                                            <li class="optionItem" onclick="onBusinessChange(0);">휴게음식점</li>
+                                            <li class="optionItem" onclick="onBusinessChange(1);">일반음식점</li>
+                                            <li class="optionItem" onclick="onBusinessChange(2);">주류점</li>
+                                            <li class="optionItem" onclick="onBusinessChange(3);">오락스포츠</li>
+                                            <li class="optionItem" onclick="onBusinessChange(4);">판매업</li>
+                                            <li class="optionItem" onclick="onBusinessChange(5);">숙박업</li>
+                                            <li class="optionItem" onclick="onBusinessChange(6);">기타업종</li>
+                                        </ul>
                                     </div>
-                                    <span>~</span>
-                                    <div>
-                                        <label class="input_label">계약종료일</label>
-                                        <input type="text" placeholder="예) 20230101">
+                                    <!----------------------- M::희망 업종 : s ----------------------->
+                                    <div class="dropdown_box m_full only_m mt8">
+                                        <button class="dropdown_label" onclick="modal_open_slide('biz_type')">희망 업종
+                                            선택</button>
                                     </div>
+                                    <div class="modal_slide modal_slide_biz_type">
+                                        <div class="slide_title_wrap">
+                                            <span>희망 업종 선택</span>
+                                            <img src="{{ asset('assets/media/btn_md_close.png') }}"
+                                                onclick="modal_close_slide('biz_type')">
+                                        </div>
+                                        <ul class="slide_modal_menu">
+                                            <li><a href="#" onclick="onBusinessChange(0);">휴게음식점</a></li>
+                                            <li><a href="#" onclick="onBusinessChange(1);">일반음식점</a></li>
+                                            <li><a href="#" onclick="onBusinessChange(2);">주류점</a></li>
+                                            <li><a href="#" onclick="onBusinessChange(3);">오락스포츠</a></li>
+                                            <li><a href="#" onclick="onBusinessChange(4);">판매업</a></li>
+                                            <li><a href="#" onclick="onBusinessChange(5);">숙박업</a></li>
+                                            <li><a href="#" onclick="onBusinessChange(6);">기타업종</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="md_slide_overlay md_slide_overlay_biz_type"
+                                        onclick="modal_close_slide('biz_type')"></div>
+                                    <!----------------------- M::희망 업종 : e ----------------------->
+
+                                </div>
+                            </div>
+
+                            <div class="type_item">
+                                <div class="reg_item w_30">
+                                    <label class="input_label">사용 인원<span>*</span></label>
+                                    <div class="flex_1 flex_between">
+                                        <input type="text" id="users_count" name="users_count"> <span>명</span>
+                                    </div>
+                                    <p class="fs_13 gray_basic mt8">인원 당 2.5평을 추천해드립니다.</p>
                                 </div>
                             </div>
                         </div>
 
+                        <div>
+                            <label class="input_label">입주 가능일 <span>*</span></label>
+                            <div class="btn_radioType self_day_check mt8">
+                                <input type="radio" name="day" id="day_1" value="0" checked>
+                                <label for="day_1" onclick="toggleCalendar(0)">즉시 입주</label>
+
+                                <input type="radio" name="day" id="day_2" value="1">
+                                <label for="day_2" onclick="toggleCalendar(0)">날짜 협의</label>
+
+                                <input type="radio" name="day" id="day_3" value="2">
+                                <label for="day_3" onclick="toggleCalendar(1)">직접 입력</label>
+                            </div>
+                            <div class="self_day_wrap">
+                                <div class="self_day_item"></div>
+                                <div class="self_day_item w_30">
+                                    <div class="input_calendar_term">
+                                        <div>
+                                            <label class="input_label">계약시작일</label>
+                                            <input type="text" id="start_move_date"
+                                                name="start_move_date"placeholder="예) 20230101">
+                                        </div>
+                                        <span>~</span>
+                                        <div>
+                                            <label class="input_label">계약종료일</label>
+                                            <input type="text" id="ended_move_date" name="ended_move_date"
+                                                placeholder="예) 20230101">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <input type="hidden" id="type" name="type" value="0">
+                    <input type="hidden" id="business_type" name="business_type" value="">
+
+                    <div class="step_btn_wrap">
+                        <span></span>
+                        <!-- <button class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
+                        <button class="btn_full_basic btn_point" id="nextPageButton" type="button" disabled
+                            onclick="onFormSubmit();">다음</button>
                     </div>
 
                 </div>
-
-                <div class="step_btn_wrap">
-                    <span></span>
-                    <!-- <button class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                    <button class="btn_full_basic btn_point"
-                        onclick="location.href='{{ route('www.mypage.user.offer.second.create.view') }}'">다음</button>
-                </div>
-
             </div>
-        </div>
-        <!-- my_body : e -->
-
+            <!-- my_body : e -->
+        </form>
     </div>
 
     <script>
+        function onFormSubmit() {
+            $('#create_form').submit();
+        }
+
+        function onBusinessChange(index) {
+            $('#business_type').val(index);
+            onFieldInputCheck();
+        }
+
         //직접입력
         function toggleCalendar(index) {
             var tabContents = document.querySelectorAll('.self_day_wrap .self_day_item');
@@ -172,7 +231,9 @@
         }
 
         //매물조건 구분
-        function showContent(index) {
+        function showContent(index, type) {
+            $('#type').val(type);
+
             var tabContents = document.querySelectorAll('.type_item_wrap .type_item');
             tabContents.forEach(function(content) {
                 content.classList.remove('active');
@@ -184,6 +245,131 @@
         function keyword_item(button) {
             var div = button.parentNode;
             div.parentNode.removeChild(div);
+            $('#regionBoxCount').text(parseInt($('#regionBoxCount').text()) - 1);
+            onFieldInputCheck();
         }
+
+        $('#regionSearch').keyup(function(e) {
+            loadRegionData($('#regionSearch').val());
+        });
+
+        function onShowRegionList() {
+            $('#regionList').show();
+            $('#regionList').addClass('active');
+        }
+
+        function onAddRegion(region, regionCode) {
+            var count = $('#regionBoxCount').text();
+
+            if (parseInt(count) < 3) {
+
+                var regionDiv = ` <div class="keyword_item">${region} <button onclick="keyword_item(this)">
+                                <img src="{{ asset('assets/media/btn_solid_delete.png') }}">
+                            </button>
+                            <input type="hidden" id="region_zone[]" name="region_zone[]" value="${region}">
+                            <input type="hidden" id="region_code[]" name="region_code[]" value="${regionCode}">
+                        </div>`;
+                $('#regionBoxCount').text(parseInt(count) + 1);
+                $('#regionCreateBox').append(regionDiv);
+            }
+
+            onFieldInputCheck();
+        }
+
+        $('#regionSearch').blur(function() {
+
+            setTimeout(() => {
+                $('#regionList').hide();
+            }, "1000");
+        });
+
+
+        loadRegionData('');
+
+        function loadRegionData(zone) {
+
+            $.ajax({
+                    url: '{{ route('www.mypage.user.offer.first.create.view') }}',
+                    type: "get",
+                    data: {
+                        'zone': zone
+                    }
+                })
+                .done(function(data) {
+                    var opitonDiv = '';
+
+                    data.zcodeList.forEach(element => {
+                        opitonDiv += `<li class="optionItem" onclick="onAddRegion('${element.zone}', '${element.region_code}');">
+                                        ${element.zone}
+                                        </li>`;
+                    });
+
+                    $('#regionOptionList').html(opitonDiv);
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError) {
+                    alert('데이터를 불러오지 못했습니다.');
+                });
+        }
+
+        var area = document.getElementById('area');
+        area.addEventListener('keyup', function(e) {
+            if (e.target.value != '') {
+                $('#square').val((parseInt(e.target.value) * 3.3058).toFixed(2));
+            }
+
+        });
+
+        function debounce(func, timeout = 300) {
+            let timer;
+            return (...args) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    func.apply(this, args);
+                }, timeout);
+            };
+        }
+
+        function onFieldInputCheck() {
+
+            var areaCheck = ($('#area').val() != '') ? true : false;
+            var businessCheck = false;
+            var countCheck = false;
+            var startDayCheck = false;
+            var endDayCheck = false;
+            var regionLength = ($('#regionCreateBox').children().length > 0) ? true : false;
+
+            if ($('#type').val() == '0') {
+                countCheck = true;
+                businessCheck = ($('#business_type').val() != '') ? true : false;
+            } else {
+                countCheck = ($('#users_count').val() != '') ? true : false;
+                businessCheck = true;
+            }
+
+            if ($("input[name='day']:checked").val() == '2') {
+                startDayCheck = ($('#start_move_date').val() != '') ? true : false;
+                endDayCheck = ($('#ended_move_date').val() != '') ? true : false;
+            } else {
+                startDayCheck = true;
+                endDayCheck = true;
+            }
+
+            if (areaCheck && countCheck && businessCheck && regionLength && startDayCheck && endDayCheck) {
+                document.getElementById('nextPageButton').disabled = false;
+            } else {
+                document.getElementById('nextPageButton').disabled = true;
+            }
+
+        }
+
+        const processChange = debounce(() => onFieldInputCheck());
+
+        addEventListener("input", (event) => {
+            processChange();
+        });
+
+        addEventListener("checkbox", (event) => {
+            processChange();
+        });
     </script>
 </x-layout>

@@ -31,12 +31,13 @@ class Proposal extends BaseModel
         'start_move_date',
         'ended_move_date',
         'payment_type',
+        'floor_type',
         'price',
         'month_price',
         'client_name',
         'client_type',
         'interior_type',
-        'contents',
+        'content',
         'is_delete'
     ];
 
