@@ -354,11 +354,11 @@ class ProposalPcController extends Controller
             'payment_type' => $request->budget_type,
             'price' => $request->{'price_' . $request->budget_type},
             'month_price' => $request->month_price,
-            'client_name' => $request->{'client_name_' . $request->budget_type},
+            'client_name' => $request->{'client_name_' . $request->budget_type} ?? '',
             'client_type' => $request->client_type,
             'floor_type' => $request->floor,
             'interior_type' => $request->interior,
-            'content' => $request->content,
+            'content' => $request->content ?? '',
             'is_delete' => 0
         ]);
 
