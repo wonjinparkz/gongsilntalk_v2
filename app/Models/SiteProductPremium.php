@@ -13,7 +13,7 @@ class SiteProductPremium extends BaseModel
     /**
      * Table Name
      */
-    protected $table = 'site_proudct_premium';
+    protected $table = 'site_product_premium';
 
     /**
      * Fillable

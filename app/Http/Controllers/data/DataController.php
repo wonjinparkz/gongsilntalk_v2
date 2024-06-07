@@ -74,7 +74,7 @@ class DataController extends Controller
 
     public function getAptBaseInfo()
     {
-        $baseInfo = DataApt::where('is_base_info', 0)->limit(100)->get();
+        $baseInfo = DataApt::where('is_base_info', 0)->limit(10000)->get();
 
         // 베이스 정보가 없을 때
         if ($baseInfo->isEmpty()) {
@@ -150,7 +150,7 @@ class DataController extends Controller
         // 최대 실행 시간 설정 (예: 300초)
         // set_time_limit(300);
 
-        $allDetailInfo = DataApt::where('is_detail_info', 0)->limit(100)->get();
+        $allDetailInfo = DataApt::where('is_detail_info', 0)->limit(10000)->get();
 
         // 베이스 정보가 없을 때
         if ($allDetailInfo->isEmpty()) {
@@ -214,7 +214,7 @@ class DataController extends Controller
     public function getAptMapInfo()
     {
 
-        $mapInfo = DataApt::where('is_map_info', 0)->limit(100)->get();
+        $mapInfo = DataApt::where('is_map_info', 0)->limit(10000)->get();
         if ($mapInfo == null) {
             return;
         }

@@ -53,7 +53,7 @@
                     <label class="col-lg-4 col-form-label fw-semibold fs-6">상세 이미지</label>
                     <div class="x_scroll_img_reg col-lg-8">
                         <ul class="img_reg_ul" id="image_reg">
-                            @foreach ($result->images_detail as $image)
+                            @foreach ($result->images as $image)
                                 <div class="symbol symbol-150px mb-5 me-5 overlay min-h-175px w-175px">
                                     <a class="col symbol symbol-150px mb-5 me-5 overlay min-h-175px w-175px"
                                         data-fslightbox="lightbox-basic"

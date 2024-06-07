@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('site_proudct_premium', function (Blueprint $table) {
+        Schema::create('site_product_premium', function (Blueprint $table) {
 
             $table->id()->comment('분양현장 프리미엄 아이디');
             $table->integer('site_product_id')->comment('분양현장 매물 아이디');
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('is_blind_2')->comment("프리미엄 5,6 노출여부 - 0: 노출, 1: 노출 안함");
             $table->timestamps();
         });
-        DB::statement("ALTER TABLE site_proudct_premium COMMENT='분양현장 프리미엄'");
+        DB::statement("ALTER TABLE site_product_premium COMMENT='분양현장 프리미엄'");
     }
 
     /**
@@ -40,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('site_proudct_premium');
+        Schema::dropIfExists('site_product_premium');
     }
 };
