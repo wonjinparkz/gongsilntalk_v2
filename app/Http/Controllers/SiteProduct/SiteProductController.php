@@ -193,7 +193,7 @@ class SiteProductController extends Controller
                 'site_product_id' => $result->id,
                 'dong_name' => $dongInfo['dong_name'],
             ]);
-            foreach ($dongInfo['floor_info'] as $floorIndex => $floorInfo) {
+            foreach ($dongInfo['floor_info'] ?? [] as $floorIndex => $floorInfo) {
                 $floorResult = SiteProductFloorInfo::create([
                     'site_product_dong_id' => $dongResult->id,
                     'floor_name' => $floorInfo['floor_name'],
@@ -339,7 +339,7 @@ class SiteProductController extends Controller
                 'site_product_id' => $request->id,
                 'dong_name' => $dongInfo['dong_name'],
             ]);
-            foreach ($dongInfo['floor_info'] as $floorIndex => $floorInfo) {
+            foreach ($dongInfo['floor_info'] ?? [] as $floorIndex => $floorInfo) {
                 $floorResult = SiteProductFloorInfo::create([
                     'site_product_dong_id' => $dongResult->id,
                     'floor_name' => $floorInfo['floor_name'],
