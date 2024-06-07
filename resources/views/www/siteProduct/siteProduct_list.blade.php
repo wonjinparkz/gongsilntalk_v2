@@ -94,6 +94,7 @@
 
                 @foreach ($result as $siteProduct)
                     <!-- card : s -->
+                    {{ $siteProduct }}
                     <div class="sales_card">
                         <span class="sales_list_wish  {{ $siteProduct->like_id > 0 ? 'on' : '' }}"
                             onclick="btn_like(this, {{ $siteProduct->id }})"></span>
