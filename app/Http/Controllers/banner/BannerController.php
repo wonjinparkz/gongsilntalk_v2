@@ -57,6 +57,8 @@ class BannerController extends Controller
 
         $result = $bannerList->paginate($request->per_page == null ? 10 : $request->per_page);
 
+        $result->appends(request()->except('page'));
+
         return view('admin.banner.banner-list', compact('result'));
     }
 

@@ -72,6 +72,8 @@ class KnowledgeCneter_Controller extends Controller
 
         $result = $konwledgeCenterList->paginate($request->per_page == null ? 10 : $request->per_page);
 
+        $result->appends(request()->except('page'));
+
         return view('admin.knowledgeCenter.knowledgeCenter-list', compact('result'));
     }
 

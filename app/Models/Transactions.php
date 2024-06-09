@@ -47,10 +47,9 @@ class Transactions extends BaseModel
         'unique_code',
 
         // 월세에서만 사용
-        'transactionPrice',
-        'renuewalRight',
+        'transactionMonthPrice',
+        'renewalRight',
         'contract_type',
-        'contract_at',
         'contract_at',
         'previousTransactionPrice',
         'previousTransactionMonthPrice',

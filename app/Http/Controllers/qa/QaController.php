@@ -64,6 +64,8 @@ class QaController extends Controller
 
         $result = $qaList->paginate($request->per_page == null ? 10 : $request->per_page);
 
+        $result->appends(request()->except('page'));
+
         return view('admin.qa.qa-list', compact('result'));
     }
 

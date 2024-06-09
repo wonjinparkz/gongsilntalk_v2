@@ -57,6 +57,8 @@ class MagazineController extends Controller
         // 페이징
         $result = $magazineList->paginate($request->per_page == null ? 10 : $request->per_page);
 
+        $result->appends(request()->except('page'));
+
         return view('admin.magazine.magazine-list', compact('result', 'type'));
     }
 

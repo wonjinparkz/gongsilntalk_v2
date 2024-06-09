@@ -63,6 +63,8 @@ class ServiceController extends Controller
 
         $result = $serviceList->paginate($request->per_page == null ? 10 : $request->per_page);
 
+        $result->appends(request()->except('page'));
+
         return view('admin.service.service-list', compact('result'));
     }
 

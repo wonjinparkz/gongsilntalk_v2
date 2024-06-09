@@ -44,11 +44,10 @@ return new class extends Migration
             $table->integer('is_matching')->default(0)->comment('매칭 여부 - 0: 매칭전, 1: 매칭완료');
 
             //전월세일 경우에만 사용
-            $table->string('transactionPrice')->nullable()->comment('월세금액');
-            $table->string('renuewalRight')->nullable()->comment('갱신요구권사용');
+            $table->string('transactionMonthPrice')->nullable()->comment('월세금액');
+            $table->string('renewalRight')->nullable()->comment('갱신요구권사용');
             $table->string('contract_type')->nullable()->comment('계약 구분');
-            $table->string('contract_at')->nullable()->comment('계약 기간');
-            $table->string('contract_at')->nullable()->comment('계약 기간');
+            $table->string('contract_at')->nullable()->comment('계약기간');
             $table->string('previousTransactionPrice')->nullable()->comment('종전계약보증금');
             $table->string('previousTransactionMonthPrice')->nullable()->comment('종전계약월세');
 

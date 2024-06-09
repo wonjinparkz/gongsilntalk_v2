@@ -43,6 +43,8 @@ class UserPcController extends Controller
 
         $result_product = $productList->paginate($request->per_page == null ? 10 : $request->per_page);
 
+        $result_product->appends(request()->except('page'));
+
         return view('www.mypage.productMagagement_list', compact('user', 'result_product'));
     }
 
@@ -64,6 +66,8 @@ class UserPcController extends Controller
         $productList->orderBy('product.created_at', 'desc')->orderBy('id', 'desc');
 
         $result_product = $productList->paginate($request->per_page == null ? 10 : $request->per_page);
+
+        $result_product->appends(request()->except('page'));
 
         return view('www.mypage.productMagagement_list', compact('user', 'result_product'));
     }
@@ -696,6 +700,8 @@ class UserPcController extends Controller
 
         // 페이징 처리
         $result_community = $communityList->paginate($request->per_page == null ? 10 : $request->per_page);
+
+        $result_community->appends(request()->except('page'));
 
         return view('www.mypage.community_list', compact('user', 'result_community'));
     }

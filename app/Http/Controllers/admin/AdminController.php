@@ -60,6 +60,8 @@ class AdminController extends Controller
         // 페이징
         $result = $adminList->paginate($request->per_page == null ? 10 : $request->per_page);
 
+        $result->appends(request()->except('page'));
+
         return view('admin.admin.admin-list', compact('result'));
     }
 

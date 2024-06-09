@@ -54,6 +54,7 @@ class ReportController extends Controller
 
         $result = $reportList->paginate($request->per_page == null ? 10 : $request->per_page);
 
+        $result->appends(request()->except('page'));
 
         return view('admin.report.community_report-list', compact('result'));
     }
@@ -102,6 +103,7 @@ class ReportController extends Controller
 
         $result = $reportList->paginate($request->per_page == null ? 10 : $request->per_page);
 
+        $result->appends(request()->except('page'));
 
         return view('admin.report.reply_report-list', compact('result'));
     }

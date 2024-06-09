@@ -343,7 +343,6 @@ Route::middleware('admin.auth')->controller(AptController::class)->group(functio
     Route::get('/apt/name/create/view', 'aptNameCreateView')->name('admin.apt.name.create.view');
     Route::post('/apt/name/create', 'aptNameCreate')->name('admin.apt.name.create');
     Route::post('/apt/name/delete', 'aptNameDelete')->name('admin.apt.name.delete');
-
 });
 
 /**
@@ -380,12 +379,10 @@ Route::middleware('admin.auth')->controller(DataBuildingController::class)->grou
 Route::middleware('admin.auth')->controller(TransactionsController::class)->group(function () {
     // 실거래 관리
     Route::get('/transactions/list/view', 'transactionsListView')->name('admin.transactions.list.view');
-    Route::get('/transactions/create/view', 'transactionsCreateView')->name('admin.transactions.create.view');
     Route::get('/transactions/detail/view/{id}', 'transactionsDetailView')->name('admin.transactions.detail.view');
-    Route::post('/transactions/create', 'transactionsCreate')->name('admin.transactions.create');
-    Route::post('/transactions/update', 'transactionsUpdate')->name('admin.transactions.update');
+    Route::get('/transactions/rent/list/view', 'transactionsRentListView')->name('admin.transactions.rent.list.view');
+    Route::get('/transactions/rent/detail/view/{id}', 'transactionsRentDetailView')->name('admin.transactions.rent.detail.view');
     Route::post('/transactions/delete', 'transactionsDelete')->name('admin.transactions.delete');
-    Route::post('/transactions/state/update', 'transactionsStateUpdate')->name('admin.transactions.state.update');
 });
 
 
@@ -397,8 +394,9 @@ Route::controller(DataController::class)->group(function () {
     Route::get('/data/apt/base', 'getAptBaseInfo')->name('data.apt.base');
     Route::get('/data/apt/detail', 'getAptDetailInfo')->name('data.apt.detail');
     Route::get('/data/apt/map', 'getAptMapInfo')->name('data.apt.map');
-    Route::post('/data/transcations/apt', 'getTranscationsApt')->name('data.transcations.apt');
-    Route::post('/data/transcations/apt/connextion', 'getTranscationsAptConnection')->name('data.transcations.apt.connextion');
+    Route::post('/data/transactions/apt', 'getTransactionsApt')->name('data.transactions.apt');
+    Route::post('/data/transactions/rent/apt', 'getTransactionsRentApt')->name('data.transactions.rent.apt');
+    Route::get('/data/transactions/apt/connextion', 'getTransactionsAptConnection')->name('data.transactions.apt.connextion');
 });
 
 /**

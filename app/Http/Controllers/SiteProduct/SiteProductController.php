@@ -56,6 +56,8 @@ class SiteProductController extends Controller
 
         $result = $siteProductList->paginate($request->per_page == null ? 10 : $request->per_page);
 
+        $result->appends(request()->except('page'));
+
         return view('admin.site_product.site_product-list', compact('result'));
     }
 

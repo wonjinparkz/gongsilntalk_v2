@@ -281,7 +281,7 @@ class DataController extends Controller
     /**
      * 아파트 매매 실거래가 정보 불러오기
      */
-    public function getTranscationsApt(Request $request)
+    public function getTransactionsApt(Request $request)
     {
         // API 연동
 
@@ -327,7 +327,7 @@ class DataController extends Controller
                 $header = $jsonDecode['header'];
                 $body = $jsonDecode['body'];
                 $items = $body['items'];
-                $item = $items['item'];
+                $item = $items['item'] ?? [];
                 $originItem = [];
                 if ($header['resultCode'] == "00") {
                     foreach ($item as $value) {
@@ -358,7 +358,7 @@ class DataController extends Controller
                             'jibun' => isset($value['지번']) ? $value['지번'] : '',
                             'regionCode' => isset($value['지역코드']) ? $value['지역코드'] : '',
                             'floor' => isset($value['층']) ? $value['층'] : '',
-                            'unique_code' => (isset($value['년']) ? $value['년'] : '') . (isset($value['월']) ? $value['월'] : '') . (isset($value['일']) ? $value['일'] : '') . (isset($value['일련번호']) ? $value['일련번호'] : '') . (isset($value['층']) ? $value['층'] : '') . (isset($value['거래금액']) ? $value['거래금액'] : ''),
+                            'unique_code' => '0' . (isset($value['년']) ? $value['년'] : '') . (isset($value['월']) ? $value['월'] : '') . (isset($value['일']) ? $value['일'] : '') . (isset($value['일련번호']) ? $value['일련번호'] : '') . (isset($value['층']) ? $value['층'] : '') . (isset($value['거래금액']) ? $value['거래금액'] : ''),
                         ];
 
                         // Transactions::create($obj);
@@ -366,6 +366,7 @@ class DataController extends Controller
                     }
                     foreach (array_chunk($originItem, 1000) as $t) {
                         // Transactions::create($t);
+                        Log::info($t);
                         Transactions::upsert($t, 'unique_code');
                     }
                 }
@@ -380,7 +381,7 @@ class DataController extends Controller
     /**
      * 아파트 매매 실거래가 정보 불러오기
      */
-    public function getTranscationsRentApt(Request $request)
+    public function getTransactionsRentApt(Request $request)
     {
         // API 연동
 
@@ -414,6 +415,8 @@ class DataController extends Controller
         $param = [
             'serviceKey' => 'OOOeb2NMDrvDEatMXUQZ/bLs8pjBm+0c4X5snSQHQ/rWaslq3lhn0rbXISZf7yRCzLU5C0hSKHUnYw8CcFvg5A==',
             'numOfRows' => '20000',
+            // 'LAWD_CD' => '11110',
+            // 'DEAL_YMD' => '202406',
             'LAWD_CD' => $region->lawd_cd,
             'DEAL_YMD' => $newLastUpdatedAt,
         ];
@@ -426,30 +429,38 @@ class DataController extends Controller
                 $header = $jsonDecode['header'];
                 $body = $jsonDecode['body'];
                 $items = $body['items'];
-                $item = $items['item'];
+                $item = $items['item'] ?? [];
                 $originItem = [];
                 if ($header['resultCode'] == "00") {
                     foreach ($item as $value) {
 
+                        foreach ($value as $key => $val) {
+                            if (is_array($val) && empty($val)) {
+                                $value[$key] = '';
+                            }
+                        }
+
                         $obj = [
                             'type' => '1',
-                            'renuewalRight' => isset($value['갱신요구권사용']) ? $value['갱신요구권사용'] : '',
-                            'constructionYear' => isset($value['건축년도']) ? $value['건축년도'] : '',
-                            'contract_type' => isset($value['계약구분']) ? $value['계약구분'] : '',
-                            'year' => isset($value['년']) ? $value['년'] : '',
-                            'legalDong' => isset($value['법정동']) ? $value['법정동'] : '',
-                            'transactionPrice' => isset($value['보증금']) ? $value['보증금'] : '',
-                            'aptName' => isset($value['아파트']) ? $value['아파트'] : '',
-                            'month' => isset($value['월']) ? $value['월'] : '',
-                            'transactionPrice' => isset($value['월세금액']) ? $value['월세금액'] : '',
-                            'day' => isset($value['일']) ? $value['일'] : '',
-                            'exclusiveArea' => isset($value['전용면적']) ? $value['전용면적'] : '',
-                            'previousTransactionPrice' => isset($value['종전계약보증금']) ? $value['종전계약보증금'] : '',
-                            'previousTransactionMonthPrice' => isset($value['종전계약월세']) ? $value['종전계약월세'] : '',
-                            'jibun' => isset($value['지번']) ? $value['지번'] : '',
-                            'regionCode' => isset($value['지역코드']) ? $value['지역코드'] : '',
-                            'floor' => isset($value['층']) ? $value['층'] : '',
-                            'unique_code' => (isset($value['년']) ? $value['년'] : '') . (isset($value['월']) ? $value['월'] : '') . (isset($value['일']) ? $value['일'] : '') . (isset($value['일련번호']) ? $value['일련번호'] : '') . (isset($value['층']) ? $value['층'] : '') . (isset($value['보증금']) ? $value['보증금'] : '') . (isset($value['월세금액']) ? $value['월세금액'] : ''),
+                            'legalDongCityCode' => $value['지역코드'] ?? '',
+                            'renewalRight' => $value['갱신요구권사용'] ?? '',
+                            'constructionYear' => $value['건축년도'] ?? '',
+                            'contract_type' => $value['계약구분'] ?? '',
+                            'contract_at' => $value['계약기간'] ?? '',
+                            'year' => $value['년'] ?? '',
+                            'legalDong' => $value['법정동'] ?? '',
+                            'transactionPrice' => $value['보증금액'] ?? '',
+                            'aptName' => $value['아파트'] ?? '',
+                            'month' => $value['월'] ?? '',
+                            'transactionMonthPrice' => $value['월세금액'] ?? '',
+                            'day' => $value['일'] ?? '',
+                            'exclusiveArea' => $value['전용면적'] ?? '',
+                            'previousTransactionPrice' => $value['종전계약보증금'] ?? '',
+                            'previousTransactionMonthPrice' => $value['종전계약월세'] ?? '',
+                            'jibun' => $value['지번'] ?? '',
+                            'regionCode' => $value['지역코드'] ?? '',
+                            'floor' => $value['층'] ?? '',
+                            'unique_code' => '1' . ($value['년'] ?? '') . ($value['월'] ?? '') . ($value['일'] ?? '') . ($value['일련번호'] ?? '') . ($value['층'] ?? '') . ($value['보증금액'] ?? '') . ($value['월세금액'] ?? ''),
                         ];
 
                         // Transactions::create($obj);
@@ -471,7 +482,32 @@ class DataController extends Controller
     /**
      * 아파트 실거래가 연결
      */
-    public function getTranscationsAptConnection()
+    public function getTransactionsAptConnection()
     {
+        $aptList = DataApt::select()->get();
+
+        foreach ($aptList as $index => $apt) {
+
+            // 쉼표로 구분하여 배열로 변환
+            $complexNames = explode(',', $apt->complex_name);
+
+            $transactionsList = Transactions::
+                // 시도+시군구 코드 비교
+                where('legalDongCityCode', substr($apt->bjdCode, 0, 5))
+                // 읍면동 비교
+                ->where('legalDong', $apt->as3)
+
+                // 아파트 단지명 비교
+                ->where(function ($query) use ($apt, $complexNames) {
+                    // kaptName 또는 complex_name 중 하나라도 일치하는지 확인
+                    $query->where('aptName', $apt->kaptName);
+
+                    foreach ($complexNames as $complexName) {
+                        $query->orWhere('aptName', trim($complexName));
+                    }
+                })->update(['is_matching' => 1]);
+        }
+
+        return back()->with('message', '아파트 실거래가가 연결되었습니다.');
     }
 }

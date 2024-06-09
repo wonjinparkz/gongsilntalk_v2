@@ -8,7 +8,7 @@
                 {{-- 페이지 제목 --}}
                 <div class="d-inline-block position-relative">
                     <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">
-                        아파트 매매 실거래가 관리
+                        아파트 전월세 실거래가 관리
                     </h1>
                     <span
                         class="d-inline-block position-absolute mt-3 h-8px bottom-0 end-0 start-0 bg-success translate rounded" />
@@ -22,7 +22,7 @@
                 {{-- 검색 영역 --}}
                 <div class="card card-flush shadow-sm">
                     <form class="form card-body row border-top p-9 align-items-center" method="GET"
-                        action="{{ route('admin.transactions.list.view') }}">
+                        action="{{ route('admin.transactions.rent.list.view') }}">
                         @csrf
 
                         {{-- 아파트 명 --}}
@@ -78,7 +78,6 @@
                                 <tr class="text-start text-gray-400 fw-bold fl-7 text-uppercase gs-0">
                                     <th class="text-center w-20px">No.</th>
                                     <th class="text-center">법정동시군구코드</th>
-                                    <th class="text-center">법정동읍면동코드</th>
                                     <th class="text-center">계약년도</th>
                                     <th class="text-center">계약 월</th>
                                     <th class="text-center min-w-100px">아파트 명</th>
@@ -103,13 +102,6 @@
                                             </span>
                                         </td>
 
-                                        {{-- 법정동읍면동코드 --}}
-                                        <td class="text-center">
-                                            <span class="fw-bold fs-5">
-                                                {{ $store->legalDongDistrictCode }}
-                                            </span>
-                                        </td>
-
                                         {{-- 계약년도 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
@@ -126,7 +118,7 @@
 
                                         {{-- 아파트 명 --}}
                                         <td class="text-center">
-                                            <a href="{{ route('admin.transactions.detail.view', [$store->id]) }}"
+                                            <a href="{{ route('admin.transactions.rent.detail.view', [$store->id]) }}"
                                                 class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $store->aptName }}</a>
                                         </td>
 
@@ -186,7 +178,7 @@
                         <!--end::Close-->
                     </div>
 
-                    <form action="{{ route('data.transactions.apt') }}" method="POST">
+                    <form action="{{ route('data.transactions.rent.apt') }}" method="POST">
                         @csrf
                         <div class="modal-body row">
                             <div class="col-lg-12 row mb-6">

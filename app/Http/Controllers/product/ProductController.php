@@ -67,6 +67,8 @@ class ProductController extends Controller
 
         $result = $productList->paginate($request->per_page == null ? 10 : $request->per_page);
 
+        $result->appends(request()->except('page'));
+
         return view('admin.product.product-list', compact('result'));
     }
 
@@ -115,6 +117,8 @@ class ProductController extends Controller
         $productList->orderBy('product.created_at', 'desc')->orderBy('id', 'desc');
 
         $result = $productList->paginate($request->per_page == null ? 10 : $request->per_page);
+
+        $result->appends(request()->except('page'));
 
         return view('admin.product.corp_product-list', compact('result'));
     }

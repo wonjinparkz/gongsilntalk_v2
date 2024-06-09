@@ -58,6 +58,8 @@ class ProposalController extends Controller
 
         $result = $proposalList->paginate($request->per_page == null ? 10 : $request->per_page);
 
+        $result->appends(request()->except('page'));
+
         return view('admin.proposal.proposal-list', compact('result'));
     }
 
@@ -108,6 +110,8 @@ class ProposalController extends Controller
         $corpProposalList->orderBy('corp_proposal.created_at', 'desc')->orderBy('corp_proposal.id', 'asc');
 
         $result = $corpProposalList->paginate($request->per_page == null ? 10 : $request->per_page);
+
+        $result->appends(request()->except('page'));
 
         return view('admin.proposal.corp-proposal-list', compact('result'));
     }
