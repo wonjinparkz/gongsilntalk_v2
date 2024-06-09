@@ -662,7 +662,8 @@
                         <div class="map_bottom_btn">
                             <button onclick="location.href='{{ route('www.product.create.view') }}'"><img
                                     src="{{ asset('assets/media/ic_org_estate.png') }}">매물 내놓기</button>
-                            <button onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'"><img
+                            <button
+                                onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'"><img
                                     src="{{ asset('assets/media/btn_point_search.png') }}">매물 구하기</button>
                         </div>
 
@@ -734,7 +735,13 @@
                 var pathCoordinates = [];
                 var infoWindow = new naver.maps.InfoWindow();
 
-                var markerData = data.maps.concat(data.knowledges);
+                var aptMapsArray = Array.isArray(data.aptMaps) ? data.aptMaps : [];
+                var mapsArray = Array.isArray(data.maps) ? data.maps : [];
+                var knowledgesArray = Array.isArray(data.knowledges) ? data.knowledges : [];
+
+                // Concatenate the arrays
+                var markerData = mapsArray.concat(knowledgesArray);
+
                 markerData.forEach(({
                     address_lat,
                     address_lng,
@@ -747,6 +754,43 @@
                     var contentString = `
                         <div class="iw_inner detail_info_toggle">
                             <h3>${name}</h3>
+                            <div class="inner_info">
+                                <p>매매 <span>${trade}</span></p>
+                                <p>임대 <span>${lease}</span></p>
+                            </div>
+                        </div>
+                    `;
+
+                    var position = new naver.maps.LatLng(address_lat, address_lng);
+                    var marker = new naver.maps.Marker({
+                        map: map,
+                        position: position,
+                        icon: {
+                            content: contentString
+                        }
+                    });
+
+                    bounds.extend(position);
+                    pathCoordinates.push(position);
+                    naver.maps.Event.addListener(marker, 'click', function(index) {
+                        document.querySelector('.map_side').classList.toggle('active');
+                        $("#apt_title").text(name);
+                    });
+                    markers.push(marker);
+                });
+
+                aptMapsArray.forEach(({
+                    address_lat,
+                    address_lng,
+                    kaptName
+                }) => {
+                    var name = kaptName;
+                    var trade = '234~1,234';
+                    var lease = '1.2~3.4';
+
+                    var contentString = `
+                        <div class="iw_inner detail_info_toggle">
+                            <h3>${kaptName}</h3>
                             <div class="inner_info">
                                 <p>매매 <span>${trade}</span></p>
                                 <p>임대 <span>${lease}</span></p>

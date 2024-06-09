@@ -7,6 +7,7 @@ use App\Http\Controllers\commons\PopupOpenController;
 use App\Http\Controllers\commons\VerificationController;
 use App\Http\Controllers\community\CommunityPcController;
 use App\Http\Controllers\main\MainPcController;
+use App\Http\Controllers\map\MapPcController;
 use App\Http\Controllers\product\ProductPcController;
 use App\Http\Controllers\proposal\ProposalPcController;
 use App\Http\Controllers\SiteProduct\SiteProductPcController;
@@ -41,11 +42,19 @@ Route::controller(MainPcController::class)->group(function () {
     // Route::get('/main/search', 'mainSearch')->name('www.main.search');
 });
 
+
+/**
+ * 지도맵
+ */
+
+Route::controller(MapPcController::class)->group(function () {
+    Route::get('/map', 'map')->name('www.map.map');
+});
+
 /**
  * 회원 인증
  */
 Route::controller(UserAuthPcController::class)->group(function () {
-    Route::get('/map', 'map')->name('www.map.map');
 
     // 로그인
     Route::middleware('pc.check')->get('/login', 'loginView')->name('www.login.login');
