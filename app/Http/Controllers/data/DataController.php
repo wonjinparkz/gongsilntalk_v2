@@ -46,10 +46,10 @@ class DataController extends Controller
 
                 foreach ($item as $value) {
                     $obj = [
-                        'as1' => isset($value['as1']) ? $value['as1'] : '',
-                        'as2' => isset($value['as2']) ? $value['as2'] : '',
-                        'as3' => isset($value['as3']) ? $value['as3'] : '',
-                        'as4' => isset($value['as4']) ? $value['as4'] : '',
+                        'as1' => isset($value['as1']) ? trim($value['as1']) : '',
+                        'as2' => isset($value['as2']) ? trim($value['as2']) : '',
+                        'as3' => isset($value['as3']) ? trim($value['as3']) : '',
+                        'as4' => isset($value['as4']) ? trim($value['as4']) : '',
                         'bjdCode' => $value['bjdCode'],
                         'kaptCode' => $value['kaptCode'],
                         'kaptName' => $value['kaptName'],
@@ -334,31 +334,31 @@ class DataController extends Controller
 
                         $obj = [
                             'type' => '0',
-                            'transactionPrice' => isset($value['거래금액']) ? $value['거래금액'] : '',
-                            'constructionYear' => isset($value['건축년도']) ? $value['건축년도'] : '',
-                            'year' => isset($value['년']) ? $value['년'] : '',
-                            'roadName' => isset($value['도로명']) ? $value['도로명'] : '',
-                            'roadBuildingMainCode' => isset($value['도로명건물본번호코드']) ? $value['도로명건물본번호코드'] : '',
-                            'roadBuildingSubCode' => isset($value['도로명건물부번호코드']) ? $value['도로명건물부번호코드'] : '',
-                            'roadCityCode' => isset($value['도로명시군구코드']) ? $value['도로명시군구코드'] : '',
-                            'roadSerialCode' => isset($value['도로명일련번호코드']) ? $value['도로명일련번호코드'] : '',
-                            'roadUpDownCode' => isset($value['도로명지상지하코드']) ? $value['도로명지상지하코드'] : '',
-                            'roadCode' => isset($value['도로명코드']) ? $value['도로명코드'] : '',
-                            'legalDong' => isset($value['법정동']) ? $value['법정동'] : '',
-                            'legalDongMainNumberCode' => isset($value['법정동본번코드']) ? $value['법정동본번코드'] : '',
-                            'legalDongSubNumberCode' => isset($value['법정동부번코드']) ? $value['법정동부번코드'] : '',
-                            'legalDongCityCode' => isset($value['법정동시군구코드']) ? $value['법정동시군구코드'] : '',
-                            'legalDongDistrictCode' => isset($value['법정동읍면동코드']) ? $value['법정동읍면동코드'] : '',
-                            'legalDongCode' => isset($value['법정동지번코드']) ? $value['법정동지번코드'] : '',
-                            'aptName' => isset($value['아파트']) ? $value['아파트'] : '',
-                            'month' => isset($value['월']) ? $value['월'] : '',
-                            'day' => isset($value['일']) ? $value['일'] : '',
-                            'serialNumber' => isset($value['일련번호']) ? $value['일련번호'] : '',
-                            'exclusiveArea' => isset($value['전용면적']) ? $value['전용면적'] : '',
-                            'jibun' => isset($value['지번']) ? $value['지번'] : '',
-                            'regionCode' => isset($value['지역코드']) ? $value['지역코드'] : '',
-                            'floor' => isset($value['층']) ? $value['층'] : '',
-                            'unique_code' => '0' . (isset($value['년']) ? $value['년'] : '') . (isset($value['월']) ? $value['월'] : '') . (isset($value['일']) ? $value['일'] : '') . (isset($value['일련번호']) ? $value['일련번호'] : '') . (isset($value['층']) ? $value['층'] : '') . (isset($value['거래금액']) ? $value['거래금액'] : ''),
+                            'transactionPrice' => isset($value['거래금액']) ? trim($value['거래금액']) : '',
+                            'constructionYear' => isset($value['건축년도']) ? trim($value['건축년도']) : '',
+                            'year' => isset($value['년']) ? trim($value['년']) : '',
+                            'roadName' => isset($value['도로명']) ? trim($value['도로명']) : '',
+                            'roadBuildingMainCode' => isset($value['도로명건물본번호코드']) ? trim($value['도로명건물본번호코드']) : '',
+                            'roadBuildingSubCode' => isset($value['도로명건물부번호코드']) ? trim($value['도로명건물부번호코드']) : '',
+                            'roadCityCode' => isset($value['도로명시군구코드']) ? trim($value['도로명시군구코드']) : '',
+                            'roadSerialCode' => isset($value['도로명일련번호코드']) ? trim($value['도로명일련번호코드']) : '',
+                            'roadUpDownCode' => isset($value['도로명지상지하코드']) ? trim($value['도로명지상지하코드']) : '',
+                            'roadCode' => isset($value['도로명코드']) ? trim($value['도로명코드']) : '',
+                            'legalDong' => isset($value['법정동']) ? trim($value['법정동']) : '',
+                            'legalDongMainNumberCode' => isset($value['법정동본번코드']) ? trim($value['법정동본번코드']) : '',
+                            'legalDongSubNumberCode' => isset($value['법정동부번코드']) ? trim($value['법정동부번코드']) : '',
+                            'legalDongCityCode' => isset($value['법정동시군구코드']) ? trim($value['법정동시군구코드']) : '',
+                            'legalDongDistrictCode' => isset($value['법정동읍면동코드']) ? trim($value['법정동읍면동코드']) : '',
+                            'legalDongCode' => isset($value['법정동지번코드']) ? trim($value['법정동지번코드']) : '',
+                            'aptName' => isset($value['아파트']) ? trim($value['아파트']) : '',
+                            'month' => isset($value['월']) ? trim($value['월']) : '',
+                            'day' => isset($value['일']) ? trim($value['일']) : '',
+                            'serialNumber' => isset($value['일련번호']) ? trim($value['일련번호']) : '',
+                            'exclusiveArea' => isset($value['전용면적']) ? trim($value['전용면적']) : '',
+                            'jibun' => isset($value['지번']) ? trim($value['지번']) : '',
+                            'regionCode' => isset($value['지역코드']) ? trim($value['지역코드']) : '',
+                            'floor' => isset($value['층']) ? trim($value['층']) : '',
+                            'unique_code' => '0' . (isset($value['년']) ? trim($value['년']) : '') . (isset($value['월']) ? trim($value['월']) : '') . (isset($value['일']) ? trim($value['일']) : '') . (isset($value['일련번호']) ? trim($value['일련번호']) : '') . (isset($value['층']) ? trim($value['층']) : '') . (isset($value['거래금액']) ? trim($value['거래금액']) : ''),
                         ];
 
                         // Transactions::create($obj);
@@ -442,25 +442,25 @@ class DataController extends Controller
 
                         $obj = [
                             'type' => '1',
-                            'legalDongCityCode' => $value['지역코드'] ?? '',
-                            'renewalRight' => $value['갱신요구권사용'] ?? '',
-                            'constructionYear' => $value['건축년도'] ?? '',
-                            'contract_type' => $value['계약구분'] ?? '',
-                            'contract_at' => $value['계약기간'] ?? '',
-                            'year' => $value['년'] ?? '',
-                            'legalDong' => $value['법정동'] ?? '',
-                            'transactionPrice' => $value['보증금액'] ?? '',
-                            'aptName' => $value['아파트'] ?? '',
-                            'month' => $value['월'] ?? '',
-                            'transactionMonthPrice' => $value['월세금액'] ?? '',
-                            'day' => $value['일'] ?? '',
-                            'exclusiveArea' => $value['전용면적'] ?? '',
-                            'previousTransactionPrice' => $value['종전계약보증금'] ?? '',
-                            'previousTransactionMonthPrice' => $value['종전계약월세'] ?? '',
-                            'jibun' => $value['지번'] ?? '',
-                            'regionCode' => $value['지역코드'] ?? '',
-                            'floor' => $value['층'] ?? '',
-                            'unique_code' => '1' . ($value['년'] ?? '') . ($value['월'] ?? '') . ($value['일'] ?? '') . ($value['일련번호'] ?? '') . ($value['층'] ?? '') . ($value['보증금액'] ?? '') . ($value['월세금액'] ?? ''),
+                            'legalDongCityCode' => trim($value['지역코드']) ?? '',
+                            'renewalRight' => trim($value['갱신요구권사용']) ?? '',
+                            'constructionYear' => trim($value['건축년도']) ?? '',
+                            'contract_type' => trim($value['계약구분']) ?? '',
+                            'contract_at' => trim($value['계약기간']) ?? '',
+                            'year' => trim($value['년']) ?? '',
+                            'legalDong' => trim($value['법정동']) ?? '',
+                            'transactionPrice' => trim($value['보증금액']) ?? '',
+                            'aptName' => trim($value['아파트']) ?? '',
+                            'month' => trim($value['월']) ?? '',
+                            'transactionMonthPrice' => trim($value['월세금액']) ?? '',
+                            'day' => trim($value['일']) ?? '',
+                            'exclusiveArea' => trim($value['전용면적']) ?? '',
+                            'previousTransactionPrice' => trim($value['종전계약보증금']) ?? '',
+                            'previousTransactionMonthPrice' => trim($value['종전계약월세']) ?? '',
+                            'jibun' => trim($value['지번']) ?? '',
+                            'regionCode' => trim($value['지역코드']) ?? '',
+                            'floor' => trim($value['층']) ?? '',
+                            'unique_code' => '1' . (trim($value['년']) ?? '') . (trim($value['월']) ?? '') . (trim($value['일']) ?? '') . (trim($value['아파트']) ?? '') . (trim($value['층']) ?? '') . (trim($value['보증금액']) ?? '') . (trim($value['월세금액']) ?? ''),
                         ];
 
                         // Transactions::create($obj);
@@ -489,8 +489,6 @@ class DataController extends Controller
         foreach ($aptList as $index => $apt) {
 
             // 쉼표로 구분하여 배열로 변환
-            $complexNames = explode(',', $apt->complex_name);
-
             $transactionsList = Transactions::
                 // 시도+시군구 코드 비교
                 where('legalDongCityCode', substr($apt->bjdCode, 0, 5))
@@ -498,16 +496,22 @@ class DataController extends Controller
                 ->where('legalDong', $apt->as3)
 
                 // 아파트 단지명 비교
-                ->where(function ($query) use ($apt, $complexNames) {
-                    // kaptName 또는 complex_name 중 하나라도 일치하는지 확인
-                    $query->where('aptName', $apt->kaptName);
-
-                    foreach ($complexNames as $complexName) {
-                        $query->orWhere('aptName', trim($complexName));
-                    }
+                ->where(function ($query) use ($apt) {
+                    $query->where('aptName', 'like', "%{$apt->kaptName}%")
+                        ->orWhere(function ($subQuery) use ($apt) {
+                            $subQuery->whereRaw('FIND_IN_SET(transactions_apt.aptName, ?)', [$apt->complex_name]);
+                        });
                 })->update(['is_matching' => 1]);
         }
 
         return back()->with('message', '아파트 실거래가가 연결되었습니다.');
     }
+
+    /**
+     * 아파트 건축물대장 연결
+     */
+    // public function getBuildingLedger()
+    // {
+
+    // }
 }

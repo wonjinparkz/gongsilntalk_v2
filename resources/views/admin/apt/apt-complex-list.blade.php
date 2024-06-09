@@ -61,7 +61,7 @@
                             3. 실거래가 연결하기</button>
                         <button type="button" onclick="location.href='{{ route('data.transactions.apt.connextion') }}'"
                             class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
-                            2. 건축물대장 연결하기</button>
+                            2. 건축물대장 연결하기 (공사중)</button>
                         {{-- <button type="button" onclick="location.href='{{ route('data.apt.base') }}'"
                             class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
                             데이터 가져오기</button>
@@ -107,12 +107,12 @@
                                     <tr>
                                         {{-- 아파트 관리 번호 --}}
                                         <td class="text-center">
-                                            <span class="fw-bold fs-5">{{ $apt->apt_id }}</span>
+                                            <span class="fw-bold fs-5">{{ $apt->id }}</span>
                                         </td>
 
                                         {{-- 아파트 단지명 --}}
                                         <td class="text-center">
-                                            <a href="{{ route('admin.apt.complex.detail.view', [$apt->apt_id]) }}"
+                                            <a href="{{ route('admin.apt.complex.detail.view', [$apt->id]) }}"
                                                 class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $apt->kaptName }}</a>
                                         </td>
 
@@ -155,28 +155,28 @@
                                         {{-- 마지막 매매 거래일 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                0
+                                                {{ $apt->latest_transactionsDate }}
                                             </span>
                                         </td>
 
                                         {{-- 실거래 전/월세 건수 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                0
+                                                {{ $apt->transactionsRent_count }}
                                             </span>
                                         </td>
 
                                         {{-- 마지막 전/월세 거래일 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                0
+                                                {{ $apt->latest_transactionsRentDate }}
                                             </span>
                                         </td>
 
                                         {{-- 건축물대장 마지막 업데이트일 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                0
+                                                -
                                             </span>
                                         </td>
 

@@ -111,4 +111,32 @@ class DataApt extends BaseModel
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];
+
+    public function transactions()
+    {
+        return Transactions::where('legalDongCityCode', substr($this->bjdCode, 0, 5))
+            ->where('is_matching', '1')
+            ->where('type', '0')
+            ->where('legalDong', $this->as3)
+            ->where(function ($query) {
+                $query->where('transactions_apt.aptName', $this->kaptName)
+                    ->orWhere(function ($subQuery) {
+                        $subQuery->whereRaw('FIND_IN_SET(transactions_apt.aptName, ?)', [$this->complex_name]);
+                    });
+            });
+    }
+
+    public function transactionsRent()
+    {
+        return Transactions::where('legalDongCityCode', substr($this->bjdCode, 0, 5))
+            ->where('is_matching', '1')
+            ->where('type', '1')
+            ->where('legalDong', $this->as3)
+            ->where(function ($query) {
+                $query->where('transactions_apt.aptName', $this->kaptName)
+                    ->orWhere(function ($subQuery) {
+                        $subQuery->whereRaw('FIND_IN_SET(transactions_apt.aptName, ?)', [$this->complex_name]);
+                    });
+            });
+    }
 }

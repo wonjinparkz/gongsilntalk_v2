@@ -37,8 +37,7 @@ class AptController extends Controller
      */
     public function aptComplexListView(Request $request): View
     {
-        $aptList = DataApt::select('data_apt.id as apt_id', 'data_apt.kaptName', 'data_apt.complex_name', 'data_apt.kaptCode', 'data_apt.created_at', DB::raw('COUNT(transactions_apt.id) as transactions_count'))
-            ->groupBy('data_apt.id', 'data_apt.kaptName', 'data_apt.complex_name', 'data_apt.kaptCode', 'data_apt.created_at');
+        $aptList = DataApt::select();
 
         // 검색어
         if (isset($request->kaptName)) {
@@ -50,24 +49,24 @@ class AptController extends Controller
             $aptList->where('data_apt.kaptCode', 'like', "%{$request->kaptCode}%");
         }
 
-        // 조인하여 실거래가 테이블과 연결
-        $aptList->leftjoin('transactions_apt', function ($join) {
-            $join->on('transactions_apt.legalDongCityCode', '=', DB::raw('SUBSTR(data_apt.bjdCode, 1, 5)'))
-                ->on('transactions_apt.legalDong', '=', 'data_apt.as3')
-                ->where(function ($query) {
-                    $query->where('transactions_apt.aptName', '=', 'data_apt.kaptName')
-                        ->orWhere(function ($subQuery) {
-                            // complex_name을 쉼표로 분리하여 각각을 조건으로 추가
-                            $subQuery->whereRaw('FIND_IN_SET(transactions_apt.aptName, data_apt.complex_name)');
-                        });
-                });
-        });
         // 정렬
         $aptList->orderBy('data_apt.created_at', 'desc')->orderBy('data_apt.id', 'desc');
 
         $result = $aptList->paginate($request->per_page == null ? 10 : $request->per_page);
 
         $result->appends(request()->except('page'));
+
+        foreach ($result as $apt) {
+            $transactions = $apt->transactions();
+            $apt->transactions_count = $transactions->count();
+            $latestTransactions = $transactions->orderByRaw('year DESC, month DESC, day DESC')->first();
+            $apt->latest_transactionsDate = $latestTransactions ? $latestTransactions->year . '.' . str_pad($latestTransactions->month, 2, '0', STR_PAD_LEFT) . '.' . str_pad($latestTransactions->day, 2, '0', STR_PAD_LEFT) : '-';
+
+            $transactionsRent = $apt->transactionsRent();
+            $apt->transactionsRent_count = $transactionsRent->count();
+            $latestTransactionsRent = $transactionsRent->orderByRaw('year DESC, month DESC, day DESC')->first();
+            $apt->latest_transactionsRentDate = $latestTransactionsRent ? $latestTransactionsRent->year . '.' . str_pad($latestTransactionsRent->month, 2, '0', STR_PAD_LEFT) . '.' . str_pad($latestTransactionsRent->day, 2, '0', STR_PAD_LEFT) : '-';
+        }
 
         return view('admin.apt.apt-complex-list', compact('result'));
     }
