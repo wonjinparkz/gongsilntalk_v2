@@ -1,0 +1,245 @@
+<x-layout>
+    @php
+        function priceChange($price)
+        {
+            if ($price < 0 || empty($price)) {
+                $price = 0;
+            }
+
+            $priceUnit = ['원', '만', '억', '조', '경'];
+            $expUnit = 10000;
+            $resultArray = [];
+            $result = '';
+
+            foreach ($priceUnit as $k => $v) {
+                $unitResult = ($price % pow($expUnit, $k + 1)) / pow($expUnit, $k);
+                $unitResult = floor($unitResult);
+
+                if ($unitResult > 0) {
+                    $resultArray[$k] = $unitResult;
+                }
+            }
+
+            if (count($resultArray) > 0) {
+                foreach ($resultArray as $k => $v) {
+                    $result = number_format($v) . $priceUnit[$k] . $result;
+                }
+            }
+
+            return $result;
+        }
+    @endphp
+    <!----------------------------- m::header bar : s ----------------------------->
+    <div class="m_header">
+        <div class="left_area"><a href="javascript:history.go(-1)"><img
+                    src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
+        <div class="m_title">마이메뉴</div>
+        <div class="right_area"></div>
+    </div>
+    <!----------------------------- m::header bar : s ----------------------------->
+
+    <div class="body">
+        @inject('carbon', 'Carbon\Carbon')
+        <div class="my_inner_wrap">
+            <div class="my_wrap">
+                <!-- my_side : s -->
+                <div class="my_side only_pc">
+                    <x-mypage-side :result="$user" />
+                </div>
+                <!-- my_side : e -->
+
+                <!-- my_body : s -->
+                <div class="my_body inner_wrap m_inner_wrap">
+                    <h1 class="t_center only_pc">제안 받은 매물 목록</h1>
+
+                    <div class="proposal_detail_wrap">
+                        <div class="flex_between">
+                            <h3>신청 조건</h3>
+                            <button class="proposal_toggle_btn"><img
+                                    src="{{ asset('assets/media/dropdown_arrow.png') }}" class="w_100"></button>
+                        </div>
+
+                        <div class="proposal_table_wrap">
+                            <div class="table_container">
+                                <div>희망 지역</div>
+                                <div>
+                                    @foreach ($proposal->regions as $key => $region)
+                                        @if ($key != 0)
+                                            ,
+                                        @endif
+                                        {{ $region->city_name }} {{ $region->region_name }}
+                                    @endforeach
+                                </div>
+
+                                @if ($proposal->type == 0)
+                                    <div>희망 업종</div>
+                                    <div>
+                                        {{ Lang::get('commons.product_business_type.' . $proposal->business_type) }}
+                                    </div>
+                                @else
+                                    <div>사용인원</div>
+                                    <div>{{ number_format($proposal->users_count) }}명</div>
+                                @endif
+                                <div>희망 면적</div>
+                                <div>{{ $proposal->square }}㎡<span class="gray_basic">({{ $proposal->area }}평)</span>
+                                </div>
+                                <div>예산</div>
+                                <div>
+                                    {{ $proposal->payment_type == 0 ? '매매 ' . priceChange($proposal->price) . '원' : '임대 ' . priceChange($proposal->price) . '원 / ' . priceChange($proposal->month_price) . '원' }}
+                                </div>
+                                @if ($proposal->type == 0)
+                                    <div>희망 상가 층</div>
+                                    <div>{{ Lang::get('commons.floor_type.' . $proposal->floor_type) }}</div>
+                                @endif
+                                <div>입주가능일</div>
+                                <div>
+                                    {{ $proposal->move_type != 2 ? Lang::get('commons.move_type.' . $proposal->move_type) : $carbon::parse($proposal->start_move_date)->format('Y.m.d') . ' ~ ' . $carbon::parse($proposal->ended_move_date)->format('Y.m.d') }}
+                                </div>
+                                <div>인테리어 유무</div>
+                                <div>{{ Lang::get('commons.interior_type.' . $proposal->interior_type) }}</div>
+                                <div>요청사항</div>
+                                <div {{ $proposal->type != 0 ? 'class=item_col_3' : '' }}>
+                                    {{ $proposal->content ?? '-' }}</div>
+                            </div>
+                        </div>
+
+
+                        <div class="proposal_detail_s2">
+                            <div class="proposal_detail_row">
+                                <div class="proposal_item_1">
+                                    <h4>{{ $proposal->title }}</h4>
+                                    <p class="txt_date mt4">{{ $carbon::parse($proposal->created_at)->format('Y.m.d') }}</p>
+                                </div>
+                                <button class="btn_gray_ghost btn_sm">공유하기</button>
+                            </div>
+
+                            <div class="mt18">
+                                <img src="{{ asset('assets/media/s_7.png') }}"
+                                    style="width:100%; height:385px; border-radius:8px; border: 1px solid #D2D1D0;">
+                            </div>
+                        </div>
+
+                        <div class="proposal_detail_s3">
+                            <div class="flex_between">
+                                <div class="result_count">제안된 매물 <span class="txt_point">20개</span></div>
+                                <div class="gray_basic">단위 : 원</div>
+                            </div>
+
+                            <table class="table_basic mt12 only_pc">
+                                <colgroup>
+                                    <col width="80">
+                                    <col width="80">
+                                    <col width="240">
+                                    <col width="*">
+                                    <col width="120">
+                                    <col width="100">
+                                    <col width="100">
+                                    <col width="80">
+                                    <col width="100">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>번호</th>
+                                        <th>사진</th>
+                                        <th>거래 정보</th>
+                                        <th>주소</th>
+                                        <th>면적</th>
+                                        <th>층정보</th>
+                                        <th>관리비</th>
+                                        <th>관심매물</th>
+                                        <th>투어</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="9">
+                                            <!-- 데이터가 없을 경우 : s -->
+                                            <div class="empty_wrap">
+                                                <p>조건에 맞는 매물이 없습니다.</p>
+                                                <span>관리자가 조건에 맞는 매물이 있는지 재확인 후에<br>다시 연락드릴테니, 조금만 기다려주세요!</span>
+                                            </div>
+                                            <!-- 데이터가 없을 경우 : e -->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="number_box">1</span></td>
+                                        <td>
+                                            <div class="frame_img_mid">
+                                                <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span>대 3억 2,200만 / 4,500만</span><br>
+                                            <span>(800만/㎡)</span>
+                                        </td>
+                                        <td>강남구 역삼동 123-12</td>
+                                        <td>전용 105.12㎡</td>
+                                        <td>3층 / 12층</td>
+                                        <td>관리비 10만</td>
+                                        <td><button class="btn_like" onclick="btn_like(this)"></button></td>
+                                        <td><button class="btn_point_ghost btn_sm">투어 요청</button></td>
+                                </tbody>
+                            </table>
+
+                            <!----------------------------- m::list : s ----------------------------->
+                            <div class="only_m">
+
+                                <div class="m_offer_list_card">
+                                    <div class="flex_between">
+                                        <div>
+                                            <span class="number_box">1</span>
+                                            <span class="gray_deep">강남구 역삼동 123-12</span>
+                                        </div>
+                                        <button class="btn_like" onclick="btn_like(this)"></button>
+                                    </div>
+                                    <div class="flex_between mt10">
+                                        <div class="frame_img_mid">
+                                            <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
+                                        </div>
+                                        <div class="offer_card_info">
+                                            <p class="txt_item_1">임대 3억 2,200만 / 4,500만 <span>(800만/평)</span></p>
+                                            <p class="txt_item_2">전용 99.12평·3층 / 12층</p>
+                                            <p class="txt_item_3">관리비 10만</p>
+                                        </div>
+                                    </div>
+                                    <div class="btn_half_wrap">
+                                        <button class="btn_gray_ghost btn_md_full">상세보기</button>
+                                        <button class="btn_point_ghost btn_md_full txt_bold">투어 요청</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!----------------------------- m::list : e ----------------------------->
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <!-- my_body : e -->
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+    <script>
+        //기본 토글 이벤트
+        $(".proposal_toggle_btn").click(function() {
+            $(this).toggleClass("toggled");
+            if ($(this).hasClass("toggled")) {
+                $(this).css("transform", "rotate(180deg)");
+            } else {
+                $(this).css("transform", "rotate(0deg)");
+            }
+
+            $(".proposal_table_wrap").stop().slideToggle(300);
+            return false;
+        });
+    </script>
+
+
+</x-layout>

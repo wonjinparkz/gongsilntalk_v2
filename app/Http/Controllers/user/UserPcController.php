@@ -12,6 +12,7 @@ use App\Models\CalculatorRevenue;
 use App\Models\Community;
 use App\Models\CorpProposal;
 use App\Models\Product;
+use App\Models\Proposal;
 use App\Models\SiteProduct;
 use App\Models\User;
 use GuzzleHttp\Promise\Create;
@@ -560,7 +561,9 @@ class UserPcController extends Controller
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
-        return view('www.mypage.proposal_list', compact('user'));
+        $proposalList = Proposal::with('regions', 'products')->select()->where('users_id', Auth::guard('web')->user()->id)->get();
+
+        return view('www.mypage.proposal_list', compact('user', 'proposalList'));
     }
 
     /**

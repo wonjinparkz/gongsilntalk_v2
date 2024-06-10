@@ -9,6 +9,7 @@ use App\Models\CorpProductFacility;
 use App\Models\CorpProductPrice;
 use App\Models\CorpProposal;
 use App\Models\Proposal;
+use App\Models\ProposalProduct;
 use App\Models\ProposalRegion;
 use App\Models\User;
 use App\Models\Zcode;
@@ -340,9 +341,11 @@ class ProposalPcController extends Controller
 
         info($request);
 
+        $title = ($request->type == 0 ? $request->client_name_0 : $request->client_name_1) . ($request->type == 0 ? ' 상가' : ($request->type == 1 ? ' 지산/사무실/창고' : ' 단독공장')) . ' 제안서';
+
         $proposal = Proposal::create([
             'users_id' => Auth::guard('web')->user()->id,
-            'title' => '',
+            'title' => $title,
             'type' => $request->type,
             'area' => $request->area,
             'square' => $request->square,
@@ -354,7 +357,7 @@ class ProposalPcController extends Controller
             'payment_type' => $request->budget_type,
             'price' => $request->{'price_' . $request->budget_type},
             'month_price' => $request->month_price,
-            'client_name' => $request->{'client_name_' . $request->budget_type} ?? '',
+            'client_name' => $request->type == 0 ? $request->client_name_0 : $request->client_name_1,
             'client_type' => $request->client_type,
             'floor_type' => $request->floor,
             'interior_type' => $request->interior,
@@ -373,5 +376,35 @@ class ProposalPcController extends Controller
         }
 
         return Redirect::route('www.mypage.proposal.list.view')->with('message', '제안서가 등록 되었습니다.');
+    }
+
+    /**
+     * 메물 제안서 삭제
+     */
+    public function userProposalDelete(Request $request)
+    {
+
+        $proposal = Proposal::select()->where('id', $request->deleteId)->first();
+
+        ProposalRegion::select()->where('proposal_id', $request->deleteId)->delete();
+        ProposalProduct::select()->where('proposal_id', $request->deleteId)->delete();
+
+        $proposal->delete();
+
+        return Redirect::back()->with('message', '제안서가 삭제 되었습니다.');
+    }
+
+    /**
+     * 매물 제안서 상세
+     */
+    public function userProposalDetailView($id): View
+    {
+        // 회원 정보
+        $user = User::select()
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
+
+        $proposal = Proposal::with('regions')->select()->where('id', $id)->where('users_id', Auth::guard('web')->user()->id)->first();
+        return view('www.proposal.my-proposal-offer-list', compact('user', 'proposal'));
     }
 }
