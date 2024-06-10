@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\proposal;
 
 use App\Http\Controllers\Controller;
+use App\Models\Alarms;
 use App\Models\CorpProduct;
 use App\Models\CorpProductAddress;
 use App\Models\CorpProductFacility;
 use App\Models\CorpProductPrice;
 use App\Models\CorpProposal;
+use App\Models\Product;
 use App\Models\Proposal;
 use App\Models\ProposalProduct;
 use App\Models\ProposalRegion;
@@ -332,15 +334,6 @@ class ProposalPcController extends Controller
      */
     public function userProposalCreate(Request $request)
     {
-        $validator = Validator::make($request->all(), []);
-
-        if ($validator->fails()) {
-            return redirect(route('www.corp.proposal.product.create3.view'))->withErrors($validator)
-                ->withInput();
-        }
-
-        info($request);
-
         $title = ($request->type == 0 ? $request->client_name_0 : $request->client_name_1) . ($request->type == 0 ? ' 상가' : ($request->type == 1 ? ' 지산/사무실/창고' : ' 단독공장')) . ' 제안서';
 
         $proposal = Proposal::create([
@@ -375,6 +368,8 @@ class ProposalPcController extends Controller
             ]);
         }
 
+        // 있는 매물 중 조건 맞는 매물 찾아서 저장
+
         return Redirect::route('www.mypage.proposal.list.view')->with('message', '제안서가 등록 되었습니다.');
     }
 
@@ -392,6 +387,25 @@ class ProposalPcController extends Controller
         $proposal->delete();
 
         return Redirect::back()->with('message', '제안서가 삭제 되었습니다.');
+    }
+
+    /**
+     * 메물 투어 요청
+     */
+    public function userProposalTourCreate(Request $request)
+    {
+
+        $product = Product::select()->where('id', $request->tour_id)->first();
+
+        // 투어 요청 알림 추후 수정 필요
+        Alarms::create([
+            'users_id' => $product->users_id,
+            'title' => '매물 투어 요청이 있습니다.',
+            'body' => '[' . $product->address . '] 매물 투어 요청',
+            'msg' => '{"tour_user_id":"' . Auth::guard('web')->user()->id . '","product_id":"' . $product->id . '"}',
+        ]);
+
+        return Redirect::back()->with('message', '투어가 요청 되었습니다.');
     }
 
     /**

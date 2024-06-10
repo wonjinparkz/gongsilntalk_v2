@@ -1,5 +1,6 @@
 <x-layout>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
     <script type="text/javascript"
         src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
     </script>
@@ -108,14 +109,15 @@
                         </div>
 
 
-                        <div class="proposal_detail_s2">
+                        <div class="proposal_detail_s2" id="proposal_detail_s2">
                             <div class="proposal_detail_row">
                                 <div class="proposal_item_1">
                                     <h4>{{ $proposal->title }}</h4>
                                     <p class="txt_date mt4">
                                         {{ $carbon::parse($proposal->created_at)->format('Y.m.d') }}</p>
                                 </div>
-                                <button class="btn_gray_ghost btn_sm">공유하기</button>
+                                <button class="btn_gray_ghost btn_sm" type="button"
+                                    onclick="downloadPDF();">공유하기</button>
                             </div>
 
                             <div class="mt18">
@@ -127,7 +129,7 @@
                             </div>
                         </div>
 
-                        <div class="proposal_detail_s3">
+                        <div class="proposal_detail_s3" id="proposal_detail_s3">
                             <div class="flex_between">
                                 <div class="result_count">제안된 매물 <span
                                         class="txt_point">{{ count($proposal->products) }}개</span></div>
@@ -162,8 +164,8 @@
                                 <tbody>
                                     @if (count($proposal->products) < 1)
                                         @php
-                                                $lat = 37.5664056;
-                                                $lng = 126.9778222;
+                                            $lat = 37.5664056;
+                                            $lng = 126.9778222;
 
                                         @endphp
                                         <tr>
@@ -233,8 +235,40 @@
                                                         class="btn_like {{ $product->product->like_id != '' ? 'on' : '' }}"
                                                         onclick="onLikeStateChange('{{ $product->product->id }}', 'product');btn_like(this)"></button>
                                                 </td>
-                                                <td><button class="btn_point_ghost btn_sm">투어 요청</button></td>
+                                                <td><button class="btn_point_ghost btn_sm" type="button"
+                                                        onclick="modal_open('tour_{{ $product->product->id }}')">투어
+                                                        요청</button></td>
                                             </tr>
+
+                                            <!-- modal 투어 요청 : s -->
+                                            <div class="modal modal_tour_{{ $product->product->id }}">
+
+                                                <div class="modal_container">
+                                                    <div class="modal_mss_wrap">
+                                                        <p class="txt_item_1 txt_point">
+                                                            {{ $product->product->address }}</p>
+                                                        <p class="txt_item_1">투어를 요청할까요?</p>
+                                                        <p class="mt8 txt_item_2">담당자 확인 후, 휴대폰 번호로 연락드려요.</p>
+                                                    </div>
+
+                                                    <div class="modal_btn_wrap">
+                                                        <button class="btn_gray btn_full_thin" type="button"
+                                                            onclick="modal_close('tour_{{ $product->product->id }}')">취소</button>
+                                                        <button class="btn_point btn_full_thin" type="button"
+                                                            onclick="onTourCreate('{{ $product->product->id }}');">요청</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="md_overlay md_overlay_tour_{{ $product->product->id }}"
+                                                onclick="modal_close('tour_{{ $product->product->id }}')"></div>
+                                            <!-- modal 투어 요청 : e -->
+
+                                            <form method="POST" id="tourForm_{{ $product->product->id }}"
+                                                action="{{ route('www.mypage.user.tour.create') }}">
+                                                <input type="hidden" id="tour_id" name="tour_id"
+                                                    value="{{ $product->product->id }}">
+                                            </form>
                                         @endforeach
                                     @endif
                                 </tbody>
@@ -301,7 +335,9 @@
                                             </div>
                                             <div class="btn_half_wrap">
                                                 <button class="btn_gray_ghost btn_md_full">상세보기</button>
-                                                <button class="btn_point_ghost btn_md_full txt_bold">투어 요청</button>
+                                                <button class="btn_point_ghost btn_md_full txt_bold" type="button"
+                                                    onclick="modal_open('tour_{{ $product->product->id }}')">투어
+                                                    요청</button>
                                             </div>
                                         </div>
                                     @endforeach
@@ -357,6 +393,10 @@
             document.getElementById(index + "_product_tr").scrollIntoView(true);
         }
 
+        function onTourCreate(id) {
+            $('#tourForm_' + id).submit();
+        }
+
         //기본 토글 이벤트
         $(".proposal_toggle_btn").click(function() {
             $(this).toggleClass("toggled");
@@ -381,6 +421,20 @@
                 }
             }).fail(function(jqXHR, ajaxOptions, thrownError) {
                 alert('다시 시도해주세요.');
+            });
+        }
+
+        function downloadPDF() {
+            const element = document.getElementById('proposal_detail_s3');
+            html2canvas(element).then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jspdf.jsPDF();
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save("매물 제안서.pdf");
             });
         }
     </script>
