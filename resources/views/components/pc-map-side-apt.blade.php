@@ -3,11 +3,11 @@
 ])
 
 @php
-    $BrTitleInfo = json_decode($result->BrTitleInfo->json_data, true);
-    $BrRecapTitleInfo = json_decode($result->BrRecapTitleInfo->json_data, true);
-    $BrFlrOulnInfo = json_decode($result->BrFlrOulnInfo->json_data, true);
-    $BrExposInfo = json_decode($result->BrExposInfo->json_data, true);
-    $BrExposPubuseAreaInfo = json_decode($result->BrExposPubuseAreaInfo->json_data, true);
+    $BrTitleInfo = json_decode($result->BrTitleInfo->json_data ?? null, true);
+    $BrRecapTitleInfo = json_decode($result->BrRecapTitleInfo->json_data ?? null, true);
+    $BrFlrOulnInfo = json_decode($result->BrFlrOulnInfo->json_data ?? null, true);
+    $BrExposInfo = json_decode($result->BrExposInfo->json_data ?? null, true);
+    $BrExposPubuseAreaInfo = json_decode($result->BrExposPubuseAreaInfo->json_data ?? null, true);
 @endphp
 
 <div class="side_header">
@@ -82,7 +82,8 @@
                 <p>{{ $result->kaptdaCnt }}세대</p><label>총 세대수</label>
             </li>
             <li>
-                <p>지하{{ $BrTitleInfo['ugrndFlrCnt'] }}층/{{ $BrTitleInfo['grndFlrCnt'] }}층</p><label>최저/최고</label>
+                <p>{{ $BrTitleInfo['ugrndFlrCnt'] ?? '-' }}층/{{ $BrTitleInfo['grndFlrCnt'] ?? '-' }}층</p>
+                <label>최저/최고</label>
             </li>
             <li>
                 <p>{{ $result->constructionYear }}년</p><label>준공년도</label>
@@ -467,21 +468,22 @@
                     <div class="tab_area_wrap">
                         <div class="traffic_wrap">
                             <div class="traffic_tit"><img src="{{ asset('assets/media/ic_subway.png') }}">지하철</div>
-                            <p class="traffic_row">가산디지털단지역 1호선, 3호선 <span>15~20분이내</span></p>
-                            <p class="traffic_row">가산디지털단지역 7호선 <span>15~20분이내</span></p>
+                            <p class="traffic_row">{{ $result->subwayStation }} {{ $result->subwayLine }}
+                                <span>{{ $result->kaptdWtimesub }}</span>
+                            </p>
 
                             <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스</div>
-                            <p class="traffic_row">정류장 <span>15~20분이내</span></p>
+                            <p class="traffic_row">정류장 <span>{{ $result->kaptdWtimebus }}</span></p>
 
                         </div>
                         <div>
                             <div class="facility_wrap">
-                                관공서(양천세무서) 병원(다민한의원, 신천호한의원) 백화점(목동현대백화점) 공원(양천공원) 기타(안양천)
+                                {{ nl2br($result->convenientFacility) }}
                             </div>
                         </div>
                         <div>
                             <div class="edu_wrap">
-                                초등학교(신목) 중학교(목동) 고등학교(신목)
+                                {{ nl2br($result->educationFacility) }}
                             </div>
                         </div>
                     </div>
