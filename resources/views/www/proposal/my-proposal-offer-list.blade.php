@@ -1,4 +1,8 @@
 <x-layout>
+
+    <script type="text/javascript"
+        src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
+    </script>
     @php
         function priceChange($price)
         {
@@ -108,20 +112,25 @@
                             <div class="proposal_detail_row">
                                 <div class="proposal_item_1">
                                     <h4>{{ $proposal->title }}</h4>
-                                    <p class="txt_date mt4">{{ $carbon::parse($proposal->created_at)->format('Y.m.d') }}</p>
+                                    <p class="txt_date mt4">
+                                        {{ $carbon::parse($proposal->created_at)->format('Y.m.d') }}</p>
                                 </div>
                                 <button class="btn_gray_ghost btn_sm">공유하기</button>
                             </div>
 
                             <div class="mt18">
-                                <img src="{{ asset('assets/media/s_7.png') }}"
-                                    style="width:100%; height:385px; border-radius:8px; border: 1px solid #D2D1D0;">
+                                {{-- <img src="{{ asset('assets/media/s_7.png') }}"
+                                    style="width:100%; height:385px; border-radius:8px; border: 1px solid #D2D1D0;"> --}}
+                                <div id="map"
+                                    style="width:100%;height:385px;border-radius:8px; border: 1px solid #D2D1D0;">
+                                </div>
                             </div>
                         </div>
 
                         <div class="proposal_detail_s3">
                             <div class="flex_between">
-                                <div class="result_count">제안된 매물 <span class="txt_point">20개</span></div>
+                                <div class="result_count">제안된 매물 <span
+                                        class="txt_point">{{ count($proposal->products) }}개</span></div>
                                 <div class="gray_basic">단위 : 원</div>
                             </div>
 
@@ -151,66 +160,154 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td colspan="9">
-                                            <!-- 데이터가 없을 경우 : s -->
-                                            <div class="empty_wrap">
-                                                <p>조건에 맞는 매물이 없습니다.</p>
-                                                <span>관리자가 조건에 맞는 매물이 있는지 재확인 후에<br>다시 연락드릴테니, 조금만 기다려주세요!</span>
-                                            </div>
-                                            <!-- 데이터가 없을 경우 : e -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="number_box">1</span></td>
-                                        <td>
-                                            <div class="frame_img_mid">
-                                                <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}">
+                                    @if (count($proposal->products) < 1)
+                                        @php
+                                                $lat = 37.5664056;
+                                                $lng = 126.9778222;
+
+                                        @endphp
+                                        <tr>
+                                            <td colspan="9">
+                                                <!-- 데이터가 없을 경우 : s -->
+                                                <div class="empty_wrap">
+                                                    <p>조건에 맞는 매물이 없습니다.</p>
+                                                    <span>관리자가 조건에 맞는 매물이 있는지 재확인 후에<br>다시 연락드릴테니, 조금만 기다려주세요!</span>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span>대 3억 2,200만 / 4,500만</span><br>
-                                            <span>(800만/㎡)</span>
-                                        </td>
-                                        <td>강남구 역삼동 123-12</td>
-                                        <td>전용 105.12㎡</td>
-                                        <td>3층 / 12층</td>
-                                        <td>관리비 10만</td>
-                                        <td><button class="btn_like" onclick="btn_like(this)"></button></td>
-                                        <td><button class="btn_point_ghost btn_sm">투어 요청</button></td>
+                                                <!-- 데이터가 없을 경우 : e -->
+                                            </td>
+                                        </tr>
+                                    @else
+                                        @foreach ($proposal->products as $key => $product)
+                                            @php
+                                                if ($key == 0) {
+                                                    $lat = $product->product->address_lat;
+                                                    $lng = $product->product->address_lng;
+                                                }
+
+                                            @endphp
+                                            <tr id="{{ $key + 1 }}_product_tr">
+                                                <td><span class="number_box">{{ $key + 1 }}</span></td>
+                                                <td>
+                                                    <div class="frame_img_mid">
+                                                        <div class="img_box"><img
+                                                                src="{{ Storage::url('image/' . $product->product->images[0]->path) }}">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    @php
+                                                        $monthPrice = '';
+                                                        $priceArea = 0.0;
+                                                        if (
+                                                            $product->product->priceInfo->payment_type == 1 ||
+                                                            $product->product->priceInfo->payment_type == 2 ||
+                                                            $product->product->priceInfo->payment_type == 4
+                                                        ) {
+                                                            $monthPrice =
+                                                                ' / ' .
+                                                                priceChange($product->product->priceInfo->month_price);
+                                                            $priceArea =
+                                                                $product->product->priceInfo->month_price /
+                                                                $product->product->exclusive_area;
+                                                        } else {
+                                                            $monthPrice = '';
+                                                            $priceArea =
+                                                                $product->product->priceInfo->price /
+                                                                $product->product->exclusive_area;
+                                                        }
+
+                                                    @endphp
+                                                    <span>{{ Lang::get('commons.payment_type.' . $product->product->priceInfo->payment_type) }}
+                                                        {{ priceChange($product->product->priceInfo->price) }}
+                                                        {{ $monthPrice }}
+                                                    </span><br>
+                                                    <span>({{ priceChange($priceArea) }}/㎡)</span>
+                                                </td>
+                                                <td>{{ $product->product->address }} </td>
+                                                <td>전용 {{ $product->product->exclusive_square }}㎡</td>
+                                                <td>{{ $product->product->floor_number }}층 /
+                                                    {{ $product->product->total_floor_number }}층</td>
+                                                <td>{{ $product->product->is_service == 0 ? '관리비 ' . number_format($product->product->service_price) . '원' : '-' }}
+                                                </td>
+                                                <td><button
+                                                        class="btn_like {{ $product->product->like_id != '' ? 'on' : '' }}"
+                                                        onclick="onLikeStateChange('{{ $product->product->id }}', 'product');btn_like(this)"></button>
+                                                </td>
+                                                <td><button class="btn_point_ghost btn_sm">투어 요청</button></td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 </tbody>
                             </table>
+                            @if (count($proposal->products) > 0)
 
-                            <!----------------------------- m::list : s ----------------------------->
-                            <div class="only_m">
+                                <!----------------------------- m::list : s ----------------------------->
+                                <div class="only_m">
+                                    @foreach ($proposal->products as $key => $product)
+                                        <div class="m_offer_list_card">
+                                            <div class="flex_between">
+                                                <div>
+                                                    <span class="number_box">{{ $key + 1 }}</span>
+                                                    <span class="gray_deep">{{ $product->product->address }}</span>
+                                                </div>
+                                                <button
+                                                    class="btn_like {{ $product->product->like_id != '' ? 'on' : '' }}"
+                                                    onclick="onLikeStateChange('{{ $product->product->id }}', 'product');btn_like(this)"></button>
+                                            </div>
+                                            <div class="flex_between mt10">
+                                                <div class="frame_img_mid">
+                                                    <div class="img_box"><img
+                                                            src="{{ asset('assets/media/s_1.png') }}"></div>
+                                                </div>
+                                                <div class="offer_card_info">
+                                                    <p class="txt_item_1">
+                                                        @php
+                                                            $monthPrice = '';
+                                                            $priceArea = 0.0;
+                                                            if (
+                                                                $product->product->priceInfo->payment_type == 1 ||
+                                                                $product->product->priceInfo->payment_type == 2 ||
+                                                                $product->product->priceInfo->payment_type == 4
+                                                            ) {
+                                                                $monthPrice =
+                                                                    ' / ' .
+                                                                    priceChange(
+                                                                        $product->product->priceInfo->month_price,
+                                                                    );
+                                                                $priceArea =
+                                                                    $product->product->priceInfo->month_price /
+                                                                    $product->product->exclusive_area;
+                                                            } else {
+                                                                $monthPrice = '';
+                                                                $priceArea =
+                                                                    $product->product->priceInfo->price /
+                                                                    $product->product->exclusive_area;
+                                                            }
 
-                                <div class="m_offer_list_card">
-                                    <div class="flex_between">
-                                        <div>
-                                            <span class="number_box">1</span>
-                                            <span class="gray_deep">강남구 역삼동 123-12</span>
+                                                        @endphp
+                                                        {{ Lang::get('commons.payment_type.' . $product->product->priceInfo->payment_type) }}
+                                                        {{ priceChange($product->product->priceInfo->price) }}
+                                                        {{ $monthPrice }}
+                                                        <span>({{ priceChange($priceArea) }}/평)</span>
+                                                    </p>
+                                                    <p class="txt_item_2">전용
+                                                        {{ $product->product->exclusive_area }}평·{{ $product->product->floor_number }}층
+                                                        /
+                                                        {{ $product->product->total_floor_number }}층</p>
+                                                    <p class="txt_item_3">
+                                                        {{ $product->product->is_service == 0 ? '관리비 ' . number_format($product->product->service_price) . '원' : '-' }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="btn_half_wrap">
+                                                <button class="btn_gray_ghost btn_md_full">상세보기</button>
+                                                <button class="btn_point_ghost btn_md_full txt_bold">투어 요청</button>
+                                            </div>
                                         </div>
-                                        <button class="btn_like" onclick="btn_like(this)"></button>
-                                    </div>
-                                    <div class="flex_between mt10">
-                                        <div class="frame_img_mid">
-                                            <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
-                                        </div>
-                                        <div class="offer_card_info">
-                                            <p class="txt_item_1">임대 3억 2,200만 / 4,500만 <span>(800만/평)</span></p>
-                                            <p class="txt_item_2">전용 99.12평·3층 / 12층</p>
-                                            <p class="txt_item_3">관리비 10만</p>
-                                        </div>
-                                    </div>
-                                    <div class="btn_half_wrap">
-                                        <button class="btn_gray_ghost btn_md_full">상세보기</button>
-                                        <button class="btn_point_ghost btn_md_full txt_bold">투어 요청</button>
-                                    </div>
+                                    @endforeach
                                 </div>
-
-                            </div>
-                            <!----------------------------- m::list : e ----------------------------->
+                                <!----------------------------- m::list : e ----------------------------->
+                            @endif
                         </div>
 
                     </div>
@@ -227,6 +324,39 @@
     </div>
 
     <script>
+        let markerList = {};
+
+        var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng('{{ $lat }}', '{{ $lng }}'),
+            zoom: 15
+        });
+
+
+        @foreach ($proposal->products as $key => $product)
+            markerList[`marker${'{{ $key + 1 }}'}`] = new naver.maps.Marker({
+                position: new naver.maps.LatLng('{{ $product->product->address_lat }}',
+                    '{{ $product->product->address_lng }}'),
+                map: map,
+
+                icon: {
+                    url: "{{ asset('assets/media/map_marker_default.png') }}",
+
+                    size: new naver.maps.Size(100, 100), //아이콘 크기
+                    scaledSize: new naver.maps.Size(30, 43), //아이콘 크기
+                    origin: new naver.maps.Point(0, 0),
+                    anchor: new naver.maps.Point(11, 35)
+                }
+            });
+
+            naver.maps.Event.addListener(markerList[`marker${'{{ $key + 1 }}'}`], "click", () => {
+                onMarkerClick('{{ $key + 1 }}');
+            });
+        @endforeach
+
+        function onMarkerClick(index) {
+            document.getElementById(index + "_product_tr").scrollIntoView(true);
+        }
+
         //기본 토글 이벤트
         $(".proposal_toggle_btn").click(function() {
             $(this).toggleClass("toggled");
@@ -239,6 +369,20 @@
             $(".proposal_table_wrap").stop().slideToggle(300);
             return false;
         });
+
+        var onLikeStateChange = (id, type) => {
+
+            $.ajax({
+                url: '{{ route('www.commons.like') }}',
+                type: "post",
+                data: {
+                    'target_id': id,
+                    'target_type': type
+                }
+            }).fail(function(jqXHR, ajaxOptions, thrownError) {
+                alert('다시 시도해주세요.');
+            });
+        }
     </script>
 
 

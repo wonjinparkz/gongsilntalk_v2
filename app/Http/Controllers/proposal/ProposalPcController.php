@@ -404,7 +404,7 @@ class ProposalPcController extends Controller
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
-        $proposal = Proposal::with('regions')->select()->where('id', $id)->where('users_id', Auth::guard('web')->user()->id)->first();
+        $proposal = Proposal::with('regions', 'products')->select()->where('id', $id)->where('users_id', Auth::guard('web')->user()->id)->first();
         return view('www.proposal.my-proposal-offer-list', compact('user', 'proposal'));
     }
 }
