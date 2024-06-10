@@ -112,13 +112,11 @@
                                     <div class="dropdown_box only_pc mt8 w_30">
                                         <button class="dropdown_label" type="button">희망 업종 선택 </button>
                                         <ul class="optionList">
-                                            <li class="optionItem" onclick="onBusinessChange(0);">휴게음식점</li>
-                                            <li class="optionItem" onclick="onBusinessChange(1);">일반음식점</li>
-                                            <li class="optionItem" onclick="onBusinessChange(2);">주류점</li>
-                                            <li class="optionItem" onclick="onBusinessChange(3);">오락스포츠</li>
-                                            <li class="optionItem" onclick="onBusinessChange(4);">판매업</li>
-                                            <li class="optionItem" onclick="onBusinessChange(5);">숙박업</li>
-                                            <li class="optionItem" onclick="onBusinessChange(6);">기타업종</li>
+                                            @foreach (Lang::get('commons.product_business_type') as $key => $business_type)
+                                                <li class="optionItem"
+                                                    onclick="onBusinessChange('{{ $key }}');">
+                                                    {{ $business_type }}</li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                     <!----------------------- M::희망 업종 : s ----------------------->
@@ -133,13 +131,11 @@
                                                 onclick="modal_close_slide('biz_type')">
                                         </div>
                                         <ul class="slide_modal_menu">
-                                            <li><a href="#" onclick="onBusinessChange(0);">휴게음식점</a></li>
-                                            <li><a href="#" onclick="onBusinessChange(1);">일반음식점</a></li>
-                                            <li><a href="#" onclick="onBusinessChange(2);">주류점</a></li>
-                                            <li><a href="#" onclick="onBusinessChange(3);">오락스포츠</a></li>
-                                            <li><a href="#" onclick="onBusinessChange(4);">판매업</a></li>
-                                            <li><a href="#" onclick="onBusinessChange(5);">숙박업</a></li>
-                                            <li><a href="#" onclick="onBusinessChange(6);">기타업종</a></li>
+                                            @foreach (Lang::get('commons.product_business_type') as $key => $business_type)
+                                                <li><a href="#"
+                                                        onclick="onBusinessChange('{{ $key }}');">{{ $business_type }}</a>
+                                                </li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                     <div class="md_slide_overlay md_slide_overlay_biz_type"

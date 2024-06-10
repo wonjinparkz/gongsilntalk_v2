@@ -26,11 +26,11 @@ return new class extends Migration
             $table->string('start_move_date')->nullable()->comment('입주 시작일');
             $table->string('ended_move_date')->nullable()->comment('입주 종료일');
             $table->integer('payment_type')->comment('거래방식 - 0: 매매, 1: 임대');
-            $table->integer('price')->comment('매매 - 매매가, 임대 - 보증금');
+            $table->bigInteger('price')->comment('매매 - 매매가, 임대 - 보증금');
             $table->integer('month_price')->nullable()->comment('월 임대료');
             $table->string('client_name')->comment('의뢰자 이름 & 회사명');
             $table->integer('client_type')->nullable()->comment('의뢰인 업종');
-            $table->integer('floor_type')->comment('(상가일 경우에만 선택) 희망 상가 층 - 0: 상관없음, 1: 1층, 2: 2층 이상');
+            $table->integer('floor_type')->nullable()->comment('(상가일 경우에만 선택) 희망 상가 층 - 0: 상관없음, 1: 1층, 2: 2층 이상');
             $table->integer('interior_type')->comment('인테리어 필요 여부 - 0: 선택 안함, 1: 필요해요, 2: 필요 없어요');
             $table->longText('content')->comment('요청사항');
             $table->integer('is_delete')->default(0)->comment('삭제여부 - 0: 게시중, 1: 삭제함');

@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProposalProduct extends BaseModel
 {
@@ -38,6 +39,20 @@ class ProposalProduct extends BaseModel
         'created_at' => 'datetime',
     ];
 
+    /**
+     * 매물 상세
+     */
+    public function product()
+    {
+        return $this->hasOne(Product::class, 'id', 'product_id')->select('product.*')
+            ->leftJoin('like', function ($like) {
+                $like->on('product.id', '=', 'like.target_id')
+                    ->where('like.users_id', '=', Auth::guard('web')->user()->id ?? 0)
+                    ->where('like.target_type', '=', 'product');
+            })->addSelect(
+                DB::raw('ifnull(like.id, "") AS like_id')
+            );
+    }
     /**
      * 이미지 가져오기
      */
