@@ -2216,6 +2216,17 @@
             $('#region_code').val(check_code);
 
         });
+
+        var prev = "";
+        var regexp = /^\d*(\.\d{0,2})?$/;
+
+        function imsi(obj) {
+            if (obj.value.search(regexp) == -1) {
+                obj.value = prev;
+            } else {
+                prev = obj.value;
+            }
+        }
     </script>
 
 

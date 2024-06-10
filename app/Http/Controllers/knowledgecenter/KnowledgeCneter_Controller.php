@@ -128,7 +128,7 @@ class KnowledgeCneter_Controller extends Controller
             'max_floor' => 'required',
             'parking_count' => 'required',
             'generation_count' => 'required',
-            'comments' => 'required|min:1|max:40',
+            'comments' => 'max:40',
         ]);
 
         if ($validator->fails()) {
@@ -218,7 +218,7 @@ class KnowledgeCneter_Controller extends Controller
             'max_floor' => 'required',
             'parking_count' => 'required',
             'generation_count' => 'required',
-            'comments' => 'required|min:1|max:40',
+            'comments' => 'max:40',
         ]);
 
         if ($validator->fails()) {

@@ -125,6 +125,7 @@
                         <div class="col-lg-3 fv-row">
                             <div class="input-group mb-5">
                                 <input type="text" name="lease_min_price" class="form-control" placeholder="최저가"
+                                    onkeyup="imsi1(this)"
                                     value="{{ old('lease_min_price') ? old('lease_min_price') : $result->lease_min_price }}" />
                                 <span class="input-group-text" id="basic-addon2">만원</span>
                             </div>
@@ -133,6 +134,7 @@
                         <div class="col-lg-3 fv-row">
                             <div class="input-group mb-5">
                                 <input type="text" name="lease_mid_price" class="form-control" placeholder="평균가"
+                                    onkeyup="imsi1(this)"
                                     value="{{ old('lease_mid_price') ? old('lease_mid_price') : $result->lease_mid_price }}" />
                                 <span class="input-group-text" id="basic-addon2">만원</span>
                             </div>
@@ -141,6 +143,7 @@
                         <div class="col-lg-3 fv-row">
                             <div class="input-group mb-5">
                                 <input type="text" name="lease_max_price" class="form-control" placeholder="최고가"
+                                    onkeyup="imsi1(this)"
                                     value="{{ old('lease_max_price') ? old('lease_max_price') : $result->lease_max_price }}" />
                                 <span class="input-group-text" id="basic-addon2">만원</span>
                             </div>
@@ -426,9 +429,18 @@
     <script>
         var prev = "";
         var regexp = /^\d*(\.\d{0,2})?$/;
+        var regexp1 = /^\d*(\.\d{0,1})?$/;
 
         function imsi(obj) {
             if (obj.value.search(regexp) == -1) {
+                obj.value = prev;
+            } else {
+                prev = obj.value;
+            }
+        }
+
+        function imsi1(obj) {
+            if (obj.value.search(regexp1) == -1) {
                 obj.value = prev;
             } else {
                 prev = obj.value;

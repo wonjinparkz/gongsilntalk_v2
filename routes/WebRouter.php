@@ -49,6 +49,7 @@ Route::controller(MainPcController::class)->group(function () {
 
 Route::controller(MapPcController::class)->group(function () {
     Route::get('/map', 'map')->name('www.map.map');
+    Route::get('/map/side/view', 'mapSideView')->name('www.map.side.view');
 });
 
 /**

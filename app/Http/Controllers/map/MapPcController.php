@@ -44,6 +44,8 @@ class MapPcController extends Controller
             ->where('is_map', '0')
             ->where('state', '>', '0');
 
+
+
         if (($address_lat && $address_lng && $zoomLv)) {
             $maps->whereRaw(
                 "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
@@ -54,7 +56,8 @@ class MapPcController extends Controller
         $aptMaps = DataApt::select('data_apt.*', 'data_apt.y as address_lat', 'data_apt.x as address_lng')
             ->where('is_base_info', 1)
             ->where('is_detail_info', 1)
-            ->where('is_map_info', 1);
+            ->where('is_map_info', 1)
+            ->where('as3', '구로동');
         if (($address_lat && $address_lng && $zoomLv)) {
             $aptMaps->whereRaw(
                 "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(y)) * COS(RADIANS(x) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(y)))), 2) < ?",
@@ -63,6 +66,23 @@ class MapPcController extends Controller
         };
 
         $aptMaps = $aptMaps->limit(100)->get();
+
+        $filteredAptMaps = [];
+        foreach ($aptMaps as $apt) {
+            $transactions = $apt->transactions()
+                ->orderByRaw('year DESC, month DESC, day DESC')
+                ->first();
+
+            if ($transactions) {
+                $apt->transactions = $transactions;
+                $filteredAptMaps[] = $apt;
+            }
+        }
+
+
+        $aptMaps = $filteredAptMaps;
+
+        Log::info($aptMaps);
 
         // 검색
         // if ($request->has('type')) {
@@ -105,8 +125,33 @@ class MapPcController extends Controller
             'knowledges' => $knowledges,
         ];
 
-        Log::info(json_encode($data, JSON_PRETTY_PRINT));
-
         return view('www.map.map', compact('data'));
+    }
+
+
+    public function mapSideView(Request $request): View
+    {
+        $markerType = $request->type;
+
+        $result = '';
+
+        if ($markerType == 'knowledge') {
+            $result = KnowledgeCenter::where('id', $request->id)->first();
+        } else if ($markerType == 'apt') {
+            $result = DataApt::where('id', $request->id)->first();
+            if ($result) {
+                $result->transactions = $result->transactions()->get(); // 실제 데이터를 가져옵니다.
+                $result->transactionsRent = $result->transactionsRent()->get(); // 실제 데이터를 가져옵니다.
+
+                $transactionWithYear = $result->transactions->first(fn ($t) => !empty($t->constructionYear));
+                $transactionRentWithYear = $result->transactionsRent->first(fn ($t) => !empty($t->constructionYear));
+
+                $result->constructionYear = $transactionWithYear->constructionYear ?? $transactionRentWithYear->constructionYear ?? null;
+            }
+        }
+
+        Log::info($result);
+
+        return view('www.map.mpa-side', compact('result', 'markerType'));
     }
 }

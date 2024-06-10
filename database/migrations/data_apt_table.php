@@ -97,6 +97,7 @@ return new class extends Migration
             $table->unique('kaptCode');
 
             $table->string('complex_name')->nullable()->comment('유사 단지명 (,으로 구분지어 사용)');
+
         });
 
         DB::statement("ALTER TABLE data_apt COMMENT='법정동코드'");

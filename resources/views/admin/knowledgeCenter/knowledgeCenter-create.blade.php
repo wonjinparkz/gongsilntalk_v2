@@ -113,7 +113,7 @@
                         <div class="col-lg-3 fv-row">
                             <div class="input-group mb-5">
                                 <input type="text" name="lease_min_price" class="form-control" placeholder="최저가"
-                                    value="{{ old('lease_min_price') }}" />
+                                    value="{{ old('lease_min_price') }}" onkeyup="imsi1(this)" />
                                 <span class="input-group-text" id="basic-addon2">만원</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('lease_min_price')" />
@@ -121,7 +121,7 @@
                         <div class="col-lg-3 fv-row">
                             <div class="input-group mb-5">
                                 <input type="text" name="lease_mid_price" class="form-control" placeholder="평균가"
-                                    value="{{ old('lease_mid_price') }}" />
+                                    value="{{ old('lease_mid_price') }}" onkeyup="imsi1(this)" />
                                 <span class="input-group-text" id="basic-addon2">만원</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('lease_mid_price')" />
@@ -129,7 +129,7 @@
                         <div class="col-lg-3 fv-row">
                             <div class="input-group mb-5">
                                 <input type="text" name="lease_max_price" class="form-control" placeholder="최고가"
-                                    value="{{ old('lease_max_price') }}" />
+                                    value="{{ old('lease_max_price') }}" onkeyup="imsi1(this)" />
                                 <span class="input-group-text" id="basic-addon2">만원</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('lease_max_price')" />
@@ -216,7 +216,7 @@
                             <div class="input-group">
                                 <input type="text" name="building_square" id="building_square"
                                     onkeyup="imsi(this)" class="form-control" placeholder="변환 버튼을 눌러주세요."
-                                    value="{{ old('building_square') }}" />
+                                    value="{{ old('building_square') }}" onkeyup="imsi(this)" />
                                 <span class="input-group-text" id="basic-addon2">㎡</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('building_square')" />
@@ -248,7 +248,7 @@
                             <div class="input-group">
                                 <input type="text" name="total_floor_square" id="total_floor_square"
                                     onkeyup="imsi(this)" class="form-control" placeholder="변환 버튼을 눌러주세요."
-                                    value="{{ old('total_floor_square') }}" />
+                                    value="{{ old('total_floor_square') }}" onkeyup="imsi(this)" />
                                 <span class="input-group-text" id="basic-addon2">㎡</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('total_floor_square')" />
@@ -404,9 +404,18 @@
     <script>
         var prev = "";
         var regexp = /^\d*(\.\d{0,2})?$/;
+        var regexp1 = /^\d*(\.\d{0,1})?$/;
 
         function imsi(obj) {
             if (obj.value.search(regexp) == -1) {
+                obj.value = prev;
+            } else {
+                prev = obj.value;
+            }
+        }
+
+        fucntion imsi1(obj) {
+            if (obj.value.search(regexp1) == -1) {
                 obj.value = prev;
             } else {
                 prev = obj.value;
