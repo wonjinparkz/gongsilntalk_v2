@@ -368,7 +368,52 @@ class ProposalPcController extends Controller
             ]);
         }
 
-        // 있는 매물 중 조건 맞는 매물 찾아서 저장
+        $sameIdArray = [];
+
+        $sameList = Product::select()
+            ->leftjoin('product_price', 'product_price.product_id', 'product.id')
+            ->where(function ($query) use ($request) {
+                foreach ($request->region_zone as $key => $region) {
+                    if ($key == 0) {
+                        $query->where('product.region_address', 'like', "%{$region}%");
+                    }
+                    $query->orWhere('product.region_address', 'like', "%{$region}%");
+                }
+            })
+            ->where('product.exclusive_area', '>', ($request->area - 5))
+            ->where('product.exclusive_area', '<', ($request->area + 15))
+            ->where('product_price.price', '>', ($request->{'price_' . $request->budget_type} * 0.5))
+            ->where('product_price.price', '<', $request->{'price_' . $request->budget_type} + ($request->{'price_' . $request->budget_type}  * 0.5))
+            ->get();
+
+        foreach ($sameList as $same) {
+            ProposalProduct::create([
+                'proposal_id' => $proposal->id,
+                'product_id' => $same->id
+            ]);
+
+            array_push($sameIdArray, $same->id);
+        }
+
+        $tempList = Product::select()
+            ->leftjoin('product_price', 'product_price.product_id', 'product.id')
+            ->where(function ($query) use ($request) {
+                foreach ($request->region_zone as $key => $region) {
+                    if ($key == 0) {
+                        $query->where('product.region_address', 'like', "%{$region}%");
+                    }
+                    $query->orWhere('product.region_address', 'like', "%{$region}%");
+                }
+            })
+            ->whereNotIn('product.id', $sameIdArray)
+            ->get();
+
+        foreach ($tempList as $temp) {
+            ProposalProduct::create([
+                'proposal_id' => $proposal->id,
+                'product_id' => $temp->id
+            ]);
+        }
 
         return Redirect::route('www.mypage.proposal.list.view')->with('message', '제안서가 등록 되었습니다.');
     }
