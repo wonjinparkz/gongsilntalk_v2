@@ -4,6 +4,8 @@ namespace App\Http\Controllers\map;
 
 use App\Http\Controllers\Controller;
 use App\Models\DataApt;
+use App\Models\DataBuilding;
+use App\Models\DataStore;
 use App\Models\KnowledgeCenter;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -82,8 +84,6 @@ class MapPcController extends Controller
 
         $aptMaps = $filteredAptMaps;
 
-        Log::info($aptMaps);
-
         // 검색
         // if ($request->has('type')) {
         //     $maps->whereIn('product.type', $request->type);
@@ -117,13 +117,37 @@ class MapPcController extends Controller
             );
         };
 
+        $store = DataStore::select('data_store.*', 'data_store.y as address_lat', 'data_store.x as address_lng');
+
+        if (($address_lat && $address_lng && $zoomLv)) {
+            $store->whereRaw(
+                "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(y)) * COS(RADIANS(x) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(y)))), 2) < ?",
+                [$address_lat, $address_lng, $address_lat, $distance]
+            );
+        };
+
+        $building = DataBuilding::select('data_building.*', 'data_building.y as address_lat', 'data_building.x as address_lng');
+
+        if (($address_lat && $address_lng && $zoomLv)) {
+            $building->whereRaw(
+                "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(y)) * COS(RADIANS(x) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(y)))), 2) < ?",
+                [$address_lat, $address_lng, $address_lat, $distance]
+            );
+        };
+
         $knowledges = $knowledges->get();
+        $store = $store->get();
+        $building = $building->get();
 
         $data = [
             'maps' => $maps,
             'aptMaps' => $aptMaps,
             'knowledges' => $knowledges,
+            'store' => $store,
+            'building' => $building,
         ];
+
+        Log::info($data);
 
         return view('www.map.map', compact('data'));
     }
@@ -143,11 +167,28 @@ class MapPcController extends Controller
                 $result->transactions = $result->transactions()->get(); // 실제 데이터를 가져옵니다.
                 $result->transactionsRent = $result->transactionsRent()->get(); // 실제 데이터를 가져옵니다.
 
+                // 준공일
                 $transactionWithYear = $result->transactions->first(fn ($t) => !empty($t->constructionYear));
                 $transactionRentWithYear = $result->transactionsRent->first(fn ($t) => !empty($t->constructionYear));
-
                 $result->constructionYear = $transactionWithYear->constructionYear ?? $transactionRentWithYear->constructionYear ?? null;
+
+                // 매매 전월세 평수 종류
+                $result->exclusiveAreasSale = $result->transactions->pluck('exclusiveArea')
+                    ->unique()
+                    ->sort()
+                    ->values()
+                    ->all();
+
+                // 매매 거래 데이터 그룹화
+                $result->groupedTransactions = $result->transactions->groupBy('exclusiveArea')->sortKeys();
+
+                // 전월세 거래 데이터 그룹화
+                $result->groupedTransactionsRent = $result->transactionsRent->groupBy('exclusiveArea')->sortKeys();
             }
+        } else if ($markerType == 'store') {
+            $result = DataStore::where('id', $request->id)->first();
+        } else if ($markerType == 'building') {
+            $result = DataBuilding::where('id', $request->id)->first();
         }
 
         Log::info($result);

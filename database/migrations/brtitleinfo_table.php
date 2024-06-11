@@ -13,13 +13,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('brtitleinfo', function (Blueprint $table) {
-            $table->id()->comment('표지부 아이디');
+            $table->id()->comment('표제부 아이디');
             $table->string('target_type')->nullable()->comment('타겟 타입');
             $table->integer('target_id')->nullable()->comment('타겟 아이디');
             $table->longText('json_data')->nullable()->comment('json 타입으로 받은 데이터');
             $table->timestamps();
         });
-        DB::statement("ALTER TABLE brtitleinfo COMMENT='표지부 정보'");
+        DB::statement("ALTER TABLE brtitleinfo COMMENT='표제부 정보'");
     }
 
     /**

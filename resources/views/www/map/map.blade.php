@@ -241,6 +241,8 @@
                 var aptMapsArray = Array.isArray(data.aptMaps) ? data.aptMaps : [];
                 var mapsArray = Array.isArray(data.maps) ? data.maps : [];
                 var knowledgesArray = Array.isArray(data.knowledges) ? data.knowledges : [];
+                var storeArray = Array.isArray(data.store) ? data.store : [];
+                var buildingArray = Array.isArray(data.building) ? data.building : [];
 
                 knowledgesArray.forEach(({
                     id,
@@ -397,6 +399,145 @@
                 });
 
                 map.fitBounds(bounds);
+
+                storeArray.forEach(({
+                    id,
+                    address_lat,
+                    address_lng,
+                    kstoreName,
+                }) => {
+                    var name = kstoreName;
+
+                    var contentString = `
+                        <div class="activeMarker iw_mini_inner">
+                            <h3>${name}</h3>
+                            <div class="mini_inner_info">
+                                &nbsp;
+                            </div>
+                        </div>
+                    `;
+
+                    var position = new naver.maps.LatLng(address_lat, address_lng);
+                    var marker = new naver.maps.Marker({
+                        id: id,
+                        type: 'store',
+                        map: map,
+                        position: position,
+                        icon: {
+                            content: contentString,
+                            anchor: new naver.maps.Point(0, 1)
+                        }
+                    });
+
+                    bounds.extend(position);
+                    pathCoordinates.push(position);
+                    naver.maps.Event.addListener(marker, 'click', function(index) {
+                        var markerElement = marker.getElement(); // 현재 마커의 DOM 요소
+                        var markerId = marker.id; // 마커의 고유 ID
+                        var markerType = marker.type; // 마커의 타입
+                        var mapSide = document.querySelector('.map_side');
+
+                        // 현재 마커의 activeMarker 요소 선택
+                        var currentActiveMarkerElement = markerElement.querySelector('.activeMarker');
+
+                        // 클릭된 마커가 이미 active 상태인 경우
+                        if (lastActiveMarkerElement === currentActiveMarkerElement) {
+                            // map_side의 active 클래스를 제거
+                            mapSide.classList.remove('active');
+                            // 클릭된 마커의 active 클래스를 제거
+                            $(currentActiveMarkerElement).removeClass('active');
+                            // 마지막 active 마커를 null로 설정
+                            lastActiveMarkerElement = null;
+                        } else {
+                            // 클릭된 마커가 다른 마커인 경우
+
+                            // 해당 마커 ID로 getProductSide 함수 호출
+                            getProductSide(markerId, markerType);
+                            // 이전에 active 상태였던 마커의 active 클래스를 제거
+                            $('.activeMarker').removeClass('active');
+
+                            // 클릭된 마커에 active 클래스를 추가
+                            $(currentActiveMarkerElement).addClass('active');
+                            // map_side의 active 클래스가 없는 경우 추가
+                            if (!mapSide.classList.contains('active')) {
+                                mapSide.classList.add('active');
+                            }
+                            // 마지막 active 마커를 현재 마커로 설정
+                            lastActiveMarkerElement = currentActiveMarkerElement;
+                        }
+                    });
+                    markers.push(marker);
+                });
+
+
+                buildingArray.forEach(({
+                    id,
+                    address_lat,
+                    address_lng,
+                    kbuildingName,
+                }) => {
+                    var name = kbuildingName;
+
+                    var contentString = `
+                        <div class="activeMarker iw_mini_inner">
+                            <h3>${name}</h3>
+                            <div class="mini_inner_info">
+                                &nbsp;
+                            </div>
+                        </div>
+                    `;
+
+                    var position = new naver.maps.LatLng(address_lat, address_lng);
+                    var marker = new naver.maps.Marker({
+                        id: id,
+                        type: 'building',
+                        map: map,
+                        position: position,
+                        icon: {
+                            content: contentString,
+                            anchor: new naver.maps.Point(0, 1)
+                        }
+                    });
+
+                    bounds.extend(position);
+                    pathCoordinates.push(position);
+                    naver.maps.Event.addListener(marker, 'click', function(index) {
+                        var markerElement = marker.getElement(); // 현재 마커의 DOM 요소
+                        var markerId = marker.id; // 마커의 고유 ID
+                        var markerType = marker.type; // 마커의 타입
+                        var mapSide = document.querySelector('.map_side');
+
+                        // 현재 마커의 activeMarker 요소 선택
+                        var currentActiveMarkerElement = markerElement.querySelector('.activeMarker');
+
+                        // 클릭된 마커가 이미 active 상태인 경우
+                        if (lastActiveMarkerElement === currentActiveMarkerElement) {
+                            // map_side의 active 클래스를 제거
+                            mapSide.classList.remove('active');
+                            // 클릭된 마커의 active 클래스를 제거
+                            $(currentActiveMarkerElement).removeClass('active');
+                            // 마지막 active 마커를 null로 설정
+                            lastActiveMarkerElement = null;
+                        } else {
+                            // 클릭된 마커가 다른 마커인 경우
+
+                            // 해당 마커 ID로 getProductSide 함수 호출
+                            getProductSide(markerId, markerType);
+                            // 이전에 active 상태였던 마커의 active 클래스를 제거
+                            $('.activeMarker').removeClass('active');
+
+                            // 클릭된 마커에 active 클래스를 추가
+                            $(currentActiveMarkerElement).addClass('active');
+                            // map_side의 active 클래스가 없는 경우 추가
+                            if (!mapSide.classList.contains('active')) {
+                                mapSide.classList.add('active');
+                            }
+                            // 마지막 active 마커를 현재 마커로 설정
+                            lastActiveMarkerElement = currentActiveMarkerElement;
+                        }
+                    });
+                    markers.push(marker);
+                });
 
 
 

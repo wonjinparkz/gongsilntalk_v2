@@ -119,42 +119,42 @@ class DataStore extends BaseModel
     ];
 
     /**
-     * 표지부 데이터
+     * 표제부 데이터
      */
     public function BrTitleInfo()
     {
-        return $this->morphOne(BrTitleInfo::class, 'target');
+        return $this->morphMany(BrTitleInfo::class, 'target');
     }
 
     /**
-     * 표지부 데이터
+     * 표제부 데이터
      */
     public function BrRecapTitleInfo()
     {
-        return $this->morphOne(BrRecapTitleInfo::class, 'target');
+        return $this->morphMany(BrRecapTitleInfo::class, 'target');
     }
 
     /**
-     * 표지부 데이터
+     * 표제부 데이터
      */
     public function BrFlrOulnInfo()
     {
-        return $this->morphOne(BrFlrOulnInfo::class, 'target');
+        return $this->morphMany(BrFlrOulnInfo::class, 'target');
     }
 
     /**
-     * 표지부 데이터
+     * 표제부 데이터
      */
     public function BrExposInfo()
     {
-        return $this->morphOne(BrExposInfo::class, 'target');
+        return $this->morphMany(BrExposInfo::class, 'target');
     }
 
     /**
-     * 표지부 데이터
+     * 표제부 데이터
      */
     public function BrExposPubuseAreaInfo()
     {
-        return $this->morphOne(BrExposPubuseAreaInfo::class, 'target');
+        return $this->morphMany(BrExposPubuseAreaInfo::class, 'target');
     }
 }

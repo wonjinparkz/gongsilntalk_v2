@@ -1,10 +1,10 @@
 <x-admin-layout>
     {{-- FORM START  --}}
-    <form class="form" method="POST" action="{{ route('admin.apt.complex.update') }}">
-        @csrf
-        <input type="hidden" name="id" value="{{ $result->id }}" />
-        <input type="hidden" name="lasturl" value="{{ URL::previous() }}">
-        <div class="app-container container-xxl">
+    <div class="app-container container-xxl">
+        <form class="form" method="POST" action="{{ route('admin.apt.complex.update') }}">
+            @csrf
+            <input type="hidden" name="id" value="{{ $result->id }}" />
+            <input type="hidden" name="lasturl" value="{{ URL::previous() }}">
 
             <x-screen-card :title="'아파트 단지 상세'">
             </x-screen-card>
@@ -217,22 +217,22 @@
 
                 </div>
             </x-screen-card>
+        </form>
 
-            {{-- FORM END --}}
-            <x-screen-card :title="'건축물 대장'">
-                <x-admin-buildingledger :class="'App\Models\DataApt'" :result="$result" isUpdate="false" />
-            </x-screen-card>
+        {{-- FORM END --}}
+        <x-screen-card :title="'건축물 대장'">
+            <x-admin-buildingledger :class="'App\Models\DataApt'" :result="$result" isUpdate="true" />
+        </x-screen-card>
 
-            {{-- Footer Bottom START --}}
-            <div class="card-footer d-flex justify-content-end py-6 px-9">
-                <button type="submit" class="btn btn-primary">수정</button>
-            </div>
-            {{-- Footer END --}}
-
-            {{-- FORM END --}}
-
+        {{-- Footer Bottom START --}}
+        <div class="card-footer d-flex justify-content-end py-6 px-9">
+            <button type="submit" class="btn btn-primary">수정</button>
         </div>
-    </form>
+        {{-- Footer END --}}
+
+        {{-- FORM END --}}
+
+    </div>
 
     {{-- 지도 맵 api js --}}
     <script type="text/javascript"

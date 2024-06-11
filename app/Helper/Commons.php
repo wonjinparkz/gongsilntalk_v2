@@ -176,4 +176,28 @@ class Commons
         // 결과 반환
         return $highlightedContent;
     }
+
+    public static function getformatPrice($price)
+    {
+        if ($price !== '') {
+            $isNegative = $price < 0;
+            $price = abs((int) $price);
+            $eok = floor($price / 10000);
+            $man = $price % 10000;
+
+            $formattedPrice = '';
+            if ($eok > 0 && $man == 0) {
+                $formattedPrice = $eok . '억';
+            } elseif ($eok > 0) {
+                $formattedPrice = $eok . '억 ' . number_format($man) . '만';
+            } else {
+                $formattedPrice = number_format($man) . '만';
+            }
+
+            // 음수이면 '-' 기호를 붙이지 않고 반환
+            return $formattedPrice;
+        } else {
+            return '';
+        }
+    }
 }
