@@ -176,15 +176,7 @@
                 });
             }
 
-            // 제곱미터 단위를 평 단위로 변환하는 함수
-            function convertToPyeong(squareMeters) {
-                return Math.floor(squareMeters / 3.305785); // 내림하여 정수로 반환
-            }
 
-            // 숫자에 콤마를 추가하는 함수
-            function addCommasToNumber(number) {
-                return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            }
 
             // 가격을 '억'과 '천' 단위로 포맷하는 함수
             function formatPrice(priceString) {
@@ -234,312 +226,158 @@
                     mapTypeId: naver.maps.MapTypeId.NORMAL,
                 });
 
+                // 공통 변수 선언
                 var bounds = new naver.maps.LatLngBounds();
                 var pathCoordinates = [];
                 var infoWindow = new naver.maps.InfoWindow();
+                var markers = [];
 
+                // 배열 초기화
                 var aptMapsArray = Array.isArray(data.aptMaps) ? data.aptMaps : [];
                 var mapsArray = Array.isArray(data.maps) ? data.maps : [];
                 var knowledgesArray = Array.isArray(data.knowledges) ? data.knowledges : [];
                 var storeArray = Array.isArray(data.store) ? data.store : [];
                 var buildingArray = Array.isArray(data.building) ? data.building : [];
 
-                knowledgesArray.forEach(({
+                // 마커 생성 및 클릭 이벤트 리스너 추가 함수
+                function createMarker({
                     id,
-                    address_lat,
-                    address_lng,
+                    lat,
+                    lng,
+                    type,
+                    contentString,
+                    anchorX,
+                    anchorY
+                }) {
+                    var position = new naver.maps.LatLng(lat, lng);
+                    var marker = new naver.maps.Marker({
+                        id: id,
+                        type: type,
+                        map: map,
+                        position: position,
+                        icon: {
+                            content: contentString,
+                            anchor: new naver.maps.Point(anchorX, anchorY) // 기준점을 하단 중앙으로 설정
+                        }
+                    });
+
+                    bounds.extend(position);
+                    pathCoordinates.push(position);
+
+                    naver.maps.Event.addListener(marker, 'click', function() {
+                        var markerElement = marker.getElement(); // 현재 마커의 DOM 요소
+                        var markerId = marker.id; // 마커의 고유 ID
+                        var markerType = marker.type; // 마커의 타입
+                        var mapSide = document.querySelector('.map_side');
+
+                        // 현재 마커의 activeMarker 요소 선택
+                        var currentActiveMarkerElement = markerElement.querySelector('.activeMarker');
+
+                        // 클릭된 마커가 이미 active 상태인 경우
+                        if (lastActiveMarkerElement === currentActiveMarkerElement) {
+                            // map_side의 active 클래스를 제거
+                            mapSide.classList.remove('active');
+                            // 클릭된 마커의 active 클래스를 제거
+                            $(currentActiveMarkerElement).removeClass('active');
+                            // 마지막 active 마커를 null로 설정
+                            lastActiveMarkerElement = null;
+                        } else {
+                            // 클릭된 마커가 다른 마커인 경우
+                            getProductSide(markerId, markerType);
+                            $('.activeMarker').removeClass('active');
+                            $(currentActiveMarkerElement).addClass('active');
+                            if (!mapSide.classList.contains('active')) {
+                                mapSide.classList.add('active');
+                            }
+                            lastActiveMarkerElement = currentActiveMarkerElement;
+                        }
+                    });
+
+                    markers.push(marker);
+                }
+
+                // 데이터 배열 처리 함수
+                function processDataArray(array, type, getContentString, anchorX, anchorY) {
+                    array.forEach(item => {
+                        var {
+                            id,
+                            address_lat,
+                            address_lng
+                        } = item;
+                        var contentString = getContentString(item);
+                        createMarker({
+                            id: id,
+                            lat: address_lat,
+                            lng: address_lng,
+                            type: type,
+                            contentString: contentString,
+                            anchorX: anchorX,
+                            anchorY: anchorY
+                        });
+                    });
+                }
+
+                // 가격 형식화 함수
+                function addCommasToNumber(num) {
+                    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+
+                // 제곱미터 단위를 평 단위로 변환하는 함수
+                function convertToPyeong(squareMeters) {
+                    return Math.floor(squareMeters / 3.305785); // 내림하여 정수로 반환
+                }
+
+                // 각 데이터 배열 처리
+                processDataArray(knowledgesArray, 'knowledge', ({
                     product_name,
                     sale_min_price,
                     sale_max_price,
                     lease_min_price,
-                    lease_max_price,
-                }) => {
-                    var name = product_name;
-                    var trade = addCommasToNumber(sale_min_price) + '~' + addCommasToNumber(sale_max_price);
-                    var lease = lease_min_price + '~' + lease_max_price;
-
-                    var contentString = `
-                        <div class="activeMarker iw_inner">
-                            <h3>${name}</h3>
+                    lease_max_price
+                }) => `<div class="activeMarker iw_inner">
+                            <h3>${product_name}</h3>
                             <div class="inner_info">
-                                <p>매매 <span>${trade}</span></p>
-                                <p>임대 <span>${lease}</span></p>
+                                <p>매매 <span>${addCommasToNumber(sale_min_price)}~${addCommasToNumber(sale_max_price)}</span></p>
+                                <p>임대 <span>${lease_min_price}~${lease_max_price}</span></p>
                                 <span class="bubble_info">분양</span>
                             </div>
                         </div>
-                    `;
+                    `, 0, 73);
 
-                    var position = new naver.maps.LatLng(address_lat, address_lng);
-                    var marker = new naver.maps.Marker({
-                        id: id,
-                        type: 'knowledge',
-                        map: map,
-                        position: position,
-                        icon: {
-                            content: contentString,
-                            anchor: new naver.maps.Point(0, 1)
-                        }
-                    });
-
-                    bounds.extend(position);
-                    pathCoordinates.push(position);
-                    naver.maps.Event.addListener(marker, 'click', function(index) {
-                        var markerElement = marker.getElement(); // 현재 마커의 DOM 요소
-                        var markerId = marker.id; // 마커의 고유 ID
-                        var markerType = marker.type; // 마커의 타입
-                        var mapSide = document.querySelector('.map_side');
-
-                        // 현재 마커의 activeMarker 요소 선택
-                        var currentActiveMarkerElement = markerElement.querySelector('.activeMarker');
-
-                        // 클릭된 마커가 이미 active 상태인 경우
-                        if (lastActiveMarkerElement === currentActiveMarkerElement) {
-                            // map_side의 active 클래스를 제거
-                            mapSide.classList.remove('active');
-                            // 클릭된 마커의 active 클래스를 제거
-                            $(currentActiveMarkerElement).removeClass('active');
-                            // 마지막 active 마커를 null로 설정
-                            lastActiveMarkerElement = null;
-                        } else {
-                            // 클릭된 마커가 다른 마커인 경우
-
-                            // 해당 마커 ID로 getProductSide 함수 호출
-                            getProductSide(markerId, markerType);
-                            // 이전에 active 상태였던 마커의 active 클래스를 제거
-                            $('.activeMarker').removeClass('active');
-
-                            // 클릭된 마커에 active 클래스를 추가
-                            $(currentActiveMarkerElement).addClass('active');
-                            // map_side의 active 클래스가 없는 경우 추가
-                            if (!mapSide.classList.contains('active')) {
-                                mapSide.classList.add('active');
-                            }
-                            // 마지막 active 마커를 현재 마커로 설정
-                            lastActiveMarkerElement = currentActiveMarkerElement;
-                        }
-                    });
-                    markers.push(marker);
-                });
-
-                aptMapsArray.forEach(({
-                    id,
-                    address_lat,
-                    address_lng,
+                processDataArray(aptMapsArray, 'apt', ({
                     kaptName,
                     transactions
-                }) => {
-                    var name = kaptName;
-                    var price = (transactions && transactions.transactionPrice) ? transactions.transactionPrice :
-                        '';
-                    var area = (transactions && transactions.exclusiveArea) ? transactions.exclusiveArea : '';
+                }) => `<div class="activeMarker iw_mini_inner">
+                            <h3>아파트</h3>
+                            <div class="mini_inner_info">
+                                <p>${formatPrice(transactions?.transactionPrice || '')}</p>
+                            </div>
+                            <span class="bubble_info">${convertToPyeong(transactions?.exclusiveArea || '')}평</span>
+                        </div>
+                    `, 0, 50);
 
-                    var contentString = `
-                    <div class="activeMarker iw_mini_inner ">
-                        <h3>아파트</h3>
-                        <div class="mini_inner_info">
-                            <p>${formatPrice(price)}</p>
-                         </div>
-                        <span class="bubble_info">${convertToPyeong(area)}평</span>
-                    </div>
-                    `;
+                processDataArray(storeArray, 'store', ({
+                    kstoreName
+                }) => `<div class="activeMarker iw_mini_inner">
+                            <h3>${kstoreName}</h3>
+                            <div class="mini_inner_info">
+                                &nbsp;
+                            </div>
+                        </div>
+                    `, 0, 50);
 
-                    var position = new naver.maps.LatLng(address_lat, address_lng);
-                    var marker = new naver.maps.Marker({
-                        id: id,
-                        type: 'apt',
-                        map: map,
-                        position: position,
-                        icon: {
-                            content: contentString,
-                            anchor: new naver.maps.Point(0, 1)
-                        }
-                    });
+                processDataArray(buildingArray, 'building', ({
+                    kbuildingName
+                }) => `<div class="activeMarker iw_mini_inner">
+                            <h3>${kbuildingName}</h3>
+                            <div class="mini_inner_info">
+                                &nbsp;
+                            </div>
+                        </div>
+                    `, 0, 50);
 
-
-                    bounds.extend(position);
-                    pathCoordinates.push(position);
-
-                    naver.maps.Event.addListener(marker, 'click', function(index) {
-                        var markerElement = marker.getElement(); // 현재 마커의 DOM 요소
-                        var markerId = marker.id; // 마커의 고유 ID
-                        var markerType = marker.type; // 마커의 타입
-                        var mapSide = document.querySelector('.map_side');
-
-                        // 현재 마커의 activeMarker 요소 선택
-                        var currentActiveMarkerElement = markerElement.querySelector('.activeMarker');
-
-                        // 클릭된 마커가 이미 active 상태인 경우
-                        if (lastActiveMarkerElement === currentActiveMarkerElement) {
-                            // map_side의 active 클래스를 제거
-                            mapSide.classList.remove('active');
-                            // 클릭된 마커의 active 클래스를 제거
-                            $(currentActiveMarkerElement).removeClass('active');
-                            // 마지막 active 마커를 null로 설정
-                            lastActiveMarkerElement = null;
-                        } else {
-                            // 클릭된 마커가 다른 마커인 경우
-
-                            // 해당 마커 ID로 getProductSide 함수 호출
-                            getProductSide(markerId, markerType);
-
-                            // 이전에 active 상태였던 마커의 active 클래스를 제거
-                            $('.activeMarker').removeClass('active');
-
-                            // 클릭된 마커에 active 클래스를 추가
-                            $(currentActiveMarkerElement).addClass('active');
-                            // map_side의 active 클래스가 없는 경우 추가
-                            if (!mapSide.classList.contains('active')) {
-                                mapSide.classList.add('active');
-                            }
-                            // 마지막 active 마커를 현재 마커로 설정
-                            lastActiveMarkerElement = currentActiveMarkerElement;
-                        }
-                    });
-                    markers.push(marker);
-                });
-
+                // 지도 경계 설정
                 map.fitBounds(bounds);
-
-                storeArray.forEach(({
-                    id,
-                    address_lat,
-                    address_lng,
-                    kstoreName,
-                }) => {
-                    var name = kstoreName;
-
-                    var contentString = `
-                        <div class="activeMarker iw_mini_inner">
-                            <h3>${name}</h3>
-                            <div class="mini_inner_info">
-                                &nbsp;
-                            </div>
-                        </div>
-                    `;
-
-                    var position = new naver.maps.LatLng(address_lat, address_lng);
-                    var marker = new naver.maps.Marker({
-                        id: id,
-                        type: 'store',
-                        map: map,
-                        position: position,
-                        icon: {
-                            content: contentString,
-                            anchor: new naver.maps.Point(0, 1)
-                        }
-                    });
-
-                    bounds.extend(position);
-                    pathCoordinates.push(position);
-                    naver.maps.Event.addListener(marker, 'click', function(index) {
-                        var markerElement = marker.getElement(); // 현재 마커의 DOM 요소
-                        var markerId = marker.id; // 마커의 고유 ID
-                        var markerType = marker.type; // 마커의 타입
-                        var mapSide = document.querySelector('.map_side');
-
-                        // 현재 마커의 activeMarker 요소 선택
-                        var currentActiveMarkerElement = markerElement.querySelector('.activeMarker');
-
-                        // 클릭된 마커가 이미 active 상태인 경우
-                        if (lastActiveMarkerElement === currentActiveMarkerElement) {
-                            // map_side의 active 클래스를 제거
-                            mapSide.classList.remove('active');
-                            // 클릭된 마커의 active 클래스를 제거
-                            $(currentActiveMarkerElement).removeClass('active');
-                            // 마지막 active 마커를 null로 설정
-                            lastActiveMarkerElement = null;
-                        } else {
-                            // 클릭된 마커가 다른 마커인 경우
-
-                            // 해당 마커 ID로 getProductSide 함수 호출
-                            getProductSide(markerId, markerType);
-                            // 이전에 active 상태였던 마커의 active 클래스를 제거
-                            $('.activeMarker').removeClass('active');
-
-                            // 클릭된 마커에 active 클래스를 추가
-                            $(currentActiveMarkerElement).addClass('active');
-                            // map_side의 active 클래스가 없는 경우 추가
-                            if (!mapSide.classList.contains('active')) {
-                                mapSide.classList.add('active');
-                            }
-                            // 마지막 active 마커를 현재 마커로 설정
-                            lastActiveMarkerElement = currentActiveMarkerElement;
-                        }
-                    });
-                    markers.push(marker);
-                });
-
-
-                buildingArray.forEach(({
-                    id,
-                    address_lat,
-                    address_lng,
-                    kbuildingName,
-                }) => {
-                    var name = kbuildingName;
-
-                    var contentString = `
-                        <div class="activeMarker iw_mini_inner">
-                            <h3>${name}</h3>
-                            <div class="mini_inner_info">
-                                &nbsp;
-                            </div>
-                        </div>
-                    `;
-
-                    var position = new naver.maps.LatLng(address_lat, address_lng);
-                    var marker = new naver.maps.Marker({
-                        id: id,
-                        type: 'building',
-                        map: map,
-                        position: position,
-                        icon: {
-                            content: contentString,
-                            anchor: new naver.maps.Point(0, 1)
-                        }
-                    });
-
-                    bounds.extend(position);
-                    pathCoordinates.push(position);
-                    naver.maps.Event.addListener(marker, 'click', function(index) {
-                        var markerElement = marker.getElement(); // 현재 마커의 DOM 요소
-                        var markerId = marker.id; // 마커의 고유 ID
-                        var markerType = marker.type; // 마커의 타입
-                        var mapSide = document.querySelector('.map_side');
-
-                        // 현재 마커의 activeMarker 요소 선택
-                        var currentActiveMarkerElement = markerElement.querySelector('.activeMarker');
-
-                        // 클릭된 마커가 이미 active 상태인 경우
-                        if (lastActiveMarkerElement === currentActiveMarkerElement) {
-                            // map_side의 active 클래스를 제거
-                            mapSide.classList.remove('active');
-                            // 클릭된 마커의 active 클래스를 제거
-                            $(currentActiveMarkerElement).removeClass('active');
-                            // 마지막 active 마커를 null로 설정
-                            lastActiveMarkerElement = null;
-                        } else {
-                            // 클릭된 마커가 다른 마커인 경우
-
-                            // 해당 마커 ID로 getProductSide 함수 호출
-                            getProductSide(markerId, markerType);
-                            // 이전에 active 상태였던 마커의 active 클래스를 제거
-                            $('.activeMarker').removeClass('active');
-
-                            // 클릭된 마커에 active 클래스를 추가
-                            $(currentActiveMarkerElement).addClass('active');
-                            // map_side의 active 클래스가 없는 경우 추가
-                            if (!mapSide.classList.contains('active')) {
-                                mapSide.classList.add('active');
-                            }
-                            // 마지막 active 마커를 현재 마커로 설정
-                            lastActiveMarkerElement = currentActiveMarkerElement;
-                        }
-                    });
-                    markers.push(marker);
-                });
-
-
 
                 // 지적도 세팅
                 var cadastralLayer = new naver.maps.CadastralLayer();
@@ -577,7 +415,7 @@
                 naver.maps.onJSContentLoaded = function() {
                     // 아이디 혹은 지도 좌표로 파노라마를 표시할 수 있습니다.
                     pano = new naver.maps.Panorama("pano", {
-                        position: new naver.maps.LatLng(37.3599605, 127.1058814),
+                        position: new naver.maps.LatLng(37.4808568, 126.8802557),
                         pov: {
                             pan: -133,
                             tilt: 0,
@@ -787,6 +625,133 @@
             //     // contentEl.find('.center').text(map.getCenterPoint());
             //     // console.log('Center: ' + map.getCenter().toString() + ', Bounds: ' + bounds.toString());
             // });
+        </script>
+
+        <script>
+            function getSidoData() {
+                // 시도 데이터를 가져오는 함수
+                return [{
+                        lat: 37.5665,
+                        lng: 126.9780,
+                        name: '서울'
+                    },
+                    {
+                        lat: 35.1796,
+                        lng: 129.0756,
+                        name: '부산'
+                    },
+                    // 추가 시도 데이터
+                ];
+            }
+
+            function getSigunguData() {
+                // 시군구 데이터를 가져오는 함수
+                return [{
+                        lat: 37.4138,
+                        lng: 127.5183,
+                        name: '성남시'
+                    },
+                    {
+                        lat: 37.4563,
+                        lng: 126.7052,
+                        name: '인천시'
+                    },
+                    // 추가 시군구 데이터
+                ];
+            }
+
+            function getEupmyeondongData() {
+                // 읍면동 데이터를 가져오는 함수
+                return [{
+                        lat: 37.5665,
+                        lng: 126.9780,
+                        name: '가산동'
+                    },
+                    {
+                        lat: 35.1796,
+                        lng: 129.0756,
+                        name: '해운대동'
+                    },
+                    // 추가 읍면동 데이터
+                ];
+            }
+
+            function getIndividualListings() {
+                // 개별 매물 데이터를 가져오는 함수
+                return [{
+                        lat: 37.5665,
+                        lng: 126.9780,
+                        name: '매물 1'
+                    },
+                    {
+                        lat: 35.1796,
+                        lng: 129.0756,
+                        name: '매물 2'
+                    },
+                    // 추가 매물 데이터
+                ];
+            }
+
+            function createMarker(position) {
+                return new naver.maps.Marker({
+                    position: new naver.maps.LatLng(position.lat, position.lng),
+                    map: map,
+                    title: position.name,
+                    icon: {
+                        content: `<div class="marker">${position.name}</div>`,
+                        anchor: new naver.maps.Point(12, 12)
+                    }
+                });
+            }
+
+            function updateMarkers() {
+                var zoomLevel = map.getZoom();
+                var clusterer;
+                var positions = [];
+
+                // 기존 마커 클러스터링 제거
+                if (markers.length > 0) {
+                    markers.forEach(marker => marker.setMap(null));
+                    markers = [];
+                }
+
+                if (zoomLevel >= 10 && zoomLevel <= 12) {
+                    // 시도 기준 클러스터링
+                    positions = getSidoData();
+                } else if (zoomLevel >= 7 && zoomLevel <= 9) {
+                    // 시군구 기준 클러스터링
+                    positions = getSigunguData();
+                } else if (zoomLevel >= 5 && zoomLevel <= 6) {
+                    // 읍면동 기준 클러스터링
+                    positions = getEupmyeondongData();
+                } else if (zoomLevel >= 1 && zoomLevel <= 4) {
+                    // 개별 매물 표시
+                    positions = getIndividualListings();
+                }
+
+                // 클러스터러 생성
+                clusterer = new naver.maps.MarkerClusterer({
+                    map: map,
+                    averageCenter: true,
+                    minClusterSize: 2,
+                    markers: markers
+                });
+
+                // 마커 생성 및 클러스터 추가
+                positions.forEach(position => {
+                    var marker = createMarker(position);
+                    markers.push(marker);
+                });
+
+                if (clusterer) {
+                    clusterer.addMarkers(markers);
+                }
+            }
+
+            // naver.maps.Event.addListener(map, 'zoom_changed', updateMarkers);
+            // naver.maps.Event.addListener(map, 'dragend', updateMarkers);
+
+            // updateMarkers();
         </script>
     </body>
 </x-layout>

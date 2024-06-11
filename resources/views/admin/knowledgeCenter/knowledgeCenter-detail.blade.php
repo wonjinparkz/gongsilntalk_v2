@@ -28,19 +28,19 @@
                                 readonly placeholder="" value="{{ old('pnu') ? old('pnu') : $result->pnu }}" />
                             <input type="hidden" name="address_lat" id="address_lat"
                                 class="form-control form-control-solid " readonly placeholder=""
-                                value="{{ old('address_lat') ? old('address_lat') : $result->address_lat }} }}" />
+                                value="{{ old('address_lat') ? old('address_lat') : $result->address_lat }}" />
                             <input type="hidden" name="address_lng" id="address_lng"
                                 class="form-control form-control-solid " readonly placeholder=""
-                                value="{{ old('address_lng') ? old('address_lng') : $result->address_lng }} }}" />
+                                value="{{ old('address_lng') ? old('address_lng') : $result->address_lng }}" />
                             <input type="hidden" name="polygon_coordinates" id="polygon_coordinates"
                                 class="form-control form-control-solid " readonly placeholder=""
-                                value="{{ old('polygon_coordinates') ? old('polygon_coordinates') : $result->polygon_coordinates }} }}" />
+                                value="{{ old('polygon_coordinates') ? old('polygon_coordinates') : $result->polygon_coordinates }}" />
                             <input type="hidden" name="characteristics_json" id="characteristics_json"
                                 class="form-control form-control-solid " readonly placeholder=""
-                                value="{{ old('characteristics_json') ? old('characteristics_json') : $result->characteristics_json }} }}" />
+                                value="{{ old('characteristics_json') ? old('characteristics_json') : $result->characteristics_json }}" />
                             <input type="hidden" name="useWFS_json" id="useWFS_json"
                                 class="form-control form-control-solid " readonly placeholder=""
-                                value="{{ old('useWFS_json') ? old('useWFS_json') : $result->useWFS_json }} }}" />
+                                value="{{ old('useWFS_json') ? old('useWFS_json') : $result->useWFS_json }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('address')" />
                         </div>
                     </div>

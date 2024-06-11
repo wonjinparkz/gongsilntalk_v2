@@ -124,10 +124,10 @@
         <div style="width: 100%;">
             <div class="swiper detail_tab">
                 <div class="swiper-wrapper menu toggle_menu">
-                    <div class="swiper-slide active"><a href="javascript:void(0);">가격·거래내역</a></div>
-                    <div class="swiper-slide"><a href="javascript:void(0);">건물·토지정보</a></div>
-                    <div class="swiper-slide"><a href="javascript:void(0);">위치 및 주변정보</a></div>
-                    <div class="swiper-slide"><a href="javascript:void(0);">매물정보</a></div>
+                    <div class="swiper-slide active"><a>가격·거래내역</a></div>
+                    <div class="swiper-slide"><a>건물·토지정보</a></div>
+                    <div class="swiper-slide"><a>위치 및 주변정보</a></div>
+                    <div class="swiper-slide"><a>매물정보</a></div>
                 </div>
             </div>
             <div class="swiper-button-next"></div>

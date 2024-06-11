@@ -66,6 +66,7 @@
 
     // 슬라이드 탭
     function showContent(index) {
+        console.log('index : ', index);
         $('.side_tab_wrap .sction_item').removeClass('active');
         $('.side_tab_wrap .sction_item').eq(index).addClass('active');
     }
