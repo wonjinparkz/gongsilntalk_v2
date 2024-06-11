@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Models\Alarms;
 use App\Models\Asset;
 use App\Models\AssetAddress;
 use App\Models\CalculatorLoan;
@@ -719,7 +720,10 @@ class UserPcController extends Controller
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
-        return view('www.mypage.alarm_list', compact('user'));
+        $alarmList = Alarms::select()->where('users_id', Auth::guard('web')->user()->id)->get();
+
+        $checkCount = Alarms::select()->where('readed_at', NULL)->where('users_id', Auth::guard('web')->user()->id)->count();
+        return view('www.mypage.alarm_list', compact('user', 'alarmList', 'checkCount'));
     }
 
     /**

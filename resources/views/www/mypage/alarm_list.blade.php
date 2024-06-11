@@ -1,5 +1,45 @@
 <x-layout>
 
+    @php
+
+        function onDateChange($created_date)
+        {
+            $to = new DateTime();
+            $from = new DateTime($created_date);
+
+            $chkday = $created_date;
+            $nowday = date('Y-m-d H:i:s');
+
+            $gapMinute = (int) ((strtotime($nowday) - strtotime($chkday)) / 60);
+
+            $date = date_diff($from, $to)->days;
+
+            if ($date == 0) {
+                $dateText = '방금';
+
+                if ($gapMinute > 0) {
+                    if ($gapMinute > 60) {
+                        $dateText = floor($gapMinute / 60) . '시간 전';
+                    } else {
+                        $dateText = $gapMinute . '분 전';
+                    }
+                }
+            } else {
+                if ($date < 7) {
+                    $dateText = $date . '일 전';
+                } elseif ($date > 6 && $date < 30) {
+                    $dateText = floor($date / 7) . '주 전';
+                } elseif ($date > 29 && $date < 366) {
+                    $dateText = floor($date / 30) . '달 전';
+                } elseif ($date > 365) {
+                    $dateText = floor($date / 365) . '년 전';
+                }
+            }
+
+            return $dateText;
+        }
+
+    @endphp
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
@@ -31,7 +71,7 @@
 
                     <div class="flex_between my_body_top">
                         <div>
-                            미확인 알림 <span class="txt_point">2건</span>
+                            미확인 알림 <span class="txt_point">{{ $checkCount }}건</span>
                         </div>
 
                         <div class="gray_basic">
@@ -39,54 +79,58 @@
                         </div>
                     </div>
 
-
-                    <!-- 데이터가 없을 경우 : s -->
-                    <div class="empty_wrap">
-                        <p>새로운 알림이 없습니다.</p>
-                        <span>분양현장에서 마음에 드는 분양 매물의<br>‘알림 받기’ 등록을 해보세요.</span>
-                        <div class="mt8"><button class="btn_point btn_md_bold">분양현장 바로가기</button></div>
-                    </div>
-                    <!-- 데이터가 없을 경우 : e -->
-
-                    <!-- list : s -->
-                    <div class="alarm_list_wrap">
-                        <!-- 전체알림 : s -->
-                        <div class="alarm_list">
-                            <div>
-                                <p class="alarm_item_1"><span class="alarm_tit">등기일 입력 안내<i
-                                            title="new"></i></span><span class="alarm_date">2시간전</span></p>
-                                <p class="alarm_info"><b>홍길동</b>님이 <b>강남구 역삼동 123-12 / 아파트</b>에 투어를 요청했어요.</p>
-                            </div>
-                            <div>
-                                <button class="btn_sm btn_gray_ghost" onclick="modal_open('check')">요청확인</button>
-                            </div>
+                    @if (count($alarmList) < 1)
+                        <!-- 데이터가 없을 경우 : s -->
+                        <div class="empty_wrap">
+                            <p>새로운 알림이 없습니다.</p>
+                            <span>분양현장에서 마음에 드는 분양 매물의<br>‘알림 받기’ 등록을 해보세요.</span>
+                            <div class="mt8"><button class="btn_point btn_md_bold">분양현장 바로가기</button></div>
                         </div>
-                        <div class="alarm_list">
-                            <div>
-                                <p class="alarm_item_1"><span class="alarm_tit">등기일 입력 안내<i
-                                            title="new"></i></span><span class="alarm_date">2시간전</span></p>
-                                <p class="alarm_info">등록한 자산 <b>삼성 해링턴 타워</b>의 등기일을 업데이트 해주세요.</p>
-                            </div>
-                            <div>
-                                <button class="btn_sm btn_gray_ghost">바로가기</button>
-                            </div>
-                        </div>
-                        <!-- 전체알림 : e -->
-                        <!-- 분양현장 알림 : s -->
-                        <div class="alarm_list alarm_list_2" onclick="location.href='my_estate_list.html'">
-                            <div class="alarm_dday">
-                                <p class="alarm_item_1"><span class="alarm_tit">정당 계약일 D-1<i
-                                            title="new"></i></span><span class="alarm_date">2시간전</span></p>
-                            </div>
-                            <div class="alarm_info alarm_address">지식산업센터 놀라움 마곡 서울시 강서구 강동동</div>
-                            <div class="alarm_arrow">
-                                <img src="{{ asset('assets/media/ic_list_arrow.png') }}" class="w_8p">
-                            </div>
-                        </div>
-                        <!-- 분양현장 알림 : e -->
-                    </div>
+                        <!-- 데이터가 없을 경우 : e -->
+                    @else
+                        <!-- list : s -->
+                        <div class="alarm_list_wrap">
+                            @foreach ($alarmList as $alarm)
+                                <!-- 전체알림 : s -->
 
+                                <div class="alarm_list">
+                                    <div>
+                                        <p class="alarm_item_1">
+                                            <span class="alarm_tit">{{ $alarm->title }}
+                                                @if ($alarm->readed_at == null)
+                                                    <i title="new"></i>
+                                                @endif
+                                            </span>
+                                            <span class="alarm_date">{{ onDateChange($alarm->created_at) }}</span>
+                                        </p>
+                                        <p class="alarm_info">{!! $alarm->body !!}</p>
+                                    </div>
+                                    <div>
+                                        {{-- 투어 요청 안내 알림 --}}
+                                        <button class="btn_sm btn_gray_ghost" type="button"
+                                            onclick="modal_open('check')">요청확인</button>
 
+                                        {{-- 등기일 입력 안내 알림 --}}
+                                        {{-- <button class="btn_sm btn_gray_ghost">바로가기</button> --}}
+                                    </div>
+                                </div>
+
+                                <!-- 전체알림 : e -->
+                                <!-- 분양현장 알림 : s -->
+                                {{-- <div class="alarm_list alarm_list_2" onclick="location.href='my_estate_list.html'">
+                                <div class="alarm_dday">
+                                    <p class="alarm_item_1"><span class="alarm_tit">정당 계약일 D-1<i
+                                                title="new"></i></span><span class="alarm_date">2시간전</span></p>
+                                </div>
+                                <div class="alarm_info alarm_address">지식산업센터 놀라움 마곡 서울시 강서구 강동동</div>
+                                <div class="alarm_arrow">
+                                    <img src="{{ asset('assets/media/ic_list_arrow.png') }}" class="w_8p">
+                                </div>
+                            </div> --}}
+                                <!-- 분양현장 알림 : e -->
+                            @endforeach
+                        </div>
+                    @endif
                     <!-- list : e -->
 
 

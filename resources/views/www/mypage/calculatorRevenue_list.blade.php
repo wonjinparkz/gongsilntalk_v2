@@ -1,7 +1,8 @@
 <x-layout>
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
-        <div class="left_area"><a href="javascript:history.go(-1)"><img src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
+        <div class="left_area"><a href="javascript:history.go(-1)"><img
+                    src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
         <div class="m_title">마이메뉴</div>
         <div class="right_area"></div>
     </div>
@@ -58,6 +59,13 @@
                                 </div>
                                 <div class="table_container columns_2 mt18">
                                     <div class="td">매매/분양가</div>
+                                    @php
+                                        $calculator->loan_ratio =
+                                            $calculator->loan_ratio == 0 ? 100 : $calculator->loan_ratio;
+
+                                        $calculator->loan_interest =
+                                            $calculator->loan_interest == 0 ? 100 : $calculator->loan_interest;
+                                    @endphp
                                     <div class="td">
                                         {{ number_format($calculator->sale_price) }}원
                                     </div>

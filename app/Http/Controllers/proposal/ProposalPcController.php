@@ -445,8 +445,8 @@ class ProposalPcController extends Controller
         // 투어 요청 알림 추후 수정 필요
         Alarms::create([
             'users_id' => $product->users_id,
-            'title' => '매물 투어 요청이 있습니다.',
-            'body' => '[' . $product->address . '] 매물 투어 요청',
+            'title' => '투어 요청 안내',
+            'body' => '<b>' . Auth::guard('web')->user()->name . '</b>님이 <b>' . $product->address . '</b>에 투어를 요청했어요.',
             'msg' => '{"tour_user_id":"' . Auth::guard('web')->user()->id . '","product_id":"' . $product->id . '"}',
         ]);
 
