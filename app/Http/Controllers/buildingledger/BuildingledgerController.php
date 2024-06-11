@@ -21,7 +21,7 @@ use Maatwebsite\Excel\Facades\Excel;
 | 건축물대장 관리자
 |--------------------------------------------------------------------------
 |
-| - 건축물대장 표지부 업데이트 (0)
+| - 건축물대장 표제부 업데이트 (0)
 | - 건축물대장 총괄표제부 업데이트 ()
 | - 건축물대장 층별개요 업데이트 ()
 | - 건축물대장 전유부 업데이트 ()
@@ -36,8 +36,9 @@ class BuildingledgerController extends Controller
      */
     public function BrTitleInfoUpdate(Request $request): RedirectResponse
     {
+        Log::info($request->BrTitleInfo);
 
-        if ($request->BrTitleInfo != null) {
+        if ($request->BrTitleInfo) {
             // 기존 데이터 초기화 하고 이미지 업데이트
             BrTitleInfo::where('target_id', '=', $request->id)
                 ->where('target_type', '=', $request->class)->update([
@@ -45,16 +46,18 @@ class BuildingledgerController extends Controller
                     'target_id' => null,
                 ]);
 
-            BrTitleInfo::create([
-                'json_data' => $request->BrTitleInfo,
-                'target_type' => $request->class,
-                'target_id' => $request->id,
-            ]);
+            foreach ($request->BrTitleInfo as $key => $BrTitleInfo) {
+                BrTitleInfo::create([
+                    'json_data' => $BrTitleInfo,
+                    'target_type' => $request->class,
+                    'target_id' => $request->id,
+                ]);
+            }
 
-            return back()->with('message', '표지부 업데이터를 했습니다.');
+            return back()->with('message', '표제부 업데이터를 했습니다.');
         }
 
-        return back()->with('message', '표지부 업데이터 실패했습니다.');
+        return back()->with('message', '표제부 업데이터 실패했습니다.');
     }
     /**
      * 건출대장 업데이트
@@ -62,7 +65,7 @@ class BuildingledgerController extends Controller
     public function BrRecapTitleInfoUpdate(Request $request): RedirectResponse
     {
 
-        if ($request->BrRecapTitleInfo != null) {
+        if ($request->BrRecapTitleInfo) {
             // 기존 데이터 초기화 하고 이미지 업데이트
             BrRecapTitleInfo::where('target_id', '=', $request->id)
                 ->where('target_type', '=', $request->class)->update([
@@ -70,11 +73,13 @@ class BuildingledgerController extends Controller
                     'target_id' => null,
                 ]);
 
-            BrRecapTitleInfo::create([
-                'json_data' => $request->BrRecapTitleInfo,
-                'target_type' => $request->class,
-                'target_id' => $request->id,
-            ]);
+            foreach ($request->BrRecapTitleInfo as $key => $BrRecapTitleInfo) {
+                BrRecapTitleInfo::create([
+                    'json_data' => $BrRecapTitleInfo,
+                    'target_type' => $request->class,
+                    'target_id' => $request->id,
+                ]);
+            }
 
             return back()->with('message', '총괄표제부 업데이터를 했습니다.');
         }
@@ -87,7 +92,7 @@ class BuildingledgerController extends Controller
     public function BrFlrOulnInfoUpdate(Request $request): RedirectResponse
     {
 
-        if ($request->BrFlrOulnInfo != null) {
+        if ($request->BrFlrOulnInfo) {
             // 기존 데이터 초기화 하고 이미지 업데이트
             BrFlrOulnInfo::where('target_id', '=', $request->id)
                 ->where('target_type', '=', $request->class)->update([
@@ -95,11 +100,13 @@ class BuildingledgerController extends Controller
                     'target_id' => null,
                 ]);
 
-            BrFlrOulnInfo::create([
-                'json_data' => $request->BrFlrOulnInfo,
-                'target_type' => $request->class,
-                'target_id' => $request->id,
-            ]);
+            foreach ($request->BrFlrOulnInfo as $key => $BrFlrOulnInfo) {
+                BrFlrOulnInfo::create([
+                    'json_data' => $BrFlrOulnInfo,
+                    'target_type' => $request->class,
+                    'target_id' => $request->id,
+                ]);
+            }
 
             return back()->with('message', '층별개요 업데이터를 했습니다.');
         }
@@ -113,20 +120,20 @@ class BuildingledgerController extends Controller
     public function BrExposInfoUpdate(Request $request): RedirectResponse
     {
 
-        if ($request->BrExposInfo != null) {
+        if ($request->BrExposInfo) {
             // 기존 데이터 초기화 하고 이미지 업데이트
             BrExposInfo::where('target_id', '=', $request->id)
                 ->where('target_type', '=', $request->class)->update([
                     'target_type' => null,
                     'target_id' => null,
                 ]);
-
-            BrExposInfo::create([
-                'json_data' => $request->BrExposInfo,
-                'target_type' => $request->class,
-                'target_id' => $request->id,
-            ]);
-
+            foreach ($request->BrExposInfo as $key => $BrExposInfo) {
+                BrExposInfo::create([
+                    'json_data' => $BrExposInfo,
+                    'target_type' => $request->class,
+                    'target_id' => $request->id,
+                ]);
+            }
             return back()->with('message', '전유부 업데이터를 했습니다.');
         }
 
@@ -139,7 +146,7 @@ class BuildingledgerController extends Controller
     public function BrExposPubuseAreaInfoUpdate(Request $request): RedirectResponse
     {
 
-        if ($request->BrExposPubuseAreaInfo != null) {
+        if ($request->BrExposPubuseAreaInfo) {
             // 기존 데이터 초기화 하고 이미지 업데이트
             BrExposPubuseAreaInfo::where('target_id', '=', $request->id)
                 ->where('target_type', '=', $request->class)->update([
@@ -147,12 +154,13 @@ class BuildingledgerController extends Controller
                     'target_id' => null,
                 ]);
 
-            BrExposPubuseAreaInfo::create([
-                'json_data' => $request->BrExposPubuseAreaInfo,
-                'target_type' => $request->class,
-                'target_id' => $request->id,
-            ]);
-
+            foreach ($request->BrExposPubuseAreaInfo as $key => $BrExposPubuseAreaInfo) {
+                BrExposPubuseAreaInfo::create([
+                    'json_data' => $BrExposPubuseAreaInfo,
+                    'target_type' => $request->class,
+                    'target_id' => $request->id,
+                ]);
+            }
             return back()->with('message', '전유공용면적 업데이터를 했습니다.');
         }
 

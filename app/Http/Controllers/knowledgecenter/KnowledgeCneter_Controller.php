@@ -83,6 +83,7 @@ class KnowledgeCneter_Controller extends Controller
     public function knowledgeCenterDetailView($id): View
     {
         $result = KnowledgeCenter::where('id', $id)->first();
+
         return view('admin.knowledgeCenter.knowledgeCenter-detail', compact('result'));
     }
 
@@ -365,10 +366,6 @@ class KnowledgeCneter_Controller extends Controller
                 $startReading = true;
             }
         }
-
-
-
-
 
         // Excel::import($file, function ($rows) {
         //     foreach ($rows as $row) {

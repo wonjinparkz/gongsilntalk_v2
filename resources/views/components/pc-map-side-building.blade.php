@@ -36,7 +36,7 @@
 <div class="side_header">
     <div class="left_area"><a href="javascript:history.go(-1)"><img
                 src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
-    <div class="m_title">{{ $result->kaptName }}</div>
+    <div class="m_title">{{ $result->kbuildingName }}</div>
     <div class="right_area"><a href="#" class="btn_share"><img
                 src="{{ asset('assets/media/header_btn_share_deep.png') }}"></a></div>
     <!-- 공유하기 : s -->
@@ -62,24 +62,19 @@
 <div class="side_fixed">
     <div class="top_wrap flex_between">
         <ul class="tab_type_3 toggle_tab">
-            @if (count($result->transactions) > 0)
-                <li class="active" data-type="sale">매매</li>
-            @endif
-            @if (count($result->transactionsRent) > 0)
-                <li class="" data-type="rent">전월세</li>
-            @endif
+            <li class="active" data-type="sale">매매</li>
+            <li class="" data-type="rent">전월세</li>
         </ul>
 
-        @if (count($result->exclusiveAreasSale) > 0)
-            <div class="dropdown_box s_sm">
-                <button class="dropdown_label">{{ $result->exclusiveAreasSale[0] }}㎡</button>
-                <ul class="optionList transactionsType">
-                    @foreach ($result->exclusiveAreasSale as $area)
-                        <li class="optionItem sale rent" data-area="{{ $area }}">{{ $area }}㎡</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        <div class="dropdown_box s_sm">
+            <button class="dropdown_label">71.1㎡</button>
+            <ul class="optionList">
+                <li class="optionItem">71.1㎡</li>
+                <li class="optionItem">79.33평</li>
+                <li class="optionItem">81.13㎡</li>
+                <li class="optionItem">84㎡</li>
+            </ul>
+        </div>
     </div>
 </div>
 <script></script>
@@ -98,16 +93,16 @@
         <div>
             <img src="{{ asset('assets/media/map_sample_sm.png') }}" class="size_100p">
         </div>
-        <p class="txt_address">{{ $result->kaptAddr }}</p>
+        <p class="txt_address">{{ $result->kbuildingAddr }}</p>
         <p class="txt_sub_1">{{ $result->subwayStation }} {{ $result->subwayLine }}
-            <span>{{ $result->kaptdWtimesub }}</span>
+            <span>{{ $result->kbuildingdWtimesub }}</span>
         </p>
         <ul class="info_detail">
             <li>
-                <p>{{ $result->kaptDongCnt }}동</p><label>총 동수</label>
+                <p>{{ $result->kbuildingDongCnt }}동</p><label>총 동수</label>
             </li>
             <li>
-                <p>{{ $result->kaptdaCnt }}세대</p><label>총 세대수</label>
+                <p>{{ $result->kbuildingdaCnt }}세대</p><label>총 세대수</label>
             </li>
             <li>
                 <p>0층/0층</p>
@@ -138,228 +133,132 @@
 
     <div class="side_tab_wrap">
         <div class="sction_item active">
-            <div id="saleContent" class="content_item">
-                <!-- 매매 거래내역 : s -->
-                <div class="side_section">
-                    <h4>매매 거래내역</h4>
-                    <!-- 데이터 없을 경우 -->
-                    @if (count($result->groupedTransactions) <= 0)
-                        <div class="empty_wrap sm_type">
-                            <span>실거래 내역이 없습니다.</span>
-                        </div>
-                    @else
-                        <div id="saleTransactionContainer">
-                            @foreach ($result->groupedTransactions as $area => $group)
-                                @php
-                                    $latestTransaction = $group->first();
-                                    $previousTransaction = $group->skip(1)->first();
-                                    $priceChange = 0;
-                                    $priceChangePercent = 0;
-                                    $latestPrice = 0;
-                                    if ($latestTransaction) {
-                                        $latestPrice = (float) str_replace(
-                                            ',',
-                                            '',
-                                            $latestTransaction->transactionPrice,
-                                        );
-                                        if ($previousTransaction) {
-                                            $previousPrice = (float) str_replace(
-                                                ',',
-                                                '',
-                                                $previousTransaction->transactionPrice,
-                                            );
-                                            $priceChange = $latestPrice - $previousPrice;
-                                            if ($previousPrice != 0) {
-                                                $priceChangePercent = ($priceChange / $previousPrice) * 100;
-                                            }
-                                        }
-                                    }
-                                    $priceChangeClass =
-                                        $priceChange > 0
-                                            ? 'status_item_red'
-                                            : ($priceChange < 0
-                                                ? 'status_item_blue'
-                                                : 'status_item_normal');
-
-                                @endphp
-                                <div class="transactionGroup" data-area="{{ $latestTransaction->exclusiveArea }}">
-
-                                    <div class="transaction_box mt10">
-                                        <div class="gray_deep">
-                                            <span
-                                                class="transaction_price">{{ Commons::getformatPrice($latestPrice) }}</span>({{ $latestTransaction->floor }}층)
-                                        </div>
-                                        <div class="{{ $priceChangeClass }}">
-                                            @if ($priceChangeClass != 'status_item_normal')
-                                                {{ Commons::getformatPrice($priceChange) }}
-                                                ({{ number_format($priceChangePercent, 2) }}%)
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="table_container2_sm mt10">
-                                        <div class="td">거래일시</div>
-                                        <div class="td">
-                                            {{ $latestTransaction->year . '.' . $latestTransaction->month }}
-                                        </div>
-                                        <div class="td">거래 총면적</div>
-                                        <div class="td">전용 {{ $latestTransaction->exclusiveArea }}㎡</div>
-                                        <div class="td">면적당 단가</div>
-                                        <div class="td">전용
-                                            {{ Commons::getformatPrice($latestPrice / $latestTransaction->exclusiveArea) }}/㎡
-                                        </div>
-                                    </div>
-
-                                    <div class="section_price_wrap mt20">
-                                        <div class="default_box showstep1">
-                                            <table class="table_type_1">
-                                                <colgroup>
-                                                    <col width="80">
-                                                    <col width="*">
-                                                    <col width="*">
-                                                </colgroup>
-                                                <thead>
-                                                    <tr>
-                                                        <th>거래일</th>
-                                                        <th>거래금액</th>
-                                                        <th>층수</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($group as $transaction)
-                                                        @php
-                                                            $transactionPrice = (float) str_replace(
-                                                                ',',
-                                                                '',
-                                                                $transaction->transactionPrice,
-                                                            );
-                                                        @endphp
-                                                        <tr>
-                                                            <td>{{ $transaction->year . '.' . $transaction->month }}
-                                                            </td>
-                                                            <td>{{ Commons::getformatPrice($transactionPrice) }}</td>
-                                                            <td>{{ $transaction->floor }}층</td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="btn_more_open">더보기</div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
+            <!-- 거래내역 : s -->
+            <div class="side_section">
+                <h4>거래내역</h4>
+                <!-- 데이터 없을 경우 -->
+                <div class="empty_wrap sm_type">
+                    <span>실거래 내역이 없습니다.</span>
                 </div>
-                <!-- 매매 거래내역 : e -->
-            </div>
+                <div class="mt20">
+                    <p>최근 실거래가</p>
+                    <div class="transaction_box mt10">
+                        <div class="gray_deep"><span class="transaction_price">3억 8200만</span>(11층)</div>
+                        <div class="status_item_blue">1억(+4.1%)</div>
+                    </div>
 
-            <div id="rentContent" class="content_item">
-                <!-- 전월세 거래내역 : s -->
-                <div class="side_section">
-                    <h4>전월세 거래내역</h4>
-                    <!-- 데이터 없을 경우 -->
-                    @if (count($result->groupedTransactionsRent) <= 0)
-                        <div class="empty_wrap sm_type">
-                            <span>실거래 내역이 없습니다.</span>
+                    <div class="table_container2_sm mt10">
+                        <div class="td">거래일시</div>
+                        <div class="td">2023년 02월 4일</div>
+                        <div class="td">거래 총면적</div>
+                        <div class="td">전용 79.33㎡</div>
+                        <div class="td">면적당 단가</div>
+                        <div class="td">전용 792만/㎡</div>
+                    </div>
+
+                    <div class="section_price_wrap mt20">
+                        <div class="default_box showstep1">
+                            <table class="table_type_1">
+                                <colgroup>
+                                    <col width="80">
+                                    <col width="*">
+                                    <col width="*">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>거래일</th>
+                                        <th>거래금액</th>
+                                        <th>층수</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>23.02</td>
+                                        <td>3억 8,200만</td>
+                                        <td>11층</td>
+                                    </tr>
+                                    <tr>
+                                        <td>23.02</td>
+                                        <td>3억 8,200만</td>
+                                        <td>11층</td>
+                                    </tr>
+                                    <tr>
+                                        <td>23.02</td>
+                                        <td>3억 8,200만</td>
+                                        <td>11층</td>
+                                    </tr>
+                                    <tr>
+                                        <td>23.02</td>
+                                        <td>3억 8,200만</td>
+                                        <td>11층</td>
+                                    </tr>
+                                    <tr>
+                                        <td>22.02</td>
+                                        <td>3억 8,200만</td>
+                                        <td>11층</td>
+                                    </tr>
+                                    <tr>
+                                        <td>22.02</td>
+                                        <td>3억 8,200만</td>
+                                        <td>11층</td>
+                                    </tr>
+                                    <tr>
+                                        <td>22.02</td>
+                                        <td>3억 8,200만</td>
+                                        <td>11층</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                    @else
-                        <div id="rentTransactionContainer">
-                            @foreach ($result->groupedTransactionsRent as $area => $group)
-                                @php
-                                    $latestTransaction = $group->first();
-                                    $previousTransaction = $group->skip(1)->first();
-                                    $priceChange = 0;
-                                    $priceChangePercent = 0;
-                                    if ($latestTransaction && $previousTransaction) {
-                                        $latestPrice = (float) str_replace(
-                                            ',',
-                                            '',
-                                            $latestTransaction->transactionPrice,
-                                        );
-                                        $previousPrice = (float) str_replace(
-                                            ',',
-                                            '',
-                                            $previousTransaction->transactionPrice,
-                                        );
-                                        $priceChange = $latestPrice - $previousPrice;
-                                        if ($previousPrice != 0) {
-                                            $priceChangePercent = ($priceChange / $previousPrice) * 100;
-                                        }
-                                    }
-                                    $priceChangeClass = $priceChange > 0 ? 'status_item_red' : 'status_item_blue';
-                                @endphp
-                                <div class="transactionGroup" data-area="{{ $latestTransaction->exclusiveArea }}">
 
-                                    <div class="transaction_box mt10">
-                                        <div class="gray_deep">
-                                            <span
-                                                class="transaction_price">{{ Commons::getformatPrice($latestPrice) }}</span>({{ $latestTransaction->floor }}층)
-                                        </div>
-                                        <div class="{{ $priceChangeClass }}">
-                                            {{ Commons::getformatPrice($priceChange) }}
-                                            ({{ number_format($priceChangePercent, 2) }}%)
-                                        </div>
-                                    </div>
-
-                                    <div class="table_container2_sm mt10">
-                                        <div class="td">거래일시</div>
-                                        <div class="td">
-                                            {{ $latestTransaction->year . '.' . $latestTransaction->month }}
-                                        </div>
-                                        <div class="td">거래 총면적</div>
-                                        <div class="td">전용 {{ $latestTransaction->exclusiveArea }}㎡</div>
-                                        <div class="td">면적당 단가</div>
-                                        <div class="td">전용
-                                            {{ Commons::getformatPrice($latestPrice / $latestTransaction->exclusiveArea) }}/㎡
-                                        </div>
-                                    </div>
-
-                                    <div class="section_price_wrap mt20">
-                                        <div class="default_box showstep1">
-                                            <table class="table_type_1">
-                                                <colgroup>
-                                                    <col width="80">
-                                                    <col width="*">
-                                                    <col width="*">
-                                                </colgroup>
-                                                <thead>
-                                                    <tr>
-                                                        <th>거래일</th>
-                                                        <th>거래금액</th>
-                                                        <th>층수</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($group as $transaction)
-                                                        @php
-                                                            $transactionPrice = (float) str_replace(
-                                                                ',',
-                                                                '',
-                                                                $transaction->transactionPrice,
-                                                            );
-                                                        @endphp
-                                                        <tr>
-                                                            <td>{{ $transaction->year . '.' . $transaction->month }}
-                                                            </td>
-                                                            <td>{{ Commons::getformatPrice($transactionPrice) }}</td>
-                                                            <td>{{ $transaction->floor }}층</td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="btn_more_open">더보기</div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
+                        <div class="btn_more_open">더보기</div>
+                    </div>
                 </div>
-                <!-- 전월세 거래내역 : e -->
+                <hr class="space exp mt20">
+
+                <h4 class="mt20">평단가 기준 유사 실거래 사례</h4>
+
+                <div class="section_price_wrap mt20">
+                    <div class="default_box showstep1">
+                        <table class="table_type_1">
+                            <colgroup>
+                                <col width="60">
+                                <col width="*">
+                                <col width="100">
+                                <col width="100">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>거래일</th>
+                                    <th>단지명</th>
+                                    <th>거래금액</th>
+                                    <th>금액/평단가</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>23.01</td>
+                                    <td>한신아파트</td>
+                                    <td>1122.44㎡</td>
+                                    <td>2 억 8,200만<p class="gray_deep">820만/㎡</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>23.01</td>
+                                    <td>구로 힐스테이트</td>
+                                    <td>48.6㎡</td>
+                                    <td>2억 8,200만<p class="gray_deep">820만/㎡</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="btn_more_open">더보기</div>
+                </div>
             </div>
+            <!-- 거래내역 : e -->
         </div>
-
         <div class="sction_item">
             <!-- 건물·토지정보 : s -->
             <div class="side_section">
@@ -368,8 +267,7 @@
 
             <div class="open_con_wrap building_item_1">
                 <div class="open_trigger">동별정보 <span><img
-                            src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
-                </div>
+                            src="{{ asset('assets/media/dropdown_arrow.png') }}"></span></div>
                 <div class="con_panel">
                     <div class="default_box showstep1">
                         <table class="table_type_1">
@@ -390,30 +288,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if ($BrTitleInfo != null)
-                                    <tr>
-                                        <td class="txt_sm">
-                                            <input type="radio" name="select" id="select_1" checked>
-                                            <label for="select_1"><span></span></label>
-                                        </td>
-                                        <td class="txt_sm">총괄표제부(집합)</td>
-                                        <td class="txt_sm">-</td>
-                                        <td class="txt_sm">-</td>
-                                        <td class="txt_sm">1582.26㎡</td>
-                                    </tr>
-                                @endif
-                                @if ($BrTitleInfo != null)
-                                    <tr>
-                                        <td class="txt_sm">
-                                            <input type="radio" name="select" id="select_1">
-                                            <label for="select_1"><span></span></label>
-                                        </td>
-                                        <td class="txt_sm">일반건축물(일반)</td>
-                                        <td class="txt_sm">관리사무소</td>
-                                        <td class="txt_sm">공동주택</td>
-                                        <td class="txt_sm">582.6㎡</td>
-                                    </tr>
-                                @endif
+                                <tr>
+                                    <td class="txt_sm">
+                                        <input type="radio" name="select" id="select_1" checked>
+                                        <label for="select_1"><span></span></label>
+                                    </td>
+                                    <td class="txt_sm">총괄표제부(집합)</td>
+                                    <td class="txt_sm">-</td>
+                                    <td class="txt_sm">-</td>
+                                    <td class="txt_sm">1582.26㎡</td>
+                                </tr>
+                                <tr>
+                                    <td class="txt_sm">
+                                        <input type="radio" name="select" id="select_1">
+                                        <label for="select_1"><span></span></label>
+                                    </td>
+                                    <td class="txt_sm">일반건축물(일반)</td>
+                                    <td class="txt_sm">관리사무소</td>
+                                    <td class="txt_sm">공동주택</td>
+                                    <td class="txt_sm">582.6㎡</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -455,8 +349,7 @@
 
             <div class="open_con_wrap building_item_2">
                 <div class="open_trigger">층별 정보 <span><img
-                            src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
-                </div>
+                            src="{{ asset('assets/media/dropdown_arrow.png') }}"></span></div>
                 <div class="con_panel">
                     <div class="default_box showstep1">
                         <table class="table_type_1">
@@ -548,8 +441,7 @@
 
             <div class="open_con_wrap building_item_4">
                 <div class="open_trigger">토지정보 <span><img
-                            src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
-                </div>
+                            src="{{ asset('assets/media/dropdown_arrow.png') }}"></span></div>
                 <div class="con_panel">
                     <div class="default_box showstep1">
                         <div class="table_container2_sm mt10">
@@ -583,8 +475,7 @@
             <div class="side_section">
                 <h4>위치 및 주변정보</h4>
                 <div class="container_map_wrap mt18"><img src="{{ asset('assets/media/s_map.png') }}"
-                        class="w_100">
-                </div>
+                        class="w_100"></div>
                 <div class="map_detail_wrp">
                     <ul class="tab_toggle_menu tab_type_4">
                         <li class="active"><a href="javascript:(0)">대중교통</a></li>
@@ -593,25 +484,22 @@
                     </ul>
                     <div class="tab_area_wrap">
                         <div class="traffic_wrap">
-                            <div class="traffic_tit"><img src="{{ asset('assets/media/ic_subway.png') }}">지하철
-                            </div>
-                            <p class="traffic_row">{{ $result->subwayStation }} {{ $result->subwayLine }}
-                                <span>{{ $result->kaptdWtimesub }}</span>
-                            </p>
+                            <div class="traffic_tit"><img src="{{ asset('assets/media/ic_subway.png') }}">지하철</div>
+                            <p class="traffic_row">가산디지털단지역 1호선, 3호선 <span>15~20분이내</span></p>
+                            <p class="traffic_row">가산디지털단지역 7호선 <span>15~20분이내</span></p>
 
-                            <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스
-                            </div>
-                            <p class="traffic_row">정류장 <span>{{ $result->kaptdWtimebus }}</span></p>
+                            <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스</div>
+                            <p class="traffic_row">정류장 <span>15~20분이내</span></p>
 
                         </div>
                         <div>
                             <div class="facility_wrap">
-                                {{ nl2br($result->convenientFacility) }}
+                                관공서(양천세무서) 병원(다민한의원, 신천호한의원) 백화점(목동현대백화점) 공원(양천공원) 기타(안양천)
                             </div>
                         </div>
                         <div>
                             <div class="edu_wrap">
-                                {{ nl2br($result->educationFacility) }}
+                                초등학교(신목) 중학교(목동) 고등학교(신목)
                             </div>
                         </div>
                     </div>
@@ -676,6 +564,8 @@
 
         </div>
     </div>
+
+</div>
 
 </div>
 
