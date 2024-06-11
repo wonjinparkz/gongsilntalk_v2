@@ -104,9 +104,11 @@
                                         </div>
 
                                         <div class="community_row_img">
-                                            <div class="img_box">
-                                                <img src="{{ asset('assets/media/s_1.png') }}">
-                                            </div>
+                                            @if (count($community->images) > 0)
+                                                <div class="img_box">
+                                                    <img src="{{ Storage::url('image/' . $community->images[0]->path) }}">
+                                                </div>
+                                            @endif
                                         </div>
                                     </a>
                                 </li>
