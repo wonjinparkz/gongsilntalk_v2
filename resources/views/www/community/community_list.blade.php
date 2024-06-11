@@ -146,8 +146,6 @@
                                                 @if (count($community->images) > 0)
                                                     <img
                                                         src="{{ Storage::url('image/' . $community->images[0]->path) }}">
-                                                @else
-                                                    <img src="{{ asset('assets/media/s_1.png') }}">
                                                 @endif
                                             </div>
                                         </div>
