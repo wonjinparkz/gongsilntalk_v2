@@ -23,7 +23,7 @@ class SiteProductPcController extends Controller
         }
 
         // 정렬
-        $siteProductList->orderBy('site_product.created_at', 'desc')->orderBy('id', 'desc');
+        $siteProductList->orderBy('site_product.created_at', 'desc')->orderBy('site_product.id', 'desc');
 
         $result = $siteProductList->paginate($request->per_page == null ? 10 : $request->per_page);
 

@@ -19,8 +19,8 @@
                 <i class="bi bi-file-earmark-arrow-up text-primary fs-3x"></i>
                 <div class="ms-4">
                     <h3 class="fs-5 fw-bold text-gray-900 mb-1">파일을 업로드 하세요.</h3>
-                    <span class="fs-7 fw-semibold text-gray-400">파일은
-                        "jpg,jpeg,bmp,png,doc,docx,csv,rtf,xlsx,xls,txt,pdf,zip" 만 가능합니다.
+                    <span class="fs-7 fw-semibold text-gray-400">
+                        파일은 {{ $acceptedFiles }} 만 가능합니다. 최대 {{ $cnt }}장
                     </span>
                 </div>
             </div>

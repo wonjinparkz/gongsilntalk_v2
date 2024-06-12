@@ -187,6 +187,16 @@
 .edu_document .swiper-slide{text-align:center; height: auto !important;}
 .edu_document .swiper-wrapper{height: auto !important;}
 .edu_document .document_img{width:976px;}
+
+.features{padding-bottom:50px !important; margin-top: 30px;}
+.features .swiper-pagination-fraction{background: none !important;}
+.features .swiper-pagination-fraction, .features .swiper-pagination span{color:#4a4a4a !important; font-size: 12px;}
+.features .swiper-button-prev, .features .swiper-rtl .swiper-button-next, .features .swiper-button-next, .features .swiper-rtl .swiper-button-prev{color:#fff; background: rgba(0,0,0,0.3); width:40px; height: 40px; border-radius: 2px;}
+.features .swiper-button-next:after, .features .swiper-button-prev:after{font-size:18px; }
+.features .swiper-slide{text-align:center; height: auto !important;}
+.features .swiper-wrapper{height: auto !important;}
+.features .document_img{width:700px;}
+
 .sales_section_2-2{padding: 80px 0;}
 .floor_title{font-size: 50px; font-family: 'font-b'; margin-top: 60px;}
 .floor_info{font-size: 24px; color: var(--color-gray-2); margin-top: 8px; margin-bottom: 24px;}

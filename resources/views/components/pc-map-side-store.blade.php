@@ -125,8 +125,8 @@
                     <div class="swiper-slide"><a href="javascript:void(0);">매물정보</a></div>
                 </div>
             </div>
-            <div class="swiper-button-next"></div>
-            <!-- <div class="swiper-button-prev"></div> -->
+            <div class="swiper-button-next detail-tab-next"></div>
+            <!-- <div class="swiper-button-prev detail-tab-prev"></div> -->
         </div>
     </div>
     <!-- tab : e -->

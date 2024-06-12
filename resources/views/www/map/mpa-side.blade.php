@@ -59,8 +59,8 @@
             }
         },
         navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
+            nextEl: ".detail-tab-next",
+            prevEl: ".detail-tab-prev",
         },
     });
 

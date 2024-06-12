@@ -130,8 +130,8 @@
                     <div class="swiper-slide"><a>매물정보</a></div>
                 </div>
             </div>
-            <div class="swiper-button-next"></div>
-            <!-- <div class="swiper-button-prev"></div> -->
+            <div class="swiper-button-next detail-tab-next"></div>
+            <!-- <div class="swiper-button-prev detail-tab-prev"></div> -->
         </div>
     </div>
     <!-- tab : e -->
@@ -606,12 +606,12 @@
                         </div>
                         <div>
                             <div class="facility_wrap">
-                                {{ nl2br($result->convenientFacility) }}
+                                {!! nl2br($result->convenientFacility) !!}
                             </div>
                         </div>
                         <div>
                             <div class="edu_wrap">
-                                {{ nl2br($result->educationFacility) }}
+                                {!! nl2br($result->educationFacility) !!}
                             </div>
                         </div>
                     </div>

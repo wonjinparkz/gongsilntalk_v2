@@ -60,8 +60,8 @@
                     <div class="swiper-slide"><a>위치 및 주변정보</a></div>
                 </div>
             </div>
-            <div class="swiper-button-next"></div>
-            <!-- <div class="swiper-button-prev"></div> -->
+            <div class="swiper-button-next detail-tab-next"></div>
+            <!-- <div class="swiper-button-prev detail-tab-prev"></div> -->
         </div>
     </div>
     <!-- tab : e -->
@@ -340,7 +340,7 @@
             </div>
             <div>
                 <div class="edu_wrap building_item_2">
-                    {{ nl2br($result->site_contents) }}
+                    {!! nl2br($result->site_contents) !!}
                 </div>
                 <!-- 현장설명 : e -->
             </div>
@@ -353,7 +353,7 @@
             </div>
             <div>
                 <div class="edu_wrap building_item_2">
-                    {{ nl2br($result->traffic_info) }}
+                    {!! nl2br($result->traffic_info) !!}
                 </div>
             </div>
             <!-- 교통정보 : e -->
@@ -365,8 +365,18 @@
                 <h4>특장점</h4>
             </div>
             <div>
-                <div class="edu_wrap building_item_2">
-                    관공서(양천세무서) 병원(다민한의원, 신천호한의원) 백화점(목동현대백화점) 공원(양천공원) 기타(안양천)
+                <div class="swiper features features1">
+                    <div class="swiper-wrapper">
+                        @foreach ($result->features_files as $file)
+                            <div class="swiper-slide">
+                                <img src="{{ Storage::url('file/' . $file->path . '/' . $file->path) }}"
+                                    class="size_100p">
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-button-next features-doc-next"></div>
+                    <div class="swiper-button-prev features-doc-prev"></div>
+                    <div class="swiper-pagination"></div>
                 </div>
             </div>
             <!-- 특장점 : e -->
@@ -379,11 +389,21 @@
                 <h4>층별도면</h4>
             </div>
             <div>
-                <div class="edu_wrap building_item_2">
-                    관공서(양천세무서) 병원(다민한의원, 신천호한의원) 백화점(목동현대백화점) 공원(양천공원) 기타(안양천)
+                <div class="swiper features floor">
+                    <div class="swiper-wrapper">
+                        @foreach ($result->floorPlan_files as $file)
+                            <div class="swiper-slide">
+                                <img src="{{ Storage::url('file/' . $file->path . '/' . $file->path) }}"
+                                    class="size_100p">
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-button-next floor-doc-next"></div>
+                    <div class="swiper-button-prev floor-doc-prev"></div>
+                    <div class="swiper-pagination"></div>
                 </div>
-                <!-- 층별도면 : e -->
             </div>
+            <!-- 층별도면 : e -->
         </div>
 
         <div class="sction_item">
@@ -407,19 +427,19 @@
                                 <span>{{ $result->subway_time }}</span>
                             </p>
 
-                            <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스
+                            {{-- <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스
                             </div>
-                            <p class="traffic_row">정류장 <span>{{ $result->kaptdWtimebus }}</span></p>
+                            <p class="traffic_row">정류장 <span>{{ $result->kaptdWtimebus }}</span></p> --}}
 
                         </div>
                         <div>
                             <div class="facility_wrap">
-                                {{ nl2br($result->convenientFacility) }}
+                                {!! nl2br($result->facilities_contents) !!}
                             </div>
                         </div>
                         <div>
                             <div class="edu_wrap">
-                                {{ nl2br($result->educationFacility) }}
+                                {!! nl2br($result->education_contents) !!}
                             </div>
                         </div>
                     </div>
@@ -430,3 +450,28 @@
 
     </div>
 </div>
+
+<script>
+    // 특장점
+    var features = new Swiper(".features1", {
+        pagination: {
+            el: ".swiper-pagination",
+            type: "fraction",
+        },
+        navigation: {
+            nextEl: ".features-doc-next",
+            prevEl: ".features-doc-prev",
+        },
+    });
+    // 층별도면
+    var floor = new Swiper(".floor", {
+        pagination: {
+            el: ".swiper-pagination",
+            type: "fraction",
+        },
+        navigation: {
+            nextEl: ".floor-doc-next",
+            prevEl: ".floor-doc-prev",
+        },
+    });
+</script>

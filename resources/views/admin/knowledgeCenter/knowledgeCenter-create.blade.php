@@ -138,17 +138,17 @@
 
                     {{-- 조감도 --}}
                     <x-admin-file-picker :title="'조감도'" required="required" cnt='1' id="birdSEyeView"
-                        label_col='3' div_col='9' />
+                        label_col='3' div_col='9' acceptedFiles=".jpg,.png"/>
                     <x-input-error class="mt-2 text-danger" :messages="$errors->get('birdSEyeView_file_ids')" />
 
                     {{-- 특장점 --}}
-                    <x-admin-file-picker :title="'특장점'" required="" cnt='1' id="features"
-                        label_col='3' div_col='9' />
+                    <x-admin-file-picker :title="'특장점'" required="" cnt='5' id="features"
+                        label_col='3' div_col='9' acceptedFiles=".jpg,.png"/>
                     <x-input-error class="mt-2 text-danger" :messages="$errors->get('features_file_ids')" />
 
                     {{-- 층별도면 --}}
-                    <x-admin-file-picker :title="'층별도면'" required="" cnt='1' id="floorPlan"
-                        label_col='3' div_col='9' />
+                    <x-admin-file-picker :title="'층별도면'" required="" cnt='50' id="floorPlan"
+                        label_col='3' div_col='9' acceptedFiles="jpg,png" />
                     <x-input-error class="mt-2 text-danger" :messages="$errors->get('floorPlan_file_ids')" />
 
                 </div>
