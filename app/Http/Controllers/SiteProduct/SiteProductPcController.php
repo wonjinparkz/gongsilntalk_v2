@@ -16,7 +16,7 @@ class SiteProductPcController extends Controller
     public function siteProductListView(Request $request): View
     {
 
-        $siteProductList = SiteProduct::select()->where('is_delete', 0);
+        $siteProductList = SiteProduct::select('site_product.*', 'site_product.id as id')->where('is_delete', 0);
 
         if (Auth::guard('web')->user() != null) {
             $siteProductList->like('site_product', Auth::guard('web')->user()->id ?? "");
