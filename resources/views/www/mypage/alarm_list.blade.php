@@ -2,6 +2,35 @@
 
     @php
 
+        function priceChange($price)
+        {
+            if ($price < 0 || empty($price)) {
+                $price = 0;
+            }
+
+            $priceUnit = ['', '만', '억', '조', '경'];
+            $expUnit = 10000;
+            $resultArray = [];
+            $result = '';
+
+            foreach ($priceUnit as $k => $v) {
+                $unitResult = ($price % pow($expUnit, $k + 1)) / pow($expUnit, $k);
+                $unitResult = floor($unitResult);
+
+                if ($unitResult > 0) {
+                    $resultArray[$k] = $unitResult;
+                }
+            }
+
+            if (count($resultArray) > 0) {
+                foreach ($resultArray as $k => $v) {
+                    $result = number_format($v) . $priceUnit[$k] . $result;
+                }
+            }
+
+            return $result;
+        }
+
         function onDateChange($created_date)
         {
             $to = new DateTime();
@@ -37,6 +66,17 @@
             }
 
             return $dateText;
+        }
+
+        function format_tel($tel)
+        {
+            $tel = preg_replace('/[^0-9]/', '', $tel);
+
+            return preg_replace(
+                '/(^02.{0}|^01.{1}|^15.{2}|^16.{2}|^18.{2}|[0-9]{3})([0-9]+)([0-9]{4})/',
+                '$1-$2-$3',
+                $tel,
+            );
         }
 
     @endphp
@@ -92,6 +132,9 @@
                         <div class="alarm_list_wrap">
                             @foreach ($alarmList as $alarm)
                                 <!-- 전체알림 : s -->
+                                @php
+                                    Log::info($alarm->product);
+                                @endphp
 
                                 <div class="alarm_list">
                                     <div>
@@ -107,11 +150,100 @@
                                     </div>
                                     <div>
                                         {{-- 투어 요청 안내 알림 --}}
-                                        <button class="btn_sm btn_gray_ghost" type="button"
-                                            onclick="modal_open('check')">요청확인</button>
+                                        @if ($alarm->title == '투어 요청 안내')
+                                            <button class="btn_sm btn_gray_ghost" type="button"
+                                                onclick="modal_open('check_{{ $alarm->id }}')">요청확인</button>
 
-                                        {{-- 등기일 입력 안내 알림 --}}
-                                        {{-- <button class="btn_sm btn_gray_ghost">바로가기</button> --}}
+                                            <!-- modal 요청확인 : s -->
+                                            <div class="modal modal_mid modal_check_{{ $alarm->id }}">
+                                                <div class="modal_title">
+                                                    <h5>투어 요청 확인</h5>
+                                                    <img src="{{ asset('assets/media/btn_md_close.png') }}"
+                                                        class="md_btn_close"
+                                                        onclick="modal_close('check_{{ $alarm->id }}')">
+                                                </div>
+                                                <div class="modal_container">
+                                                    <h6>요청자 정보</h6>
+                                                    <div class="table_container_sm mt8">
+                                                        <div class="td">이름</div>
+                                                        <div class="td">{{ $alarm->tour_users->name }}</div>
+                                                        <div class="td">연락처</div>
+                                                        <div class="td">{{ format_tel($alarm->tour_users->phone) }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="flex_between mt20">
+                                                        <h6>투어 요청 매물 정보</h6>
+                                                        <button class="btn_gray_ghost btn_sm">상세보기</button>
+                                                    </div>
+                                                    <div class="table_container_sm mt8">
+                                                        <div class="td">사진</div>
+                                                        <div class="td">
+                                                            <div class="frame_img_sm">
+                                                                <div class="img_box">
+                                                                    <img
+                                                                        src="{{ Storage::url('image/' . $alarm->product->images[0]->path) }}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="td">주소</div>
+                                                        <div class="td">{{ $alarm->product->address }}</div>
+                                                        <div class="td">거래정보</div>
+                                                        @php
+                                                            $monthPrice = '';
+                                                            $priceArea = 0.0;
+                                                            if (
+                                                                $alarm->product->priceInfo->payment_type == 1 ||
+                                                                $alarm->product->priceInfo->payment_type == 2 ||
+                                                                $alarm->product->priceInfo->payment_type == 4
+                                                            ) {
+                                                                $monthPrice =
+                                                                    ' / ' .
+                                                                    priceChange(
+                                                                        $alarm->product->priceInfo->month_price,
+                                                                    );
+                                                                $priceArea =
+                                                                    $alarm->product->priceInfo->month_price /
+                                                                    $alarm->product->exclusive_area;
+                                                            } else {
+                                                                $monthPrice = '';
+                                                                $priceArea =
+                                                                    $alarm->product->priceInfo->price /
+                                                                    $alarm->product->exclusive_area;
+                                                            }
+
+                                                        @endphp
+
+                                                        <div class="td">
+                                                            {{ Lang::get('commons.payment_type.' . $alarm->product->priceInfo->payment_type) }}
+                                                            {{ priceChange($alarm->product->priceInfo->price) }}
+                                                            {{ $monthPrice }}
+                                                            <span
+                                                                class="gray_basic">({{ priceChange($priceArea) }}/평)</span>
+                                                        </div>
+                                                        <div class="td">면적</div>
+                                                        <div class="td">전용 {{ $alarm->product->exclusive_area }}평
+                                                            <span
+                                                                class="gray_basic">({{ $alarm->product->exclusive_square }}㎡)</span>
+                                                        </div>
+                                                        <div class="td">층정보</div>
+                                                        <div class="td">{{ $alarm->product->floor_number }}층 /
+                                                            {{ $alarm->product->total_floor_number }}층</div>
+                                                        <div class="td">관리비</div>
+                                                        <div class="td">
+                                                            {{ $alarm->product->is_service == 0 ? '관리비 ' . number_format($alarm->product->service_price) . '원' : '-' }}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="md_overlay md_overlay_check_{{ $alarm->id }}"
+                                                onclick="modal_close('check_{{ $alarm->id }}')"></div>
+                                            <!-- modal 요청확인 : e -->
+                                        @else
+                                            {{-- 등기일 입력 안내 알림 --}}
+                                            <button class="btn_sm btn_gray_ghost">바로가기</button>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -141,52 +273,9 @@
 
             </div>
 
-            <!-- modal 요청확인 : s -->
-            <div class="modal modal_mid modal_check">
-                <div class="modal_title">
-                    <h5>투어 요청 확인</h5>
-                    <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close"
-                        onclick="modal_close('check')">
-                </div>
-                <div class="modal_container">
-                    <h6>요청자 정보</h6>
-                    <div class="table_container_sm mt8">
-                        <div class="td">이름</div>
-                        <div class="td">홍길동</div>
-                        <div class="td">연락처</div>
-                        <div class="td">010-1234-1234</div>
-                    </div>
-
-                    <div class="flex_between mt20">
-                        <h6>투어 요청 매물 정보</h6>
-                        <button class="btn_gray_ghost btn_sm">상세보기</button>
-                    </div>
-                    <div class="table_container_sm mt8">
-                        <div class="td">사진</div>
-                        <div class="td">
-                            <div class="frame_img_sm">
-                                <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
-                            </div>
-                        </div>
-                        <div class="td">주소</div>
-                        <div class="td">강남구 역삼동 123-12</div>
-                        <div class="td">거래정보</div>
-                        <div class="td">임대 3억 2,200만 / 4,500만 <span class="gray_basic">(800만/평)</span></div>
-                        <div class="td">면적</div>
-                        <div class="td">전용 105.12평 <span class="gray_basic">(347.50㎡)</span></div>
-                        <div class="td">층정보</div>
-                        <div class="td">3층 / 12층</div>
-                        <div class="td">관리비</div>
-                        <div class="td">관리비 10만</div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="md_overlay md_overlay_check" onclick="modal_close('check')"></div>
-            <!-- modal 요청확인 : e -->
 
             <!-- nav : s -->
-            <nav>
+            {{-- <nav>
                 <ul>
                     <li>
                         <a href="main.html"><span><img src="{{ asset('assets/media/mcnu_ic_1.png') }}"
@@ -209,9 +298,8 @@
                                     alt=""></span>마이메뉴</a>
                     </li>
                 </ul>
-            </nav>
+            </nav> --}}
             <!-- nav : e -->
-
 
         </div>
 

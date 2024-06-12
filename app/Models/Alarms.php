@@ -21,9 +21,12 @@ class Alarms extends BaseModel
      */
     protected $fillable = [
         'users_id',
+        'index',
         'title',
         'body',
         'msg',
+        'product_id',
+        'tour_users_id',
         'readed_at'
     ];
 
@@ -41,4 +44,20 @@ class Alarms extends BaseModel
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];
+
+    /**
+     * 사용자 정보
+     */
+    public function tour_users()
+    {
+        return $this->hasOne(User::class, 'id', 'tour_users_id');
+    }
+
+    /**
+     * 매물 정보
+     */
+    public function product()
+    {
+        return $this->hasOne(Product::class, 'id', 'product_id');
+    }
 }

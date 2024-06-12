@@ -720,7 +720,7 @@ class UserPcController extends Controller
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
-        $alarmList = Alarms::select()->where('users_id', Auth::guard('web')->user()->id)->get();
+        $alarmList = Alarms::with('tour_users', 'product')->select()->where('users_id', Auth::guard('web')->user()->id)->get();
 
         $checkCount = Alarms::select()->where('readed_at', NULL)->where('users_id', Auth::guard('web')->user()->id)->count();
         return view('www.mypage.alarm_list', compact('user', 'alarmList', 'checkCount'));
