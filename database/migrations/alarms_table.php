@@ -16,9 +16,12 @@ return new class extends Migration
         Schema::create('alarms', function (Blueprint $table) {
             $table->id();
             $table->string('users_id')->comment('사용자 id');
+            $table->integer('index')->comment('인덱스');
             $table->string('title')->comment('제목');
             $table->longText('body')->comment('내용');
             $table->longText('msg')->comment('데이터');
+            $table->integer('product_id')->nullable()->comment('매물 아이디');
+            $table->integer('tour_users_id')->nullable()->comment('투어 받는 사용자 아이디');
             $table->timestamp('readed_at')->nullable()->comment('알림 읽은 시간');
             $table->timestamps();
         });
