@@ -4,6 +4,7 @@ namespace App\Http\Controllers\SiteProduct;
 
 use App\Http\Controllers\Controller;
 use App\Models\SiteProduct;
+use App\Models\SiteProductFloorInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -54,5 +55,16 @@ class SiteProductPcController extends Controller
         $result = SiteProduct::with('files', 'dongInfo', 'premiumInfo')->where('id', $id)->first();
 
         return view('www.siteProduct.siteProduct_detail', compact('result'));
+    }
+
+
+    /**
+     * 각 동별 층 정보 불러오기
+     */
+    public function floorList(Request $request)
+    {
+        $result = SiteProductFloorInfo::select()->where('site_product_dong_id', $request->dong_id)->get();
+
+        return $this->sendResponse($result, '층 정보 입니다.');
     }
 }
