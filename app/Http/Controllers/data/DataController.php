@@ -514,4 +514,135 @@ class DataController extends Controller
     // {
 
     // }
+
+    /**
+     * 아파트 주소를 다시 재정의
+     */
+    public function getAptAddrss()
+    {
+        $confmKey = env('CONFM_KEY'); // 검색API 승인키
+        $domain = "http://www.juso.go.kr/addrlink/addrLinkApiJsonp.do"; //인터넷망
+
+
+        $resultList = DataApt::whereNull('pnu')->limit(10000)->get();
+
+        foreach ($resultList as $apt) {
+
+            // 아파트와 타운이라는 단어를 모두 제거
+            $aptNameWithoutAptAndTown = preg_replace('/(아파트|타운).*/', '', $apt->kaptName);
+
+            // 주소에서 아파트명을 지우고 지번주소로 검색
+            $cleanedAddr = preg_replace('/' . preg_quote($apt->kaptName, '/') . '.*$/', '', $apt->kaptAddr);
+
+            // 키워드 구성
+            $keyword = ($apt->as4 ?? $apt->as3) . $aptNameWithoutAptAndTown;
+
+            $data = [
+                'resultType' => 'json',
+                'currentPage' => '1',
+                'countPerPage' => '2',
+                'confmKey' => $confmKey,
+                'keyword' => $aptNameWithoutAptAndTown,
+                // 'keyword' => '구로동',
+                // 'rtentX' => '129.3524326',
+                // 'rtentY' => '35.5544986',
+            ];
+
+            Log::info($apt->id . ' data : ', $data);
+
+
+            // API 호출
+            $response = Http::asForm()->post($domain, $data);
+
+            // API 응답을 문자열로 받음
+            $responseData = $response->body();
+
+            // JSONP 형식을 제거하고 JSON 형식으로 변환
+            $jsonData = trim($responseData, '();');
+
+            // JSON 데이터를 배열로 변환
+            $responseArray = json_decode($jsonData, true);
+
+            // josu 배열 추출
+            $juso = $responseArray['results']['juso'];
+
+            // josu 데이터 로그에 기록
+            Log::info($juso);
+
+            if (!empty($juso)) {
+
+                // josu 데이터가 2개 이상인지 확인
+                if (count($juso) >= 2) {
+                    Log::info("There are 2 or more results.");
+                    // 필요한 추가 작업 수행
+                    $apt->update([
+                        'pnu' => 2,
+                    ]);
+                } else {
+                    Log::info("There are less than 2 results.");
+                    // 필요한 추가 작업 수행
+
+                    // 필요한 데이터 추출 (예: admCd를 pnu로 사용한다고 가정)
+                    $AdmCd = (string)$juso[0]['admCd'];
+                    $MtYn = $juso[0]['mtYn'] == '0' ? '1' : '2';
+                    $LnbrMnnm = str_pad((string)$juso[0]['lnbrMnnm'], 4, '0', STR_PAD_LEFT);
+                    $LnbrSlno = str_pad((string)$juso[0]['lnbrSlno'], 4, '0', STR_PAD_LEFT);
+
+                    $pnu = $AdmCd . $MtYn . $LnbrMnnm . $LnbrSlno;
+
+                    // 데이터베이스 업데이트
+                    $apt->update([
+                        'pnu' => $pnu,
+                    ]);
+
+                    // 업데이트 결과 로그에 기록
+                    Log::info("DataApt table updated with pnu: " . $pnu);
+                }
+            } else {
+                Log::info("No juso data found.");
+                $apt->update([
+                    'pnu' => 1,
+                ]);
+            }
+        }
+
+        // 필요한 데이터만 필터링하거나 가공
+        // $processedData = [];
+        // if (isset($responseData['results'])) {
+        //     foreach ($responseData['results'] as $result) {
+        //         // 예시: 특정 조건에 맞는 데이터만 추가
+        //         if ($result['someKey'] == 'someValue') {
+        //             $processedData[] = $result;
+        //         }
+        //     }
+        // }
+
+        // return response()->json($processedData);
+    }
+
+    /**
+     * 아파트 폴리곤 가져오기
+     */
+    public function getPolygon()
+    {
+        $ch = curl_init();
+        $url = "http://api.vworld.kr/ned/wfs/getCtnlgsSpceWFS"; /*URL*/
+        $queryParams = "?" . urlencode("key") . "=" . env('V_WORD_KEY'); /*key*/
+        $queryParams .= "&" . urlencode("domain") . "=" . env('APP_URL'); /*domain*/
+        $queryParams .= "&" . urlencode("typename") . "=" . urlencode("dt_d002"); /* 질의 대상인 하나 이상의 피처 유형 이름의 리스트, 값은 쉼표로 구분화면 하단의 [레이어 목록] 참고 */
+        $queryParams .= "&" . urlencode("pnu") . "=" . urlencode("1174011000102890016"); /* 필지고유번호 19자리중 최소 8자리(시도[2]+시군구[3]+읍면동[3])(입력시 bbox값은 무시) */
+        $queryParams .= "&" . urlencode("maxFeatures") . "=" . urlencode("10"); /* 요청에 대한 응답으로 WFS가 반환해야하는 피처의 최대 값(최대 허용값 : 1000) */
+        $queryParams .= "&" . urlencode("resultType") . "=" . urlencode("results"); /* 요청에 대하여 WFS가 어떻게 응답할 것인지 정의.results 값은 요청된 모든 피처를 포함하는 완전한 응답이 생성되어야 함을 나타내며, hits 값은 피처의 개수만이 반환되어야 함을 의미 */
+        $queryParams .= "&" . urlencode("srsName") . "=" . urlencode("EPSG:4326"); /* 반환되어야 할 피처의 기하에 사용되어야 할 WFS가 지원하는 좌표체계 */
+
+
+        curl_setopt($ch, CURLOPT_URL, $url . $queryParams);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        return back()->with('message', '아파트 폴라곤을 가져왔습니다.');
+    }
 }
