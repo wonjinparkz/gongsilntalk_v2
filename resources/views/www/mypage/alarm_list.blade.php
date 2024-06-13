@@ -111,7 +111,7 @@
 
                     <div class="flex_between my_body_top">
                         <div>
-                            미확인 알림 <span class="txt_point">{{ $checkCount }}건</span>
+                            미확인 알림 <span class="txt_point" id="unReadedCount">{{ $checkCount }}건</span>
                         </div>
 
                         <div class="gray_basic">
@@ -147,7 +147,7 @@
                                         </div>
                                         <div>
                                             {{-- 투어 요청 안내 알림 --}}
-                                            @if ($alarm->index == 0 && isset($alarm->product_idx))
+                                            @if ($alarm->index == 0 && isset($alarm->product_id))
                                                 <button class="btn_sm btn_gray_ghost" type="button"
                                                     onclick="modal_open('check_{{ $alarm->id }}')">요청확인</button>
 
@@ -172,7 +172,8 @@
 
                                                         <div class="flex_between mt20">
                                                             <h6>투어 요청 매물 정보</h6>
-                                                            <button class="btn_gray_ghost btn_sm">상세보기</button>
+                                                            <button class="btn_gray_ghost btn_sm" type="button"
+                                                                onclick="location.href='{{ route('www.mypage.product.magagement.list.view') }}'">상세보기</button>
                                                         </div>
                                                         <div class="table_container_sm mt8">
                                                             <div class="td">사진</div>
@@ -241,7 +242,8 @@
                                                 <!-- modal 요청확인 : e -->
                                             @elseif($alarm->index == 1)
                                                 {{-- 등기일 입력 안내 알림 --}}
-                                                <button class="btn_sm btn_gray_ghost">바로가기</button>
+                                                <button class="btn_sm btn_gray_ghost" type="button"
+                                                    onclick="location.href='{{ route('www.mypage.product.magagement.list.view') }}'">바로가기</button>
                                             @endif
                                         </div>
                                     </div>
@@ -249,34 +251,46 @@
                             @endif
                         </div>
 
-                        @if (count($alarmList) < 1)
-                            <!-- 데이터가 없을 경우 : s -->
-                            <div class="empty_wrap">
-                                <p>새로운 알림이 없습니다.</p>
-                                <span>분양현장에서 마음에 드는 분양 매물의<br>‘알림 받기’ 등록을 해보세요.</span>
-                                <div class="mt8"><button class="btn_point btn_md_bold">분양현장 바로가기</button></div>
-                            </div>
-                            <!-- 데이터가 없을 경우 : e -->
-                        @else
-                            @foreach ($alarmList as $alarm)
-                                <div id="productAlarmList" style="display:none;">
-                                    <!-- 전체알림 : e -->
-                                    <!-- 분양현장 알림 : s -->
-                                    <div class="alarm_list alarm_list_2" onclick="location.href='my_estate_list.html'">
-                                        <div class="alarm_dday">
-                                            <p class="alarm_item_1"><span class="alarm_tit">정당 계약일 D-1<i
-                                                        title="new"></i></span><span class="alarm_date">2시간전</span>
-                                            </p>
-                                        </div>
-                                        <div class="alarm_info alarm_address">지식산업센터 놀라움 마곡 서울시 강서구 강동동</div>
-                                        <div class="alarm_arrow">
-                                            <img src="{{ asset('assets/media/ic_list_arrow.png') }}" class="w_8p">
-                                        </div>
-                                    </div>
-                                    <!-- 분양현장 알림 : e -->
+                        <div id="productAlarmList" style="display:none;">
+                            @if (count($productAlarmList) < 1)
+                                <!-- 데이터가 없을 경우 : s -->
+                                <div class="empty_wrap">
+                                    <p>새로운 알림이 없습니다.</p>
+                                    <span>분양현장에서 마음에 드는 분양 매물의<br>‘알림 받기’ 등록을 해보세요.</span>
+                                    <div class="mt8"><button class="btn_point btn_md_bold">분양현장 바로가기</button></div>
                                 </div>
-                            @endforeach
-                        @endif
+                                <!-- 데이터가 없을 경우 : e -->
+                            @else
+                                @foreach ($productAlarmList as $productAlarm)
+                                    <div>
+                                        <!-- 전체알림 : e -->
+                                        <!-- 분양현장 알림 : s -->
+                                        <div class="alarm_list alarm_list_2"
+                                            onclick="location.href='{{ route('www.mypage.product.magagement.list.view') }}'">
+                                            <div class="alarm_dday">
+                                                <p class="alarm_item_1"><span
+                                                        class="alarm_tit">{{ $productAlarm->title }}
+                                                        @if ($productAlarm->readed_at == null)
+                                                            <i title="new"></i>
+                                                        @endif
+                                                    </span>
+                                                    <span
+                                                        class="alarm_date">{{ onDateChange($productAlarm->created_at) }}</span>
+                                                </p>
+                                            </div>
+                                            <div class="alarm_info alarm_address">
+                                                {{ Lang::get('commons.product_type.' . $productAlarm->product->type) }}
+                                                {{ $productAlarm->product->address }}</div>
+                                            <div class="alarm_arrow">
+                                                <img src="{{ asset('assets/media/ic_list_arrow.png') }}"
+                                                    class="w_8p">
+                                            </div>
+                                        </div>
+                                        <!-- 분양현장 알림 : e -->
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
                     </div>
 
                     <!-- list : e -->
@@ -286,51 +300,26 @@
             <!-- my_body : e -->
 
         </div>
-
-
-        <!-- nav : s -->
-        {{-- <nav>
-                <ul>
-                    <li>
-                        <a href="main.html"><span><img src="{{ asset('assets/media/mcnu_ic_1.png') }}"
-                                    alt=""></span>홈</a>
-                    </li>
-                    <li>
-                        <a href="sales_list.html"><span><img src="{{ asset('assets/media/mcnu_ic_2.png') }}"
-                                    alt=""></span>분양현장</a>
-                    </li>
-                    <li>
-                        <a href="map.html"><span><img src="{{ asset('assets/media/mcnu_ic_3.png') }}"
-                                    alt=""></span>지도</a>
-                    </li>
-                    <li>
-                        <a href="community_contents_list.html"><span><img
-                                    src="{{ asset('assets/media/mcnu_ic_5.png') }}" alt=""></span>커뮤니티</a>
-                    </li>
-                    <li class="active">
-                        <a href="javascript:history.go(-1)"><span><img src="{{ asset('assets/media/mcnu_ic_4.png') }}"
-                                    alt=""></span>마이메뉴</a>
-                    </li>
-                </ul>
-            </nav> --}}
-        <!-- nav : e -->
-
     </div>
 
-    </div>
-
+    <input type="hidden" id="checkCount" name="checkCount" value="{{ $checkCount }}">
+    <input type="hidden" id="prouctCheckCount" name="prouctCheckCount" value="{{ $prouctCheckCount }}">
 
 </x-layout>
 
 <script>
     function onTypeChange(index) {
-
-        if (index == 0) {
+        if (index == 0) { // 전체 알림 탭 클릭 시
             $('#allAlarmList').show();
             $('#productAlarmList').hide();
-        } else {
+
+            $('#unReadedCount').text($('#checkCount').val() + '건');
+
+        } else { // 분양 현장 알림 탭 클릭 시
             $('#allAlarmList').hide();
             $('#productAlarmList').show();
+
+            $('#unReadedCount').text($('#prouctCheckCount').val() + '건');
         }
     }
 </script>

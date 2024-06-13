@@ -720,10 +720,15 @@ class UserPcController extends Controller
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
-        $alarmList = Alarms::with('tour_users', 'product')->select()->where('users_id', Auth::guard('web')->user()->id)->get();
+        // 전체 알림
+        $alarmList = Alarms::with('tour_users', 'product')->select()->where('users_id', Auth::guard('web')->user()->id)->where('index', '!=', 101)->get();
+        $checkCount = Alarms::select()->where('readed_at', NULL)->where('users_id', Auth::guard('web')->user()->id)->where('index', '!=', 101)->count();
 
-        $checkCount = Alarms::select()->where('readed_at', NULL)->where('users_id', Auth::guard('web')->user()->id)->count();
-        return view('www.mypage.alarm_list', compact('user', 'alarmList', 'checkCount'));
+        // 분양 알림
+        $productAlarmList = Alarms::with('product')->select()->where('users_id', Auth::guard('web')->user()->id)->where('index', 101)->get();
+        $prouctCheckCount = Alarms::select()->where('readed_at', NULL)->where('users_id', Auth::guard('web')->user()->id)->where('index', 101)->count();
+
+        return view('www.mypage.alarm_list', compact('user', 'alarmList', 'checkCount', 'productAlarmList', 'prouctCheckCount'));
     }
 
     /**
