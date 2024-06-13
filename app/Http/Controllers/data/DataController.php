@@ -538,15 +538,15 @@ class DataController extends Controller
             // 키워드 구성
             $keyword = '';
 
-            if ($apt->pnu == 1) {
-                // pnu가 1일 경우 주소 검색시에 검색된게 없어서 (포괄적으로 검색)
-                $keyword = $apt->doroJuso;
-            } else if ($apt->pnu == 2) {
-                // pnu가 2일 경우 주소 검색시에 주소가 2개이상이라서 (디테일하게 검색)
-
+            if ($apt->pnu == 1 || $apt->pnu == 3) {
                 // 주소에서 아파트명을 지우고 지번주소로 검색
                 $cleanedAddr = preg_replace('/' . preg_quote($apt->kaptName, '/') . '.*$/', '', $apt->kaptAddr);
                 $keyword = $cleanedAddr;
+            } else if ($apt->pnu == 2 || $apt->pnu == 4) {
+                // pnu가 2일 경우 주소 검색시에 주소가 2개이상이라서 (디테일하게 검색)
+
+                // pnu가 1일 경우 주소 검색시에 검색된게 없어서 (포괄적으로 검색)
+                $keyword = $apt->doroJuso;
             } else {
                 // pnu가 Null일 경우
                 // 리이름 또는 동이름과 아파트명칭을 조합
@@ -588,10 +588,15 @@ class DataController extends Controller
                         // juso 데이터가 2개 이상인지 확인
                         if (count($juso) >= 2) {
                             Log::info("There are 2 or more results.");
-                            // 필요한 추가 작업 수행
-                            $apt->update([
-                                'pnu' => 2,
-                            ]);
+                            if ($apt->pnu == 1) {
+                                $apt->update([
+                                    'pnu' => 4,
+                                ]);
+                            } else {
+                                $apt->update([
+                                    'pnu' => 2,
+                                ]);
+                            }
                         } else {
                             Log::info("There are less than 2 results.");
                             // 필요한 데이터 추출 (예: admCd를 pnu로 사용한다고 가정)
@@ -612,9 +617,15 @@ class DataController extends Controller
                         }
                     } else {
                         Log::info("No juso data found.");
-                        $apt->update([
-                            'pnu' => 1,
-                        ]);
+                        if ($apt->pnu == 1 || $apt->pnu == 2) {
+                            $apt->update([
+                                'pnu' => 3,
+                            ]);
+                        } else {
+                            $apt->update([
+                                'pnu' => 1,
+                            ]);
+                        }
                     }
                 } else {
                     Log::error('API request failed: ' . $response->status());
@@ -623,6 +634,10 @@ class DataController extends Controller
                 Log::error('Error occurred: ' . $e->getMessage());
             }
         }
+        $pnuCheck = DataApt::whereNull('pnu')->orWhereIn('pnu', [1, 2])->limit(10000)->get();
+        if (count($pnuCheck) > 0) {
+            $this->getAptAddrss();
+        }
     }
 
     /**
@@ -630,23 +645,45 @@ class DataController extends Controller
      */
     public function getPolygon()
     {
-        $ch = curl_init();
-        $url = "http://api.vworld.kr/ned/wfs/getCtnlgsSpceWFS"; /*URL*/
-        $queryParams = "?" . urlencode("key") . "=" . env('V_WORD_KEY'); /*key*/
-        $queryParams .= "&" . urlencode("domain") . "=" . env('APP_URL'); /*domain*/
-        $queryParams .= "&" . urlencode("typename") . "=" . urlencode("dt_d002"); /* 질의 대상인 하나 이상의 피처 유형 이름의 리스트, 값은 쉼표로 구분화면 하단의 [레이어 목록] 참고 */
-        $queryParams .= "&" . urlencode("pnu") . "=" . urlencode("1174011000102890016"); /* 필지고유번호 19자리중 최소 8자리(시도[2]+시군구[3]+읍면동[3])(입력시 bbox값은 무시) */
-        $queryParams .= "&" . urlencode("maxFeatures") . "=" . urlencode("10"); /* 요청에 대한 응답으로 WFS가 반환해야하는 피처의 최대 값(최대 허용값 : 1000) */
-        $queryParams .= "&" . urlencode("resultType") . "=" . urlencode("results"); /* 요청에 대하여 WFS가 어떻게 응답할 것인지 정의.results 값은 요청된 모든 피처를 포함하는 완전한 응답이 생성되어야 함을 나타내며, hits 값은 피처의 개수만이 반환되어야 함을 의미 */
-        $queryParams .= "&" . urlencode("srsName") . "=" . urlencode("EPSG:4326"); /* 반환되어야 할 피처의 기하에 사용되어야 할 WFS가 지원하는 좌표체계 */
 
+        $key = env('V_WORD_KEY'); // 검색API 승인키
+        $domain = env('APP_URL'); // 서버 도메인
 
-        curl_setopt($ch, CURLOPT_URL, $url . $queryParams);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_HEADER, FALSE);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-        $response = curl_exec($ch);
-        curl_close($ch);
+        $Apidomain = "http://api.vworld.kr/ned/wfs/getCtnlgsSpceWFS"; //인터넷망
+
+        $AptList = DataApt::where('pnu', '>', '1000000000')->where('kaptName', 'like', '%구로%')->limit(10)->get();
+
+        foreach ($AptList as $apt) {
+
+            $data = [
+                'resultType' => 'json',
+                'currentPage' => '1',
+                'countPerPage' => '2',
+                'key' => $key,
+                'domain' => $domain,
+                'typename' => 'dt_d002',
+                'pnu' => $apt->pnu,
+                'maxFeatures' => '10',
+                'resultType' => 'result',
+                'srsName' => 'EPSG:4326',
+            ];
+
+            try {
+                // API 호출
+                $response = Http::timeout(30)->asForm()->post($Apidomain, $data);
+
+                if ($response->successful()) {
+                    // API 응답을 문자열로 받음
+                    $responseData = $response->body();
+
+                    Log::info($responseData);
+                } else {
+                    Log::error('API request failed: ' . $response->status());
+                }
+            } catch (\Exception $e) {
+                Log::error('Error occurred: ' . $e->getMessage());
+            }
+        }
 
         return back()->with('message', '아파트 폴라곤을 가져왔습니다.');
     }
