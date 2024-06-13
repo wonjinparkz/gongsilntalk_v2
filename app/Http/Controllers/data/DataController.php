@@ -520,104 +520,109 @@ class DataController extends Controller
      */
     public function getAptAddrss()
     {
+
+        set_time_limit(1200);
+
         $confmKey = env('CONFM_KEY'); // 검색API 승인키
         $domain = "http://www.juso.go.kr/addrlink/addrLinkApiJsonp.do"; //인터넷망
 
 
-        $resultList = DataApt::whereNull('pnu')->limit(10000)->get();
+        $resultList = DataApt::whereNull('pnu')->orWhereIn('pnu', [1, 2])->limit(10000)->get();
 
         foreach ($resultList as $apt) {
 
             // 아파트와 타운이라는 단어를 모두 제거
             $aptNameWithoutAptAndTown = preg_replace('/(아파트|타운).*/', '', $apt->kaptName);
 
-            // 주소에서 아파트명을 지우고 지번주소로 검색
-            $cleanedAddr = preg_replace('/' . preg_quote($apt->kaptName, '/') . '.*$/', '', $apt->kaptAddr);
 
             // 키워드 구성
-            $keyword = ($apt->as4 ?? $apt->as3) . $aptNameWithoutAptAndTown;
+            $keyword = '';
+
+            if ($apt->pnu == 1) {
+                // pnu가 1일 경우 주소 검색시에 검색된게 없어서 (포괄적으로 검색)
+                $keyword = $apt->doroJuso;
+            } else if ($apt->pnu == 2) {
+                // pnu가 2일 경우 주소 검색시에 주소가 2개이상이라서 (디테일하게 검색)
+
+                // 주소에서 아파트명을 지우고 지번주소로 검색
+                $cleanedAddr = preg_replace('/' . preg_quote($apt->kaptName, '/') . '.*$/', '', $apt->kaptAddr);
+                $keyword = $cleanedAddr;
+            } else {
+                // pnu가 Null일 경우
+                // 리이름 또는 동이름과 아파트명칭을 조합
+                $keyword = ($apt->as4 ?? $apt->as3) . $aptNameWithoutAptAndTown;
+            }
 
             $data = [
                 'resultType' => 'json',
                 'currentPage' => '1',
                 'countPerPage' => '2',
                 'confmKey' => $confmKey,
-                'keyword' => $aptNameWithoutAptAndTown,
+                'keyword' => $keyword,
                 // 'keyword' => '구로동',
                 // 'rtentX' => '129.3524326',
                 // 'rtentY' => '35.5544986',
             ];
 
-            Log::info($apt->id . ' data : ', $data);
+            try {
+                // API 호출
+                $response = Http::timeout(30)->asForm()->post($domain, $data);
 
+                if ($response->successful()) {
+                    // API 응답을 문자열로 받음
+                    $responseData = $response->body();
 
-            // API 호출
-            $response = Http::asForm()->post($domain, $data);
+                    // JSONP 형식을 제거하고 JSON 형식으로 변환
+                    $jsonData = trim($responseData, '();');
 
-            // API 응답을 문자열로 받음
-            $responseData = $response->body();
+                    // JSON 데이터를 배열로 변환
+                    $responseArray = json_decode($jsonData, true);
 
-            // JSONP 형식을 제거하고 JSON 형식으로 변환
-            $jsonData = trim($responseData, '();');
+                    // juso 배열 추출
+                    $juso = $responseArray['results']['juso'];
 
-            // JSON 데이터를 배열로 변환
-            $responseArray = json_decode($jsonData, true);
+                    // juso 데이터 로그에 기록
+                    Log::info($juso);
 
-            // josu 배열 추출
-            $juso = $responseArray['results']['juso'];
+                    if (!empty($juso)) {
+                        // juso 데이터가 2개 이상인지 확인
+                        if (count($juso) >= 2) {
+                            Log::info("There are 2 or more results.");
+                            // 필요한 추가 작업 수행
+                            $apt->update([
+                                'pnu' => 2,
+                            ]);
+                        } else {
+                            Log::info("There are less than 2 results.");
+                            // 필요한 데이터 추출 (예: admCd를 pnu로 사용한다고 가정)
+                            $AdmCd = (string)$juso[0]['admCd'];
+                            $MtYn = $juso[0]['mtYn'] == '0' ? '1' : '2';
+                            $LnbrMnnm = str_pad((string)$juso[0]['lnbrMnnm'], 4, '0', STR_PAD_LEFT);
+                            $LnbrSlno = str_pad((string)$juso[0]['lnbrSlno'], 4, '0', STR_PAD_LEFT);
 
-            // josu 데이터 로그에 기록
-            Log::info($juso);
+                            $pnu = $AdmCd . $MtYn . $LnbrMnnm . $LnbrSlno;
 
-            if (!empty($juso)) {
+                            // 데이터베이스 업데이트
+                            $apt->update([
+                                'pnu' => $pnu,
+                            ]);
 
-                // josu 데이터가 2개 이상인지 확인
-                if (count($juso) >= 2) {
-                    Log::info("There are 2 or more results.");
-                    // 필요한 추가 작업 수행
-                    $apt->update([
-                        'pnu' => 2,
-                    ]);
+                            // 업데이트 결과 로그에 기록
+                            Log::info("DataApt table updated with pnu: " . $pnu);
+                        }
+                    } else {
+                        Log::info("No juso data found.");
+                        $apt->update([
+                            'pnu' => 1,
+                        ]);
+                    }
                 } else {
-                    Log::info("There are less than 2 results.");
-                    // 필요한 추가 작업 수행
-
-                    // 필요한 데이터 추출 (예: admCd를 pnu로 사용한다고 가정)
-                    $AdmCd = (string)$juso[0]['admCd'];
-                    $MtYn = $juso[0]['mtYn'] == '0' ? '1' : '2';
-                    $LnbrMnnm = str_pad((string)$juso[0]['lnbrMnnm'], 4, '0', STR_PAD_LEFT);
-                    $LnbrSlno = str_pad((string)$juso[0]['lnbrSlno'], 4, '0', STR_PAD_LEFT);
-
-                    $pnu = $AdmCd . $MtYn . $LnbrMnnm . $LnbrSlno;
-
-                    // 데이터베이스 업데이트
-                    $apt->update([
-                        'pnu' => $pnu,
-                    ]);
-
-                    // 업데이트 결과 로그에 기록
-                    Log::info("DataApt table updated with pnu: " . $pnu);
+                    Log::error('API request failed: ' . $response->status());
                 }
-            } else {
-                Log::info("No juso data found.");
-                $apt->update([
-                    'pnu' => 1,
-                ]);
+            } catch (\Exception $e) {
+                Log::error('Error occurred: ' . $e->getMessage());
             }
         }
-
-        // 필요한 데이터만 필터링하거나 가공
-        // $processedData = [];
-        // if (isset($responseData['results'])) {
-        //     foreach ($responseData['results'] as $result) {
-        //         // 예시: 특정 조건에 맞는 데이터만 추가
-        //         if ($result['someKey'] == 'someValue') {
-        //             $processedData[] = $result;
-        //         }
-        //     }
-        // }
-
-        // return response()->json($processedData);
     }
 
     /**
