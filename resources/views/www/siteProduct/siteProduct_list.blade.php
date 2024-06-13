@@ -105,7 +105,7 @@
                     </li>
                     @for ($i = 0; $i < count(Lang::get('commons.site_product_region_type')); $i++)
                         <li>
-                            <input type="checkbox" onclick="formSubmit();" name="m_region"
+                            <input type="checkbox" onclick="formSubmit();" name="m_region[]"
                                 id="m_region_{{ $i }}" value="{{ $i }}"
                                 {{ in_array($i, $m_region) ? 'checked' : '' }}>
                             <label
