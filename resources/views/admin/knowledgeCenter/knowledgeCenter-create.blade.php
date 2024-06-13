@@ -70,7 +70,7 @@
 
                     {{-- 준공일 --}}
                     <div class="row mb-6">
-                        <label class="col-lg-3 col-form-label fw-semibold fs-6">준공일</label>
+                        <label class="required col-lg-3 col-form-label fw-semibold fs-6">준공일</label>
                         <div class="col-lg-9 fv-row">
                             <input type="text" name="completion_date" class="form-control form-control-solid"
                                 placeholder="예) 20230204" value="{{ old('completion_date') }}" />
@@ -414,7 +414,7 @@
             }
         }
 
-        fucntion imsi1(obj) {
+        function imsi1(obj) {
             if (obj.value.search(regexp1) == -1) {
                 obj.value = prev;
             } else {
