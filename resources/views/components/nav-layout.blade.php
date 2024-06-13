@@ -6,7 +6,7 @@
                          alt=""></span>홈</a>
          </li>
          <li>
-             <a href="sales_list.html">
+             <a href="{{ route('www.site.product.list.view')}}">
                  <span>
                      <img src="{{ asset('assets/media/mcnu_ic_2.png') }}" alt="">
                  </span>

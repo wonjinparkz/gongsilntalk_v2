@@ -651,10 +651,11 @@ class DataController extends Controller
 
         $Apidomain = "http://api.vworld.kr/ned/wfs/getCtnlgsSpceWFS"; //인터넷망
 
-        $AptList = DataApt::where('pnu', '>', '100000000')->where('kaptName', 'like', '%구로%')->limit(10)->get();
+        $AptList = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')
+            ->where('kaptName', 'like', '%구로%')->limit(10)->get();
 
         foreach ($AptList as $apt) {
-            Log::info($apt);
+            Log::info('apt : ' . $apt);
 
             $data = [
                 'resultType' => 'json',
@@ -677,7 +678,20 @@ class DataController extends Controller
                     // API 응답을 문자열로 받음
                     $responseData = $response->body();
 
-                    Log::info($responseData);
+                    // XML 데이터를 SimpleXML 객체로 로드
+                    $xml = simplexml_load_string($responseData);
+                    if ($xml === false) {
+                        Log::error('Failed to parse XML');
+                        return;
+                    }
+
+                    // 네임스페이스 처리
+                    $namespaces = $xml->getNamespaces(true);
+                    $xml->registerXPathNamespace('gml', $namespaces['gml']);
+                    $xml->registerXPathNamespace('sop', $namespaces['sop']);
+
+
+                    Log::info($xml);
                 } else {
                     Log::error('API request failed: ' . $response->status());
                 }
