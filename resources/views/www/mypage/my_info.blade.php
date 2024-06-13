@@ -25,6 +25,8 @@
                     <div class="col-md-6 box_member">
                         <div class="user_profile_wrap">
                             <div class="img_box">
+                                <input type="file" class="real-upload" accept="image/*" required multiple
+                                    style="display: none;">
                                 @if ($user->images != null)
                                     @foreach ($user->images as $image)
                                         <img id="member_img_src" src="{{ Storage::url('image/' . $image->path) }}"
@@ -37,7 +39,7 @@
                             </div>
                         </div>
                         <div class="t_center mt18">
-                            <button class="btn_gray_ghost btn_sm">사진 등록</button>
+                            <button class="btn_gray_ghost btn_sm" type="button" id="profile_drop">사진 등록</button>
                         </div>
                         <ul class="reg_bascic mt20">
                             <li>
@@ -53,19 +55,20 @@
                                 <button class="btn_gray_ghost btn_full_thin" id="btn_pw"
                                     onclick="btn_pw_change()">비밀번호 변경</button>
                                 <div class="pw_change_wrap" id="input_pw">
-                                    <input type="text" placeholder="현재 비밀번호">
-                                    <input type="text" placeholder="새 비밀번호 8자리 이상 영문, 숫자 포함">
-                                    <input type="text" placeholder="비밀번호 확인">
-                                    <button class="btn_point btn_full_thin">변경 완료</button>
+                                    <input type="password" placeholder="현재 비밀번호">
+                                    <input type="password" placeholder="새 비밀번호 8자리 이상 영문, 숫자 포함">
+                                    <input type="password" placeholder="비밀번호 확인">
+                                    <button class="btn_point btn_full_thin" type="button">변경 완료</button>
                                 </div>
 
                             </li>
                             <li>
                                 <label>휴대폰 번호</label>
-                                <input type="text" value="{{$user->phone}}" disabled>
+                                <input type="text" value="{{ $user->phone }}" disabled>
                             </li>
                         </ul>
-                        <button class="btn_gray_ghost btn_full_basic mt28" onclick="modal_open('info_modify')"><b>내 정보
+                        <button class="btn_gray_ghost btn_full_basic mt28" type="button"
+                            onclick="modal_open('info_modify')"><b>내 정보
                                 수정</b></button>
                         <button class="btn_ghost btn_full_thin mt28"><b>로그아웃</b></button>
                     </div>
@@ -114,8 +117,8 @@
                         </li>
                     </ul>
                     <div class="mt20">
-                        <button class="btn_point btn_full_basic mt28"
-                            onclick="modal_close('info_modify')"><b>수정</b></button>
+                        <button class="btn_point btn_full_basic mt28" onclick="modal_close('info_modify')"
+                            type="button"><b>수정</b></button>
                     </div>
 
                 </div>
@@ -129,3 +132,72 @@
     </div>
 
 </x-layout>
+
+<script>
+    const realUpload = document.querySelector('.real-upload');
+    const upload = document.getElementById('profile_drop');
+
+    upload.addEventListener('click', () => realUpload.click());
+    realUpload.addEventListener('change', getImageFiles);
+
+    function getImageFiles(e) {
+        console.log(e.currentTarget.files[0]);
+
+        fetch("{{ route('api.imageupload') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    image: e.currentTarget.files[0]
+                }),
+            })
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+    }
+
+    //////////////////////
+
+
+    var profileimageDropzone = new Dropzone("#profile_drop", {
+        url: "{{ route('api.imageupload') }}", // URL
+        method: 'post', // method
+        paramName: "image", // 파라미터 이름
+        maxFiles: 10, // 파일 갯수
+        maxFilesize: 10, // MB
+        timeout: 300000, // 타임아웃 30초 기본 설정
+        addRemoveLinks: true, // 업로드 후 파일 삭제버튼 표시 여부
+        acceptedFiles: '.jpeg,.jpg,.png,.gif,.JPEG,.JPG,.PNG,.GIF', // 이미지 파일 포맷만 허
+        accept: function(file, done) {
+            done();
+        },
+        success: function(file, responseText) {
+
+
+            var imagePath = '{{ Storage::url('image/') }}' + responseText.result.path;
+
+            var image =
+                '<div class="cell draggable">' +
+                '<input type="hidden" name="profile_image_ids[]" value="' + responseText.result
+                .id + '" />' +
+                '<input type="hidden" name="profile_image_paths[]" value="' + imagePath +
+                '" />' +
+                // '<img src="{{ asset('assets/media/mark_rep.png') }}" class="add_img_mark"> ' +
+                '<img onClick="removeImage(this)" src="{{ asset('assets/media/btn_img_delete.png') }}"' +
+                'class="btn_img_delete">' +
+                '<div class="img_box draggable-handle"><img src="' + imagePath + '"></div>' +
+                '</div>'
+
+            profileimageDropzone.removeFile(file);
+            refreshFsLightbox();
+        }
+    });
+
+
+
+    // 이미지 제거
+    function removeImage(elem) {
+
+        $(elem).parent().remove();
+    }
+</script>
