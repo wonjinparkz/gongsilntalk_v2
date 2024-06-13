@@ -22,6 +22,19 @@ class SiteProductPcController extends Controller
             $siteProductList->like('site_product', Auth::guard('web')->user()->id ?? "");
         }
 
+        if ($request->is_sale != '') {
+            $siteProductList->where('site_product.is_sale', '=', $request->is_sale ?? '');
+        }
+
+        if (isset($request->region) && count($request->region) > 0) {
+            $siteProductList->whereIn('site_product.region_type',  $request->region);
+        }
+
+
+        if (isset($request->m_region) &&  count($request->m_region) > 0) {
+            $siteProductList->whereIn('site_product.region_type', $request->m_region);
+        }
+
         // 정렬
         $siteProductList->orderBy('site_product.created_at', 'desc')->orderBy('site_product.id', 'desc');
 
