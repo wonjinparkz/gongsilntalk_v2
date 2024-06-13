@@ -51,8 +51,6 @@ function get_coordinates(pnu) {
     data.resultType = "results"; /* 요청에 대하여 WFS가 어떻게 응답할 것인지 정의.results 값은 요청된 모든 피처를 포함하는 완전한 응답이 생성되어야 함을 나타내며, hits 값은 피처의 개수만이 반환되어야 함을 의미 */
     data.srsName = "EPSG:4326"; /* 반환되어야 할 피처의 기하에 사용되어야 할 WFS가 지원하는 좌표체계 */
 
-    data.output = "text/javascript"; /* output */
-
     $.ajax({
         type: "get",
         dataType: "jsonp",

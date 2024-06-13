@@ -170,7 +170,6 @@
 
     // 건축물 대장 가져오는 api
     function get_buildingledger(pnu, get_type, element) {
-        pnu = '1153010200112650000'
         loadingStart();
         var sigunguCd = pnu.substring(0, 5);
         var bjdongCd = pnu.substring(5, 10);

@@ -399,6 +399,7 @@ Route::controller(DataController::class)->group(function () {
     Route::get('/data/transactions/apt/connextion', 'getTransactionsAptConnection')->name('data.transactions.apt.connextion');
     Route::get('/data/apt/addrss', 'getAptAddrss')->name('data.apt.addrss');
     Route::get('/data/apt/polygon', 'getAptPolygon')->name('data.apt.polygon');
+    Route::get('/data/apt/ledger', 'getAptBuildingLedger')->name('data.apt.ledger');
 });
 
 /**

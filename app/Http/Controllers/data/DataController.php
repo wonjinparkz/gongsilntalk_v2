@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\data;
 
 use App\Http\Controllers\Controller;
+use App\Models\BrExposInfo;
+use App\Models\BrExposPubuseAreaInfo;
+use App\Models\BrFlrOulnInfo;
+use App\Models\BrRecapTitleInfo;
+use App\Models\BrTitleInfo;
 use App\Models\DataApt;
 use App\Models\Transactions;
 use App\Models\TransactionsRegionUpdate;
@@ -508,14 +513,6 @@ class DataController extends Controller
     }
 
     /**
-     * 아파트 건축물대장 연결
-     */
-    // public function getBuildingLedger()
-    // {
-
-    // }
-
-    /**
      * 아파트 주소를 다시 재정의
      */
     public function getAptAddrss()
@@ -527,7 +524,7 @@ class DataController extends Controller
         $domain = "http://www.juso.go.kr/addrlink/addrLinkApiJsonp.do"; //인터넷망
 
 
-        $resultList = DataApt::whereNull('pnu')->orWhereIn('pnu', [1, 2])->limit(10000)->get();
+        $resultList = DataApt::whereNull('pnu')->orWhereIn('pnu', [1, 2])->where('id', 203)->get();
 
         foreach ($resultList as $apt) {
 
@@ -546,7 +543,7 @@ class DataController extends Controller
                 // pnu가 2일 경우 주소 검색시에 주소가 2개이상이라서 (디테일하게 검색)
 
                 // pnu가 1일 경우 주소 검색시에 검색된게 없어서 (포괄적으로 검색)
-                $keyword = $apt->doroJuso;
+                $keyword = $apt->doroJuso ?? $apt->kaptAddr;
             } else {
                 // pnu가 Null일 경우
                 // 리이름 또는 동이름과 아파트명칭을 조합
@@ -586,7 +583,8 @@ class DataController extends Controller
 
                     if (!empty($juso)) {
                         // juso 데이터가 2개 이상인지 확인
-                        if (count($juso) >= 2) {
+
+                        if (count($juso) >= 2 && $juso[0]['jibunAddr'] != $juso[1]['jibunAddr']) {
                             Log::info("There are 2 or more results.");
                             if ($apt->pnu == 1) {
                                 $apt->update([
@@ -628,10 +626,10 @@ class DataController extends Controller
                         }
                     }
                 } else {
-                    Log::error('API request failed: ' . $response->status());
+                    return Log::error('API request failed: ' . $response->status());
                 }
             } catch (\Exception $e) {
-                Log::error('Error occurred: ' . $e->getMessage());
+                return Log::error('Error occurred: ' . $e->getMessage());
             }
         }
         $pnuCheck = DataApt::whereNull('pnu')->orWhereIn('pnu', [1, 2])->limit(10000)->get();
@@ -646,19 +644,19 @@ class DataController extends Controller
     public function getAptPolygon()
     {
 
+        set_time_limit(1200);
+
         $key = env('V_WORD_KEY'); // 검색API 승인키
         $domain = env('APP_URL'); // 서버 도메인
 
         $Apidomain = "http://api.vworld.kr/ned/wfs/getCtnlgsSpceWFS"; //인터넷망
 
-        $AptList = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')
-            ->where('kaptName', 'like', '%구로%')->limit(10)->get();
+        $AptList = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->limit(100000)->get();
 
         foreach ($AptList as $apt) {
             Log::info('apt : ' . $apt);
 
             $data = [
-                'resultType' => 'json',
                 'currentPage' => '1',
                 'countPerPage' => '2',
                 'key' => $key,
@@ -669,6 +667,7 @@ class DataController extends Controller
                 'resultType' => 'result',
                 'srsName' => 'EPSG:4326',
             ];
+
 
             try {
                 // API 호출
@@ -682,7 +681,7 @@ class DataController extends Controller
                     $xml = simplexml_load_string($responseData);
                     if ($xml === false) {
                         Log::error('Failed to parse XML');
-                        return;
+                        continue;
                     }
 
                     // 네임스페이스 처리
@@ -690,16 +689,211 @@ class DataController extends Controller
                     $xml->registerXPathNamespace('gml', $namespaces['gml']);
                     $xml->registerXPathNamespace('sop', $namespaces['sop']);
 
+                    // MultiPolygon 데이터 추출
+                    $coordinatesElement = $xml->xpath('//gml:MultiPolygon/gml:polygonMember/gml:Polygon/gml:outerBoundaryIs/gml:LinearRing/gml:coordinates')[0];
+                    if ($coordinatesElement) {
+                        $coordsString = (string)$coordinatesElement;
+                        $coordsArray = explode(' ', $coordsString);
 
-                    Log::info($xml);
+                        $convertedCoords = array_map(function ($coord) {
+                            $point = explode(',', $coord);
+                            return '[' . floatval($point[0]) . ', ' . floatval($point[1]) . ']';
+                        }, $coordsArray);
+
+                        $convertedCoordsArray = implode(', ', $convertedCoords);
+
+                        $apt->update([
+                            'polygon_coordinates' => $convertedCoordsArray,
+                        ]);
+                    } else {
+                        Log::error('Coordinates not found');
+                    }
                 } else {
-                    Log::error('API request failed: ' . $response->status());
+                    return Log::error('API request failed: ' . $response->status());
                 }
             } catch (\Exception $e) {
-                Log::error('Error occurred: ' . $e->getMessage());
+                return Log::error('Error occurred: ' . $e->getMessage());
             }
         }
 
-        return back()->with('message', '아파트 폴라곤을 가져왔습니다.');
+        return back()->with('message', '아파트 폴리곤을 가져왔습니다.');
+    }
+
+    /**
+     * 아파트 표제부 가져오기
+     */
+    public function getAptBuildingLedger()
+    {
+        set_time_limit(1200);
+
+        // $get_types = ['BrTitleInfo', 'BrRecapTitleInfo', 'BrFlrOulnInfo', 'BrExposInfo', 'BrExposPubuseAreaInfo'];
+
+        $AptList = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->limit(20000)->get();
+
+
+        Log::info("아파트 정보 초기 : " . $AptList);
+
+        if (count($AptList) > 0) {
+            foreach ($AptList as $index => $apt) {
+                Log::info('[AptList] [AptList] :' . $AptList);
+
+                $pnu = $apt->pnu;
+                // 건축물 대장 가져오는 api
+                $sigunguCd = substr($pnu, 0, 5);
+                $bjdongCd = substr($pnu, 5, 5);
+                $platGbCd = substr($pnu, 10, 1) - 1;
+                $bun = substr($pnu, 11, 4);
+                $ji = substr($pnu, 15, 5);
+
+                Log::info('AptList ' . $index . ' : ' . $apt);
+
+                $get_types = [];
+                // 필요한 타입만 요청 리스트에 추가
+                if (count($apt->BrTitleInfo) == 0) {
+                    $get_types[] = 'BrTitleInfo';
+                }
+                if (count($apt->BrRecapTitleInfo) == 0) {
+                    $get_types[] = 'BrRecapTitleInfo';
+                }
+                if (count($apt->BrFlrOulnInfo) == 0) {
+                    $get_types[] = 'BrFlrOulnInfo';
+                }
+                if (count($apt->BrExposInfo) == 0) {
+                    $get_types[] = 'BrExposInfo';
+                }
+                if (count($apt->BrExposPubuseAreaInfo) == 0) {
+                    $get_types[] = 'BrExposPubuseAreaInfo';
+                }
+
+                if (count($get_types) > 0) {
+                    foreach ($get_types as $type) {
+
+                        $url = 'http://apis.data.go.kr/1613000/BldRgstService_v2/get' . $type;
+
+                        $data = [
+                            'serviceKey' => env('ENCODING_API_DATE_KEY'), // 서비스 키가 URL 인코딩된 상태로 설정되어 있는지 확인
+                            'sigunguCd' => $sigunguCd,
+                            'bjdongCd' => $bjdongCd,
+                            'platGbCd' => $platGbCd,
+                            'bun' => $bun,
+                            'ji' => $ji,
+                            'numOfRows' => '1000',
+                            'pageNo' => '1',
+                        ];
+
+                        try {
+                            usleep(1000000); // 1초 지연 (1000000 마이크로초)
+
+                            $response = Http::timeout(30)->get($url, $data);
+
+                            if ($response->failed()) {
+                                throw new \Exception('HTTP request failed with status ' . $response->status());
+                            }
+
+                            Log::info('API Response: ' . $response->body());
+
+
+                            $xml = simplexml_load_string($response->body());
+
+                            $json = json_encode($xml, JSON_UNESCAPED_UNICODE); // 데이터 인코딩 처리
+                            $responseArray = json_decode($json, true);
+
+                            Log::info($type . 'Parsed Response Array: ' . print_r($responseArray, true));
+
+                            $totalCount = $responseArray['body']['totalCount'];
+                            // 기존 데이터 업데이트 및 새로운 데이터 삽입
+                            if ($totalCount > 0) {
+
+                                if ($totalCount > 1) {
+                                    $items = $responseArray['body']['items']['item'];
+                                } else {
+                                    $items = [$responseArray['body']['items']['item']];
+                                }
+
+                                switch ($type) {
+                                    case 'BrTitleInfo':
+                                        BrTitleInfo::where('target_id', '=', $apt->id)
+                                            ->where('target_type', '=', DataApt::class)->update([
+                                                'target_type' => null,
+                                                'target_id' => null,
+                                            ]);
+                                        foreach ($items as $item) {
+                                            BrTitleInfo::create([
+                                                'json_data' => json_encode($item, JSON_UNESCAPED_UNICODE),
+                                                'target_type' => DataApt::class,
+                                                'target_id' => $apt->id,
+                                            ]);
+                                        }
+                                        break;
+
+                                    case 'BrRecapTitleInfo':
+                                        BrRecapTitleInfo::where('target_id', '=', $apt->id)
+                                            ->where('target_type', '=', DataApt::class)->update([
+                                                'target_type' => null,
+                                                'target_id' => null,
+                                            ]);
+                                        foreach ($items as $item) {
+                                            BrRecapTitleInfo::create([
+                                                'json_data' => json_encode($item, JSON_UNESCAPED_UNICODE),
+                                                'target_type' => DataApt::class,
+                                                'target_id' => $apt->id,
+                                            ]);
+                                        }
+                                        break;
+
+                                    case 'BrFlrOulnInfo':
+                                        BrFlrOulnInfo::where('target_id', '=', $apt->id)
+                                            ->where('target_type', '=', DataApt::class)->update([
+                                                'target_type' => null,
+                                                'target_id' => null,
+                                            ]);
+                                        foreach ($items as $item) {
+                                            BrFlrOulnInfo::create([
+                                                'json_data' => json_encode($item, JSON_UNESCAPED_UNICODE),
+                                                'target_type' => DataApt::class,
+                                                'target_id' => $apt->id,
+                                            ]);
+                                        }
+                                        break;
+
+                                    case 'BrExposInfo':
+                                        BrExposInfo::where('target_id', '=', $apt->id)
+                                            ->where('target_type', '=', DataApt::class)->update([
+                                                'target_type' => null,
+                                                'target_id' => null,
+                                            ]);
+                                        foreach ($items as $item) {
+                                            BrExposInfo::create([
+                                                'json_data' => json_encode($item, JSON_UNESCAPED_UNICODE),
+                                                'target_type' => DataApt::class,
+                                                'target_id' => $apt->id,
+                                            ]);
+                                        }
+                                        break;
+
+                                    case 'BrExposPubuseAreaInfo':
+                                        BrExposPubuseAreaInfo::where('target_id', '=', $apt->id)
+                                            ->where('target_type', '=', DataApt::class)->update([
+                                                'target_type' => null,
+                                                'target_id' => null,
+                                            ]);
+                                        foreach ($items as $item) {
+                                            BrExposPubuseAreaInfo::create([
+                                                'json_data' => json_encode($item, JSON_UNESCAPED_UNICODE),
+                                                'target_type' => DataApt::class,
+                                                'target_id' => $apt->id,
+                                            ]);
+                                        }
+                                        break;
+                                }
+                            }
+                        } catch (\Exception $e) {
+                            // 오류 처리
+                            return Log::error('API 요청 중 오류 발생: ' . $e->getMessage());
+                        }
+                    }
+                }
+            }
+        }
     }
 }
