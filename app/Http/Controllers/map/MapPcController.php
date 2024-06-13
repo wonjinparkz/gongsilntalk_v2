@@ -199,4 +199,12 @@ class MapPcController extends Controller
 
         return view('www.map.mpa-side', compact('result', 'markerType'));
     }
+
+
+
+
+    public function m_map()
+    {
+
+    }
 }
