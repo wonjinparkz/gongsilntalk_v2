@@ -60,8 +60,27 @@ function get_coordinates(pnu) {
         url: "http://api.vworld.kr/ned/wfs/getCtnlgsSpceWFS",
         data: data,
         async: true,
-        success: function (data) {
-            $('#polygon_coordinates').val(data.bbox);
+        success: function (response) {
+            console.log('response : ', response);
+            var features = response.features;
+            if (features && features.length > 0) {
+                var coordinates = features[0].geometry.coordinates;
+                console.log('Coordinates:', coordinates);
+
+                var multiPolygonCoords = coordinates[0][0]; // MultiPolygon의 첫 번째 폴리곤 좌표 추출
+                var convertedCoords = multiPolygonCoords.map(function (coord) {
+                    return [parseFloat(coord[0]), parseFloat(coord[1])];
+                });
+
+                // 변환된 좌표 배열을 문자열로 변환하여 input에 저장
+                var coordsString = convertedCoords.map(function (coord) {
+                    return '[' + coord[0] + ', ' + coord[1] + ']';
+                }).join(',');
+
+                $('#polygon_coordinates').val(coordsString);
+            } else {
+                alert('폴리곤 데이터를 가져오지 못하였습니다.');
+            }
 
         },
         error: function (xhr, stat, err) {
@@ -69,7 +88,6 @@ function get_coordinates(pnu) {
             $('#address').val('');
         }
     });
-
 }
 
 // 토지특성 속성 api
