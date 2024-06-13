@@ -7,7 +7,7 @@
             <div class="app-container container-xxl d-flex flex-stack">
                 {{-- 페이지 제목 --}}
                 <div class="d-inline-block position-relative">
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">매물 제안서
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">기업 이전 제안서
                         관리
                     </h1>
                     <span

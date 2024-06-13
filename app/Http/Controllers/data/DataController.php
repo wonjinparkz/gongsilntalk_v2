@@ -643,7 +643,7 @@ class DataController extends Controller
     /**
      * 아파트 폴리곤 가져오기
      */
-    public function getPolygon()
+    public function getAptPolygon()
     {
 
         $key = env('V_WORD_KEY'); // 검색API 승인키
@@ -651,9 +651,10 @@ class DataController extends Controller
 
         $Apidomain = "http://api.vworld.kr/ned/wfs/getCtnlgsSpceWFS"; //인터넷망
 
-        $AptList = DataApt::where('pnu', '>', '1000000000')->where('kaptName', 'like', '%구로%')->limit(10)->get();
+        $AptList = DataApt::where('pnu', '>', '100000000')->where('kaptName', 'like', '%구로%')->limit(10)->get();
 
         foreach ($AptList as $apt) {
+            Log::info($apt);
 
             $data = [
                 'resultType' => 'json',
