@@ -5,16 +5,16 @@
              <a href="{{ route('www.main.main') }}"><span><img src="{{ asset('assets/media/mcnu_ic_1.png') }}"
                          alt=""></span>홈</a>
          </li>
-         <li>
-             <a href="sales_list.html">
+         <li class="{{ str_contains(Route::currentRouteName(), 'site.product') ? 'active' : '' }}">
+             <a href="{{ route('www.site.product.list.view') }}">
                  <span>
                      <img src="{{ asset('assets/media/mcnu_ic_2.png') }}" alt="">
                  </span>
                  분양현장
              </a>
          </li>
-         <li>
-             <a href="m_map.html">
+         <li class="{{ str_contains(Route::currentRouteName(), 'map') ? 'active' : '' }}">
+             <a href="{{ route('m.map.map') }}" onclick="return false;">
                  <span>
                      <img src="{{ asset('assets/media/mcnu_ic_3.png') }}" alt="">
                  </span>

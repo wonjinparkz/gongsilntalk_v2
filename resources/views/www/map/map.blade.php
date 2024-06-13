@@ -219,6 +219,15 @@
         var storeArray = Array.isArray(data.store) ? data.store : [];
         var buildingArray = Array.isArray(data.building) ? data.building : [];
 
+        var sidoArray = [
+            [37.5666103, 126.9783882, '서울'],
+            [37.8603672, 128.3115261, '강원도'],
+            [37.4363177, 127.550802, '경기도'],
+            [35.4414209, 128.2417453],
+            [36.6308397, 128.962578],
+            [35.160032, 126.851338],
+        ]
+
         // 마커 생성 및 클릭 이벤트 리스너 추가 함수
         function createMarker({
             id,

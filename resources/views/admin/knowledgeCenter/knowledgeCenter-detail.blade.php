@@ -4,6 +4,7 @@
         </x-screen-card>
         {{-- FORM START  --}}
         <a href="{{ route('data.apt.addrss') }}">pnu</a>
+        <a href="{{ route('data.apt.polygon') }}">폴라곤</a>
 
         @inject('carbon', 'Carbon\Carbon')
         <form class="form" method="POST" action="{{ route('admin.knowledgeCenter.update') }}">
