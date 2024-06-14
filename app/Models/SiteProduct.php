@@ -47,6 +47,7 @@ class SiteProduct extends BaseModel
         'expected_move_date',
         'developer',
         'comstruction_company',
+        'matterport_link',
         'is_sale',
         'is_delete',
     ];

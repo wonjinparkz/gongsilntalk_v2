@@ -2,6 +2,22 @@
     <script type="text/javascript"
         src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
     </script>
+
+    <!-- Pannellum library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.css"
+        integrity="sha512-UoT/Ca6+2kRekuB1IDZgwtDt0ZUfsweWmyNhMqhG4hpnf7sFnhrLrO0zHJr2vFp7eZEvJ3FN58dhVx+YMJMt2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.js"
+        integrity="sha512-EmZuy6vd0ns9wP+3l1hETKq/vNGELFRuLfazPnKKBbDpgZL0sZ7qyao5KgVbGJKOWlAFPNn6G9naB/8WnKN43Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <style>
+        #panorama-360-view {
+            width: 1175px;
+            height: 570px;
+        }
+    </style>
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
@@ -110,8 +126,8 @@
 
                 <div class="detail_camera_wrap">
                     <div class="gray_basic">*클릭을 통해 직접 건물 내부를 이동하며 확인해보세요.</div>
-                    <div class="mt8">
-                        <img src="{{ asset('assets/media/s_4.png') }}" class="w_100">
+                    <div class="mt8" onclick="onMetaLink();">
+                        <div id="panorama-360-view"></div>
                     </div>
                 </div>
             </section>
@@ -340,6 +356,17 @@
 
     </div>
     <script>
+        var onMetaLink = () => {
+            // location.href = '{{ $result->matterport_link }}';
+        }
+
+        pannellum.viewer('panorama-360-view', {
+            "type": "equirectangular",
+            "panorama": "{{ Storage::url('file/' . $result->files[0]->path . '/' . $result->files[0]->path) }}",
+            "autoLoad": true
+        })
+
+        // 좋아요
         var onLikeStateChange = (id, type) => {
 
             $.ajax({

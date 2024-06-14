@@ -161,15 +161,18 @@ class SiteProductController extends Controller
             'completion_date' => $request->completion_date,
             'expected_move_date' => $request->expected_move_date,
             'developer' => $request->developer,
+            'matterport_link' => $request->matterport_link,
             'comstruction_company' => $request->comstruction_company,
             'is_sale' => 0,
             'is_delete' => 0
         ]);
 
+        // 대표 이미지
+        $this->imageTypeWithCreate($request->siteProductMain_image_ids, SiteProduct::class, $result->id, 0);
 
-        $this->imageWithCreate($request->siteProductMain_image_ids, SiteProduct::class, $result->id);
-        // $this->imageWithCreate($request->siteProductMain_image_ids, SiteProduct::class., $result->id);
+        // 교육 자료
         $this->imageTypeWithCreate($request->siteProductEdu_image_ids, SiteProduct::class, $result->id, 1);
+
         $this->fileWithCreate($request->dimension_file_ids, SiteProduct::class, $result->id);
 
         $premiumResult = SiteProductPremium::create([
