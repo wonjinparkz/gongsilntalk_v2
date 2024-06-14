@@ -1,5 +1,7 @@
 <x-layout>
-
+    <script type="text/javascript"
+        src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
+    </script>
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
@@ -17,7 +19,8 @@
                     <h1>{{ $result->title }}</h1>
                 </div>
                 <div class="sales_bar_right">
-                    <span class="header_btn_wish" onclick="btn_wish(this)"></span>
+                    <span class="header_btn_wish {{ isset($result->like_id) ? 'on' : '' }}"
+                        onclick="onLikeStateChange('{{ $result->id }}', 'site_product');btn_wish(this)"></span>
                     <a href="#"><img src="{{ asset('assets/media/header_btn_alarm.png') }}"
                             class="header_ic_btn"></a>
                     <a href="#"><img src="{{ asset('assets/media/header_btn_share_deep.png') }}"
@@ -120,12 +123,11 @@
 
                 <div class="swiper edu_document">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide"><img src="{{ asset('assets/media/s_5.png') }}" class="document_img">
-                        </div>
-                        <div class="swiper-slide"><img src="{{ asset('assets/media/s_5.png') }}" class="document_img">
-                        </div>
-                        <div class="swiper-slide"><img src="{{ asset('assets/media/s_5.png') }}" class="document_img">
-                        </div>
+                        @foreach ($result->edu_images as $image)
+                            <div class="swiper-slide"><img src="{{ Storage::url('image/' . $image->path) }}"
+                                    class="document_img">
+                            </div>
+                        @endforeach
                     </div>
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
@@ -142,38 +144,61 @@
             <section id="tab_area_2" class="page">
 
                 <ul class="tab_type_6 toggle_tab mt28">
-                    @foreach ($result->dongInfo as $dongInfo)
-                        <li class="active" onclick="onFloorListGet('{{ $dongInfo->id }}');">
+                    @php
+                        $floorFirstArr = [];
+                        $floorFirstInfo = [];
+                    @endphp
+
+
+                    @foreach ($result->dongInfo as $key => $dongInfo)
+                        @php
+                            if ($key == 0) {
+                                $floorFirstArr = $dongInfo->floorInfo;
+                            }
+                        @endphp
+                        <li {{ $key == 0 ? 'class=active' : '' }} onclick="onFloorListGet('{{ $dongInfo->id }}');">
                             {{ $dongInfo->dong_name }}</li>
                     @endforeach
-                    {{-- <li class="active">1동</li>
-                    <li>2동</li> --}}
                 </ul>
 
-                <div class="black_filter only_pc mt28">
-                    @foreach ($result->dongInfo as $dongInfoList)
-                        @foreach ($dongInfoList->floorInfo as $floorInfo)
-                            <div class="cell">
-                                <input type="radio" name="floor" id="floor_{{ $floorInfo->id }}"
-                                    value="{{ $floorInfo->id }}">
-                                <label for="floor_{{ $floorInfo->id }}">{{ $floorInfo->floor_name }}</label>
-                            </div>
-                        @endforeach
+                <div class="black_filter only_pc mt28" id="floorListPc">
+                    @foreach ($floorFirstArr as $key => $floorInfo)
+                        @php
+                            if ($key == 0) {
+                                $floorFirstInfo = $floorInfo;
+                            }
+                        @endphp
+
+                        <div class="cell">
+                            <input type="radio" name="floor" id="floor_{{ $floorInfo->id }}"
+                                {{ $key == 0 ? 'checked' : '' }} value="{{ $floorInfo->id }}"
+                                onclick="onFloorDetailListGet('{{ $floorInfo->id }}');">
+                            <label for="floor_{{ $floorInfo->id }}">{{ $floorInfo->floor_name }}</label>
+                        </div>
                     @endforeach
                 </div>
 
-                <select class="sales_floor_select only_m">
-                    @foreach ($result->dongInfo as $dongInfoList)
-                        @foreach ($dongInfoList->floorInfo as $floorInfo)
-                            <option>{{ $floorInfo->floor_name }}</option>
-                        @endforeach
+                <select class="sales_floor_select only_m" id="floorListMobile" name="floorListMobile"
+                    onchange="onFloorDetailChange();">
+                    @foreach ($floorFirstArr as $floorInfo)
+                        <option value="{{ $floorInfo->id }}">{{ $floorInfo->floor_name }}</option>
                     @endforeach
                 </select>
 
                 <div>
-                    <div class="floor_title">22층 ~ 15층</div>
-                    <div class="floor_info">근린생활시설</div>
-                    <div><img src="{{ asset('assets/media/s_6.png') }}" class="w_100"></div>
+                    @php
+                        $typeArray = [];
+                        $floorFirstInfo->is_neighborhood_life ? array_push($typeArray, '근린지원시설') : '';
+                        $floorFirstInfo->is_industry_center ? array_push($typeArray, '지식산업센터') : '';
+                        $floorFirstInfo->is_warehouse ? array_push($typeArray, '공동창고') : '';
+                        $floorFirstInfo->is_dormitory ? array_push($typeArray, '기숙사,유치원') : '';
+                        $floorFirstInfo->is_business_support ? array_push($typeArray, '업무지원시설') : '';
+                    @endphp
+                    <div class="floor_title">{{ $floorFirstInfo->floor_name }}</div>
+                    <div class="floor_info">{{ implode('/', $typeArray) }}</div>
+                    <div><img id="floorDetailImage"
+                            src="{{ Storage::url('image/' . $floorFirstInfo->images->path) }}" class="w_100">
+                    </div>
                 </div>
             </section>
         </div>
@@ -187,26 +212,41 @@
                 <div class="premium_wrap">
                     <div class="premium_cell">
                         <label>01</label>
-                        <p>광역 접근성 대폭 향상 및 기대감</p>
-                        <div>탁트인 시원한 풍경으로 바쁜 일상속에 삶의 여유와 활력을 주는 완벽한 브랜드 라이프를 선사합니다.</div>
+                        <p>{{ $result->premiumInfo->title_1 }}</p>
+                        <div>{!! $result->premiumInfo->contents_1 !!}</div>
                     </div>
                     <div class="premium_cell">
                         <label>02</label>
-                        <p>모던한 디자인의 랜더마크적 공간 설계</p>
-                        <div>탁트인 시원한 풍경으로 바쁜 일상속에 삶의 여유와 활력을 주는 완벽한 브랜드 라이프를 선사합니다. 되도록이면 세줄을 초과하지 않도록 작성하는 편이 좋습니다.
+                        <p>{{ $result->premiumInfo->title_2 }}</p>
+                        <div>{!! $result->premiumInfo->contents_2 !!}
                         </div>
                     </div>
-                    <div class="premium_cell">
-                        <label>03</label>
-                        <p>다양한 업종의 입주가능성</p>
-                        <div>탁트인 시원한 풍경으로 바쁜 일상속에 삶의 여유와 활력을 주는 완벽한 브랜드 라이프를 선사합니다. 되도록이면 세줄을 초과하지 않도록 작성하는 편이 좋습니다.
+                    @if ($result->premiumInfo->is_blind_1 != 1)
+                        <div class="premium_cell">
+                            <label>03</label>
+                            <p>{{ $result->premiumInfo->title_3 }}</p>
+                            <div>{!! $result->premiumInfo->contents_3 !!}
+                            </div>
                         </div>
-                    </div>
-                    <div class="premium_cell">
-                        <label>04</label>
-                        <p>풍부하게 모두 갖춘 최적의 인프라</p>
-                        <div>남다른 일상을 선사할 품격 높은 커뮤니티로, 새로운 삶의 장을 제공합니다. 최대 세줄까지만 기입되도록 작성하는 편이 좋습니다.</div>
-                    </div>
+                        <div class="premium_cell">
+                            <label>04</label>
+                            <p>{{ $result->premiumInfo->title_4 }}</p>
+                            <div>{!! $result->premiumInfo->contents_4 !!}</div>
+                        </div>
+                    @endif
+                    @if ($result->premiumInfo->is_blind_2 != 1)
+                        <div class="premium_cell">
+                            <label>05</label>
+                            <p>{{ $result->premiumInfo->title_5 }}</p>
+                            <div>{!! $result->premiumInfo->contents_5 !!}</div>
+                        </div>
+                        <div class="premium_cell">
+                            <label>06</label>
+                            <p>{{ $result->premiumInfo->title_6 }}</p>
+                            <div>{!! $result->premiumInfo->contents_6 !!}</div>
+                        </div>
+                    @endif
+
                 </div>
             </section>
         </div>
@@ -218,33 +258,48 @@
                 <h3>분양일정</h3>
                 <p class="txt_item_1">*분양 일정은 건설사 사정에 따라 변경될 수 있습니다.</p>
 
-                <div class="sales_schedule_wrap">
-                    <div class="item_year">2023년</div>
-                    <ul class="sales_schedule_list">
-                        <li>
-                            <div class="schedule_item_1">23.05.02</div>
-                            <div class="schedule_item_2">주택전시관 오픈 <span></span></div>
-                        </li>
-                        <li>
-                            <div class="schedule_item_1">23.05.10</div>
-                            <div class="schedule_item_2">특별공급 청약 <span></span></div>
-                        </li>
-                        <li>
-                            <div class="schedule_item_1">23.05.10</div>
-                            <div class="schedule_item_2">특별공급 청약 <span class="schedule_item_3">D-DAY</span></div>
-                        </li>
-                    </ul>
-                </div>
+                @php
+                    $yearArray = [];
+                    $dateJson = [];
+                    foreach ($result->scheduleInfo as $schedule) {
+                        array_push($yearArray, date('Y', strtotime($schedule->start_date)));
+                    }
+                    $yearArray = array_unique($yearArray);
 
-                <div class="sales_schedule_wrap">
-                    <div class="item_year">2027년</div>
-                    <ul class="sales_schedule_list">
-                        <li>
-                            <div class="schedule_item_1">23.11.02</div>
-                            <div class="schedule_item_2">입주예정일 <span class="schedule_item_3">예정</span></div>
-                        </li>
-                    </ul>
-                </div>
+                    foreach ($yearArray as $year) {
+                        $dateJson[$year] = [];
+                        foreach ($result->scheduleInfo as $key => $schedule) {
+                            if (date('Y', strtotime($schedule->start_date)) == $year) {
+                                array_push($dateJson[$year], $schedule);
+                            }
+                        }
+                    }
+                @endphp
+
+                @foreach ($yearArray as $year)
+                    <div class="sales_schedule_wrap">
+                        <div class="item_year">{{ $year }}년</div>
+                        <ul class="sales_schedule_list">
+
+                            @foreach ($dateJson[$year] as $schedule)
+                                <li>
+                                    <div class="schedule_item_1">{{ date('Y.m.d', strtotime($schedule->start_date)) }}
+                                    </div>
+                                    <div class="schedule_item_2">{{ $schedule->title }}
+                                        @if (date('Y.m.d', strtotime($schedule->start_date)) == date('Y.m.d'))
+                                            <span class="schedule_item_3">D-DAY</span>
+                                        @elseif (date('Y.m.d', strtotime($schedule->start_date)) > date('Y.m.d'))
+                                            <span
+                                                class="schedule_item_3">D-{{ floor((strtotime(date($schedule->start_date)) - strtotime(date('Y-m-d', time()))) / 86400) }}</span>
+                                        @else
+                                            <span></span>
+                                        @endif
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endforeach
 
             </section>
         </div>
@@ -256,16 +311,17 @@
                 <h3>오시는 길</h3>
 
                 <div class="sales_address_info">
-                    <div class="txt_sales_address">경기도 군포시 당동 425-50</div>
-                    <button class="btn_gray_ghost btn_sm only_pc">주소복사</button>
+                    <div class="txt_sales_address">{{ $result->address }}</div>
+                    <button class="btn_gray_ghost btn_sm only_pc"type="button" onclick="textCopy();">주소복사</button>
                 </div>
 
                 <div class="sales_map_wrap">
-                    <img src="{{ asset('assets/media/s_7.png') }}" class="w_100">
+                    <div id="map" style="width:100%; height:500px">
+                    </div>
                 </div>
 
                 <div class="m_address_btn only_m">
-                    <button class="btn_gray_ghost btn_sm">주소복사</button>
+                    <button class="btn_gray_ghost btn_sm" type="button" onclick="textCopy();">주소복사</button>
                 </div>
             </section>
         </div>
@@ -274,7 +330,8 @@
 
         <!-- floating btn : s -->
         <div class="floating_btn_wrap only_m">
-            <a href="javascript:void(0)" class="floating_wish" onclick="btn_wish(this)">관심등록</a>
+            <a href="javascript:void(0)" class="floating_wish"
+                onclick="onLikeStateChange('{{ $result->id }}', 'site_product');btn_wish(this);">관심등록</a>
             <button class="btn_point btn_full_floting">분양문의</button>
         </div>
         <!-- floating btn : e -->
@@ -283,6 +340,78 @@
 
     </div>
     <script>
+        var onLikeStateChange = (id, type) => {
+
+            $.ajax({
+                url: '{{ route('www.commons.like') }}',
+                type: "post",
+                data: {
+                    'target_id': id,
+                    'target_type': type
+                }
+            }).fail(function(jqXHR, ajaxOptions, thrownError) {
+                alert('다시 시도해주세요.');
+            });
+        }
+
+        // 주소 복사
+        var textCopy = () => {
+            window.navigator.clipboard.writeText('{{ $result->address }}').then(() => {
+                alert("주소가 복사 되었습니다.");
+            });
+        };
+
+        // 지도
+        var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng('{{ $result->address_lat }}', '{{ $result->address_lng }}'),
+            zoom: 15
+        });
+
+        marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng('{{ $result->address_lat }}', '{{ $result->address_lng }}'),
+            map: map,
+            icon: {
+                url: "{{ asset('assets/media/map_marker_default.png') }}",
+
+                size: new naver.maps.Size(100, 100), //아이콘 크기
+                scaledSize: new naver.maps.Size(30, 43), //아이콘 크기
+                origin: new naver.maps.Point(0, 0),
+                anchor: new naver.maps.Point(11, 35)
+            }
+        });
+
+        function onFloorDetailChange() {
+            let checkRadioValue = $('select[name=floorListMobile] option:selected').val();
+            onFloorDetailListGet(checkRadioValue);
+        }
+
+        // 층 상세 정보 가져오기
+        function onFloorDetailListGet(id) {
+            $.ajax({
+                url: '{{ route('www.site.product.floor.detail') }}',
+                method: 'get',
+                data: {
+                    'floor_id': id
+                },
+                success: function(data, status, xhr) {
+                    let arrayFloorType = [];
+
+                    (data.result.is_neighborhood_life) ? arrayFloorType.push('근린지원시설'): '';
+                    (data.result.is_industry_center) ? arrayFloorType.push('지식산업센터'): '';
+                    (data.result.is_warehouse) ? arrayFloorType.push('공동창고'): '';
+                    (data.result.is_dormitory) ? arrayFloorType.push('기숙사,유치원'): '';
+                    (data.result.is_business_support) ? arrayFloorType.push('업무지원시설'): '';
+
+                    $('.floor_title').text(data.result.floor_name);
+                    document.getElementById("floorDetailImage").src = '{{ Storage::url('image/') }}' + data
+                        .result.images.path;
+
+                    $('.floor_info').text(arrayFloorType.join('/'));
+
+                }
+            });
+        }
+
         // 각 동별 층 가져오기
         function onFloorListGet(id) {
             $.ajax({
@@ -292,9 +421,24 @@
                     'dong_id': id
                 },
                 success: function(data, status, xhr) {
+                    let divTag = '';
+                    let divTagM = '';
                     data.result.forEach(element => {
-                        console.log(element);
+                        divTag += `
+                            <div class="cell">
+                                <input type="radio" name="floor" id="floor_${element.id}"
+                                    value="${element.id}" onclick="onFloorDetailListGet('${element.id}');">
+                                <label for="floor_${element.id}">${element.floor_name}</label>
+                            </div>
+                        `;
+
+                        divTagM += `
+                            <option value="${element.id}">${element.floor_name}</option>
+                        `;
                     });
+
+                    $('#floorListPc').html(divTag);
+                    $('#floorListMobile').html(divTagM);
                 }
             });
         }

@@ -169,6 +169,7 @@ class SiteProductController extends Controller
 
         $this->imageWithCreate($request->siteProductMain_image_ids, SiteProduct::class, $result->id);
         // $this->imageWithCreate($request->siteProductMain_image_ids, SiteProduct::class., $result->id);
+        $this->imageTypeWithCreate($request->siteProductEdu_image_ids, SiteProduct::class, $result->id, 1);
         $this->fileWithCreate($request->dimension_file_ids, SiteProduct::class, $result->id);
 
         $premiumResult = SiteProductPremium::create([
@@ -219,6 +220,8 @@ class SiteProductController extends Controller
                 'is_ended' => $request->is_ended[$index],
             ]);
         }
+
+
 
         return Redirect::route('admin.site.product.list.view')->with('message', '분양현장 매물을 등록했습니다.');
     }

@@ -52,7 +52,13 @@ class SiteProductPcController extends Controller
      */
     public function siteProductDetailView($id): View
     {
-        $result = SiteProduct::with('files', 'dongInfo', 'premiumInfo')->where('id', $id)->first();
+        $result = SiteProduct::with('images','edu_images','files', 'dongInfo', 'premiumInfo')->select('site_product.*');
+
+        if (Auth::guard('web')->user() != null) {
+            $result->like('site_product', Auth::guard('web')->user()->id ?? "");
+        }
+
+        $result = $result->where('site_product.id', $id)->first();
 
         return view('www.siteProduct.siteProduct_detail', compact('result'));
     }
@@ -66,5 +72,15 @@ class SiteProductPcController extends Controller
         $result = SiteProductFloorInfo::select()->where('site_product_dong_id', $request->dong_id)->get();
 
         return $this->sendResponse($result, '층 정보 입니다.');
+    }
+
+    /**
+     * 각 층 상세 정보 불러오기
+     */
+    public function floorDetail(Request $request)
+    {
+        $result = SiteProductFloorInfo::with('images')->select()->where('id', $request->floor_id)->first();
+
+        return $this->sendResponse($result, '층 상세 정보 입니다.');
     }
 }
