@@ -97,6 +97,7 @@ Route::controller(SiteProductPcController::class)->group(function () {
     Route::get('/site/product/list', 'siteProductListView')->name('www.site.product.list.view');
     Route::get('/site/product/detail/{id}', 'siteProductDetailView')->name('www.site.product.detail.view');
     Route::get('/site/product/floor/list', 'floorList')->name('www.site.product.floor.list');
+    Route::get('/site/product/floor/detail', 'floorDetail')->name('www.site.product.floor.detail');
 });
 
 // 일반회원 매물

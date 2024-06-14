@@ -47,6 +47,7 @@ class SiteProduct extends BaseModel
         'expected_move_date',
         'developer',
         'comstruction_company',
+        'matterport_link',
         'is_sale',
         'is_delete',
     ];
@@ -91,10 +92,18 @@ class SiteProduct extends BaseModel
     }
 
     /**
-     * 프리미엄 정보 가져오기
+     * 분양 일정 정보 가져오기
      */
     public function scheduleInfo()
     {
-        return $this->hasMany(SiteProductSchedule::class, 'site_product_id', 'id');
+        return $this->hasMany(SiteProductSchedule::class, 'site_product_id', 'id')->orderBy('start_date', 'asc');
+    }
+
+    /**
+     * 교육자료 이미지 가져오기
+     */
+    public function edu_images()
+    {
+        return $this->morphMany(Images::class, 'target')->where('type', '1');
     }
 }

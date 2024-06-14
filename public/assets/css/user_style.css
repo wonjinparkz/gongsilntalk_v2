@@ -168,7 +168,8 @@
 .template_wrap .template_txt_wrap{position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); width:1175px;}
 .template_wrap .txt_tit{font-size: 60px; font-family: 'font-b';}
 .template_wrap .txt_con{font-size: 34px; line-height: 1.6; margin-top:28px;}
-.template_wrap .template_img{width:100%;}
+.template_wrap .template_img{width:100%; height: 948px;}
+.template_wrap .template_img .img_box{height: 948px;}
 .sales_section_1{padding:140px 0;}
 .sales_table_info{margin-top: 24px;}
 .change_unit{border-radius: 5px; overflow: hidden; flex-direction: row; display: flex;}

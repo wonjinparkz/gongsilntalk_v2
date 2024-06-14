@@ -42,6 +42,6 @@ class SiteProductDong extends BaseModel
      */
     public function floorInfo()
     {
-        return $this->hasMany(SiteProductFloorInfo::class, 'site_product_dong_id', 'id');
+        return $this->hasMany(SiteProductFloorInfo::class, 'site_product_dong_id', 'id')->with('images');
     }
 }
