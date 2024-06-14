@@ -132,7 +132,12 @@
 </script>
 <script>
     var polygonMap = null;
+    var map;
+    var markers = []; // 마커 배열을 전역 변수로 선언
+    var bounds; // bounds 전역 변수로 선언
+    var lastActiveMarkerElement = null; // 마지막으로 활성화된 마커 요소를 저장
 
+    // 마커 클릭 사이드맵
     function getProductSide(markerId, markerType) {
         console.log(markerId, markerType);
         $.ajax({
@@ -156,354 +161,8 @@
         });
     }
 
-
-
-    // 가격을 '억'과 '천' 단위로 포맷하는 함수
-    function formatPrice(priceString) {
-        // 문자열을 숫자로 변환
-        var price = parseInt(priceString.replace(/,/g, ''), 10);
-
-        if (isNaN(price)) {
-            return ''; // 숫자로 변환할 수 없는 경우 빈 문자열 반환
-        }
-
-        var billion = Math.floor(price / 10000); // 억 단위
-        var thousand = price % 10000; // 천 단위
-
-        if (billion > 0) {
-            return `${billion}억${thousand > 0 ? thousand : ''}`;
-        } else {
-            return `${thousand}`;
-        }
-    }
-
-
-    // 매물 데이터
-    // 내 줌위치 이동 시 몇미터만 가져오게 api 변경해야댐
-    const data = {!! json_encode($data) !!};
-
-    // 폴리라인
-    var polylines = [];
-    // 마커
-    var markers = [];
-    var map;
-    var pano = null;
-    var lastActiveMarkerElement = null;
-
-    // var htmlMarker = {
-    //     content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url({{ asset('assets/media/cluster_marker_1.png') }});background-size:contain;"></div>',
-    //     size: N.Size(40, 40),
-    //     anchor: N.Point(20, 20)
-    // };
-
-    window.initMap = function() {
-        map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.5665, 126.9780),
-            zoom: 15,
-            minZoom: 8,
-            maxZoom: 21,
-            size: new naver.maps.Size(window.innerWidth, window.innerHeight),
-            mapTypeId: naver.maps.MapTypeId.NORMAL,
-        });
-
-        // 공통 변수 선언
-        var bounds = new naver.maps.LatLngBounds();
-        var pathCoordinates = [];
-        var infoWindow = new naver.maps.InfoWindow();
-        var markers = [];
-
-        // 배열 초기화
-        var aptMapsArray = Array.isArray(data.aptMaps) ? data.aptMaps : [];
-        var mapsArray = Array.isArray(data.maps) ? data.maps : [];
-        var knowledgesArray = Array.isArray(data.knowledges) ? data.knowledges : [];
-        var storeArray = Array.isArray(data.store) ? data.store : [];
-        var buildingArray = Array.isArray(data.building) ? data.building : [];
-
-        var sidoArray = [
-            [37.5666103, 126.9783882, '서울'],
-            [37.8603672, 128.3115261, '강원도'],
-            [37.4363177, 127.550802, '경기도'],
-            [35.4414209, 128.2417453],
-            [36.6308397, 128.962578],
-            [35.160032, 126.851338],
-        ]
-
-        // 마커 생성 및 클릭 이벤트 리스너 추가 함수
-        function createMarker({
-            id,
-            lat,
-            lng,
-            type,
-            contentString,
-            anchorX,
-            anchorY
-        }) {
-            var position = new naver.maps.LatLng(lat, lng);
-            var marker = new naver.maps.Marker({
-                id: id,
-                type: type,
-                map: map,
-                position: position,
-                icon: {
-                    content: contentString,
-                    anchor: new naver.maps.Point(anchorX, anchorY) // 기준점을 하단 중앙으로 설정
-                }
-            });
-
-            bounds.extend(position);
-            pathCoordinates.push(position);
-
-            naver.maps.Event.addListener(marker, 'click', function() {
-                var markerElement = marker.getElement(); // 현재 마커의 DOM 요소
-                var markerId = marker.id; // 마커의 고유 ID
-                var markerType = marker.type; // 마커의 타입
-                var mapSide = document.querySelector('.map_side');
-
-                // 현재 마커의 activeMarker 요소 선택
-                var currentActiveMarkerElement = markerElement.querySelector('.activeMarker');
-
-                // 클릭된 마커가 이미 active 상태인 경우
-                if (lastActiveMarkerElement === currentActiveMarkerElement) {
-                    // map_side의 active 클래스를 제거
-                    mapSide.classList.remove('active');
-                    // 클릭된 마커의 active 클래스를 제거
-                    $(currentActiveMarkerElement).removeClass('active');
-                    // 마지막 active 마커를 null로 설정
-                    lastActiveMarkerElement = null;
-
-                    if (polygonMap) {
-                        polygonMap.setMap(null);
-                    }
-                } else {
-                    // 클릭된 마커가 다른 마커인 경우
-                    getProductSide(markerId, markerType);
-                    $('.activeMarker').removeClass('active');
-                    $(currentActiveMarkerElement).addClass('active');
-                    if (!mapSide.classList.contains('active')) {
-                        mapSide.classList.add('active');
-                    }
-                    lastActiveMarkerElement = currentActiveMarkerElement;
-                }
-            });
-
-            markers.push(marker);
-        }
-
-        // 데이터 배열 처리 함수
-        function processDataArray(array, type, getContentString, anchorX, anchorY) {
-            array.forEach(item => {
-                var {
-                    id,
-                    address_lat,
-                    address_lng
-                } = item;
-                var contentString = getContentString(item);
-                createMarker({
-                    id: id,
-                    lat: address_lat,
-                    lng: address_lng,
-                    type: type,
-                    contentString: contentString,
-                    anchorX: anchorX,
-                    anchorY: anchorY
-                });
-            });
-        }
-
-        // 가격 형식화 함수
-        function addCommasToNumber(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-
-        // 제곱미터 단위를 평 단위로 변환하는 함수
-        function convertToPyeong(squareMeters) {
-            return Math.floor(squareMeters / 3.305785); // 내림하여 정수로 반환
-        }
-
-        // 각 데이터 배열 처리
-        processDataArray(knowledgesArray, 'knowledge', ({
-            product_name,
-            sale_min_price,
-            sale_max_price,
-            lease_min_price,
-            lease_max_price
-        }) => `<div class="activeMarker iw_inner">
-                            <h3>${product_name}</h3>
-                            <div class="inner_info">
-                                <p>매매 <span>${addCommasToNumber(sale_min_price)}~${addCommasToNumber(sale_max_price)}</span></p>
-                                <p>임대 <span>${lease_min_price}~${lease_max_price}</span></p>
-                                <span class="bubble_info">분양</span>
-                            </div>
-                        </div>
-                    `, 0, 73);
-
-        processDataArray(aptMapsArray, 'apt', ({
-                kaptName,
-                transactions,
-                exclusiveArea = transactions?.exclusiveArea != null ?
-                `<span class="bubble_info">${convertToPyeong(transactions?.exclusiveArea || '')}평</span>` :
-                '',
-            }) =>
-            `<div class="activeMarker iw_mini_inner">
-                            <h3>아파트</h3>
-                            <div class="mini_inner_info">
-                                <p>${formatPrice(transactions?.transactionPrice || '')}</p>
-                            </div>
-                            ${exclusiveArea}
-                        </div>
-                    `, 0, 50);
-
-        processDataArray(storeArray, 'store', ({
-            kstoreName
-        }) => `<div class="activeMarker iw_mini_inner">
-                            <h3>${kstoreName}</h3>
-                            <div class="mini_inner_info">
-                                &nbsp;
-                            </div>
-                        </div>
-                    `, 0, 50);
-
-        processDataArray(buildingArray, 'building', ({
-            kbuildingName
-        }) => `<div class="activeMarker iw_mini_inner">
-                            <h3>${kbuildingName}</h3>
-                            <div class="mini_inner_info">
-                                &nbsp;
-                            </div>
-                        </div>
-                    `, 0, 50);
-
-        // 지도 경계 설정
-        map.fitBounds(bounds);
-
-        // 지적도 세팅
-        var cadastralLayer = new naver.maps.CadastralLayer();
-        var cadastralbtn = $('#cadastral');
-
-        naver.maps.Event.addListener(map, 'cadastralLayer_changed', function() {
-            if (cadastralLayer.getMap()) {
-                cadastralbtn.addClass('control-on').val('지적도 끄기');
-            } else {
-                cadastralbtn.removeClass('control-on').val('지적도 켜기');
-            }
-        });
-
-        cadastralbtn.on('click', function(e) {
-            e.preventDefault();
-            if (cadastralLayer.getMap()) {
-                cadastralLayer.setMap(null);
-                cadastralbtn.removeClass('control-on').val('지적도 켜기');
-            } else {
-                cadastralLayer.setMap(map);
-                cadastralbtn.addClass('control-on').val('지적도 끄기');
-            }
-        });
-
-        // 위성뷰 세팅
-        window.toggleSatelliteView = function() {
-            var currentMapTypeId = map.getMapTypeId();
-            if (currentMapTypeId === naver.maps.MapTypeId.NORMAL) {
-                map.setMapTypeId(naver.maps.MapTypeId.SATELLITE);
-            } else {
-                map.setMapTypeId(naver.maps.MapTypeId.NORMAL);
-            }
-        };
-
-        naver.maps.onJSContentLoaded = function() {
-            // 아이디 혹은 지도 좌표로 파노라마를 표시할 수 있습니다.
-            pano = new naver.maps.Panorama("pano", {
-                position: new naver.maps.LatLng(37.4808568, 126.8802557),
-                pov: {
-                    pan: -133,
-                    tilt: 0,
-                    fov: 100
-                }
-            });
-
-            // 파노라마 위치가 갱신되었을 때 발생하는 이벤트를 받아 지도의 중심 위치를 갱신합니다.
-            naver.maps.Event.addListener(pano, 'pano_changed', function() {
-                var latlng = pano.getPosition();
-
-                if (!latlng.equals(map.getCenter())) {
-                    map.setCenter(latlng);
-                }
-            });
-        };
-
-        // 거리뷰 세팅
-        var streetLayer = new naver.maps.StreetLayer();
-        var streetbtn = $('#streetView');
-        streetbtn.on("click", function(e) {
-            e.preventDefault();
-            if (streetLayer.getMap()) {
-                streetLayer.setMap(null);
-            } else {
-                streetLayer.setMap(map);
-            }
-        });
-
-        // 지도를 클릭했을 때 발생하는 이벤트를 받아 파노라마 위치를 갱신합니다. 이때 거리뷰 레이어가 있을 때만 갱신하도록 합니다.
-        naver.maps.Event.addListener(map, 'click', function(e) {
-            if (streetLayer.getMap()) {
-                var latlng = e.coord;
-
-                // 파노라마의 setPosition()은 해당 위치에서 가장 가까운 파노라마(검색 반경 300미터)를 자동으로 설정합니다.
-                pano.setPosition(latlng);
-
-                document.getElementById('map').style.visibility = "hidden";
-                document.getElementById('pano').style.visibility = "visible";
-            }
-        });
-
-
-        var zoominbtn = $('#zoomin');
-        var zoomoutbtn = $('#zoomout');
-
-        // 줌인
-        zoominbtn.on('click', function(e) {
-            e.preventDefault();
-            map.setZoom(map.getZoom() + 1, true);
-        });
-
-        // 줌아웃
-        zoomoutbtn.on('click', function(e) {
-            e.preventDefault();
-            map.setZoom(map.getZoom() - 1, true);
-        });
-
-        //줌을 땡기면 마커업데이트
-        naver.maps.Event.addListener(map, 'zoom_changed', function() {
-            updateCenter();
-        });
-
-        //드래그를 하면 마커업데이트
-        naver.maps.Event.addListener(map, 'dragend', function() {
-            updateCenter();
-        });
-    };
-
-    window.initMap();
-
-    // 현재 내 gps 위치로 이동
-    var currentbtn = $('#current');
-    currentbtn.on("click", function(e) {
-        e.preventDefault();
-        navigator.geolocation.getCurrentPosition((position) => {
-            console.log(position)
-            var lat = position.coords.latitude;
-            var lng = position.coords.longitude;
-
-            var currentLocation = new naver.maps.LatLng(lat, lng)
-            map.setZoom(18, true);
-            map.setCenter(currentLocation);
-
-            updateCenter();
-        });
-    });
-
     // 마커 업데이트
     function markerUpdate(lat, lng, zoomLv) {
-
         console.log('lat:', lat);
         console.log('lng:', lng);
         console.log('zoomLv:', zoomLv);
@@ -513,11 +172,29 @@
             'zoomLv': zoomLv,
         };
         $.ajax({
-            type: "get", // 전송타입
-            url: "{{ route('www.map.map') }}",
+            type: "post", // 전송타입
+            dataType: 'json',
+            url: "{{ route('www.map.marker') }}",
             data: formData,
             success: function(data, status, xhr) {
-                console.log("Success: ", status);
+                var data = data.data;
+                console.log("data: ", data);
+                console.log("knowledges: ", data.knowledges);
+                console.log("apt: ", data.aptMaps);
+
+                // 기존 마커 제거
+                markers.forEach(marker => marker.setMap(null)); // 마커를 지도에서 제거
+                markers = []; // 마커 배열 초기화
+                bounds = new naver.maps.LatLngBounds(); // bounds 초기화
+
+                // 새 마커 추가
+                processDataArray(data.knowledges, 'knowledge', getContentStringForKnowledge, 0, 73);
+                processDataArray(data.aptMaps, 'apt', getContentStringForApt, 0, 50);
+                processDataArray(data.store, 'store', getContentStringForStore, 0, 50);
+                processDataArray(data.building, 'building', getContentStringForBuilding, 0, 50);
+
+                // 지도 경계 설정
+                // map.fitBounds(bounds);
             },
             error: function(xhr, status, e) {
                 console.error("Error: ", e);
@@ -525,105 +202,233 @@
         });
     }
 
-    // 화면 가운데 좌표 가져오기 > 좌표 업데이트
+    // 데이터 배열 처리 함수
+    function processDataArray(array, type, getContentString, anchorX, anchorY) {
+        array.forEach(item => {
+            var {
+                id,
+                address_lat,
+                address_lng
+            } = item;
+            var contentString = getContentString(item);
+            createMarker({
+                id: id,
+                lat: address_lat,
+                lng: address_lng,
+                type: type,
+                contentString: contentString,
+                anchorX: anchorX,
+                anchorY: anchorY
+            });
+        });
+    }
+
+    // 가격을 '억'과 '천' 단위로 포맷하는 함수
+    function formatPrice(priceString) {
+        var price = parseInt(priceString.replace(/,/g, ''), 10);
+        if (isNaN(price)) {
+            return '';
+        }
+        var billion = Math.floor(price / 10000);
+        var thousand = price % 10000;
+        if (billion > 0) {
+            return `${billion}억${thousand > 0 ? thousand : ''}`;
+        } else {
+            return `${thousand}`;
+        }
+    }
+
+    // 제곱미터 단위를 평 단위로 변환하는 함수
+    function convertToPyeong(squareMeters) {
+        return Math.floor(squareMeters / 3.305785); // 내림하여 정수로 반환
+    }
+
+    // 마커 생성 및 클릭 이벤트 리스너 추가 함수
+    function createMarker({
+        id,
+        lat,
+        lng,
+        type,
+        contentString,
+        anchorX,
+        anchorY
+    }) {
+        var position = new naver.maps.LatLng(lat, lng);
+        var marker = new naver.maps.Marker({
+            id: id,
+            type: type,
+            map: map,
+            position: position,
+            icon: {
+                content: contentString,
+                anchor: new naver.maps.Point(anchorX, anchorY) // 기준점을 하단 중앙으로 설정
+            }
+        });
+
+        bounds.extend(position);
+
+        naver.maps.Event.addListener(marker, 'click', function() {
+            var markerElement = marker.getElement();
+            var markerId = marker.id;
+            var markerType = marker.type;
+            var mapSide = document.querySelector('.map_side');
+            var currentActiveMarkerElement = markerElement.querySelector('.activeMarker');
+
+            if (lastActiveMarkerElement === currentActiveMarkerElement) {
+                mapSide.classList.remove('active');
+                $(currentActiveMarkerElement).removeClass('active');
+                lastActiveMarkerElement = null;
+
+            } else {
+                getProductSide(markerId, markerType);
+                $('.activeMarker').removeClass('active');
+                $(currentActiveMarkerElement).addClass('active');
+                if (!mapSide.classList.contains('active')) {
+                    mapSide.classList.add('active');
+                }
+                lastActiveMarkerElement = currentActiveMarkerElement;
+            }
+        });
+
+        markers.push(marker);
+    }
+
+    // 각 데이터별 contentString 생성 함수
+    function getContentStringForKnowledge({
+        product_name,
+        sale_min_price,
+        sale_max_price,
+        lease_min_price,
+        lease_max_price
+    }) {
+        console.log('sale', sale_min_price,
+            sale_max_price,
+            lease_min_price,
+            lease_max_price);
+        return `<div class="activeMarker iw_inner">
+        <h3>${product_name || 'No name'}</h3>
+        <div class="inner_info">
+            <p>매매 <span>${sale_min_price}~${sale_max_price}</span></p>
+            <p>임대 <span>${lease_min_price}~${lease_max_price}</span></p>
+            <span class="bubble_info">분양</span>
+        </div>
+    </div>`;
+    }
+
+    function getContentStringForApt({
+        kaptName,
+        transactions
+    }) {
+        console.log('아파트 생성 ', kaptName, '\n데이터 ', transactions?.exclusiveArea);
+        var exclusiveArea = transactions?.exclusiveArea != null ?
+            `<span class="bubble_info">${convertToPyeong(transactions.exclusiveArea || '')}평</span>` : '';
+        return `<div class="activeMarker iw_mini_inner">
+        <h3>아파트</h3>
+        <div class="mini_inner_info">
+            <p>${formatPrice(transactions?.transactionPrice || '')}</p>
+        </div>
+        ${exclusiveArea}
+    </div>`;
+    }
+
+    function getContentStringForStore({
+        kstoreName
+    }) {
+        return `<div class="activeMarker iw_mini_inner">
+        <h3>${kstoreName || 'No name'}</h3>
+        <div class="mini_inner_info">
+            &nbsp;
+        </div>
+    </div>`;
+    }
+
+    function getContentStringForBuilding({
+        kbuildingName
+    }) {
+        return `<div class="activeMarker iw_mini_inner">
+        <h3>${kbuildingName || 'No name'}</h3>
+        <div class="mini_inner_info">
+            &nbsp;
+        </div>
+    </div>`;
+    }
+
+    function initializeMap() {
+        map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(37.5665, 126.9780),
+            zoom: 15,
+            minZoom: 8,
+            maxZoom: 21,
+            size: new naver.maps.Size(window.innerWidth, window.innerHeight),
+            mapTypeId: naver.maps.MapTypeId.NORMAL,
+        });
+
+        bounds = new naver.maps.LatLngBounds();
+
+        // 지도 로드 완료 후 이벤트 리스너 추가
+        naver.maps.Event.addListener(map, 'init', function() {
+            // 줌 변경 시 마커 업데이트
+            naver.maps.Event.addListener(map, 'zoom_changed', function() {
+                updateCenter();
+            });
+
+            // 지도 드래그 종료 시 마커 업데이트
+            naver.maps.Event.addListener(map, 'dragend', function() {
+                updateCenter();
+            });
+
+            // 현재 위치로 이동 버튼
+            var currentbtn = $('#current');
+            currentbtn.on("click", function(e) {
+                e.preventDefault();
+                navigator.geolocation.getCurrentPosition((position) => {
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+                    var currentLocation = new naver.maps.LatLng(lat, lng);
+                    map.setZoom(18, true);
+                    map.setCenter(currentLocation);
+                    updateCenter();
+                });
+            });
+
+            // 필터 버튼 이벤트 리스너 추가
+            const filterBtns = document.querySelectorAll('.filter_btn_trigger');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function(event) {
+                    const parent = this.parentElement;
+                    const panel = parent.querySelector('.filter_panel');
+                    document.querySelectorAll('.filter_panel').forEach(p => {
+                        if (p !== panel && p.style.display === 'block') {
+                            p.style.display = 'none';
+                        }
+                    });
+                    panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+                    event.stopPropagation();
+                });
+            });
+
+            document.addEventListener('click', function(event) {
+                const isOutsideFilterPanel = !event.target.closest('.filter_panel');
+                if (isOutsideFilterPanel) {
+                    document.querySelectorAll('.filter_panel').forEach(p => {
+                        p.style.display = 'none';
+                    });
+                }
+            });
+
+            // 초기 마커 설정
+            updateCenter();
+        });
+    }
+
     function updateCenter() {
         var center = map.getCenter();
         var zoom = map.getZoom();
         markerUpdate(center.lat(), center.lng(), zoom);
     }
 
-    // 필터 열기
-    const filterBtns = document.querySelectorAll('.filter_btn_trigger');
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function(event) {
-            const parent = this.parentElement;
-            const panel = parent.querySelector('.filter_panel');
-
-            document.querySelectorAll('.filter_panel').forEach(p => {
-                if (p !== panel && p.style.display === 'block') {
-                    p.style.display = 'none';
-                }
-            });
-            panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
-            event.stopPropagation();
-        });
-    });
-
-    document.addEventListener('click', function(event) {
-        const isOutsideFilterPanel = !event.target.closest('.filter_panel');
-        if (isOutsideFilterPanel) {
-            document.querySelectorAll('.filter_panel').forEach(p => {
-                p.style.display = 'none';
-            });
-        }
-    });
-
-    var slider = document.querySelector("#rangeItem_1");
-    var valueMin = document.querySelector("#item_1_min");
-    var valueMax = document.querySelector("#item_1_max");
-    var item1txt = document.querySelector("#item_1_txt");
-
-
-
-    // noUiSlider.create(slider, {
-    //     start: [0, 100],
-    //     connect: true,
-    //     range: {
-    //         "min": 0,
-    //         "max": 100
-    //     }
-    // });
-
-    // slider.noUiSlider.on("update", function(values, handle) {
-    //     if (values[0] < 0 || values[1] > 99) {
-    //         item1txt.innerHTML = "전체";
-    //     } else {
-    //         valueMin.innerHTML = values[0];
-    //         valueMax.innerHTML = values[1];
-    //         item1txt.innerHTML = "<span id='kt_slider_basic_min'>" + values[0] +
-    //             "원</span> ~ <span id='kt_slider_basic_max'>" + values[1] + "원</span>";
-    //     }
-    // });
-
-
-
-    // var map = new naver.maps.Map('map', {
-    //     center: new naver.maps.LatLng(37.3595704, 127.105399),
-    //     mapTypeControl: true,
-    //     mapTypeControlOptions: {
-    //         style: naver.maps.MapTypeControlStyle.DROPDOWN
-    //     }
-    // });
-
-    // });
-    // // // 지도 옵션 설정
-    // var mapOptions = {
-    //     center: new naver.maps.LatLng(37.5665, 126.9780),
-    //     zoom: 10,
-    //     size: new naver.maps.Size(w, h),
-    // };
-
-    // // 지도 객체 생성
-    // var map = new naver.maps.Map('map', map);
-
-    // var contentEl = $(
-    //     '<div style="width:350px;position:absolute;top:0;right:0;z-index:1000;background-color:#fff;border:solid 1px #333;">' +
-    //     '<h3>Map States</h3>' +
-    //     '<p style="font-size:14px;">zoom : <em class="zoom">' + map.getZoom() + '</em></p>' +
-    //     '<p style="font-size:14px;">centerPoint : <em class="center">' + map.getCenterPoint() + '</em></p>' +
-    //     '</div>');
-
-    // contentEl.appendTo(map.getElement());
-
-
-    // naver.maps.Event.addListener(map, 'zoom_changed', function(zoom) {
-    //     contentEl.find('.zoom').text(zoom);
-    // });
-
-    // naver.maps.Event.addListener(map, 'bounds_changed', function(bounds) {
-    //     // contentEl.find('.center').text(map.getCenterPoint());
-    //     // console.log('Center: ' + map.getCenter().toString() + ', Bounds: ' + bounds.toString());
-    // });
+    // 페이지 로드 시 지도 초기화
+    window.onload = initializeMap;
 </script>
 
 <script>
@@ -689,18 +494,6 @@
             },
             // 추가 매물 데이터
         ];
-    }
-
-    function createMarker(position) {
-        return new naver.maps.Marker({
-            position: new naver.maps.LatLng(position.lat, position.lng),
-            map: map,
-            title: position.name,
-            icon: {
-                content: `<div class="marker">${position.name}</div>`,
-                anchor: new naver.maps.Point(12, 12)
-            }
-        });
     }
 
     function updateMarkers() {

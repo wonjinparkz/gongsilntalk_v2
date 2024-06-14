@@ -9,6 +9,7 @@ use App\Models\BrFlrOulnInfo;
 use App\Models\BrRecapTitleInfo;
 use App\Models\BrTitleInfo;
 use App\Models\DataApt;
+use App\Models\RegionCoordinate;
 use App\Models\Transactions;
 use App\Models\TransactionsRegionUpdate;
 use DateTime;
@@ -19,8 +20,10 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat\DateFormatter;
 
 class DataController extends Controller
@@ -735,7 +738,6 @@ class DataController extends Controller
 
         if (count($AptList) > 0) {
             foreach ($AptList as $index => $apt) {
-                Log::info('[AptList] [AptList] :' . $AptList);
 
                 $pnu = $apt->pnu;
                 // 건축물 대장 가져오는 api
@@ -744,8 +746,6 @@ class DataController extends Controller
                 $platGbCd = substr($pnu, 10, 1) - 1;
                 $bun = substr($pnu, 11, 4);
                 $ji = substr($pnu, 15, 5);
-
-                Log::info('AptList ' . $index . ' : ' . $apt);
 
                 $get_types = [];
                 // 필요한 타입만 요청 리스트에 추가
@@ -895,5 +895,64 @@ class DataController extends Controller
                 }
             }
         }
+    }
+
+
+    public function exportRegionCoordinateUpdateExcel(Request $request): RedirectResponse
+    {
+        $file = $request->file('excel_file');
+
+        if ($file) {
+            $fileName = $file->getClientOriginalName();
+            $fileSize = $file->getSize();
+            Log::info("업로드된 파일 이름: $fileName, 파일 크기: $fileSize bytes");
+        }
+
+        // Excel 파일을 PhpSpreadsheet 라이브러리를 사용하여 읽기
+        $spreadsheet = IOFactory::load($file);
+
+        // 모든 시트를 반복
+        foreach ($spreadsheet->getSheetNames() as $sheetName) {
+            $sheet = $spreadsheet->getSheetByName($sheetName);
+
+            // 첫 번째 행은 헤더로 간주하여 건너뛰기
+            $rowIterator = $sheet->getRowIterator();
+            $rowIterator->next();
+
+            $startReading = false; // 두 번째 행부터 데이터를 읽기 위한 플래그
+
+            // 각 행을 반복하여 로그에 출력
+            foreach ($rowIterator as $row) {
+                if ($startReading) {
+                    $rowData = [];
+                    foreach ($row->getCellIterator() as $cell) {
+                        $rowData[] = $cell->getValue();
+                    }
+                    // 배열에서 각 열의 데이터를 추출
+                    $sido = $rowData[0]; // address
+                    $sigungu = $rowData[1]; // address
+                    $dong = $rowData[2]; // sale_min_price
+                    $dongri = $rowData[3]; // sale_mid_price
+                    $ri = $rowData[4]; // sale_mid_price
+                    $address_lat = $rowData[5]; // lease_min_price
+                    $address_lng = $rowData[6]; // sale_max_price
+
+                    // 데이터베이스 업데이트
+                    RegionCoordinate::create([
+                        'sido' => $sido,
+                        'sigungu' => $sigungu,
+                        'dong' => $dong,
+                        'dongri' => $dongri,
+                        'ri' => $ri,
+                        'address_lat' => $address_lat,
+                        'address_lng' => $address_lng,
+                    ]);
+                } else {
+                    $startReading = true;
+                }
+            }
+        }
+
+        return back()->with('message', '엑셀 업로드 완료');
     }
 }

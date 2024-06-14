@@ -269,7 +269,7 @@
                     enctype="multipart/form-data">
                     <div class="modal-body">
                         @csrf
-                        {{-- 층별도면 --}}
+                        {{-- 엑셀 업로드 --}}
                         <input type="file" name="excel_file" accept=".xlsx, .xls">
                     </div>
 
