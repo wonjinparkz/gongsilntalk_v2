@@ -22,14 +22,23 @@
         miniMap = new naver.maps.Map('minimap', {
             center: new naver.maps.LatLng({{ $result->address_lat }}, {{ $result->address_lng }}),
             // center: new naver.maps.LatLng(37.48860419800877, 126.8880090781063),
-            zoom: 16,
-            minZoom: 12,
+            zoom: 17,
+            minZoom: 13,
             maxZoom: 20,
             mapTypeId: naver.maps.MapTypeId.NORMAL,
         });
     }
 
     window.miniMap();
+
+    // 미니맵 좌표
+    // naver.maps.Event.addListener(miniMap, 'init', function() {
+    //     naver.maps.Event.addListener(miniMap, 'dragend', function() {
+    //         var center = miniMap.getCenter();
+    //         var zoom = miniMap.getZoom();
+    //         console.log('미니맵 : ', zoom);
+    //     });
+    // });
 
     function convertCoords(coordString) {
         // 문자열을 공백을 기준으로 분리하여 배열로 변환
@@ -86,7 +95,7 @@
         });
 
         // 폴리곤 그리기
-        var polygonMap = new naver.maps.Polygon({
+        polygonMap = new naver.maps.Polygon({
             map: map,
             paths: transformedCoords,
             fillColor: '#ff0000',

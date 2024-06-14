@@ -929,21 +929,18 @@ class DataController extends Controller
                         $rowData[] = $cell->getValue();
                     }
                     // 배열에서 각 열의 데이터를 추출
-                    $sido = $rowData[0]; // address
-                    $sigungu = $rowData[1]; // address
-                    $dong = $rowData[2]; // sale_min_price
-                    $dongri = $rowData[3]; // sale_mid_price
-                    $ri = $rowData[4]; // sale_mid_price
-                    $address_lat = $rowData[5]; // lease_min_price
-                    $address_lng = $rowData[6]; // sale_max_price
+                    $sido = $rowData[0];
+                    $sigungu = $rowData[1];
+                    $dong = $rowData[2];
+                    $ri = $rowData[3];
+                    $address_lat = $rowData[4];
+                    $address_lng = $rowData[5];
 
                     // 데이터베이스 업데이트
                     RegionCoordinate::create([
                         'sido' => $sido,
                         'sigungu' => $sigungu,
-                        'dong' => $dong,
-                        'dongri' => $dongri,
-                        'ri' => $ri,
+                        'dong' => $ri != '' ? $ri : $dong,
                         'address_lat' => $address_lat,
                         'address_lng' => $address_lng,
                     ]);

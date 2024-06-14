@@ -139,7 +139,6 @@
 
     // 마커 클릭 사이드맵
     function getProductSide(markerId, markerType) {
-        console.log(markerId, markerType);
         $.ajax({
             type: "get", // 전송타입
             url: "{{ route('www.map.side.view') }}",
@@ -149,7 +148,6 @@
             },
             dataType: 'html',
             success: function(data, status, xhr) {
-
                 if (polygonMap) {
                     polygonMap.setMap(null);
                 }
@@ -178,9 +176,6 @@
             data: formData,
             success: function(data, status, xhr) {
                 var data = data.data;
-                console.log("data: ", data);
-                console.log("knowledges: ", data.knowledges);
-                console.log("apt: ", data.aptMaps);
 
                 // 기존 마커 제거
                 markers.forEach(marker => marker.setMap(null)); // 마커를 지도에서 제거
@@ -188,6 +183,7 @@
                 bounds = new naver.maps.LatLngBounds(); // bounds 초기화
 
                 // 새 마커 추가
+                processDataArray(data.region, 'region', getContentStringForRegion, 25, 55);
                 processDataArray(data.knowledges, 'knowledge', getContentStringForKnowledge, 0, 73);
                 processDataArray(data.aptMaps, 'apt', getContentStringForApt, 0, 50);
                 processDataArray(data.store, 'store', getContentStringForStore, 0, 50);
@@ -279,6 +275,9 @@
                 $(currentActiveMarkerElement).removeClass('active');
                 lastActiveMarkerElement = null;
 
+                if (polygonMap) {
+                    polygonMap.setMap(null);
+                }
             } else {
                 getProductSide(markerId, markerType);
                 $('.activeMarker').removeClass('active');
@@ -294,6 +293,19 @@
     }
 
     // 각 데이터별 contentString 생성 함수
+    function getContentStringForRegion({
+        id,
+        name,
+        average_price
+    }) {
+        return `<div class="activeMarker iw_region_inner">
+        <span>${name}</span>
+        <div class="mini_inner_info">
+            <p>${average_price ? formatPrice(average_price.toLocaleString()) + '만' : '-'}</p>
+        </div>
+    </div>`;
+    }
+
     function getContentStringForKnowledge({
         product_name,
         sale_min_price,
@@ -301,10 +313,6 @@
         lease_min_price,
         lease_max_price
     }) {
-        console.log('sale', sale_min_price,
-            sale_max_price,
-            lease_min_price,
-            lease_max_price);
         return `<div class="activeMarker iw_inner">
         <h3>${product_name || 'No name'}</h3>
         <div class="inner_info">
@@ -319,7 +327,6 @@
         kaptName,
         transactions
     }) {
-        console.log('아파트 생성 ', kaptName, '\n데이터 ', transactions?.exclusiveArea);
         var exclusiveArea = transactions?.exclusiveArea != null ?
             `<span class="bubble_info">${convertToPyeong(transactions.exclusiveArea || '')}평</span>` : '';
         return `<div class="activeMarker iw_mini_inner">
@@ -417,131 +424,68 @@
             });
 
             // 초기 마커 설정
-            updateCenter();
+            updateCenter()
         });
+    }
+
+    var lastCenter = null;
+    var lastZoom = null;
+    var totalDistance = 0;
+
+    function getDistance(lat1, lon1, lat2, lon2) {
+        var R = 6371; // 지구의 반지름 (km)
+        var dLat = (lat2 - lat1) * Math.PI / 180;
+        var dLon = (lon2 - lon1) * Math.PI / 180;
+        var a =
+            0.5 - Math.cos(dLat) / 2 +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            (1 - Math.cos(dLon)) / 2;
+
+        return R * 2 * Math.asin(Math.sqrt(a));
     }
 
     function updateCenter() {
         var center = map.getCenter();
         var zoom = map.getZoom();
-        markerUpdate(center.lat(), center.lng(), zoom);
+
+        var zoomLock;
+
+        if (zoom <= 12) {
+            zoomLock = 10000;
+        } else if (zoom >= 11 && zoom <= 13) {
+            zoomLock = 7;
+        } else if (zoom >= 14 && zoom <= 15) {
+            zoomLock = 1;
+        } else {
+            zoomLock = 0.6;
+        }
+        if (lastCenter && lastZoom !== null) {
+            var distance = getDistance(lastCenter.lat(), lastCenter.lng(), center.lat(), center.lng());
+
+            // 누적 거리 계산
+            totalDistance += distance;
+
+            // 줌 레벨이 다르거나, 줌 레벨이 같고 누적 이동 거리가 zoomLock 이상일 경우에만 업데이트
+            if (lastZoom !== zoom || (lastZoom === zoom && totalDistance >= zoomLock)) {
+                markerUpdate(center.lat(), center.lng(), zoom);
+                // 마지막 중심 좌표와 줌 레벨 저장 및 누적 거리 초기화
+                lastCenter = center;
+                lastZoom = zoom;
+                totalDistance = 0;
+            }
+        } else {
+            // 최초 실행 시 마커 업데이트
+            markerUpdate(center.lat(), center.lng(), zoom);
+            // 마지막 중심 좌표와 줌 레벨 저장 및 누적 거리 초기화
+            lastCenter = center;
+            lastZoom = zoom;
+            totalDistance = 0;
+        }
     }
+
 
     // 페이지 로드 시 지도 초기화
     window.onload = initializeMap;
 </script>
 
-<script>
-    function getSidoData() {
-        // 시도 데이터를 가져오는 함수
-        return [{
-                lat: 37.5665,
-                lng: 126.9780,
-                name: '서울'
-            },
-            {
-                lat: 35.1796,
-                lng: 129.0756,
-                name: '부산'
-            },
-            // 추가 시도 데이터
-        ];
-    }
-
-    function getSigunguData() {
-        // 시군구 데이터를 가져오는 함수
-        return [{
-                lat: 37.4138,
-                lng: 127.5183,
-                name: '성남시'
-            },
-            {
-                lat: 37.4563,
-                lng: 126.7052,
-                name: '인천시'
-            },
-            // 추가 시군구 데이터
-        ];
-    }
-
-    function getEupmyeondongData() {
-        // 읍면동 데이터를 가져오는 함수
-        return [{
-                lat: 37.5665,
-                lng: 126.9780,
-                name: '가산동'
-            },
-            {
-                lat: 35.1796,
-                lng: 129.0756,
-                name: '해운대동'
-            },
-            // 추가 읍면동 데이터
-        ];
-    }
-
-    function getIndividualListings() {
-        // 개별 매물 데이터를 가져오는 함수
-        return [{
-                lat: 37.5665,
-                lng: 126.9780,
-                name: '매물 1'
-            },
-            {
-                lat: 35.1796,
-                lng: 129.0756,
-                name: '매물 2'
-            },
-            // 추가 매물 데이터
-        ];
-    }
-
-    function updateMarkers() {
-        var zoomLevel = map.getZoom();
-        var clusterer;
-        var positions = [];
-
-        // 기존 마커 클러스터링 제거
-        if (markers.length > 0) {
-            markers.forEach(marker => marker.setMap(null));
-            markers = [];
-        }
-
-        if (zoomLevel >= 10 && zoomLevel <= 12) {
-            // 시도 기준 클러스터링
-            positions = getSidoData();
-        } else if (zoomLevel >= 7 && zoomLevel <= 9) {
-            // 시군구 기준 클러스터링
-            positions = getSigunguData();
-        } else if (zoomLevel >= 5 && zoomLevel <= 6) {
-            // 읍면동 기준 클러스터링
-            positions = getEupmyeondongData();
-        } else if (zoomLevel >= 1 && zoomLevel <= 4) {
-            // 개별 매물 표시
-            positions = getIndividualListings();
-        }
-
-        // 클러스터러 생성
-        clusterer = new naver.maps.MarkerClusterer({
-            map: map,
-            averageCenter: true,
-            minClusterSize: 2,
-            markers: markers
-        });
-
-        // 마커 생성 및 클러스터 추가
-        positions.forEach(position => {
-            var marker = createMarker(position);
-            markers.push(marker);
-        });
-
-        if (clusterer) {
-            clusterer.addMarkers(markers);
-        }
-    }
-
-    // naver.maps.Event.addListener(map, 'zoom_changed', updateMarkers);
-    // naver.maps.Event.addListener(map, 'dragend', updateMarkers);
-
-    // updateMarkers();
-</script>
+<script></script>

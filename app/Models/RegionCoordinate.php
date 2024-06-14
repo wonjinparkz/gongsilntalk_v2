@@ -23,8 +23,6 @@ class RegionCoordinate extends BaseModel
         'sido',
         'sigungu',
         'dong',
-        'dongri',
-        'ri',
         'address_lng',
         'address_lat',
     ];
@@ -42,4 +40,5 @@ class RegionCoordinate extends BaseModel
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];
+
 }

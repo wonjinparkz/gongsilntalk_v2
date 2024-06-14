@@ -17,8 +17,6 @@ return new class extends Migration
             $table->string('sido')->comment('시도');
             $table->string('sigungu')->nullable()->comment('시군구');
             $table->string('dong')->nullable()->comment('읍면동');
-            $table->string('dongri')->nullable()->comment('읍면동리');
-            $table->string('ri')->nullable()->comment('리');
             $table->string('address_lng')->nullable()->comment('경도 좌표 X');
             $table->string('address_lat')->nullable()->comment('위도 좌표 Y');
             $table->timestamps();

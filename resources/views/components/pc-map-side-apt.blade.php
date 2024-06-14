@@ -111,11 +111,11 @@
                 <p>{{ $result->kaptdaCnt }}세대</p><label>총 세대수</label>
             </li>
             <li>
-                <p>0층/0층</p>
+                <p>-층/-층</p>
                 <label>최저/최고</label>
             </li>
             <li>
-                <p>{{ $result->constructionYear }}년</p><label>준공년도</label>
+                <p>{{ $result->kaptUsedate != '' ? substr($result->kaptUsedate, 0, 4) : '-' }}년</p><label>준공년도</label>
             </li>
         </ul>
     </div>
