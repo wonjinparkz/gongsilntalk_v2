@@ -414,7 +414,7 @@
             }
         }
 
-        fucntion imsi1(obj) {
+        function imsi1(obj) {
             if (obj.value.search(regexp1) == -1) {
                 obj.value = prev;
             } else {

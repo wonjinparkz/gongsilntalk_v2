@@ -97,13 +97,13 @@
                 <div class="community_inner_wrap">
                     <ul class="list_sort toggle_tab only_pc mt28">
                         <li class="{{ request()->query('order') == 0 ? 'active' : '' }}">
-                            <a onclick="changeorderOption('0')">최신순</a>
+                            <a href="javascript:(0)" onclick="changeorderOption('0')">최신순</a>
                         </li>
                         <li class="{{ request()->query('order') == 1 ? 'active' : '' }}">
-                            <a onclick="changeorderOption('1')">추천순</a>
+                            <a href="javascript:(0)" onclick="changeorderOption('1')">추천순</a>
                         </li>
                         <li class="{{ request()->query('order') == 2 ? 'active' : '' }}">
-                            <a onclick="changeorderOption('2')">댓글순</a>
+                            <a href="javascript:(0)" onclick="changeorderOption('2')">댓글순</a>
                         </li>
                     </ul>
                     <!-- community list : s -->
