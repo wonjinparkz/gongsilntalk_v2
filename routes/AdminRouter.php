@@ -400,6 +400,7 @@ Route::controller(DataController::class)->group(function () {
     Route::get('/data/apt/addrss', 'getAptAddrss')->name('data.apt.addrss');
     Route::get('/data/apt/polygon', 'getAptPolygon')->name('data.apt.polygon');
     Route::get('/data/apt/ledger', 'getAptBuildingLedger')->name('data.apt.ledger');
+    Route::post('/region/coordinate/update/excel', 'exportRegionCoordinateUpdateExcel')->name('admin.region.coordinate.update.excel');
 });
 
 /**

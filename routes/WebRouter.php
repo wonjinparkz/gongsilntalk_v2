@@ -34,6 +34,8 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+// git commit test
+
 /**
  * 메인
  */
@@ -51,8 +53,9 @@ Route::controller(MapPcController::class)->group(function () {
     Route::get('/map', 'map')->name('www.map.map');
     Route::get('/map/side/view', 'mapSideView')->name('www.map.side.view');
 
-    Route::get('/m/map', 'map')->name('m.map.map');
+    Route::post('/map/marker', 'getMapMarker')->name('www.map.marker');
 
+    Route::get('/m/map', 'map')->name('m.map.map');
 });
 
 /**
