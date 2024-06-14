@@ -75,10 +75,13 @@ class MapPcController extends Controller
                 ->orderByRaw('year DESC, month DESC, day DESC')
                 ->first();
 
-            if ($transactions) {
-                $apt->transactions = $transactions;
-                $filteredAptMaps[] = $apt;
-            }
+            $apt->transactions = $transactions ?? '';
+            $filteredAptMaps[] = $apt;
+
+            // if ($transactions) {
+            //     $apt->transactions = $transactions;
+            //     $filteredAptMaps[] = $apt;
+            // }
         }
 
 
@@ -100,6 +103,7 @@ class MapPcController extends Controller
         // if ($request->has('from_created_at') && $request->has('to_created_at')) {
         //     $maps->DurationDate('created_at', $request->from_created_at, $request->to_created_at);
         // }
+
         $maps = $maps->get();
 
 
@@ -162,7 +166,7 @@ class MapPcController extends Controller
         if ($markerType == 'knowledge') {
             $result = KnowledgeCenter::where('id', $request->id)->first();
         } else if ($markerType == 'apt') {
-            $result = DataApt::where('id', $request->id)->first();
+            $result = DataApt::select('data_apt.*', 'data_apt.y as address_lat', 'data_apt.x as address_lng')->where('id', $request->id)->first();
             if ($result) {
                 $result->transactions = $result->transactions()->get(); // 실제 데이터를 가져옵니다.
                 $result->transactionsRent = $result->transactionsRent()->get(); // 실제 데이터를 가져옵니다.
@@ -194,5 +198,13 @@ class MapPcController extends Controller
         Log::info($result);
 
         return view('www.map.mpa-side', compact('result', 'markerType'));
+    }
+
+
+
+
+    public function m_map()
+    {
+
     }
 }

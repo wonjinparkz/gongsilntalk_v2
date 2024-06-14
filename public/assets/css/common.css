@@ -521,3 +521,5 @@ td.td_center{text-align: center;}
 .open_con_wrap .open_trigger{display: flex; justify-content: space-between; align-items: center; cursor: pointer;}
 .open_con_wrap .open_trigger img{transform: rotate(180deg); width:12px; height: auto;}
 .open_con_wrap .open_trigger img.rotate{transform: rotate(360deg);}
+
+.mini_map{height: 300px; width: 300px;}

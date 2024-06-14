@@ -97,6 +97,8 @@ class DataApt extends BaseModel
 
         // 유사 단지명
         'complex_name',
+        'pnu',
+        'polygon_coordinates',
     ];
 
     /**

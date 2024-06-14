@@ -39,7 +39,7 @@
 
     <div class="side_info_wrap">
         <div>
-            <img src="{{ asset('assets/media/map_sample_sm.png') }}" class="size_100p">
+            <div id="minimap" style="width:100%; height:330px;" class="size_100p"></div>
         </div>
         <p class="txt_address">{{ $result->address }}</p>
         <p class="txt_sub_1">{{ $result->subway_name }} <span>{{ $result->subway_time }}</span></p>

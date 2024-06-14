@@ -3,6 +3,9 @@
         <x-screen-card :title="'지식산업센터 상세'">
         </x-screen-card>
         {{-- FORM START  --}}
+        <a href="{{ route('data.apt.addrss') }}">pnu</a>
+        <a href="{{ route('data.apt.polygon') }}">폴리곤</a>
+        <a href="{{ route('data.apt.ledger') }}">표지부</a>
 
         @inject('carbon', 'Carbon\Carbon')
         <form class="form" method="POST" action="{{ route('admin.knowledgeCenter.update') }}">
@@ -15,8 +18,7 @@
                 <div class="card-body border-top p-9">
                     {{-- 주소 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-3 col-form-label fw-semibold fs-6"
-                            onclick="loadingStart()">주소</label>
+                        <label class="required col-lg-3 col-form-label fw-semibold fs-6">주소</label>
                         <div class="col-lg-9 fv-row">
                             <a onclick="getAddress()" class="btn btn-outline mb-md-5"
                                 style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; margin-bottom: 5px;">
@@ -81,7 +83,7 @@
 
                     {{-- 준공일 --}}
                     <div class="row mb-6">
-                        <label class="col-lg-3 col-form-label fw-semibold fs-6">준공일</label>
+                        <label class="required col-lg-3 col-form-label fw-semibold fs-6">준공일</label>
                         <div class="col-lg-9 fv-row">
                             <input type="text" name="completion_date" class="form-control form-control-solid"
                                 placeholder="예) 20230204"
@@ -153,12 +155,12 @@
 
                     {{-- 조감도 --}}
                     <x-admin-file-picker :title="'조감도'" required="required" cnt='1' id="birdSEyeView"
-                        label_col='3' div_col='9' :files="$result->birdSEyeView_files" acceptedFiles=".jpg,.png"/>
+                        label_col='3' div_col='9' :files="$result->birdSEyeView_files" acceptedFiles=".jpg,.png" />
                     <x-input-error class="mt-2 text-danger" :messages="$errors->get('birdSEyeView_file_ids')" />
 
                     {{-- 특장점 --}}
                     <x-admin-file-picker :title="'특장점'" required="" cnt='5' id="features"
-                        label_col='3' div_col='9' :files="$result->features_files" acceptedFiles=".jpg,.png"/>
+                        label_col='3' div_col='9' :files="$result->features_files" acceptedFiles=".jpg,.png" />
                     <x-input-error class="mt-2 text-danger" :messages="$errors->get('features_file_ids')" />
 
                     {{-- 층별도면 --}}
@@ -506,34 +508,34 @@
         // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
         $('input[name=address]').val(rtRoadFullAddr);
 
-        // console.log('RoadFullAddr:', rtRoadFullAddr);
-        // console.log('AddrPart1:', rtAddrPart1);
-        // console.log('AddrDetail:', rtAddrDetail);
-        // console.log('AddrPart2:', rtAddrPart2);
-        // console.log('EngAddr:', rtEngAddr);
-        // console.log('JibunAddr:', rtJibunAddr);
-        // console.log('ZipNo:', rtZipNo);
-        // console.log('AdmCd:', rtAdmCd);
-        // console.log('RnMgtSn:', rtRnMgtSn);
-        // console.log('BdMgtSn:', rtBdMgtSn);
-        // console.log('DetBdNmList:', rtDetBdNmList);
-        // console.log('BdNm:', rtBdNm);
-        // console.log('BdKdcd:', rtBdKdcd);
-        // console.log('SiNm:', rtSiNm);
-        // console.log('SggNm:', rtSggNm);
-        // console.log('EmdNm:', rtEmdNm);
-        // console.log('LiNm:', rtLiNm);
-        // console.log('Rn:', rtRn);
-        // console.log('UdrtYn:', rtUdrtYn);
-        // console.log('BuldMnnm:', rtBuldMnnm);
-        // console.log('BuldSlno:', rtBuldSlno);
-        // console.log('MtYn:', rtMtYn);
-        // console.log('LnbrMnnm:', rtLnbrMnnm);
-        // console.log('LnbrSlno:', rtLnbrSlno);
-        // console.log('EmdNo:', rtEmdNo);
-        // console.log('lJibun:', relJibun);
-        // console.log('entX:', rtentX);
-        // console.log('entY:', rtentY);
+        console.log('RoadFullAddr:', rtRoadFullAddr);
+        console.log('AddrPart1:', rtAddrPart1);
+        console.log('AddrDetail:', rtAddrDetail);
+        console.log('AddrPart2:', rtAddrPart2);
+        console.log('EngAddr:', rtEngAddr);
+        console.log('JibunAddr:', rtJibunAddr);
+        console.log('ZipNo:', rtZipNo);
+        console.log('AdmCd:', rtAdmCd);
+        console.log('RnMgtSn:', rtRnMgtSn);
+        console.log('BdMgtSn:', rtBdMgtSn);
+        console.log('DetBdNmList:', rtDetBdNmList);
+        console.log('BdNm:', rtBdNm);
+        console.log('BdKdcd:', rtBdKdcd);
+        console.log('SiNm:', rtSiNm);
+        console.log('SggNm:', rtSggNm);
+        console.log('EmdNm:', rtEmdNm);
+        console.log('LiNm:', rtLiNm);
+        console.log('Rn:', rtRn);
+        console.log('UdrtYn:', rtUdrtYn);
+        console.log('BuldMnnm:', rtBuldMnnm);
+        console.log('BuldSlno:', rtBuldSlno);
+        console.log('MtYn:', rtMtYn);
+        console.log('LnbrMnnm:', rtLnbrMnnm);
+        console.log('LnbrSlno:', rtLnbrSlno);
+        console.log('EmdNo:', rtEmdNo);
+        console.log('lJibun:', relJibun);
+        console.log('entX:', rtentX);
+        console.log('entY:', rtentY);
 
         loadingStart();
 

@@ -51,8 +51,6 @@ function get_coordinates(pnu) {
     data.resultType = "results"; /* 요청에 대하여 WFS가 어떻게 응답할 것인지 정의.results 값은 요청된 모든 피처를 포함하는 완전한 응답이 생성되어야 함을 나타내며, hits 값은 피처의 개수만이 반환되어야 함을 의미 */
     data.srsName = "EPSG:4326"; /* 반환되어야 할 피처의 기하에 사용되어야 할 WFS가 지원하는 좌표체계 */
 
-    data.output = "text/javascript"; /* output */
-
     $.ajax({
         type: "get",
         dataType: "jsonp",
@@ -60,8 +58,27 @@ function get_coordinates(pnu) {
         url: "http://api.vworld.kr/ned/wfs/getCtnlgsSpceWFS",
         data: data,
         async: true,
-        success: function (data) {
-            $('#polygon_coordinates').val(data.bbox);
+        success: function (response) {
+            console.log('response : ', response);
+            var features = response.features;
+            if (features && features.length > 0) {
+                var coordinates = features[0].geometry.coordinates;
+                console.log('Coordinates:', coordinates);
+
+                var multiPolygonCoords = coordinates[0][0]; // MultiPolygon의 첫 번째 폴리곤 좌표 추출
+                var convertedCoords = multiPolygonCoords.map(function (coord) {
+                    return [parseFloat(coord[0]), parseFloat(coord[1])];
+                });
+
+                // 변환된 좌표 배열을 문자열로 변환하여 input에 저장
+                var coordsString = convertedCoords.map(function (coord) {
+                    return '[' + coord[0] + ', ' + coord[1] + ']';
+                }).join(',');
+
+                $('#polygon_coordinates').val(coordsString);
+            } else {
+                alert('폴리곤 데이터를 가져오지 못하였습니다.');
+            }
 
         },
         error: function (xhr, stat, err) {
@@ -69,7 +86,6 @@ function get_coordinates(pnu) {
             $('#address').val('');
         }
     });
-
 }
 
 // 토지특성 속성 api

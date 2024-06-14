@@ -29,11 +29,13 @@
 
         <div class="template_wrap">
             <div class="template_txt_wrap">
-                <p class="txt_tit">지식산업센터타이틀</p>
-                <p class="txt_con">대변화의 시작! <br>지식산업센터의 혁신을 그리다</p>
+                <p class="txt_tit">{{ $result->title }}</p>
+                <p class="txt_con">{!! $result->contents !!}</p>
             </div>
             <div class="template_img">
-                <div class="img_box"><img src="{{ asset('assets/media/s_3.png') }}"></div>
+                <div class="img_box"><img
+                        src="{{ Storage::url('image/' . $result->images[0]->path) }}"onerror="this.onerror=null; this.src='{{ asset('assets/media/s_3.png') }}'">
+                </div>
             </div>
         </div>
 
@@ -60,10 +62,21 @@
                 <div class="flex_between">
                     <h3>기본정보</h3>
                     <div class="change_unit toggle_menu">
-                        <div class="active">㎡</div>
-                        <div>평</div>
+                        <div class="active" onclick="onSizeTextChange(0);">㎡</div>
+                        <div onclick="onSizeTextChange(1);">평</div>
                     </div>
                 </div>
+
+                <input type="hidden" id="area" name="area" value="{{ $result->area }}">
+                <input type="hidden" id="square" name="square" value="{{ $result->square }}">
+                <input type="hidden" id="building_area" name="building_area" value="{{ $result->building_area }}">
+                <input type="hidden" id="building_square" name="building_square"
+                    value="{{ $result->building_square }}">
+                <input type="hidden" id="total_floor_area" name="total_floor_area"
+                    value="{{ $result->total_floor_area }}">
+                <input type="hidden" id="total_floor_square" name="total_floor_square"
+                    value="{{ $result->total_floor_square }}">
+
 
                 <div class="table_container sales_table_info">
                     <div>주소</div>
@@ -75,14 +88,11 @@
                     <div>주차대수</div>
                     <div>{{ $result->parking_count }}대</div>
                     <div>대지면적</div>
-                    <div class="area" style="display:none">{{ $result->area }}평</div>
-                    <div class="square">{{ $result->square }}㎡</div>
+                    <div id="basicArea">{{ $result->square }}㎡</div>
                     <div>건축면적</div>
-                    <div class="area" style="display:none">{{ $result->building_area }}평</div>
-                    <div class="square">{{ $result->building_square }}㎡</div>
+                    <div id="buildingArea">{{ $result->building_square }}㎡</div>
                     <div>연면적</div>
-                    <div class="area" style="display:none">{{ $result->total_floor_area }}평</div>
-                    <div class="square">{{ $result->total_floor_square }}㎡</div>
+                    <div id="totalFloorArea">{{ $result->total_floor_square }}㎡</div>
                     <div>용적률/건폐율</div>
                     <div>{{ $result->floor_area_ratio }}% / {{ $result->builging_ratio }}%</div>
                     <div>준공일</div>
@@ -90,9 +100,9 @@
                     <div>입주예정</div>
                     <div>{{ $result->expected_move_date }}</div>
                     <div>시행사</div>
-                    <div>{{ $result->developer }}</div>
+                    <div>{{ $result->developer ?? '-' }}</div>
                     <div>시공사</div>
-                    <div>{{ $result->comstruction_company }}</div>
+                    <div>{{ $result->comstruction_company ?? '-' }}</div>
                 </div>
 
                 <div class="detail_camera_wrap">
@@ -133,55 +143,31 @@
 
                 <ul class="tab_type_6 toggle_tab mt28">
                     @foreach ($result->dongInfo as $dongInfo)
-                        <li class="active">{{ $dongInfo->dong_name }}</li>
+                        <li class="active" onclick="onFloorListGet('{{ $dongInfo->id }}');">
+                            {{ $dongInfo->dong_name }}</li>
                     @endforeach
-                    <li class="active">1동</li>
-                    <li>2동</li>
+                    {{-- <li class="active">1동</li>
+                    <li>2동</li> --}}
                 </ul>
 
                 <div class="black_filter only_pc mt28">
-                    <div class="cell">
-                        <input type="radio" name="floor" id="floor_1" value="Y">
-                        <label for="floor_1">B2 ~ B1층</label>
-                    </div>
-                    <div class="cell">
-                        <input type="radio" name="floor" id="floor_2" value="Y">
-                        <label for="floor_2">1층</label>
-                    </div>
-                    <div class="cell">
-                        <input type="radio" name="floor" id="floor_3" value="Y">
-                        <label for="floor_3">2층</label>
-                    </div>
-                    <div class="cell">
-                        <input type="radio" name="floor" id="floor_4" value="Y">
-                        <label for="floor_4">3층</label>
-                    </div>
-                    <div class="cell">
-                        <input type="radio" name="floor" id="floor_5" value="Y">
-                        <label for="floor_5">8층</label>
-                    </div>
-                    <div class="cell">
-                        <input type="radio" name="floor" id="floor_6" value="Y">
-                        <label for="floor_6">9층</label>
-                    </div>
-                    <div class="cell">
-                        <input type="radio" name="floor" id="floor_7" value="Y">
-                        <label for="floor_7">10층 ~ 14층</label>
-                    </div>
-                    <div class="cell">
-                        <input type="radio" name="floor" id="floor_8" value="Y">
-                        <label for="floor_8">15층 ~ 22층</label>
-                    </div>
-                    <div class="cell">
-                        <input type="radio" name="floor" id="floor_9" value="Y">
-                        <label for="floor_9">23층</label>
-                    </div>
+                    @foreach ($result->dongInfo as $dongInfoList)
+                        @foreach ($dongInfoList->floorInfo as $floorInfo)
+                            <div class="cell">
+                                <input type="radio" name="floor" id="floor_{{ $floorInfo->id }}"
+                                    value="{{ $floorInfo->id }}">
+                                <label for="floor_{{ $floorInfo->id }}">{{ $floorInfo->floor_name }}</label>
+                            </div>
+                        @endforeach
+                    @endforeach
                 </div>
 
                 <select class="sales_floor_select only_m">
-                    <option>B2 ~ B1층</option>
-                    <option>1층</option>
-                    <option>2층</option>
+                    @foreach ($result->dongInfo as $dongInfoList)
+                        @foreach ($dongInfoList->floorInfo as $floorInfo)
+                            <option>{{ $floorInfo->floor_name }}</option>
+                        @endforeach
+                    @endforeach
                 </select>
 
                 <div>
@@ -297,6 +283,35 @@
 
     </div>
     <script>
+        // 각 동별 층 가져오기
+        function onFloorListGet(id) {
+            $.ajax({
+                url: '{{ route('www.site.product.floor.list') }}',
+                method: 'get',
+                data: {
+                    'dong_id': id
+                },
+                success: function(data, status, xhr) {
+                    data.result.forEach(element => {
+                        console.log(element);
+                    });
+                }
+            });
+        }
+
+        // 평/제곱미터 변환
+        function onSizeTextChange(type) {
+            if (type == 0) {
+                $('#basicArea').text($('#square').val() + '㎡');
+                $('#buildingArea').text($('#building_square').val() + '㎡');
+                $('#totalFloorArea').text($('#total_floor_square').val() + '㎡');
+            } else if (type == 1) {
+                $('#basicArea').text($('#area').val() + '평');
+                $('#buildingArea').text($('#building_area').val() + '평');
+                $('#totalFloorArea').text($('#total_floor_area').val() + '평');
+            }
+        }
+
         // 관심 토글버튼
         function btn_wish(element) {
             if ($(element).hasClass("on")) {

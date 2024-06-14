@@ -52,6 +52,9 @@ Route::controller(MainPcController::class)->group(function () {
 Route::controller(MapPcController::class)->group(function () {
     Route::get('/map', 'map')->name('www.map.map');
     Route::get('/map/side/view', 'mapSideView')->name('www.map.side.view');
+
+    Route::get('/m/map', 'map')->name('m.map.map');
+
 });
 
 /**
@@ -92,6 +95,7 @@ Route::controller(UserAuthPcController::class)->group(function () {
 Route::controller(SiteProductPcController::class)->group(function () {
     Route::get('/site/product/list', 'siteProductListView')->name('www.site.product.list.view');
     Route::get('/site/product/detail/{id}', 'siteProductDetailView')->name('www.site.product.detail.view');
+    Route::get('/site/product/floor/list', 'floorList')->name('www.site.product.floor.list');
 });
 
 // 일반회원 매물
