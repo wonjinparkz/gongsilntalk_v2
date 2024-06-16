@@ -164,8 +164,8 @@
     }
 
     // 탭에 클릭 이벤트 추가
-    $('.detail_tab .swiper-slide a').on('click', function() {
-        var index = $(this).parent().index();
+    $('.detail_tab .swiper-slide').on('click', function() {
+        var index = $(this).index();
         showContent(index);
     });
 

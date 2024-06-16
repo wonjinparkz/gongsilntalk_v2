@@ -118,8 +118,12 @@
                     </div>
 
                     {{--  네이버 지도 --}}
-                    <div id="map" style="width:100%; height:100%;"></div>
-                    <div id="pano" style="width:100%; height:100%;"></div>
+                    <div id="mapArea">
+                        <div id="map" style="width:100%; height:100%;"></div>
+                    </div>
+                    <div id="panoArea">
+                        <div id="pano" style="width:100%; height:100%;"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -133,6 +137,7 @@
 <script>
     var polygonMap = null;
     var map;
+    var pano;
     var markers = []; // 마커 배열을 전역 변수로 선언
     var bounds; // bounds 전역 변수로 선언
     var lastActiveMarkerElement = null; // 마지막으로 활성화된 마커 요소를 저장
@@ -374,6 +379,61 @@
 
         // 지도 로드 완료 후 이벤트 리스너 추가
         naver.maps.Event.addListener(map, 'init', function() {
+
+            pano = new naver.maps.Panorama("pano");
+
+
+            // 파노라마 위치가 갱신되었을 때 발생하는 이벤트를 받아 지도의 중심 위치를 갱신합니다.
+            naver.maps.Event.addListener(pano, 'pano_changed', function() {
+                var latlng = pano.getPosition();
+
+                if (!latlng.equals(map.getCenter())) {
+                    map.setCenter(latlng);
+                }
+            });
+
+            // 거리뷰 세팅
+            var streetLayer = new naver.maps.StreetLayer();
+            var streetbtn = $('#streetView');
+            streetbtn.on("click", function(e) {
+                e.preventDefault();
+                if (streetLayer.getMap()) {
+                    streetLayer.setMap(null);
+                } else {
+                    streetLayer.setMap(map);
+                }
+            });
+
+            // 지도를 클릭했을 때 발생하는 이벤트를 받아 파노라마 위치를 갱신합니다. 이때 거리뷰 레이어가 있을 때만 갱신하도록 합니다.
+            naver.maps.Event.addListener(map, 'click', function(e) {
+                if (streetLayer.getMap()) {
+                    var latlng = e.coord;
+
+                    // 파노라마의 setPosition()은 해당 위치에서 가장 가까운 파노라마(검색 반경 300미터)를 자동으로 설정합니다.
+                    pano.setPosition(latlng);
+
+                    document.getElementById('map').style.position = "relative";
+                    // document.getElementById('pano').style.position = "relative";
+                    document.getElementById('pano').style.position = "";
+                }
+            });
+
+
+            var zoominbtn = $('#zoomin');
+            var zoomoutbtn = $('#zoomout');
+
+            // 줌인
+            zoominbtn.on('click', function(e) {
+                e.preventDefault();
+                map.setZoom(map.getZoom() + 1, true);
+            });
+
+            // 줌아웃
+            zoomoutbtn.on('click', function(e) {
+                e.preventDefault();
+                map.setZoom(map.getZoom() - 1, true);
+            });
+
             // 줌 변경 시 마커 업데이트
             naver.maps.Event.addListener(map, 'zoom_changed', function() {
                 updateCenter();
@@ -423,10 +483,45 @@
                 }
             });
 
+            window.toggleSatelliteView = function() {
+                var currentMapTypeId = map.getMapTypeId();
+                if (currentMapTypeId === naver.maps.MapTypeId.NORMAL) {
+                    map.setMapTypeId(naver.maps.MapTypeId.SATELLITE);
+                } else {
+                    map.setMapTypeId(naver.maps.MapTypeId.NORMAL);
+                }
+            };
+
+            // 지적도 세팅
+            var cadastralLayer = new naver.maps.CadastralLayer();
+            var btn = $('#cadastral');
+
+            naver.maps.Event.addListener(map, 'cadastralLayer_changed', function() {
+                if (cadastralLayer.getMap()) {
+                    btn.addClass('control-on').val('지적도 끄기');
+                } else {
+                    btn.removeClass('control-on').val('지적도 켜기');
+                }
+            });
+
+            btn.on('click', function(e) {
+                e.preventDefault();
+
+                if (cadastralLayer.getMap()) {
+                    cadastralLayer.setMap(null);
+                    btn.removeClass('control-on').val('지적도 켜기');
+                } else {
+                    cadastralLayer.setMap(map);
+                    btn.addClass('control-on').val('지적도 끄기');
+                }
+            });
+
             // 초기 마커 설정
             updateCenter()
+
         });
     }
+
 
     var lastCenter = null;
     var lastZoom = null;

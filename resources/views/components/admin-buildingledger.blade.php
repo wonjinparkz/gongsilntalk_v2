@@ -200,6 +200,7 @@
 
                     // 여러 개의 <item> 엘리먼트를 순회하면서 데이터를 처리
                     if (itemElements.length > 0) {
+                        $(element).parent().find('input').remove();
 
                         itemElements.forEach(function(itemElement) {
                             var childElements = itemElement.children;
@@ -212,11 +213,9 @@
                             var inputTag =
                                 `<input type="hidden" name="${get_type}[]" value='${JSON.stringify(itemData)}'>`;
 
-                            console.log('inputTag : ', inputTag);
                             $(element).parent().append(inputTag);
                         });
 
-                        console.log("All items data appended as hidden inputs.");
 
                         setTimeout(function() {
                             loadingEnd();
