@@ -52,6 +52,9 @@ Route::controller(MainPcController::class)->group(function () {
 Route::controller(MapPcController::class)->group(function () {
     Route::get('/map', 'map')->name('www.map.map');
     Route::get('/map/mobile', 'mapMobile')->name('www.map.map.mobile');
+    Route::get('/map/mobile/{id}', 'mapDetailMobile')->name('www.map.map.detail.mobile');
+    Route::get('/map/mobile/property/{id}', 'mapPropertyMobile')->name('www.map.map.property.mobile');
+
     Route::get('/map/side/view', 'mapSideView')->name('www.map.side.view');
 
     Route::post('/map/marker', 'getMapMarker')->name('www.map.marker');
