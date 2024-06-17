@@ -60,18 +60,37 @@ class UserPcController extends Controller
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
-        $productList = Product::select();
+        $countList = Product::select(
+            DB::RAW('(select count(*) from product where users_id = product.users_id and state < 1) as request_count'),
+            DB::RAW('(select count(*) from product where users_id = product.users_id and state > 0) as transactions_count')
+        )->where('users_id', Auth::guard('web')->user()->id)->first();
 
-        $productList->where('users_id', Auth::guard('web')->user()->id);
+        if ($request->ajax()) {
+            $type = $request->type ?? 0;
 
-        // 정렬
-        $productList->orderBy('product.created_at', 'desc')->orderBy('id', 'desc');
+            if ($request->type != 1) {
 
-        $result_product = $productList->paginate($request->per_page == null ? 10 : $request->per_page);
+                $productList = Product::select();
+                $productList->where('users_id', Auth::guard('web')->user()->id);
+                $productList->where('state', '<', 1);
+                $productList->orderBy('product.created_at', 'desc')->orderBy('id', 'desc');
 
-        $result_product->appends(request()->except('page'));
+                $result = $productList->paginate(10);
+            } else {
 
-        return view('www.mypage.productMagagement_list', compact('user', 'result_product'));
+                $productList = Product::select();
+                $productList->where('users_id', Auth::guard('web')->user()->id);
+                $productList->where('state', '>', 0);
+                $productList->orderBy('product.created_at', 'desc')->orderBy('id', 'desc');
+
+                $result = $productList->paginate(10);
+            }
+
+            $view = view('components.user-mypage-product-list-layout', compact('result', 'type'))->render();
+            return response()->json(['html' => $view]);
+        }
+
+        return view('www.mypage.productMagagement_list', compact('user', 'countList'));
     }
 
     /**
