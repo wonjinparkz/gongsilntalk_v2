@@ -48,6 +48,7 @@
     .sales_list_wish{left:90px; top:26px;}
     .sales_card a{display: flex; padding: 16px;}
     .sales_card .sales_card_img{height:100px; width:100px; margin-right: 16px;}
+    .sales_card .sales_card_img .img_box{height:100px; width:100px;}
     .sales_list_con{margin-top:0px; width: calc(100% - 116px); overflow: hidden;}
     .sales_list_con .txt_item_1{margin-top:6px; font-size: 16px;}
     .sales_list_con .txt_item_2{font-size: 14px; line-height: 1.4;}
