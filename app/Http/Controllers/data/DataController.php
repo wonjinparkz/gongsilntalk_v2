@@ -70,19 +70,12 @@ class DataController extends Controller
                 }
             }
         );
-
         $promise->wait();
-
-        $this->getAptBaseInfo();
-        $this->getAptDetailInfo();
-        $this->getAptMapInfo();
-
-        return Redirect::route('admin.apt.complex.list.view')->with('message', '아파트 단지를 불러왔습니다.');
     }
 
     public function getAptBaseInfo()
     {
-        $baseInfo = DataApt::where('is_base_info', 0)->limit(3000)->get();
+        $baseInfo = DataApt::where('is_base_info', 0)->first();
 
         // 베이스 정보가 없을 때
         if ($baseInfo->isEmpty()) {
@@ -654,10 +647,9 @@ class DataController extends Controller
 
         $Apidomain = "http://api.vworld.kr/ned/wfs/getCtnlgsSpceWFS"; //인터넷망
 
-        $AptList = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->limit(100000)->get();
+        $AptList = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->whereNull('polygon_coordinates')->limit(100000)->get();
 
         foreach ($AptList as $apt) {
-            Log::info('apt : ' . $apt);
 
             $data = [
                 'currentPage' => '1',
@@ -720,6 +712,72 @@ class DataController extends Controller
         }
 
         return back()->with('message', '아파트 폴리곤을 가져왔습니다.');
+    }
+
+    /**
+     * 아파트 토지특성 속성 가져오기
+     */
+    public function getAptCharacteristics()
+    {
+
+        set_time_limit(1200);
+
+        $key = env('V_WORD_KEY'); // 검색API 승인키
+        $domain = env('APP_URL'); // 서버 도메인
+
+        $Apidomain = "https://api.vworld.kr/ned/data/getLandCharacteristics"; //인터넷망
+
+        $AptList = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->where('as3', 'like', "%구로동%")->limit(100)->get();
+
+        foreach ($AptList as $apt) {
+            Log::info('apt : ' . $apt);
+
+            $data = [
+                'pageNo' => '1',
+                'numOfRows' => '100',
+                'key' => $key,
+                'domain' => $domain,
+                'pnu' => $apt->pnu,
+                'format' => 'json',
+                'stdrYear' => '',
+            ];
+
+            $response = Http::timeout(30)->asForm()->post($Apidomain, $data);
+
+            usleep(1000000); // 1초 지연 (1000000 마이크로초)
+
+            if ($response->successful()) {
+
+                if ($response === false) {
+                    Log::error('응답 본문을 가져오지 못했습니다.');
+                } else {
+                    $response = json_decode($response->body(), true); // JSON 문자열을 배열로 디코드
+
+                    $fields = $response['landCharacteristicss']['field']; // field 배열 가져오기
+
+                    // 최신 업데이트 날짜를 가진 field를 찾기
+                    $latestField = null;
+                    $latestDate = null;
+
+                    foreach ($fields as $field) {
+                        $currentDate = $field['lastUpdtDt'];
+                        if (is_null($latestDate) || strtotime($currentDate) > strtotime($latestDate)) {
+                            $latestDate = $currentDate;
+                            $latestField = $field;
+                        }
+                    }
+
+                    if ($latestField) {
+                        $apt->update(['characteristics_json' => json_encode($latestField, JSON_UNESCAPED_UNICODE)]);
+                    } else {
+                        Log::info('field 데이터를 찾을 수 없습니다.');
+                    }
+                }
+            } else {
+                Log::error('HTTP 요청 실패:');
+            }
+        }
+        return back()->with('message', '아파트 토지특성 가져왔습니다.');
     }
 
     /**

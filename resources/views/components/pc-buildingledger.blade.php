@@ -4,6 +4,7 @@
     'BrFlrOulnInfo' => [],
     'BrExposInfo' => [],
     'BrExposPubuseAreaInfo' => [],
+    'characteristics_json' => '',
 ])
 @inject('carbon', 'Carbon\Carbon')
 
@@ -207,26 +208,18 @@
     <div class="con_panel">
         <div class="dropdown_box s_sm w_40">
             <button class="dropdown_label">103동 - 102</button>
-            @if (count($BrFlrOulnInfo) > 0)
+            @if (count($BrExposInfo) > 0)
                 @foreach ($dongName as $name)
                     <ul class="optionList {{ $name }}">
-                        @foreach ($BrFlrOulnInfo as $info)
+                        @foreach ($BrExposInfo as $info)
                             @if ($name == $info['dongNm'])
-                                <li class="optionItem">{{ $name }}동 - 102</li>
+                                <li class="optionItem">{{ $name }} - {{$info['hoNm']}}</li>
                             @endif
                         @endforeach
                     </ul>
-                @endif
-        </div>
-        @foreach ($BrFlrOulnInfo as $info)
-            @if ($name == $info['dongNm'])
-                <tr>
-                    <td>{{ $info['flrNoNm'] }}</td>
-                    <td>{{ $info['mainPurpsCdNm'] }}</td>
-                    <td>{{ $info['area'] }}㎡</td>
-                </tr>
+                @endforeach
             @endif
-        @endforeach
+        </div>
         <div class="default_box showstep1 mt10">
             <table class="table_type_1">
                 <colgroup>
@@ -245,15 +238,17 @@
                         <th>면적</th>
                     </tr>
                 </thead>
-                @if (count($BrFlrOulnInfo) > 0)
+                @if (count($BrExposInfo) > 0)
                     @foreach ($dongName as $name)
                         <tbody class="{{ $name }} dongInfo">
-                            @foreach ($BrFlrOulnInfo as $info)
+                            @foreach ($BrExposInfo as $info)
                                 @if ($name == $info['dongNm'])
                                     <tr>
-                                        <td>{{ $info['flrNoNm'] }}</td>
-                                        <td>{{ $info['mainPurpsCdNm'] }}</td>
-                                        <td>{{ $info['area'] }}㎡</td>
+                                        <td>{{ $info['regstrKindCdNm'] }}</td>
+                                        <td>{{ $info['flrNo'] }}</td>
+                                        {{-- <td>{{ $info['mainPurpsCdNm'] }}</td>
+                                        <td>{{ $info['mainAtchGbCdNm'] }}㎡</td> --}}
+                                        {{-- <td>{{ $info['archArea'] }}㎡</td> --}}
                                     </tr>
                                 @endif
                             @endforeach
@@ -262,38 +257,50 @@
                 @endif
             </table>
         </div>
-
     </div>
 </div>
 
-<div class="open_con_wrap building_item_4">
-    <div class="open_trigger">토지정보 <span><img src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
-    </div>
-    <div class="con_panel">
-        <div class="default_box showstep1">
-            <div class="table_container2_sm mt10">
-                <div class="td">면적</div>
-                <div class="td">569.44㎡</div>
-                <div class="td">지목</div>
-                <div class="td">대</div>
-                <div class="td">용도지역</div>
-                <div class="td">제1종일반주거지역</div>
-                <div class="td">이용상황</div>
-                <div class="td">아파트</div>
-                <div class="td">형상</div>
-                <div class="td">사다리형</div>
-                <div class="td">지형높이</div>
-                <div class="td">급경사</div>
-                <div class="td">동 개별 공시지가(원/m²)</div>
-                <div class="td">415000</div>
-                <div class="td">지역지구등<br>지정여부</div>
-                <div class="td">
-                    과밀억제권역,정비구역(도렴도시환경정비사업),가축사육제한구역,대공방어협조구역(위탁고도:54-236m),도시지역,일반상업지역,4대문안</div>
-            </div>
+@if ($characteristics_json != '')
+    @php
+        $json = json_decode($characteristics_json);
+
+        if (json_last_error() === JSON_ERROR_NONE) {
+            // JSON 디코딩 성공, 객체 내용을 로그에 기록
+            Log::info(print_r($json, true));
+        } else {
+            // JSON 디코딩 중 오류 발생, 오류 메시지를 로그에 기록
+            Log::error('JSON decode error: ' . json_last_error_msg());
+        }
+    @endphp
+    <div class="open_con_wrap building_item_4">
+        <div class="open_trigger">토지정보 <span><img src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
         </div>
-        <div class="btn_more_open">더보기</div>
+        <div class="con_panel">
+            <div class="default_box showstep1">
+                <div class="table_container2_sm mt10">
+                    <div class="td">면적</div>
+                    {{-- <div class="td">{{ $json['lndpclAr'] }}㎡</div> --}}
+                    <div class="td">지목</div>
+                    <div class="td">대</div>
+                    <div class="td">용도지역</div>
+                    <div class="td">제1종일반주거지역</div>
+                    <div class="td">이용상황</div>
+                    <div class="td">아파트</div>
+                    <div class="td">형상</div>
+                    <div class="td">사다리형</div>
+                    <div class="td">지형높이</div>
+                    <div class="td">급경사</div>
+                    <div class="td">동 개별 공시지가(원/m²)</div>
+                    <div class="td">415000</div>
+                    <div class="td">지역지구등<br>지정여부</div>
+                    <div class="td">
+                        과밀억제권역,정비구역(도렴도시환경정비사업),가축사육제한구역,대공방어협조구역(위탁고도:54-236m),도시지역,일반상업지역,4대문안</div>
+                </div>
+            </div>
+            <div class="btn_more_open">더보기</div>
+        </div>
     </div>
-</div>
+@endif
 
 <!-- 건물·토지정보 : e -->
 

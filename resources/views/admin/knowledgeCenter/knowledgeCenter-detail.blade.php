@@ -5,6 +5,7 @@
         {{-- FORM START  --}}
         <a href="{{ route('data.apt.addrss') }}">pnu</a>
         <a href="{{ route('data.apt.polygon') }}">폴리곤</a>
+        <a href="{{ route('data.apt.characteristics') }}">토지특성</a>
         <a href="{{ route('data.apt.ledger') }}">표지부</a>
 
         @inject('carbon', 'Carbon\Carbon')

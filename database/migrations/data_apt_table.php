@@ -99,6 +99,8 @@ return new class extends Migration
             $table->string('complex_name')->nullable()->comment('유사 단지명 (,으로 구분지어 사용)');
             $table->string('pnu')->nullable()->comment('pnu');
             $table->longText('polygon_coordinates')->nullable()->comment('플리곤 좌표');
+            $table->longText('characteristics_json')->nullable()->comment('토지특성 속성 json형태');
+            $table->longText('useWFS_json')->nullable()->comment('토지이용계획WFS json형태');
         });
 
         DB::statement("ALTER TABLE data_apt COMMENT='법정동코드'");

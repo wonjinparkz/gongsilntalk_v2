@@ -99,6 +99,8 @@ class DataApt extends BaseModel
         'complex_name',
         'pnu',
         'polygon_coordinates',
+        'characteristics_json',
+        'useWFS_json',
     ];
 
     /**
