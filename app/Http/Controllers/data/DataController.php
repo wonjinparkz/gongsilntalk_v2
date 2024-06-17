@@ -633,7 +633,7 @@ class DataController extends Controller
 
         $Apidomain = "https://api.vworld.kr/ned/data/getLandCharacteristics"; //인터넷망
 
-        $apt = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->first();
+        $apt = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->whereNull('characteristics_json')->first();
 
         if ($apt == '') {
             return;
@@ -672,7 +672,6 @@ class DataController extends Controller
 
                 if ($latestField) {
                     $apt->update(['characteristics_json' => json_encode($latestField, JSON_UNESCAPED_UNICODE)]);
-                    Log::info($apt);
                 } else {
                     Log::info('field 데이터를 찾을 수 없습니다.');
                 }
@@ -681,6 +680,60 @@ class DataController extends Controller
                 Log::error('Connection error for kaptCode ' . $apt->kaptCode . ': ' . $exception->getMessage());
             }
         );
+        $promise->wait();
+    }
+
+    /**
+     * 아파트 WFS 속성 가져오기
+     */
+    public function getAptuseWFS()
+    {
+        $key = env('V_WORD_KEY'); // 검색API 승인키
+        $domain = env('APP_URL'); // 서버 도메인
+
+        $Apidomain = "https://api.vworld.kr/ned/wfs/getLandUseWFS"; //인터넷망
+
+        $apt = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->whereNull('useWFS_json')->first();
+
+        if ($apt == null) {
+            return;
+        }
+
+        Log::info('WFS 아파트 정보 :' . $apt);
+
+        $data = [
+            'maxFeatures' => '10',
+            'typename' => 'dt_d154',
+            'key' => $key,
+            'domain' => $domain,
+            'bbox' => '',
+            'pnu' => $apt->pnu,
+            'resultType' => 'results',
+            'srsName' => 'EPSG:4326',
+            'output' => 'text/javascript',
+        ];
+
+        $promise = Http::async()->get($Apidomain, $data)->then(
+            function ($response) use ($apt) {
+                $responseBody = $response->body();
+                // JSON 데이터를 디코드합니다.
+
+                // parseResponse 부분 제거
+                $jsonString = preg_replace('/^parseResponse\((.*)\)$/', '$1', $responseBody);
+
+                $data = json_decode($jsonString, true);
+
+                if (isset($data['features'][0]['properties'])) {
+                    $apt->update(['useWFS_json' => json_encode($data['features'][0]['properties'], JSON_UNESCAPED_UNICODE)]);
+                } else {
+                    Log::info('field 데이터를 찾을 수 없습니다.');
+                }
+            },
+            function ($exception) use ($apt) {
+                Log::error('Connection error for pnu ' . $apt->pnu . ': ' . $exception->getMessage());
+            }
+        );
+
         $promise->wait();
     }
 

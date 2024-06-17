@@ -5,6 +5,7 @@
     'BrExposInfo' => [],
     'BrExposPubuseAreaInfo' => [],
     'characteristics_json' => '',
+    'useWFS_json' => '',
 ])
 @inject('carbon', 'Carbon\Carbon')
 
@@ -213,7 +214,7 @@
                     <ul class="optionList {{ $name }}">
                         @foreach ($BrExposInfo as $info)
                             @if ($name == $info['dongNm'])
-                                <li class="optionItem">{{ $name }} - {{$info['hoNm']}}</li>
+                                <li class="optionItem">{{ $name }} - {{ $info['hoNm'] }}</li>
                             @endif
                         @endforeach
                     </ul>
@@ -262,14 +263,22 @@
 
 @if ($characteristics_json != '')
     @php
-        $json = json_decode($characteristics_json);
+        // 주어진 문자열
+        $encodedString = $characteristics_json;
+        // HTML 엔티티를 디코드
+        $decodedString = html_entity_decode($encodedString);
 
-        if (json_last_error() === JSON_ERROR_NONE) {
-            // JSON 디코딩 성공, 객체 내용을 로그에 기록
-            Log::info(print_r($json, true));
-        } else {
-            // JSON 디코딩 중 오류 발생, 오류 메시지를 로그에 기록
-            Log::error('JSON decode error: ' . json_last_error_msg());
+        // JSON 문자열을 PHP 배열로 변환
+        $jsonArray = json_decode($decodedString, true);
+
+        // 특정 키의 값 추출
+
+        // JSON 문자열을 PHP 배열로 변환
+        if ($useWFS_json != '') {
+            $WFSencodedString = $useWFS_json;
+            $WFSdecodedString = html_entity_decode($WFSencodedString);
+            $useWFSArray = json_decode($WFSdecodedString, true);
+            $prpos = $useWFSArray['prpos_area_dstrc_nm_list'] ?? '-';
         }
     @endphp
     <div class="open_con_wrap building_item_4">
@@ -279,22 +288,21 @@
             <div class="default_box showstep1">
                 <div class="table_container2_sm mt10">
                     <div class="td">면적</div>
-                    {{-- <div class="td">{{ $json['lndpclAr'] }}㎡</div> --}}
+                    <div class="td">{{ $jsonArray['lndpclAr'] }}㎡</div>
                     <div class="td">지목</div>
-                    <div class="td">대</div>
+                    <div class="td">{{ $jsonArray['lndcgrCodeNm'] }}</div>
                     <div class="td">용도지역</div>
-                    <div class="td">제1종일반주거지역</div>
+                    <div class="td">{{ $jsonArray['prposArea1Nm'] }}</div>
                     <div class="td">이용상황</div>
-                    <div class="td">아파트</div>
+                    <div class="td">{{ $jsonArray['ladUseSittnNm'] }}</div>
                     <div class="td">형상</div>
-                    <div class="td">사다리형</div>
+                    <div class="td">{{ $jsonArray['tpgrphFrmCodeNm'] }}</div>
                     <div class="td">지형높이</div>
-                    <div class="td">급경사</div>
+                    <div class="td">{{ $jsonArray['tpgrphHgCodeNm'] }}</div>
                     <div class="td">동 개별 공시지가(원/m²)</div>
-                    <div class="td">415000</div>
+                    <div class="td">{{ $jsonArray['pblntfPclnd'] }}</div>
                     <div class="td">지역지구등<br>지정여부</div>
-                    <div class="td">
-                        과밀억제권역,정비구역(도렴도시환경정비사업),가축사육제한구역,대공방어협조구역(위탁고도:54-236m),도시지역,일반상업지역,4대문안</div>
+                    <div class="td">{{ $prpos ?? '-' }}</div>
                 </div>
             </div>
             <div class="btn_more_open">더보기</div>

@@ -29,8 +29,8 @@ function gte_useWFS(pnu) {
             $('#useWFS_json').val(JSON.stringify(data.features[0].properties));
         },
         error: function (xhr, stat, err) {
-            console.log("xhr : ", xhr);
-            alert('주소API 오류 발생 주소를 다시 입력해주세요.');
+            alert('주소API 오류 WFS 발생 주소를 다시 입력해주세요.');
+            console.log('xhr :', xhr);
             $('#address').val('');
         }
     });
@@ -40,7 +40,6 @@ function gte_useWFS(pnu) {
 
 // 폴리곤 좌표 가져오기 api
 function get_coordinates(pnu) {
-
     var data = {};
     data.key = V_WORD_KEY; /* key */
     data.domain = APP_URL; /* domain */
@@ -59,7 +58,6 @@ function get_coordinates(pnu) {
         data: data,
         async: true,
         success: function (response) {
-            console.log('response : ', response);
             var features = response.features;
             if (features && features.length > 0) {
                 var coordinates = features[0].geometry.coordinates;
@@ -77,12 +75,13 @@ function get_coordinates(pnu) {
 
                 $('#polygon_coordinates').val(coordsString);
             } else {
-                alert('폴리곤 데이터를 가져오지 못하였습니다.');
+                alert('POLYGON 데이터를 가져오지 못하였습니다.');
             }
 
         },
         error: function (xhr, stat, err) {
-            alert('주소API 오류 발생 주소를 다시 입력해주세요.');
+            alert('POLYGON 오류 발생 주소를 다시 입력해주세요.');
+            console.log('xhr :', stat);
             $('#address').val('');
         }
     });
@@ -116,7 +115,8 @@ function get_characteristics(pnu) {
             $('#characteristics_json').val(JSON.stringify(latest_field));
         },
         error: function (xhr, stat, err) {
-            alert('주소API 오류 발생 주소를 다시 입력해주세요.');
+            alert('주소API Land 오류 발생 주소를 다시 입력해주세요.');
+            console.log('xhr :', xhr);
             $('#address').val('');
         }
     });
