@@ -72,23 +72,37 @@ class UserPcController extends Controller
         if ($request->ajax()) {
             $type = $request->type ?? 0;
 
+            $productList = Product::select('product.*');
+            $productList->leftjoin('product_price', 'product_price.product_id', 'product.id');
+
+            $productList->where('product.users_id', Auth::guard('web')->user()->id);
+
             if ($request->type != 1) {
-
-                $productList = Product::select();
-                $productList->where('users_id', Auth::guard('web')->user()->id);
-                $productList->where('state', '<', 1);
-                $productList->orderBy('product.created_at', 'desc')->orderBy('id', 'desc');
-
-                $result = $productList->paginate(10);
+                $productList->where('product.state', '<', 1);
             } else {
-
-                $productList = Product::select();
-                $productList->where('users_id', Auth::guard('web')->user()->id);
-                $productList->where('state', '>', 0);
-                $productList->orderBy('product.created_at', 'desc')->orderBy('id', 'desc');
-
-                $result = $productList->paginate(10);
+                $productList->where('product.state', '>', 0);
             }
+
+            // 매물 종류
+            if (isset($request->product_type)) {
+                $productList->where('product.type', $request->product_type);
+            }
+
+            // 매매/전세/월세 등 여부
+            if (isset($request->payment_type)) {
+                $productList->where('product_price.payment_type', $request->payment_type);
+            }
+
+            // 주소 / 매물번호 검색
+            if (isset($request->search_text)) {
+                $productList->where(function ($query) use ($request) {
+                    $query->where('product.product_number', 'like', "%{$request->search_text}%")
+                        ->orWhere('product.address', 'like', "%{$request->search_text}%");
+                });
+            }
+
+            $productList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc');
+            $result = $productList->paginate(10);
 
             $view = view('components.user-mypage-product-list-layout', compact('result', 'type'))->render();
             return response()->json(['html' => $view]);

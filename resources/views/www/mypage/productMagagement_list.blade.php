@@ -37,40 +37,31 @@
                                 <div class="dropdown_box">
                                     <button class="dropdown_label">거래 유형</button>
                                     <ul class="optionList">
-                                        <li class="optionItem">전체</li>
-                                        <li class="optionItem">매매</li>
-                                        <li class="optionItem">임대</li>
-                                        <li class="optionItem">단기임대</li>
-                                        <li class="optionItem">전세</li>
-                                        <li class="optionItem">월세</li>
-                                        <li class="optionItem">전매</li>
+                                        <li class="optionItem" onclick="onPaymentTypeChange('');">전체</li>
+                                        @foreach (Lang::get('commons.payment_type') as $key => $payment_type)
+                                            <li class="optionItem"
+                                                onclick="onPaymentTypeChange('{{ $key }}');">
+                                                {{ $payment_type }}</li>
+                                        @endforeach
                                     </ul>
                                 </div>
                                 <div class="dropdown_box">
                                     <button class="dropdown_label">매물 종류</button>
                                     <ul class="optionList">
-                                        <li class="optionItem">지산/사무실/창고</li>
-                                        <li class="optionItem">상가</li>
-                                        <li class="optionItem">건물</li>
-                                        <li class="optionItem">토지/임야</li>
-                                        <li class="optionItem">단독공장</li>
-                                        <li class="optionItem">아파트</li>
-                                        <li class="optionItem">오피스텔</li>
-                                        <li class="optionItem">단독/다가구</li>
-                                        <li class="optionItem">다세대/빌라/연립</li>
-                                        <li class="optionItem">상가주택</li>
-                                        <li class="optionItem">주택</li>
-                                        <li class="optionItem">지식산업센터 분양권</li>
-                                        <li class="optionItem">상가 분양권</li>
-                                        <li class="optionItem">아파트 분양권</li>
-                                        <li class="optionItem">오피스텔 분양권</li>
+                                        <li class="optionItem" onclick="onProductTypeChange('');">전체</li>
+                                        @foreach (Lang::get('commons.product_type') as $key => $product_type)
+                                            <li class="optionItem"
+                                                onclick="onProductTypeChange('{{ $key }}');">
+                                                {{ $product_type }}</li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
 
                             <div class="search_wrap">
-                                <input type="text" placeholder="매물번호/주소로 검색">
-                                <button><img src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button>
+                                <input type="text" id="searchText" name="searchText" placeholder="매물번호/주소로 검색">
+                                <button type="button" onclick="onSearchTextChange();"><img src="{{ asset('assets/media/btn_search.png') }}"
+                                        alt="검색"></button>
                             </div>
                         </div>
 
@@ -122,13 +113,14 @@
                 </div>
 
             </div>
-
         </div>
+
         <input type="hidden" id="productListType" name="productListType" value="0">
+        <input type="hidden" id="productType" name="productType" value="">
+        <input type="hidden" id="paymentType" name="paymentType" value="">
 </x-layout>
 
 <script>
-
     // 전체 삭제
     function onDeleteAll() {
         const query = 'input[name="checkOne"]:checked';
@@ -191,6 +183,22 @@
         });
     }
 
+    var onSearchTextChange = () => {
+        loadMoreData(1, $('#productListType').val());
+    }
+
+    var onProductTypeChange = (index) => {
+        $('#productType').val(index);
+
+        loadMoreData(1, $('#productListType').val());
+    }
+
+    var onPaymentTypeChange = (index) => {
+        $('#paymentType').val(index);
+
+        loadMoreData(1, $('#productListType').val());
+    }
+
     loadMoreData(1, 0);
 
     function loadMoreData(page, type) {
@@ -201,8 +209,9 @@
                 data: {
                     'page': page,
                     'type': type,
-                    'product_type': $('#product_type').val(),
-                    'payment_type': $('#payment_type').val(),
+                    'product_type': $('#productType').val(),
+                    'payment_type': $('#paymentType').val(),
+                    'search_text': $('#searchText').val()
                 }
             })
             .done(function(data) {
