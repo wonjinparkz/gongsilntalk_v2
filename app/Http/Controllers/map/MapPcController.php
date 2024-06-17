@@ -22,6 +22,11 @@ class MapPcController extends Controller
         return view('www.map.map');
     }
 
+    public function mapMobile(Request $request): View
+    {
+        return view('www.map.map-mobile');
+    }
+
 
     public function getMapMarker(Request $request)
     {
