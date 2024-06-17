@@ -13,6 +13,10 @@ use App\Models\CalculatorRevenue;
 use App\Models\Community;
 use App\Models\CorpProposal;
 use App\Models\Product;
+use App\Models\ProductAddInfo;
+use App\Models\ProductOptions;
+use App\Models\ProductPrice;
+use App\Models\ProductServices;
 use App\Models\Proposal;
 use App\Models\SiteProduct;
 use App\Models\User;
@@ -91,6 +95,26 @@ class UserPcController extends Controller
         }
 
         return view('www.mypage.productMagagement_list', compact('user', 'countList'));
+    }
+
+    /**
+     * 내 매물 삭제
+     */
+    public function userProductDelete(Request $request)
+    {
+        info($request->id);
+        $result = Product::select()->whereIn('id', $request->id)->get();
+
+        foreach ($result as $product) {
+            ProductAddInfo::select()->where('product_id', $product->id)->delete();
+            ProductOptions::select()->where('product_id', $product->id)->delete();
+            ProductPrice::select()->where('product_id', $product->id)->delete();
+            ProductServices::select()->where('product_id', $product->id)->delete();
+
+            $product->delete();
+        }
+
+        return Redirect::back()->with('message', '매물이 삭제 되었습니다.');
     }
 
     /**

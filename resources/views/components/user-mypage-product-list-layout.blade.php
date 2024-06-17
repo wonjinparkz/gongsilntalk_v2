@@ -41,8 +41,9 @@
                         @foreach ($result as $product)
                             <tr>
                                 <td class="td_center">
-                                    <input type="checkbox" name="checkOne" id="checkOne_1" value="Y">
-                                    <label for="checkOne_1"><span></span></label>
+                                    <input type="checkbox" name="checkOne" id="checkOne_{{ $product->id }}"
+                                        class="chkbox" value="{{ $product->id }}">
+                                    <label for="checkOne_{{ $product->id }}"><span></span></label>
                                 </td>
                                 <td><span class="gray_deep">{{ $product->product_number }}</span></td>
                                 <td>
@@ -68,8 +69,38 @@
                                     {{ mb_substr(Commons::get_priceTrans($product->priceInfo->price), 0, -1) }}
                                     {{ in_array($product->priceInfo->payment_type, [1, 2, 4]) ? ' / ' . mb_substr(Commons::get_priceTrans($product->priceInfo->month_price), 0, -1) : '' }}
                                 </td>
-                                <td><button class="btn_gray_ghost btn_sm">삭제</button></td>
+                                <td><button class="btn_gray_ghost btn_sm" type="button"
+                                        onclick="modal_open('delete_{{ $product->id }}')">삭제</button></td>
                             </tr>
+
+                            <!-- modal 삭제 : s -->
+                            <div class="modal modal_delete_{{ $product->id }}">
+
+                                <div class="modal_container">
+                                    <div class="modal_mss_wrap">
+                                        <p class="txt_item_1 txt_point">
+                                            {{ $product->address }} <br>
+                                            {{ Lang::get('commons.product_type.' . $product->type) }}
+                                            {{ Lang::get('commons.payment_type.' . $product->priceInfo->payment_type) }}
+                                            {{ mb_substr(Commons::get_priceTrans($product->priceInfo->price), 0, -1) }}
+                                            {{ in_array($product->priceInfo->payment_type, [1, 2, 4]) ? ' / ' . mb_substr(Commons::get_priceTrans($product->priceInfo->month_price), 0, -1) : '' }}
+                                        </p>
+                                        <p class="txt_item_1">매물을 삭제하시겠습니까?</p>
+                                        <p class="mt8 txt_item_2">삭제 후에는 되돌릴 수 없습니다.</p>
+                                    </div>
+
+                                    <div class="modal_btn_wrap">
+                                        <button class="btn_gray btn_full_thin" type="button"
+                                            onclick="modal_close('delete_{{ $product->id }}')">취소</button>
+                                        <button class="btn_point btn_full_thin" type="button"
+                                            onclick="onDelete('{{ $product->id }}');">삭제</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="md_overlay md_overlay_delete_{{ $product->id }}"
+                                onclick="modal_close('delete_{{ $product->id }}')"></div>
+                            <!-- modal 삭제 : e -->
                         @endforeach
                     @endif
                 </tbody>
@@ -125,8 +156,9 @@
                         @foreach ($result as $product)
                             <tr>
                                 <td class="td_center">
-                                    <input type="checkbox" name="checkOne" id="checkOne_1" value="Y">
-                                    <label for="checkOne_1"><span></span></label>
+                                    <input type="checkbox" name="checkOne" id="checkOne_{{ $product->id }}"
+                                        class="chkbox" value="{{ $product->id }}">
+                                    <label for="checkOne_{{ $product->id }}"><span></span></label>
                                 </td>
                                 <td><span class="gray_deep">{{ $product->product_number }}</span></td>
                                 <td>
@@ -152,8 +184,38 @@
                                     {{ mb_substr(Commons::get_priceTrans($product->priceInfo->price), 0, -1) }}
                                     {{ in_array($product->priceInfo->payment_type, [1, 2, 4]) ? ' / ' . mb_substr(Commons::get_priceTrans($product->priceInfo->month_price), 0, -1) : '' }}
                                 </td>
-                                <td><button class="btn_gray_ghost btn_sm">삭제</button></td>
+                                <td><button class="btn_gray_ghost btn_sm" type="button"
+                                        onclick="modal_open('delete_{{ $product->id }}')">삭제</button></td>
                             </tr>
+
+                            <!-- modal 삭제 : s -->
+                            <div class="modal modal_delete_{{ $product->id }}">
+
+                                <div class="modal_container">
+                                    <div class="modal_mss_wrap">
+                                        <p class="txt_item_1 txt_point">
+                                            {{ $product->address }} <br>
+                                            {{ Lang::get('commons.product_type.' . $product->type) }}
+                                            {{ Lang::get('commons.payment_type.' . $product->priceInfo->payment_type) }}
+                                            {{ mb_substr(Commons::get_priceTrans($product->priceInfo->price), 0, -1) }}
+                                            {{ in_array($product->priceInfo->payment_type, [1, 2, 4]) ? ' / ' . mb_substr(Commons::get_priceTrans($product->priceInfo->month_price), 0, -1) : '' }}
+                                        </p>
+                                        <p class="txt_item_1">매물을 삭제하시겠습니까?</p>
+                                        <p class="mt8 txt_item_2">삭제 후에는 되돌릴 수 없습니다.</p>
+                                    </div>
+
+                                    <div class="modal_btn_wrap">
+                                        <button class="btn_gray btn_full_thin" type="button"
+                                            onclick="modal_close('delete_{{ $product->id }}')">취소</button>
+                                        <button class="btn_point btn_full_thin" type="button"
+                                            onclick="onDelete('{{ $product->id }}');">삭제</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="md_overlay md_overlay_delete_{{ $product->id }}"
+                                onclick="modal_close('delete_{{ $product->id }}')"></div>
+                            <!-- modal 삭제 : e -->
                         @endforeach
                     @endif
                 </tbody>
@@ -166,3 +228,12 @@
     <!--  분양매물 : e -->
 
 @endif
+
+<script>
+    $("input[name=checkAll]").click(function() {
+        if ($(this).is(":checked") === true)
+            $("input[name=checkOne]").prop("checked", true);
+        else
+            $("input[name=checkOne]").prop("checked", false);
+    });
+</script>

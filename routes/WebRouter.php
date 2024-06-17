@@ -151,6 +151,7 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::get('/mypage/main', 'mypageMainView')->name('www.mypage.mian.view');
     Route::get('/mypage/product/magagement/list', 'productMagagementListView')->name('www.mypage.product.magagement.list.view');
     Route::get('/mypage/corp/product/magagement/list', 'corpProductMagagementListView')->name('www.mypage.corp.product.magagement.list.view');
+    Route::post('/mypage/product/magagement/delete', 'userProductDelete')->name('www.mypage.product.magagement.delete');
 
     // 관심 매물/최근 본 매물
     Route::get('/mypage/product/interest/list', 'productInterestListView')->name('www.mypage.product.interest.list.view');
