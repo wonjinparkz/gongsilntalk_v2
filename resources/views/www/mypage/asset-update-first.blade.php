@@ -428,32 +428,26 @@
 
     function onFieldInputCheck() {
 
-        var checkVal = 1;
         var minusVal = 0;
 
-        console.log('처음 : ' + checkVal);
-
-        $("input[type=text]").each(function(index, item) {
-            if (item.id != '' && item.id != 'keyword' && item.id != 'roadintrvl_keyword') {
-                console.log(item.id + ' , 결과 : ' + isStringValue(item.value));
-
-                checkVal = (isStringValue(item.value) == false) ? checkVal + 1 : checkVal;
-            }
-        });
-
-        if (document.getElementById('temporary_address').checked == false) {
-            minusVal = 2;
-            if (document.getElementById('address_no_1').checked == true) {
-                minusVal = 3;
+        if (document.getElementById('temporary_address').checked == false) { // 임시 주소 체크 여부
+            // 체크 안 돼 있을 시
+            ($('#address_detail_ho').val() != '') ? true: minusVal++;
+            if (document.getElementById('address_no_1').checked == false) {
+                ($('#address_dong').val() != '') ? true: minusVal++;
             }
         } else {
-            minusVal = 2;
-            if (document.getElementById('address_no_2').checked == true) {
-                minusVal = 3;
+            if (document.getElementById('address_no_2').checked == false) {
+                ($('#address_detail').val() != '') ? true: minusVal++;
             }
         }
+        ($('#address').val() != '') ? true: minusVal++;
+        ($('#area').val() != '') ? true: minusVal++;
+        ($('#square').val() != '') ? true: minusVal++;
+        ($('#exclusive_area').val() != '') ? true: minusVal++;
+        ($('#exclusive_square').val() != '') ? true: minusVal++;
 
-        if (checkVal == 0) {
+        if (minusVal == 0) {
             document.getElementById('nextPageButton').disabled = false;
         } else {
             document.getElementById('nextPageButton').disabled = true;
