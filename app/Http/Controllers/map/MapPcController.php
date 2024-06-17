@@ -22,6 +22,23 @@ class MapPcController extends Controller
         return view('www.map.map');
     }
 
+    // 모바일 지도
+    public function mapMobile(Request $request): View
+    {
+        return view('www.map.map-mobile');
+    }
+
+    // 모바일 지도 실거래가지도 상세
+    public function mapDetailMobile(Request $request): View
+    {
+        return view('www.map.map-detail-mobile');
+    }
+
+    // 모바일 지도 매물지도 상세
+    public function mapPropertyMobile(Request $request): View
+    {
+        return view('www.map.map-property-detail-mobile');
+    }
 
     public function getMapMarker(Request $request)
     {
