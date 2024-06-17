@@ -59,19 +59,9 @@
                         <button type="button" onclick="location.href='{{ route('data.transactions.apt.connextion') }}'"
                             class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
                             3. 실거래가 연결하기</button>
-                        <button type="button" onclick="location.href='{{ route('data.transactions.apt.connextion') }}'"
+                        <button type="button" onclick="location.href='{{ route('data.apt.ledger') }}'"
                             class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
-                            2. 건축물대장 연결하기 (공사중)</button>
-                        {{-- <button type="button" onclick="location.href='{{ route('data.apt.base') }}'"
-                            class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
-                            데이터 가져오기</button>
-                        <button type="button" onclick="location.href='{{ route('data.apt.detail') }}'"
-                            class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
-                            데이터 가져오기</button>
-                        <button type="button" onclick="location.href='{{ route('data.apt.map') }}'"
-                            class="btn me-10 btn-lm fw-bold btn-success btn-group-vertical" target="_blank">
-                            데이터 가져오기</button> --}}
-
+                            2. 건축물대장 연결하기</button>
                     </div>
 
                 </div>

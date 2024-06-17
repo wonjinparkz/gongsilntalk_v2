@@ -97,7 +97,12 @@ return new class extends Migration
             $table->unique('kaptCode');
 
             $table->string('complex_name')->nullable()->comment('유사 단지명 (,으로 구분지어 사용)');
+
+            $table->boolean('is_pnu')->default(0)->comment('pnu 세팅 여부');
             $table->string('pnu')->nullable()->comment('pnu');
+
+            $table->boolean('is_building_ledger')->default(0)->comment('표제부 세팅 여부');
+
             $table->longText('polygon_coordinates')->nullable()->comment('플리곤 좌표');
             $table->longText('characteristics_json')->nullable()->comment('토지특성 속성 json형태');
             $table->longText('useWFS_json')->nullable()->comment('토지이용계획WFS json형태');

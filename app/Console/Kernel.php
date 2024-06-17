@@ -14,9 +14,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('app:get-apt-info')->everyMinute();
+        $schedule->command('app:get-building-ledger')->everyMinute();
 
         $schedule->call(function () {
-
         })->everyMinute();
     }
 

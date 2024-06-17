@@ -367,8 +367,8 @@
 
     function initializeMap() {
         map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.5665, 126.9780),
-            zoom: 15,
+            center: new naver.maps.LatLng(37.45404740497049, 126.9087944960182),
+            zoom: 20,
             minZoom: 8,
             maxZoom: 21,
             size: new naver.maps.Size(window.innerWidth, window.innerHeight),

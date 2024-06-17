@@ -97,7 +97,12 @@ class DataApt extends BaseModel
 
         // 유사 단지명
         'complex_name',
+
+        'is_pnu',
         'pnu',
+
+        'is_building_ledger',
+
         'polygon_coordinates',
         'characteristics_json',
         'useWFS_json',
