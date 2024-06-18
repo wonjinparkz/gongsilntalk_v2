@@ -124,14 +124,12 @@
                     <div>{{ $result->comstruction_company ?? '-' }}</div>
                 </div>
 
-                @if (count($result->files) > 0)
-                    <div class="detail_camera_wrap">
-                        <div class="gray_basic">*클릭을 통해 직접 건물 내부를 이동하며 확인해보세요.</div>
-                        <div class="mt8" onclick="onMetaLink();">
-                            <div id="panorama-360-view"></div>
-                        </div>
+                <div class="detail_camera_wrap" {{ count($result->files) > 0 ? '' : 'style=display:none;' }}>
+                    <div class="gray_basic">*클릭을 통해 직접 건물 내부를 이동하며 확인해보세요.</div>
+                    <div class="mt8" onclick="onMetaLink();">
+                        <div id="panorama-360-view"></div>
                     </div>
-                @endif
+                </div>
             </section>
         </div>
 
