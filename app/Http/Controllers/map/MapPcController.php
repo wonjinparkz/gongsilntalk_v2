@@ -74,19 +74,17 @@ class MapPcController extends Controller
     // 매물 상세
     public function mapRoomDetail(Request $request)
     {
-        // 중개사무소
-        $result = Product::where('id', $request->id)->first();
+        $result = Product::with('priceInfo', 'productAddInfo', 'productOptions', 'productServices')->where('id', $request->id)->first();
 
-        return view('www.map.room-detail-mobile', compact('result'));
+        return view('www.map.room-detail', compact('result'));
     }
 
     // 중개사무소 상세
     public function mapAgent(Request $request)
     {
-        // 중개사무소
-        $userList = User::select()->where('type', '=', '1')->where('company_state', '=', '1');
+        $result = User::select()->where('type', '=', '1')->where('company_state', '=', '1');
 
-        return view('www.map.map-agent-detail-mobile');
+        return view('www.map.map-agent-detail', compact('result'));
     }
 
     public function getMapMarker(Request $request)
