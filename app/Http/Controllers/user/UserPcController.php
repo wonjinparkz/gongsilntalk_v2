@@ -27,6 +27,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserPcController extends Controller
 {
@@ -880,5 +883,49 @@ class UserPcController extends Controller
             ->delete();
 
         return Redirect::route('www.mypage.calculator.revenue.list.view')->with('message', "수익률을 삭제했습니다.");
+    }
+
+    /**
+     * 비밀번호 변경
+     */
+    public function changePw(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required',
+            'new_password' => 'required',
+            'new_password_confirmation' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError("입력해주세요.", $validator->errors()->all(), Response::HTTP_BAD_REQUEST);
+        }
+
+
+        $user = User::where('id', Auth::guard('web')->user()->id)->first();
+
+        if (!Hash::check($request->password, $user->password)) {
+            return $this->sendError("현재 사용중인 비밀번호와 일치하지 않습니다.", 1, Response::HTTP_BAD_REQUEST);
+        }
+
+        $pattern = "/^(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8,15}$/";
+
+        if (!preg_match($pattern, $request->new_password, $matchResult)) {
+            return $this->sendError("영문, 숫자를 포함하여 8자리 이상으로 작성해주세요.", 2, Response::HTTP_BAD_REQUEST);
+        }
+
+        if ($request->new_password != $request->new_password_confirmation) {
+            return $this->sendError("비밀번호가 일치하지 않습니다", 3, Response::HTTP_BAD_REQUEST);
+        }
+
+        // if (Hash::check($request->new_password, $user->password)) {
+        //     return $this->sendError("기존 비밀번호를 새 비밀번호로 변경할 수 없습니다.", null, Response::HTTP_BAD_REQUEST);
+        // }
+
+        // 사용자 비밀번호 변경
+        $user->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+
+        return $this->sendResponse(null, '비밀번호 변경에 성공했습니다.');
     }
 }

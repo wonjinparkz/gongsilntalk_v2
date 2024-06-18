@@ -44,7 +44,7 @@ Route::controller(UserAPIController::class)->group(function () {
  * 회원 프로필, 로그아웃
  */
 Route::middleware('auth:api')->controller(UserAPIController::class)->group(function () {
-    Route::post('/changepw', 'changePw');
+    Route::post('/changepw', 'changePw')->name('api.change.pw');
     Route::post('/logout', 'logout');
     Route::post('/signout', 'signout');
     Route::get('/user/info', 'userInfo');
