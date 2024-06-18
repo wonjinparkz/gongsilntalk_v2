@@ -309,8 +309,8 @@
                 $('.activeMarker').removeClass('active');
                 $(currentActiveMarkerElement).addClass('active');
                 if (zoom > 15) {
-                    window.location(
-                        "{{ route('www.map.map.detail.mobile', [12]) }}");
+                    // window.location(
+                    //     "{{ route('www.map.detail.mobile', [12]) }}");
                 }
                 // if (!mapSide.classList.contains('active')) {
                 //     mapSide.classList.add('active');

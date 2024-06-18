@@ -36,14 +36,41 @@ class MapPcController extends Controller
         return view('www.map.map-detail-mobile');
     }
 
-    // 모바일 매물목록
-    public function mapPropertyMobile(Request $request): View
+    // 모바일 지도 내 매물목록
+    public function mapPropertyMobile(Request $request)
     {
-        // 중개사무소
-        $userList = User::select()->where('type', '=', '1')->where('company_state', '=', '1');
+        // 목록 기준
+        // 가(임시)주소인 경우 지도/목록에 노출하지 않는다.
+        // 사용자가 등록 후 관리자의 의해 수정이 완료되어 등록된 매물 과 중개인이 등록한 매물을 노출한다.
+        // 지도 영역 내 매물 전부 노출  지도에 검색 된 모든 매물 수의 합합
+        // 매물 목록 노출 범위 기준: 줌인/아웃 레벨에 따라(ex. 전국이면 전국 매물 목록)
+        // 포함 정보 정렬 기준: 최신순이 default
+        // 개수제한 : 없음 -> ex) 10,243개일 경우 그대로 표시
 
-        return view('www.map.map-property-detail-mobile');
+        // 일반회원 +  중개사회원 매물 목록 보기
+        $property = Product::select()
+            ->where('is_delete', '0');
+        $property = $property->get();
+
+        info($property . 'property');
+
+        // 중개사무소 목록 보기
+        $agent = User::select()
+            ->where('type', '=', '1')
+            ->where('company_state', '=', '1');
+        $agent = $agent->get();
+
+        info($agent . 'agents');
+
+        if ($request->ajax()) {
+            $property = view('components.m-property-layout', compact('property'))->render();
+            $agent = view('components.m-agent-layout', compact('agent'))->render();
+            return response()->json(['property' => $property, 'agent' => $agent]);
+        }
+
+        return view('www.map.map-property-list-mobile');
     }
+
 
     // 매물 상세
     public function mapRoom(Request $request): View
