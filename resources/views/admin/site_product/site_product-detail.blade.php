@@ -319,6 +319,16 @@
                         label_col='2' div_col='9' :files="$result->files" />
                     <x-input-error class="mt-2 text-danger" :messages="$errors->get('dimension_file_ids')" />
 
+                    {{-- 메타포트 링크 --}}
+                    <div class="row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">메타포트 링크</label>
+                        <div class="col-lg-9 fv-row">
+                            <input type="text" name="matterport_link" class="form-control" placeholder="메타포트 링크"
+                                value="{{ old('matterport_link') ?? $result->matterport_link }}" />
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('matterport_link')" />
+                        </div>
+                    </div>
+
                 </div>
 
             </x-screen-card>

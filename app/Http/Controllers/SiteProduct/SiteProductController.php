@@ -310,6 +310,7 @@ class SiteProductController extends Controller
             'completion_date' => $request->completion_date,
             'expected_move_date' => $request->expected_move_date,
             'developer' => $request->developer,
+            'matterport_link' => $request->matterport_link,
             'comstruction_company' => $request->comstruction_company,
         ]);
 
