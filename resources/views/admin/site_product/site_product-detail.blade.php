@@ -62,7 +62,7 @@
 
                     {{-- 대표 이미지 --}}
                     <x-admin-image-picker :title="'대표 이미지'" required="required" cnt='1' id="siteProductMain"
-                        label_col='2' div_col='9' :images="$result->images" />
+                        label_col='2' div_col='9' :images="$result->main_images" />
                     <x-input-error class="mt-2 text-danger" :messages="$errors->get('siteProductMain_image_ids')" />
 
                     {{-- 제목 --}}

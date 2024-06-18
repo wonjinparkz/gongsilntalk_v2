@@ -106,4 +106,12 @@ class SiteProduct extends BaseModel
     {
         return $this->morphMany(Images::class, 'target')->where('type', '1');
     }
+
+    /**
+     * 메인 이미지 가져오기
+     */
+    public function main_images()
+    {
+        return $this->morphMany(Images::class, 'target')->where('type', '0');
+    }
 }

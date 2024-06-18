@@ -49,11 +49,11 @@
         <div class="template_wrap">
             <div class="template_txt_wrap">
                 <p class="txt_tit">{{ $result->title }}</p>
-                <p class="txt_con">{!! $result->contents !!}</p>
+                <p class="txt_con">@php echo nl2br($result->contents); @endphp</p>
             </div>
             <div class="template_img">
                 <div class="img_box"><img
-                        src="{{ Storage::url('image/' . $result->images[0]->path) }}"onerror="this.onerror=null; this.src='{{ asset('assets/media/s_3.png') }}'">
+                        src="{{ Storage::url('image/' . $result->main_images[0]->path) }}"onerror="this.onerror=null; this.src='{{ asset('assets/media/s_3.png') }}'">
                 </div>
             </div>
         </div>
