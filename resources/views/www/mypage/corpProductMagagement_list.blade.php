@@ -24,10 +24,18 @@
                     <h1 class="t_center only_pc">내 매물관리</h1>
                     <div class="my_tab_wrap">
                         <ul class="tab_type_5 toggle_tab">
-                            <li class="active">전체<span>62</span></li>
-                            <li>거래중<span>8</span></li>
-                            <li>거래완료<span>32</span></li>
-                            <li>비공개/등록만료<span>3</span></li>
+                            <li class="active" onclick="loadMoreData(1, 0);">
+                                전체<span>{{ number_format(isset($countList->all_count) ? $countList->all_count : 0) }}</span>
+                            </li>
+                            <li onclick="loadMoreData(1, 1);">
+                                거래중<span>{{ number_format(isset($countList->req_count) ? $countList->req_count : 0) }}</span>
+                            </li>
+                            <li onclick="loadMoreData(1, 2);">
+                                거래완료<span>{{ number_format(isset($countList->done_count) ? $countList->done_count : 0) }}</span>
+                            </li>
+                            <li onclick="loadMoreData(1, 3);">
+                                비공개/등록만료<span>{{ number_format(isset($countList->non_count) ? $countList->non_count : 0) }}</span>
+                            </li>
                         </ul>
                     </div>
 
@@ -36,40 +44,29 @@
                             <div class="dropdown_box">
                                 <button class="dropdown_label">거래 유형</button>
                                 <ul class="optionList">
-                                    <li class="optionItem">전체</li>
-                                    <li class="optionItem">매매</li>
-                                    <li class="optionItem">임대</li>
-                                    <li class="optionItem">단기임대</li>
-                                    <li class="optionItem">전세</li>
-                                    <li class="optionItem">월세</li>
-                                    <li class="optionItem">전매</li>
+                                    <li class="optionItem" onclick="onPaymentTypeChange('');">전체</li>
+                                    @foreach (Lang::get('commons.payment_type') as $key => $payment_type)
+                                        <li class="optionItem" onclick="onPaymentTypeChange('{{ $key }}');">
+                                            {{ $payment_type }}</li>
+                                    @endforeach
                                 </ul>
                             </div>
                             <div class="dropdown_box">
                                 <button class="dropdown_label">매물 종류</button>
                                 <ul class="optionList">
-                                    <li class="optionItem">지산/사무실/창고</li>
-                                    <li class="optionItem">상가</li>
-                                    <li class="optionItem">건물</li>
-                                    <li class="optionItem">토지/임야</li>
-                                    <li class="optionItem">단독공장</li>
-                                    <li class="optionItem">아파트</li>
-                                    <li class="optionItem">오피스텔</li>
-                                    <li class="optionItem">단독/다가구</li>
-                                    <li class="optionItem">다세대/빌라/연립</li>
-                                    <li class="optionItem">상가주택</li>
-                                    <li class="optionItem">주택</li>
-                                    <li class="optionItem">지식산업센터 분양권</li>
-                                    <li class="optionItem">상가 분양권</li>
-                                    <li class="optionItem">아파트 분양권</li>
-                                    <li class="optionItem">오피스텔 분양권</li>
+                                    <li class="optionItem" onclick="onProductTypeChange('');">전체</li>
+                                    @foreach (Lang::get('commons.product_type') as $key => $product_type)
+                                        <li class="optionItem" onclick="onProductTypeChange('{{ $key }}');">
+                                            {{ $product_type }}</li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
 
                         <div class="search_wrap">
-                            <input type="text" placeholder="매물번호/주소/비공개 메모로 검색">
-                            <button><img src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button>
+                            <input type="text" id="searchText" name="searchText" placeholder="매물번호/주소/비공개 메모로 검색">
+                            <button type="button" onclick="onSearchTextChange();"><img
+                                    src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button>
                         </div>
                     </div>
 
@@ -135,213 +132,16 @@
                         </div>
                         <div class="right_spacing">
                             <button class="btn_gray_ghost btn_sm" onclick="modal_open('asset_delete')">선택 삭제</button>
-                            <button class="btn_point btn_sm" onclick="location.href='{{route('www.corp.product.create.view')}}'">신규 매물
+                            <button class="btn_point btn_sm"
+                                onclick="location.href='{{ route('www.corp.product.create.view') }}'">신규 매물
                                 등록</button>
                         </div>
                     </div>
 
-                    <!-- 데이터가 없을 경우 : s -->
-                    <!-- <div class="empty_wrap">
-                        <p>등록한 매물이 없습니다.</p>
-                        <span>매물을 등록하고 간편하게 관리해보세요.</span>
-                      </div> -->
-                    <!-- 데이터가 없을 경우 : e -->
+                    <div class="productListDiv">
 
-                    <!-- Only PC list : s -->
-                    <table class="table_basic mt20 only_pc">
-                        <colgroup>
-                            <col width="40">
-                            <col width="75">
-                            <col width="110">
-                            <col width="80">
-                            <col width="120">
-                            <col width="*">
-                            <col width="120">
-                            <col width="130">
-                            <col width="180">
-                            <col width="140">
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>
-                                    <input type="checkbox" name="checkAll" id="checkAll">
-                                    <label for="checkAll"><span></span></label>
-                                </th>
-                                <th>매물번호</th>
-                                <th>상태</th>
-                                <th>사진</th>
-                                <th>매물 종류</th>
-                                <th>주소</th>
-                                <th>면적 <button class="inner_change_button"><img
-                                            src="{{ asset('assets/media/ic_change.png') }}"> <span
-                                            class="txt_unit">평</span></button></th>
-                                <th>거래정보</th>
-                                <th>비공개 메모</th>
-                                <th>관리</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="td_center">
-                                    <input type="checkbox" name="checkOne" id="checkOne_1" value="Y">
-                                    <label for="checkOne_1"><span></span></label>
-                                </td>
-                                <td><span class="gray_deep">123456</span></td>
-                                <td>
-                                    <div class="dropdown_box s_xs">
-                                        <button class="dropdown_label">거래중</button>
-                                        <ul class="optionList">
-                                            <li class="optionItem">거래중</li>
-                                            <li class="optionItem">거래완료</li>
-                                            <li class="optionItem">비공개</li>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="list_thumb_1">
-                                        <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
-                                    </div>
-                                </td>
-                                <td>오피스텔</td>
-                                <td>서울시 마포구 합정동 서희스타힐스 1105호</td>
-                                <td>공급 1234.12㎡<br>전용 1234.12㎡</td>
-                                <td>매매<br>12억 2,000만</td>
-                                <td>
-                                    <div class="txt_memo">
-                                        <p class="txt_item">등록된 메모가 없습니다.</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="gap_8">
-                                        <button class="btn_gray_ghost btn_sm"
-                                            onclick="location.href='realtor_estate_modify.html'">수정</button>
-                                        <button class="btn_gray_ghost btn_sm">삭제</button>
-                                    </div>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="td_center">
-                                    <input type="checkbox" name="checkOne" id="checkOne_2" value="Y">
-                                    <label for="checkOne_2"><span></span></label>
-                                </td>
-                                <td><span class="gray_deep">123456</span></td>
-                                <td>
-                                    <p class="txt_point">등록만료</p>
-                                </td>
-                                <td>
-                                    <div class="list_thumb_1">
-                                        <div class="img_box"><img src="{{ asset('assets/media/s_2.png') }}"></div>
-                                    </div>
-                                </td>
-                                <td>오피스텔</td>
-                                <td>서울시 마포구 합정동 서희스타힐스 1105호</td>
-                                <td>공급 1234.12㎡<br>전용 1234.12㎡</td>
-                                <td>매매<br>12억 2,000만</td>
-                                <td>
-                                    <div class="txt_memo">
-                                        전반적으로 알아서 해달라 하심. 중요한 사항만 전화로 바로 여쭤보기.
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="gap_8">
-                                        <button class="btn_gray_ghost btn_sm">재등록</button>
-                                        <button class="btn_gray_ghost btn_sm">삭제</button>
-                                    </div>
-
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <!-- paging : s -->
-                    <div class="paging only_pc">
-                        <ul class="btn_wrap">
-                            <li class="btn_prev">
-                                <a class="no_next" href="#1"><img src="{{ asset('assets/media/btn_prev.png') }}"
-                                        alt=""></a>
-                            </li>
-                            <li class="active">1</li>
-                            <li>2</li>
-                            <li>3</li>
-                            <li>4</li>
-                            <li>5</li>
-                            <li class="btn_next">
-                                <a class="no_next" href="#1"><img src="{{ asset('assets/media/btn_next.png') }}"
-                                        alt=""></a>
-                            </li>
-                        </ul>
                     </div>
-                    <!-- paging : e -->
-                    <!-- Only PC list : e -->
 
-                    <!----------------------------- Only M list : s ----------------------------->
-                    <ul class="list_m_basic only_m mt8">
-                        <li>
-                            <div class="flex_between">
-                                <div>
-                                    <input type="checkbox" name="checkOne" id="checkOne_1" value="Y">
-                                    <label for="checkOne_1"><span></span></label>
-                                    <span class="gray_deep">매물번호 168752</span>
-                                </div>
-                                <button class="btn_gray_ghost btn_sm">삭제</button>
-                            </div>
-                            <div class="list_m_cnt">
-                                <div class="list_thumb_1">
-                                    <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
-                                </div>
-                                <div class="list_view">
-                                    <p class="tit">아파트</p>
-                                    <p class="summary">서울시 마포구 합정동, 서희스타힐스 1동 1105호</p>
-                                    <p class="txt_item_1">공급 32.88㎡ / 전용 29.15㎡</p>
-                                    <p class="txt_item_2">월세 13억 2,000 / 4,000만</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="flex_between">
-                                <div>
-                                    <input type="checkbox" name="checkOne" id="checkOne_1" value="Y">
-                                    <label for="checkOne_1"><span></span></label>
-                                    <span class="gray_deep">매물번호 168752</span>
-                                </div>
-                                <button class="btn_gray_ghost btn_sm">삭제</button>
-                            </div>
-                            <div class="list_m_cnt">
-                                <div class="list_thumb_1">
-                                    <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
-                                </div>
-                                <div class="list_view">
-                                    <p class="tit">아파트</p>
-                                    <p class="summary">서울시 마포구 합정동, 서희스타힐스 1동 1105호</p>
-                                    <p class="txt_item_1">공급 32.88㎡ / 전용 29.15㎡</p>
-                                    <p class="txt_item_2">월세 13억 2,000 / 4,000만</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="flex_between">
-                                <div>
-                                    <input type="checkbox" name="checkOne" id="checkOne_1" value="Y">
-                                    <label for="checkOne_1"><span></span></label>
-                                    <span class="gray_deep">매물번호 168752</span>
-                                </div>
-                                <button class="btn_gray_ghost btn_sm">삭제</button>
-                            </div>
-                            <div class="list_m_cnt">
-                                <div class="list_thumb_1">
-                                    <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
-                                </div>
-                                <div class="list_view">
-                                    <p class="tit">아파트</p>
-                                    <p class="summary">서울시 마포구 합정동, 서희스타힐스 1동 1105호</p>
-                                    <p class="txt_item_1">공급 32.88㎡ / 전용 29.15㎡</p>
-                                    <p class="txt_item_2">월세 13억 2,000 / 4,000만</p>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <!----------------------------- Only M list : e ----------------------------->
                 </div>
                 <!-- my_body : e -->
 
@@ -352,24 +152,11 @@
 
     </div>
 
-    <!-- modal 삭제 : s -->
-    <div class="modal modal_asset_delete">
-        <div class="modal_container">
-            <div class="modal_mss_wrap">
-                <p class="txt_item_1 txt_point">서울시 마포구 합정동<br>오피스텔 매매 12억 2000만</p>
-                <p class="txt_item_1">매물을 삭제하시겠습니까?</p>
-                <p class="mt8 txt_item_2">매물 미노출을 원할 시, 비공개 기능을 이용해보세요.</p>
-            </div>
 
-            <div class="modal_btn_wrap">
-                <button class="btn_gray btn_full_thin" onclick="modal_close('asset_delete')">취소</button>
-                <button class="btn_point btn_full_thin" onclick="modal_close('asset_delete')">삭제</button>
-            </div>
-        </div>
-
-    </div>
-    <div class="md_overlay md_overlay_asset_delete" onclick="modal_close('asset_delete')"></div>
-    <!-- modal 삭제 : e -->
+    <input type="hidden" id="productListType" name="productListType" value="0">
+    <input type="hidden" id="productListPage" name="productListPage" value="0">
+    <input type="hidden" id="productType" name="productType" value="">
+    <input type="hidden" id="paymentType" name="paymentType" value="">
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -384,6 +171,101 @@
                 }
             });
         });
+
+        var onSearchTextChange = () => {
+            loadMoreData(1, $('#productListType').val());
+        }
+
+        var onProductTypeChange = (index) => {
+            $('#productType').val(index);
+
+            loadMoreData(1, $('#productListType').val());
+        }
+
+        var onPaymentTypeChange = (index) => {
+            $('#paymentType').val(index);
+
+            loadMoreData(1, $('#productListType').val());
+        }
+
+        loadMoreData(1, 0);
+
+        function loadMoreData(page, type) {
+            $('#productListType').val(type);
+            $('#productListPage').val(page);
+            $.ajax({
+                    url: '{{ route('www.mypage.corp.product.magagement.list.view') }}',
+                    type: "get",
+                    data: {
+                        'page': page,
+                        'type': type,
+                        'product_type': $('#productType').val(),
+                        'payment_type': $('#paymentType').val(),
+                        'search_text': $('#searchText').val()
+                    }
+                })
+                .done(function(data) {
+                    $(".productListDiv").html(data.html);
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError) {
+                    alert('데이터를 불러오지 못했습니다.');
+                });
+        }
+
+        function loadPageData(page) {
+            loadMoreData(page, $('#productListType').val());
+        }
+
+        // 평 변환
+        function sizeChange() {
+
+            let squareText = '';
+            let areaText = '';
+
+            const btnInfo = document.querySelector(".sizeBtn");
+            const button = document.querySelector(".sizeBtnEvent");
+
+
+            if (btnInfo.textContent === "평") {
+                btnInfo.textContent = "㎡";
+                squareText = 'none';
+                areaText = '';
+            } else {
+                btnInfo.textContent = "평";
+                squareText = '';
+                areaText = 'none';
+            }
+
+            const squareList = document.querySelectorAll(".square");
+            const areaList = document.querySelectorAll(".area");
+
+            squareList.forEach(element => {
+                element.style.display = squareText;
+            });
+            areaList.forEach(element => {
+                element.style.display = areaText;
+            });
+        }
+
+        function stateChange(id, state) {
+
+            $.ajax({
+                    url: '{{ route('www.mypage.product.state.change') }}',
+                    type: "post",
+                    data: {
+                        'id': id,
+                        'state': state
+                    }
+                })
+                .done(function(data) {
+                    loadMoreData($('#productListPage').val(), $('#productListType').val());
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError) {
+                    alert('데이터를 불러오지 못했습니다.');
+                });
+
+        }
+
     </script>
 
 </x-layout>
