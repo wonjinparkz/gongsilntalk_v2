@@ -15,28 +15,33 @@
                     <div class="filter_dropdown_wrap">
                         <!-- filter 매물 종류 : s -->
                         <div class="filter_btn_wrap">
-                            <button type="button" class="filter_btn_trigger" id="filter_text_product_type">매물
+                            <button type="button" class="filter_btn_trigger" id="filter_text_sale_product_type">매물
                                 종류</button>
                             <div class="filter_panel panel_item_1">
                                 <div class="filter_panel_body">
                                     <h6>매물 종류</h6>
                                     <div class="btn_radioType">
-                                        <input type="radio" name="product_type" id="product_type_1" value="1">
-                                        <label for="product_type_1">지식산업센터</label>
-                                        <input type="radio" name="product_type" id="product_type_2" value="2">
-                                        <label for="product_type_2">상가</label>
-                                        <input type="radio" name="product_type" id="product_type_3" value="3">
-                                        <label for="product_type_3">건물</label>
-                                        <input type="radio" name="product_type" id="product_type_4" value="4">
-                                        <label for="product_type_4">아파트</label>
+                                        <input type="radio" name="sale_product_type" id="sale_product_type_1"
+                                            value="1">
+                                        <label for="sale_product_type_1">지식산업센터</label>
+                                        <input type="radio" name="sale_product_type" id="sale_product_type_2"
+                                            value="2">
+                                        <label for="sale_product_type_2">상가</label>
+                                        <input type="radio" name="sale_product_type" id="sale_product_type_3"
+                                            value="3">
+                                        <label for="sale_product_type_3">건물</label>
+                                        <input type="radio" name="sale_product_type" id="sale_product_type_4"
+                                            value="4">
+                                        <label for="sale_product_type_4">아파트</label>
+                                        <input type="hidden" id="sale_product_type" value="">
                                     </div>
                                 </div>
                                 <div class="filter_panel_bottom">
                                     <button type="button" class="btn_graylight_ghost btn_md_full"
-                                        onclick="filter_reset('product_type')"><img
+                                        onclick="filter_reset('sale_product_type')"><img
                                             src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
                                     <button type="button" class="btn_point btn_md_full"
-                                        onclick="filter_apply('product_type')">적용하기</button>
+                                        onclick="filter_apply('sale_product_type')">적용하기</button>
                                 </div>
                             </div>
                         </div>
@@ -49,20 +54,21 @@
                                 <div class="filter_panel_body">
                                     <h6>준공연차</h6>
                                     <div class="btn_radioType">
-                                        <input type="radio" name="useDate" id="useDate_1" value="Y">
+                                        <input type="radio" name="useDate" id="useDate_1" value="0">
                                         <label for="useDate_1">전체</label>
-                                        <input type="radio" name="useDate" id="useDate_2" value="Y">
+                                        <input type="radio" name="useDate" id="useDate_2" value="1">
                                         <label for="useDate_2">1년 이내</label>
-                                        <input type="radio" name="useDate" id="useDate_3" value="Y">
+                                        <input type="radio" name="useDate" id="useDate_3" value="2">
                                         <label for="useDate_3">2년 이내</label>
-                                        <input type="radio" name="useDate" id="useDate_4" value="Y">
+                                        <input type="radio" name="useDate" id="useDate_4" value="3">
                                         <label for="useDate_4">5년 이내</label>
-                                        <input type="radio" name="useDate" id="useDate_5" value="Y">
+                                        <input type="radio" name="useDate" id="useDate_5" value="4">
                                         <label for="useDate_5">10년 이내</label>
-                                        <input type="radio" name="useDate" id="useDate_6" value="Y">
+                                        <input type="radio" name="useDate" id="useDate_6" value="5">
                                         <label for="useDate_6">15년 이내</label>
-                                        <input type="radio" name="useDate" id="useDate_7" value="Y">
+                                        <input type="radio" name="useDate" id="useDate_7" value="6">
                                         <label for="useDate_7">15년 이상</label>
+                                        <input type="hidden" id="useDate" value="">
                                     </div>
                                 </div>
                                 <div class="filter_panel_bottom">
@@ -178,8 +184,8 @@
             'lat': lat,
             'lng': lng,
             'zoomLv': zoomLv,
-            'product_type': $('input[name="product_type"]:checked').val(),
-            'useDate': $('input[name="useDate"]:checked').val(),
+            'sale_product_type': $('#sale_product_type').val(),
+            'useDate': $('#useDate').val(),
             'mapType': ($('#mapType').text() == '실거래가지도' ? '0' : '1'),
         };
         $.ajax({
@@ -196,7 +202,7 @@
                 bounds = new naver.maps.LatLngBounds(); // bounds 초기화
 
                 // 새 마커 추가
-                processDataArray(data.region, 'region', getContentStringForRegion, 25, 55);
+                processRegionArray(data.region, 'region', getContentStringForRegion, 25, 55);
                 processDataArray(data.knowledges, 'knowledge', getContentStringForKnowledge, 0, 73);
                 processDataArray(data.aptMaps, 'apt', getContentStringForApt, 0, 50);
                 processDataArray(data.store, 'store', getContentStringForStore, 0, 50);
@@ -221,6 +227,27 @@
             } = item;
             var contentString = getContentString(item);
             createMarker({
+                id: id,
+                lat: address_lat,
+                lng: address_lng,
+                type: type,
+                contentString: contentString,
+                anchorX: anchorX,
+                anchorY: anchorY
+            });
+        });
+    }
+
+    // 데이터 배열 처리 함수
+    function processRegionArray(array, type, getContentString, anchorX, anchorY) {
+        array.forEach(item => {
+            var {
+                id,
+                address_lat,
+                address_lng
+            } = item;
+            var contentString = getContentString(item);
+            createRegionMarker({
                 id: id,
                 lat: address_lat,
                 lng: address_lng,
@@ -303,6 +330,33 @@
         });
 
         markers.push(marker);
+    }
+
+    // 마커 생성 및 클릭 이벤트 리스너 추가 함수
+    function createRegionMarker({
+        id,
+        lat,
+        lng,
+        type,
+        contentString,
+        anchorX,
+        anchorY
+    }) {
+        var position = new naver.maps.LatLng(lat, lng);
+        var regionMarker = new naver.maps.Marker({
+            id: id,
+            type: type,
+            map: map,
+            position: position,
+            icon: {
+                content: contentString,
+                anchor: new naver.maps.Point(anchorX, anchorY) // 기준점을 하단 중앙으로 설정
+            }
+        });
+
+        bounds.extend(position);
+
+        markers.push(regionMarker);
     }
 
     // 각 데이터별 contentString 생성 함수
@@ -570,13 +624,15 @@
 <script>
     function filter_reset(Name) {
         var text = '';
-        if (Name == 'product_type') {
+        if (Name == 'sale_product_type') {
             text = '매물 종류'
         } else if (Name == 'useDate') {
             text = '준공연차'
         }
         $('input[name="' + Name + '"]').prop('checked', false);
         $('#filter_text_' + Name).text(text);
+        $('.filter_panel').css('display', 'none');
+        $('#' + Name).val('');
 
         var center = map.getCenter();
         var zoom = map.getZoom();
@@ -585,9 +641,14 @@
 
     function filter_apply(Name) {
         var text = $('input[name="' + Name + '"]:checked').next('label').text();
+        var value = $('input[name="' + Name + '"]:checked').val();
+        if (text == '') {
+            return;
+        }
         console.log('text: ' + text);
         $('#filter_text_' + Name).text(text);
         $('.filter_panel').css('display', 'none');
+        $('#' + Name).val(value);
 
         var center = map.getCenter();
         var zoom = map.getZoom();
