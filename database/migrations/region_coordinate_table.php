@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('dong')->nullable()->comment('읍면동');
             $table->string('address_lng')->nullable()->comment('경도 좌표 X');
             $table->string('address_lat')->nullable()->comment('위도 좌표 Y');
+            $table->string('bjdCode')->nullable()->comment('시군구 코드');
             $table->timestamps();
         });
     }

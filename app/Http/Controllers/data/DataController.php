@@ -633,7 +633,7 @@ class DataController extends Controller
 
         $Apidomain = "https://api.vworld.kr/ned/data/getLandCharacteristics"; //인터넷망
 
-        $apt = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->whereNull('characteristics_json')->first();
+        $apt = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->where('id', 75)->whereNull('characteristics_json')->first();
 
         if ($apt == '') {
             return;
