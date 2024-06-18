@@ -5,35 +5,38 @@
             <div class="map_head_wrap">
                 <div class="map_filter_wrap">
                     <div class="dropdown_box type_2">
-                        <button class="dropdown_label">실거래가지도</button>
+                        <button class="dropdown_label" id="mapType">실거래가지도</button>
                         <ul class="optionList">
-                            <li class="optionItem" onclick="location.href='map.html'">실거래가지도</li>
-                            <li class="optionItem" onclick="location.href='map_property.html'">매물지도</li>
+                            <li class="optionItem" onclick="">실거래가지도</li>
+                            <li class="optionItem" onclick="">매물지도</li>
                         </ul>
                     </div>
 
                     <div class="filter_dropdown_wrap">
                         <!-- filter 매물 종류 : s -->
                         <div class="filter_btn_wrap">
-                            <button class="filter_btn_trigger">매물 종류</button>
+                            <button type="button" class="filter_btn_trigger" id="filter_text_product_type">매물
+                                종류</button>
                             <div class="filter_panel panel_item_1">
                                 <div class="filter_panel_body">
                                     <h6>매물 종류</h6>
                                     <div class="btn_radioType">
-                                        <input type="radio" name="estate_type" id="estate_type_1" value="Y">
-                                        <label for="estate_type_1">지식산업센터</label>
-                                        <input type="radio" name="estate_type" id="estate_type_2" value="Y">
-                                        <label for="estate_type_2">상가</label>
-                                        <input type="radio" name="estate_type" id="estate_type_3" value="Y">
-                                        <label for="estate_type_3">건물</label>
-                                        <input type="radio" name="estate_type" id="estate_type_4" value="Y">
-                                        <label for="estate_type_4">아파트</label>
+                                        <input type="radio" name="product_type" id="product_type_1" value="1">
+                                        <label for="product_type_1">지식산업센터</label>
+                                        <input type="radio" name="product_type" id="product_type_2" value="2">
+                                        <label for="product_type_2">상가</label>
+                                        <input type="radio" name="product_type" id="product_type_3" value="3">
+                                        <label for="product_type_3">건물</label>
+                                        <input type="radio" name="product_type" id="product_type_4" value="4">
+                                        <label for="product_type_4">아파트</label>
                                     </div>
                                 </div>
                                 <div class="filter_panel_bottom">
-                                    <button class="btn_graylight_ghost btn_md_full"><img
+                                    <button type="button" class="btn_graylight_ghost btn_md_full"
+                                        onclick="filter_reset('product_type')"><img
                                             src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-                                    <button class="btn_point btn_md_full">적용하기</button>
+                                    <button type="button" class="btn_point btn_md_full"
+                                        onclick="filter_apply('product_type')">적용하기</button>
                                 </div>
                             </div>
                         </div>
@@ -41,31 +44,33 @@
 
                         <!-- filter 준공연차 : s -->
                         <div class="filter_btn_wrap">
-                            <button class="filter_btn_trigger">준공연차</button>
+                            <button type="button" class="filter_btn_trigger" id="filter_text_useDate">준공연차</button>
                             <div class="filter_panel panel_item_3">
                                 <div class="filter_panel_body">
                                     <h6>준공연차</h6>
                                     <div class="btn_radioType">
-                                        <input type="radio" name="year" id="year_1" value="Y">
-                                        <label for="year_1">전체</label>
-                                        <input type="radio" name="year" id="year_2" value="Y">
-                                        <label for="year_2">1년 이내</label>
-                                        <input type="radio" name="year" id="year_3" value="Y">
-                                        <label for="year_3">2년 이내</label>
-                                        <input type="radio" name="year" id="year_4" value="Y">
-                                        <label for="year_4">5년 이내</label>
-                                        <input type="radio" name="year" id="year_5" value="Y">
-                                        <label for="year_5">10년 이내</label>
-                                        <input type="radio" name="year" id="year_6" value="Y">
-                                        <label for="year_6">15년 이내</label>
-                                        <input type="radio" name="year" id="year_7" value="Y">
-                                        <label for="year_7">15년 이상</label>
+                                        <input type="radio" name="useDate" id="useDate_1" value="Y">
+                                        <label for="useDate_1">전체</label>
+                                        <input type="radio" name="useDate" id="useDate_2" value="Y">
+                                        <label for="useDate_2">1년 이내</label>
+                                        <input type="radio" name="useDate" id="useDate_3" value="Y">
+                                        <label for="useDate_3">2년 이내</label>
+                                        <input type="radio" name="useDate" id="useDate_4" value="Y">
+                                        <label for="useDate_4">5년 이내</label>
+                                        <input type="radio" name="useDate" id="useDate_5" value="Y">
+                                        <label for="useDate_5">10년 이내</label>
+                                        <input type="radio" name="useDate" id="useDate_6" value="Y">
+                                        <label for="useDate_6">15년 이내</label>
+                                        <input type="radio" name="useDate" id="useDate_7" value="Y">
+                                        <label for="useDate_7">15년 이상</label>
                                     </div>
                                 </div>
                                 <div class="filter_panel_bottom">
-                                    <button class="btn_graylight_ghost btn_md_full"><img
+                                    <button type="button" class="btn_graylight_ghost btn_md_full"
+                                        onclick="filter_reset('useDate')"><img
                                             src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-                                    <button class="btn_point btn_md_full">적용하기</button>
+                                    <button type="button" class="btn_point btn_md_full"
+                                        onclick="filter_apply('useDate')">적용하기</button>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +154,7 @@
             url: "{{ route('www.map.side.view') }}",
             data: {
                 'id': markerId,
-                'type': markerType
+                'type': markerType,
             },
             dataType: 'html',
             success: function(data, status, xhr) {
@@ -173,6 +178,9 @@
             'lat': lat,
             'lng': lng,
             'zoomLv': zoomLv,
+            'product_type': $('input[name="product_type"]:checked').val(),
+            'useDate': $('input[name="useDate"]:checked').val(),
+            'mapType': ($('#mapType').text() == '실거래가지도' ? '0' : '1'),
         };
         $.ajax({
             type: "post", // 전송타입
@@ -458,31 +466,6 @@
                 });
             });
 
-            // 필터 버튼 이벤트 리스너 추가
-            const filterBtns = document.querySelectorAll('.filter_btn_trigger');
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', function(event) {
-                    const parent = this.parentElement;
-                    const panel = parent.querySelector('.filter_panel');
-                    document.querySelectorAll('.filter_panel').forEach(p => {
-                        if (p !== panel && p.style.display === 'block') {
-                            p.style.display = 'none';
-                        }
-                    });
-                    panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
-                    event.stopPropagation();
-                });
-            });
-
-            document.addEventListener('click', function(event) {
-                const isOutsideFilterPanel = !event.target.closest('.filter_panel');
-                if (isOutsideFilterPanel) {
-                    document.querySelectorAll('.filter_panel').forEach(p => {
-                        p.style.display = 'none';
-                    });
-                }
-            });
-
             window.toggleSatelliteView = function() {
                 var currentMapTypeId = map.getMapTypeId();
                 if (currentMapTypeId === naver.maps.MapTypeId.NORMAL) {
@@ -539,7 +522,7 @@
         return R * 2 * Math.asin(Math.sqrt(a));
     }
 
-    function updateCenter() {
+    function updateCenter(force) {
         var center = map.getCenter();
         var zoom = map.getZoom();
 
@@ -554,6 +537,7 @@
         } else {
             zoomLock = 0.6;
         }
+
         if (lastCenter && lastZoom !== null) {
             var distance = getDistance(lastCenter.lat(), lastCenter.lng(), center.lat(), center.lng());
 
@@ -583,4 +567,55 @@
     window.onload = initializeMap;
 </script>
 
-<script></script>
+<script>
+    function filter_reset(Name) {
+        var text = '';
+        if (Name == 'product_type') {
+            text = '매물 종류'
+        } else if (Name == 'useDate') {
+            text = '준공연차'
+        }
+        $('input[name="' + Name + '"]').prop('checked', false);
+        $('#filter_text_' + Name).text(text);
+
+        var center = map.getCenter();
+        var zoom = map.getZoom();
+        markerUpdate(center.lat(), center.lng(), zoom);
+    }
+
+    function filter_apply(Name) {
+        var text = $('input[name="' + Name + '"]:checked').next('label').text();
+        console.log('text: ' + text);
+        $('#filter_text_' + Name).text(text);
+        $('.filter_panel').css('display', 'none');
+
+        var center = map.getCenter();
+        var zoom = map.getZoom();
+        markerUpdate(center.lat(), center.lng(), zoom);
+    }
+
+    // 필터 버튼 이벤트 리스너 추가
+    const filterBtns = document.querySelectorAll('.filter_btn_trigger');
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function(event) {
+            const parent = this.parentElement;
+            const panel = parent.querySelector('.filter_panel');
+            document.querySelectorAll('.filter_panel').forEach(p => {
+                if (p !== panel && p.style.display === 'block') {
+                    p.style.display = 'none';
+                }
+            });
+            panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+            event.stopPropagation();
+        });
+    });
+
+    document.addEventListener('click', function(event) {
+        const isOutsideFilterPanel = !event.target.closest('.filter_panel');
+        if (isOutsideFilterPanel) {
+            document.querySelectorAll('.filter_panel').forEach(p => {
+                p.style.display = 'none';
+            });
+        }
+    });
+</script>

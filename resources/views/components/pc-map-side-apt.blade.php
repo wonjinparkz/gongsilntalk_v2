@@ -31,8 +31,6 @@
         ? decodeJsonData($result->BrExposPubuseAreaInfo)
         : [];
 
-    Log::info($BrExposInfo);
-
     // 모든 표제부 층 정보를 가져와 상단 층별정보에 값 넣어주기
     $floor = 0;
     $floorMin = 100;
@@ -296,10 +294,11 @@
                         <div id="rentTransactionContainer">
                             @foreach ($result->groupedTransactionsRent as $area => $group)
                                 @php
-                                    // type이 0인 거래 내역만 필터링
                                     $filteredGroup = $group->filter(function ($transaction) {
                                         return $transaction->transactionMonthPrice < 1;
                                     });
+
+                                    $Transaction = $group->first();
 
                                     $latestTransaction = $filteredGroup->first();
                                     $previousTransaction = $filteredGroup->skip(1)->first();
@@ -323,32 +322,33 @@
                                     }
                                     $priceChangeClass = $priceChange > 0 ? 'status_item_red' : 'status_item_blue';
                                 @endphp
-                                <div class="transactionGroup" data-area="{{ $latestTransaction->exclusiveArea }}">
 
-                                    <div class="transaction_box mt10">
-                                        <div class="gray_deep">
-                                            <span
-                                                class="transaction_price">{{ Commons::getformatPrice($latestPrice) }}</span>({{ $latestTransaction->floor }}층)
+                                <div class="transactionGroup" data-area="{{ $Transaction->exclusiveArea }}">
+                                    @if (count($filteredGroup) > 0)
+                                        <div class="transaction_box mt10">
+                                            <div class="gray_deep">
+                                                <span
+                                                    class="transaction_price">{{ Commons::getformatPrice($latestPrice) }}</span>({{ $latestTransaction->floor }}층)
+                                            </div>
+                                            <div class="{{ $priceChangeClass }}">
+                                                {{ Commons::getformatPrice($priceChange) }}
+                                                ({{ number_format($priceChangePercent, 2) }}%)
+                                            </div>
                                         </div>
-                                        <div class="{{ $priceChangeClass }}">
-                                            {{ Commons::getformatPrice($priceChange) }}
-                                            ({{ number_format($priceChangePercent, 2) }}%)
-                                        </div>
-                                    </div>
 
-                                    <div class="table_container2_sm mt10">
-                                        <div class="td">거래일시</div>
-                                        <div class="td">
-                                            {{ $latestTransaction->year . '.' . $latestTransaction->month }}
+                                        <div class="table_container2_sm mt10">
+                                            <div class="td">거래일시</div>
+                                            <div class="td">
+                                                {{ $latestTransaction->year . '.' . $latestTransaction->month }}
+                                            </div>
+                                            <div class="td">거래 총면적</div>
+                                            <div class="td">전용 {{ $latestTransaction->exclusiveArea }}㎡</div>
+                                            <div class="td">면적당 단가</div>
+                                            <div class="td">전용
+                                                {{ Commons::getformatPrice($latestPrice / $latestTransaction->exclusiveArea) }}/㎡
+                                            </div>
                                         </div>
-                                        <div class="td">거래 총면적</div>
-                                        <div class="td">전용 {{ $latestTransaction->exclusiveArea }}㎡</div>
-                                        <div class="td">면적당 단가</div>
-                                        <div class="td">전용
-                                            {{ Commons::getformatPrice($latestPrice / $latestTransaction->exclusiveArea) }}/㎡
-                                        </div>
-                                    </div>
-
+                                    @endif
                                     <div class="section_price_wrap mt20">
                                         <div class="default_box showstep1">
                                             <table class="table_type_1">
@@ -376,7 +376,8 @@
                                                         <tr>
                                                             <td>{{ $transaction->year . '.' . $transaction->month }}
                                                             </td>
-                                                            <td>{{ Commons::getformatPrice($transactionPrice) }}</td>
+                                                            <td>{{ Commons::getformatPrice($transactionPrice) }}
+                                                            </td>
                                                             <td>{{ $transaction->floor }}층</td>
                                                         </tr>
                                                     @endforeach
@@ -404,8 +405,8 @@
             <!-- 위치정보 : s -->
             <div class="side_section">
                 <h4>위치 및 주변정보</h4>
-                <div class="container_map_wrap mt18"><img src="{{ asset('assets/media/s_map.png') }}"
-                        class="w_100">
+                <div class="container_map_wrap mt18">
+                    <x-pc-around-map :address_lat="$result->address_lat" :address_lng="$result->address_lng" />
                 </div>
                 <div class="map_detail_wrp">
                     <ul class="tab_toggle_menu tab_type_4">
@@ -439,63 +440,12 @@
                     </div>
                 </div>
             </div>
-            <!-- 위치정보 : s -->
+            <!-- 위치정보 : e -->
         </div>
         <div class="sction_item">
-            <div class="side_section">
-                <div class="flex_between">
-                    <h4>매물정보</h4>
-                    <button class="btn_xs btn_gray btn_all" onclick="location.href='property_map.html'">매물 더보기<img
-                            src="{{ asset('assets/media/ic_list_arrow.png') }}"></button>
-                </div>
-            </div>
-
-            <div class="side_section">
-                <div class="empty_wrap box_type">
-                    <p>등록된 매물이 없습니다.</p>
-                    <span>찾고 있는 매물이 있다면<br>검색을 통해 직접 매물을 탐색해보세요.</span>
-                    <div class="mt8"><button class="btn_point_ghost btn_md"
-                            onclick="location.href='property_map.html'">매물 검색하기</button></div>
-                </div>
-            </div>
-
-
-            <div class="property_sm_list">
-                <div class="frame_img_mid">
-                    <span class="btn_wish_sm" onclick="btn_wish(this)"></span>
-                    <div class="img_box"><img src="{{ asset('assets/media/s_3.png') }}"></div>
-                </div>
-                <div class="property_sm_info">
-                    <p class="property_sm_item_1">매매 2억 9,900만</p>
-                    <p class="txt_lh_1">사무실 강남구 논현동</p>
-                    <p class="txt_lh_1">62.11㎡ / 46.2㎡·3층</p>
-                    <p class="property_sm_item_2">영등포시장역 도보 1분 초역세권 매물 소개를 합니다.</p>
-                </div>
-            </div>
-
-            <div class="property_sm_list">
-                <div class="frame_img_mid">
-                    <span class="btn_wish_sm" onclick="btn_wish(this)"></span>
-                    <div class="img_box"><img src="{{ asset('assets/media/s_3.png') }}"></div>
-                </div>
-                <div class="property_sm_info">
-                    <p class="property_sm_item_1">매매 2억 9,900만</p>
-                    <p class="txt_lh_1">사무실 강남구 논현동</p>
-                    <p class="txt_lh_1">62.11㎡ / 46.2㎡·3층</p>
-                    <p class="property_sm_item_2">영등포시장역 도보 1분 초역세권 매물 소개를 합니다.</p>
-                </div>
-            </div>
-
-            <div class="side_section">
-                <div class="btn_half_wrap">
-                    <button class="btn_point btn_full_thin" onclick="location.href='offer_step_1.html'">매물
-                        구하기</button>
-                    <button class="btn_point btn_full_thin" onclick="location.href='estate_reg_1.html'">매물
-                        내놓기</button>
-                </div>
-            </div>
-
-
+            <!-- 매물정보 : s -->
+            <x-pc-map-product-list :productList="$result->productList" />
+            <!-- 매물정보 : e -->
         </div>
     </div>
 

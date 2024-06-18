@@ -289,11 +289,16 @@ class MapPcController extends Controller
             $result = DataBuilding::where('id', $request->id)->first();
         }
 
-        Log::info($result);
+        $productList = Product::where('state', 1)
+            ->whereRaw(
+                "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
+                [$result->address_lat, $result->address_lng, $result->address_lat, 10000]
+            )->limit(3)->get();
+
+        $result->productList = $productList;
 
         return view('www.map.mpa-side', compact('result', 'markerType'));
     }
-
 
     public function m_map()
     {
