@@ -68,21 +68,20 @@ class MapPcController extends Controller
             return response()->json(['property' => $property, 'agent' => $agent]);
         }
 
-        return view('www.map.map-property-list-mobile');
+        return view('www.map.map-property-list-mobile', compact('property', 'agent'));
     }
 
-
     // 매물 상세
-    public function mapRoom(Request $request): View
+    public function mapRoomDetail(Request $request)
     {
         // 중개사무소
-        $userList = User::select()->where('type', '=', '1')->where('company_state', '=', '1');
+        $result = Product::where('id', $request->id)->first();
 
-        return view('www.map.map-property-detail-mobile');
+        return view('www.map.room-detail-mobile', compact('result'));
     }
 
     // 중개사무소 상세
-    public function mapAgent(Request $request): View
+    public function mapAgent(Request $request)
     {
         // 중개사무소
         $userList = User::select()->where('type', '=', '1')->where('company_state', '=', '1');
