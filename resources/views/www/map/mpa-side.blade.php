@@ -158,7 +158,6 @@
 
     // 슬라이드 탭
     function showContent(index) {
-        console.log('index : ', index);
         $('.side_tab_wrap .sction_item').removeClass('active');
         $('.side_tab_wrap .sction_item').eq(index).addClass('active');
     }
@@ -171,7 +170,6 @@
 
     // 컨텐츠 더보기 기능
     $(document).off('click', '.btn_more_open').on('click', '.btn_more_open', function(e) {
-        console.log('더보기 누름');
         let box = $(this).prev(); // 클릭한 버튼의 이전 요소(박스) 선택
         let classList = box.attr('class').split(/\s+/); // 박스의 클래스 정보 얻기
         let contentHeight = box.height(); // 박스의 높이 얻기

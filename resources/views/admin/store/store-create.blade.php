@@ -313,21 +313,22 @@
 
             callJusoroMapApiType1(rtentX, rtentY);
 
+            loadingStart();
 
-            // gte_useWFS(pnu);
+            gte_useWFS(pnu);
 
-            // setTimeout(function() {}, 1000);
-            // setTimeout(function() {
-            //     get_coordinates(pnu);
-            // }, 2000);
-            // setTimeout(function() {
-            //     get_characteristics(pnu);
-            // }, 3000);
+            setTimeout(function() {}, 1000);
+            setTimeout(function() {
+                get_coordinates(pnu);
+            }, 2000);
+            setTimeout(function() {
+                get_characteristics(pnu);
+            }, 3000);
 
 
-            // setTimeout(function() {
-            //     loadingEnd();
-            // }, 4000);
+            setTimeout(function() {
+                loadingEnd();
+            }, 4000);
 
 
         }
