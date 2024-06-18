@@ -25,9 +25,11 @@
                     <div class="my_tab_wrap">
                         <ul class="tab_type_5 toggle_tab">
                             <li class="active" onclick="loadMoreData(1, 0);">
-                                등록요청<span>{{ number_format($countList->request_count) }}</span></li>
+                                등록요청<span>{{ number_format(isset($countList->request_count) ? $countList->request_count : 0) }}</span>
+                            </li>
                             <li onclick="loadMoreData(1, 1);">
-                                등록완료<span>{{ number_format($countList->transactions_count) }}</span></li>
+                                등록완료<span>{{ number_format(isset($countList->transactions_count) ? $countList->transactions_count : 0) }}</span>
+                            </li>
                         </ul>
                     </div>
 
@@ -60,8 +62,8 @@
 
                             <div class="search_wrap">
                                 <input type="text" id="searchText" name="searchText" placeholder="매물번호/주소로 검색">
-                                <button type="button" onclick="onSearchTextChange();"><img src="{{ asset('assets/media/btn_search.png') }}"
-                                        alt="검색"></button>
+                                <button type="button" onclick="onSearchTextChange();"><img
+                                        src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button>
                             </div>
                         </div>
 
