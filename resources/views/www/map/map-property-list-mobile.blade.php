@@ -12,8 +12,8 @@
     <div class="body map_side">
         <div class="side_list_wrap">
             <ul class="side_list_tab tab_toggle_menu">
-                <li class="active">지도 내 매물 15</li>
-                <li>중개사무소 17</li>
+                <li class="property active" onclick="tabChange(this)"><a href="javascript:void(0);">지도 내 매물 15</a></li>
+                <li class="agent" onclick="tabChange(this)"><a href="javascript:void(0);">중개사무소 17</a></li>
             </ul>
             <div class="tab_area_wrap side_list_body">
                 <div>
@@ -34,28 +34,11 @@
                             </a>
                         </li>
                     </ul>
-                    <!-- <div class="empty_wrap">
-                  <p><img src="{{ asset('assets/media/img_empty_1.png') }}" class="empty_img"></p>
-                  <span>조건에 맞는 매물이 없습니다.<br>지도를 이동하거나, 검색 필터를 조정해보세요.</span>
-                </div> -->
-                    <div class="side_list_scroll">
-                        <!-- list : s -->
-                        <div class="property_sm_list">
-                            <div class="frame_img_mid">
-                                <span class="btn_wish_sm" onclick="btn_wish(this)"></span>
-                                <div class="img_box"><img src="{{ asset('assets/media/s_3.png') }}"></div>
-                            </div>
-                            <a href="{{ route('www.map.map.room.mobile') }}">
-                                <div class="property_sm_info">
-                                    <p class="property_sm_item_1">매매 2억 9,900만</p>
-                                    <p class="txt_lh_1">사무실 강남구 논현동</p>
-                                    <p class="txt_lh_1">62.11㎡ / 46.2㎡·3층</p>
-                                    <p class="property_sm_item_2">영등포시장역 도보 1분 초역세권 매물 소개를 합니다.</p>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- list : e -->
-                        <div style="height:1000px; color:#fff">개발시 삭제 스크롤 때문에 넣어봄.</div>
+                    <div class="empty_wrap" style="display:none;">
+                        <p><img src="{{ asset('assets/media/img_empty_1.png') }}" class="empty_img"></p>
+                        <span>조건에 맞는 매물이 없습니다.<br>지도를 이동하거나, 검색 필터를 조정해보세요.</span>
+                    </div>
+                    <div class="side_list_scroll" id="property_list">
                     </div>
                 </div>
                 <div>
@@ -67,31 +50,12 @@
                         <li class="active"><a href="#">가까운 거리순</a></li>
                         <li class=""><a href="#">이름순</a></li>
                     </ul>
-                    <div class="side_list_scroll">
-                        <!-- list : s -->
-                        <a href="agent_detail.html">
-                            <div class="agent_sm_list">
-                                <div class="agent_sm_info">
-                                    <p class="agent_txt_item_1">주식회사더블유파트너즈부동산중개</p>
-                                    <p class="agent_txt_item_2">서울특별시 중구 세종대로 136 3층 S3002호</p>
-                                </div>
-                                <div class="frame_img_sm">
-                                    <div class="img_box"><img src="{{ asset('assets/media/default_img.png') }}"></div>
-                                </div>
-                            </div>
-                        </a>
-                        <!-- list : e -->
-
-                        <div style="height:1000px; color:#fff">개발시 삭제</div>
+                    <div class="side_list_scroll" id="agent_list" style="display:none;">
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
-
-
-
     <script>
         //정렬
         document.addEventListener("DOMContentLoaded", function() {
@@ -123,5 +87,44 @@
                 }
             });
         });
+
+        var page = 1;
+        $(window).scroll(function() {
+            if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+                page++;
+                loadMoreData(page);
+            }
+        });
+
+        loadMoreData(page);
+
+        // 페이징
+        function loadMoreData(page) {
+            $.ajax({
+                    url: '{{ Request::url() }}?page=' + page,
+                    type: "get",
+                    beforeSend: function() {
+                        // $('.ajax-load').show();
+                    }
+                })
+                .done(function(data) {
+                    $("#property_list").append(data.property);
+                    $("#agent_list").append(data.agent);
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError) {});
+        }
+
+        // 텝 변경
+        function tabChange(e) {
+            $(".tab_toggle_menu li").removeClass("active");
+            e.classList.add('active');
+
+            $(`#property_list`).css('display', 'none');
+            $(`#agent_list`).css('display', 'none');
+
+            let listName = e.className.split(' ');
+            console.log(`#${listName[0]}_list`);
+            $(`#${listName[0]}_list`).css('display', 'block');
+        }
     </script>
 </x-layout>
