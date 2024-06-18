@@ -10,6 +10,7 @@ use App\Models\KnowledgeCenter;
 use App\Models\Product;
 use App\Models\RegionCoordinate;
 use App\Models\Transactions;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -22,22 +23,44 @@ class MapPcController extends Controller
         return view('www.map.map');
     }
 
-    // 모바일 지도
+    // 모바일 맵
     public function mapMobile(Request $request): View
     {
         return view('www.map.map-mobile');
     }
 
-    // 모바일 지도 실거래가지도 상세
+    // 모바일 맵 상세
     public function mapDetailMobile(Request $request): View
     {
+
         return view('www.map.map-detail-mobile');
     }
 
-    // 모바일 지도 매물지도 상세
+    // 모바일 매물목록
     public function mapPropertyMobile(Request $request): View
     {
+        // 중개사무소
+        $userList = User::select()->where('type', '=', '1')->where('company_state', '=', '1');
+
         return view('www.map.map-property-detail-mobile');
+    }
+
+    // 매물 상세
+    public function mapRoom(Request $request): View
+    {
+        // 중개사무소
+        $userList = User::select()->where('type', '=', '1')->where('company_state', '=', '1');
+
+        return view('www.map.map-property-detail-mobile');
+    }
+
+    // 중개사무소 상세
+    public function mapAgent(Request $request): View
+    {
+        // 중개사무소
+        $userList = User::select()->where('type', '=', '1')->where('company_state', '=', '1');
+
+        return view('www.map.map-agent-detail-mobile');
     }
 
     public function getMapMarker(Request $request)
