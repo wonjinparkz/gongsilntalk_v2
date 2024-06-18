@@ -57,6 +57,7 @@ class Product extends BaseModel
         'update_user_type',
         'commission',
         'commission_rate',
+        'non_memo',
         'is_blind',
         'is_delete',
     ];

@@ -66,6 +66,8 @@ return new class extends Migration
             $table->integer('commission')->nullable()->comment('중개 보수 (부가세 별도)');
             $table->double('commission_rate', 10, 1)->nullable()->comment('상환요율 (%)');
 
+            $table->longtext('non_memo')->nullable()->comment('비공개 메모');
+
             $table->integer('is_blind')->nullable()->comment('비공개 여부 - 0: 공개, 1: 비공개');
             $table->integer('is_delete')->nullable()->comment('삭제 여부 - 0: 게시중, 1: 삭제');
 

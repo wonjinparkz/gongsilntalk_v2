@@ -155,9 +155,14 @@ Route::controller(CommunityPcController::class)->group(function () {
  */
 Route::middleware('pc.auth')->controller(UserPcController::class)->group(function () {
     Route::get('/mypage/main', 'mypageMainView')->name('www.mypage.mian.view');
+    // 사용자 매물 관리
     Route::get('/mypage/product/magagement/list', 'productMagagementListView')->name('www.mypage.product.magagement.list.view');
+
+    // 중개사 매물 관리
     Route::get('/mypage/corp/product/magagement/list', 'corpProductMagagementListView')->name('www.mypage.corp.product.magagement.list.view');
+
     Route::post('/mypage/product/magagement/delete', 'userProductDelete')->name('www.mypage.product.magagement.delete');
+    Route::post('/mypage/product/state/change', 'corpProductStateChange')->name('www.mypage.product.state.change');
 
     // 관심 매물/최근 본 매물
     Route::get('/mypage/product/interest/list', 'productInterestListView')->name('www.mypage.product.interest.list.view');
@@ -202,6 +207,8 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::get('/mypage/company/info', 'companyInfoView')->name('www.mypage.company.info');
     Route::get('/mypage/community/list', 'communityListView')->name('www.mypage.community.list.view');
     Route::get('/mypage/alarm/list', 'alarmListView')->name('www.mypage.alarm.list.view');
+
+    Route::post('/changepw', 'changePw')->name('www.change.pw');
 });
 
 Route::middleware('pc.auth')->controller(ProposalPcController::class)->group(function () {
