@@ -1,14 +1,43 @@
 <x-layout>
+    @php
+        $square = $result->square ?? 1;
+        $price = $result->priceInfo->price;
+        $service_price = $result->service_price;
+        $month_price = $result->priceInfo->month_price;
+        $loan_type = $result->loan_type;
+        $current_price = $result->priceInfo->current_price;
+        $current_month_price = $result->priceInfo->current_month_price;
+        if ($square == 0) {
+            $square = 1;
+        }
 
+        $approveDate = $result->approve_date ?? '-';
+        $displayDate = $approveDate !== '-' ? Str::substr($approveDate, 0, 4) : '-'; // 사용승인연도
+
+        $formatPrice = Commons::get_priceTrans($price); // 매매가
+        $formatMonthPrice = Commons::get_priceTrans($month_price); // 월세
+        $formatAveragePrice = Commons::get_priceTrans($price / $square); // 평단가 = 가격 / 분양면적(공급면적)
+        $formatServicePrice = Commons::get_priceTrans($service_price); // 관리비
+        $formatCurrentPrice = Commons::get_priceTrans($current_price); // 현재 매물 보증금
+        $formatCurrentMonthPrice = Commons::get_priceTrans($current_month_price); // 현재 매물 월임대료
+    @endphp
     <!-- top : s -->
     <div class="room_info_wrap">
         <div class="inner_wrap room_info_inner">
             <div>
-                <span class="txt_item_1">서울시 강남구 역삼동·아파트</span>
-                <span class="txt_item_2">공급 88.45㎡ / 전용 79.33㎡</span>
+                <span
+                    class="txt_item_1">{{ $result->region_address }}·{{ Lang::get('commons.product_type.' . $result->type) }}</span>
+                <span class="txt_item_2">공급 {{ $result->square ?? '-' }}㎡ / 전용
+                    {{ $result->exclusive_square ?? '-' }}㎡</span>
             </div>
             <div class="txt_item_3">
-                매매 20억 4000만
+                {{ Lang::get('commons.payment_type.' . $result->priceInfo->payment_type) }}
+                {{-- 20억 4000만 --}}
+                {{ $formatPrice }}
+                {{-- 월세/단기임대 --}}
+                @if (in_array($result->priceInfo->payment_type, [2, 4]))
+                    / {{ $formatMonthPrice }}
+                @endif
             </div>
         </div>
     </div>
@@ -17,27 +46,28 @@
     <!-- m::header bar : s -->
     <div class="m_header transparent">
         <div class="left_area">
-            <a href="javascript:history.go(-1)" class="btn_back"><img src="images/header_btn_back_w.png"></a>
-            <span>매물번호 354483</span>
+            <a href="javascript:history.go(-1)" class="btn_back"><img
+                    src="{{ asset('assets/media/header_btn_back_w.png') }}"></a>
+            <span>매물번호 {{ $result->product_number }}</span>
         </div>
         <div class="right_area">
-            <a href="#" class="btn_share"><img src="images/header_btn_share_w.png"
+            <a href="#" class="btn_share"><img src="{{ asset('assets/media/header_btn_share_w.png') }}"
                     onclick="modal_open_slide('share')"></a>
         </div>
     </div>
     <div class="modal_slide modal_slide_share">
         <div class="slide_title_wrap">
             <span>공유하기</span>
-            <img src="images/btn_md_close.png" onclick="modal_close_slide('share')">
+            <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('share')">
         </div>
         <div class="slide_modal_body">
             <div class="layer_share_con">
                 <a href="#">
-                    <img src="images/share_ic_01.png">
+                    <img src="{{ asset('assets/media/share_ic_01.png') }}">
                     <p class="mt8">카카오톡</p>
                 </a>
                 <a href="#">
-                    <img src="images/share_ic_02.png">
+                    <img src="{{ asset('assets/media/share_ic_02.png') }}">
                     <p class="mt8">링크복사</p>
                 </a>
             </div>
@@ -55,10 +85,10 @@
                     <div class="swiper room_img">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
-                                <div class="img_box"><img src="images/s_1.png"></div>
+                                <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
                             </div>
                             <div class="swiper-slide">
-                                <div class="img_box"><img src="images/s_2.png"></div>
+                                <div class="img_box"><img src="{{ asset('assets/media/s_2.png') }}"></div>
                             </div>
                         </div>
                         <div class="swiper-button-next"></div>
@@ -67,27 +97,46 @@
                     </div>
                 </div>
 
+                {{-- 매물 요약 정보 - 상단 --}}
                 <div class="room_detail_info">
-                    <p class="txt_item_1">매물번호 35448331</p>
+                    <p class="txt_item_1">매물번호 {{ $result->product_number }}</p>
                     <div class="txt_change_wrap">
-                        <div class="txt_item_2"><span>매매</span> 20억 4,000만</div>
-                        <div class="txt_item_3">강남구 역삼동 아파트</div>
+                        <div class="txt_item_2">
+                            <span>{{ Lang::get('commons.payment_type.' . $result->priceInfo->payment_type) }}</span>
+                            {{ $formatPrice }}
+                            {{-- 월세/단기임대 --}}
+                            @if (in_array($result->priceInfo->payment_type, [2, 4]))
+                                / {{ $formatMonthPrice }}
+                            @endif
+                        </div>
+                        <div class="txt_item_3">{{ $result->region_address }}</div>
                     </div>
+
+                    {{-- https://devtalk.kakao.com/t/api/126032 --}}
                     <div class="txt_item_4">강남역 도보 3분</div>
                     <div class="txt_item_5">
-                        <span>전용</span> 79.33㎡ &nbsp;
-                        <span>전용</span> 2,640만원
+                        <span>전용</span> {{ $result->exclusive_square ?? '-' }}㎡ &nbsp;
+                        @if ($result->priceInfo->payment_type == 0)
+                            <span>평단가</span> {{ $formatAveragePrice }}
+                        @endif
                     </div>
+                    {{-- 매물 요약 정보 - 하단 --}}
                     <ul class="txt_item_6">
                         <li>
-                            11층/12층<p>해당/전체층</p><i>|</i>
+                            {{ $result->floor_number ?? '-' }}층/{{ $result->total_floor_number ?? '-' }}층<p>해당/전체층</p>
+                            <i>|</i>
                         </li>
                         <li>
-                            2023년 <span>사용승인</span>
+                            {{ $displayDate }}년 <span>사용승인</span>
                             <p>사용승인연도</p><i>|</i>
                         </li>
                         <li>
-                            <span>관리비</span> 100만원<p>관리비</p>
+                            <span>관리비</span>
+                            @if ($result->is_service === 0)
+                                {{ $formatServicePrice }}<p>관리비</p>
+                            @else
+                                없음
+                            @endif
                         </li>
                     </ul>
                     <div class="detail_btn_wrap">
@@ -97,15 +146,15 @@
                         <div class="layer layer_share_wrap">
                             <div class="layer_title">
                                 <h5>공유하기</h5>
-                                <img src="images/btn_md_close.png" class="md_btn_close btn_share">
+                                <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close btn_share">
                             </div>
                             <div class="layer_share_con">
                                 <a href="#">
-                                    <img src="images/share_ic_01.png">
+                                    <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                     <p class="mt8">카카오톡</p>
                                 </a>
                                 <a href="#">
-                                    <img src="images/share_ic_02.png">
+                                    <img src="{{ asset('assets/media/share_ic_02.png') }}">
                                     <p class="mt8">링크복사</p>
                                 </a>
                             </div>
@@ -114,7 +163,8 @@
                     </div>
                 </div>
             </div>
-            <a href="#" class="btn_3d"><img src="images/ic_3d.png" alt="3d 매물보기">3D로 매물보기</a>
+            <a href="#" class="btn_3d"><img src="{{ asset('assets/media/ic_3d.png') }}" alt="3d 매물보기">3D로
+                매물보기</a>
 
         </div>
         <!-- section 1 : e -->
@@ -138,22 +188,77 @@
         <!-- tab : s -->
 
 
-
+        @php
+            $paymentTypes = [
+                0 => '매매가',
+                1 => '임대',
+                2 => '단기임대',
+                3 => '전세가',
+                4 => '월세가',
+                5 => '전매가',
+            ];
+            $paymentType = $result->priceInfo->payment_type;
+            $isDiscussion = $result->priceInfo->is_price_discussion == 1 ? '협의가능' : '';
+        @endphp
         <!-- section 2 : s -->
         <div class="inner_wrap room_section_wrap">
-
+            {{-- 가격정보 --}}
             <div>
                 <section id="tab_area_1" class="page">
                     <h3>가격정보</h3>
                     <div class="table_container">
-                        <div>매매가</div>
-                        <div class="item_col_3">20억 4,000만원 <span class="gray_basic">(2,400만/㎡)</span></div>
+                        @if (isset($paymentTypes[$paymentType]))
+                            <div>
+                                {{ $paymentTypes[$paymentType] }}
+                                @if ($paymentType != 0)
+                                    <span class="gray_basic">({{ $isDiscussion }}/㎡)</span>
+                                @endif
+                            </div>
+                        @endif
+                        <div class="item_col_3">{{ $formatPrice }}
+                            <span class="gray_basic">({{ $formatAveragePrice }}/㎡)</span>
+                        </div>
                         <div>관리비</div>
-                        <div class="item_col_3">10만원 <span class="gray_basic only_m">청소비, 인터넷, 수선유지비</span></div>
-                        <div>기존 임대차 내용</div>
-                        <div class="item_col_3">보증금 2,000만 / 월세 600만</div>
-                        <div>융자금</div>
-                        <div class="item_col_3">없음</div>
+                        <div class="item_col_3">
+                            @if ($result->is_service === 0)
+                                {{ $formatServicePrice }}
+                                <span class="gray_basic only_m">
+                                    @php
+                                        $serviceTypes = [];
+                                        foreach ($result->productServices as $productService) {
+                                            $serviceTypes[] = Lang::get(
+                                                'commons.product_type.' . $productService->type,
+                                            );
+                                        }
+                                    @endphp
+                                    {{ join(', ', $serviceTypes) }}
+                                </span>
+                            @else
+                                없음
+                            @endif
+                        </div>
+                        {{-- 기존 임대차 내용 없음으로 선택한 경우 노출하지 않음 --}}
+                        @if ($result->priceInfo->is_use == 1)
+                            <div>융자금</div>
+                            <div class="item_col_3">
+                                @if ($result->loan_type == 1)
+                                    30%미만 {{ number_format($result->loan_price) }}원
+                                @elseif($result->loan_type == 2)
+                                    30%이상 {{ number_format($result->loan_price) }}원
+                                @else
+                                    없음
+                                @endif
+                            </div>
+                        @endif
+                        {{--
+                            매매일 때
+                            기존 임대차 내용 없음으로 선택한 경우 노출하지 않음
+                            --}}
+                        @if ($result->priceInfo->payment_type == 0 && $result->priceInfo->is_use == 1)
+                            <div>기존 임대차 내용</div>
+                            <div class="item_col_3">보증금 {{ $formatCurrentPrice }} / 월세 {{ $formatCurrentMonthPrice }}
+                            </div>
+                        @endif
                     </div>
                 </section>
 
@@ -196,25 +301,32 @@
                             <p class="option_title">시설</p>
                             <div class="swiper option_swiper">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="images/option_1_1.png" alt="창고">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_1_1.png') }}"
+                                            alt="창고">
                                         <p>창고</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_1_2.png" alt="급수시설">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_1_2.png') }}"
+                                            alt="급수시설">
                                         <p>급수시설</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_1_3.png" alt="급배기시설">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_1_3.png') }}"
+                                            alt="급배기시설">
                                         <p>급배기시설</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_1_4.png" alt="환기시설">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_1_4.png') }}"
+                                            alt="환기시설">
                                         <p>환기시설</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_1_5.png" alt="휴게공간">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_1_5.png') }}"
+                                            alt="휴게공간">
                                         <p>휴게공간</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_1_6.png" alt="베란다">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_1_6.png') }}"
+                                            alt="베란다">
                                         <p>베란다</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_1_7.png" alt="테라스">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_1_7.png') }}"
+                                            alt="테라스">
                                         <p>테라스</p>
                                     </div>
                                 </div>
@@ -224,37 +336,48 @@
                             <p class="option_title">보안</p>
                             <div class="swiper option_swiper">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="images/option_2_1.png" alt="CCTV">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_2_1.png') }}"
+                                            alt="CCTV">
                                         <p>CCTV</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_2_2.png" alt="자체경비원">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_2_2.png') }}"
+                                            alt="자체경비원">
                                         <p>자체경비원</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_2_3.png" alt="디지털도어락">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_2_3.png') }}"
+                                            alt="디지털도어락">
                                         <p>디지털도어락</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_2_4.png" alt="관리인 상주">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_2_4.png') }}"
+                                            alt="관리인 상주">
                                         <p>관리인 상주</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_2_5.png" alt="소화기">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_2_5.png') }}"
+                                            alt="소화기">
                                         <p>소화기</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_2_6.png" alt="화재감지기">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_2_6.png') }}"
+                                            alt="화재감지기">
                                         <p>화재감지기</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_2_7.png" alt="화재경보기">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_2_7.png') }}"
+                                            alt="화재경보기">
                                         <p>화재경보기</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_2_8.png" alt="카드키">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_2_8.png') }}"
+                                            alt="카드키">
                                         <p>카드키</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_2_9.png" alt="무인택배함">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_2_9.png') }}"
+                                            alt="무인택배함">
                                         <p>무인택배함</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_2_10.png" alt="방범창">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_2_10.png') }}"
+                                            alt="방범창">
                                         <p>방범창</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_2_11.png" alt="비디오폰">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_2_11.png') }}"
+                                            alt="비디오폰">
                                         <p>비디오폰</p>
                                     </div>
                                 </div>
@@ -264,22 +387,28 @@
                             <p class="option_title">주방</p>
                             <div class="swiper option_swiper">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="images/option_3_1.png" alt="인덕션">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_3_1.png') }}"
+                                            alt="인덕션">
                                         <p>인덕션</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_3_2.png" alt="가스레인지">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_3_2.png') }}"
+                                            alt="가스레인지">
                                         <p>가스레인지</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_3_3.png" alt="전자레인지">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_3_3.png') }}"
+                                            alt="전자레인지">
                                         <p>전자레인지</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_3_4.png" alt="오븐">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_3_4.png') }}"
+                                            alt="오븐">
                                         <p>오븐</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_3_5.png" alt="식기세척기">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_3_5.png') }}"
+                                            alt="식기세척기">
                                         <p>식기세척기</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_3_6.png" alt="싱크대">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_3_6.png') }}"
+                                            alt="싱크대">
                                         <p>싱크대</p>
                                     </div>
                                 </div>
@@ -289,22 +418,28 @@
                             <p class="option_title">가전</p>
                             <div class="swiper option_swiper">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="images/option_4_1.png" alt="무선인터넷">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_4_1.png') }}"
+                                            alt="무선인터넷">
                                         <p>무선인터넷</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_4_2.png" alt="에어컨">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_4_2.png') }}"
+                                            alt="에어컨">
                                         <p>에어컨</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_4_3.png" alt="세탁기">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_4_3.png') }}"
+                                            alt="세탁기">
                                         <p>세탁기</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_4_4.png" alt="냉장고">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_4_4.png') }}"
+                                            alt="냉장고">
                                         <p>냉장고</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_4_5.png" alt="TV">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_4_5.png') }}"
+                                            alt="TV">
                                         <p>TV</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_4_6.png" alt="비데">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_4_6.png') }}"
+                                            alt="비데">
                                         <p>비데</p>
                                     </div>
                                 </div>
@@ -314,19 +449,24 @@
                             <p class="option_title">가구</p>
                             <div class="swiper option_swiper">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="images/option_5_1.png" alt="붙박이장">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_5_1.png') }}"
+                                            alt="붙박이장">
                                         <p>붙박이장</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_5_2.png" alt="드레스룸">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_5_2.png') }}"
+                                            alt="드레스룸">
                                         <p>드레스룸</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_5_3.png" alt="신발장">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_5_3.png') }}"
+                                            alt="신발장">
                                         <p>신발장</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_5_4.png" alt="욕조">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_5_4.png') }}"
+                                            alt="욕조">
                                         <p>욕조</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_5_5.png" alt="식탁">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_5_5.png') }}"
+                                            alt="식탁">
                                         <p>식탁</p>
                                     </div>
                                 </div>
@@ -336,16 +476,20 @@
                             <p class="option_title">기타</p>
                             <div class="swiper option_swiper">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="images/option_6_1.png" alt="베란다">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_6_1.png') }}"
+                                            alt="베란다">
                                         <p>베란다</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_6_2.png" alt="테라스">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_6_2.png') }}"
+                                            alt="테라스">
                                         <p>테라스</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_6_3.png" alt="발코니">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_6_3.png') }}"
+                                            alt="발코니">
                                         <p>발코니</p>
                                     </div>
-                                    <div class="swiper-slide"><img src="images/option_6_4.png" alt="욕조">
+                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_6_4.png') }}"
+                                            alt="욕조">
                                         <p>마당</p>
                                     </div>
                                 </div>
@@ -380,7 +524,8 @@
 
                 <section class="page" id="tab_area_4">
                     <h3>위치 및 주변정보</h3>
-                    <div class="container_map_wrap"><img src="images/s_map.png" class="w_100"></div>
+                    <div class="container_map_wrap"><img src="{{ asset('assets/media/s_map.png') }}" class="w_100">
+                    </div>
                     <div class="map_detail_wrp">
                         <ul class="tab_toggle_menu tab_type_4">
                             <li class="active"><a href="javascript:(0)">대중교통</a></li>
@@ -389,11 +534,13 @@
                         </ul>
                         <div class="tab_area_wrap">
                             <div class="traffic_wrap">
-                                <div class="traffic_tit"><img src="images/ic_subway.png">지하철</div>
+                                <div class="traffic_tit"><img src="{{ asset('assets/media/ic_subway.png') }}">지하철
+                                </div>
                                 <p class="traffic_row">가산디지털단지역 1호선, 3호선 <span>15~20분이내</span></p>
                                 <p class="traffic_row">가산디지털단지역 7호선 <span>15~20분이내</span></p>
 
-                                <div class="traffic_tit mt28"><img src="images/ic_bus.png">버스</div>
+                                <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스
+                                </div>
                                 <p class="traffic_row">정류장 <span>15~20분이내</span></p>
 
                             </div>
@@ -430,7 +577,7 @@
                     <div class="agent_box only_m">
                         <div class="agent_box_info">
                             <div class="agent_box_img">
-                                <div class="img_box"><img src="images/default_img.png"></div>
+                                <div class="img_box"><img src="{{ asset('assets/media/default_img.png') }}"></div>
                             </div>
                             <h4>공실앤톡부동산중개사무소</h4>
                             <p>대표중개사 홍길동</p>
@@ -450,7 +597,8 @@
                                 <div class="swiper-slide">
                                     <a href="#">
                                         <div class="mediation_room_img">
-                                            <div class="img_box"><img src="images/s_1.png"></div>
+                                            <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}">
+                                            </div>
                                         </div>
                                         <p class="mediation_txt_item1">매매 13억 2,000만원</p>
                                         <p class="mediation_txt_item2">사무실 강남구 논현동</p>
@@ -460,7 +608,8 @@
                                 <div class="swiper-slide">
                                     <a href="#">
                                         <div class="mediation_room_img">
-                                            <div class="img_box"><img src="images/s_1.png"></div>
+                                            <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}">
+                                            </div>
                                         </div>
                                         <p class="mediation_txt_item1">매매 13억 2,000만원</p>
                                         <p class="mediation_txt_item2">사무실 강남구 논현동</p>
@@ -470,7 +619,8 @@
                                 <div class="swiper-slide">
                                     <a href="#">
                                         <div class="mediation_room_img">
-                                            <div class="img_box"><img src="images/s_1.png"></div>
+                                            <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}">
+                                            </div>
                                         </div>
                                         <p class="mediation_txt_item1">매매 13억 2,000만원</p>
                                         <p class="mediation_txt_item2">사무실 강남구 논현동</p>
@@ -488,8 +638,9 @@
 
                 <div class="btn_floting_wrap">
                     <div class="btn_floting top">
-                        <a href="#"><img src="images/btn_unit.png"></a><br>
-                        <a href="javascript:window.scrollTo(0,0);"><img src="images/btn_top.png"></a>
+                        <a href="#"><img src="{{ asset('assets/media/btn_unit.png') }}"></a><br>
+                        <a href="javascript:window.scrollTo(0,0);"><img
+                                src="{{ asset('assets/media/btn_top.png') }}"></a>
                     </div>
                 </div>
             </div>
@@ -497,7 +648,7 @@
                 <div class="agent_box only_pc">
                     <div class="agent_box_info">
                         <div class="agent_box_img">
-                            <div class="img_box"><img src="images/default_img.png"></div>
+                            <div class="img_box"><img src="{{ asset('assets/media/default_img.png') }}"></div>
                         </div>
                         <h4>공실앤톡부동산중개사무소</h4>
                         <p>대표중개사 홍길동</p>
@@ -617,12 +768,16 @@
             let scrollTop = $(this).scrollTop();
             if (scrollTop > criteria_scroll_top) {
                 $('.m_header').removeClass('transparent');
-                $('.m_header').find('.btn_back').find('img').attr('src', 'images/header_btn_back_deep.png');
-                $('.m_header').find('.btn_share').find('img').attr('src', 'images/header_btn_share_deep.png');
+                $('.m_header').find('.btn_back').find('img').attr('src',
+                    '{{ asset('assets/media/header_btn_back_deep.png') }}');
+                $('.m_header').find('.btn_share').find('img').attr('src',
+                    '{{ asset('assets/media/header_btn_share_deep.png') }}');
             } else {
                 $('.m_header').addClass('transparent');
-                $('.m_header').find('.btn_back').find('img').attr('src', 'images/header_btn_back_w.png');
-                $('.m_header').find('.btn_share').find('img').attr('src', 'images/header_btn_share_w.png');
+                $('.m_header').find('.btn_back').find('img').attr('src',
+                    '{{ asset('assets/media/header_btn_back_w.png') }}');
+                $('.m_header').find('.btn_share').find('img').attr('src',
+                    '{{ asset('assets/media/header_btn_share_w.png') }}');
             }
         })
     </script>
