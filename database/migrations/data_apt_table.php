@@ -103,8 +103,13 @@ return new class extends Migration
 
             $table->boolean('is_building_ledger')->default(0)->comment('표제부 세팅 여부');
 
+            $table->boolean('is_polygon_coordinates')->default(0)->comment('폴리곤 세팅 여부');
             $table->longText('polygon_coordinates')->nullable()->comment('플리곤 좌표');
+
+            $table->boolean('is_characteristics')->default(0)->comment('토지특성 세팅 여부');
             $table->longText('characteristics_json')->nullable()->comment('토지특성 속성 json형태');
+
+            $table->boolean('is_useWFS')->default(0)->comment('토지이용계획 세팅 여부');
             $table->longText('useWFS_json')->nullable()->comment('토지이용계획WFS json형태');
         });
 

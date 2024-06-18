@@ -52,8 +52,10 @@
                         </div>
                         <button id="streetView"><img src="{{ asset('assets/media/ic_map_activate4.png') }}"></button>
                     </div>
-                    <button class="map_view_btn"><span id="centerDongText">익선동</span> <span
-                            class="txt_point">실거래가</span> 보기</button>
+                    <button type="button" class="map_view_btn" onclick="mapTypeViewChage()">
+                        <span id="centerDongText">익선동</span>
+                        <span class="txt_point centerDongMapText">실거래가</span> 보기
+                    </button>
                     <div class="map_bottom_btn">
                         <button onclick="location.href='{{ route('www.product.create.view') }}'"><img
                                 src="{{ asset('assets/media/ic_org_estate.png') }}">매물 내놓기</button>
@@ -600,12 +602,17 @@
         mapReset();
     }
 
+    function mapTypeViewChage() {
+        mapTypeChage($('#mapType').val() == 0 ? 1 : 0)
+    }
+
     function mapTypeChage(type) {
         $('.map_side').removeClass('active');
         $('.type_2').removeClass('active');
 
         var text = type == 0 ? '실거래가지도' : '매물지도';
         $('#mapTypeText').text(text);
+        $('.centerDongMapText').text(type == 0 ? '매물현황' : '실거래가');
 
         $('#mapType').val(type);
 

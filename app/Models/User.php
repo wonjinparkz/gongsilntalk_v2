@@ -39,6 +39,8 @@ class User extends BaseModel
         'company_number',
         'company_postcode',
         'company_address',
+        'company_address_lat',
+        'company_address_lng',
         'company_address_detail',
         'refuse_coment',
         'refuse_at',
