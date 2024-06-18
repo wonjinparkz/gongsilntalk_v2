@@ -7,6 +7,7 @@
         $loan_type = $result->loan_type;
         $current_price = $result->priceInfo->current_price;
         $current_month_price = $result->priceInfo->current_month_price;
+        $commission = $result->commission !== null ? number_format($result->commission) : '0';
         if ($square == 0) {
             $square = 1;
         }
@@ -301,7 +302,21 @@
                             <p class="option_title">시설</p>
                             <div class="swiper option_swiper">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_1_1.png') }}"
+
+                                    @foreach ($result->productOptions as $item)
+                                        @if (in_array($item->type, [0, 1]))
+                                            @php
+                                                $imageNumber = $item->type == 0 ? 6 : ($item->type == 1 ? 7 : '');
+                                            @endphp
+                                            <div class="swiper-slide">
+                                                <img
+                                                    src="{{ asset('assets/media/option_1_' . $imageNumber . '.png') }}">
+                                                <p>{{ Lang::get('commons.option_facility.' . $item->type) }}</p>
+                                            </div>
+                                        @endif
+                                    @endforeach
+
+                                    {{-- <div class="swiper-slide"><img src="{{ asset('assets/media/option_1_1.png') }}"
                                             alt="창고">
                                         <p>창고</p>
                                     </div>
@@ -328,7 +343,7 @@
                                     <div class="swiper-slide"><img src="{{ asset('assets/media/option_1_7.png') }}"
                                             alt="테라스">
                                         <p>테라스</p>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </article>
@@ -336,7 +351,32 @@
                             <p class="option_title">보안</p>
                             <div class="swiper option_swiper">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_2_1.png') }}"
+                                    @foreach ($result->productOptions as $item)
+                                        @if (in_array($item->type, [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]))
+                                            @php
+                                                $typeToImageNumber = [
+                                                    2 => 3,
+                                                    3 => 8,
+                                                    4 => 9,
+                                                    5 => 10,
+                                                    6 => 11,
+                                                    7 => 6,
+                                                    8 => 7,
+                                                    9 => 8,
+                                                    10 => 1,
+                                                    11 => 2,
+                                                    12 => 4,
+                                                ];
+                                                $imageNumber = $typeToImageNumber[$item->type] ?? '';
+                                            @endphp
+                                            <div class="swiper-slide">
+                                                <img
+                                                    src="{{ asset('assets/media/option_2_' . $imageNumber . '.png') }}">
+                                                <p>{{ Lang::get('commons.option_security.' . $item->type) }}</p>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                    {{-- <div class="swiper-slide"><img src="{{ asset('assets/media/option_2_1.png') }}"
                                             alt="CCTV">
                                         <p>CCTV</p>
                                     </div>
@@ -379,7 +419,7 @@
                                     <div class="swiper-slide"><img src="{{ asset('assets/media/option_2_11.png') }}"
                                             alt="비디오폰">
                                         <p>비디오폰</p>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </article>
@@ -387,7 +427,27 @@
                             <p class="option_title">주방</p>
                             <div class="swiper option_swiper">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_3_1.png') }}"
+                                    @foreach ($result->productOptions as $item)
+                                        @if (in_array($item->type, [13, 14, 15, 16, 17, 18]))
+                                            @php
+                                                $typeToImageNumber = [
+                                                    13 => 1,
+                                                    14 => 2,
+                                                    15 => 3,
+                                                    16 => 4,
+                                                    17 => 5,
+                                                    18 => 6,
+                                                ];
+                                                $imageNumber = $typeToImageNumber[$item->type] ?? '';
+                                            @endphp
+                                            <div class="swiper-slide">
+                                                <img
+                                                    src="{{ asset('assets/media/option_3_' . $imageNumber . '.png') }}">
+                                                <p>{{ Lang::get('commons.option_kitchen.' . $item->type) }}</p>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                    {{-- <div class="swiper-slide"><img src="{{ asset('assets/media/option_3_1.png') }}"
                                             alt="인덕션">
                                         <p>인덕션</p>
                                     </div>
@@ -410,7 +470,7 @@
                                     <div class="swiper-slide"><img src="{{ asset('assets/media/option_3_6.png') }}"
                                             alt="싱크대">
                                         <p>싱크대</p>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </article>
@@ -418,7 +478,27 @@
                             <p class="option_title">가전</p>
                             <div class="swiper option_swiper">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_4_1.png') }}"
+                                    @foreach ($result->productOptions as $item)
+                                        @if (in_array($item->type, [19, 20, 21, 22, 23, 24]))
+                                            @php
+                                                $typeToImageNumber = [
+                                                    19 => 1,
+                                                    20 => 2,
+                                                    21 => 3,
+                                                    22 => 4,
+                                                    23 => 5,
+                                                    24 => 6,
+                                                ];
+                                                $imageNumber = $typeToImageNumber[$item->type] ?? '';
+                                            @endphp
+                                            <div class="swiper-slide">
+                                                <img
+                                                    src="{{ asset('assets/media/option_4_' . $imageNumber . '.png') }}">
+                                                <p>{{ Lang::get('commons.option_home_appliances.' . $item->type) }}</p>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                    {{-- <div class="swiper-slide"><img src="{{ asset('assets/media/option_4_1.png') }}"
                                             alt="무선인터넷">
                                         <p>무선인터넷</p>
                                     </div>
@@ -441,7 +521,7 @@
                                     <div class="swiper-slide"><img src="{{ asset('assets/media/option_4_6.png') }}"
                                             alt="비데">
                                         <p>비데</p>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </article>
@@ -449,7 +529,27 @@
                             <p class="option_title">가구</p>
                             <div class="swiper option_swiper">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_5_1.png') }}"
+                                    @foreach ($result->productOptions as $item)
+                                        @if (in_array($item->type, [25, 26, 27, 28, 29]))
+                                            @php
+                                                $typeToImageNumber = [
+                                                    25 => 1,
+                                                    26 => 2,
+                                                    27 => 3,
+                                                    28 => 4,
+                                                    29 => 5,
+                                                    30 => 6,
+                                                ];
+                                                $imageNumber = $typeToImageNumber[$item->type] ?? '';
+                                            @endphp
+                                            <div class="swiper-slide">
+                                                <img
+                                                    src="{{ asset('assets/media/option_5_' . $imageNumber . '.png') }}">
+                                                <p>{{ Lang::get('commons.option_furniture.' . $item->type) }}</p>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                    {{-- <div class="swiper-slide"><img src="{{ asset('assets/media/option_5_1.png') }}"
                                             alt="붙박이장">
                                         <p>붙박이장</p>
                                     </div>
@@ -468,7 +568,7 @@
                                     <div class="swiper-slide"><img src="{{ asset('assets/media/option_5_5.png') }}"
                                             alt="식탁">
                                         <p>식탁</p>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </article>
@@ -476,7 +576,25 @@
                             <p class="option_title">기타</p>
                             <div class="swiper option_swiper">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img src="{{ asset('assets/media/option_6_1.png') }}"
+                                    @foreach ($result->productOptions as $item)
+                                        @if (in_array($item->type, [30, 31, 32, 33]))
+                                            @php
+                                                $typeToImageNumber = [
+                                                    30 => 1,
+                                                    31 => 2,
+                                                    32 => 3,
+                                                    33 => 4,
+                                                ];
+                                                $imageNumber = $typeToImageNumber[$item->type] ?? '';
+                                            @endphp
+                                            <div class="swiper-slide">
+                                                <img
+                                                    src="{{ asset('assets/media/option_6_' . $imageNumber . '.png') }}">
+                                                <p>{{ Lang::get('commons.option_etc.' . $item->type) }}</p>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                    {{-- <div class="swiper-slide"><img src="{{ asset('assets/media/option_6_1.png') }}"
                                             alt="베란다">
                                         <p>베란다</p>
                                     </div>
@@ -491,7 +609,7 @@
                                     <div class="swiper-slide"><img src="{{ asset('assets/media/option_6_4.png') }}"
                                             alt="욕조">
                                         <p>마당</p>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </article>
@@ -502,13 +620,14 @@
                     <section>
                         <h3>상세설명</h3>
                         <div class="detail_info_container">
-                            구로역 도보 1분 초역세권 매물<br>
+                            {{ $result->contents ?? '-' }}
+                            {{-- 구로역 도보 1분 초역세권 매물<br>
                             보기 드문 4분거리 구로역 근처 좋은 매물 소개드립니다.<br>
                             *1. 실평수 14평의 넓게 나온 분리형 원룸입니다.<br>
                             2. 주차비 없는 자주식 주차로 어떤 차종이든 가능합니다.<br>3. 아일랜드 식탁이 있는 편리한 부엌구조입니다.<br><br>
                             구로역 도보 1분 초역세권 매물<br>
                             보기 드문 4분거리 구로역 근처 좋은 매물 소개드립니다.<br>
-                            *1. 실평수 14평의 넓게 나온 분리형 원룸입니다.<br>
+                            *1. 실평수 14평의 넓게 나온 분리형 원룸입니다.<br> --}}
                         </div>
                         <!-- 닫기 열기 텍스트는 css에 있음 -->
                         <!-- <input type="checkbox" class="detail_info_container_btn"> -->
@@ -522,6 +641,7 @@
 
                 </div>
 
+                {{-- 기획서 디자인없는 탭 --}}
                 <section class="page" id="tab_area_4">
                     <h3>위치 및 주변정보</h3>
                     <div class="container_map_wrap"><img src="{{ asset('assets/media/s_map.png') }}" class="w_100">
@@ -564,11 +684,11 @@
                         <ul class="mediation_price">
                             <li>
                                 <div class="gray_deep">중개보수<span class="gray_basic">(부가세 별도)</span></div>
-                                <div class="txt_point">660,000원</div>
+                                <div class="txt_point">{{ $commission }}원</div>
                             </li>
                             <li>
                                 <div class="gray_deep">상한요율</div>
-                                <div>0.3%</div>
+                                <div>{{ $result->commission_rate ?? '0' }}%</div>
                             </li>
                         </ul>
                         <p class="gray_basic mt20">중개보수는 실제 적용되는 금액과 다를 수 있습니다.</p>
