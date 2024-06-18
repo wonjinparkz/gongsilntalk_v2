@@ -51,9 +51,11 @@ Route::controller(MainPcController::class)->group(function () {
 
 Route::controller(MapPcController::class)->group(function () {
     Route::get('/map', 'map')->name('www.map.map');
-    Route::get('/map/mobile', 'mapMobile')->name('www.map.map.mobile');
-    Route::get('/map/mobile/{id}', 'mapDetailMobile')->name('www.map.map.detail.mobile');
-    Route::get('/map/mobile/property/{id}', 'mapPropertyMobile')->name('www.map.map.property.mobile');
+    Route::get('/map/mobile', 'mapMobile')->name('www.map.mobile');                           // 모바일 맵
+    Route::get('/map/mobile/detail/{id}', 'mapDetailMobile')->name('www.map.detail.mobile');  // 모바일 맵 상세
+    Route::get('/map/mobile/property', 'mapPropertyMobile')->name('www.map.property.mobile'); // 모바일 매물목록
+    Route::get('/map/room/detail', 'mapRoomDetail')->name('www.map.room.detail'); // 매물 상세
+    Route::get('/map/agent/detail', 'mapAgentDetail')->name('www.map.agent.detail'); // 중개사무소 상세
 
     Route::get('/map/side/view', 'mapSideView')->name('www.map.side.view');
 

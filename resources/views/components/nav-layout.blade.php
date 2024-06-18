@@ -14,7 +14,7 @@
              </a>
          </li>
          <li class="{{ str_contains(Route::currentRouteName(), 'map') ? 'active' : '' }}">
-             <a href="{{ route('www.map.map.mobile') }}">
+             <a href="{{ route('www.map.mobile') }}">
                  <span>
                      <img src="{{ asset('assets/media/mcnu_ic_3.png') }}" alt="">
                  </span>
