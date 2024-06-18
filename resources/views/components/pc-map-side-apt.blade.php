@@ -95,7 +95,8 @@
 
         @if (count($result->exclusiveAreasSale) > 0)
             <div class="dropdown_box s_sm">
-                <button class="dropdown_label">{{ $result->exclusiveAreasSale[0] }}㎡</button>
+                <button class="dropdown_label dropdown_area_label"
+                    id="areaTypeText">{{ $result->exclusiveAreasSale[0] }}㎡</button>
                 <ul class="optionList areaList transactionsType">
                     @foreach ($result->exclusiveAreasSale as $area)
                         <li class="optionItem areaItem sale rent" data-area="{{ $area }}">{{ $area }}㎡
@@ -479,7 +480,7 @@
 
             // 드롭다운 레이블 초기화
             var initialArea = $('.areaItem.' + type).first().data('area');
-            $('.dropdown_label').text(initialArea + '㎡');
+            $('.dropdown_area_label').text(initialArea + '㎡');
 
             // 거래 그룹 필터링
             filterTransactions(type, initialArea);
@@ -488,8 +489,7 @@
         // 평수 선택 이벤트 처리
         $('.areaList').on('click', '.areaItem', function() {
             var selectedArea = $(this).data('area');
-            $('.dropdown_label').text(selectedArea + '㎡');
-
+            $('.dropdown_area_label').text(selectedArea + '㎡');
             var type = $('.toggle_tab li.active').data('type');
             filterTransactions(type, selectedArea);
         });
@@ -519,5 +519,9 @@
             }
         }
 
+    });
+
+    $('#areaTypeText').click(function() {
+        $(this).parent().toggleClass('active');
     });
 </script>

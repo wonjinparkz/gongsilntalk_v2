@@ -1,6 +1,3 @@
-<script src="{{ asset('assets/js/common.js') }}"></script>
-<link rel="stylesheet" href="{{ asset('assets/css/common.css') }}">
-
 <!-- map side : s -->
 
 @if ($markerType == 'apt')
@@ -112,33 +109,6 @@
         $(".layer_share_wrap").stop().slideToggle(0);
         return false;
     });
-
-    // //페이지 탭
-    // var detail_tab = new Swiper(".detail_tab", {
-    //     slidesPerView: 'auto',
-    //     freeMode: true,
-    //     breakpointsInverse: true,
-    //     breakpoints: {
-    //         1023: {
-    //             allowTouchMove: true
-    //         }
-    //     },
-    //     navigation: {
-    //         nextEl: ".swiper-button-next",
-    //         prevEl: ".swiper-button-prev",
-    //     },
-    // });
-
-    // //슬라이드 탭
-    // function showContent(index) {
-    //     console.log('바뀜');
-    //     var tabContents = document.querySelectorAll('.side_tab_wrap .sction_item');
-    //     tabContents.forEach(function(content) {
-    //         content.classList.remove('active');
-    //     });
-    //     tabContents[index].classList.add('active');
-    // }
-    // });
 
     // 페이지 탭
     var detail_tab = new Swiper(".detail_tab", {

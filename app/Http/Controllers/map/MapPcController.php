@@ -107,163 +107,185 @@ class MapPcController extends Controller
         $knowledges = [];
         $store = [];
         $building = [];
+        $knowledgesBundle = [];
 
-        // 줌 레벨에 따른 클러스터링 처리
-        if ($zoomLv <= 12) {
-            $distance = 10000;
-            $regionList = RegionCoordinate::select('id', 'sido as name', 'address_lat', 'address_lng')
-                ->whereNull('sigungu')
-                ->whereNull('dong')
-                ->whereRaw(
-                    "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
-                    [$address_lat, $address_lng, $address_lat, $distance]
-                )->get();
-            foreach ($regionList as $region) {
-                $sido = $region->name;  // $region->sido -> $region->name
-                $dongs = RegionCoordinate::select('dong')->where('sido', $sido)->whereNotNull('dong')->pluck('dong')->toArray();
+        $product = [];
 
-                if (!empty($dongs)) {
-                    $average_price = Transactions::whereIn('legalDong', $dongs)
-                        ->where('type', 0)
-                        ->where('is_matching', 1)
-                        ->avg('transactionPrice');
-
-                    $region->average_price = $average_price;
-                } else {
-                    $region->average_price = null;
-                }
+        if ($request->mapType == 0) {
+            if ($zoomLv >= 15 && $zoomLv <= 12) {
             }
-        } elseif ($zoomLv >= 11 && $zoomLv <= 13) {
-            $distance = 10;
-            $regionList = RegionCoordinate::select('id', 'sigungu as name', 'address_lat', 'address_lng')
-                ->whereNull('dong')
-                ->whereNotNull('sigungu')
-                ->whereRaw(
-                    "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
-                    [$address_lat, $address_lng, $address_lat, $distance]
-                )->get();
-            foreach ($regionList as $region) {
-                $sigungu = $region->name;  // $region->sigungu -> $region->name
-                $dongs = RegionCoordinate::select('dong')->where('sigungu', $sigungu)->whereNotNull('dong')->pluck('dong')->toArray();
 
-                if (!empty($dongs)) {
-                    $average_price = Transactions::whereIn('legalDong', $dongs)
-                        ->where('type', 0)
-                        ->where('is_matching', 1)
-                        ->avg('transactionPrice');
-
-                    $region->average_price = $average_price;
-                } else {
-                    $region->average_price = null;
-                }
-            }
-        } elseif ($zoomLv >= 14 && $zoomLv <= 15) {
-            $distance = 2;
-            $regionList = RegionCoordinate::select('id', 'dong as name', 'address_lat', 'address_lng')->whereNotNull('dong')
-                ->whereRaw(
-                    "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
-                    [$address_lat, $address_lng, $address_lat, $distance]
-                )->get();
-            foreach ($regionList as $region) {
-                $dong = $region->name;
-                $dongs = RegionCoordinate::select('dong')->where('dong', $dong)->whereNotNull('dong')->pluck('dong')->toArray();
-
-                if (!empty($dongs)) {
-                    $average_price = Transactions::whereIn('legalDong', $dongs)
-                        ->where('type', 0)
-                        ->where('is_matching', 1)
-                        ->avg('transactionPrice');
-
-                    $region->average_price = $average_price;
-                } else {
-                    $region->average_price = null;
-                }
-            }
-        } else {
-            $distance = 1;
-            // // 매물 데이터를 가져옴
-            // $maps = Product::select()
-            //     ->where('is_delete', '0')
-            //     ->where('is_blind', '0')
-            //     ->where('is_map', '0')
-            //     ->where('state', '>', '0')
-            //     ->whereRaw(
-            //         "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
-            //         [$address_lat, $address_lng, $address_lat, $distance]
-            //     )->get();
-
-            // 아파트 데이터를 가져옴
-            if (!isset($request->sale_product_type) || $request->sale_product_type == 4) {
-                $aptMaps = DataApt::select('data_apt.*', 'data_apt.y as address_lat', 'data_apt.x as address_lng')
-                    ->where('is_base_info', 1)
-                    ->where('is_detail_info', 1)
-                    ->where('is_map_info', 1)
-                    ->whereRaw(
-                        "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(y)) * COS(RADIANS(x) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(y)))), 2) < ?",
-                        [$address_lat, $address_lng, $address_lat, $distance]
-                    );
-                if ($request->useDate > 0) {
-                    $currentYear = Carbon::now()->year;
-                    if ($request->useDate == 1) {
-                        $lastYear = $currentYear - 1;
-                        $aptMaps->whereRaw('YEAR(kaptUsedate) >= ?', [$lastYear]);
-                    } elseif ($request->useDate == 2) {
-                        $lastYear = $currentYear - 2;
-                        $aptMaps->whereRaw('YEAR(kaptUsedate) >= ?', [$lastYear]);
-                    } elseif ($request->useDate == 3) {
-                        $lastYear = $currentYear - 5;
-                        $aptMaps->whereRaw('YEAR(kaptUsedate) >= ?', [$lastYear]);
-                    } elseif ($request->useDate == 4) {
-                        $lastYear = $currentYear - 10;
-                        $aptMaps->whereRaw('YEAR(kaptUsedate) >= ?', [$lastYear]);
-                    } elseif ($request->useDate == 5) {
-                        $lastYear = $currentYear - 15;
-                        $aptMaps->whereRaw('YEAR(kaptUsedate) >= ?', [$lastYear]);
-                    } elseif ($request->useDate == 6) {
-                        $lastYear = $currentYear - 15;
-                        $aptMaps->whereRaw('YEAR(kaptUsedate) < ?', [$lastYear]);
-                    }
-                }
-                $aptMaps = $aptMaps->get();
-
-                // 아파트 데이터 필터링
-                $filteredAptMaps = [];
-                foreach ($aptMaps as $apt) {
-                    $transactions = $apt->transactions()
-                        ->orderByRaw('year DESC, month DESC, day DESC')
-                        ->first();
-
-                    $apt->transactions = $transactions ?? '';
-                    $filteredAptMaps[] = $apt;
-                }
-            }
-            if (!isset($request->sale_product_type) || $request->sale_product_type == 1) {
-                // 지식 센터 데이터를 가져옴
-                $knowledges = KnowledgeCenter::select()
-                    ->where('is_delete', '0')
-                    ->where('is_blind', '0')
+            // 줌 레벨에 따른 클러스터링 처리
+            if ($zoomLv <= 12) {
+                $distance = 10000;
+                $regionList = RegionCoordinate::select('id', 'sido as name', 'address_lat', 'address_lng')
+                    ->whereNull('sigungu')
+                    ->whereNull('dong')
                     ->whereRaw(
                         "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
                         [$address_lat, $address_lng, $address_lat, $distance]
                     )->get();
-            }
-            if (!isset($request->sale_product_type) || $request->sale_product_type == 2) {
-                // 상가 데이터를 가져옴
-                $store = DataStore::select('data_store.*', 'data_store.y as address_lat', 'data_store.x as address_lng')
+                foreach ($regionList as $region) {
+                    $sido = $region->name;  // $region->sido -> $region->name
+                    $dongs = RegionCoordinate::select('dong')->where('sido', $sido)->whereNotNull('dong')->pluck('dong')->toArray();
+
+                    if (!empty($dongs)) {
+                        $average_price = Transactions::whereIn('legalDong', $dongs)
+                            ->where('type', 0)
+                            ->where('is_matching', 1)
+                            ->avg('transactionPrice');
+
+                        $region->average_price = $average_price;
+                    } else {
+                        $region->average_price = null;
+                    }
+                }
+            } elseif ($zoomLv >= 11 && $zoomLv <= 13) {
+                $distance = 10;
+                $regionList = RegionCoordinate::select('id', 'sigungu as name', 'address_lat', 'address_lng')
+                    ->whereNull('dong')
+                    ->whereNotNull('sigungu')
                     ->whereRaw(
-                        "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(y)) * COS(RADIANS(x) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(y)))), 2) < ?",
+                        "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
                         [$address_lat, $address_lng, $address_lat, $distance]
                     )->get();
-            }
-            if (!isset($request->sale_product_type) || $request->sale_product_type == 3) {
-                // 건물 데이터를 가져옴
-                $building = DataBuilding::select('data_building.*', 'data_building.y as address_lat', 'data_building.x as address_lng')
+                foreach ($regionList as $region) {
+                    $sigungu = $region->name;  // $region->sigungu -> $region->name
+                    $dongs = RegionCoordinate::select('dong')->where('sigungu', $sigungu)->whereNotNull('dong')->pluck('dong')->toArray();
+
+                    if (!empty($dongs)) {
+                        $average_price = Transactions::whereIn('legalDong', $dongs)
+                            ->where('type', 0)
+                            ->where('is_matching', 1)
+                            ->avg('transactionPrice');
+
+                        $region->average_price = $average_price;
+                    } else {
+                        $region->average_price = null;
+                    }
+                }
+            } elseif ($zoomLv >= 14 && $zoomLv <= 15) {
+                $distance = 2;
+                $regionList = RegionCoordinate::select('id', 'dong as name', 'address_lat', 'address_lng')->whereNotNull('dong')
                     ->whereRaw(
-                        "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(y)) * COS(RADIANS(x) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(y)))), 2) < ?",
+                        "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
                         [$address_lat, $address_lng, $address_lat, $distance]
                     )->get();
+                foreach ($regionList as $region) {
+                    $dong = $region->name;
+                    $dongs = RegionCoordinate::select('dong')->where('dong', $dong)->whereNotNull('dong')->pluck('dong')->toArray();
+
+                    if (!empty($dongs)) {
+                        $average_price = Transactions::whereIn('legalDong', $dongs)
+                            ->where('type', 0)
+                            ->where('is_matching', 1)
+                            ->avg('transactionPrice');
+
+                        $region->average_price = $average_price;
+                    } else {
+                        $region->average_price = null;
+                    }
+                }
+            } else {
+                $distance = 1;
+                // // 매물 데이터를 가져옴
+                // $maps = Product::select()
+                //     ->where('is_delete', '0')
+                //     ->where('is_blind', '0')
+                //     ->where('is_map', '0')
+                //     ->where('state', '>', '0')
+                //     ->whereRaw(
+                //         "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
+                //         [$address_lat, $address_lng, $address_lat, $distance]
+                //     )->get();
+
+                // 아파트 데이터를 가져옴
+                if (!isset($request->sale_product_type) || $request->sale_product_type == 4) {
+                    $aptMaps = DataApt::select('data_apt.*', 'data_apt.y as address_lat', 'data_apt.x as address_lng')
+                        ->where('is_base_info', 1)
+                        ->where('is_detail_info', 1)
+                        ->where('is_map_info', 1)
+                        ->whereRaw(
+                            "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(y)) * COS(RADIANS(x) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(y)))), 2) < ?",
+                            [$address_lat, $address_lng, $address_lat, $distance]
+                        );
+                    if ($request->useDate > 0) {
+                        $currentYear = Carbon::now()->year;
+                        if ($request->useDate == 1) {
+                            $lastYear = $currentYear - 1;
+                            $aptMaps->whereRaw('YEAR(kaptUsedate) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 2) {
+                            $lastYear = $currentYear - 2;
+                            $aptMaps->whereRaw('YEAR(kaptUsedate) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 3) {
+                            $lastYear = $currentYear - 5;
+                            $aptMaps->whereRaw('YEAR(kaptUsedate) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 4) {
+                            $lastYear = $currentYear - 10;
+                            $aptMaps->whereRaw('YEAR(kaptUsedate) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 5) {
+                            $lastYear = $currentYear - 15;
+                            $aptMaps->whereRaw('YEAR(kaptUsedate) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 6) {
+                            $lastYear = $currentYear - 15;
+                            $aptMaps->whereRaw('YEAR(kaptUsedate) < ?', [$lastYear]);
+                        }
+                    }
+                    $aptMaps = $aptMaps->get();
+
+                    // 아파트 데이터 필터링
+                    $filteredAptMaps = [];
+                    foreach ($aptMaps as $apt) {
+                        $transactions = $apt->transactions()
+                            ->orderByRaw('year DESC, month DESC, day DESC')
+                            ->first();
+
+                        $apt->transactions = $transactions ?? '';
+                        $filteredAptMaps[] = $apt;
+                    }
+                }
+                if (!isset($request->sale_product_type) || $request->sale_product_type == 1) {
+                    // 지식 센터 데이터를 가져옴
+                    $knowledges = KnowledgeCenter::select()
+                        ->where('is_delete', '0')
+                        ->where('is_blind', '0')
+                        ->whereRaw(
+                            "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
+                            [$address_lat, $address_lng, $address_lat, $distance]
+                        )->get();
+                }
+                if (!isset($request->sale_product_type) || $request->sale_product_type == 2) {
+                    // 상가 데이터를 가져옴
+                    $store = DataStore::select('data_store.*', 'data_store.y as address_lat', 'data_store.x as address_lng')
+                        ->whereRaw(
+                            "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(y)) * COS(RADIANS(x) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(y)))), 2) < ?",
+                            [$address_lat, $address_lng, $address_lat, $distance]
+                        )->get();
+                }
+                if (!isset($request->sale_product_type) || $request->sale_product_type == 3) {
+                    // 건물 데이터를 가져옴
+                    $building = DataBuilding::select('data_building.*', 'data_building.y as address_lat', 'data_building.x as address_lng')
+                        ->whereRaw(
+                            "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(y)) * COS(RADIANS(x) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(y)))), 2) < ?",
+                            [$address_lat, $address_lng, $address_lat, $distance]
+                        )->get();
+                }
             }
+        } else if ($request->mapType == 1) {
+            $distance = 1;
+            $product = Product::select()->where('state', 1)
+                ->whereRaw(
+                    "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
+                    [$address_lat, $address_lng, $address_lat, $distance]
+                )->get();
         }
+
+        // 현재 내 좌표에 가장 가까운 읍면동 꺼내오기
+        $centerDongName = RegionCoordinate::select('*', DB::raw("(6371 * acos(cos(radians($address_lat)) * cos(radians(address_lat)) * cos(radians(address_lng) - radians($address_lng)) + sin(radians($address_lat)) * sin(radians(address_lat)))) AS distance"))
+            ->whereNotNull('dong')
+            ->orderBy('distance')
+            ->limit(1)
+            ->first();
 
         // 최종 데이터 배열에 저장
         $data = [
@@ -273,6 +295,8 @@ class MapPcController extends Controller
             'knowledges' => $knowledges,
             'store' => $store,
             'building' => $building,
+            'centerDongName' => $centerDongName,
+            'product' => $product,
         ];
 
         // JSON 형태로 응답 반환
