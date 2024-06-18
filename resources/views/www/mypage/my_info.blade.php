@@ -38,8 +38,8 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="t_center mt18">
-                            <button class="btn_gray_ghost btn_sm" type="button" id="profile_drop">사진 등록</button>
+                        <div class="t_center mt18" id="profile_drop">
+                            <button class="btn_gray_ghost btn_sm" type="button">사진 등록</button>
                         </div>
                         <ul class="reg_bascic mt20">
                             <li>
@@ -136,30 +136,6 @@
 </x-layout>
 
 <script>
-    const realUpload = document.querySelector('.real-upload');
-    const upload = document.getElementById('profile_drop');
-
-    upload.addEventListener('click', () => realUpload.click());
-    realUpload.addEventListener('change', getImageFiles);
-
-    function getImageFiles(e) {
-        console.log(e.currentTarget.files[0]);
-
-        fetch("{{ route('api.imageupload') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    image: e.currentTarget.files[0]
-                }),
-            })
-            .then((response) => response.json())
-            .then((data) => console.log(data))
-    }
-
-    //////////////////////
-
 
     var profileimageDropzone = new Dropzone("#profile_drop", {
         url: "{{ route('api.imageupload') }}", // URL
