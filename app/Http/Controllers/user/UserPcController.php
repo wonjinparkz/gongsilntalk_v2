@@ -65,8 +65,8 @@ class UserPcController extends Controller
             ->first();
 
         $countList = Product::select(
-            DB::RAW('(select count(*) from product where users_id = product.users_id and state < 1) as request_count'),
-            DB::RAW('(select count(*) from product where users_id = product.users_id and state > 0) as transactions_count')
+            DB::RAW('(select count(*) from product where users_id = ' . Auth::guard('web')->user()->id . ' and state < 1) as request_count'),
+            DB::RAW('(select count(*) from product where users_id = ' . Auth::guard('web')->user()->id . ' and state > 0) as transactions_count')
         )->where('users_id', Auth::guard('web')->user()->id)->first();
 
         if ($request->ajax()) {

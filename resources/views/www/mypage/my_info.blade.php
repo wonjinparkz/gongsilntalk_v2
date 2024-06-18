@@ -118,7 +118,9 @@
                     </ul>
                     <div class="mt20">
                         <button class="btn_point btn_full_basic mt28" onclick="modal_close('info_modify')"
-                            type="button"><b>수정</b></button>
+                            type="button">
+                            <b>수정</b>
+                        </button>
                     </div>
 
                 </div>

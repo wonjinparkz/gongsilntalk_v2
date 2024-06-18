@@ -362,7 +362,7 @@
 
         pannellum.viewer('panorama-360-view', {
             "type": "equirectangular",
-            "panorama": "{{ Storage::url('file/' . $result->files[0]->path . '/' . $result->files[0]->path) }}",
+            "panorama": "{{ count($result->files) > 0 ? Storage::url('file/' . $result->files[0]->path . '/' . $result->files[0]->path) : '' }}",
             "autoLoad": true
         })
 
