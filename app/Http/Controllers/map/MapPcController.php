@@ -81,7 +81,7 @@ class MapPcController extends Controller
     }
 
     // 중개사무소 상세
-    public function mapAgent(Request $request)
+    public function mapAgentDetail(Request $request)
     {
         $result = User::select()->where('type', '=', '1')->where('company_state', '=', '1');
 

@@ -1,6 +1,6 @@
 @foreach ($agent as $agent)
     <!-- list : s -->
-    <a href="agent_detail.html">
+    <a href="{{ route('www.map.agent.detail', [$agent->id]) }}">
         <div class="agent_sm_list">
             <div class="agent_sm_info">
                 <p class="agent_txt_item_1">주식회사더블유파트너즈부동산중개</p>
