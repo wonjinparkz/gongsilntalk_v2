@@ -132,16 +132,78 @@ class UserPcController extends Controller
     }
 
     /**
+     * 내 매물 상태 변경
+     */
+    public function corpProductStateChange(Request $request)
+    {
+        info($request->id);
+
+        $result = Product::where('id', $request->id)->update([
+            'state' => $request->state
+        ]);
+
+        return $this->sendResponse($result, '상태 변경 완');
+    }
+
+    /**
      * 중개사 매물 관리
      */
-    public function corpProductMagagementListView(): View
+    public function corpProductMagagementListView(Request $request)
     {
         // 회원 정보
         $user = User::select()
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
-        return view('www.mypage.corpProductMagagement_list', compact('user'));
+        $countList = Product::select(
+            DB::RAW('(select count(*) from product where users_id = ' . Auth::guard('web')->user()->id . ' and user_type = 1) as all_count'),
+            DB::RAW('(select count(*) from product where users_id = ' . Auth::guard('web')->user()->id . ' and state = 1 and user_type = 1) as req_count'),
+            DB::RAW('(select count(*) from product where users_id = ' . Auth::guard('web')->user()->id . ' and state = 2 and user_type = 1) as done_count'),
+            DB::RAW('(select count(*) from product where users_id = ' . Auth::guard('web')->user()->id . ' and state > 2 and user_type = 1) as non_count')
+        )->where('users_id', Auth::guard('web')->user()->id)->first();
+
+        if ($request->ajax()) {
+            $type = $request->type ?? 0;
+
+            $productList = Product::select('product.*');
+            $productList->leftjoin('product_price', 'product_price.product_id', 'product.id');
+
+            $productList->where('product.users_id', Auth::guard('web')->user()->id);
+
+            if ($request->type == 1) {
+                $productList->where('product.state', 1);
+            } else if ($request->type == 2) {
+                $productList->where('product.state', 2);
+            } else if ($request->type == 3) {
+                $productList->where('product.state', '>', 2);
+            }
+
+            // 매물 종류
+            if (isset($request->product_type)) {
+                $productList->where('product.type', $request->product_type);
+            }
+
+            // 매매/전세/월세 등 여부
+            if (isset($request->payment_type)) {
+                $productList->where('product_price.payment_type', $request->payment_type);
+            }
+
+            // 주소 / 매물번호 검색
+            if (isset($request->search_text)) {
+                $productList->where(function ($query) use ($request) {
+                    $query->where('product.product_number', 'like', "%{$request->search_text}%")
+                        ->orWhere('product.address', 'like', "%{$request->search_text}%");
+                });
+            }
+
+            $productList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc');
+            $result = $productList->paginate(10);
+
+            $view = view('components.corp-mypage-product-list-layout', compact('result', 'type'))->render();
+            return response()->json(['html' => $view]);
+        }
+
+        return view('www.mypage.corpProductMagagement_list', compact('user', 'countList'));
     }
 
     /**

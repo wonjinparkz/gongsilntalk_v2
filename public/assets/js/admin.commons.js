@@ -37,18 +37,19 @@ function gte_useWFS(pnu) {
 
 }
 
-
-// 폴리곤 좌표 가져오기 api
+// 폴리곤 좌표 가져오기 API 함수
 function get_coordinates(pnu) {
-    var data = {};
-    data.key = V_WORD_KEY; /* key */
-    data.domain = APP_URL; /* domain */
-    data.typename = "dt_d002"; /* 질의 대상인 하나 이상의 피처 유형 이름의 리스트, 값은 쉼표로 구분화면 하단의 [레이어 목록] 참고 */
-    data.bbox = ""; /* 필지고유번호 19자리중 최소 8자리(시도[2]+시군구[3]+읍면동[3])(입력시 bbox값은 무시) */
-    data.pnu = pnu;
-    data.maxFeatures = "10"; /* 요청에 대한 응답으로 WFS가 반환해야하는 피처의 최대 값(최대 허용값 : 1000) */
-    data.resultType = "results"; /* 요청에 대하여 WFS가 어떻게 응답할 것인지 정의.results 값은 요청된 모든 피처를 포함하는 완전한 응답이 생성되어야 함을 나타내며, hits 값은 피처의 개수만이 반환되어야 함을 의미 */
-    data.srsName = "EPSG:4326"; /* 반환되어야 할 피처의 기하에 사용되어야 할 WFS가 지원하는 좌표체계 */
+    var data = {
+        key: V_WORD_KEY, // API 키
+        domain: APP_URL, // 도메인
+        typename: "dt_d002", // 질의 대상 피처 유형 이름
+        bbox: "", // 좌표로 이루어진 사각형 영역 (여기서는 사용 안 함)
+        pnu: pnu, // 필지 고유번호
+        maxFeatures: "10", // 반환할 피처의 최대 개수
+        resultType: "results", // 결과 타입 (전체 결과 반환)
+        srsName: "EPSG:4326", // 좌표체계
+        output: "text/javascript" // 출력 형식
+    };
 
     $.ajax({
         type: "get",
@@ -58,10 +59,10 @@ function get_coordinates(pnu) {
         data: data,
         async: true,
         success: function (response) {
+            console.log(response);
             var features = response.features;
             if (features && features.length > 0) {
                 var coordinates = features[0].geometry.coordinates;
-                console.log('Coordinates:', coordinates);
 
                 var multiPolygonCoords = coordinates[0][0]; // MultiPolygon의 첫 번째 폴리곤 좌표 추출
                 var convertedCoords = multiPolygonCoords.map(function (coord) {
@@ -77,11 +78,10 @@ function get_coordinates(pnu) {
             } else {
                 alert('POLYGON 데이터를 가져오지 못하였습니다.');
             }
-
         },
         error: function (xhr, stat, err) {
             alert('POLYGON 오류 발생 주소를 다시 입력해주세요.');
-            console.log('xhr :', stat);
+            console.log('xhr :', xhr);
             $('#address').val('');
         }
     });

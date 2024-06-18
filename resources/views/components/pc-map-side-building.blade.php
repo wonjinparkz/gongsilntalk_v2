@@ -31,6 +31,30 @@
         ? decodeJsonData($result->BrExposPubuseAreaInfo)
         : [];
 
+    // 모든 표제부 층 정보를 가져와 상단 층별정보에 값 넣어주기
+    $floor = 0;
+    $floorMin = 100;
+    $Minfloor = 0;
+
+    if (count($BrTitleInfo) > 0) {
+        foreach ($BrTitleInfo as $key => $info) {
+            $Tfloor = $info['grndFlrCnt'];
+            $TMinfloor = $info['ugrndFlrCnt'];
+
+            if ($Tfloor > $floor) {
+                $floor = $Tfloor;
+            }
+
+            if ($TMinfloor > $Minfloor) {
+                $Minfloor = $TMinfloor;
+            }
+
+            if ($Tfloor < $floorMin) {
+                // grndFlrCnt에서 가장 낮은 값을 찾기 위해 $Tfloor를 사용
+                $floorMin = $Tfloor;
+            }
+        }
+    }
 @endphp
 
 <div class="side_header">
@@ -105,7 +129,9 @@
                 <p>{{ $result->kbuildingdaCnt }}세대</p><label>총 세대수</label>
             </li>
             <li>
-                <p>0층/0층</p>
+                <p>
+                    {{ $Minfloor > 0 ? 'B' . $Minfloor : ($floor > 0 ? $floorMin : '-') }}층/{{ $floor > 0 ? $floor : '-' }}층
+                </p>
                 <label>최저/최고</label>
             </li>
             <li>
@@ -140,122 +166,7 @@
                 <div class="empty_wrap sm_type">
                     <span>실거래 내역이 없습니다.</span>
                 </div>
-                <div class="mt20">
-                    <p>최근 실거래가</p>
-                    <div class="transaction_box mt10">
-                        <div class="gray_deep"><span class="transaction_price">3억 8200만</span>(11층)</div>
-                        <div class="status_item_blue">1억(+4.1%)</div>
-                    </div>
 
-                    <div class="table_container2_sm mt10">
-                        <div class="td">거래일시</div>
-                        <div class="td">2023년 02월 4일</div>
-                        <div class="td">거래 총면적</div>
-                        <div class="td">전용 79.33㎡</div>
-                        <div class="td">면적당 단가</div>
-                        <div class="td">전용 792만/㎡</div>
-                    </div>
-
-                    <div class="section_price_wrap mt20">
-                        <div class="default_box showstep1">
-                            <table class="table_type_1">
-                                <colgroup>
-                                    <col width="80">
-                                    <col width="*">
-                                    <col width="*">
-                                </colgroup>
-                                <thead>
-                                    <tr>
-                                        <th>거래일</th>
-                                        <th>거래금액</th>
-                                        <th>층수</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>23.02</td>
-                                        <td>3억 8,200만</td>
-                                        <td>11층</td>
-                                    </tr>
-                                    <tr>
-                                        <td>23.02</td>
-                                        <td>3억 8,200만</td>
-                                        <td>11층</td>
-                                    </tr>
-                                    <tr>
-                                        <td>23.02</td>
-                                        <td>3억 8,200만</td>
-                                        <td>11층</td>
-                                    </tr>
-                                    <tr>
-                                        <td>23.02</td>
-                                        <td>3억 8,200만</td>
-                                        <td>11층</td>
-                                    </tr>
-                                    <tr>
-                                        <td>22.02</td>
-                                        <td>3억 8,200만</td>
-                                        <td>11층</td>
-                                    </tr>
-                                    <tr>
-                                        <td>22.02</td>
-                                        <td>3억 8,200만</td>
-                                        <td>11층</td>
-                                    </tr>
-                                    <tr>
-                                        <td>22.02</td>
-                                        <td>3억 8,200만</td>
-                                        <td>11층</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="btn_more_open">더보기</div>
-                    </div>
-                </div>
-                <hr class="space exp mt20">
-
-                <h4 class="mt20">평단가 기준 유사 실거래 사례</h4>
-
-                <div class="section_price_wrap mt20">
-                    <div class="default_box showstep1">
-                        <table class="table_type_1">
-                            <colgroup>
-                                <col width="60">
-                                <col width="*">
-                                <col width="100">
-                                <col width="100">
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th>거래일</th>
-                                    <th>단지명</th>
-                                    <th>거래금액</th>
-                                    <th>금액/평단가</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>23.01</td>
-                                    <td>한신아파트</td>
-                                    <td>1122.44㎡</td>
-                                    <td>2 억 8,200만<p class="gray_deep">820만/㎡</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>23.01</td>
-                                    <td>구로 힐스테이트</td>
-                                    <td>48.6㎡</td>
-                                    <td>2억 8,200만<p class="gray_deep">820만/㎡</p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="btn_more_open">더보기</div>
-                </div>
             </div>
             <!-- 거래내역 : e -->
         </div>
@@ -266,8 +177,8 @@
             </div>
 
             <div class="open_con_wrap building_item_1">
-                <div class="open_trigger">동별정보 <span><img
-                            src="{{ asset('assets/media/dropdown_arrow.png') }}"></span></div>
+                <div class="open_trigger">동별정보 <span><img src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
+                </div>
                 <div class="con_panel">
                     <div class="default_box showstep1">
                         <table class="table_type_1">
@@ -474,8 +385,9 @@
             <!-- 위치정보 : s -->
             <div class="side_section">
                 <h4>위치 및 주변정보</h4>
-                <div class="container_map_wrap mt18"><img src="{{ asset('assets/media/s_map.png') }}"
-                        class="w_100"></div>
+                <div class="container_map_wrap mt18">
+                    <x-pc-around-map :address_lat="$result->address_lat" :address_lng="$result->address_lng" />
+                </div>
                 <div class="map_detail_wrp">
                     <ul class="tab_toggle_menu tab_type_4">
                         <li class="active"><a href="javascript:(0)">대중교통</a></li>
@@ -508,64 +420,11 @@
             <!-- 위치정보 : s -->
         </div>
         <div class="sction_item">
-            <div class="side_section">
-                <div class="flex_between">
-                    <h4>매물정보</h4>
-                    <button class="btn_xs btn_gray btn_all" onclick="location.href='property_map.html'">매물 더보기<img
-                            src="{{ asset('assets/media/ic_list_arrow.png') }}"></button>
-                </div>
-            </div>
-
-            <div class="side_section">
-                <div class="empty_wrap box_type">
-                    <p>등록된 매물이 없습니다.</p>
-                    <span>찾고 있는 매물이 있다면<br>검색을 통해 직접 매물을 탐색해보세요.</span>
-                    <div class="mt8"><button class="btn_point_ghost btn_md"
-                            onclick="location.href='property_map.html'">매물 검색하기</button></div>
-                </div>
-            </div>
-
-
-            <div class="property_sm_list">
-                <div class="frame_img_mid">
-                    <span class="btn_wish_sm" onclick="btn_wish(this)"></span>
-                    <div class="img_box"><img src="{{ asset('assets/media/s_3.png') }}"></div>
-                </div>
-                <div class="property_sm_info">
-                    <p class="property_sm_item_1">매매 2억 9,900만</p>
-                    <p class="txt_lh_1">사무실 강남구 논현동</p>
-                    <p class="txt_lh_1">62.11㎡ / 46.2㎡·3층</p>
-                    <p class="property_sm_item_2">영등포시장역 도보 1분 초역세권 매물 소개를 합니다.</p>
-                </div>
-            </div>
-
-            <div class="property_sm_list">
-                <div class="frame_img_mid">
-                    <span class="btn_wish_sm" onclick="btn_wish(this)"></span>
-                    <div class="img_box"><img src="{{ asset('assets/media/s_3.png') }}"></div>
-                </div>
-                <div class="property_sm_info">
-                    <p class="property_sm_item_1">매매 2억 9,900만</p>
-                    <p class="txt_lh_1">사무실 강남구 논현동</p>
-                    <p class="txt_lh_1">62.11㎡ / 46.2㎡·3층</p>
-                    <p class="property_sm_item_2">영등포시장역 도보 1분 초역세권 매물 소개를 합니다.</p>
-                </div>
-            </div>
-
-            <div class="side_section">
-                <div class="btn_half_wrap">
-                    <button class="btn_point btn_full_thin" onclick="location.href='offer_step_1.html'">매물
-                        구하기</button>
-                    <button class="btn_point btn_full_thin" onclick="location.href='estate_reg_1.html'">매물
-                        내놓기</button>
-                </div>
-            </div>
-
-
+            <!-- 매물정보 : s -->
+            <x-pc-map-product-list />
+            <!-- 매물정보 : e -->
         </div>
     </div>
-
-</div>
 
 </div>
 

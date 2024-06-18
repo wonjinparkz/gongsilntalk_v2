@@ -2,6 +2,35 @@
     'result' => [],
 ])
 
+@php
+
+    function decodeJsonData($data)
+    {
+        $decodedData = [];
+
+        // Null check for the input data
+        if ($data !== null) {
+            foreach ($data as $info) {
+                $jsonData = json_decode($info->json_data ?? null, true);
+
+                if ($jsonData !== null) {
+                    $decodedData[] = $jsonData;
+                }
+            }
+        }
+
+        return $decodedData;
+    }
+
+    // Null check for each $result property before calling the function
+    $BrTitleInfo = isset($result->BrTitleInfo) ? decodeJsonData($result->BrTitleInfo) : [];
+    $BrRecapTitleInfo = isset($result->BrRecapTitleInfo) ? decodeJsonData($result->BrRecapTitleInfo) : [];
+    $BrFlrOulnInfo = isset($result->BrFlrOulnInfo) ? decodeJsonData($result->BrFlrOulnInfo) : [];
+    $BrExposInfo = isset($result->BrExposInfo) ? decodeJsonData($result->BrExposInfo) : [];
+    $BrExposPubuseAreaInfo = isset($result->BrExposPubuseAreaInfo)
+        ? decodeJsonData($result->BrExposPubuseAreaInfo)
+        : [];
+@endphp
 <div class="side_header">
     <div class="left_area"><a href="javascript:history.go(-1)"><img
                 src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
@@ -128,209 +157,9 @@
 
         <div class="sction_item">
             <!-- 건물·토지정보 : s -->
-            <div class="side_section">
-                <h4>건물·토지정보</h4>
-            </div>
-
-            <div class="open_con_wrap building_item_1">
-                <div class="open_trigger">동별정보 <span><img src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
-                </div>
-                <div class="con_panel">
-                    <div class="default_box showstep1">
-                        <table class="table_type_1">
-                            <colgroup>
-                                <col width="40">
-                                <col width="*">
-                                <col width="55">
-                                <col width="50">
-                                <col width="90">
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th class="txt_sm">선택</th>
-                                    <th class="txt_sm">대장종류</th>
-                                    <th class="txt_sm">동</th>
-                                    <th class="txt_sm">주용도</th>
-                                    <th class="txt_sm">면적</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="txt_sm">
-                                        <input type="radio" name="select" id="select_1" checked>
-                                        <label for="select_1"><span></span></label>
-                                    </td>
-                                    <td class="txt_sm">총괄표제부(집합)</td>
-                                    <td class="txt_sm">-</td>
-                                    <td class="txt_sm">-</td>
-                                    <td class="txt_sm">1582.26㎡</td>
-                                </tr>
-                                <tr>
-                                    <td class="txt_sm">
-                                        <input type="radio" name="select" id="select_1">
-                                        <label for="select_1"><span></span></label>
-                                    </td>
-                                    <td class="txt_sm">일반건축물(일반)</td>
-                                    <td class="txt_sm">관리사무소</td>
-                                    <td class="txt_sm">공동주택</td>
-                                    <td class="txt_sm">582.6㎡</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="btn_more_open">더보기</div>
-                </div>
-
-            </div>
-
-            <div class="building_item_0">
-                <div class="default_box showstep1">
-                    <div class="table_container2_sm mt10">
-                        <div class="td">규모</div>
-                        <div class="td">{{ $result->min_floor }}층 / {{ $result->max_floor }}층</div>
-                        <div class="td">준공일</div>
-                        <div class="td">{{ $result->completion_date }}</div>
-                        <div class="td">대지면적</div>
-                        <div class="td">{{ $result->square }}㎡</div>
-                        <div class="td">건축면적</div>
-                        <div class="td">{{ $result->building_square }}㎡</div>
-                        <div class="td">연면적</div>
-                        <div class="td">{{ $result->total_floor_square }}㎡</div>
-                        <div class="td">총 주차대수</div>
-                        <div class="td">총 {{ $result->parking_count }}대</div>
-                        <div class="td">시공가</div>
-                        <div class="td"> {{ $result->developer ?? '-' }}</div>
-                        <div class="td">시행사</div>
-                        <div class="td"> {{ $result->parking_count ?? '-' }}</div>
-                    </div>
-                </div>
-                <div class="btn_more_open">더보기</div>
-            </div>
-
-
-            <div class="open_con_wrap building_item_2">
-                <div class="open_trigger">층별 정보 <span><img
-                            src="{{ asset('assets/media/dropdown_arrow.png') }}"></span></div>
-                <div class="con_panel">
-                    <div class="default_box showstep1">
-                        <table class="table_type_1">
-                            <colgroup>
-                                <col width="60">
-                                <col width="*">
-                                <col width="100">
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th>층수</th>
-                                    <th>용도</th>
-                                    <th>면적</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>B3층</td>
-                                    <td>아파트</td>
-                                    <td>1122.44㎡</td>
-                                </tr>
-                                <tr>
-                                    <td>B3층</td>
-                                    <td>아파트</td>
-                                    <td>1122.44㎡</td>
-                                </tr>
-                                <tr>
-                                    <td>B3층</td>
-                                    <td>아파트</td>
-                                    <td>1122.44㎡</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="btn_more_open">더보기</div>
-                </div>
-            </div>
-
-            <div class="open_con_wrap building_item_3">
-                <div class="open_trigger">전유부 <span><img src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
-                </div>
-                <div class="con_panel">
-                    <div class="dropdown_box s_sm w_40">
-                        <button class="dropdown_label">103동 - 102</button>
-                        <ul class="optionList">
-                            <li class="optionItem">103동 - 102</li>
-                        </ul>
-                    </div>
-
-                    <div class="default_box showstep1 mt10">
-                        <table class="table_type_1">
-                            <colgroup>
-                                <col width="50">
-                                <col width="50">
-                                <col width="60">
-                                <col width="*">
-                                <col width="100">
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th>구분</th>
-                                    <th>층별</th>
-                                    <th>건축물</th>
-                                    <th>용도</th>
-                                    <th>면적</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>전유</td>
-                                    <td>B1층</td>
-                                    <td>주</td>
-                                    <td>복도, 화장실</td>
-                                    <td>1122.44㎡</td>
-                                </tr>
-                                <tr>
-                                    <td>공용</td>
-                                    <td>각층</td>
-                                    <td>부속</td>
-                                    <td>전기실, 기계실</td>
-                                    <td>1122.44㎡</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="open_con_wrap building_item_4">
-                <div class="open_trigger">토지정보 <span><img
-                            src="{{ asset('assets/media/dropdown_arrow.png') }}"></span></div>
-                <div class="con_panel">
-                    <div class="default_box showstep1">
-                        <div class="table_container2_sm mt10">
-                            <div class="td">면적</div>
-                            <div class="td">569.44㎡</div>
-                            <div class="td">지목</div>
-                            <div class="td">대</div>
-                            <div class="td">용도지역</div>
-                            <div class="td">제1종일반주거지역</div>
-                            <div class="td">이용상황</div>
-                            <div class="td">아파트</div>
-                            <div class="td">형상</div>
-                            <div class="td">사다리형</div>
-                            <div class="td">지형높이</div>
-                            <div class="td">급경사</div>
-                            <div class="td">동 개별 공시지가(원/m²)</div>
-                            <div class="td">415000</div>
-                            <div class="td">지역지구등
-                                <hr>지정여부
-                            </div>
-                            <div class="td">
-                                과밀억제권역,정비구역(도렴도시환경정비사업),가축사육제한구역,대공방어협조구역(위탁고도:54-236m),도시지역,일반상업지역,4대문안</div>
-                        </div>
-                    </div>
-                    <div class="btn_more_open">더보기</div>
-                </div>
-                <!-- 건물·토지정보 : e -->
-            </div>
+            <x-pc-buildingledger :BrTitleInfo="$BrTitleInfo" :BrRecapTitleInfo="$BrRecapTitleInfo" :BrFlrOulnInfo="$BrFlrOulnInfo" :BrExposInfo="$BrExposInfo"
+                :BrExposPubuseAreaInfo="$BrExposPubuseAreaInfo" :characteristics_json="$result->characteristics_json" :useWFS_json="$result->useWFS_json" />
+            <!-- 건물·토지정보 : e -->
         </div>
 
         <div class="sction_item">
@@ -410,8 +239,8 @@
             <!-- 위치정보 : s -->
             <div class="side_section">
                 <h4>위치 및 주변정보</h4>
-                <div class="container_map_wrap mt18"><img src="{{ asset('assets/media/s_map.png') }}"
-                        class="w_100">
+                <div class="container_map_wrap mt18">
+                    <x-pc-around-map :address_lat="$result->address_lat" :address_lng="$result->address_lng" />
                 </div>
                 <div class="map_detail_wrp">
                     <ul class="tab_toggle_menu tab_type_4">

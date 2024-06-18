@@ -155,9 +155,14 @@ Route::controller(CommunityPcController::class)->group(function () {
  */
 Route::middleware('pc.auth')->controller(UserPcController::class)->group(function () {
     Route::get('/mypage/main', 'mypageMainView')->name('www.mypage.mian.view');
+    // 사용자 매물 관리
     Route::get('/mypage/product/magagement/list', 'productMagagementListView')->name('www.mypage.product.magagement.list.view');
+
+    // 중개사 매물 관리
     Route::get('/mypage/corp/product/magagement/list', 'corpProductMagagementListView')->name('www.mypage.corp.product.magagement.list.view');
+
     Route::post('/mypage/product/magagement/delete', 'userProductDelete')->name('www.mypage.product.magagement.delete');
+    Route::post('/mypage/product/state/change', 'corpProductStateChange')->name('www.mypage.product.state.change');
 
     // 관심 매물/최근 본 매물
     Route::get('/mypage/product/interest/list', 'productInterestListView')->name('www.mypage.product.interest.list.view');

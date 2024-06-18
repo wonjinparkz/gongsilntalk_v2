@@ -38,7 +38,7 @@
                 </thead>
                 <tbody>
                     @php
-                        Log::info('BrExposInfo', $BrExposInfo);
+                        Log::info('BrExposPubuseAreaInfo', $BrExposPubuseAreaInfo);
                         $index = 0;
                     @endphp
                     @if (count($BrRecapTitleInfo) > 0)
@@ -206,20 +206,28 @@
 <div class="open_con_wrap building_item_3">
     <div class="open_trigger">전유부 <span><img src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
     </div>
-    <div class="con_panel">
+    {{-- <div class="con_panel">
         <div class="dropdown_box s_sm w_40">
-            <button class="dropdown_label">103동 - 102</button>
-            @if (count($BrExposInfo) > 0)
-                @foreach ($dongName as $name)
-                    <ul class="optionList {{ $name }}">
-                        @foreach ($BrExposInfo as $info)
-                            @if ($name == $info['dongNm'])
-                                <li class="optionItem">{{ $name }} - {{ $info['hoNm'] }}</li>
-                            @endif
-                        @endforeach
-                    </ul>
-                @endforeach
-            @endif
+            <button class="dropdown_label"></button>
+            <ul class="optionList">
+                @php
+                    $uniqueList = [];
+                    foreach ($BrExposPubuseAreaInfo ?? [] as $info) {
+                        $key = $info['dongNm'] . ' ' . $info['hoNm'];
+                        if (!isset($uniqueList[$key])) {
+                            $uniqueList[$key] = $info;
+                        }
+                    }
+                    $BrExposPubuseAreaInfoArray = array_values($uniqueList);
+                @endphp
+                @if (count($BrExposPubuseAreaInfoArray) > 0)
+                    @foreach ($BrExposPubuseAreaInfoArray as $info)
+                        <li class="optionItem {{ $info['dongNm'] }} dongInfo">
+                            {{ $info['dongNm'] }} - {{ $info['hoNm'] }}
+                        </li>
+                    @endforeach
+                @endif
+            </ul>
         </div>
         <div class="default_box showstep1 mt10">
             <table class="table_type_1">
@@ -239,26 +247,23 @@
                         <th>면적</th>
                     </tr>
                 </thead>
-                @if (count($BrExposInfo) > 0)
-                    @foreach ($dongName as $name)
-                        <tbody class="{{ $name }} dongInfo">
-                            @foreach ($BrExposInfo as $info)
-                                @if ($name == $info['dongNm'])
-                                    <tr>
-                                        <td>{{ $info['regstrKindCdNm'] }}</td>
-                                        <td>{{ $info['flrNo'] }}</td>
-                                        {{-- <td>{{ $info['mainPurpsCdNm'] }}</td>
-                                        <td>{{ $info['mainAtchGbCdNm'] }}㎡</td> --}}
-                                        {{-- <td>{{ $info['archArea'] }}㎡</td> --}}
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    @endforeach
-                @endif
+                <tbody class="">
+                    @if (count($BrExposPubuseAreaInfo) > 0)
+                        @foreach ($BrExposPubuseAreaInfo as $info)
+                            <tr class="{{ $info['dongNm'] }} dongInfo">
+                                <td>{{ $info['exposPubuseGbCdNm'] }}</td>
+                                <td>{{ $info['flrNoNm'] }}</td>
+                                <td>{{ $info['mainPurpsCdNm'] }}</td>
+                                <td>{{ $info['mainAtchGbCdNm'] }}</td>
+                                <td>{{ $info['area'] }}㎡</td>
+                            </tr>
+                        @endforeach
+                    @endif
+                </tbody>
             </table>
         </div>
-    </div>
+        <div class="btn_more_open">더보기</div>
+    </div> --}}
 </div>
 
 @if ($characteristics_json != '')
@@ -324,11 +329,8 @@
 
     function ShowDongInfo() {
         var dongName = $('input[name="dong"]:checked').val();
-        $('.dongInfo').hide();
-        $('.' + dongName).show();
+        $('.dongInfo').css('display', 'none');
+        $('.' + dongName).css('display', '');
     }
 
-    function ShwoFloorInfo() {
-
-    }
 </script>
