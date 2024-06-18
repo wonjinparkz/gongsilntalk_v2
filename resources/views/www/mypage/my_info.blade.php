@@ -55,10 +55,16 @@
                                 <button class="btn_gray_ghost btn_full_thin" id="btn_pw"
                                     onclick="btn_pw_change()">비밀번호 변경</button>
                                 <div class="pw_change_wrap" id="input_pw">
-                                    <input type="password" placeholder="현재 비밀번호">
-                                    <input type="password" placeholder="새 비밀번호 8자리 이상 영문, 숫자 포함">
-                                    <input type="password" placeholder="비밀번호 확인">
-                                    <button class="btn_point btn_full_thin" type="button">변경 완료</button>
+                                    <input type="password" id="password" name="password" placeholder="현재 비밀번호">
+                                    <p id="password_confirm" style="color:red; display:none;"></p>
+                                    <input type="password" id="new_password" name="new_password"
+                                        placeholder="새 비밀번호 8자리 이상 영문, 숫자 포함">
+                                    <p id="new_password_confirm" style="color:red; display:none;"></p>
+                                    <input type="password" id="new_password_confirmation"
+                                        name="new_password_confirmation" placeholder="비밀번호 확인">
+                                    <p id="new_password_confirmation_confirm" style="color:red; display:none;"></p>
+                                    <button class="btn_point btn_full_thin" type="button" onclick="changePW();">변경
+                                        완료</button>
                                 </div>
 
                             </li>
@@ -136,7 +142,6 @@
 </x-layout>
 
 <script>
-
     var profileimageDropzone = new Dropzone("#profile_drop", {
         url: "{{ route('api.imageupload') }}", // URL
         method: 'post', // method
@@ -171,11 +176,54 @@
         }
     });
 
-
-
     // 이미지 제거
     function removeImage(elem) {
-
         $(elem).parent().remove();
+    }
+
+
+    function changePW() {
+        $('#password_confirm').hide();
+        $('#new_password_confirm').hide();
+        $('#new_password_confirmation_confirm').hide();
+
+        $('#password').css('border', '1px solid #D2D1D0');
+        $('#new_password').css('border', '1px solid #D2D1D0');
+        $('#new_password_confirmation').css('border', '1px solid #D2D1D0');
+
+        $.ajax({
+                url: '{{ route('www.change.pw') }}',
+                type: "post",
+                data: {
+                    'password': $('#password').val(),
+                    'new_password': $('#new_password').val(),
+                    'new_password_confirmation': $('#new_password_confirmation').val()
+                }
+            })
+            .done(function(data) {
+                location.reload();
+            })
+            .fail(function(jqXHR, ajaxOptions, thrownError) {
+                let fieldName = '';
+                switch (jqXHR.responseJSON.errors) {
+                    case 1:
+                        fieldName = 'password';
+                        break;
+                    case 2:
+                        fieldName = 'new_password';
+                        break;
+                    case 3:
+                        fieldName = 'new_password_confirmation';
+                        break;
+                    default:
+                        break;
+                }
+
+                $('#' + fieldName).css('border', '1px solid #ff0000');
+
+                $('#' + fieldName).focus();
+                $('#' + fieldName + '_confirm').css('display', 'inline');
+                $('#' + fieldName + '_confirm').text(jqXHR.responseJSON.message);
+            });
     }
 </script>

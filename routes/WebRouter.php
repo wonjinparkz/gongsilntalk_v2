@@ -207,6 +207,8 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::get('/mypage/company/info', 'companyInfoView')->name('www.mypage.company.info');
     Route::get('/mypage/community/list', 'communityListView')->name('www.mypage.community.list.view');
     Route::get('/mypage/alarm/list', 'alarmListView')->name('www.mypage.alarm.list.view');
+
+    Route::post('/changepw', 'changePw')->name('www.change.pw');
 });
 
 Route::middleware('pc.auth')->controller(ProposalPcController::class)->group(function () {
