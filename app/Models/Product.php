@@ -95,14 +95,14 @@ class Product extends BaseModel
      */
     public function productAddInfo()
     {
-        return $this->hasOne(productAddInfo::class, 'product_id', 'id');
+        return $this->hasOne(ProductAddInfo::class, 'product_id', 'id');
     }
     /**
      * 매물 옵션 정보
      */
     public function productOptions()
     {
-        return $this->hasMany(productOptions::class, 'product_id', 'id');
+        return $this->hasMany(ProductOptions::class, 'product_id', 'id');
     }
     /**
      * 매물 관리비 항목
