@@ -161,6 +161,39 @@ class UserAuthPcController extends Controller
     }
 
     /**
+     * sns 회원가입
+     */
+    public function snsJoinReg(PcLoginRequest $request): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), []);
+
+
+        if ($validator->fails()) {
+            return redirect(route('www.login.login'))
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $result = User::create([
+            'provider' => $request->provider ?? 'E',
+            'token' => $request->provider != 'E' ? Crypt::decrypt($request->token) : null,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+            'birth' => $request->birth,
+            'type' => 0,
+            'state' => 0,
+            'is_marketing' => $request->is_marketing ?? 0,
+        ]);
+
+
+        $request->authenticate();
+        $request->session()->regenerate();
+        return redirect()->route('www.main.main')->with('message', '회원가입이 완료 되었습니다.');
+        // return redirect(route('www.main.main'));
+    }
+
+    /**
      * 로그아웃
      */
     public function logout(Request $request)
