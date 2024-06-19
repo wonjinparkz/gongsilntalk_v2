@@ -189,10 +189,10 @@ class UserAuthPcController extends Controller
         ]);
 
 
-        $request->authenticate();
-        $request->session()->regenerate();
-        return redirect()->route('www.main.main')->with('message', '회원가입이 완료 되었습니다.');
-        // return redirect(route('www.main.main'));
+        // $request->authenticate();
+        // $request->session()->regenerate();
+        // return redirect()->route('www.main.main')->with('message', '회원가입이 완료 되었습니다.');
+        return redirect(route('www.login.login'));
     }
 
     /**
