@@ -163,7 +163,7 @@ class UserAuthPcController extends Controller
     /**
      * sns 회원가입
      */
-    public function snsJoinReg(PcLoginRequest $request): RedirectResponse
+    public function snsJoinReg(Request $request): RedirectResponse
     {
         $validator = Validator::make($request->all(), []);
 
