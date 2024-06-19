@@ -13,7 +13,7 @@
 
     <div class="body">
         <div class="inner_wrap">
-            <form class="form" method="POST" action="{{ route('www.register.create') }}">
+            <form class="form" method="POST" action="{{ route('www.sns.join.reg') }}">
                 @csrf
                 <input type="hidden" name="token" value="{{ Request::get('token') }}" />
                 <input type="hidden" id="verification" name="verification" value='{{ old('verification') ?? 'N' }}'>
