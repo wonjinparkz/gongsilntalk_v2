@@ -87,6 +87,17 @@ class UserAuthPcController extends Controller
         return view('www.register.corp_register2', compact('termsList', 'companyInfo'));
     }
 
+
+    /**
+     * sns 회원가입 화면
+     */
+    public function snsJoinView(): View
+    {
+        $termsList = Terms::select()->where('type', '0')->get();
+
+        return view('www.register.sns_register_reg', compact('termsList'));
+    }
+
     /**
      * PC 로그인
      */
@@ -147,6 +158,41 @@ class UserAuthPcController extends Controller
         $request->session()->regenerate();
 
         return redirect(route('www.main.main'));
+    }
+
+    /**
+     * sns 회원가입
+     */
+    public function snsJoinReg(PcLoginRequest $request): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), []);
+
+
+        if ($validator->fails()) {
+            return redirect(route('www.login.login'))
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $result = User::create([
+            'email' => $request->email ?? Crypt::decrypt($request->token),
+            'password' => Hash::make($request->password) ?? null,
+            'provider' => $request->provider ?? 'E',
+            'token' => $request->provider != 'E' ? Crypt::decrypt($request->token) : null,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+            'birth' => $request->birth,
+            'type' => 0,
+            'state' => 0,
+            'is_marketing' => $request->is_marketing ?? 0,
+        ]);
+
+
+        $request->authenticate();
+        $request->session()->regenerate();
+        return redirect()->route('www.main.main')->with('message', '회원가입이 완료 되었습니다.');
+        // return redirect(route('www.main.main'));
     }
 
     /**
@@ -362,7 +408,7 @@ class UserAuthPcController extends Controller
         try {
             $kakao = Socialite::driver('kakao')->user();
 
-            $user = User::select()->where('token', $kakao->id)->where('signup_type', 'K')->first();
+            $user = User::select()->where('token', $kakao->id)->where('provider', 'K')->first();
 
             if ($user != null) { // 로그인 후 메인 화면으로 이동
                 if ($user->state == 0) {
@@ -379,9 +425,10 @@ class UserAuthPcController extends Controller
 
                 return Redirect::route('www.main.main');
             } else { // 회원 가입 화면으로 이동
-                return Redirect::route('www.register.type', ['sns_type' => 'K', 'token' => Crypt::encrypt($kakao->id)]);
+                return Redirect::route('www.register.type', ['provider' => 'K', 'token' => Crypt::encrypt($kakao->id)]);
             }
         } catch (Exception $e) {
+            info($e . 'E');
             return redirect(route('www.login.login'));
         }
     }
@@ -402,7 +449,7 @@ class UserAuthPcController extends Controller
         try {
             $naver = Socialite::driver('naver')->user();
 
-            $user = User::select()->where('token', $naver->id)->where('signup_type', 'N')->first();
+            $user = User::select()->where('token', $naver->id)->where('provider', 'N')->first();
 
             if ($user != null) { // 로그인 후 메인 화면으로 이동
                 if ($user->state == 0) {
@@ -418,7 +465,7 @@ class UserAuthPcController extends Controller
                 Auth::guard('web')->login($user);
                 return Redirect::route('www.main.main');
             } else { // 회원 가입 화면으로 이동
-                return Redirect::route('www.register.type', ['sns_type' => 'N', 'token' => Crypt::encrypt($naver->id)]);
+                return Redirect::route('www.register.type', ['provider' => 'N', 'token' => Crypt::encrypt($naver->id)]);
             }
         } catch (Exception $e) {
             return redirect(route('www.login.login'));
@@ -441,7 +488,7 @@ class UserAuthPcController extends Controller
         try {
             $naver = Socialite::driver('naver')->user();
 
-            $user = User::select()->where('token', $naver->id)->where('signup_type', 'N')->first();
+            $user = User::select()->where('token', $naver->id)->where('provider', 'A')->first();
 
             if ($user != null) { // 로그인 후 메인 화면으로 이동
                 if ($user->state == 0) {
@@ -457,7 +504,7 @@ class UserAuthPcController extends Controller
                 Auth::guard('web')->login($user);
                 return Redirect::route('www.main.main');
             } else { // 회원 가입 화면으로 이동
-                return Redirect::route('www.register.type', ['sns_type' => 'N', 'token' => Crypt::encrypt($naver->id)]);
+                return Redirect::route('www.register.type', ['provider' => 'A', 'token' => Crypt::encrypt($naver->id)]);
             }
         } catch (Exception $e) {
             return redirect(route('www.login.login'));

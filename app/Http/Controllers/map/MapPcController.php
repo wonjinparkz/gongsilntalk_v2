@@ -57,8 +57,8 @@ class MapPcController extends Controller
 
         // 중개사무소 목록 보기
         $agent = User::select()
-            ->where('type', '=', '1')
-            ->where('company_state', '=', '1');
+            ->where('type', '1')
+            ->where('company_state', '1');
         $agent = $agent->get();
 
         info($agent . 'agents');
@@ -75,7 +75,7 @@ class MapPcController extends Controller
     // 매물 상세
     public function mapRoomDetail(Request $request)
     {
-        $result = Product::with('priceInfo', 'productAddInfo', 'productOptions', 'productServices')->where('id', $request->id)->first();
+        $result = Product::with('priceInfo', 'productAddInfo', 'productOptions', 'productServices', 'users')->where('id', $request->id)->first();
 
         return view('www.map.room-detail', compact('result'));
     }
@@ -83,9 +83,9 @@ class MapPcController extends Controller
     // 중개사무소 상세
     public function mapAgentDetail(Request $request)
     {
-        $result = User::select()->where('type', '=', '1')->where('company_state', '=', '1');
+        $result = User::select()->where('type', '1')->where('company_state', '1')->first();
 
-        return view('www.map.map-agent-detail', compact('result'));
+        return view('www.map.agent-detail', compact('result'));
     }
 
     public function getMapMarker(Request $request)

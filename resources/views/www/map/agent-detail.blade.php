@@ -4,7 +4,7 @@
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
                     src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
-        <div class="m_title">공실앤톡공인중개사사무소</div>
+        <div class="m_title">{{ $result->company_name ?? '-' }}</div>
         <div class="right_area"><img src="{{ asset('assets/media/header_btn_share_deep.png') }}"
                 onclick="modal_open_slide('share')"></div>
     </div>
@@ -28,7 +28,10 @@
     </div>
     <div class="md_slide_overlay md_slide_overlay_share" onclick="modal_close_slide('share')"></div>
     <!-- m::header bar : s -->
-
+    @php
+        $address = $result->company_address ?? null;
+        $addressDetail = $result->company_address_detail ?? null;
+    @endphp
 
     <div class="body">
         <div class="agent_head">
@@ -36,11 +39,11 @@
                 <div class="img_box"><img src="{{ asset('assets/media/default_img.png') }}"></div>
             </div>
             <div class="agent_detail_info">
-                <h3>공실앤톡부동산중개법인</h3>
-                <div class="info_row"><span>대표</span>정수동</div>
-                <div class="info_row"><span>주소</span>경기도 화성시 동탄기흥로 557 , 103호(영천동) </div>
-                <div class="info_row"><span>대표번호</span>031-1600-09624</div>
-                <div class="info_row"><span>휴대전화</span>010-5184-7214</div>
+                <h3>{{ $result->company_name ?? '-' }}</h3>
+                <div class="info_row"><span>대표</span>{{ $result->company_ceo ?? '-' }}</div>
+                <div class="info_row"><span>주소</span>{{ $address ? $address . ' ' . $addressDetail : '-' }} </div>
+                <div class="info_row"><span>대표번호</span>{{ $result->company_phone ?? '-' }}</div>
+                <div class="info_row"><span>휴대전화</span>{{ $result->phone ?? '-' }}</div>
             </div>
         </div>
 

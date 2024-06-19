@@ -97,6 +97,8 @@ Route::controller(UserAuthPcController::class)->group(function () {
 
     Route::get('/apple', 'appleLogin')->name('www.login.apple');
     Route::get('/apple/oauth', 'appleCallback');
+    Route::get('/register/type', 'snsJoinView')->name('www.register.type'); // sns 회원가입 화면
+    Route::post('register/sns/joinreg', 'snsJoinReg')->name('www.sns.join.reg'); // sns 회원가입
 });
 
 Route::controller(SiteProductPcController::class)->group(function () {
