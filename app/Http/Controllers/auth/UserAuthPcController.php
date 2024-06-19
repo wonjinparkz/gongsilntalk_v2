@@ -362,7 +362,7 @@ class UserAuthPcController extends Controller
         try {
             $kakao = Socialite::driver('kakao')->user();
 
-            $user = User::select()->where('token', $kakao->id)->where('signup_type', 'K')->first();
+            $user = User::select()->where('token', $kakao->id)->where('provider', 'K')->first();
 
             if ($user != null) { // 로그인 후 메인 화면으로 이동
                 if ($user->state == 0) {
@@ -402,7 +402,7 @@ class UserAuthPcController extends Controller
         try {
             $naver = Socialite::driver('naver')->user();
 
-            $user = User::select()->where('token', $naver->id)->where('signup_type', 'N')->first();
+            $user = User::select()->where('token', $naver->id)->where('provider', 'N')->first();
 
             if ($user != null) { // 로그인 후 메인 화면으로 이동
                 if ($user->state == 0) {
@@ -441,7 +441,7 @@ class UserAuthPcController extends Controller
         try {
             $naver = Socialite::driver('naver')->user();
 
-            $user = User::select()->where('token', $naver->id)->where('signup_type', 'N')->first();
+            $user = User::select()->where('token', $naver->id)->where('provider', 'N')->first();
 
             if ($user != null) { // 로그인 후 메인 화면으로 이동
                 if ($user->state == 0) {
