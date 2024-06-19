@@ -452,15 +452,15 @@ class UserAuthPcController extends Controller
             $user = User::select()->where('token', $naver->id)->where('provider', 'N')->first();
 
             if ($user != null) { // 로그인 후 메인 화면으로 이동
-                if ($user->state == 0) {
-                    return redirect(route('www.login.login'))
-                        ->withErrors('탈퇴한 회원입니다.')
-                        ->withInput();
-                } else if ($user->state == 2) {
-                    return redirect(route('www.login.login'))
-                        ->withErrors('관리자에 의해 사용 불가능한 회원입니다.')
-                        ->withInput();
-                }
+                // if ($user->state == 0) {
+                //     return redirect(route('www.login.login'))
+                //         ->withErrors('탈퇴한 회원입니다.')
+                //         ->withInput();
+                // } else if ($user->state == 2) {
+                //     return redirect(route('www.login.login'))
+                //         ->withErrors('관리자에 의해 사용 불가능한 회원입니다.')
+                //         ->withInput();
+                // }
 
                 Auth::guard('web')->login($user);
                 return Redirect::route('www.main.main');
