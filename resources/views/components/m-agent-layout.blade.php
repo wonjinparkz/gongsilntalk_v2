@@ -10,10 +10,17 @@
                 <p class="agent_txt_item_1">{{ $agent->company_name }}</p>
                 <p class="agent_txt_item_2">{{ $address ? $address . ' ' . $addressDetail : '-' }} </p>
             </div>
-            {{ $agent }}
             <div class="frame_img_sm">
-                {{-- <div class="img_box"><img src="{{ Storage::url('image/' . $agent->images[0]->path) }}"
-                        onerror="this.src='{{ asset('assets/media/default_img.png') }}';"></div> --}}
+                <div class="img_box">
+                    @if ($agent->images > 0)
+                        <img src="{{ Storage::url('image/' . $agent->images->path) }}"
+                            onerror="this.src='{{ asset('assets/media/default_img.png') }}';">
+                    @else
+                        <img src="{{ asset('assets/media/default_img.png') }}">
+                    @endif
+                    {{-- <img src="{{ Storage::url('image/' . $agent->images[0]->path) }}"
+                        onerror="this.src='{{ asset('assets/media/default_img.png') }}';"> --}}
+                </div>
                 {{-- <div class="img_box"><img src="{{ asset('assets/media/default_img.png') }}"></div> --}}
             </div>
         </div>
