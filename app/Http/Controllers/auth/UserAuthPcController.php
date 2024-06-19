@@ -290,6 +290,8 @@ class UserAuthPcController extends Controller
             'company_number' => $request->company_number,
             'company_phone' => $request->company_phone,
             'company_address' => $request->company_address,
+            'company_address_lat' => $request->company_address_lat,
+            'company_address_lng' => $request->company_address_lng,
             'company_postcode' => $request->company_postcode,
             'company_address_detail' => $request->company_address_detail,
             'opening_date' => $request->opening_date,

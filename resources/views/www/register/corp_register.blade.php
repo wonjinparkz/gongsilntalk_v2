@@ -45,6 +45,10 @@
                                     value="{{ old('company_address') ?? '' }}">
                                 <input type="hidden" id="company_postcode" name="company_postcode"
                                     value="{{ old('company_postcode') ?? '' }}">
+                                <input type="hidden" id="company_address_lat" name="company_address_lat"
+                                    value="{{ old('company_address_lat') ?? '' }}">
+                                <input type="hidden" id="company_address_lng" name="company_address_lng"
+                                    value="{{ old('company_address_lng') ?? '' }}">
                                 <button type="button" class="btn_point" onclick="getAddress()">검색</button>
                             </div>
                             <div class="mt8">
@@ -246,6 +250,8 @@
         rtUdrtYn, rtBuldMnnm, rtBuldSlno, rtMtYn, rtLnbrMnnm, rtLnbrSlno, rtEmdNo, relJibun, rtentX, rtentY) {
         // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
         $('input[name="company_address"]').val(rtRoadFullAddr);
+        $('input[name="company_address_lng"]').val(rtentX);
+        $('input[name="company_address_lat"]').val(rtentY);
         $('input[name="company_address_detail"]').val(rtAddrDetail);
         $('input[name="company_postcode"]').val(rtZipNo);
 

@@ -5,83 +5,16 @@
             <div class="map_head_wrap">
                 <div class="map_filter_wrap">
                     <div class="dropdown_box type_2">
-                        <button class="dropdown_label" id="mapType">실거래가지도</button>
+                        <button class="dropdown_label" id="mapTypeText">실거래가지도</button>
+                        <input type="hidden" id="mapType" value="0">
                         <ul class="optionList">
-                            <li class="optionItem" onclick="">실거래가지도</li>
-                            <li class="optionItem" onclick="">매물지도</li>
+                            <li class="optionItem" onclick="mapTypeChage(0)">실거래가지도</li>
+                            <li class="optionItem" onclick="mapTypeChage(1)">매물지도</li>
                         </ul>
                     </div>
 
-                    <div class="filter_dropdown_wrap">
-                        <!-- filter 매물 종류 : s -->
-                        <div class="filter_btn_wrap">
-                            <button type="button" class="filter_btn_trigger" id="filter_text_sale_product_type">매물
-                                종류</button>
-                            <div class="filter_panel panel_item_1">
-                                <div class="filter_panel_body">
-                                    <h6>매물 종류</h6>
-                                    <div class="btn_radioType">
-                                        <input type="radio" name="sale_product_type" id="sale_product_type_1"
-                                            value="1">
-                                        <label for="sale_product_type_1">지식산업센터</label>
-                                        <input type="radio" name="sale_product_type" id="sale_product_type_2"
-                                            value="2">
-                                        <label for="sale_product_type_2">상가</label>
-                                        <input type="radio" name="sale_product_type" id="sale_product_type_3"
-                                            value="3">
-                                        <label for="sale_product_type_3">건물</label>
-                                        <input type="radio" name="sale_product_type" id="sale_product_type_4"
-                                            value="4">
-                                        <label for="sale_product_type_4">아파트</label>
-                                        <input type="hidden" id="sale_product_type" value="">
-                                    </div>
-                                </div>
-                                <div class="filter_panel_bottom">
-                                    <button type="button" class="btn_graylight_ghost btn_md_full"
-                                        onclick="filter_reset('sale_product_type')"><img
-                                            src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-                                    <button type="button" class="btn_point btn_md_full"
-                                        onclick="filter_apply('sale_product_type')">적용하기</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- filter 매물 종류 : e -->
-
-                        <!-- filter 준공연차 : s -->
-                        <div class="filter_btn_wrap">
-                            <button type="button" class="filter_btn_trigger" id="filter_text_useDate">준공연차</button>
-                            <div class="filter_panel panel_item_3">
-                                <div class="filter_panel_body">
-                                    <h6>준공연차</h6>
-                                    <div class="btn_radioType">
-                                        <input type="radio" name="useDate" id="useDate_1" value="0">
-                                        <label for="useDate_1">전체</label>
-                                        <input type="radio" name="useDate" id="useDate_2" value="1">
-                                        <label for="useDate_2">1년 이내</label>
-                                        <input type="radio" name="useDate" id="useDate_3" value="2">
-                                        <label for="useDate_3">2년 이내</label>
-                                        <input type="radio" name="useDate" id="useDate_4" value="3">
-                                        <label for="useDate_4">5년 이내</label>
-                                        <input type="radio" name="useDate" id="useDate_5" value="4">
-                                        <label for="useDate_5">10년 이내</label>
-                                        <input type="radio" name="useDate" id="useDate_6" value="5">
-                                        <label for="useDate_6">15년 이내</label>
-                                        <input type="radio" name="useDate" id="useDate_7" value="6">
-                                        <label for="useDate_7">15년 이상</label>
-                                        <input type="hidden" id="useDate" value="">
-                                    </div>
-                                </div>
-                                <div class="filter_panel_bottom">
-                                    <button type="button" class="btn_graylight_ghost btn_md_full"
-                                        onclick="filter_reset('useDate')"><img
-                                            src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-                                    <button type="button" class="btn_point btn_md_full"
-                                        onclick="filter_apply('useDate')">적용하기</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- filter 준공연차 : e -->
-                    </div>
+                    <x-pc-map-filter />
+                    <x-pc-map-property-filter />
                 </div>
                 <div>
                     <button class="btn_graylight_ghost btn_sm"><img src="{{ asset('assets/media/ic_reset.png') }}">전체
@@ -105,8 +38,7 @@
                 <div class="map_area">
                     <div class="map_side_btn">
                         <div>
-                            <button id="current"><img
-                                    src="{{ asset('assets/media/ic_map_activate1.png') }}"></button>
+                            <button id="current"><img src="{{ asset('assets/media/ic_map_activate1.png') }}"></button>
                             <div class="btn_zoom">
                                 <button id="zoomout"><img
                                         src="{{ asset('assets/media/ic_map_activate2.png') }}"></button>
@@ -120,7 +52,10 @@
                         </div>
                         <button id="streetView"><img src="{{ asset('assets/media/ic_map_activate4.png') }}"></button>
                     </div>
-                    <button class="map_view_btn">익선동 <span class="txt_point">실거래가</span> 보기</button>
+                    <button type="button" class="map_view_btn" onclick="mapTypeViewChage()">
+                        <span id="centerDongText">익선동</span>
+                        <span class="txt_point centerDongMapText">실거래가</span> 보기
+                    </button>
                     <div class="map_bottom_btn">
                         <button onclick="location.href='{{ route('www.product.create.view') }}'"><img
                                 src="{{ asset('assets/media/ic_org_estate.png') }}">매물 내놓기</button>
@@ -186,7 +121,7 @@
             'zoomLv': zoomLv,
             'sale_product_type': $('#sale_product_type').val(),
             'useDate': $('#useDate').val(),
-            'mapType': ($('#mapType').text() == '실거래가지도' ? '0' : '1'),
+            'mapType': $('#mapType').val(),
         };
         $.ajax({
             type: "post", // 전송타입
@@ -207,12 +142,18 @@
                 processDataArray(data.aptMaps, 'apt', getContentStringForApt, 0, 50);
                 processDataArray(data.store, 'store', getContentStringForStore, 0, 50);
                 processDataArray(data.building, 'building', getContentStringForBuilding, 0, 50);
+                processDataArray(data.product, 'product', getContentStringForApt, 0, 50);
+                // processProductDataArray(data.product, 'product', getContentStringForApt, 0, 50);
+
+                if (data.centerDongName != null) {
+                    $('#centerDongText').text(data.centerDongName.dong);
+                }
 
                 // 지도 경계 설정
                 // map.fitBounds(bounds);
             },
             error: function(xhr, status, e) {
-                console.error("Error: ", e);
+                console.error("Error1: ", e);
             }
         });
     }
@@ -554,7 +495,7 @@
             });
 
             // 초기 마커 설정
-            updateCenter()
+            mapTypeChage({{ $mapType ?? 0 }})
 
         });
     }
@@ -622,7 +563,20 @@
 </script>
 
 <script>
+    function mapReset() {
+        if (polygonMap) {
+            polygonMap.setMap(null);
+        }
+        $('.map_side').removeClass('active');
+        $('.filter_panel').css('display', 'none');
+
+        var center = map.getCenter();
+        var zoom = map.getZoom();
+        markerUpdate(center.lat(), center.lng(), zoom);
+    }
+
     function filter_reset(Name) {
+
         var text = '';
         if (Name == 'sale_product_type') {
             text = '매물 종류'
@@ -631,12 +585,8 @@
         }
         $('input[name="' + Name + '"]').prop('checked', false);
         $('#filter_text_' + Name).text(text);
-        $('.filter_panel').css('display', 'none');
         $('#' + Name).val('');
-
-        var center = map.getCenter();
-        var zoom = map.getZoom();
-        markerUpdate(center.lat(), center.lng(), zoom);
+        mapReset();
     }
 
     function filter_apply(Name) {
@@ -645,14 +595,31 @@
         if (text == '') {
             return;
         }
-        console.log('text: ' + text);
+
         $('#filter_text_' + Name).text(text);
-        $('.filter_panel').css('display', 'none');
         $('#' + Name).val(value);
 
-        var center = map.getCenter();
-        var zoom = map.getZoom();
-        markerUpdate(center.lat(), center.lng(), zoom);
+        mapReset();
+    }
+
+    function mapTypeViewChage() {
+        mapTypeChage($('#mapType').val() == 0 ? 1 : 0)
+    }
+
+    function mapTypeChage(type) {
+        $('.map_side').removeClass('active');
+        $('.type_2').removeClass('active');
+
+        var text = type == 0 ? '실거래가지도' : '매물지도';
+        $('#mapTypeText').text(text);
+        $('.centerDongMapText').text(type == 0 ? '매물현황' : '실거래가');
+
+        $('#mapType').val(type);
+
+        $('#filterType' + (type == 0 ? 1 : 0)).hide();
+        $('#filterType' + type).show();
+
+        mapReset();
     }
 
     // 필터 버튼 이벤트 리스너 추가

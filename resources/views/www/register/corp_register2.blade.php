@@ -16,6 +16,8 @@
                 <input type="hidden" name="company_number" value="{{ $companyInfo['company_number'] }}">
                 <input type="hidden" name="company_phone" value="{{ $companyInfo['company_phone'] }}">
                 <input type="hidden" name="company_address" value="{{ $companyInfo['company_address'] }}">
+                <input type="hidden" name="company_address_lat" value="{{ $companyInfo['company_address_lat'] }}">
+                <input type="hidden" name="company_address_lng" value="{{ $companyInfo['company_address_lng'] }}">
                 <input type="hidden" name="company_postcode" value="{{ $companyInfo['company_postcode'] }}">
                 <input type="hidden" name="company_address_detail"
                     value="{{ $companyInfo['company_address_detail'] }}">

@@ -54,6 +54,8 @@ return new class extends Migration
             $table->string('company_number')->nullable()->comment('사업자 등록번호');
             $table->string('company_postcode')->nullable()->comment('중개소 우편번호');
             $table->string('company_address')->nullable()->comment('중개소 주소');
+            $table->string('company_address_lat')->nullable()->comment('중개소 주소 좌표');
+            $table->string('company_address_lng')->nullable()->comment('중개소 주소 좌표');
             $table->string('company_address_detail')->nullable()->comment('중개소 상세 주소');
             $table->longText('refuse_coment')->nullable()->comment('승인거절 사유');
             $table->timestamp('refuse_at')->nullable()->comment('승인 거절일');
