@@ -382,6 +382,7 @@ class UserAuthPcController extends Controller
                 return Redirect::route('www.register.type', ['sns_type' => 'K', 'token' => Crypt::encrypt($kakao->id)]);
             }
         } catch (Exception $e) {
+            info($e . 'E');
             return redirect(route('www.login.login'));
         }
     }
