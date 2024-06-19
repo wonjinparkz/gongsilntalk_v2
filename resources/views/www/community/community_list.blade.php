@@ -82,7 +82,7 @@
                     <ul class="cmm_noti_wrap">
                         @foreach ($noticeList as $notice)
                             <li><span>공지</span>
-                                <a href="#">
+                                <a href="{{ route('www.notice.detail.view', $notice->id) }}">
                                     {{ $notice->title }} -
                                     {{ $carbon::parse($notice->created_at)->format('y.m.d') }}
                                 </a>

@@ -148,6 +148,8 @@ Route::controller(CommunityPcController::class)->group(function () {
     Route::middleware('pc.auth')->post('/reply/report', 'replyReport')->name('www.reply.report');
     Route::middleware('pc.auth')->get('/reply/block', 'replyBlock')->name('www.reply.block');
     Route::middleware('pc.auth')->get('/reply/delete', 'replyDelete')->name('www.reply.delete');
+
+    Route::get('/notice/detail/{id}', 'noticeDetailView')->name('www.notice.detail.view');
 });
 
 /**
