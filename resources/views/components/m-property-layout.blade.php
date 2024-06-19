@@ -3,7 +3,14 @@
     <div class="property_sm_list">
         <div class="frame_img_mid">
             <span class="btn_wish_sm" onclick="btn_wish(this)"></span>
-            <div class="img_box"><img src="{{ asset('assets/media/s_3.png') }}"></div>
+            <div class="img_box">
+                @if (count($property->images) > 0)
+                    <img src="{{ Storage::url('image/' . $property->images[0]->path) }}"
+                        onerror="this.src='{{ asset('assets/media/s_3.png') }}';" loading="lazy">
+                @else
+                    <img src="{{ asset('assets/media/s_3.png') }}">
+                @endif
+            </div>
         </div>
         <a href="{{ route('www.map.room.detail', [$property->id]) }}">
             <div class="property_sm_info">
@@ -19,7 +26,7 @@
                     {{ $property->region_address }}</p>
                 <p class="txt_lh_1">{{ $property->square ?? '-' }}㎡ /
                     {{ $property->exclusive_square ?? '-' }}㎡·{{ $property->floor_number ?? '-' }}층</p>
-                <p class="property_sm_item_2">{{ $property->contents ?? ''}}</p>
+                <p class="property_sm_item_2">{{ $property->contents ?? '' }}</p>
             </div>
         </a>
     </div>
