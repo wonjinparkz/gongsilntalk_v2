@@ -66,7 +66,7 @@ class User extends BaseModel
     /**
      * 이미지 가져오기
      */
-    public function images()
+    public function image()
     {
         return $this->morphOne(Images::class, 'target');
     }
