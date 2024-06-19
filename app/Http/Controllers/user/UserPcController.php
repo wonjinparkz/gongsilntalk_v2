@@ -792,6 +792,25 @@ class UserPcController extends Controller
     }
 
     /**
+     * 프로필 이미지 변경
+     */
+    public function profileImageUpdate(Request $request)
+    {
+        // 회원 정보
+        $user = User::with('images')->select()
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
+
+        if (count($user->images) < 1) {
+            $this->imageWithCreate($request->image_ids, User::class, Auth::guard('web')->user()->id);
+        } else {
+            $this->imageWithUpdate($request->image_ids, User::class, Auth::guard('web')->user()->id);
+        }
+
+        return $this->sendResponse(null, '프로필 이미지 변경에 성공했습니다.');
+    }
+
+    /**
      * 중개사 내 정보 수정
      */
     public function companyInfoView(): View
