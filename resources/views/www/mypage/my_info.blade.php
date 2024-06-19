@@ -25,8 +25,6 @@
                     <div class="col-md-6 box_member">
                         <div class="user_profile_wrap">
                             <div class="img_box">
-                                <input type="file" class="real-upload" accept="image/*" required multiple
-                                    style="display: none;">
                                 @if ($user->images != null)
                                     @foreach ($user->images as $image)
                                         <img id="member_img_src" src="{{ Storage::url('image/' . $image->path) }}"
@@ -38,8 +36,8 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="t_center mt18" id="profile_drop">
-                            <button class="btn_gray_ghost btn_sm" type="button">사진 등록</button>
+                        <div class="t_center mt18">
+                            <button class="btn_gray_ghost btn_sm" type="button" id="profile_drop">사진 등록</button>
                         </div>
                         <ul class="reg_bascic mt20">
                             <li>
@@ -76,7 +74,8 @@
                         <button class="btn_gray_ghost btn_full_basic mt28" type="button"
                             onclick="modal_open('info_modify')"><b>내 정보
                                 수정</b></button>
-                        <button class="btn_ghost btn_full_thin mt28"><b>로그아웃</b></button>
+                        <button class="btn_ghost btn_full_thin mt28" type="button"
+                            onclick="location.href='{{ route('www.logout.logout') }}'"><b>로그아웃</b></button>
                     </div>
 
                 </div>
@@ -111,32 +110,32 @@
                     <ul class="reg_bascic">
                         <li>
                             <label>이름</label>
-                            <input type="text" value="">
+                            <input type="text" id="verification_name" name="verification_name" value=""
+                                onkeyup="onVerificationFieldInputCheck();">
                         </li>
                         <li>
                             <label>휴대폰 번호</label>
                             <div class="flex_1">
-                                <input type="text">
-                                <button class="btn_point">인증번호 전송</button>
+                                <input type="number" id="verification_phone" name="verification_phone"
+                                    onkeyup="onVerificationFieldInputCheck();">
+                                <button class="btn_point" type="button" disabled id="verification_button"
+                                    name="verification_button">인증번호 전송</button>
                             </div>
-                            <input type="text" placeholder="인증번호 입력" class="mt8">
+                            <input type="text" id="verification_number" name="verification_number"
+                                placeholder="인증번호 입력" class="mt8" onkeyup="processChange();">
                         </li>
                     </ul>
                     <div class="mt20">
                         <button class="btn_point btn_full_basic mt28" onclick="modal_close('info_modify')"
-                            type="button">
+                            type="button" id="info_mod_btn" name="info_mod_btn" disabled>
                             <b>수정</b>
                         </button>
                     </div>
-
                 </div>
             </div>
             <div class="md_overlay md_overlay_info_modify" onclick="modal_close('info_modify')"></div>
             <!-- modal 정보수정 : e -->
-
-
         </div>
-
     </div>
 
 </x-layout>
@@ -156,23 +155,25 @@
         },
         success: function(file, responseText) {
 
+            $.ajax({
+                    url: '{{ route('www.info.profile.image.update') }}',
+                    type: "post",
+                    data: {
+                        'image_ids[]': responseText.result.id
+                    }
+                })
+                .done(function(data) {
 
-            var imagePath = '{{ Storage::url('image/') }}' + responseText.result.path;
+                    var imagePath = '{{ Storage::url('image/') }}' + responseText.result.path;
 
-            var image =
-                '<div class="cell draggable">' +
-                '<input type="hidden" name="profile_image_ids[]" value="' + responseText.result
-                .id + '" />' +
-                '<input type="hidden" name="profile_image_paths[]" value="' + imagePath +
-                '" />' +
-                // '<img src="{{ asset('assets/media/mark_rep.png') }}" class="add_img_mark"> ' +
-                '<img onClick="removeImage(this)" src="{{ asset('assets/media/btn_img_delete.png') }}"' +
-                'class="btn_img_delete">' +
-                '<div class="img_box draggable-handle"><img src="' + imagePath + '"></div>' +
-                '</div>'
+                    document.getElementById('member_img_src').src = imagePath;
 
-            profileimageDropzone.removeFile(file);
-            refreshFsLightbox();
+                    profileimageDropzone.removeFile(file);
+                    refreshFsLightbox();
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError) {
+                    console.log('실패했는디');
+                });
         }
     });
 
@@ -226,4 +227,38 @@
                 $('#' + fieldName + '_confirm').text(jqXHR.responseJSON.message);
             });
     }
+
+    function debounce(func, timeout = 300) {
+        let timer;
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                func.apply(this, args);
+            }, timeout);
+        };
+    }
+
+    // 수정 버튼 disabled
+    function onFieldInputCheck() {
+        if ($('#verification_name').val() != '' && $('#verification_number').val() != '' && $('#verification_phone')
+            .val() != '') {
+            document.getElementById('info_mod_btn').disabled = false;
+        } else {
+            document.getElementById('info_mod_btn').disabled = true;
+        }
+    }
+
+    const processChange = debounce(() => onFieldInputCheck());
+
+    // 인증번호 전송 버튼 disbled
+    function onVerificationFieldInputCheck() {
+        if ($('#verification_name').val() != '' && $('#verification_phone').val() != '') {
+            document.getElementById('verification_button').disabled = false;
+        } else {
+            document.getElementById('verification_button').disabled = true;
+        }
+        onFieldInputCheck();
+    }
+
+    const verificationChange = debounce(() => onVerificationFieldInputCheck());
 </script>

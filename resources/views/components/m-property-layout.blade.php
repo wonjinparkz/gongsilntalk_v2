@@ -7,10 +7,19 @@
         </div>
         <a href="{{ route('www.map.room.detail', [$property->id]) }}">
             <div class="property_sm_info">
-                <p class="property_sm_item_1">매매 2억 9,900만</p>
-                <p class="txt_lh_1">사무실 강남구 논현동</p>
-                <p class="txt_lh_1">62.11㎡ / 46.2㎡·3층</p>
-                <p class="property_sm_item_2">영등포시장역 도보 1분 초역세권 매물 소개를 합니다.</p>
+                <p class="property_sm_item_1">
+                    {{ Lang::get('commons.payment_type.' . $property->priceInfo->payment_type) }}
+                    {{ Commons::get_priceTrans($property->priceInfo->price) }}
+                    {{-- 월세/단기임대 --}}
+                    @if (in_array($property->priceInfo->payment_type, [2, 4]))
+                        / {{ Commons::get_priceTrans($property->priceInfo->month_price) }}
+                    @endif
+                </p>
+                <p class="txt_lh_1">{{ Lang::get('commons.product_type.' . $property->type) }}
+                    {{ $property->region_address }}</p>
+                <p class="txt_lh_1">{{ $property->square ?? '-' }}㎡ /
+                    {{ $property->exclusive_square ?? '-' }}㎡·{{ $property->floor_number ?? '-' }}층</p>
+                <p class="property_sm_item_2">{{ $property->contents ?? ''}}</p>
             </div>
         </a>
     </div>
