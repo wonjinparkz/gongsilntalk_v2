@@ -142,8 +142,9 @@
                 processDataArray(data.aptMaps, 'apt', getContentStringForApt, 0, 50);
                 processDataArray(data.store, 'store', getContentStringForStore, 0, 50);
                 processDataArray(data.building, 'building', getContentStringForBuilding, 0, 50);
-                processDataArray(data.product, 'product', getContentStringForApt, 0, 50);
-                // processProductDataArray(data.product, 'product', getContentStringForApt, 0, 50);
+
+                // processDataArray(data.product, 'product', getContentStringForApt, 0, 50);
+                processProductArray(data.product, 'product', 0, 50);
 
                 if (data.centerDongName != null) {
                     $('#centerDongText').text(data.centerDongName.dong);
@@ -196,6 +197,24 @@
                 contentString: contentString,
                 anchorX: anchorX,
                 anchorY: anchorY
+            });
+        });
+    }
+
+    // 데이터 배열 처리 함수
+    function processProductArray(array, type) {
+        array.forEach(item => {
+            var {
+                id,
+                address_lat,
+                address_lng,
+                type,
+            } = item;
+            createProductMarker({
+                id: id,
+                lat: address_lat,
+                lng: address_lng,
+                type: type,
             });
         });
     }
@@ -298,6 +317,31 @@
         bounds.extend(position);
 
         markers.push(regionMarker);
+    }
+
+    function createProductMarker({
+        id,
+        lat,
+        lng,
+        type,
+    }) {
+        var position = new naver.maps.LatLng(lat, lng);
+        var productMarker = new naver.maps.Marker({
+            id: id,
+            map: map,
+            position: position,
+            icon: {
+                url: "{{ asset('assets/media/map_marker_default.png') }}",
+                size: new naver.maps.Size(100, 100), //아이콘 크기
+                scaledSize: new naver.maps.Size(30, 43), //아이콘 크기
+                origin: new naver.maps.Point(0, 0),
+                anchor: new naver.maps.Point(11, 35)
+            }
+        });
+
+        bounds.extend(position);
+
+        markers.push(productMarker);
     }
 
     // 각 데이터별 contentString 생성 함수

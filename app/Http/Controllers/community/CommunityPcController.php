@@ -511,4 +511,14 @@ class CommunityPcController extends Controller
 
         return Redirect::back()->with('message', '삭제 되었습니다.');
     }
+
+    /**
+     * 공지사항
+     */
+    public function noticeDetailView($id): View
+    {
+        $result = Notice::where('id', $id)->where('is_blind', 0)->first();
+
+        return view('www.community.notice_detail', compact('result'));
+    }
 }
