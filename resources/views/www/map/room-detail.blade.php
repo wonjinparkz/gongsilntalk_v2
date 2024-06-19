@@ -699,12 +699,14 @@
                             <div class="agent_box_img">
                                 <div class="img_box"><img src="{{ asset('assets/media/default_img.png') }}"></div>
                             </div>
-                            <h4>공실앤톡부동산중개사무소</h4>
-                            <p>대표중개사 홍길동</p>
+                            <h4>{{ $result->users->company_name ?? '-' }}</h4>
+                            <p>대표중개사 {{ $result->users->company_ceo ?? '-' }}</p>
                         </div>
                         <hr class="mt18">
                         <div class="add_info_wrap">
-                            <div class="info_row"><span class="gray_deep">주소 </span>울시 구로구 공원로 99, 102호</div>
+                            <div class="info_row"><span class="gray_deep">주소
+                                </span>{{ implode(', ', array_filter([$result->users->company_address ?? '', $result->users->company_address_detail ?? '-'])) }}
+                            </div>
                             <div class="info_row"><span class="gray_deep">중개등록번호</span>12345-1234-12345</div>
                         </div>
                         <button class="btn_point btn_full_thin">문의하기</button>
@@ -770,12 +772,14 @@
                         <div class="agent_box_img">
                             <div class="img_box"><img src="{{ asset('assets/media/default_img.png') }}"></div>
                         </div>
-                        <h4>공실앤톡부동산중개사무소</h4>
-                        <p>대표중개사 홍길동</p>
+                        <h4>{{ $result->users->company_name ?? '-' }}</h4>
+                        <p>대표중개사 {{ $result->users->company_ceo ?? '-' }}</p>
                     </div>
                     <hr class="mt18">
                     <div class="add_info_wrap">
-                        <div class="info_row"><span class="gray_deep">주소 </span>울시 구로구 공원로 99, 102호</div>
+                        <div class="info_row"><span class="gray_deep">주소
+                            </span>{{ implode(', ', array_filter([$result->users->company_address ?? '', $result->users->company_address_detail ?? '-'])) }}
+                        </div>
                         <div class="info_row"><span class="gray_deep">중개등록번호</span>12345-1234-12345</div>
                     </div>
                     <button class="btn_point btn_full_thin">문의하기</button>
