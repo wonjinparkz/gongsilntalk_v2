@@ -347,6 +347,18 @@
 
 
 /* 방상세 */
+.agent_popup_info {display: flex; justify-content: center; flex-direction: column; text-align: center; line-height: 1.6;}
+.agent_popup_info .agent_box_img{margin: 0 auto; width: 60px;}
+.agent_popup_info .img_box{width: 60px; height: 60px; border-radius: 60px;}
+.agent_popup_info h4 a{display: flex; align-items: center; gap: 6px; justify-content: center; margin-top: 16px; font-size: 18px;}
+.agent_popup_info h4 a img{width:6px;}
+.agent_popup_detail{background:#FAFAFA; padding: 14px 16px; border-radius: 5px; line-height: 1.6; text-align: left; margin-top: 18px;}
+.agent_popup_detail span{color:#63605F; margin-right: 6px;}
+.agent_contact_wrap{text-align: center;}
+.agent_contact_wrap .agent_popup_call{color: #F16341; font-size: 22px; font-family: 'font-b'; margin-top: 18px;}
+.agent_contact_wrap .agent_popup_call img{width:20px;}
+.agent_contact_wrap .agent_popup_num{margin-top:18px; font-size: 16px; font-family: 'font-b';}
+.agent_contact_wrap .agent_popup_noti{color: #9D9999; margin-top: 8px; margin-bottom: 30px; line-height: 1.4;}
 .agent_box{position:sticky; width:352px; padding:26px; background: #fff; right:-80px; top:180px; margin-top:0px; z-index: 2; border-radius: 5px; border: 1px solid var(--gray-line) ; box-shadow : 0 0px 5px 1px rgba(105, 105, 105, 0.1); box-sizing: border-box;}
 .agent_box .agent_box_info{display: flex; justify-content: center; gap: 8px; flex-direction: column; text-align: center;}
 .agent_box .agent_box_info p{color: var(--color-gray-2); font-size: 16px;}

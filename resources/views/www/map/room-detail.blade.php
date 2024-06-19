@@ -591,7 +591,7 @@
                             </div>
                             <div class="info_row"><span class="gray_deep">중개등록번호</span>12345-1234-12345</div>
                         </div>
-                        <button class="btn_point btn_full_thin">문의하기</button>
+                        <button class="btn_point btn_full_thin" onclick="modal_open('agent_qa')">문의하기</button>
                     </div>
 
                     <section>
@@ -661,7 +661,7 @@
                         </div>
                         <div class="info_row"><span class="gray_deep">중개등록번호</span>12345-1234-12345</div>
                     </div>
-                    <button class="btn_point btn_full_thin">문의하기</button>
+                    <button class="btn_point btn_full_thin" onclick="modal_open('agent_qa')">문의하기</button>
                 </div>
             </div>
         </div>
@@ -670,11 +670,44 @@
         <!-- mobile : bottom floting menu : s -->
         <div class="room_bottom_wrap">
             <div class="btn_bottom_wish" onclick="btn_wish(this)"><span></span>관심매물</div>
-            <button class="btn_point btn_full_floting">문의하기</button>
+            <button class="btn_point btn_full_floting" onclick="modal_open('agent_qa')">문의하기</button>
         </div>
         <!-- mobile : bottom floting menu : e -->
 
     </div>
+
+    <!-- modal 문의하기 : s-->
+    <div class="modal modal_mid modal_agent_qa">
+      <div class="modal_title">
+        <h5>문의하기</h5>
+        <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close" onclick="modal_close('agent_qa')">
+      </div>
+      <div class="modal_container">
+        <div class="agent_popup_info">
+          <div class="agent_box_info">
+            <div class="agent_box_img">
+              <div class="img_box"><img src="{{ asset('assets/media/default_img.png') }}"></div>
+            </div>
+            <h4><a href="#">공실앤톡부동산중개사무소 <img src="{{ asset('assets/media/ic_list_arrow.png') }}"></a></h4>
+            <p class="gray_deep">대표중개사 홍길동</p>
+          </div>
+          <div class="agent_popup_detail">
+            <p><span>주소</span> 경기도 화성시 동탄기흥로 557 , 103호(영천동)</p>
+            <p><span>중개등록번호</span> 41590-2021-20148</p>
+            <p><span>대표번호</span> 031-1600-0962</p>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="agent_contact_wrap">
+        <div class="agent_popup_call"><img src="{{ asset('assets/media/ic_point_call.png') }}"> 010-5184-7214</div>
+        <div class="agent_popup_num">매물번호 35448331</div>
+        <div class="agent_popup_noti">중개사무소에 연락하여 문의해보세요.<br>공실앤톡에서 보고 문의드린다 말씀하시면,<br>빠른 예약이 가능합니다.</div>
+      </div>
+      
+    </div>
+    <div class="md_overlay md_overlay_agent_qa" onclick="modal_close('agent_qa')"></div>
+    <!-- modal 문의하기 : e-->
 
 
 
