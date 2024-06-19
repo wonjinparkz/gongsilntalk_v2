@@ -57,7 +57,8 @@
     .mark_proceeding, .mark_plans{font-size: 13px;}
     .template_wrap{height:250px; margin-top:50px; display: flex; align-items: center; position: relative;}
     .template_wrap .template_txt_wrap{position:absolute; left:50%; top:16px; transform:translate(-50%, 0%); width:100%; padding: 0 16px; box-sizing: border-box;}
-    .template_wrap .template_img{width:100%;}
+    .template_wrap .template_img{width:100%; height: 248px;}
+    .template_wrap .template_img .img_box{height: 248px;}
     .template_wrap .template_img img{width:100%;}
     .template_wrap .txt_tit{font-size:18px; font-family: 'font-b';}
     .template_wrap .txt_con{font-size:14px; line-height: 1.6; margin-top:28px;}
