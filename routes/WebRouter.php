@@ -164,6 +164,8 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
 
     // 중개사 매물 관리
     Route::get('/mypage/corp/product/magagement/list', 'corpProductMagagementListView')->name('www.mypage.corp.product.magagement.list.view');
+    Route::get('/mypage/corp/product/magagement/update-view/{id}', 'corpProductMagagementUpdateView')->name('www.mypage.corp.product.magagement.update.view');
+    Route::post('/mypage/corp/product/magagement/update', 'corpProductMagagementUpdate')->name('www.mypage.corp.product.magagement.update');
 
     Route::post('/mypage/product/magagement/delete', 'userProductDelete')->name('www.mypage.product.magagement.delete');
     Route::post('/mypage/product/state/change', 'corpProductStateChange')->name('www.mypage.product.state.change');

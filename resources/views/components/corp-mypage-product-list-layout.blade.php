@@ -51,7 +51,7 @@
                     <td><span class="gray_deep">{{ $product->product_number }}</span></td>
                     <td>
                         @if ($product->state == 1 || $product->state == 3)
-                            <div class="dropdown_box s_xs">
+                            <div class="dropdown_box s_xs" onclick="openList(this);">
                                 <button
                                     class="dropdown_label">{{ Lang::get('commons.product_state.' . $product->state) }}</button>
                                 <ul class="optionList">
@@ -102,7 +102,7 @@
                         <div class="gap_8">
                             @if ($product->state < 4)
                                 <button class="btn_gray_ghost btn_sm"
-                                    onclick="location.href='realtor_estate_modify.html'">수정</button>
+                                    onclick="location.href='{{ route('www.mypage.corp.product.magagement.update.view', [$product->id]) }}'">수정</button>
                             @else
                                 <button class="btn_gray_ghost btn_sm">재등록</button>
                             @endif
@@ -155,21 +155,35 @@
             <li>
                 <div class="flex_between">
                     <div>
-                        <input type="checkbox" name="checkOne" id="checkOne_1" value="Y">
-                        <label for="checkOne_1"><span></span></label>
-                        <span class="gray_deep">매물번호 168752</span>
+                        <input type="checkbox" name="mobile_checkOne" id="mobile_checkOne_{{ $product->id }}"
+                            value="{{ $product->id }}">
+                        <label for="mobile_checkOne_{{ $product->id }}"><span></span></label>
+                        <span class="gray_deep">매물번호 {{ $product->product_number }}</span>
                     </div>
                     <button class="btn_gray_ghost btn_sm">삭제</button>
                 </div>
                 <div class="list_m_cnt">
                     <div class="list_thumb_1">
-                        <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
+                        <div class="img_box">
+                            @if (count($product->images) > 0)
+                                <img src="{{ Storage::url('image/' . $product->images[0]->path) }}">
+                            @endif
+                        </div>
                     </div>
                     <div class="list_view">
-                        <p class="tit">아파트</p>
-                        <p class="summary">서울시 마포구 합정동, 서희스타힐스 1동 1105호</p>
-                        <p class="txt_item_1">공급 32.88㎡ / 전용 29.15㎡</p>
-                        <p class="txt_item_2">월세 13억 2,000 / 4,000만</p>
+                        <p class="tit">{{ Lang::get('commons.product_type.' . $product->type) }}</p>
+                        <p class="summary">
+                            {{ $product->address . ' ' . ($product->is_map == 1 ? $product->address_dong . '동 ' . $product->address_number . '호' : $product->address_detail) }}
+                        </p>
+                        <p class="txt_item_1">{{ in_array($product->type, [6, 7]) ? '대지' : '공급' }}
+                            {{ $product->square }}㎡ /
+                            {{ $product->type != 7 ? '전용 ' . $product->exclusive_square : '' }}㎡
+                        </p>
+                        <p class="txt_item_2">
+                            {{ Lang::get('commons.payment_type.' . $product->priceInfo->payment_type) }}
+                            {{ mb_substr(Commons::get_priceTrans($product->priceInfo->price), 0, -1) }}
+                            {{ in_array($product->priceInfo->payment_type, [1, 2, 4]) ? ' / ' . mb_substr(Commons::get_priceTrans($product->priceInfo->month_price), 0, -1) : '' }}
+                        </p>
                     </div>
                 </div>
             </li>
@@ -181,6 +195,14 @@
 
 
 <script>
+    function openList(elem) {
+        if (elem.className == 'dropdown_box s_xs') {
+            elem.className += ' active';
+        } else {
+            elem.className = 'dropdown_box s_xs';
+        }
+    }
+
     $("input[name=checkAll]").click(function() {
         if ($(this).is(":checked") === true)
             $("input[name=checkOne]").prop("checked", true);

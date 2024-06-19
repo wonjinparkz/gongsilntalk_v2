@@ -211,6 +211,30 @@ class UserPcController extends Controller
     }
 
     /**
+     * 중개사 매물 수정
+     */
+    public function corpProductMagagementUpdateView($id): View
+    {
+        // 회원 정보
+        $user = User::select()
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
+
+        $product = Product::select()->where('id', $id)->first();
+
+        return view('www.mypage.corp-product-update', compact('user', 'product'));
+    }
+
+    /**
+     * 중개사 매물 수정
+     */
+    public function corpProductMagagementUpdate(Request $request) : RedirectResponse
+    {
+
+        return Redirect::route('www.mypage.corp.product.magagement.list.view')->with('message', "매물이 수정 되었습니다.");
+    }
+
+    /**
      * 관심매물
      */
     public function productInterestListView(Request $request)
