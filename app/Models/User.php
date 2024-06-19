@@ -153,4 +153,12 @@ class User extends BaseModel
             }
         }
     }
+
+    /**
+     * 매물 목록 가져오기
+     */
+    public function product()
+    {
+        return $this->hasMany(Product::class, 'users_id', 'id')->with('priceInfo', 'images');
+    }
 }

@@ -81,7 +81,7 @@ class Product extends BaseModel
      */
     public function users()
     {
-        return $this->hasOne(User::class, 'id', 'users_id');
+        return $this->hasOne(User::class, 'id', 'users_id')->with('product');
     }
 
     /**
