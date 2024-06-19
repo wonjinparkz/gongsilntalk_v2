@@ -87,6 +87,17 @@ class UserAuthPcController extends Controller
         return view('www.register.corp_register2', compact('termsList', 'companyInfo'));
     }
 
+
+    /**
+     * sns 회원가입 화면
+     */
+    public function snsJoinView(): View
+    {
+        $termsList = Terms::select()->where('type', '0')->get();
+
+        return view('www.register.sns_register_reg', compact('termsList'));
+    }
+
     /**
      * PC 로그인
      */
@@ -379,7 +390,7 @@ class UserAuthPcController extends Controller
 
                 return Redirect::route('www.main.main');
             } else { // 회원 가입 화면으로 이동
-                return Redirect::route('www.register.type', ['sns_type' => 'K', 'token' => Crypt::encrypt($kakao->id)]);
+                return Redirect::route('www.register.type', ['provider' => 'K', 'token' => Crypt::encrypt($kakao->id)]);
             }
         } catch (Exception $e) {
             info($e . 'E');
@@ -419,7 +430,7 @@ class UserAuthPcController extends Controller
                 Auth::guard('web')->login($user);
                 return Redirect::route('www.main.main');
             } else { // 회원 가입 화면으로 이동
-                return Redirect::route('www.register.type', ['sns_type' => 'N', 'token' => Crypt::encrypt($naver->id)]);
+                return Redirect::route('www.register.type', ['provider' => 'N', 'token' => Crypt::encrypt($naver->id)]);
             }
         } catch (Exception $e) {
             return redirect(route('www.login.login'));
@@ -442,7 +453,7 @@ class UserAuthPcController extends Controller
         try {
             $naver = Socialite::driver('naver')->user();
 
-            $user = User::select()->where('token', $naver->id)->where('provider', 'N')->first();
+            $user = User::select()->where('token', $naver->id)->where('provider', 'A')->first();
 
             if ($user != null) { // 로그인 후 메인 화면으로 이동
                 if ($user->state == 0) {
@@ -458,7 +469,7 @@ class UserAuthPcController extends Controller
                 Auth::guard('web')->login($user);
                 return Redirect::route('www.main.main');
             } else { // 회원 가입 화면으로 이동
-                return Redirect::route('www.register.type', ['sns_type' => 'N', 'token' => Crypt::encrypt($naver->id)]);
+                return Redirect::route('www.register.type', ['provider' => 'A', 'token' => Crypt::encrypt($naver->id)]);
             }
         } catch (Exception $e) {
             return redirect(route('www.login.login'));

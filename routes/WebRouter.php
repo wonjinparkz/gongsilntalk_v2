@@ -97,6 +97,8 @@ Route::controller(UserAuthPcController::class)->group(function () {
 
     Route::get('/apple', 'appleLogin')->name('www.login.apple');
     Route::get('/apple/oauth', 'appleCallback');
+    Route::get('/register/type', 'snsJoinView')->name('www.register.type');
+
 });
 
 Route::controller(SiteProductPcController::class)->group(function () {
