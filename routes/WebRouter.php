@@ -210,6 +210,7 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::get('/mypage/my/info', 'myInfoView')->name('www.mypage.my.info');
     Route::get('/mypage/company/info', 'companyInfoView')->name('www.mypage.company.info');
     Route::post('/mypage/info/image-update', 'profileImageUpdate')->name('www.info.profile.image.update');
+    Route::post('/mypage/info/company-number-update', 'corpCompanyNumberUpdate')->name('www.info.company.number.update');
     Route::get('/mypage/community/list', 'communityListView')->name('www.mypage.community.list.view');
     Route::get('/mypage/alarm/list', 'alarmListView')->name('www.mypage.alarm.list.view');
 

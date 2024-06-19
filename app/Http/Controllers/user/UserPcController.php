@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -797,17 +798,29 @@ class UserPcController extends Controller
     public function profileImageUpdate(Request $request)
     {
         // 회원 정보
-        $user = User::with('images')->select()
+        $user = User::with('image')->select()
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
-        if (count($user->images) < 1) {
-            $this->imageWithCreate($request->image_ids, User::class, Auth::guard('web')->user()->id);
+        if (isset($user->image)) {
+            $this->imageWithEdit($request->image_ids, User::class, Auth::guard('web')->user()->id);
         } else {
-            $this->imageWithUpdate($request->image_ids, User::class, Auth::guard('web')->user()->id);
+            $this->imageWithCreate($request->image_ids, User::class, Auth::guard('web')->user()->id);
         }
 
         return $this->sendResponse(null, '프로필 이미지 변경에 성공했습니다.');
+    }
+
+    /**
+     * 중개사 대표 전화번호 변경
+     */
+    public function corpCompanyNumberUpdate(Request $request)
+    {
+        User::where('id', Auth::guard('web')->user()->id)->update([
+            'company_phone' => Crypt::encryptString($request->company_phone)
+        ]);
+
+        return $this->sendResponse(null, '대표 전화번호 변경에 성공했습니다.');
     }
 
     /**
@@ -816,7 +829,7 @@ class UserPcController extends Controller
     public function companyInfoView(): View
     {
         // 회원 정보
-        $user = User::select()
+        $user = User::with('image')->select()
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
