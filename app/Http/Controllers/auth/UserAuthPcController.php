@@ -175,6 +175,8 @@ class UserAuthPcController extends Controller
         }
 
         $result = User::create([
+            'email' => $request->email ?? Crypt::decrypt($request->token),
+            'password' => Hash::make($request->password) ?? null,
             'provider' => $request->provider ?? 'E',
             'token' => $request->provider != 'E' ? Crypt::decrypt($request->token) : null,
             'name' => $request->name,
