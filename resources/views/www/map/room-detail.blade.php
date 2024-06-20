@@ -63,11 +63,11 @@
         </div>
         <div class="slide_modal_body">
             <div class="layer_share_con">
-                <a href="#">
+                <a class="kakaotalk-sharing-btn" href="javascript:;">
                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                     <p class="mt8">카카오톡</p>
                 </a>
-                <a href="#">
+                <a href="javascript:void(0);" onclick="urlCopy();">
                     <img src="{{ asset('assets/media/share_ic_02.png') }}">
                     <p class="mt8">링크복사</p>
                 </a>
@@ -85,12 +85,24 @@
                 <div class="room_detail_img">
                     <div class="swiper room_img">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide">
+
+                            @if (count($result->images) > 0)
+                                @foreach ($result->images as $item)
+                                    <div class="swiper-slide">
+                                        <div class="img_box">
+                                            <img src="{{ Storage::url('image/' . $item->path) }}"
+                                                onerror="this.src='{{ asset('assets/media/s_1.png') }}';">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+
+                            {{-- <div class="swiper-slide">
                                 <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="img_box"><img src="{{ asset('assets/media/s_2.png') }}"></div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
@@ -150,11 +162,11 @@
                                 <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close btn_share">
                             </div>
                             <div class="layer_share_con">
-                                <a href="#">
+                                <a class="kakaotalk-sharing-btn" href="javascript:;">
                                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                     <p class="mt8">카카오톡</p>
                                 </a>
-                                <a href="#">
+                                <a href="javascript:void(0);" onclick="urlCopy();">
                                     <img src="{{ asset('assets/media/share_ic_02.png') }}">
                                     <p class="mt8">링크복사</p>
                                 </a>
@@ -579,7 +591,15 @@
                     <div class="agent_box only_m">
                         <div class="agent_box_info">
                             <div class="agent_box_img">
-                                <div class="img_box"><img src="{{ asset('assets/media/default_img.png') }}"></div>
+                                <div class="img_box">
+                                    @if (count($result->users->images) > 0)
+                                        <img src="{{ Storage::url('image/' . $result->users->images[0]->path) }}"
+                                            onerror="this.src='{{ asset('assets/media/default_img.png') }}';"
+                                            loading="lazy">
+                                    @else
+                                        <img src="{{ asset('assets/media/default_img.png') }}">
+                                    @endif
+                                </div>
                             </div>
                             <h4>{{ $result->users->company_name ?? '-' }}</h4>
                             <p>대표중개사 {{ $result->users->company_ceo ?? '-' }}</p>
@@ -589,7 +609,9 @@
                             <div class="info_row"><span class="gray_deep">주소
                                 </span>{{ implode(', ', array_filter([$result->users->company_address ?? '', $result->users->company_address_detail ?? '-'])) }}
                             </div>
-                            <div class="info_row"><span class="gray_deep">중개등록번호</span>12345-1234-12345</div>
+                            <div class="info_row">
+                                <span class="gray_deep">중개등록번호</span>{{ $result->users->company_number ?? '-' }}
+                            </div>
                         </div>
                         <button class="btn_point btn_full_thin" onclick="modal_open('agent_qa')">문의하기</button>
                     </div>
@@ -659,7 +681,8 @@
                         <div class="info_row"><span class="gray_deep">주소
                             </span>{{ implode(', ', array_filter([$result->users->company_address ?? '', $result->users->company_address_detail ?? '-'])) }}
                         </div>
-                        <div class="info_row"><span class="gray_deep">중개등록번호</span>12345-1234-12345</div>
+                        <div class="info_row"><span
+                                class="gray_deep">중개등록번호</span>{{ $result->company_number ?? '-' }}</div>
                     </div>
                     <button class="btn_point btn_full_thin" onclick="modal_open('agent_qa')">문의하기</button>
                 </div>
@@ -687,32 +710,44 @@
             <div class="agent_popup_info">
                 <div class="agent_box_info">
                     <div class="agent_box_img">
-                        <div class="img_box"><img src="{{ asset('assets/media/default_img.png') }}"></div>
+                        <div class="img_box">
+                            @if (count($result->users->images) > 0)
+                                <img src="{{ Storage::url('image/' . $result->users->images[0]->path) }}"
+                                    onerror="this.src='{{ asset('assets/media/default_img.png') }}';" loading="lazy">
+                            @else
+                                <img src="{{ asset('assets/media/default_img.png') }}">
+                            @endif
+                        </div>
                     </div>
-                    <h4><a href="#">공실앤톡부동산중개사무소 <img src="{{ asset('assets/media/ic_list_arrow.png') }}"></a>
+                    <h4><a href="{{ route('www.map.agent.detail', [$result->users_id]) }}">{{ $result->users->company_name ?? '-' }}
+                            <img src="{{ asset('assets/media/ic_list_arrow.png') }}"></a>
                     </h4>
                     <p class="gray_deep">대표중개사 홍길동</p>
                 </div>
                 <div class="agent_popup_detail">
-                    <p><span>주소</span> 경기도 화성시 동탄기흥로 557 , 103호(영천동)</p>
-                    <p><span>중개등록번호</span> 41590-2021-20148</p>
-                    <p><span>대표번호</span> 031-1600-0962</p>
+                    <p><span>주소</span>
+                        {{ implode(', ', array_filter([$result->users->company_address ?? '', $result->users->company_address_detail ?? '-'])) }}
+                    </p>
+                    <p><span>중개등록번호</span> {{ $result->users->company_number ?? '-' }}</p>
+                    <p><span>대표번호</span> {{ $result->users->company_phone ?? '-' }}</p>
                 </div>
             </div>
         </div>
         <hr>
         <div class="agent_contact_wrap">
-            <a href="tel:01041344243">
-                <div class="agent_popup_call"><img src="{{ asset('assets/media/ic_point_call.png') }}"> 010-5184-7214
+            <a href="tel:{{ $result->users->phone }}">
+                <div class="agent_popup_call"><img src="{{ asset('assets/media/ic_point_call.png') }}">
+                    {{ $result->users->phone }}
                 </div>
             </a>
-            <div class="agent_popup_num">매물번호 35448331</div>
+            <div class="agent_popup_num">매물번호 {{ $result->product_number }}</div>
             <div class="agent_popup_noti">중개사무소에 연락하여 문의해보세요.<br>공실앤톡에서 보고 문의드린다 말씀하시면,<br>빠른 예약이 가능합니다.</div>
         </div>
 
     </div>
     <div class="md_overlay md_overlay_agent_qa" onclick="modal_close('agent_qa')"></div>
     <!-- modal 문의하기 : e-->
+
 
 
 
@@ -821,5 +856,60 @@
                     '{{ asset('assets/media/header_btn_share_w.png') }}');
             }
         })
+    </script>
+
+    {{-- 카카오톡 공유 --}}
+    {{-- JavaScript 키, url 변경 수정필요 --}}
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+        integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous">
+    </script>
+    <script>
+        Kakao.init('053a66b906cb1cf1d805d47831668657'); // 사용하려는 앱의 JavaScript 키 입력
+    </script>
+
+    <script>
+        var title = '공실앤톡';
+        var imageUrl = "{{ asset('assets/media/default_gs.png') }}";
+        var url = "http://localhost"
+        var detailUrl = "{{ route('www.map.room.detail', [$result->id]) }}"
+        Kakao.Share.createDefaultButton({
+            container: '.kakaotalk-sharing-btn',
+            objectType: 'feed',
+            content: {
+                title: title,
+                imageUrl: imageUrl,
+                link: {
+                    // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+                    mobileWebUrl: url,
+                    webUrl: url,
+                },
+            },
+            // social: {
+            //     likeCount: 286,
+            //     commentCount: 45,
+            //     sharedCount: 845,
+            // },
+            buttons: [{
+                    title: '웹으로 보기',
+                    link: {
+                        mobileWebUrl: detailUrl,
+                        webUrl: detailUrl,
+                    },
+                },
+                // {
+                //     title: '앱으로 보기',
+                //     link: {
+                //         mobileWebUrl: detailUrl,
+                //         webUrl: detailUrl,
+                //     },
+                // },
+            ],
+        });
+
+        function urlCopy() {
+            navigator.clipboard.writeText(detailUrl).then(res => {
+                alert("링크복사 되었습니다.");
+            })
+        }
     </script>
 </x-layout>

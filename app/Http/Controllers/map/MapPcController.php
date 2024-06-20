@@ -112,7 +112,18 @@ class MapPcController extends Controller
     {
         $result = User::select()->where('type', '1')->where('company_state', '1')->first();
 
-        return view('www.map.agent-detail', compact('result'));
+        $product = Product::with('users', 'priceInfo')
+            ->where('is_delete', '0')
+            ->where('user_type', '1');
+
+        // 정렬
+        $product->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+
+        $productList = $product->paginate($request->per_page == null ? 10 : $request->per_page);
+
+        $productList->appends(request()->except('page'));
+
+        return view('www.map.agent-detail', compact('result', 'productList'));
     }
 
     public function getMapMarker(Request $request)

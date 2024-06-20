@@ -119,14 +119,14 @@
             const distanceButton = document.querySelector(".sort_distance");
             distanceButton.addEventListener("click", function() {
                 $('#orderby').val('sort_distance');
-                deleteDivItem();
+                deleteAItem();
             });
 
             // 이름순
             const nameButton = document.querySelector(".sort_name");
             nameButton.addEventListener("click", function() {
                 $('#orderby').val('sort_name');
-                deleteDivItem();
+                deleteAItem();
             });
         });
 
@@ -142,7 +142,7 @@
 
         // 페이징
         function loadMoreData(page) {
-            console.log('hhh');
+
             $.ajax({
                     url: '{{ Request::url() }}',
                     data: {
@@ -170,18 +170,19 @@
             $(`#agent_list`).css('display', 'none');
 
             let listName = e.className.split(' ');
-            console.log(`#${listName[0]}_list`);
-            console.log(listName[0]);
-            if (listName[0] == 'agent_list') {
-                deleteDivItem();
-            } else if (listName[0] == 'property_list') {
+            if (listName[0] == 'agent') {
+
                 deleteAItem();
+            } else if (listName[0] == 'property') {
+
+                deleteDivItem();
             }
             $(`#${listName[0]}_list`).css('display', 'block');
         }
 
         // 지도내매물 목록 삭제
         function deleteDivItem() {
+
             const div = document.getElementById('property_list');
             const items = div.getElementsByTagName('div');
             for (var i = items.length - 1; i >= 0; i--) {
@@ -193,8 +194,10 @@
 
         // 중개사무소 목록 삭제
         function deleteAItem() {
+
             const div = document.getElementById('agent_list');
             const items = div.getElementsByTagName('a');
+
             for (var i = items.length - 1; i >= 0; i--) {
                 items[i].remove();
             }
