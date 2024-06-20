@@ -10,7 +10,7 @@
     <table class="table_basic mt20 only_pc">
         <colgroup>
             <col width="40">
-            <col width="75">
+            <col width="110">
             <col width="110">
             <col width="80">
             <col width="120">
@@ -18,7 +18,7 @@
             <col width="120">
             <col width="130">
             <col width="180">
-            <col width="140">
+            <col width="130">
         </colgroup>
         <thead>
             <tr>
