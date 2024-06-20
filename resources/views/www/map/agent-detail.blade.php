@@ -51,14 +51,15 @@
             <!-- PC::filter : s -->
             <div class="mt28 only_pc">
                 <div class="dropdown_box w_10">
-                    <button class="dropdown_label">거래유형 </button>
+                    <button class="dropdown_label">거래유형</button>
                     <ul class="optionList">
-                        <li class="optionItem">전체</li>
+                        <li class="optionItem" onclick="typeChange('')">전체</li>
                         @for ($i = 0; $i < count(Lang::get('commons.payment_type')); $i++)
                             @if ($i == 3 || $i == 4)
                                 @continue
                             @endif
-                            <li class="optionItem">{{ Lang::get('commons.payment_type.' . $i) }}</li>
+                            <li class="optionItem" onclick="typeChange({{ $i }})">
+                                {{ Lang::get('commons.payment_type.' . $i) }}</li>
                         @endfor
                     </ul>
                 </div>
@@ -78,11 +79,20 @@
                         onclick="modal_close_slide('transaction_type')">
                 </div>
                 <ul class="slide_modal_menu">
-                    <li><a href="#">전체</a></li>
-                    <li><a href="#">매매</a></li>
-                    <li><a href="#">임대</a></li>
-                    <li><a href="#">단기임대</a></li>
-                    <li><a href="#">전매</a></li>
+                    <li><a href="javascript:;" onclick="typeChange('')">전체</a></li>
+                    @for ($i = 0; $i < count(Lang::get('commons.payment_type')); $i++)
+                        @if ($i == 3 || $i == 4)
+                            @continue
+                        @endif
+                        <li><a href="javascript:;"
+                                onclick="typeChange({{ $i }})">{{ Lang::get('commons.payment_type.' . $i) }}</a>
+                        </li>
+                    @endfor
+                    {{-- <li><a href="javascript:;">전체</a></li>
+                    <li><a href="javascript:;">매매</a></li>
+                    <li><a href="javascript:;">임대</a></li>
+                    <li><a href="javascript:;">단기임대</a></li>
+                    <li><a href="javascript:;">전매</a></li> --}}
                 </ul>
             </div>
             <div class="md_slide_overlay md_slide_overlay_transaction_type"
@@ -90,65 +100,32 @@
             <!-- M::filter : e -->
 
             <div class="flex_between agent_sort_wrap">
-                <div class="txt_search_total">분양목록 총 <span class="txt_point">44건</span></div>
+                <div class="txt_search_total">분양목록 총 <span class="txt_point">0건</span></div>
                 <ul class="list_sort2 normal_type toggle_tab">
-                    <li class="active"><a href="#">최신순</a></li>
-                    <li><a href="#">높은가격순</a></li>
-                    <li><a href="#">면적순</a></li>
+                    <li class="active new_desc"><a href="javascript:;">최신순</a></li>
+                    <li class="price"><a href="javascript:;">높은가격순</a></li>
+                    <li class="area"><a href="javascript:;">면적순</a></li>
                 </ul>
             </div>
 
-
-            <div class="sales_list_wrap">
-                <!-- card : s -->
-                @foreach ($productList as $item)
-                    {{-- {{ $item }} --}}
-                    <div class="sales_card">
-                        <span class="sales_list_wish" onclick="btn_wish(this)"></span>
-                        <a href="{{ route('www.map.room.detail', [$item->id]) }}">
-                            <div class="sales_card_img">
-                                <div class="img_box">
-                                    @if (count($item->images) > 0)
-                                        <img src="{{ Storage::url('image/' . $item->images[0]->path) }}"
-                                            onerror="this.src='{{ asset('assets/media/s_1.png') }}';" loading="lazy">
-                                    @else
-                                        <img src="{{ asset('assets/media/s_1.png') }}">
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="sales_list_con">
-                                <p class="txt_item_1">
-                                    {{ Lang::get('commons.payment_type.' . $item->priceInfo->payment_type) }}
-                                    {{ Commons::get_priceTrans($item->priceInfo->price) }}
-                                    {{-- 월세/단기임대 --}}
-                                    @if (in_array($item->priceInfo->payment_type, [2, 4]))
-                                        / {{ Commons::get_priceTrans($item->priceInfo->month_price) }}
-                                    @endif
-                                </p>
-                                <p class="txt_item_4">{{ $item->region_address }}</p>
-                                <p class="txt_item_2">{{ $item->square ?? '-' }}㎡ /
-                                    {{ $item->exclusive_square ?? '-' }}㎡·{{ $item->floor_number ?? '-' }}층
-                                </p>
-                                <p class="txt_item_3">{{ $item->contents ?? '' }}</p>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-
-            {{ $productList->onEachSide(1)->links('components.pc-pagination') }}
+            <div class="productListDiv"></div>
+            {{-- <x-corp-product-list :productList="$productList" /> --}}
         </div>
     </div>
 
 
-    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
-        integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous">
-    </script>
-    <script>
-        Kakao.init('053a66b906cb1cf1d805d47831668657'); // 사용하려는 앱의 JavaScript 키 입력
-    </script>
 
+    <input type="hidden" id="orderby" name="orderby" value="">
+    <input type="hidden" id="paymentType" name="paymentType" value="">
     <script>
+        // 거래 유형
+        function typeChange(type) {
+            console.log(type);
+            $('#paymentType').val(type);
+            console.log($('#paymentType').val());
+            loadMoreData(1);
+        }
+
         // 관심매물 토글버튼
         function btn_wish(element) {
             if ($(element).hasClass("on")) {
@@ -157,8 +134,65 @@
                 $(element).addClass("on");
             }
         }
+
+        //정렬
+        // 최신순
+        const new_desc = document.querySelector(".new_desc");
+        new_desc.addEventListener("click", function() {
+            $('#orderby').val('new_desc');
+            loadMoreData(1);
+        });
+
+        // 가격순
+        const price = document.querySelector(".price");
+        price.addEventListener("click", function() {
+            $('#orderby').val('price');
+            loadMoreData(1);
+        });
+
+        // 면적순
+        const area = document.querySelector(".area");
+        area.addEventListener("click", function() {
+            $('#orderby').val('area');
+            loadMoreData(1);
+        });
+
+        var page = 1;
+        loadMoreData(page);
+
+        // 페이징
+        function loadMoreData(page) {
+
+            $.ajax({
+                    url: '{{ Request::url() }}',
+                    data: {
+                        page: page,
+                        payment_type: $('#paymentType').val(),
+                        orderby: $('#orderby').val()
+                    },
+                    type: "get",
+                    beforeSend: function() {
+                        // $('.ajax-load').show();
+                    }
+                })
+                .done(function(data) {
+                    console.log(data.html);
+                    $(".productListDiv").html(data.html);
+                    var countElement = document.querySelector('.txt_point');
+                    countElement.innerText = data.count;
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError) {});
+        }
     </script>
 
+    {{-- 카카오톡 공유 --}}
+    {{-- JavaScript 키, url 변경 수정필요 --}}
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+        integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous">
+    </script>
+    <script>
+        Kakao.init('053a66b906cb1cf1d805d47831668657'); // 사용하려는 앱의 JavaScript 키 입력
+    </script>
     <script>
         var title = '공실앤톡';
         var imageUrl = "{{ asset('assets/media/default_gs.png') }}";
@@ -176,26 +210,13 @@
                     webUrl: url,
                 },
             },
-            // social: {
-            //     likeCount: 286,
-            //     commentCount: 45,
-            //     sharedCount: 845,
-            // },
             buttons: [{
-                    title: '웹으로 보기',
-                    link: {
-                        mobileWebUrl: detailUrl,
-                        webUrl: detailUrl,
-                    },
+                title: '웹으로 보기',
+                link: {
+                    mobileWebUrl: detailUrl,
+                    webUrl: detailUrl,
                 },
-                // {
-                //     title: '앱으로 보기',
-                //     link: {
-                //         mobileWebUrl: detailUrl,
-                //         webUrl: detailUrl,
-                //     },
-                // },
-            ],
+            }, ],
         });
 
         function urlCopy() {
