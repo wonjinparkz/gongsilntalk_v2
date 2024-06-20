@@ -1,10 +1,11 @@
 <div class="filter_dropdown_wrap" id="filterType1">
     <!-- filter 지식산업센터 : s -->
     <div class="filter_btn_wrap">
-        <button class="filter_btn_trigger">지식산업센터</button>
+        <button class="filter_btn_trigger" id="filter_text_product_type">매물 종류</button>
+        <input type="hidden" id="product" value="">
         <div class="filter_panel panel_item_1">
             <div class="filter_panel_body">
-                <h6>매물 종류</h6>
+                <h6 id="productTitle">매물 종류</h6>
                 <ul class="tab_type_3 tab_toggle_menu">
                     <li class="active">상업용</li>
                     <li>주거용</li>
@@ -13,70 +14,43 @@
                 <div class="tab_area_wrap">
                     <div>
                         <div class="btn_radioType">
-                            <input type="radio" name="commercial" id="commercial_1" value="Y">
-                            <label for="commercial_1">지식산업센터</label>
-
-                            <input type="radio" name="commercial" id="commercial_2" value="Y">
-                            <label for="commercial_2">사무실</label>
-
-                            <input type="radio" name="commercial" id="commercial_3" value="Y">
-                            <label for="commercial_3">창고</label>
-
-                            <input type="radio" name="commercial" id="commercial_4" value="Y">
-                            <label for="commercial_4">상가</label>
-
-                            <input type="radio" name="commercial" id="commercial_5" value="Y">
-                            <label for="commercial_5">건물</label>
-
-                            <input type="radio" name="commercial" id="commercial_6" value="Y">
-                            <label for="commercial_6">토지/임야</label>
-
-                            <input type="radio" name="commercial" id="commercial_7" value="Y">
-                            <label for="commercial_7">단독 공장</label>
+                            @for ($i = 0; $i < 8; $i++)
+                                <input type="radio" name="product" id="product_{{ $i }}"
+                                    value="{{ $i }}">
+                                <label
+                                    for="product_{{ $i }}">{{ Lang::get('commons.product_type.' . $i) }}</label>
+                            @endfor
                         </div>
                     </div>
                     <div>
                         <div class="btn_radioType">
-                            <input type="radio" name="inhabitation" id="inhabitation_1" value="Y">
-                            <label for="inhabitation_1">아파트</label>
-
-                            <input type="radio" name="inhabitation" id="inhabitation_2" value="Y">
-                            <label for="inhabitation_2">오피스텔</label>
-
-                            <input type="radio" name="inhabitation" id="inhabitation_3" value="Y">
-                            <label for="inhabitation_3">단독/다가구</label>
-
-                            <input type="radio" name="inhabitation" id="inhabitation_4" value="Y">
-                            <label for="inhabitation_4">다세대/빌라/연립</label>
-
-                            <input type="radio" name="inhabitation" id="inhabitation_5" value="Y">
-                            <label for="inhabitation_5">상가주택</label>
-
-                            <input type="radio" name="inhabitation" id="inhabitation_6" value="Y">
-                            <label for="inhabitation_6">주택</label>
+                            @for (; $i < 14; $i++)
+                                <input type="radio" name="product" id="product_{{ $i }}"
+                                    value="{{ $i }}">
+                                <label
+                                    for="product_{{ $i }}">{{ Lang::get('commons.product_type.' . $i) }}</label>
+                            @endfor
                         </div>
                     </div>
 
                     <div>
                         <div class="btn_radioType">
-                            <input type="radio" name="pre_sale" id="pre_sale_1" value="Y">
-                            <label for="pre_sale_1">지식산업센터 분양권</label>
-
-                            <input type="radio" name="pre_sale" id="pre_sale_2" value="Y">
-                            <label for="pre_sale_2">상가 분양권</label>
-
-                            <input type="radio" name="pre_sale" id="pre_sale_3" value="Y">
-                            <label for="pre_sale_3">아파트 분양권</label>
-
-                            <input type="radio" name="pre_sale" id="pre_sale_4" value="Y">
-                            <label for="pre_sale_4">오피스텔 분양권</label>
+                            @for (; $i < Count(Lang::get('commons.product_type')); $i++)
+                                <input type="radio" name="product" id="product_{{ $i }}"
+                                    value="{{ $i }}">
+                                <label
+                                    for="product_{{ $i }}">{{ Lang::get('commons.product_type.' . $i) }}</label>
+                            @endfor
                         </div>
                     </div>
                 </div>
             </div>
             <div class="filter_panel_bottom">
-                <button class="btn_graylight_ghost btn_md_full"><img src="images/ic_refresh.png">초기화</button>
-                <button class="btn_point btn_md_full">적용하기</button>
+                <button type="button" class="btn_graylight_ghost btn_md_full"
+                    onclick="filter_reset('product_type')"><img
+                        src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
+                <button type="button" class="btn_point btn_md_full"
+                    onclick="filter_apply('product_type')">적용하기</button>
             </div>
 
         </div>
@@ -86,26 +60,17 @@
     <!-- filter 거래유형/가격 : s -->
     <div class="filter_btn_wrap">
         <button class="filter_btn_trigger">거래유형/가격</button>
+        <input type="hidden" id="payment_type" value="">
         <div class="filter_panel panel_item_2">
             <div class="filter_panel_body">
                 <h6>거래 유형 <span>중복 선택 가능</span></h6>
                 <div class="input_type_wrap">
-                    <div>
-                        <input type="checkbox" name="type" id="type_1">
-                        <label for="type_1"><span></span>매매</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" name="type" id="type_2">
-                        <label for="type_2"><span></span>전세</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" name="type" id="type_3">
-                        <label for="type_3"><span></span>월세</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" name="type" id="type_4">
-                        <label for="type_4"><span></span>단기임대</label>
-                    </div>
+                    @foreach (Lang::get('commons.payment_type') as $index => $payment)
+                        <div>
+                            <input type="checkbox" name="payment_type" id="payment_type_{{ $index }}">
+                            <label for="payment_type_{{ $index }}"><span></span>{{ $payment }}</label>
+                        </div>
+                    @endforeach
                 </div>
 
                 <h6 class="mt20">가격</h6>
@@ -132,8 +97,11 @@
 
             </div>
             <div class="filter_panel_bottom">
-                <button class="btn_graylight_ghost btn_md_full"><img src="images/ic_refresh.png">초기화</button>
-                <button class="btn_point btn_md_full">적용하기</button>
+                <button type="button" class="btn_graylight_ghost btn_md_full"
+                    onclick="filter_reset('sale_product_type')"><img
+                        src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
+                <button type="button" class="btn_point btn_md_full"
+                    onclick="filter_apply('sale_product_type')">적용하기</button>
             </div>
         </div>
     </div>
@@ -142,6 +110,7 @@
     <!-- filter 면적 : s -->
     <div class="filter_btn_wrap">
         <button class="filter_btn_trigger">면적</button>
+        <input type="hidden" id="product" value="">
         <div class="filter_panel panel_item_3">
             <div class="filter_panel_body">
                 <div class="filter_tit_2">
@@ -173,8 +142,11 @@
             </div>
 
             <div class="filter_panel_bottom">
-                <button class="btn_graylight_ghost btn_md_full"><img src="images/ic_refresh.png">초기화</button>
-                <button class="btn_point btn_md_full">적용하기</button>
+                <button type="button" class="btn_graylight_ghost btn_md_full"
+                    onclick="filter_reset('sale_product_type')"><img
+                        src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
+                <button type="button" class="btn_point btn_md_full"
+                    onclick="filter_apply('sale_product_type')">적용하기</button>
             </div>
         </div>
     </div>
@@ -183,6 +155,7 @@
     <!-- filter 관리비 : s -->
     <div class="filter_btn_wrap">
         <button class="filter_btn_trigger">관리비</button>
+        <input type="hidden" id="product" value="">
         <div class="filter_panel panel_item_3">
             <div class="filter_panel_body">
                 <h6>관리비</h6>
@@ -207,8 +180,11 @@
                 <!-- slider : e -->
             </div>
             <div class="filter_panel_bottom">
-                <button class="btn_graylight_ghost btn_md_full"><img src="images/ic_refresh.png">초기화</button>
-                <button class="btn_point btn_md_full">적용하기</button>
+                <button type="button" class="btn_graylight_ghost btn_md_full"
+                    onclick="filter_reset('sale_product_type')"><img
+                        src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
+                <button type="button" class="btn_point btn_md_full"
+                    onclick="filter_apply('sale_product_type')">적용하기</button>
             </div>
         </div>
     </div>
@@ -217,6 +193,7 @@
     <!-- filter 사용승인연도 : s -->
     <div class="filter_btn_wrap">
         <button class="filter_btn_trigger">사용승인연도</button>
+        <input type="hidden" id="product" value="">
         <div class="filter_panel panel_item_3">
             <div class="filter_panel_body">
                 <h6>사용승인연도</h6>
@@ -241,8 +218,11 @@
                 <!-- slider : e -->
             </div>
             <div class="filter_panel_bottom">
-                <button class="btn_graylight_ghost btn_md_full"><img src="images/ic_refresh.png">초기화</button>
-                <button class="btn_point btn_md_full">적용하기</button>
+                <button type="button" class="btn_graylight_ghost btn_md_full"
+                    onclick="filter_reset('sale_product_type')"><img
+                        src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
+                <button type="button" class="btn_point btn_md_full"
+                    onclick="filter_apply('sale_product_type')">적용하기</button>
             </div>
         </div>
     </div>
@@ -250,7 +230,8 @@
 
     <!-- filter 융자금 : s -->
     <div class="filter_btn_wrap">
-        <button class="filter_btn_trigger">융자금 없음</button>
+        <button class="filter_btn_trigger">융자금</button>
+        <input type="hidden" id="product" value="">
         <div class="filter_panel panel_item_6">
             <div class="filter_panel_body">
                 <h6>융자금</h6>
@@ -266,8 +247,11 @@
                 </div>
             </div>
             <div class="filter_panel_bottom">
-                <button class="btn_graylight_ghost btn_md_full"><img src="images/ic_refresh.png">초기화</button>
-                <button class="btn_point btn_md_full">적용하기</button>
+                <button type="button" class="btn_graylight_ghost btn_md_full"
+                    onclick="filter_reset('sale_product_type')"><img
+                        src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
+                <button type="button" class="btn_point btn_md_full"
+                    onclick="filter_apply('sale_product_type')">적용하기</button>
             </div>
         </div>
     </div>
@@ -276,6 +260,7 @@
     <!-- filter 권리금 : s -->
     <div class="filter_btn_wrap">
         <button class="filter_btn_trigger">권리금</button>
+        <input type="hidden" id="product" value="">
         <div class="filter_panel panel_item_3">
             <div class="filter_panel_body">
                 <h6>권리금</h6>
@@ -301,8 +286,11 @@
             </div>
 
             <div class="filter_panel_bottom">
-                <button class="btn_graylight_ghost btn_md_full"><img src="images/ic_refresh.png">초기화</button>
-                <button class="btn_point btn_md_full">적용하기</button>
+                <button type="button" class="btn_graylight_ghost btn_md_full"
+                    onclick="filter_reset('sale_product_type')"><img
+                        src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
+                <button type="button" class="btn_point btn_md_full"
+                    onclick="filter_apply('sale_product_type')">적용하기</button>
             </div>
         </div>
     </div>
@@ -310,7 +298,8 @@
 
     <!-- filter 업종 : s -->
     <div class="filter_btn_wrap">
-        <button class="filter_btn_trigger">업종, 휴게음식점, 일반음식점</button>
+        <button class="filter_btn_trigger">업종</button>
+        <input type="hidden" id="product" value="">
         <div class="filter_panel panel_item_3">
             <div class="filter_panel_body">
                 <div class="flex_between">
@@ -358,8 +347,11 @@
             </div>
 
             <div class="filter_panel_bottom">
-                <button class="btn_graylight_ghost btn_md_full"><img src="images/ic_refresh.png">초기화</button>
-                <button class="btn_point btn_md_full">적용하기</button>
+                <button type="button" class="btn_graylight_ghost btn_md_full"
+                    onclick="filter_reset('sale_product_type')"><img
+                        src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
+                <button type="button" class="btn_point btn_md_full"
+                    onclick="filter_apply('sale_product_type')">적용하기</button>
             </div>
         </div>
     </div>
@@ -368,6 +360,7 @@
     <!-- filter 기타 : s -->
     <div class="filter_btn_wrap">
         <button class="filter_btn_trigger">기타</button>
+        <input type="hidden" id="product" value="">
         <div class="filter_panel panel_item_6">
             <div class="filter_panel_body">
                 <h6>기타 옵션</h6>
@@ -417,10 +410,66 @@
                 </div>
             </div>
             <div class="filter_panel_bottom">
-                <button class="btn_graylight_ghost btn_md_full"><img src="images/ic_refresh.png">초기화</button>
-                <button class="btn_point btn_md_full">적용하기</button>
+                <button type="button" class="btn_graylight_ghost btn_md_full"
+                    onclick="filter_reset('sale_product_type')"><img
+                        src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
+                <button type="button" class="btn_point btn_md_full"
+                    onclick="filter_apply('sale_product_type')">적용하기</button>
             </div>
         </div>
     </div>
     <!-- filter 기타 : s -->
 </div>
+
+<script>
+    // 필터 열기
+    const filterBtns = document.querySelectorAll('.filter_btn_trigger');
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function(event) {
+            const parent = this.parentElement;
+            const panel = parent.querySelector('.filter_panel');
+
+            document.querySelectorAll('.filter_panel').forEach(p => {
+                if (p !== panel && p.style.display === 'block') {
+                    p.style.display = 'none';
+                }
+            });
+            panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+            event.stopPropagation();
+        });
+    });
+
+    document.addEventListener('click', function(event) {
+        const isOutsideFilterPanel = !event.target.closest('.filter_panel');
+        if (isOutsideFilterPanel) {
+            document.querySelectorAll('.filter_panel').forEach(p => {
+                p.style.display = 'none';
+            });
+        }
+    });
+
+    var slider = document.querySelector("#rangeItem_1");
+    var valueMin = document.querySelector("#item_1_min");
+    var valueMax = document.querySelector("#item_1_max");
+    var item1txt = document.querySelector("#item_1_txt");
+
+    noUiSlider.create(slider, {
+        start: [0, 100],
+        connect: true,
+        range: {
+            "min": 0,
+            "max": 100
+        }
+    });
+
+    slider.noUiSlider.on("update", function(values, handle) {
+        if (values[0] < 0 || values[1] > 99) {
+            item1txt.innerHTML = "전체";
+        } else {
+            valueMin.innerHTML = values[0];
+            valueMax.innerHTML = values[1];
+            item1txt.innerHTML = "<span id='kt_slider_basic_min'>" + values[0] +
+                "원</span> ~ <span id='kt_slider_basic_max'>" + values[1] + "원</span>";
+        }
+    });
+</script>

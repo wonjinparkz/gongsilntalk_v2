@@ -6,11 +6,11 @@
                 <div class="map_filter_wrap">
                     <div class="dropdown_box type_2">
                         <button class="dropdown_label" id="mapTypeText">실거래가지도</button>
-                        <input type="hidden" id="mapType" value="0">
                         <ul class="optionList">
                             <li class="optionItem" onclick="mapTypeChage(0)">실거래가지도</li>
                             <li class="optionItem" onclick="mapTypeChage(1)">매물지도</li>
                         </ul>
+                        <input type="hidden" id="mapType" value="0">
                     </div>
                     <x-pc-map-filter />
                     <x-pc-map-property-filter />
@@ -29,8 +29,10 @@
             </div>
             <div class="map_body">
                 <!-- map side : s -->
-                <div class="map_side">
-
+                <div class="map_side map_side_0">
+                </div>
+                <div class="map_side property_type map_side_1">
+                    <x-pc-map-side-product />
                 </div>
                 <!-- map side : e -->
 
@@ -105,7 +107,7 @@
                 if (polygonMap) {
                     polygonMap.setMap(null);
                 }
-                $('.map_side').html(data);
+                $('.map_side_0').html(data);
             },
             error: function(xhr, status, e) {
                 console.error("Error: ", e);
@@ -282,7 +284,7 @@
             var markerElement = marker.getElement();
             var markerId = marker.id;
             var markerType = marker.type;
-            var mapSide = document.querySelector('.map_side');
+            var mapSide = document.querySelector('.map_side_0');
             var currentActiveMarkerElement = markerElement.querySelector('.activeMarker');
 
             if (lastActiveMarkerElement === currentActiveMarkerElement) {
@@ -698,12 +700,11 @@
             polygonMap.setMap(null);
         }
         if (mapType == 0) {
-            $('.map_side').removeClass('active');
-            $('.map_side').removeClass('property_type');
+            $('.map_side_0').removeClass('active');
+            $('.map_side_1').removeClass('active');
         } else {
-            $('.map_side').addClass('active');
-            $('.map_side').addClass('property_type');
-            getProductSide(null, 'product', 1);
+            $('.map_side_0').removeClass('active');
+            $('.map_side_1').addClass('active');
         }
 
         $('.filter_panel').css('display', 'none');
@@ -716,11 +717,8 @@
     function filter_reset(Name) {
 
         var text = '';
-        if (Name == 'sale_product_type') {
-            text = '매물 종류'
-        } else if (Name == 'useDate') {
-            text = '준공연차'
-        }
+        text = $('#' + Name + '_title').text();
+
         $('input[name="' + Name + '"]').prop('checked', false);
         $('#filter_text_' + Name).text(text);
         $('#' + Name).val('');
@@ -745,8 +743,8 @@
     }
 
     function mapTypeChage(type) {
-        $('.map_side').removeClass('active');
-        $('.type_2').removeClass('active');
+        $('.map_side_0').removeClass('active');
+        $('.map_side_1').addClass('active');
 
         var text = type == 0 ? '실거래가지도' : '매물지도';
         $('#mapTypeText').text(text);

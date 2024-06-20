@@ -455,6 +455,8 @@
 <script>
     $(document).ready(function() {
 
+        initializeDropdowns();
+
         $('#saleContent').show();
         $('#rentContent').hide();
 
@@ -521,7 +523,7 @@
 
     });
 
-    $('#areaTypeText').click(function() {
-        $(this).parent().toggleClass('active');
-    });
+    // $('#areaTypeText').click(function() {
+    //     $(this).parent().toggleClass('active');
+    // });
 </script>

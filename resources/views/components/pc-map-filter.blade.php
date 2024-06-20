@@ -5,7 +5,7 @@
             종류</button>
         <div class="filter_panel panel_item_1">
             <div class="filter_panel_body">
-                <h6>매물 종류</h6>
+                <h6 id="sale_product_type_title">매물 종류</h6>
                 <div class="btn_radioType">
                     <input type="radio" name="sale_product_type" id="sale_product_type_1" value="1">
                     <label for="sale_product_type_1">지식산업센터</label>
@@ -34,7 +34,7 @@
         <button type="button" class="filter_btn_trigger" id="filter_text_useDate">준공연차</button>
         <div class="filter_panel panel_item_3">
             <div class="filter_panel_body">
-                <h6>준공연차</h6>
+                <h6 id="useDate_title">준공연차</h6>
                 <div class="btn_radioType">
                     <input type="radio" name="useDate" id="useDate_1" value="0">
                     <label for="useDate_1">전체</label>

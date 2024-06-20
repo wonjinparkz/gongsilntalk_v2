@@ -594,7 +594,7 @@ Cluster.prototype = {
             // 클릭된 클러스터가 활성화된 상태라면 비활성화하고 productIdArray를 null로 설정
             if (clusterMarkerElement && clusterMarkerElement.classList.contains('active')) {
                 clusterMarkerElement.classList.remove('active');
-                getProductSide(null, 'product', 1);
+                // getProductSide(null, 'product', 1);
             } else {
                 // 클릭된 클러스터를 활성화하고 마커 정보를 productIdArray에 저장
                 if (clusterMarkerElement) {
@@ -607,7 +607,7 @@ Cluster.prototype = {
                     console.log('클러스터 내 마커:', marker.id);
                     productIdArray.push(marker.id);
                 });
-                getProductSide(productIdArray, 'product', 1);
+                // getProductSide(productIdArray, 'product', 1);
             }
         }, this));
     },
