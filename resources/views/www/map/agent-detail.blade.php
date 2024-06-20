@@ -15,7 +15,7 @@
         </div>
         <div class="slide_modal_body">
             <div class="layer_share_con">
-                <a href="#">
+                <a id="kakaotalk-sharing-btn" href="javascript:;">
                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                     <p class="mt8">카카오톡</p>
                 </a>
@@ -141,6 +141,13 @@
     </div>
 
 
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+        integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous">
+    </script>
+    <script>
+        Kakao.init('053a66b906cb1cf1d805d47831668657'); // 사용하려는 앱의 JavaScript 키 입력
+    </script>
+
     <script>
         // 관심매물 토글버튼
         function btn_wish(element) {
@@ -150,5 +157,46 @@
                 $(element).addClass("on");
             }
         }
+    </script>
+
+    <script>
+        var title = '공실앤톡';
+        var imageUrl = "{{ asset('assets/media/default_gs.png') }}";
+        var url = "http://localhost"
+        var detailUrl = "{{ route('www.map.agent.detail', [$result->id]) }}"
+        // var url = "{{ route('www.map.agent.detail', [$result->id]) }}"
+        Kakao.Share.createDefaultButton({
+            container: '#kakaotalk-sharing-btn',
+            objectType: 'feed',
+            content: {
+                title: title,
+                imageUrl: imageUrl,
+                link: {
+                    // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+                    mobileWebUrl: url,
+                    webUrl: url,
+                },
+            },
+            // social: {
+            //     likeCount: 286,
+            //     commentCount: 45,
+            //     sharedCount: 845,
+            // },
+            buttons: [{
+                    title: '웹으로 보기',
+                    link: {
+                        mobileWebUrl: detailUrl,
+                        webUrl: detailUrl,
+                    },
+                },
+                // {
+                //     title: '앱으로 보기',
+                //     link: {
+                //         mobileWebUrl: detailUrl,
+                //         webUrl: detailUrl,
+                //     },
+                // },
+            ],
+        });
     </script>
 </x-layout>
