@@ -7,6 +7,58 @@ function btn_wish(element) {
     }
 }
 
+
+/* Select Dropdown */
+function initializeDropdowns(context = document) {
+    const labels = context.querySelectorAll('.dropdown_label');
+    labels.forEach(function (lb) {
+        // 기존 이벤트 리스너 제거
+        lb.removeEventListener('click', handleLabelClick);
+        // 새로운 이벤트 리스너 추가
+        lb.addEventListener('click', handleLabelClick);
+    });
+}
+
+function handleLabelClick(event) {
+    const lb = event.target;
+    if (!lb.classList.contains('disabled')) {
+        let optionList = lb.nextElementSibling;
+        if (optionList) {
+            let optionItems = optionList.querySelectorAll('.optionItem');
+            clickLabel(lb, optionItems);
+        } else {
+            console.log('옵션 리스트를 찾을 수 없음', lb);
+        }
+    }
+}
+
+const clickLabel = (lb, optionItems) => {
+    console.log('옵션 선택', lb, optionItems);
+    if (lb.parentNode.classList.contains('active')) {
+        lb.parentNode.classList.remove('active');
+        optionItems.forEach((opt) => {
+            opt.removeEventListener('click', handleSelectWrapper(lb, opt));
+        });
+    } else {
+        lb.parentNode.classList.add('active');
+        optionItems.forEach((opt) => {
+            opt.addEventListener('click', handleSelectWrapper(lb, opt));
+        });
+    }
+}
+
+const handleSelectWrapper = (lb, opt) => {
+    return () => handleSelect(lb, opt);
+}
+
+const handleSelect = (label, item) => {
+    console.log('옵션 제목 바꿈');
+    label.innerHTML = item.textContent;
+    label.parentNode.classList.remove('active');
+}
+
+// 초기 이벤트 리스너 설정
+
 $(function () {
     //정렬
     $(".toggle_tab li").click(function () {
@@ -98,39 +150,7 @@ $(function () {
         $edit.find('iframe').parent().addClass('iframe_wrap');
     });
 
-    /* Select Dropdown */
-    const label = document.querySelectorAll('.dropdown_label');
-    label.forEach(function (lb) {
-        lb.addEventListener('click', e => {
-            if (!lb.classList.contains('disabled')) {
-                let optionList = lb.nextElementSibling;
-                let optionItems = optionList.querySelectorAll('.optionItem');
-                clickLabel(lb, optionItems);
-            }
-        })
-    });
-    const clickLabel = (lb, optionItems) => {
-        if (lb.parentNode.classList.contains('active')) {
-            lb.parentNode.classList.remove('active');
-            optionItems.forEach((opt) => {
-                opt.removeEventListener('click', () => {
-                    handleSelect(lb, opt)
-                })
-            })
-        } else {
-            lb.parentNode.classList.add('active');
-            optionItems.forEach((opt) => {
-                opt.addEventListener('click', () => {
-                    handleSelect(lb, opt)
-                })
-            })
-        }
-    }
-    const handleSelect = (label, item) => {
-        label.innerHTML = item.textContent;
-        label.parentNode.classList.remove('active');
-    }
-
+    initializeDropdowns();
 
     // 슬라이드업메뉴 초기화
     let slide_modal = $('.modal_slide');
