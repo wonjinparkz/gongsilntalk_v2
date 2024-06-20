@@ -110,20 +110,29 @@ class MapPcController extends Controller
     // 중개사무소 상세
     public function mapAgentDetail(Request $request)
     {
+        info(json_encode($request->all()) . 'request');
         $result = User::select()->where('type', '1')->where('company_state', '1')->first();
 
         $product = Product::with('users', 'priceInfo')
+            ->leftjoin('product_price', 'product_price.product_id', 'product.id')
             ->where('is_delete', '0')
             ->where('user_type', '1');
 
+        // 매매/전세/월세 등 여부
+        if (isset($request->payment_type)) {
+            $product->where('product_price.payment_type', $request->payment_type);
+        }
+
         // 정렬
-        $product->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+        $product->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc');
 
-        $productList = $product->paginate($request->per_page == null ? 10 : $request->per_page);
-
-        $productList->appends(request()->except('page'));
-
-        return view('www.map.agent-detail', compact('result', 'productList'));
+        $count = $product->count();
+        $productList = $product->paginate(10);
+        if ($request->ajax()) {
+            $view = view('components.corp-product-list', compact('productList'))->render();
+            return response()->json(['html' => $view, 'count' => $count]);
+        }
+        return view('www.map.agent-detail', compact('result'));
     }
 
     public function getMapMarker(Request $request)
