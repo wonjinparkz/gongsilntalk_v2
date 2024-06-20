@@ -628,7 +628,7 @@ class ProductPcController extends Controller
             'price' => $request->price,
             'month_price' => in_array($request->payment_type, [1, 2, 4]) ? $request->month_price : null,
             'is_price_discussion' => $request->is_price_discussion ?? 0,
-            'is_use' => $request->type >= 14 ? '' : $request->is_use ?? 0,
+            'is_use' => $request->type >= 14 ? NULL : $request->is_use ?? 0,
             'current_price' =>  $request->type < 14 && $request->is_use == 1 ? $request->current_price : null,
             'current_month_price' =>  $request->type < 14 && $request->is_use == 1 ? $request->current_month_price : null,
             'is_premium' => $request->type == 3 ? $request->is_premium : null,

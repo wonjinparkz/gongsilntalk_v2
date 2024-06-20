@@ -228,8 +228,52 @@ class UserPcController extends Controller
     /**
      * 중개사 매물 수정
      */
-    public function corpProductMagagementUpdate(Request $request) : RedirectResponse
+    public function corpProductMagagementUpdate(Request $request): RedirectResponse
     {
+        info('오잉');
+        info($request);
+
+
+        $productDate = [
+            'region_code' => $request->region_code,
+            'region_address' => $request->region_address,
+            'address' => $request->address,
+            'address_lat' => $request->address_lat,
+            'address_lng' => $request->address_lng,
+            'address_detail' => $request->address_detail,
+            'address_dong' =>$request->address_dong,
+            'address_number' => $request->address_number,
+            'floor_number' => $request->floor_number,
+            'total_floor_number' => $request->total_floor_number,
+            // 'lowest_floor_number' => $request->type == 7 ? $request->lowest_floor_number : null,
+            // 'top_floor_number' => $request->type == 7 ? $request->top_floor_number : null,
+            'area' => $request->area,
+            'square' => $request->square,
+            'exclusive_area' =>$request->exclusive_area ,
+            'exclusive_square' =>$request->exclusive_square ,
+            'total_floor_area' => $request->total_floor_area,
+            'total_floor_square' => $request->total_floor_square,
+            'approve_date' => $request->approve_date,
+            'building_type' => $request->building_type,
+            'move_type' => $request->move_type,
+            'move_date' =>$request->move_date,
+            // 'is_service' => $request->type != 6 ? $request->is_service ?? 0 : null,
+            'service_price' => $request->service_price,
+            'loan_type' => $request->loan_type,
+            // 'loan_price' => $request->loan_type != 0 ? $request->loan_price : null,
+            'parking_type' =>  $request->parking_type,
+            // 'parking_price' => $request->type != 6 && ($request->parking_type == 1 && $request->is_parking != 1) ? $request->parking_price : null,
+            'comments' => $request->comments,
+            'contents' => $request->contents,
+            'commission' => $request->commission,
+            'commission_rate' => $request->commission_rate,
+        ];
+
+
+        Product::where('id', $request->id)->update($productDate);
+
+
+        $this->imageWithEdit($request->image_ids, Product::class, $request->id);
 
         return Redirect::route('www.mypage.corp.product.magagement.list.view')->with('message', "매물이 수정 되었습니다.");
     }
