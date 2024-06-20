@@ -728,6 +728,7 @@
     function filter_apply(Name) {
         var text = $('input[name="' + Name + '"]:checked').next('label').text();
         var value = $('input[name="' + Name + '"]:checked').val();
+        console.log('필터 적용', text, value);
         if (text == '') {
             return;
         }
@@ -757,57 +758,4 @@
 
         mapReset();
     }
-</script>
-
-<script>
-    // 필터 열기
-    const filterBtns = document.querySelectorAll('.filter_btn_trigger');
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function(event) {
-            const parent = this.parentElement;
-            const panel = parent.querySelector('.filter_panel');
-
-            document.querySelectorAll('.filter_panel').forEach(p => {
-                if (p !== panel && p.style.display === 'block') {
-                    p.style.display = 'none';
-                }
-            });
-            panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
-            event.stopPropagation();
-        });
-    });
-
-    document.addEventListener('click', function(event) {
-        const isOutsideFilterPanel = !event.target.closest('.filter_panel');
-        if (isOutsideFilterPanel) {
-            document.querySelectorAll('.filter_panel').forEach(p => {
-                p.style.display = 'none';
-            });
-        }
-    });
-
-    var slider = document.querySelector("#rangeItem_1");
-    var valueMin = document.querySelector("#item_1_min");
-    var valueMax = document.querySelector("#item_1_max");
-    var item1txt = document.querySelector("#item_1_txt");
-
-    noUiSlider.create(slider, {
-        start: [0, 100],
-        connect: true,
-        range: {
-            "min": 0,
-            "max": 100
-        }
-    });
-
-    slider.noUiSlider.on("update", function(values, handle) {
-        if (values[0] < 0 || values[1] > 99) {
-            item1txt.innerHTML = "전체";
-        } else {
-            valueMin.innerHTML = values[0];
-            valueMax.innerHTML = values[1];
-            item1txt.innerHTML = "<span id='kt_slider_basic_min'>" + values[0] +
-                "원</span> ~ <span id='kt_slider_basic_max'>" + values[1] + "원</span>";
-        }
-    });
 </script>

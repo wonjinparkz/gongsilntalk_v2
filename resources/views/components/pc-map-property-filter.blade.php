@@ -1,11 +1,11 @@
 <div class="filter_dropdown_wrap" id="filterType1">
-    <!-- filter 지식산업센터 : s -->
+    <!-- filter 매물 종류 : s -->
     <div class="filter_btn_wrap">
         <button class="filter_btn_trigger" id="filter_text_product_type">매물 종류</button>
-        <input type="hidden" id="product" value="">
+        <input type="hidden" id="product_type" value="">
         <div class="filter_panel panel_item_1">
             <div class="filter_panel_body">
-                <h6 id="productTitle">매물 종류</h6>
+                <h6 id="product_type_title">매물 종류</h6>
                 <ul class="tab_type_3 tab_toggle_menu">
                     <li class="active">상업용</li>
                     <li>주거용</li>
@@ -15,20 +15,20 @@
                     <div>
                         <div class="btn_radioType">
                             @for ($i = 0; $i < 8; $i++)
-                                <input type="radio" name="product" id="product_{{ $i }}"
+                                <input type="radio" name="product_type" id="product_type_{{ $i }}"
                                     value="{{ $i }}">
                                 <label
-                                    for="product_{{ $i }}">{{ Lang::get('commons.product_type.' . $i) }}</label>
+                                    for="product_type_{{ $i }}">{{ Lang::get('commons.product_type.' . $i) }}</label>
                             @endfor
                         </div>
                     </div>
                     <div>
                         <div class="btn_radioType">
                             @for (; $i < 14; $i++)
-                                <input type="radio" name="product" id="product_{{ $i }}"
+                                <input type="radio" name="product_type" id="product_type_{{ $i }}"
                                     value="{{ $i }}">
                                 <label
-                                    for="product_{{ $i }}">{{ Lang::get('commons.product_type.' . $i) }}</label>
+                                    for="product_type_{{ $i }}">{{ Lang::get('commons.product_type.' . $i) }}</label>
                             @endfor
                         </div>
                     </div>
@@ -36,10 +36,10 @@
                     <div>
                         <div class="btn_radioType">
                             @for (; $i < Count(Lang::get('commons.product_type')); $i++)
-                                <input type="radio" name="product" id="product_{{ $i }}"
+                                <input type="radio" name="product_type" id="product_type_{{ $i }}"
                                     value="{{ $i }}">
                                 <label
-                                    for="product_{{ $i }}">{{ Lang::get('commons.product_type.' . $i) }}</label>
+                                    for="product_type_{{ $i }}">{{ Lang::get('commons.product_type.' . $i) }}</label>
                             @endfor
                         </div>
                     </div>
@@ -55,14 +55,15 @@
 
         </div>
     </div>
-    <!-- filter 지식산업센터 : e -->
+    <!-- filter 매물 종류 : e -->
 
     <!-- filter 거래유형/가격 : s -->
     <div class="filter_btn_wrap">
-        <button class="filter_btn_trigger">거래유형/가격</button>
+        <button class="filter_btn_trigger" id="filter_text_payment_type">거래유형/가격</button>
         <input type="hidden" id="payment_type" value="">
         <div class="filter_panel panel_item_2">
             <div class="filter_panel_body">
+                <h6 style="display:none" id="payment_type_title">거래유형/가격</h6>
                 <h6>거래 유형 <span>중복 선택 가능</span></h6>
                 <div class="input_type_wrap">
                     @foreach (Lang::get('commons.payment_type') as $index => $payment)
@@ -80,12 +81,12 @@
                     <div class="slider_between">
                         <label>매매가/전세가/보증금</label>
                         <div class="pt-5">
-                            <div class="fw-semibold mb-2" id="item_1_txt"><span id="item_1_min"></span> ~ <span
-                                    id="item_1_max"></span></div>
+                            <div class="fw-semibold mb-2" id="price_txt"><span id="price_min"></span> ~ <span
+                                    id="price_max"></span></div>
                         </div>
                     </div>
                     <div class="mb-0">
-                        <div id="rangeItem_1"></div>
+                        <div id="rangePrice"></div>
                     </div>
                     <ul class="range_txt">
                         <li>0</li>
@@ -125,8 +126,8 @@
                     <div class="slider_between">
                         <label>평</label>
                         <div class="pt-5">
-                            <div class="fw-semibold mb-2" id="item_1_txt"><span id="item_1_min"></span> ~ <span
-                                    id="item_1_max"></span></div>
+                            <div class="fw-semibold mb-2" id="area_txt"><span id="area_min"></span> ~ <span
+                                    id="area_max"></span></div>
                         </div>
                     </div>
                     <div class="mb-0">
@@ -448,28 +449,50 @@
         }
     });
 
-    var slider = document.querySelector("#rangeItem_1");
-    var valueMin = document.querySelector("#item_1_min");
-    var valueMax = document.querySelector("#item_1_max");
-    var item1txt = document.querySelector("#item_1_txt");
+    function initializeSliders() {
+        var sliders = [{
+                sliderId: "#rangePrice",
+                minId: "#price_min",
+                maxId: "#price_max",
+                txtId: "#price_txt"
+            },
+            {
+                sliderId: "#rangeArea",
+                minId: "#area_min",
+                maxId: "#area_max",
+                txtId: "#area_txt"
+            }
+            // 필요한 만큼 객체 추가
+        ];
 
-    noUiSlider.create(slider, {
-        start: [0, 100],
-        connect: true,
-        range: {
-            "min": 0,
-            "max": 100
-        }
-    });
+        sliders.forEach(function(slider) {
+            var sliderElement = document.querySelector(slider.sliderId);
+            var valueMin = document.querySelector(slider.minId);
+            var valueMax = document.querySelector(slider.maxId);
+            var itemTxt = document.querySelector(slider.txtId);
 
-    slider.noUiSlider.on("update", function(values, handle) {
-        if (values[0] < 0 || values[1] > 99) {
-            item1txt.innerHTML = "전체";
-        } else {
-            valueMin.innerHTML = values[0];
-            valueMax.innerHTML = values[1];
-            item1txt.innerHTML = "<span id='kt_slider_basic_min'>" + values[0] +
-                "원</span> ~ <span id='kt_slider_basic_max'>" + values[1] + "원</span>";
-        }
-    });
+            noUiSlider.create(sliderElement, {
+                start: [0, 200],
+                connect: true,
+                range: {
+                    "min": 0,
+                    "max": 200
+                }
+            });
+
+            sliderElement.noUiSlider.on("update", function(values, handle) {
+                if (values[0] < 0 || values[1] > 200) {
+                    itemTxt.innerHTML = "전체";
+                } else {
+                    valueMin.innerHTML = values[0];
+                    valueMax.innerHTML = values[1];
+                    itemTxt.innerHTML = "<span id='kt_slider_basic_min'>" + values[0] +
+                        "원</span> ~ <span id='kt_slider_basic_max'>" + values[1] + "원</span>";
+                }
+            });
+        });
+    }
+
+    // 슬라이더 초기화 함수 호출
+    initializeSliders();
 </script>
