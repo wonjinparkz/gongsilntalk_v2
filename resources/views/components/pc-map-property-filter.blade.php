@@ -140,10 +140,10 @@
             </div>
             <div class="filter_panel_bottom">
                 <button type="button" class="btn_graylight_ghost btn_md_full"
-                    onclick="filter_reset('sale_product_type')"><img
+                    onclick="filter_reset('payment_type')"><img
                         src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
                 <button type="button" class="btn_point btn_md_full"
-                    onclick="filter_apply('sale_product_type')">적용하기</button>
+                    onclick="filter_apply('payment_type')">적용하기</button>
             </div>
         </div>
     </div>
@@ -238,10 +238,10 @@
             </div>
             <div class="filter_panel_bottom">
                 <button type="button" class="btn_graylight_ghost btn_md_full"
-                    onclick="filter_reset('sale_product_type')"><img
+                    onclick="filter_reset('area')"><img
                         src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
                 <button type="button" class="btn_point btn_md_full"
-                    onclick="filter_apply('sale_product_type')">적용하기</button>
+                    onclick="filter_apply('area')">적용하기</button>
             </div>
         </div>
     </div>
@@ -276,10 +276,10 @@
             </div>
             <div class="filter_panel_bottom">
                 <button type="button" class="btn_graylight_ghost btn_md_full"
-                    onclick="filter_reset('sale_product_type')"><img
+                    onclick="filter_reset('approve_date')"><img
                         src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
                 <button type="button" class="btn_point btn_md_full"
-                    onclick="filter_apply('sale_product_type')">적용하기</button>
+                    onclick="filter_apply('approve_date')">적용하기</button>
             </div>
         </div>
     </div>

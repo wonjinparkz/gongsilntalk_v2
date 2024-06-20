@@ -58,15 +58,14 @@ class MapPcController extends Controller
                 $property->orderBy('created_at', 'desc')->orderBy('id', 'desc');
                 break;
             case 'price_asc':
-                info($request->orderby . '$request->orderby');
-                $property->with(['priceInfo' => function ($q) {
-                    $q->orderBy('price', 'asc')->orderBy('created_at', 'desc');
-                }]);
+                $property->Leftjoin('product_price', 'product.id', '=', 'product_price.product_id')
+                    ->orderBy('product_price.price', 'asc')
+                    ->select('product.*');
                 break;
             case 'price_desc':
-                $property->with(['priceInfo' => function ($q) {
-                    $q->orderBy('price', 'asc')->orderBy('created_at', 'desc');
-                }]);
+                $property->Leftjoin('product_price', 'product.id', '=', 'product_price.product_id')
+                    ->orderBy('product_price.price', 'desc')
+                    ->select('product.*');
                 break;
             case 'area_desc':
                 $property->orderBy('exclusive_square', 'desc')->orderBy('id', 'desc');
