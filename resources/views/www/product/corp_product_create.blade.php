@@ -110,7 +110,7 @@
                                                         협의가능</label>
                                                 </div>
                                                 <div class="txt_item_2 mt20">
-                                                    <span name="price_conversion" class="price"></span>
+                                                    {{-- <span name="price_conversion" class="price"></span> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -147,8 +147,8 @@
 
                                             </div>
                                             <div class="txt_item_2 ">
-                                                <span name="price_conversion" class="price"></span>
-                                                <span name="month_price_conversion" class="price"></span>
+                                                {{-- <span name="price_conversion" class="price"></span> --}}
+                                                {{-- <span name="month_price_conversion" class="price"></span> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -186,8 +186,8 @@
                                             </div>
                                         </div>
                                         <div class="txt_item_2 mt20">
-                                            <span name="current_price_conversion" class="price"></span>
-                                            <span name="current_month_price_conversion" class="price"></span>
+                                            {{-- <span name="current_price_conversion" class="price"></span>
+                                            <span name="current_month_price_conversion" class="price"></span> --}}
                                         </div>
                                     </div>
                                     <div class="lease_item open_key"></div>
@@ -213,7 +213,7 @@
                                             <span>원</span>
                                         </div>
                                         <div class="txt_item_2 mt20">
-                                            <span name="premium_price_conversion" class="price"></span>
+                                            {{-- <span name="premium_price_conversion" class="price"></span> --}}
                                         </div>
                                     </div>
                                     <div class="keymoney_item open_key"></div>
@@ -257,7 +257,7 @@
                                                     협의가능</label>
                                             </div>
                                             <div class="txt_item_2 mt20">
-                                                <span name="price_conversion" class="price"></span>
+                                                {{-- <span name="price_conversion" class="price"></span> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -274,7 +274,7 @@
                                                     협의가능</label>
                                             </div>
                                             <div class="txt_item_2 mt20">
-                                                <span name="price_conversion" class="price"></span>
+                                                {{-- <span name="price_conversion" class="price"></span> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -306,8 +306,8 @@
                                             </div>
                                         </div>
                                         <div class="txt_item_2 mt20">
-                                            <span name="price_conversion" class="price"></span>
-                                            <span name="month_price_conversion" class="price"></span>
+                                            {{-- <span name="price_conversion" class="price"></span> --}}
+                                            {{-- <span name="month_price_conversion" class="price"></span> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -345,8 +345,8 @@
                                             </div>
                                         </div>
                                         <div class="txt_item_2 mt20">
-                                            <span name="current_price_conversion" class="price"></span>
-                                            <span name="current_month_price_conversion" class="price"></span>
+                                            {{-- <span name="current_price_conversion" class="price"></span>
+                                            <span name="current_month_price_conversion" class="price"></span> --}}
                                         </div>
                                     </div>
                                     <div class="lease_1_item open_key"></div>
@@ -386,7 +386,7 @@
                                                     협의가능</label>
                                             </div>
                                             <div class="txt_item_2 mt20">
-                                                <span name="price_conversion" class="price"></span>
+                                                {{-- <span name="price_conversion" class="price"></span> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -403,7 +403,7 @@
                                                     협의가능</label>
                                             </div>
                                             <div class="txt_item_2 mt20">
-                                                <span name="price_conversion" class="price"></span>
+                                                {{-- <span name="price_conversion" class="price"></span> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -436,8 +436,8 @@
                                             </div>
                                         </div>
                                         <div class="txt_item_2 mt20">
-                                            <span name="price_conversion" class="price"></span>
-                                            <span name="month_price_conversion" class="price"></span>
+                                            {{-- <span name="price_conversion" class="price"></span> --}}
+                                            {{-- <span name="month_price_conversion" class="price"></span> --}}
                                         </div>
                                     </div>
 

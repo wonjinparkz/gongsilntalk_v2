@@ -58,7 +58,6 @@ Route::controller(MapPcController::class)->group(function () {
     Route::get('/map/agent/detail', 'mapAgentDetail')->name('www.map.agent.detail');          // 중개사무소 상세
 
     Route::get('/map/side/view', 'mapSideView')->name('www.map.side.view');
-
     Route::post('/map/marker', 'getMapMarker')->name('www.map.marker');
 
     Route::get('/m/map', 'map')->name('m.map.map');
