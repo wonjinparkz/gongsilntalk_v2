@@ -633,7 +633,7 @@
 
 
     var htmlMarker1 = {
-            content: `<div style="cursor:pointer;width:50px;height:50px;line-height:50px;color:white;text-align:center;font-weight:bold;background:url({{ asset('assets/media/cluster_marker_1.png') }});background-size:contain; font-size:20px; font-weight:bold;"></div>`,
+            content: `<div class="cluster_marker"></div>`,
             size: N.Size(40, 40),
             anchor: N.Point(20, 20)
         },
@@ -667,7 +667,7 @@
                 markers: productMarkers, // product 마커들만 클러스터링
                 disableClickZoom: false,
                 productClick: true,
-                gridSize: 150,
+                gridSize: 70,
                 icons: [htmlMarker1],
                 indexGenerator: [1],
                 stylingFunction: function(clusterMarker, count) {

@@ -1,6 +1,7 @@
 <div class="side_list_wrap">
+
     <ul class="side_list_tab tab_toggle_menu">
-        <li class="active">지도 내 매물 15</li>
+        <li class="active">지도 내 매물 {{ count($productList) }}</li>
         <li>중개사무소 17</li>
     </ul>
     <div class="tab_area_wrap side_list_body">
@@ -28,20 +29,35 @@
           </div> -->
             <div class="side_list_scroll">
                 <!-- list : s -->
-                <div class="property_sm_list">
-                    <div class="frame_img_mid">
-                        <span class="btn_wish_sm" onclick="btn_wish(this)"></span>
-                        <div class="img_box"><img src="{{ asset('assets/media/s_3.png') }}"></div>
-                    </div>
-                    <a href="room_detail.html">
-                        <div class="property_sm_info">
-                            <p class="property_sm_item_1">매매 2억 9,900만</p>
-                            <p class="txt_lh_1">사무실 강남구 논현동</p>
-                            <p class="txt_lh_1">62.11㎡ / 46.2㎡·3층</p>
-                            <p class="property_sm_item_2">영등포시장역 도보 1분 초역세권 매물 소개를 합니다.</p>
+                @if (count($productList) > 0)
+                    @foreach ($productList as $product)
+                        <div class="property_sm_list">
+                            <div class="frame_img_mid">
+                                <span class="btn_wish_sm" onclick="btn_wish(this)"></span>
+                                <div class="img_box"><img
+                                        src="{{ Storage::url('image/' . $product->images[0]->path) }}"></div>
+                            </div>
+                            <a href="{{ route('www.map.room.detail', [$product->id]) }}">
+                                <div class="property_sm_info">
+                                    <p class="property_sm_item_1">
+                                        {{ Lang::get('commons.payment_type.' . $product->priceInfo->payment_type) }}
+                                        {{ mb_substr(Commons::get_priceTrans($product->priceInfo->price), 0, -1) }}
+                                        {{ in_array($product->priceInfo->payment_type, [1, 2, 4]) ? ' / ' . mb_substr(Commons::get_priceTrans($product->priceInfo->month_price), 0, -1) : '' }}
+                                    </p>
+                                    <p class="txt_lh_1">{{ Lang::get('commons.product_type.' . $product->type) }}
+                                        {{ substr($product->region_address, strpos($product->region_address, ' ') + 1) }}
+                                    </p>
+                                    <p class="txt_lh_1">{{ $product->square }}㎡
+                                        {{ $product->type != 7 ? ' / ' . $product->exclusive_square : '' }}㎡·{{ $product->floor_number }}층
+                                    </p>
+                                    <p class="property_sm_item_2">
+                                        {{ $product->comments }}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                                    </p>
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div>
+                    @endforeach
+                @endif
                 <!-- list : e -->
                 <div style="height:1000px; color:#fff">개발시 삭제 스크롤 때문에 넣어봄.</div>
             </div>

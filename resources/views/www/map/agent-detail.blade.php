@@ -1,5 +1,4 @@
 <x-layout>
-
     <!-- m::header bar : s -->
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
@@ -15,11 +14,11 @@
         </div>
         <div class="slide_modal_body">
             <div class="layer_share_con">
-                <a href="#">
+                <a id="kakaotalk-sharing-btn" href="javascript:;">
                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                     <p class="mt8">카카오톡</p>
                 </a>
-                <a href="#">
+                <a href="javascript:void(0);" onclick="urlCopy();">
                     <img src="{{ asset('assets/media/share_ic_02.png') }}">
                     <p class="mt8">링크복사</p>
                 </a>
@@ -55,10 +54,12 @@
                     <button class="dropdown_label">거래유형 </button>
                     <ul class="optionList">
                         <li class="optionItem">전체</li>
-                        <li class="optionItem">매매</li>
-                        <li class="optionItem">임대</li>
-                        <li class="optionItem">단기임대</li>
-                        <li class="optionItem">전매</li>
+                        @for ($i = 0; $i < count(Lang::get('commons.payment_type')); $i++)
+                            @if ($i == 3 || $i == 4)
+                                @continue
+                            @endif
+                            <li class="optionItem">{{ Lang::get('commons.payment_type.' . $i) }}</li>
+                        @endfor
                     </ul>
                 </div>
             </div>
@@ -100,46 +101,52 @@
 
             <div class="sales_list_wrap">
                 <!-- card : s -->
-                <div class="sales_card">
-                    <span class="sales_list_wish" onclick="btn_wish(this)"></span>
-                    <a href="room_detail.html">
-                        <div class="sales_card_img">
-                            <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
-                        </div>
-                        <div class="sales_list_con">
-                            <p class="txt_item_1">매매 13억 2000만원</p>
-                            <p class="txt_item_4">서울시 강서구 강동동</p>
-                            <p class="txt_item_2">62.11㎡ / 46.2㎡·3층</p>
-                            <p class="txt_item_3">한 줄 소개로 안내 드립니다. 영등포시장역 도보 1분 초역세권 매물</p>
-                        </div>
-                    </a>
-                </div>
-                <!-- card : e -->
+                @foreach ($productList as $item)
+                    {{-- {{ $item }} --}}
+                    <div class="sales_card">
+                        <span class="sales_list_wish" onclick="btn_wish(this)"></span>
+                        <a href="{{ route('www.map.room.detail', [$item->id]) }}">
+                            <div class="sales_card_img">
+                                <div class="img_box">
+                                    @if (count($item->images) > 0)
+                                        <img src="{{ Storage::url('image/' . $item->images[0]->path) }}"
+                                            onerror="this.src='{{ asset('assets/media/s_1.png') }}';" loading="lazy">
+                                    @else
+                                        <img src="{{ asset('assets/media/s_1.png') }}">
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="sales_list_con">
+                                <p class="txt_item_1">
+                                    {{ Lang::get('commons.payment_type.' . $item->priceInfo->payment_type) }}
+                                    {{ Commons::get_priceTrans($item->priceInfo->price) }}
+                                    {{-- 월세/단기임대 --}}
+                                    @if (in_array($item->priceInfo->payment_type, [2, 4]))
+                                        / {{ Commons::get_priceTrans($item->priceInfo->month_price) }}
+                                    @endif
+                                </p>
+                                <p class="txt_item_4">{{ $item->region_address }}</p>
+                                <p class="txt_item_2">{{ $item->square ?? '-' }}㎡ /
+                                    {{ $item->exclusive_square ?? '-' }}㎡·{{ $item->floor_number ?? '-' }}층
+                                </p>
+                                <p class="txt_item_3">{{ $item->contents ?? '' }}</p>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
             </div>
 
-
-            <!-- paging : s -->
-            <div class="paging only_pc">
-                <ul class="btn_wrap">
-                    <li class="btn_prev">
-                        <a class="no_next" href="#1"><img src="{{ asset('assets/media/btn_prev.png') }}"
-                                alt=""></a>
-                    </li>
-                    <li class="active">1</li>
-                    <li>2</li>
-                    <li>3</li>
-                    <li>4</li>
-                    <li>5</li>
-                    <li class="btn_next">
-                        <a class="no_next" href="#1"><img src="{{ asset('assets/media/btn_next.png') }}"
-                                alt=""></a>
-                    </li>
-                </ul>
-            </div>
-            <!-- paging : e -->
+            {{ $productList->onEachSide(1)->links('components.pc-pagination') }}
         </div>
     </div>
 
+
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+        integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous">
+    </script>
+    <script>
+        Kakao.init('053a66b906cb1cf1d805d47831668657'); // 사용하려는 앱의 JavaScript 키 입력
+    </script>
 
     <script>
         // 관심매물 토글버튼
@@ -149,6 +156,52 @@
             } else {
                 $(element).addClass("on");
             }
+        }
+    </script>
+
+    <script>
+        var title = '공실앤톡';
+        var imageUrl = "{{ asset('assets/media/default_gs.png') }}";
+        var url = "http://localhost"
+        var detailUrl = "{{ route('www.map.agent.detail', [$result->id]) }}"
+        Kakao.Share.createDefaultButton({
+            container: '#kakaotalk-sharing-btn',
+            objectType: 'feed',
+            content: {
+                title: title,
+                imageUrl: imageUrl,
+                link: {
+                    // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+                    mobileWebUrl: url,
+                    webUrl: url,
+                },
+            },
+            // social: {
+            //     likeCount: 286,
+            //     commentCount: 45,
+            //     sharedCount: 845,
+            // },
+            buttons: [{
+                    title: '웹으로 보기',
+                    link: {
+                        mobileWebUrl: detailUrl,
+                        webUrl: detailUrl,
+                    },
+                },
+                // {
+                //     title: '앱으로 보기',
+                //     link: {
+                //         mobileWebUrl: detailUrl,
+                //         webUrl: detailUrl,
+                //     },
+                // },
+            ],
+        });
+
+        function urlCopy() {
+            navigator.clipboard.writeText(detailUrl).then(res => {
+                alert("링크복사 되었습니다.");
+            })
         }
     </script>
 </x-layout>

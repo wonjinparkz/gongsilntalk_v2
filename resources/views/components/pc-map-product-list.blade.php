@@ -18,7 +18,7 @@
                 <div class="img_box"><img src="{{ Storage::url('image/' . $product->images[0]->path) }}"></div>
             </div>
             <div class="property_sm_info">
-                <p class="property_sm_item_1">{{ Lang::get('commons.product_type.' . $product->type) }}
+                <p class="property_sm_item_1">{{ Lang::get('commons.payment_type.' . $product->priceInfo->payment_type) }}
                     {{ mb_substr(Commons::get_priceTrans($product->priceInfo->price), 0, -1) }}
                     {{ in_array($product->priceInfo->payment_type, [1, 2, 4]) ? ' / ' . mb_substr(Commons::get_priceTrans($product->priceInfo->month_price), 0, -1) : '' }}
                 </p>
