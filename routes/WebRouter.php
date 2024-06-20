@@ -163,6 +163,8 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
 
     // 중개사 매물 관리
     Route::get('/mypage/corp/product/magagement/list', 'corpProductMagagementListView')->name('www.mypage.corp.product.magagement.list.view');
+    Route::get('/mypage/corp/product/magagement/update-view/{id}', 'corpProductMagagementUpdateView')->name('www.mypage.corp.product.magagement.update.view');
+    Route::post('/mypage/corp/product/magagement/update', 'corpProductMagagementUpdate')->name('www.mypage.corp.product.magagement.update');
 
     Route::post('/mypage/product/magagement/delete', 'userProductDelete')->name('www.mypage.product.magagement.delete');
     Route::post('/mypage/product/state/change', 'corpProductStateChange')->name('www.mypage.product.state.change');
@@ -209,6 +211,7 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::get('/mypage/my/info', 'myInfoView')->name('www.mypage.my.info');
     Route::get('/mypage/company/info', 'companyInfoView')->name('www.mypage.company.info');
     Route::post('/mypage/info/image-update', 'profileImageUpdate')->name('www.info.profile.image.update');
+    Route::post('/mypage/info/company-number-update', 'corpCompanyNumberUpdate')->name('www.info.company.number.update');
     Route::get('/mypage/community/list', 'communityListView')->name('www.mypage.community.list.view');
     Route::get('/mypage/alarm/list', 'alarmListView')->name('www.mypage.alarm.list.view');
 

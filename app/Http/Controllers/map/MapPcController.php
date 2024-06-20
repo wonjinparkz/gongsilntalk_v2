@@ -49,14 +49,41 @@ class MapPcController extends Controller
         // 개수제한 : 없음 -> ex) 10,243개일 경우 그대로 표시
 
         // 일반회원 +  중개사회원 매물 목록 보기
-        $property = Product::select()
+        $property = Product::with('priceInfo', 'productAddInfo', 'productOptions', 'productServices', 'users')
             ->where('is_delete', '0');
+
+        // 정렬
+        switch ($request->orderby) {
+            case 'sort_new':
+                $property->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+                break;
+            case 'price_asc':
+                info($request->orderby . '$request->orderby');
+                $property->with(['priceInfo' => function ($q) {
+                    $q->orderBy('price', 'asc')->orderBy('created_at', 'desc');
+                }]);
+                break;
+            case 'price_desc':
+                $property->with(['priceInfo' => function ($q) {
+                    $q->orderBy('price', 'asc')->orderBy('created_at', 'desc');
+                }]);
+                break;
+            case 'area_desc':
+                $property->orderBy('exclusive_square', 'desc')->orderBy('id', 'desc');
+                break;
+            case 'area_asc':
+                $property->orderBy('exclusive_square', 'asc')->orderBy('id', 'desc');
+                break;
+            default:
+                $property->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+                break;
+        }
+        info($property->toSql() . 'property');
         $property = $property->get();
 
-        info($property . 'property');
 
         // 중개사무소 목록 보기
-        $agent = User::select()
+        $agent = User::with('images')
             ->where('type', '1')
             ->where('company_state', '1');
         $agent = $agent->get();

@@ -25,11 +25,9 @@
                     <div class="col-md-6 box_member">
                         <div class="user_profile_wrap">
                             <div class="img_box">
-                                @if ($user->images != null)
-                                    @foreach ($user->images as $image)
-                                        <img id="member_img_src" src="{{ Storage::url('image/' . $image->path) }}"
-                                            alt="">
-                                    @endforeach
+                                @if ($user->image != null)
+                                    <img id="member_img_src" src="{{ Storage::url('image/' . $user->image->path) }}"
+                                        alt="">
                                 @else
                                     <img id="member_img_src" src="{{ asset('assets/media/default_user.png') }}"
                                         alt="">
@@ -176,12 +174,6 @@
                 });
         }
     });
-
-    // 이미지 제거
-    function removeImage(elem) {
-        $(elem).parent().remove();
-    }
-
 
     function changePW() {
         $('#password_confirm').hide();

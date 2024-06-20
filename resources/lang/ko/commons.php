@@ -26,6 +26,12 @@ return [
         'securityName' => '김책임' /* 개인정보 관리 책임자 */
     ],
 
+    'management_product_type' => [
+        0 => '상업용',
+        1 => '주거용',
+        2 => '분양권'
+    ],
+
     'asset_name_type' => [
         0 => '단독명의',
         1 => '공동명의'

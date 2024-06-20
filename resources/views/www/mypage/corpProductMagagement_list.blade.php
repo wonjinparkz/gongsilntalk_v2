@@ -85,13 +85,12 @@
                                 onclick="modal_close_slide('transaction_type')">
                         </div>
                         <ul class="slide_modal_menu">
-                            <li><a href="#">전체</a></li>
-                            <li><a href="#">매매</a></li>
-                            <li><a href="#">임대</a></li>
-                            <li><a href="#">단기임대</a></li>
-                            <li><a href="#">전세</a></li>
-                            <li><a href="#">월세</a></li>
-                            <li><a href="#">전매</a></li>
+                            <li onclick="onPaymentTypeChange('');"><a href="#">전체</a></li>
+                            @foreach (Lang::get('commons.payment_type') as $key => $payment_type)
+                                <li onclick="onPaymentTypeChange('{{ $key }}');">
+                                    <a href="#">{{ $payment_type }}</a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                     <div class="md_slide_overlay md_slide_overlay_transaction_type"
@@ -104,21 +103,12 @@
                                 onclick="modal_close_slide('estate_kind')">
                         </div>
                         <ul class="slide_modal_menu">
-                            <li><a href="#">지산/사무실/창고</a></li>
-                            <li><a href="#">상가</a></li>
-                            <li><a href="#">건물</a></li>
-                            <li><a href="#">토지/임야</a></li>
-                            <li><a href="#">단독공장</a></li>
-                            <li><a href="#">아파트</a></li>
-                            <li><a href="#">오피스텔</a></li>
-                            <li><a href="#">단독/다가구</a></li>
-                            <li><a href="#">다세대/빌라/연립</a></li>
-                            <li><a href="#">상가주택</a></li>
-                            <li><a href="#">주택</a></li>
-                            <li><a href="#">지식산업센터 분양권</a></li>
-                            <li><a href="#">상가 분양권</a></li>
-                            <li><a href="#">아파트 분양권</a></li>
-                            <li><a href="#">오피스텔 분양권</a></li>
+                            <li class="optionItem" onclick="onProductTypeChange('');"><a href="#">전체</a></li>
+                            @foreach (Lang::get('commons.product_type') as $key => $product_type)
+                                <li class="optionItem" onclick="onProductTypeChange('{{ $key }}');">
+                                    <a href="#">{{ $product_type }}</a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                     <div class="md_slide_overlay md_slide_overlay_estate_kind"
@@ -265,7 +255,6 @@
                 });
 
         }
-
     </script>
 
 </x-layout>
