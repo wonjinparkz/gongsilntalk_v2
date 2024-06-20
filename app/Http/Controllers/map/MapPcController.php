@@ -387,7 +387,13 @@ class MapPcController extends Controller
 
             return view('www.map.map-side', compact('result', 'markerType'));
         } else {
-            $productList = Product::where('state', 1)->get();
+            $productList = Product::where('state', 1);
+
+            if (isset($request->id)) {
+                $productList->whereIn('id', $request->id);
+            }
+
+            $productList = $productList->get();
 
             return view('www.map.map-side-product', compact('productList'));
         }

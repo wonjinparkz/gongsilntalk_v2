@@ -576,16 +576,39 @@ Cluster.prototype = {
         var map = this._markerClusterer.getMap();
 
         this._relation = naver.maps.Event.addListener(this._clusterMarker, 'click', naver.maps.Util.bind(function (e) {
-            // 커스텀 동작 수행
+
             console.log('클러스터 클릭');
-            // 예시: 클러스터 내의 마커 정보를 출력합니다.
-            var markers = this.getClusterMember();
-            var productIdArray = [];
-            markers.forEach(function (marker) {
-                console.log('클러스터 내 마커:', marker.id);
-                productIdArray.push(marker.id);
-            });
-            getProductSide(productIdArray, 'product', 1);
+
+            // 현재 클릭된 클러스터 마커 엘리먼트
+            var clusterMarkerElement = this._clusterMarker.getElement().querySelector('.cluster_marker');
+
+            // 현재 활성화된 클러스터가 있는지 확인
+            var activeCluster = document.querySelector('.cluster_marker.active');
+
+            // 기존에 활성화된 클러스터가 있고, 그 클러스터가 현재 클릭된 클러스터와 다른 경우
+            if (activeCluster && activeCluster !== clusterMarkerElement) {
+                // 기존 활성화된 클러스터 비활성화
+                activeCluster.classList.remove('active');
+            }
+
+            // 클릭된 클러스터가 활성화된 상태라면 비활성화하고 productIdArray를 null로 설정
+            if (clusterMarkerElement && clusterMarkerElement.classList.contains('active')) {
+                clusterMarkerElement.classList.remove('active');
+                getProductSide(null, 'product', 1);
+            } else {
+                // 클릭된 클러스터를 활성화하고 마커 정보를 productIdArray에 저장
+                if (clusterMarkerElement) {
+                    clusterMarkerElement.classList.add('active');
+                }
+
+                var markers = this.getClusterMember();
+                var productIdArray = [];
+                markers.forEach(function (marker) {
+                    console.log('클러스터 내 마커:', marker.id);
+                    productIdArray.push(marker.id);
+                });
+                getProductSide(productIdArray, 'product', 1);
+            }
         }, this));
     },
 
