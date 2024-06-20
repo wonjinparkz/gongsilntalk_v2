@@ -19,7 +19,7 @@
                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                     <p class="mt8">카카오톡</p>
                 </a>
-                <a href="#">
+                <a href="javascript:void(0);" onclick="urlCopy();">
                     <img src="{{ asset('assets/media/share_ic_02.png') }}">
                     <p class="mt8">링크복사</p>
                 </a>
@@ -164,7 +164,6 @@
         var imageUrl = "{{ asset('assets/media/default_gs.png') }}";
         var url = "http://localhost"
         var detailUrl = "{{ route('www.map.agent.detail', [$result->id]) }}"
-        // var url = "{{ route('www.map.agent.detail', [$result->id]) }}"
         Kakao.Share.createDefaultButton({
             container: '#kakaotalk-sharing-btn',
             objectType: 'feed',
@@ -198,5 +197,12 @@
                 // },
             ],
         });
+
+        function urlCopy() {
+            navigator.clipboard.writeText(detailUrl).then(res => {
+                alert("링크복사 되었습니다.");
+            })
+        }
+
     </script>
 </x-layout>

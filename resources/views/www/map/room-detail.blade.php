@@ -67,7 +67,7 @@
                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                     <p class="mt8">카카오톡</p>
                 </a>
-                <a href="#">
+                <a href="javascript:void(0);" onclick="urlCopy();">
                     <img src="{{ asset('assets/media/share_ic_02.png') }}">
                     <p class="mt8">링크복사</p>
                 </a>
@@ -166,7 +166,7 @@
                                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                     <p class="mt8">카카오톡</p>
                                 </a>
-                                <a href="#">
+                                <a href="javascript:void(0);" onclick="urlCopy();">
                                     <img src="{{ asset('assets/media/share_ic_02.png') }}">
                                     <p class="mt8">링크복사</p>
                                 </a>
@@ -858,6 +858,8 @@
         })
     </script>
 
+    {{-- 카카오톡 공유 --}}
+    {{-- JavaScript 키, url 변경 수정필요 --}}
     <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
         integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous">
     </script>
@@ -903,5 +905,11 @@
                 // },
             ],
         });
+
+        function urlCopy() {
+            navigator.clipboard.writeText(detailUrl).then(res => {
+                alert("링크복사 되었습니다.");
+            })
+        }
     </script>
 </x-layout>
