@@ -8,6 +8,7 @@ use App\Models\DataBuilding;
 use App\Models\DataStore;
 use App\Models\KnowledgeCenter;
 use App\Models\Product;
+use App\Models\RecentProduct;
 use App\Models\RegionCoordinate;
 use App\Models\Transactions;
 use App\Models\User;
@@ -121,6 +122,20 @@ class MapPcController extends Controller
 
         $result = $product->first();
 
+        // 최근 본 매물 등록
+        if (Auth::guard('web')->check()) {
+            $check = RecentProduct::where('users_id', Auth::guard('web')->user()->id)
+                ->where('product_id', $request->id)
+                ->where('product_type', 'product')->first();
+
+            if ($check == null) {
+                $recent_product = RecentProduct::create([
+                    'users_id' => Auth::guard('web')->user()->id,
+                    'product_id' => $request->id,
+                    'product_type' => 'product',
+                ]);
+            }
+        }
         return view('www.map.room-detail', compact('result'));
     }
 

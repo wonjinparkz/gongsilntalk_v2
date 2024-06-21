@@ -4,7 +4,7 @@
     <div class="m_header">
         <div class="left_area"></div>
         <div class="m_title">
-            <div class="txt_bold" onclick="modal_open_slide('menu_map')">실거래가지도 <img
+            <div class="txt_bold" id="mapTypeText" onclick="modal_open_slide('menu_map')">실거래가지도 <img
                     src="{{ asset('assets/media/ic_arrow_more.png') }}" class="tit_dropdown_arrow"></div>
         </div>
         <div class="right_area"></div>
@@ -15,9 +15,10 @@
             <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('menu_map')">
         </div>
         <ul class="slide_modal_menu">
-            <li><a href="#" onclick="location.href='m_map.html'">실거래가지도</a></li>
-            <li><a href="#" onclick="location.href='m_map_property.html'">매물지도</a></li>
+            <li><a href="javascript:;" onclick="mapTypeChage(0)">실거래가지도</a></li>
+            <li><a href="javascript:;" onclick="mapTypeChage(1)">매물지도</a></li>
         </ul>
+        <input type="hidden" id="mapType" value="0">
     </div>
     <div class="md_slide_overlay md_slide_overlay_menu_map" onclick="modal_close_slide('menu_map')"></div>
     <!----------------------------- m::header bar : s ----------------------------->
@@ -26,10 +27,11 @@
     <div class="map_m_top_wrap only_m">
         <div class="m_inner_wrap">
             <div class="community_search_wrap flex_between">
-                <input type="text" id="search_input" placeholder="검색어를 입력해주세요.">
+                <input type="text" id="search_input" name="search_input" placeholder="단지명, 동이름, 지하철역으로 검색"
+                    value="{{ $_GET['search_input'] ?? '' }}" onkeyup="if(window.event.keyCode==13){search_request();}">
                 <img src="{{ asset('assets/media/btn_solid_delete.png') }}" alt="del" class="btn_del">
-                <button onclick="location.href='community_search_list.html'"><img
-                        src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button>
+                <button onclick="search_request()"><img src="{{ asset('assets/media/btn_search.png') }}"
+                        alt="검색"></button>
             </div>
         </div>
 
@@ -126,7 +128,10 @@
             </div>
             <button id="streetView"><img src="{{ asset('assets/media/ic_map_activate4.png') }}"></button>
         </div>
-        <button class="map_view_btn">익선동 <span class="txt_point">실거래가</span> 보기</button>
+        <button type="button" class="map_view_btn" onclick="mapTypeViewChage()">
+            <span id="centerDongText">익선동</span>
+            <span class="txt_point centerDongMapText">실거래가</span> 보기
+        </button>
         <div class="map_bottom_btn">
             <button onclick="location.href='{{ route('www.product.create.view') }}'"><img
                     src="{{ asset('assets/media/ic_org_estate.png') }}">매물 내놓기</button>
@@ -135,14 +140,22 @@
         </div>
 
         {{--  네이버 지도 --}}
-        <div id="map" style="width:100%; height:calc(100vh - 60px);"></div>
+        <div id="map" style="width:100%; height:calc(100vh - 105px);"></div>
 
         <div id="panoArea">
             <div id="pano" style="width:100%; height:100%;"></div>
         </div>
     </div>
 
-
+    <ul class="side_list_tab tab_toggle_menu" id="bottom_property" style="display: none">
+        <li class="property active"><a href="{{ route('www.map.property.list') }}">지도 내 매물 <span
+                    id="property_count">0</span>
+            </a>
+        </li>
+        <li class="agent"><a href="{{ route('www.map.property.list') }}">중개사무소 <span id="agent_count">0</span>
+            </a>
+        </li>
+    </ul>
     <x-nav-layout />
 </x-layout>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.5/proj4.js"></script>
@@ -154,15 +167,73 @@
     var map;
     var pano;
     var markers = []; // 마커 배열을 전역 변수로 선언
+    var productMarkers = []; // product 마커 배열 초기화
+    var agentMarkers = []; // product 마커 배열 초기화
     var bounds; // bounds 전역 변수로 선언
     var lastActiveMarkerElement = null; // 마지막으로 활성화된 마커 요소를 저장
+    var productClustering;
+    var agentClustering;
+    var MarkerIdArray = []; // 클러스터링 매물,중개사 ids 임시 저장소
+    var productIdArray = []; // 매물 ids 저장소
+    var agentIdArray = []; // 중개사 ids 저장소
+
+    // 검색 추가
+    function search_request() {
+        var search_input = $("#search_input").val();
+        if (search_input == "") {
+            return;
+        }
+        location.href = "{{ route('www.map.mobile') }}" + "?search_input=" + search_input;
+    }
+
+    // 실거래가지도, 매물지도 타입
+    function mapTypeChage(type) {
+        // $('.map_side_0').removeClass('active');
+        // $('.map_side_1').addClass('active');
+
+        var text = type == 0 ? '실거래가지도' : '매물지도';
+        var bottom_property = document.getElementById('bottom_property');
+        // $('#mapTypeText').text(text);
+        var mapType = document.getElementById('mapTypeText');
+        mapType.childNodes[0].nodeValue = text;
+        $('.centerDongMapText').text(type == 0 ? '매물현황' : '실거래가');
+        if (type == 0) {
+            bottom_property.style.display = "none";
+        } else {
+            bottom_property.style.display = "";
+        }
+        $('#property_count').html(11);
+        $('#agent_count').html(11);
+
+        $('#mapType').val(type);
+        modal_close_slide('menu_map')
+        mapReset();
+    }
+
+
+    // 실거래가지도, 매물지도 타입
+    function mapTypeViewChage() {
+        mapTypeChage($('#mapType').val() == 0 ? 1 : 0)
+    }
+
+    // 맵 리셋
+    function mapReset() {
+        var mapType = $('#mapType').val();
+        if (polygonMap) {
+            polygonMap.setMap(null);
+        }
+        var center = map.getCenter();
+        var zoom = map.getZoom();
+        markerUpdate(center.lat(), center.lng(), zoom);
+    }
+
 
     // 마커 클릭 사이드맵
     function getProductSide(markerId, markerType) {
         var zoom = map.getZoom();
         if (zoom > 15) {
 
-            console.log('hi?');
+
         }
         // $.ajax({
         //     type: "get", // 전송타입
@@ -396,7 +467,7 @@
             zoom: 15,
             minZoom: 8,
             maxZoom: 21,
-            size: new naver.maps.Size(window.innerWidth, window.innerHeight),
+            // size: new naver.maps.Size(window.innerWidth, window.innerHeight),
             mapTypeId: naver.maps.MapTypeId.NORMAL,
         });
 

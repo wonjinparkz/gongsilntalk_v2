@@ -31,7 +31,7 @@
                 <span class="txt_item_2 square">공급 {{ $result->square ?? '-' }}㎡ / 전용
                     {{ $result->exclusive_square ?? '-' }}㎡</span>
                 <span class="txt_item_2 area" style="display: none">공급 {{ $result->area ?? '-' }}㎡ / 전용
-                    {{ $result->exclusive_area ?? '-' }}㎡</span>
+                    {{ $result->exclusive_area ?? '-' }}평</span>
             </div>
             <div class="txt_item_3">
                 {{ Lang::get('commons.payment_type.' . $result->priceInfo->payment_type) }}
@@ -133,7 +133,7 @@
                     <div class="txt_item_5">
                         <span>전용</span>
                         <spann class="square">{{ $result->exclusive_square ?? '-' }}㎡</spann> &nbsp;
-                            <spann class="area" style="display: none">{{ $result->exclusive_area ?? '-' }}㎡</spann>
+                            <spann class="area" style="display: none">{{ $result->exclusive_area ?? '-' }}평</spann>
                             &nbsp;
                             @if ($result->priceInfo->payment_type == 0)
                                 <span>평단가</span> {{ $formatAveragePrice }}
@@ -354,7 +354,7 @@
                                     <div class="swiper-wrapper">
 
                                         @foreach ($result->productOptions as $item)
-                                            @if (in_array($item->type, [0, 1]))
+                                            @if (in_array($item->type, [$facility]))
                                                 @php
                                                     $imageNumber = $item->type == 0 ? 6 : ($item->type == 1 ? 7 : '');
                                                 @endphp
@@ -411,7 +411,7 @@
                                 <div class="swiper option_swiper">
                                     <div class="swiper-wrapper">
                                         @foreach ($result->productOptions as $item)
-                                            @if (in_array($item->type, [13, 14, 15, 16, 17, 18]))
+                                            @if (in_array($item->type, [$kitchen]))
                                                 @php
                                                     $typeToImageNumber = [
                                                         13 => 1,
@@ -441,7 +441,7 @@
                                 <div class="swiper option_swiper">
                                     <div class="swiper-wrapper">
                                         @foreach ($result->productOptions as $item)
-                                            @if (in_array($item->type, [19, 20, 21, 22, 23, 24]))
+                                            @if (in_array($item->type, [$home_appliances]))
                                                 @php
                                                     $typeToImageNumber = [
                                                         19 => 1,
@@ -472,7 +472,7 @@
                                 <div class="swiper option_swiper">
                                     <div class="swiper-wrapper">
                                         @foreach ($result->productOptions as $item)
-                                            @if (in_array($item->type, [25, 26, 27, 28, 29]))
+                                            @if (in_array($item->type, [$furniture]))
                                                 @php
                                                     $typeToImageNumber = [
                                                         25 => 1,
