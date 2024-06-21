@@ -95,7 +95,9 @@
     var bounds; // bounds 전역 변수로 선언
     var lastActiveMarkerElement = null; // 마지막으로 활성화된 마커 요소를 저장
     var markerClustering;
-    var MarkerIdArray = [];
+    var MarkerIdArray = []; // 클러스터링 매물,중개사 ids 임시 저장소
+    var productIdArray = []; // 매물 ids 저장소
+    var agentIdArray = []; // 중개사 ids 저장소
 
 
     // 마커 클릭 사이드맵
@@ -650,21 +652,6 @@
             size: N.Size(40, 40),
             anchor: N.Point(20, 20)
         },
-        htmlMarker3 = {
-            content: `<div style="cursor:pointer;width:70px;height:70px;line-height:70px;color:white;text-align:center;font-weight:bold;background:url({{ asset('assets/media/cluster_marker_1.png') }});background-size:contain;"></div>`,
-            size: N.Size(40, 40),
-            anchor: N.Point(20, 20)
-        },
-        htmlMarker4 = {
-            content: `<div style="cursor:pointer;width:80px;height:80px;line-height:80px;color:white;text-align:center;font-weight:bold;background:url({{ asset('assets/media/cluster_marker_1.png') }});background-size:contain;"></div>`,
-            size: N.Size(40, 40),
-            anchor: N.Point(20, 20)
-        },
-        htmlMarker5 = {
-            content: `<div style="cursor:pointer;width:90px;height:90px;line-height:90px;color:white;text-align:center;font-weight:bold;background:url({{ asset('assets/media/cluster_marker_1.png') }});background-size:contain;"></div>`,
-            size: N.Size(40, 40),
-            anchor: N.Point(20, 20)
-        };
 
     function clusterProductMarkers() {
         MarkerIdArray = [];
@@ -688,6 +675,34 @@
             });
 
             productIdArray = MarkerIdArray;
+            loadMoreData();
+        } else {
+            console.log('클러스터링할 마커가 없습니다.');
+        }
+    }
+
+    function clusterProductMarkers() {
+        MarkerIdArray = [];
+        if (agentMarkers.length > 0) {
+            markerClustering = new MarkerClustering({
+                minClusterSize: 1,
+                maxZoom: 999,
+                map: map,
+                markers: agentMarkers, // product 마커들만 클러스터링
+                disableClickZoom: false,
+                productClick: true,
+                gridSize: 70,
+                icons: [htmlMarker1],
+                indexGenerator: [1],
+                stylingFunction: function(clusterMarker, count) {
+                    $(clusterMarker.getElement()).find('div:first-child').text(count);
+                }
+            });
+            agentMarkers.forEach(function(marker) {
+                MarkerIdArray.push(marker.id);
+            });
+
+            agentIdArray = MarkerIdArray;
             loadMoreData();
         } else {
             console.log('클러스터링할 마커가 없습니다.');

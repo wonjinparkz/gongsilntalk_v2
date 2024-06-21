@@ -1,5 +1,5 @@
-@if (count($property) > 0)
-    @foreach ($property as $property)
+@if (count($propertyList) > 0)
+    @foreach ($propertyList as $index => $property)
         <!-- list : s -->
         <div class="property_sm_list">
             <div class="frame_img_mid">
@@ -39,3 +39,7 @@
         <span>조건에 맞는 매물이 없습니다.<br>지도를 이동하거나, 검색 필터를 조정해보세요.</span>
     </div>
 @endif
+
+<script>
+    $('#property_count').html({{ count($propertyList) }});
+</script>

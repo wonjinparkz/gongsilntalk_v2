@@ -1,10 +1,11 @@
 <div class="side_list_wrap">
 
     <ul class="side_list_tab tab_toggle_menu">
-        <li class="property active" onclick="tabChange(this)"><a href="javascript:void(0);">지도 내 매물
+        <li class="property active" onclick="tabChange(this)"><a href="javascript:void(0);">지도 내 매물 <span
+                    id="property_count">0</span>
             </a>
         </li>
-        <li class="agent" onclick="tabChange(this)"><a href="javascript:void(0);">중개사무소
+        <li class="agent" onclick="tabChange(this)"><a href="javascript:void(0);">중개사무소 <span id="agent_count">0</span>
             </a>
         </li>
     </ul>
@@ -121,6 +122,7 @@
                     page: null,
                     orderby: $('#orderby').val(),
                     productIds: productIdArray,
+                    agentIds: agentIdArray,
                 },
                 type: "get",
                 beforeSend: function() {
