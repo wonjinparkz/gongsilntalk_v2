@@ -31,7 +31,7 @@
                 <span class="txt_item_2 square">공급 {{ $result->square ?? '-' }}㎡ / 전용
                     {{ $result->exclusive_square ?? '-' }}㎡</span>
                 <span class="txt_item_2 area" style="display: none">공급 {{ $result->area ?? '-' }}㎡ / 전용
-                    {{ $result->exclusive_area ?? '-' }}㎡</span>
+                    {{ $result->exclusive_area ?? '-' }}평</span>
             </div>
             <div class="txt_item_3">
                 {{ Lang::get('commons.payment_type.' . $result->priceInfo->payment_type) }}
@@ -133,7 +133,7 @@
                     <div class="txt_item_5">
                         <span>전용</span>
                         <spann class="square">{{ $result->exclusive_square ?? '-' }}㎡</spann> &nbsp;
-                            <spann class="area" style="display: none">{{ $result->exclusive_area ?? '-' }}㎡</spann>
+                            <spann class="area" style="display: none">{{ $result->exclusive_area ?? '-' }}평</spann>
                             &nbsp;
                             @if ($result->priceInfo->payment_type == 0)
                                 <span>평단가</span> {{ $formatAveragePrice }}
