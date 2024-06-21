@@ -5,7 +5,7 @@
     @foreach ($productList as $item)
         {{-- {{ $item }} --}}
         <div class="sales_card">
-            <span class="sales_list_wish" onclick="btn_wish(this)"></span>
+            <span class="sales_list_wish {{ $item->like_id > 0 ? 'on' : '' }}" value="{{ $item->id}}" onclick="btn_wish(this)"></span>
             <a href="{{ route('www.map.room.detail', [$item->id]) }}">
                 <div class="sales_card_img">
                     <div class="img_box">
