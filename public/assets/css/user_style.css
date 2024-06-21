@@ -460,6 +460,7 @@
 .mediation_txt_item3{font-size: 16px; color:#63605F; margin-top: 8px;}
 .mediation_room a.btn_more{border-radius: 5px; color:#63605F; font-size: 13px; padding: 10px; border: 1px solid #D2D1D0; display:inline-block; margin:22px 0;}
 .room_bottom_wrap{display: none;}
+.toggle_unit{cursor: pointer;}
 
 /* 커뮤니티 */
 .community_wrap {display: flex; justify-content:center;}

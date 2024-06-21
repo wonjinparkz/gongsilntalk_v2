@@ -663,7 +663,7 @@
 
                 <div class="btn_floting_wrap">
                     <div class="btn_floting top">
-                        <a href="#"><img src="{{ asset('assets/media/btn_unit.png') }}"></a><br>
+                        <img src="{{ asset('assets/media/btn_unit.png') }}" class="toggle_unit" id="toggle_unit" onclick="toggleImage()"><br>
                         <a href="javascript:window.scrollTo(0,0);" class="floting_top"><img
                                 src="{{ asset('assets/media/btn_top.png') }}"></a>
                     </div>
@@ -866,6 +866,16 @@
                 return false;
             });
         });
+
+        // 단위 변경
+        function toggleImage() {
+        var image = document.getElementById('toggle_unit');
+        if (image.src.match('btn_unit.png')) {
+            image.src = "{{ asset('assets/media/btn_unit2.png') }}";
+        } else {
+            image.src = "{{ asset('assets/media/btn_unit.png') }}";
+        }
+        }
 
         // 모바일 header
         let criteria_scroll_top = 0;
