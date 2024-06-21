@@ -286,7 +286,8 @@
 .facility_wrap, .edu_wrap{min-height: 80px; padding: 20px 4px; line-height: 1.4;}
 .property_sm_list{border-bottom: 1px solid var(--gray-line); display: flex; padding:14px 16px; gap:14px;}
 .property_sm_list .frame_img_mid{position: relative;}
-.property_sm_info{width: calc(100% - 94px);}
+.property_sm_list a{width: calc(100% - 94px); display: inline-block;}
+.property_sm_info{width: calc(100% - 2px);}
 .property_sm_item_1{font-size: 16px; font-family: 'font-b'; margin-bottom: 4px;}
 .property_sm_item_2{font-family: 'font-r'; color: var(--color-gray-3); margin-top: 6px; overflow: hidden; text-overflow: ellipsis; white-space:nowrap;}
 .filter_dropdown_wrap{display: flex; gap: 8px; height: 56px; align-items: center; padding: 0 12px;}
