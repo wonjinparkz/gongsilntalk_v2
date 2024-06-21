@@ -1,5 +1,5 @@
-@if (count($agent) > 0)
-    @foreach ($agent as $agent)
+@if (count($agentList) > 0)
+    @foreach ($agentList as $agent)
         @php
             $address = $agent->company_address ?? null;
             $addressDetail = $agent->company_address_detail ?? null;
@@ -31,3 +31,7 @@
         <span>조건에 맞는 중개사무소가 없습니다.<br>지도를 이동하거나, 검색 필터를 조정해보세요.</span>
     </div>
 @endif
+
+<script>
+    $('#agent_count').html({{ count($agentList) }});
+</script>

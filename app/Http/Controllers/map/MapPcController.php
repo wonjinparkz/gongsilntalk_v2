@@ -50,57 +50,57 @@ class MapPcController extends Controller
         // 개수제한 : 없음 -> ex) 10,243개일 경우 그대로 표시
 
         // 일반회원 +  중개사회원 매물 목록 보기
-        $property = Product::with('priceInfo', 'productAddInfo', 'productOptions', 'productServices', 'users')
+        $propertyList = Product::with('priceInfo', 'productAddInfo', 'productOptions', 'productServices', 'users')
             ->where('is_delete', '0');
 
         // 정렬
         switch ($request->orderby) {
             case 'sort_new':
-                $property->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+                $propertyList->orderBy('created_at', 'desc')->orderBy('id', 'desc');
                 break;
             case 'price_desc':
-                $property->Leftjoin('product_price', 'product.id', '=', 'product_price.product_id')
+                $propertyList->Leftjoin('product_price', 'product.id', '=', 'product_price.product_id')
                     ->orderBy('product_price.price', 'asc')
                     ->select('product.*');
                 break;
             case 'price_asc':
-                $property->Leftjoin('product_price', 'product.id', '=', 'product_price.product_id')
+                $propertyList->Leftjoin('product_price', 'product.id', '=', 'product_price.product_id')
                     ->orderBy('product_price.price', 'desc')
                     ->select('product.*');
                 break;
             case 'area_asc':
-                $property->orderBy('exclusive_square', 'desc')->orderBy('id', 'desc');
+                $propertyList->orderBy('exclusive_square', 'desc')->orderBy('id', 'desc');
                 break;
             case 'area_desc':
-                $property->orderBy('exclusive_square', 'asc')->orderBy('id', 'desc');
+                $propertyList->orderBy('exclusive_square', 'asc')->orderBy('id', 'desc');
                 break;
             default:
-                $property->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+                $propertyList->orderBy('created_at', 'desc')->orderBy('id', 'desc');
                 break;
         }
 
 
         if ($request->productIds) {
-            $property->whereIn('product.id', $request->productIds);
+            $propertyList->whereIn('product.id', $request->productIds);
         }
 
 
 
-        info($property->toSql() . 'property');
-        $property = $property->get();
+        info($propertyList->toSql() . 'propertyList');
+        $propertyList = $propertyList->get();
 
 
         // 중개사무소 목록 보기
-        $agent = User::with('images')
+        $agentList = User::with('images')
             ->where('type', '1')
             ->where('company_state', '1');
-        $agent = $agent->get();
+        $agentList = $agentList->get();
 
-        info($agent . 'agents');
+        info($agentList . 'agentList');
 
         if ($request->ajax()) {
-            $property = view('components.m-property-layout', compact('property'))->render();
-            $agent = view('components.m-agent-layout', compact('agent'))->render();
+            $property = view('components.m-property-layout', compact('propertyList'))->render();
+            $agent = view('components.m-agent-layout', compact('agentList'))->render();
             return response()->json(['property' => $property, 'agent' => $agent]);
         }
 
