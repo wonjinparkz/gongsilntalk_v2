@@ -136,7 +136,7 @@
                         </div>
                         <div class="reg_mid_wrap">
                             <div class="reg_item">
-                                <label class="input_label">난방 종류</label>
+                                <label class="input_label">시설 정보</label>
                                 <div class="checkbox_btn">
                                     @foreach (Lang::get('commons.corp_product_option_type') as $index => $optionType)
                                         <input type="checkbox" name="option[]" id="option_{{ $index }}"

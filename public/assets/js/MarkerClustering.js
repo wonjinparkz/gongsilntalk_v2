@@ -27,8 +27,10 @@ var MarkerClustering = function (options) {
         markers: [],
         // 클러스터 마커 클릭 시 줌 동작 여부입니다.
         disableClickZoom: true,
-        // 클러스터 마커 클릭 시 커스텀 동작
-        productClick: true,
+        // 클러스터 마커 클릭 시 productClick 동작 여부입니다.
+        productClick: false, // 기본값을 false로 설정
+        // 클러스터 마커 클릭 시 agentClick 동작 여부입니다.
+        agentClick: false, // 기본값을 false로 설정
         // 클러스터를 구성할 최소 마커 수입니다.
         minClusterSize: 2,
         // 클러스터 마커로 표현할 최대 줌 레벨입니다. 해당 줌 레벨보다 높으면, 클러스터를 구성하고 있는 마커를 노출합니다.
@@ -222,7 +224,7 @@ naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
 
     /**
      * 클러스터 마커의 엘리먼트를 조작할 수 있는 스타일링 함수를 반환합니다.
-     * @return {Funxtion} 콜백함수
+     * @return {Function} 콜백함수
      */
     getStylingFunction: function () {
         return this.getOptions('stylingFunction');
@@ -245,36 +247,44 @@ naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
     },
 
     /**
-     * 클러스터 마커를 클릭했을 때 줌 동작 수행 여부를 반환합니다.
-     * @return {boolean} 줌 동작 수행 여부
-     */
-    getDisableClickZoom: function () {
-        return this.getOptions('productClick');
-    },
-
-    // 클러스터 마커를 클릭했을 때 제품 클릭 동작 수행 여부를 반환합니다.
-    getProductClick: function () {
-        return this.getOptions('productClick');
-    },
-
-    /**
      * 클러스터 마커를 클릭했을 때 줌 동작 수행 여부를 설정합니다.
      * @param {boolean} flag 줌 동작 수행 여부
      */
     setDisableClickZoom: function (flag) {
         this.setOptions('disableClickZoom', flag);
     },
+
     /**
-     * 클러스터 마커를 클릭했을 때 줌 동작 수행 여부를 설정합니다.
-     * @param {boolean} flag 줌 동작 수행 여부
+     * 클러스터 마커를 클릭했을 때 productClick 동작 수행 여부를 반환합니다.
+     * @return {boolean} productClick 동작 수행 여부
      */
-    setDisableClickZoom: function (flag) {
-        this.setOptions('productClick', flag);
+    getProductClick: function () {
+        return this.getOptions('productClick');
     },
+
+    /**
+     * 클러스터 마커를 클릭했을 때 productClick 동작 수행 여부를 설정합니다.
+     * @param {boolean} flag productClick 동작 수행 여부
+     */
     setProductClick: function (flag) {
         this.setOptions('productClick', flag);
     },
 
+    /**
+     * 클러스터 마커를 클릭했을 때 agentClick 동작 수행 여부를 반환합니다.
+     * @return {boolean} agentClick 동작 수행 여부
+     */
+    getAgentClick: function () {
+        return this.getOptions('agentClick');
+    },
+
+    /**
+     * 클러스터 마커를 클릭했을 때 agentClick 동작 수행 여부를 설정합니다.
+     * @param {boolean} flag agentClick 동작 수행 여부
+     */
+    setAgentClick: function (flag) {
+        this.setOptions('agentClick', flag);
+    },
 
     /**
      * 클러스터 마커의 위치를 클러스터를 구성하고 있는 마커의 평균 좌표로 할 것인지 여부를 반환합니다.
@@ -333,11 +343,22 @@ naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
                 });
                 break;
             case 'productClick':
-                var exec = 'productClick';
-
-                if (value) {
-                    exec = 'agentClick'
-                }
+                this._clusters.forEach(function (cluster) {
+                    if (value) {
+                        cluster.enableProductClick();
+                    } else {
+                        cluster.disableProductClick();
+                    }
+                });
+                break;
+            case 'agentClick':
+                this._clusters.forEach(function (cluster) {
+                    if (value) {
+                        cluster.enableAgentClick();
+                    } else {
+                        cluster.disableAgentClick();
+                    }
+                });
                 break;
         }
     },
@@ -564,7 +585,6 @@ Cluster.prototype = {
 
         this._relation = naver.maps.Event.addListener(this._clusterMarker, 'click', naver.maps.Util.bind(function (e) {
             map.morph(e.coord, map.getZoom() + 1);
-            console.log('123,123123');
         }, this));
     },
 
@@ -578,7 +598,10 @@ Cluster.prototype = {
         this._relation = null;
     },
 
-    productClick: function () {
+    /**
+     * 클러스터 마커 클릭 시 productClick 동작을 수행하도록 합니다.
+     */
+    enableProductClick: function () {
         if (this._relation) return;
 
         var map = this._markerClusterer.getMap();
@@ -596,6 +619,8 @@ Cluster.prototype = {
                 // 기존 활성화된 클러스터 비활성화
                 activeCluster.classList.remove('active');
             }
+
+            MarkerIdArray = [];
 
             // 클릭된 클러스터가 활성화된 상태라면 비활성화하고 MarkerIdArray를 null로 설정
             if (clusterMarkerElement && clusterMarkerElement.classList.contains('active')) {
@@ -618,23 +643,38 @@ Cluster.prototype = {
                     MarkerIdArray.push(marker.id);
                 });
             }
+            console.log('MarkerIdArray :', MarkerIdArray);
             productIdArray = MarkerIdArray;
-            loadMoreData();
+            $('li.property').click();
         }, this));
     },
 
-    agentClick: function () {
+    /**
+     * 클러스터 마커 클릭 시 productClick 동작을 수행하지 않도록 합니다.
+     */
+    disableProductClick: function () {
+        if (!this._relation) return;
+
+        naver.maps.Event.removeListener(this._relation);
+        this._relation = null;
+    },
+
+    /**
+     * 클러스터 마커 클릭 시 agentClick 동작을 수행하도록 합니다.
+     */
+    enableAgentClick: function () {
         if (this._relation) return;
+
 
         var map = this._markerClusterer.getMap();
 
         this._relation = naver.maps.Event.addListener(this._clusterMarker, 'click', naver.maps.Util.bind(function (e) {
 
             // 현재 클릭된 클러스터 마커 엘리먼트
-            var clusterMarkerElement = this._clusterMarker.getElement().querySelector('.cluster_marker');
+            var clusterMarkerElement = this._clusterMarker.getElement().querySelector('.marker_default');
 
             // 현재 활성화된 클러스터가 있는지 확인
-            var activeCluster = document.querySelector('.cluster_marker.active');
+            var activeCluster = document.querySelector('.marker_default.active');
 
             // 기존에 활성화된 클러스터가 있고, 그 클러스터가 현재 클릭된 클러스터와 다른 경우
             if (activeCluster && activeCluster !== clusterMarkerElement) {
@@ -642,13 +682,14 @@ Cluster.prototype = {
                 activeCluster.classList.remove('active');
             }
 
+            MarkerIdArray = [];
+
             // 클릭된 클러스터가 활성화된 상태라면 비활성화하고 MarkerIdArray를 null로 설정
             if (clusterMarkerElement && clusterMarkerElement.classList.contains('active')) {
                 clusterMarkerElement.classList.remove('active');
-                // getProductSide(null);
                 var allMarkers = this._markerClusterer.getMarkers();
                 allMarkers.forEach(function (marker) {
-                    console.log('모든 마커:', marker.id);
+                    console.log('중개사 모든 마커:', marker.id);
                     MarkerIdArray.push(marker.id);
                 });
             } else {
@@ -659,14 +700,24 @@ Cluster.prototype = {
 
                 var markers = this.getClusterMember();
                 markers.forEach(function (marker) {
-                    console.log('클러스터 내 마커:', marker.id);
+                    console.log('중개사 클러스터 내 마커:', marker.id);
                     MarkerIdArray.push(marker.id);
                 });
             }
 
             agentIdArray = MarkerIdArray;
-            loadMoreData();
+            $('li.agent').click();
         }, this));
+    },
+
+    /**
+     * 클러스터 마커 클릭 시 agentClick 동작을 수행하지 않도록 합니다.
+     */
+    disableAgentClick: function () {
+        if (!this._relation) return;
+
+        naver.maps.Event.removeListener(this._relation);
+        this._relation = null;
     },
 
     /**
@@ -690,13 +741,13 @@ Cluster.prototype = {
                 map: this._markerClusterer.getMap()
             });
 
-
             if (!this._markerClusterer.getDisableClickZoom()) {
                 this.enableClickZoom();
-            } else if (this._markerClusterer.getProductClick()) { // 변경된 부분
-                this.productClick(); // 커스텀 클릭 이벤트 설정
-            } else {
-                this.agentClick(); // 에이전트 클릭 이벤트 설정
+            }
+            if (this._markerClusterer.getProductClick()) {
+                this.enableProductClick(); // 커스텀 클릭 이벤트 설정
+            } else if (this._markerClusterer.getAgentClick()) {
+                this.enableAgentClick(); // 커스텀 클릭 이벤트 설정
             }
         }
 

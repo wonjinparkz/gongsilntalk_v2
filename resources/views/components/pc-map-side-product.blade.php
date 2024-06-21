@@ -1,11 +1,11 @@
 <div class="side_list_wrap">
 
     <ul class="side_list_tab tab_toggle_menu">
-        <li class="property active" onclick="tabChange(this)"><a href="javascript:void(0);">지도 내 매물 <span
+        <li class="property active" onclick="tabChange('property')"><a href="javascript:void(0);">지도 내 매물 <span
                     id="property_count">0</span>
             </a>
         </li>
-        <li class="agent" onclick="tabChange(this)"><a href="javascript:void(0);">중개사무소 <span id="agent_count">0</span>
+        <li class="agent" onclick="tabChange('agent')"><a href="javascript:void(0);">중개사무소 <span id="agent_count">0</span>
             </a>
         </li>
     </ul>
@@ -139,20 +139,20 @@
     // 텝 변경
     function tabChange(e) {
         $(".tab_toggle_menu li").removeClass("active");
-        e.classList.add('active');
+        $('.' + e).add('active');
 
         $(`#property_list`).css('display', 'none');
         $(`#agent_list`).css('display', 'none');
 
-        let listName = e.className.split(' ');
-        if (listName[0] == 'agent') {
+        let listName = e;
+        if (listName == 'agent') {
 
             deleteAItem();
-        } else if (listName[0] == 'property') {
+        } else if (listName == 'property') {
 
             deleteDivItem();
         }
-        $(`#${listName[0]}_list`).css('display', 'block');
+        $(`#${listName}_list`).css('display', 'block');
     }
 
     // 지도내매물 목록 삭제

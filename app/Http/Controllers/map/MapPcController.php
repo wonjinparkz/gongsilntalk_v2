@@ -51,53 +51,54 @@ class MapPcController extends Controller
         // 개수제한 : 없음 -> ex) 10,243개일 경우 그대로 표시
 
         // 일반회원 +  중개사회원 매물 목록 보기
-        $propertyList = Product::with('priceInfo', 'productAddInfo', 'productOptions', 'productServices', 'users')
-            ->where('is_delete', '0');
-
-        // 정렬
-        switch ($request->orderby) {
-            case 'sort_new':
-                $propertyList->orderBy('created_at', 'desc')->orderBy('id', 'desc');
-                break;
-            case 'price_desc':
-                $propertyList->Leftjoin('product_price', 'product.id', '=', 'product_price.product_id')
-                    ->orderBy('product_price.price', 'asc')
-                    ->select('product.*');
-                break;
-            case 'price_asc':
-                $propertyList->Leftjoin('product_price', 'product.id', '=', 'product_price.product_id')
-                    ->orderBy('product_price.price', 'desc')
-                    ->select('product.*');
-                break;
-            case 'area_asc':
-                $propertyList->orderBy('exclusive_square', 'desc')->orderBy('id', 'desc');
-                break;
-            case 'area_desc':
-                $propertyList->orderBy('exclusive_square', 'asc')->orderBy('id', 'desc');
-                break;
-            default:
-                $propertyList->orderBy('created_at', 'desc')->orderBy('id', 'desc');
-                break;
-        }
-
-
         if ($request->productIds) {
+            $propertyList = Product::with('priceInfo', 'productAddInfo', 'productOptions', 'productServices', 'users')
+                ->where('is_delete', '0');
+
+            // 정렬
+            switch ($request->orderby) {
+                case 'sort_new':
+                    $propertyList->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+                    break;
+                case 'price_desc':
+                    $propertyList->Leftjoin('product_price', 'product.id', '=', 'product_price.product_id')
+                        ->orderBy('product_price.price', 'asc')
+                        ->select('product.*');
+                    break;
+                case 'price_asc':
+                    $propertyList->Leftjoin('product_price', 'product.id', '=', 'product_price.product_id')
+                        ->orderBy('product_price.price', 'desc')
+                        ->select('product.*');
+                    break;
+                case 'area_asc':
+                    $propertyList->orderBy('exclusive_square', 'desc')->orderBy('id', 'desc');
+                    break;
+                case 'area_desc':
+                    $propertyList->orderBy('exclusive_square', 'asc')->orderBy('id', 'desc');
+                    break;
+                default:
+                    $propertyList->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+                    break;
+            }
+
             $propertyList->whereIn('product.id', $request->productIds);
+            $propertyList = $propertyList->get();
+        } else {
+            $propertyList = collect();
         }
-
-
-
-        info($propertyList->toSql() . 'propertyList');
-        $propertyList = $propertyList->get();
 
 
         // 중개사무소 목록 보기
-        $agentList = User::with('images')
-            ->where('type', '1')
-            ->where('company_state', '1');
-        $agentList = $agentList->get();
+        if ($request->agentIds) {
+            $agentList = User::with('images')
+                ->where('type', '1')
+                ->where('company_state', '1')
+                ->whereIn('users.id', $request->agentIds)
+                ->get();
+        } else {
+            $agentList = collect();
+        }
 
-        info($agentList . 'agentList');
 
         if ($request->ajax()) {
             $property = view('components.m-property-layout', compact('propertyList'))->render();
@@ -178,12 +179,12 @@ class MapPcController extends Controller
         $agent = [];
 
         if ($request->mapType == 0) {
-            if ($zoomLv >= 15 && $zoomLv <= 12) {
+            if ($zoomLv >= 15 && $zoomLv <= 13) {
             }
 
             // 줌 레벨에 따른 클러스터링 처리
-            if ($zoomLv <= 12) {
-                $distance = 10000;
+            if ($zoomLv <= 10) {
+                $distance = 500;
                 $regionList = RegionCoordinate::select('id', 'sido as name', 'address_lat', 'address_lng')
                     ->whereNull('sigungu')
                     ->whereNull('dong')
@@ -207,7 +208,7 @@ class MapPcController extends Controller
                     }
                 }
             } elseif ($zoomLv >= 11 && $zoomLv <= 13) {
-                $distance = 10;
+                $distance = 20;
                 $regionList = RegionCoordinate::select('id', 'sigungu as name', 'address_lat', 'address_lng')
                     ->whereNull('dong')
                     ->whereNotNull('sigungu')
@@ -231,7 +232,7 @@ class MapPcController extends Controller
                     }
                 }
             } elseif ($zoomLv >= 14 && $zoomLv <= 15) {
-                $distance = 2;
+                $distance = 8;
                 $regionList = RegionCoordinate::select('id', 'dong as name', 'address_lat', 'address_lng')->whereNotNull('dong')
                     ->whereRaw(
                         "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
@@ -338,10 +339,10 @@ class MapPcController extends Controller
                 }
             }
         } else if ($request->mapType == 1) {
-            if ($zoomLv <= 12) {
-                $distance = 10000;
+            if ($zoomLv <= 11) {
+                $distance = 1000;
             } elseif ($zoomLv >= 11 && $zoomLv <= 13) {
-                $distance = 10;
+                $distance = 50;
             } elseif ($zoomLv >= 14 && $zoomLv <= 15) {
                 $distance = 2;
             } else {
@@ -353,7 +354,7 @@ class MapPcController extends Controller
                     [$address_lat, $address_lng, $address_lat, $distance]
                 )->get();
 
-            $agent = User::select()->where('type', 1)->where('state', 0)->where('company_state', 1)
+            $agent = User::select('users.id', 'company_address_lat', 'company_address_lng')->with('image')->where('type', 1)->where('state', 0)->where('company_state', 1)
                 ->whereRaw(
                     "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(company_address_lat)) * COS(RADIANS(company_address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(company_address_lat)))), 2) < ?",
                     [$address_lat, $address_lng, $address_lat, $distance]

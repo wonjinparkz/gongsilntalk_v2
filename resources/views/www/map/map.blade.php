@@ -152,7 +152,6 @@
                     productClustering = null;
                 }
                 if (agentClustering) {
-                    console.log('agentClustering : ', agentClustering);
                     agentClustering.setMap(null);
                     agentClustering = null;
                 }
@@ -174,11 +173,9 @@
                 processDataArray(data.store, 'store', getContentStringForStore, 0, 50);
                 processDataArray(data.building, 'building', getContentStringForBuilding, 0, 50);
 
-                // processDataArray(data.product, 'product', getContentStringForApt, 0, 50);
                 processProductArray(data.product, 'product', 0, 50);
                 processAgentArray(data.agent, 'agent', 0, 50);
 
-                console.log('agentList : ', data.agent);
 
                 if (data.centerDongName != null) {
                     $('#centerDongText').text(data.centerDongName.dong);
@@ -187,6 +184,7 @@
                 if ($('#mapType').val() != 0) {
                     clusterProductMarkers();
                     clusterAgentMarkers();
+                    loadMoreData();
                 }
 
                 // 지도 경계 설정
@@ -268,12 +266,14 @@
                 company_address_lat,
                 company_address_lng,
                 type,
+                image
             } = item;
             createAgentMarker({
                 id: id,
                 lat: company_address_lat,
                 lng: company_address_lng,
                 type: type,
+                image: image,
                 anchorX: anchorX,
                 anchorY: anchorY
             });
@@ -412,16 +412,20 @@
         lat,
         lng,
         type,
+        image,
         anchorX,
         anchorY
     }) {
         var position = new naver.maps.LatLng(lat, lng);
+        var imagePath = image != null ? "{{ Storage::url('image/') }}" + image.path :
+            "{{ asset('assets/media/default_img.png') }} "
         var agentMarker = new naver.maps.Marker({
             id: id,
             map: map,
             position: position,
             icon: {
-                content: `<div class="marker_default detail_info_toggle"><span></span></div>`,
+                content: `<div class="marker_default detail_info_toggle"><div class="agent_mark_img"><div class="img_box"><img src="` +
+                    imagePath + `"></div></div></div>`,
                 size: new naver.maps.Size(22, 35),
                 anchor: new naver.maps.Point(11, 35)
             }
@@ -668,12 +672,12 @@
 
         var zoomLock;
 
-        if (zoom <= 12) {
-            zoomLock = 10000;
+        if (zoom <= 10) {
+            zoomLock = 200;
         } else if (zoom >= 11 && zoom <= 13) {
-            zoomLock = 7;
+            zoomLock = 10;
         } else if (zoom >= 14 && zoom <= 15) {
-            zoomLock = 1;
+            zoomLock = 5;
         } else {
             zoomLock = 0.6;
         }
@@ -727,7 +731,7 @@
                 maxZoom: 999,
                 map: map,
                 markers: productMarkers, // product 마커들만 클러스터링
-                disableClickZoom: false,
+                disableClickZoom: true,
                 productClick: true,
                 gridSize: 70,
                 icons: [htmlMarker1],
@@ -741,22 +745,29 @@
             });
 
             productIdArray = MarkerIdArray;
-            loadMoreData();
         } else {
-            console.log('클러스터링할 마커가 없습니다.');
+            productIdArray = [];
         }
     }
 
     function clusterAgentMarkers() {
         MarkerIdArray = [];
+
+        if (13 >= map.getZoom()) {
+            agentMarkers.forEach(function(marker) {
+                MarkerIdArray.push(marker.id);
+                marker.setVisible(false); // 마커를 숨깁니다.
+            });
+            agentMarkers = [];
+        }
         if (agentMarkers.length > 0) {
             agentClustering = new MarkerClustering({
                 minClusterSize: 2,
                 maxZoom: 999,
                 map: map,
                 markers: agentMarkers, // product 마커들만 클러스터링
-                disableClickZoom: false,
-                productClick: false,
+                disableClickZoom: true,
+                agentClick: true,
                 gridSize: 70,
                 icons: [htmlMarker2],
                 indexGenerator: [2],
@@ -769,9 +780,8 @@
             });
 
             agentIdArray = MarkerIdArray;
-            loadMoreData();
         } else {
-            console.log('클러스터링할 마커가 없습니다.');
+            agentIdArray = MarkerIdArray;
         }
     }
 
@@ -822,8 +832,6 @@
 
         var text = textArray.length > 0 ? textArray.join(', ') : '';
         var value = valueArray.length > 0 ? valueArray.join(',') : '';
-
-        console.log('필터 적용', text, value);
 
         if (text == '') {
             return;

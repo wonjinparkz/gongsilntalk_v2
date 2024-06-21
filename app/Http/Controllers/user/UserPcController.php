@@ -229,48 +229,206 @@ class UserPcController extends Controller
      */
     public function corpProductMagagementUpdate(Request $request): RedirectResponse
     {
-        info('오잉');
-        info($request);
 
+        info($request);
+        info('이 위를 봐줭');
 
         $productDate = [
             'region_code' => $request->region_code,
             'region_address' => $request->region_address,
             'address' => $request->address,
-            'address_lat' => $request->address_lat,
-            'address_lng' => $request->address_lng,
-            'address_detail' => $request->address_detail,
-            'address_dong' =>$request->address_dong,
-            'address_number' => $request->address_number,
-            'floor_number' => $request->floor_number,
-            'total_floor_number' => $request->total_floor_number,
-            // 'lowest_floor_number' => $request->type == 7 ? $request->lowest_floor_number : null,
-            // 'top_floor_number' => $request->type == 7 ? $request->top_floor_number : null,
+            'address_lat' => $request->is_map != 1 ? $request->address_lat : null,
+            'address_lng' => $request->is_map != 1 ? $request->address_lng : null,
+            'address_detail' => $request->is_map != 1 ? $request->address_detail : null,
+            'address_dong' => $request->is_map == 1 ? $request->address_dong : null,
+            'address_number' => $request->is_map == 1 ? $request->address_number : null,
+            'floor_number' => in_array($request->type, ['6', '7']) ? null : $request->floor_number,
+            'total_floor_number' => in_array($request->type, ['6', '7']) ? null : $request->total_floor_number,
+            'lowest_floor_number' => $request->type == 7 ? $request->lowest_floor_number : null,
+            'top_floor_number' => $request->type == 7 ? $request->top_floor_number : null,
             'area' => $request->area,
             'square' => $request->square,
-            'exclusive_area' =>$request->exclusive_area ,
-            'exclusive_square' =>$request->exclusive_square ,
-            'total_floor_area' => $request->total_floor_area,
-            'total_floor_square' => $request->total_floor_square,
-            'approve_date' => $request->approve_date,
+            'exclusive_area' => $request->type != 6 ? $request->exclusive_area : null,
+            'exclusive_square' => $request->type != 6 ? $request->exclusive_square : null,
+            'total_floor_area' => $request->type == 7 ? $request->total_floor_area : null,
+            'total_floor_square' => $request->type == 7 ? $request->total_floor_square : null,
+            'approve_date' => $request->type != 6 ? $request->approve_date : null,
             'building_type' => $request->building_type,
-            'move_type' => $request->move_type,
-            'move_date' =>$request->move_date,
-            // 'is_service' => $request->type != 6 ? $request->is_service ?? 0 : null,
-            'service_price' => $request->service_price,
+            'move_type' => $request->type != 6 ? $request->move_type : null,
+            'move_date' => ($request->type != 6 && $request->move_type == 2) ? $request->move_date : null,
+            'is_service' => $request->type != 6 ? $request->is_service ?? 0 : null,
+            'service_price' => ($request->type != 6 && $request->is_service != 1) ? $request->service_price : null,
             'loan_type' => $request->loan_type,
-            // 'loan_price' => $request->loan_type != 0 ? $request->loan_price : null,
-            'parking_type' =>  $request->parking_type,
-            // 'parking_price' => $request->type != 6 && ($request->parking_type == 1 && $request->is_parking != 1) ? $request->parking_price : null,
+            'loan_price' => $request->loan_type != 0 ? $request->loan_price : null,
+            'parking_type' => $request->type != 6 ? $request->parking_type : null,
+            'parking_price' => $request->type != 6 && ($request->parking_type == 1 && $request->is_parking != 1) ? $request->parking_price : null,
             'comments' => $request->comments,
             'contents' => $request->contents,
             'commission' => $request->commission,
-            'commission_rate' => $request->commission_rate,
+            'non_memo' => $request->non_memo,
+            'commission_rate' => $request->commission_rate
         ];
 
 
-        Product::where('id', $request->id)->update($productDate);
+        $result = Product::where('id', $request->id)->update($productDate);
 
+        ProductServices::where('product_id', $request->id)->delete();
+        ProductPrice::where('product_id', $request->id)->delete();
+        ProductAddInfo::where('product_id', $request->id)->delete();
+        ProductOptions::where('product_id', $request->id)->delete();
+
+        // 관리비 항목
+        if (isset($request->service_type)) {
+
+            $serviceTypes = array_map('intval', $request->service_type);
+
+            foreach ($serviceTypes as $service_type) {
+                ProductServices::create([
+                    'product_id' => $request->id,
+                    'type' => $service_type,
+                ]);
+            }
+        }
+
+
+        // 가격정보
+        $premium_price = $request->premium_price;
+
+        if ($request->type == 3) {
+            $premium_price = $request->is_premium == 1 ? $premium_price : null;
+        } else if ($request->type > 13) {
+            $premium_price = $premium_price;
+        }
+
+        ProductPrice::create([
+            'product_id' => $request->id,
+            'payment_type' => $request->payment_type,
+            'price' => $request->{'price_'.$request->payment_type},
+            'month_price' => in_array($request->payment_type, [1, 2, 4]) ? $request->month_price : null,
+            'is_price_discussion' => $request->is_price_discussion ?? 0,
+            'is_use' => $request->type >= 14 ? NULL : $request->is_use ?? 0,
+            'current_price' =>  $request->type < 14 && $request->is_use == 1 ? $request->current_price : null,
+            'current_month_price' =>  $request->type < 14 && $request->is_use == 1 ? $request->current_month_price : null,
+            'is_premium' => $request->type == 3 ? $request->is_premium : null,
+            'premium_price' => $premium_price,
+        ]);
+
+
+
+        // 추가정보
+        if (in_array($request->type, [0, 1, 2, 4])) {
+            $product_add_info = [
+                'product_id' => $request->id,
+                'direction_type' => $request->direction_type,
+                'cooling_type' => $request->cooling_type,
+                'heating_type' => $request->heating_type,
+                'weight' => $request->weight,
+                'is_elevator' => $request->is_elevator,
+                'is_goods_elevator' => $request->is_goods_elevator,
+                'floor_height_type' => $request->floor_height_type,
+                'wattage_type' => $request->wattage_type,
+                'is_option' => $request->is_option,
+
+            ];
+        } else if ($request->type == 3) {
+            $product_add_info = [
+                'product_id' => $request->id,
+                'current_business' => $request->current_business,
+                'recommend_business_type' => $request->recommend_business_type,
+                'direction_type' => $request->direction_type,
+                'cooling_type' => $request->cooling_type,
+                'heating_type' => $request->heating_type,
+                'is_elevator' => $request->is_elevator,
+                'is_option' => $request->is_option,
+            ];
+        } else if ($request->type == 5) {
+            $product_add_info = [
+                'product_id' => $request->id,
+                'direction_type' => $request->direction_type,
+                'cooling_type' => $request->cooling_type,
+                'heating_type' => $request->heating_type,
+                'is_elevator' => $request->is_elevator,
+                'is_option' => $request->is_option,
+            ];
+        } else if ($request->type == 6) {
+            $product_add_info = [
+                'product_id' => $request->id,
+                'land_use_type' => $request->land_use_type,
+                'city_plan_type' => $request->city_plan_type,
+                'building_permit_type' => $request->building_permit_type,
+                'land_permit_type' => $request->land_permit_type,
+                'access_load_type' => $request->access_load_type,
+            ];
+        } else if ($request->type == 7) {
+            $product_add_info = [
+                'product_id' => $request->id,
+                'direction_type' => $request->direction_type,
+                'cooling_type' => $request->cooling_type,
+                'heating_type' => $request->heating_type,
+                'recommend_business_type' => $request->recommend_business_type,
+                'is_elevator' => $request->is_elevator,
+                'is_goods_elevator' => $request->is_goods_elevator,
+                'is_dock' => $request->is_dock,
+                'is_hoist' => $request->is_hoist,
+                'floor_height_type' => $request->floor_height_type,
+                'wattage_type' => $request->wattage_type,
+                'is_option' => $request->is_option,
+            ];
+        } else if ($request->type == 9) {
+            $product_add_info = [
+                'product_id' => $request->id,
+                'room_count' => $request->room_count,
+                'bathroom_count' => $request->bathroom_count,
+                'direction_type' => $request->direction_type,
+                'cooling_type' => $request->cooling_type,
+                'heating_type' => $request->heating_type,
+                'structure_type' => $request->structure_type,
+                'builtin_type' => $request->builtin_type,
+                'is_elevator' => $request->is_elevator,
+                'declare_type' => $request->declare_type,
+                'is_option' => $request->is_option,
+            ];
+        } else if (in_array($request->type, [8, 10, 11, 12, 13])) {
+            $product_add_info = [
+                'product_id' => $request->id,
+                'room_count' => $request->room_count,
+                'bathroom_count' => $request->bathroom_count,
+                'direction_type' => $request->direction_type,
+                'cooling_type' => $request->cooling_type,
+                'heating_type' => $request->heating_type,
+                'is_elevator' => $request->is_elevator,
+                'is_option' => $request->is_option,
+            ];
+        } else if ($request->type > 13) {
+            $product_add_info = [
+                'product_id' => $request->id,
+                'direction_type' => $request->direction_type,
+                'cooling_type' => $request->cooling_type,
+                'heating_type' => $request->heating_type,
+                'weight' => $request->weight,
+                'is_elevator' => $request->is_elevator,
+                'is_goods_elevator' => $request->is_goods_elevator,
+                'interior_type' => $request->interior_type,
+                'floor_height_type' => $request->floor_height_type,
+                'wattage_type' => $request->wattage_type,
+                'is_option' => $request->is_option,
+            ];
+        }
+
+        ProductAddInfo::create($product_add_info);
+
+        // 옵션정보
+        if ($request->type != 6 && $request->is_option == 1 && isset($request->option_type)) {
+
+            $optionTypes = array_map('intval', $request->option_type);
+
+            foreach ($optionTypes as $option_type) {
+                ProductOptions::create([
+                    'product_id' => $request->id,
+                    'type' => $option_type,
+                ]);
+            }
+        }
 
         $this->imageWithEdit($request->image_ids, Product::class, $request->id);
 
