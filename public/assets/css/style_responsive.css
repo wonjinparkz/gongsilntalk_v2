@@ -140,6 +140,7 @@
     .room_section_1 .room_detail_img{width:100%; height:220px;}
     .room_img .swiper-button-next, .room_img .swiper-button-prev{display: none;}
     .room_img .swiper-slide{height:220px;}
+    .room_img .swiper-slide .img_box{height:220px;}
     .room_section_1 .room_detail_info{width:100%; padding: 0 16px; box-sizing: border-box;}
     .btn_floting_wrap{bottom:50px;}
     .btn_floting_wrap, .btn_floting{width: 100%;}
