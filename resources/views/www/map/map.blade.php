@@ -12,8 +12,12 @@
                         </ul>
                         <input type="hidden" id="mapType" value="0">
                     </div>
-                    <x-pc-map-filter />
-                    <x-pc-map-property-filter />
+                    <div class="filter_dropdown_wrap" id="filterType0">
+                        <x-pc-map-filter />
+                    </div>
+                    <div class="filter_dropdown_wrap" id="filterType1">
+                        <x-pc-map-property-filter />
+                    </div>
                 </div>
                 <div>
                     <button class="btn_graylight_ghost btn_sm"><img src="{{ asset('assets/media/ic_reset.png') }}">전체
@@ -91,6 +95,8 @@
     var bounds; // bounds 전역 변수로 선언
     var lastActiveMarkerElement = null; // 마지막으로 활성화된 마커 요소를 저장
     var markerClustering;
+    var MarkerIdArray = [];
+
 
     // 마커 클릭 사이드맵
     function getProductSide(markerId, markerType, mapType) {
@@ -161,9 +167,9 @@
                     $('#centerDongText').text(data.centerDongName.dong);
                 }
 
-                clusterProductMarkers();
-
-                console.log('markerClustering', markerClustering);
+                if ($('#mapType').val() != 0) {
+                    clusterProductMarkers();
+                }
 
                 // 지도 경계 설정
                 // map.fitBounds(bounds);
@@ -661,6 +667,7 @@
         };
 
     function clusterProductMarkers() {
+        MarkerIdArray = [];
         if (productMarkers.length > 0) {
             markerClustering = new MarkerClustering({
                 minClusterSize: 1,
@@ -676,14 +683,12 @@
                     $(clusterMarker.getElement()).find('div:first-child').text(count);
                 }
             });
+            productMarkers.forEach(function(marker) {
+                MarkerIdArray.push(marker.id);
+            });
 
-            // 클러스터 객체에 클릭 이벤트 추가
-            naver.maps.Event.addListener(markerClustering, 'click', naver.maps.Util.bind(function(e) {
-                map.morph(e.coord, map.getZoom() + 1);
-                console.log('123,123123');
-            }, this));
-
-
+            productIdArray = MarkerIdArray;
+            loadMoreData();
         } else {
             console.log('클러스터링할 마커가 없습니다.');
         }
@@ -726,9 +731,19 @@
     }
 
     function filter_apply(Name) {
-        var text = $('input[name="' + Name + '"]:checked').next('label').text();
-        var value = $('input[name="' + Name + '"]:checked').val();
+        var textArray = [];
+        var valueArray = [];
+
+        $('input[name="' + Name + '"]:checked').each(function() {
+            textArray.push($(this).next('label').text());
+            valueArray.push($(this).val());
+        });
+
+        var text = textArray.length > 0 ? textArray.join(', ') : '';
+        var value = valueArray.length > 0 ? valueArray.join(',') : '';
+
         console.log('필터 적용', text, value);
+
         if (text == '') {
             return;
         }

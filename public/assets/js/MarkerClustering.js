@@ -577,8 +577,6 @@ Cluster.prototype = {
 
         this._relation = naver.maps.Event.addListener(this._clusterMarker, 'click', naver.maps.Util.bind(function (e) {
 
-            console.log('클러스터 클릭');
-
             // 현재 클릭된 클러스터 마커 엘리먼트
             var clusterMarkerElement = this._clusterMarker.getElement().querySelector('.cluster_marker');
 
@@ -591,24 +589,29 @@ Cluster.prototype = {
                 activeCluster.classList.remove('active');
             }
 
-            // 클릭된 클러스터가 활성화된 상태라면 비활성화하고 productIdArray를 null로 설정
+            // 클릭된 클러스터가 활성화된 상태라면 비활성화하고 MarkerIdArray를 null로 설정
             if (clusterMarkerElement && clusterMarkerElement.classList.contains('active')) {
                 clusterMarkerElement.classList.remove('active');
-                // getProductSide(null, 'product', 1);
+                // getProductSide(null);
+                var allMarkers = this._markerClusterer.getMarkers();
+                allMarkers.forEach(function (marker) {
+                    console.log('모든 마커:', marker.id);
+                    MarkerIdArray.push(marker.id);
+                });
             } else {
-                // 클릭된 클러스터를 활성화하고 마커 정보를 productIdArray에 저장
+                // 클릭된 클러스터를 활성화하고 마커 정보를 MarkerIdArray에 저장
                 if (clusterMarkerElement) {
                     clusterMarkerElement.classList.add('active');
                 }
 
                 var markers = this.getClusterMember();
-                var productIdArray = [];
                 markers.forEach(function (marker) {
                     console.log('클러스터 내 마커:', marker.id);
-                    productIdArray.push(marker.id);
+                    MarkerIdArray.push(marker.id);
                 });
-                // getProductSide(productIdArray, 'product', 1);
             }
+            productIdArray = MarkerIdArray;
+            loadMoreData();
         }, this));
     },
 

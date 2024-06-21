@@ -1,4 +1,4 @@
-<div class="filter_dropdown_wrap" id="filterType0">
+
     <!-- filter 매물 종류 : s -->
     <div class="filter_btn_wrap">
         <button type="button" class="filter_btn_trigger" id="filter_text_sale_product_type">매물
@@ -61,4 +61,3 @@
         </div>
     </div>
     <!-- filter 준공연차 : e -->
-</div>
