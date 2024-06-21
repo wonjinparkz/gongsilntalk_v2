@@ -28,8 +28,10 @@
             <div>
                 <span
                     class="txt_item_1">{{ $result->region_address }}·{{ Lang::get('commons.product_type.' . $result->type) }}</span>
-                <span class="txt_item_2">공급 {{ $result->square ?? '-' }}㎡ / 전용
+                <span class="txt_item_2 square">공급 {{ $result->square ?? '-' }}㎡ / 전용
                     {{ $result->exclusive_square ?? '-' }}㎡</span>
+                <span class="txt_item_2 area" style="display: none">공급 {{ $result->area ?? '-' }}㎡ / 전용
+                    {{ $result->exclusive_area ?? '-' }}㎡</span>
             </div>
             <div class="txt_item_3">
                 {{ Lang::get('commons.payment_type.' . $result->priceInfo->payment_type) }}
@@ -126,12 +128,16 @@
                     </div>
 
                     {{-- https://devtalk.kakao.com/t/api/126032 --}}
-                    <div class="txt_item_4">강남역 도보 3분</div>
+                    {{-- <div class="txt_item_4">강남역 도보 3분</div> --}}
+                    <div class="txt_item_4"></div>
                     <div class="txt_item_5">
-                        <span>전용</span> {{ $result->exclusive_square ?? '-' }}㎡ &nbsp;
-                        @if ($result->priceInfo->payment_type == 0)
-                            <span>평단가</span> {{ $formatAveragePrice }}
-                        @endif
+                        <span>전용</span>
+                        <spann class="square">{{ $result->exclusive_square ?? '-' }}㎡</spann> &nbsp;
+                            <spann class="area" style="display: none">{{ $result->exclusive_area ?? '-' }}㎡</spann>
+                            &nbsp;
+                            @if ($result->priceInfo->payment_type == 0)
+                                <span>평단가</span> {{ $formatAveragePrice }}
+                            @endif
                     </div>
                     {{-- 매물 요약 정보 - 하단 --}}
                     <ul class="txt_item_6">
@@ -153,7 +159,8 @@
                         </li>
                     </ul>
                     <div class="detail_btn_wrap">
-                        <span class="btn_room_wish {{ $result->like_id > 0 ? 'on' : '' }}" onclick="btn_wish(this)">관심 매물 등록</span>
+                        <span class="btn_room_wish {{ $result->like_id > 0 ? 'on' : '' }}" onclick="btn_wish(this)">관심
+                            매물 등록</span>
                         <span class="btn_room_share btn_share"></span>
                         <!-- 공유하기 : s -->
                         <div class="layer layer_share_wrap">
@@ -663,7 +670,8 @@
 
                 <div class="btn_floting_wrap">
                     <div class="btn_floting top">
-                        <img src="{{ asset('assets/media/btn_unit.png') }}" class="toggle_unit" id="toggle_unit" onclick="toggleImage()"><br>
+                        <img src="{{ asset('assets/media/btn_unit.png') }}" class="toggle_unit" id="toggle_unit"
+                            onclick="toggleImage()"><br>
                         <a href="javascript:window.scrollTo(0,0);" class="floting_top"><img
                                 src="{{ asset('assets/media/btn_top.png') }}"></a>
                     </div>
@@ -694,7 +702,9 @@
 
         <!-- mobile : bottom floting menu : s -->
         <div class="room_bottom_wrap">
-            <div class="btn_bottom_wish {{ $result->like_id > 0 ? 'on' : '' }}" onclick="btn_wish(this)"><span></span>관심매물</div>
+            <div class="btn_bottom_wish {{ $result->like_id > 0 ? 'on' : '' }}" onclick="btn_wish(this)">
+                <span></span>관심매물
+            </div>
             <button class="btn_point btn_full_floting" onclick="modal_open('agent_qa')">문의하기</button>
         </div>
         <!-- mobile : bottom floting menu : e -->
@@ -869,12 +879,29 @@
 
         // 단위 변경
         function toggleImage() {
-        var image = document.getElementById('toggle_unit');
-        if (image.src.match('btn_unit.png')) {
-            image.src = "{{ asset('assets/media/btn_unit2.png') }}";
-        } else {
-            image.src = "{{ asset('assets/media/btn_unit.png') }}";
-        }
+
+            var image = document.getElementById('toggle_unit');
+            const square = document.querySelectorAll(".square");
+            const area = document.querySelectorAll(".area");
+            if (image.src.match('btn_unit.png')) {
+                // m2 -> 평
+                image.src = "{{ asset('assets/media/btn_unit2.png') }}";
+                square.forEach(square => {
+                    square.style.display = "none";
+                });
+                area.forEach(area => {
+                    area.style.display = "";
+                });
+            } else {
+                // 평 -> m2
+                image.src = "{{ asset('assets/media/btn_unit.png') }}";
+                square.forEach(square => {
+                    square.style.display = "";
+                });
+                area.forEach(area => {
+                    area.style.display = "none";
+                });
+            }
         }
 
         // 모바일 header
