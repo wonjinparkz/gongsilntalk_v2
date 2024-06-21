@@ -175,6 +175,7 @@ class MapPcController extends Controller
         $knowledgesBundle = [];
 
         $product = [];
+        $agent = [];
 
         if ($request->mapType == 0) {
             if ($zoomLv >= 15 && $zoomLv <= 12) {
@@ -351,6 +352,12 @@ class MapPcController extends Controller
                     "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
                     [$address_lat, $address_lng, $address_lat, $distance]
                 )->get();
+
+            $agent = User::select()->where('type', 1)->where('state', 0)->where('company_state', 1)
+                ->whereRaw(
+                    "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(company_address_lat)) * COS(RADIANS(company_address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(company_address_lat)))), 2) < ?",
+                    [$address_lat, $address_lng, $address_lat, $distance]
+                )->get();
         }
 
         // 현재 내 좌표에 가장 가까운 읍면동 꺼내오기
@@ -370,6 +377,7 @@ class MapPcController extends Controller
             'building' => $building,
             'centerDongName' => $centerDongName,
             'product' => $product,
+            'agent' => $agent,
         ];
 
         // JSON 형태로 응답 반환

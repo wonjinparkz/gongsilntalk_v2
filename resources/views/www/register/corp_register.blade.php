@@ -249,9 +249,12 @@
         rtAdmCd, rtRnMgtSn, rtBdMgtSn, rtDetBdNmList, rtBdNm, rtBdKdcd, rtSiNm, rtSggNm, rtEmdNm, rtLiNm, rtRn,
         rtUdrtYn, rtBuldMnnm, rtBuldSlno, rtMtYn, rtLnbrMnnm, rtLnbrSlno, rtEmdNo, relJibun, rtentX, rtentY) {
         // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
+
+        var wgs84Coords = get_coordinate_conversion(rtentX, rtentY)
+
         $('input[name="company_address"]').val(rtRoadFullAddr);
-        $('input[name="company_address_lng"]').val(rtentX);
-        $('input[name="company_address_lat"]').val(rtentY);
+        $('input[name="company_address_lng"]').val(wgs84Coords[0]);
+        $('input[name="company_address_lat"]').val(wgs84Coords[1]);
         $('input[name="company_address_detail"]').val(rtAddrDetail);
         $('input[name="company_postcode"]').val(rtZipNo);
 

@@ -128,21 +128,17 @@
                                         {{-- 회원상태 --}}
                                         <td class="text-center">
                                             {{-- 상태 뱃지 --}}
-                                            @if ($user->state == 0)
+                                            @if ($user->company_state == 0)
+                                                <div class="badge badge-light-warning">
+                                                    승인요청
+                                                </div>
+                                            @elseif($user->company_state == 1)
                                                 <div class="badge badge-light-success">
-                                                    이용중
+                                                    승인
                                                 </div>
-                                            @elseif($user->state == 1)
-                                                <div class="badge badge-light-warning">
-                                                    이용정지
-                                                </div>
-                                            @elseif($user->state == 2)
-                                                <div class="badge badge-light-warning">
-                                                    회원탈퇴
-                                                </div>
-                                            @elseif($user->state == 3)
+                                            @elseif($user->company_state == 2)
                                                 <div class="badge badge-light-danger">
-                                                    계약해지
+                                                    승인거절
                                                 </div>
                                             @endif
                                         </td>

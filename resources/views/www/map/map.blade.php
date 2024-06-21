@@ -92,6 +92,7 @@
     var pano;
     var markers = []; // 마커 배열을 전역 변수로 선언
     var productMarkers = []; // product 마커 배열 초기화
+    var agentMarkers = []; // product 마커 배열 초기화
     var bounds; // bounds 전역 변수로 선언
     var lastActiveMarkerElement = null; // 마지막으로 활성화된 마커 요소를 저장
     var markerClustering;
@@ -164,6 +165,9 @@
 
                 // processDataArray(data.product, 'product', getContentStringForApt, 0, 50);
                 processProductArray(data.product, 'product', 0, 50);
+                processAgentArray(data.agent, 'agent', 0, 50);
+
+                console.log('agentList : ', data.agent);
 
                 if (data.centerDongName != null) {
                     $('#centerDongText').text(data.centerDongName.dong);
@@ -237,6 +241,26 @@
                 id: id,
                 lat: address_lat,
                 lng: address_lng,
+                type: type,
+                anchorX: anchorX,
+                anchorY: anchorY
+            });
+        });
+    }
+
+    // 데이터 배열 처리 함수
+    function processAgentArray(array, type, anchorX, anchorY) {
+        array.forEach(item => {
+            var {
+                id,
+                company_address_lat,
+                company_address_lng,
+                type,
+            } = item;
+            createAgentMarker({
+                id: id,
+                lat: company_address_lat,
+                lng: company_address_lng,
                 type: type,
                 anchorX: anchorX,
                 anchorY: anchorY
@@ -369,6 +393,32 @@
         bounds.extend(position);
 
         productMarkers.push(productMarker); // product 마커 배열에 추가
+    }
+
+    function createAgentMarker({
+        id,
+        lat,
+        lng,
+        type,
+        anchorX,
+        anchorY
+    }) {
+        console.log('중개사 마커 생성');
+        var position = new naver.maps.LatLng(lat, lng);
+        var agentMarker = new naver.maps.Marker({
+            id: id,
+            map: map,
+            position: position,
+            icon: {
+                content: `<div class="marker_default detail_info_toggle"><span></span></div>`,
+                size: new naver.maps.Size(22, 35),
+                anchor: new naver.maps.Point(11, 35)
+            }
+        });
+
+        bounds.extend(position);
+
+        agentMarkers.push(agentMarker); // agent 마커 배열에 추가
     }
 
     // 각 데이터별 contentString 생성 함수
