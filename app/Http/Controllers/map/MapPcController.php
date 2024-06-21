@@ -13,6 +13,7 @@ use App\Models\Transactions;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -110,7 +111,14 @@ class MapPcController extends Controller
     // 매물 상세
     public function mapRoomDetail(Request $request)
     {
-        $result = Product::with('priceInfo', 'productAddInfo', 'productOptions', 'productServices', 'users')->where('id', $request->id)->first();
+        $product = Product::select('product.*')->with('priceInfo', 'productAddInfo', 'productOptions', 'productServices', 'users')->where('product.id', $request->id);
+
+        // 좋아요
+        if (Auth::guard('web')->user() != null) {
+            $product->like('product', Auth::guard('web')->user()->id ?? "");
+        }
+
+        $result = $product->first();
 
         return view('www.map.room-detail', compact('result'));
     }
@@ -118,10 +126,9 @@ class MapPcController extends Controller
     // 중개사무소 상세
     public function mapAgentDetail(Request $request)
     {
-        info(json_encode($request->all()) . 'request');
         $result = User::select()->where('type', '1')->where('company_state', '1')->first();
 
-        $product = Product::with('users', 'priceInfo')
+        $product = Product::select('product.*', 'product_price.payment_type')->with('users', 'priceInfo')
             ->leftjoin('product_price', 'product_price.product_id', 'product.id')
             ->where('is_delete', '0')
             ->where('user_type', '1');
@@ -129,6 +136,11 @@ class MapPcController extends Controller
         // 매매/전세/월세 등 여부
         if (isset($request->payment_type)) {
             $product->where('product_price.payment_type', $request->payment_type);
+        }
+
+        // 좋아요
+        if (Auth::guard('web')->user() != null) {
+            $product->like('product', Auth::guard('web')->user()->id ?? "");
         }
 
         // 정렬

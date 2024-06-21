@@ -194,7 +194,7 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
 
     // 중개사 기업 이전 제안서
     Route::get('/mypage/corp/proposal/list', 'corpProposalListView')->name('www.mypage.corp.proposal.list.view');
-    Route::post('/mypage/proposal/delete', 'corpProposalDelete')->name('www.mypage.proposal.delete');
+    Route::post('/mypage/proposal/corp-delete', 'corpProposalDelete')->name('www.mypage.proposal.delete');
 
     Route::get('/mypage/proposal/list', 'proposalListView')->name('www.mypage.proposal.list.view');
 
