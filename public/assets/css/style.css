@@ -340,7 +340,7 @@
 .cs_mapbridge .map_group .map_marker .ico{border:1px solid #ff0000; background: url('../images/map_marker_default.png'); background-size: 38px 52px; }
 .cs_mapbridge .crs .map_marker[class*=_big] .ico{width:38px; height: 52px;}
 .marker_default{background:url(../images/map_marker_default.png); background-size:38px; width:38px; height:52px; text-align:center; padding-top:10px; box-sizing: border-box;}
-.marker_default{color:#F16341}
+.marker_default span{color:#F16341}
 
 .map_bottom_btn{width:60px; position: fixed; z-index:2; display: flex; flex-direction: column; right:30px; bottom:30px; gap: 8px; z-index: 2;}
 .map_bottom_btn.p_area{bottom: 120px !important;}
