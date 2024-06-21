@@ -34,7 +34,7 @@ class MainTextController extends Controller
     {
         $maintextList = MainText::select();
         $result = $maintextList->orderBy('order', 'asc')->get();
-        return view('admin.maintext.mainText-list', compact('result'));
+        return view('admin.mainText.mainText-list', compact('result'));
     }
 
     /**

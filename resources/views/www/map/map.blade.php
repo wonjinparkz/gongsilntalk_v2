@@ -92,9 +92,11 @@
     var pano;
     var markers = []; // 마커 배열을 전역 변수로 선언
     var productMarkers = []; // product 마커 배열 초기화
+    var agentMarkers = []; // product 마커 배열 초기화
     var bounds; // bounds 전역 변수로 선언
     var lastActiveMarkerElement = null; // 마지막으로 활성화된 마커 요소를 저장
-    var markerClustering;
+    var productClustering;
+    var agentClustering;
     var MarkerIdArray = []; // 클러스터링 매물,중개사 ids 임시 저장소
     var productIdArray = []; // 매물 ids 저장소
     var agentIdArray = []; // 중개사 ids 저장소
@@ -145,14 +147,24 @@
                 var data = data.data;
 
                 // 기존 마커 제거
-                if (markerClustering) {
-                    markerClustering.setMap(null);
-                    markerClustering = null;
+                if (productClustering) {
+                    productClustering.setMap(null);
+                    productClustering = null;
+                }
+                if (agentClustering) {
+                    console.log('agentClustering : ', agentClustering);
+                    agentClustering.setMap(null);
+                    agentClustering = null;
                 }
                 markers.forEach(marker => marker.setMap(null)); // 마커를 지도에서 제거
                 markers = []; // 마커 배열 초기화
+
                 productMarkers.forEach(productMarkers => productMarkers.setMap(null));
                 productMarkers = []; // product 마커 배열 초기화
+
+                agentMarkers.forEach(agentMarkers => agentMarkers.setMap(null));
+                agentMarkers = []; // agent 마커 배열 초기화
+
                 bounds = new naver.maps.LatLngBounds(); // bounds 초기화
 
                 // 새 마커 추가
@@ -164,6 +176,9 @@
 
                 // processDataArray(data.product, 'product', getContentStringForApt, 0, 50);
                 processProductArray(data.product, 'product', 0, 50);
+                processAgentArray(data.agent, 'agent', 0, 50);
+
+                console.log('agentList : ', data.agent);
 
                 if (data.centerDongName != null) {
                     $('#centerDongText').text(data.centerDongName.dong);
@@ -171,6 +186,7 @@
 
                 if ($('#mapType').val() != 0) {
                     clusterProductMarkers();
+                    clusterAgentMarkers();
                 }
 
                 // 지도 경계 설정
@@ -237,6 +253,26 @@
                 id: id,
                 lat: address_lat,
                 lng: address_lng,
+                type: type,
+                anchorX: anchorX,
+                anchorY: anchorY
+            });
+        });
+    }
+
+    // 데이터 배열 처리 함수
+    function processAgentArray(array, type, anchorX, anchorY) {
+        array.forEach(item => {
+            var {
+                id,
+                company_address_lat,
+                company_address_lng,
+                type,
+            } = item;
+            createAgentMarker({
+                id: id,
+                lat: company_address_lat,
+                lng: company_address_lng,
                 type: type,
                 anchorX: anchorX,
                 anchorY: anchorY
@@ -369,6 +405,31 @@
         bounds.extend(position);
 
         productMarkers.push(productMarker); // product 마커 배열에 추가
+    }
+
+    function createAgentMarker({
+        id,
+        lat,
+        lng,
+        type,
+        anchorX,
+        anchorY
+    }) {
+        var position = new naver.maps.LatLng(lat, lng);
+        var agentMarker = new naver.maps.Marker({
+            id: id,
+            map: map,
+            position: position,
+            icon: {
+                content: `<div class="marker_default detail_info_toggle"><span></span></div>`,
+                size: new naver.maps.Size(22, 35),
+                anchor: new naver.maps.Point(11, 35)
+            }
+        });
+
+        bounds.extend(position);
+
+        agentMarkers.push(agentMarker); // agent 마커 배열에 추가
     }
 
     // 각 데이터별 contentString 생성 함수
@@ -661,7 +722,7 @@
                 marker.setVisible(false); // 마커를 숨깁니다.
             });
 
-            markerClustering = new MarkerClustering({
+            productClustering = new MarkerClustering({
                 minClusterSize: 0,
                 maxZoom: 999,
                 map: map,
@@ -689,7 +750,7 @@
     function clusterAgentMarkers() {
         MarkerIdArray = [];
         if (agentMarkers.length > 0) {
-            markerClustering = new MarkerClustering({
+            agentClustering = new MarkerClustering({
                 minClusterSize: 2,
                 maxZoom: 999,
                 map: map,
@@ -697,7 +758,7 @@
                 disableClickZoom: false,
                 productClick: false,
                 gridSize: 70,
-                icons: [htmlMarker1],
+                icons: [htmlMarker2],
                 indexGenerator: [2],
                 stylingFunction: function(clusterMarker, count) {
                     $(clusterMarker.getElement()).find('div:first-child').text(count);

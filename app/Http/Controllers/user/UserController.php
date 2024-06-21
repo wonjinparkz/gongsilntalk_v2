@@ -191,11 +191,11 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'state' => 'required',
-            'refuse_reason' => 'required_if:state,2',
+            'refuse_coment' => 'required_if:state,2',
         ]);
 
         if ($validator->fails()) {
-            return redirect(route('admin.advertiser.detail.view', [$request->id]))
+            return redirect(route('admin.corp.detail.view', [$request->id]))
                 ->withErrors($validator)
                 ->withInput();
         }

@@ -120,7 +120,6 @@ class UserPcController extends Controller
      */
     public function userProductDelete(Request $request)
     {
-        info($request->id);
         $result = Product::select()->whereIn('id', $request->id)->get();
 
         foreach ($result as $product) {

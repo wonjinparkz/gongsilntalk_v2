@@ -121,7 +121,8 @@
                           <label for="checkAll"><span></span></label> -->
                         </div>
                         <div class="right_spacing">
-                            <button class="btn_gray_ghost btn_sm" onclick="modal_open('asset_delete')">선택 삭제</button>
+                            <button class="btn_gray_ghost btn_sm" type="button" onclick="modal_open('delete')">선택
+                                삭제</button>
                             <button class="btn_point btn_sm"
                                 onclick="location.href='{{ route('www.corp.product.create.view') }}'">신규 매물
                                 등록</button>
@@ -131,6 +132,30 @@
                     <div class="productListDiv">
 
                     </div>
+
+                    <!-- modal 선택 삭제 : s -->
+                    <div class="modal modal_delete">
+
+                        <div class="modal_container">
+                            <div class="modal_mss_wrap">
+                                <p class="txt_item_1 txt_point">
+                                </p>
+                                <p class="txt_item_1">선택하신 매물을 삭제하시겠습니까?</p>
+                                <p class="mt8 txt_item_2">삭제 후에는 되돌릴 수 없습니다.</p>
+                            </div>
+
+                            <div class="modal_btn_wrap">
+                                <button class="btn_gray btn_full_thin" type="button"
+                                    onclick="modal_close('delete')">취소</button>
+                                <button class="btn_point btn_full_thin" type="button"
+                                    onclick="onDeleteAll();">삭제</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="md_overlay md_overlay_delete" onclick="modal_close('delete')"></div>
+                    <!-- modal 선택 삭제 : e -->
+
 
                 </div>
                 <!-- my_body : e -->
@@ -149,6 +174,37 @@
     <input type="hidden" id="paymentType" name="paymentType" value="">
 
     <script>
+        // 전체 삭제
+        function onDeleteAll() {
+            const query = 'input[name="checkOne"]:checked';
+            const selectedEls = document.querySelectorAll(query);
+
+            let checkedArray = [];
+            selectedEls.forEach((el) => {
+                checkedArray.push(el.value);
+            });
+
+            onDelete(checkedArray);
+        }
+
+        // 삭제
+        function onDelete(id) {
+
+            $.ajax({
+                    url: '{{ route('www.mypage.product.magagement.delete') }}',
+                    type: "post",
+                    data: {
+                        'id[]': id
+                    }
+                })
+                .done(function(data) {
+                    location.reload();
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError) {
+                    alert('다시 시도해주세요.');
+                });
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
             const button = document.querySelector(".inner_change_button");
             const unitSpan = button.querySelector(".txt_unit");

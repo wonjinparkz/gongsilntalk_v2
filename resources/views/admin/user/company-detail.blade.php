@@ -210,7 +210,9 @@
             {{-- Footer Bottom START --}}
             <div class="card-footer d-flex justify-content-end py-6 px-9">
                 @if ($result->company_state != 1)
-                    <a href="javascript:rejectAlert();" class="btn btn-danger me-5">반려</a>
+                    @if ($result->company_state != 2)
+                        <a href="javascript:rejectAlert();" class="btn btn-danger me-5">반려</a>
+                    @endif
                     <a href="javascript:approveAlert();" class="btn btn-primary me-5">검수 완료</a>
                 @endif
             </div>
