@@ -176,8 +176,10 @@
                     </div>
                 </div>
             </div>
-            <a href="#" class="btn_3d"><img src="{{ asset('assets/media/ic_3d.png') }}" alt="3d 매물보기">3D로
-                매물보기</a>
+            @if ($result->image_link != null)
+                <a href="{{ $result->image_link ?? '#' }}" class="btn_3d"><img
+                        src="{{ asset('assets/media/ic_3d.png') }}" alt="3d 매물보기">3D로 매물보기 </a>
+            @endif
 
         </div>
         <!-- section 1 : e -->
@@ -367,7 +369,7 @@
                                 <div class="swiper option_swiper">
                                     <div class="swiper-wrapper">
                                         @foreach ($result->productOptions as $item)
-                                            @if (in_array($item->type, [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]))
+                                            @if (in_array($item->type, [$security]))
                                                 @php
                                                     $typeToImageNumber = [
                                                         2 => 3,
@@ -493,7 +495,7 @@
                                 <div class="swiper option_swiper">
                                     <div class="swiper-wrapper">
                                         @foreach ($result->productOptions as $item)
-                                            @if (in_array($item->type, [30, 31, 32, 33]))
+                                            @if (in_array($item->type, [$etc]))
                                                 @php
                                                     $typeToImageNumber = [
                                                         30 => 1,
@@ -535,8 +537,8 @@
 
                 </div>
 
-                {{-- 기획서 디자인없는 탭 --}}
-                <section class="page" id="tab_area_4">
+                {{-- 기획서, 디자인없는 탭 일단 주석함 --}}
+                {{-- <section class="page" id="tab_area_4">
                     <h3>위치 및 주변정보</h3>
                     <div class="container_map_wrap"><img src="{{ asset('assets/media/s_map.png') }}" class="w_100">
                     </div>
@@ -570,7 +572,7 @@
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> --}}
 
                 <div class="page" id="tab_area_5">
                     <section>
