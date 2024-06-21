@@ -664,7 +664,7 @@
                 <div class="btn_floting_wrap">
                     <div class="btn_floting top">
                         <a href="#"><img src="{{ asset('assets/media/btn_unit.png') }}"></a><br>
-                        <a href="javascript:window.scrollTo(0,0);"><img
+                        <a href="javascript:window.scrollTo(0,0);" class="floting_top"><img
                                 src="{{ asset('assets/media/btn_top.png') }}"></a>
                     </div>
                 </div>
@@ -859,7 +859,7 @@
                     $('.top').fadeOut();
                 }
             });
-            $('.top').click(function() {
+            $('.floting_top').click(function() {
                 $('html, body').animate({
                     scrollTop: 0
                 }, 400);
