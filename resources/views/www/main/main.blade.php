@@ -86,18 +86,17 @@
                     <div class="swiper-wrapper">
                         @php
                             $banner_title = [];
-                            foreach ($banner_main as $item){
+                            foreach ($banner_main as $item) {
                                 array_push($banner_title, $item->title);
                                 // $banner_title[] = $item->title;
                             }
                         @endphp
                         @foreach ($banner_main as $item)
-
                             <div class="swiper-slide">
                                 <div class="img_box">
                                     @if (count($item->images) > 0)
                                         <img src="{{ Storage::url('image/' . $item->images[0]->path) }}"
-                                            onerror="this.src='{{ asset('assets/media/s_1.png') }}';">
+                                            onerror="this.src='{{ asset('assets/media/main_s1_1.png') }}';">
                                     @else
                                         <img src="{{ asset('assets/media/main_s1_1.png') }}">
                                     @endif
@@ -132,6 +131,7 @@
 
 
             <!-- section 2 : s -->
+            {{--  최대 5개 --}}
             <section class="section_2">
                 <div class="section_2_wrap">
                     <div class="main_2_wrap">
@@ -139,36 +139,14 @@
                         <div class="main_2">
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <p class="txt_item_1">01</p>
-                                        <p class="txt_item_1">원하는 매물의 정보를 입력해주세요.</p>
-                                        <p class="txt_item_2">
-                                            먼저 상가와 사무실 선택한 후, <br>
-                                            찾기 원하는 매물의 조건을 상세히 입력해주세요. <br>
-                                            최대 세줄까지 입력 가능합니다.
-                                        </p>
-                                        <button>서비스 바로가기</button>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <p class="txt_item_1">02</p>
-                                        <p class="txt_item_1">두번째 정보를 입력해 볼까요.</p>
-                                        <p class="txt_item_2">
-                                            먼저 상가와 사무실 선택한 후, <br>
-                                            찾기 원하는 매물의 조건을 상세히 입력해주세요. <br>
-                                            최대 세줄까지 입력 가능합니다.
-                                        </p>
-                                        <button>서비스 바로가기</button>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <p class="txt_item_1">03</p>
-                                        <p class="txt_item_1">원하는 매물의 정보를 입력해주세요.</p>
-                                        <p class="txt_item_2">
-                                            먼저 상가와 사무실 선택한 후, <br>
-                                            찾기 원하는 매물의 조건을 상세히 입력해주세요. <br>
-                                            최대 세줄까지 입력 가능합니다.
-                                        </p>
-                                        <button>서비스 바로가기</button>
-                                    </div>
+                                    @foreach ($banner_service as $key => $item)
+                                        <div class="swiper-slide">
+                                            <p class="txt_item_1">{{ sprintf('%02d', $key + 1) }}</p>
+                                            <p class="txt_item_1">{{ $item->title }}</p>
+                                            <p class="txt_item_2">{!! nl2br($item->content) !!}</p>
+                                            <button onclick="location.href='{{ $item->url }}' ">서비스 바로가기</button>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="main_2_btn">
@@ -182,24 +160,19 @@
                         <div class="main_2_img">
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <img src="{{ asset('assets/media/screen_1.png') }}" alt="">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="{{ asset('assets/media/screen_1.png') }}" alt="">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="{{ asset('assets/media/screen_1.png') }}" alt="">
-                                    </div>
+                                    @foreach ($banner_service as $item)
+                                        <div class="swiper-slide">
+                                            @if (count($item->images) > 0)
+                                                <img src="{{ Storage::url('image/' . $item->images[0]->path) }}"
+                                                    onerror="this.src='{{ asset('assets/media/screen_1.png') }}';">
+                                            @else
+                                                <img src="{{ asset('assets/media/screen_1.png') }}" alt="">
+                                            @endif
+                                        </div>
+                                    @endforeach
                                 </div>
-                                <!-- <div class="sub_nav">
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
-                  </div> -->
-                                <!-- <div class="swiper-pagination"></div> -->
                             </div>
                         </div>
-
                     </div>
                 </div>
             </section>
@@ -301,27 +274,15 @@
                 <!-- <span>누적 이용 사용자 수 12345</span> -->
                 <div class="swiper noticeSwiper">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <span>
-                                <img src="{{ asset('assets/media/ic_quotes_1.png') }}">
-                                누적 이용 사용자 수 12345
-                                <img src="{{ asset('assets/media/ic_quotes_1.png') }}" class="img_rotate">
-                            </span>
-                        </div>
-                        <div class="swiper-slide">
-                            <span>
-                                <img src="{{ asset('assets/media/ic_quotes_1.png') }}">
-                                공실앤톡 서비스 오픈
-                                <img src="{{ asset('assets/media/ic_quotes_1.png') }}" class="img_rotate">
-                            </span>
-                        </div>
-                        <div class="swiper-slide">
-                            <span>
-                                <img src="{{ asset('assets/media/ic_quotes_1.png') }}">
-                                공실앤톡 새롭게 시작
-                                <img src="{{ asset('assets/media/ic_quotes_1.png') }}" class="img_rotate">
-                            </span>
-                        </div>
+                        @foreach ($banner_text as $item)
+                            <div class="swiper-slide">
+                                <span>
+                                    <img src="{{ asset('assets/media/ic_quotes_1.png') }}">
+                                    {{ $item->title }}
+                                    <img src="{{ asset('assets/media/ic_quotes_1.png') }}" class="img_rotate">
+                                </span>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </section>
@@ -491,38 +452,30 @@
                 <h1>공실앤톡 부가서비스 혜택까지,<br>다양하게 경험해보세요</h1>
                 <div class="swiper ex_serviceSwiper">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="ex_service_container">
-                                <div class="txt_item_1">추천 분양현장</div>
-                                <div class="txt_item_2">현재 분양 중인 매물이 궁금하다면?<br>추천 분양현장에서 직접 확인해보세요.</div>
-                                <button>서비스 바로가기</button>
+                        @php
+                            $banner_title = [];
+                            foreach ($banner_extra_service as $item) {
+                                array_push($banner_title, $item->title);
+                                // $banner_title[] = $item->title;
+                            }
+                        @endphp
+                        @foreach ($banner_extra_service as $item)
+                            <div class="swiper-slide">
+                                <div class="ex_service_container">
+                                    <div class="txt_item_1">{{ $item->title }}</div>
+                                    <div class="txt_item_2">{!! nl2br($item->content) !!}</div>
+                                    <button onclick="location.href='{{ $item->url }}' ">서비스 바로가기</button>
+                                </div>
+                                <div class="img_box">
+                                    @if (count($item->images) > 0)
+                                        <img src="{{ Storage::url('image/' . $item->images[0]->path) }}"
+                                            onerror="this.src='{{ asset('assets/media/s_9.png') }}';">
+                                    @else
+                                        <img src="{{ asset('assets/media/s_9.png') }}">
+                                    @endif
+                                </div>
                             </div>
-                            <div class="img_box"><img src="{{ asset('assets/media/s_9.png') }}"></div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="ex_service_container">
-                                <div class="txt_item_1">실시간 매물지도</div>
-                                <div class="txt_item_2">현재 분양 중인 매물이 궁금하다면?<br>추천 분양현장에서 직접 확인해보세요.</div>
-                                <button>서비스 바로가기</button>
-                            </div>
-                            <div class="img_box"><img src="{{ asset('assets/media/s_9.png') }}"></div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="ex_service_container">
-                                <div class="txt_item_1">내 자산관리</div>
-                                <div class="txt_item_2">현재 분양 중인 매물이 궁금하다면?<br>추천 분양현장에서 직접 확인해보세요.</div>
-                                <button>서비스 바로가기</button>
-                            </div>
-                            <div class="img_box"><img src="{{ asset('assets/media/s_9.png') }}"></div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="ex_service_container">
-                                <div class="txt_item_1">수익률 계산기</div>
-                                <div class="txt_item_2">현재 분양 중인 매물이 궁금하다면?<br>추천 분양현장에서 직접 확인해보세요.</div>
-                                <button>서비스 바로가기</button>
-                            </div>
-                            <div class="img_box"><img src="{{ asset('assets/media/s_9.png') }}"></div>
-                        </div>
+                        @endforeach
                     </div>
                     <div class="swiper-pagination_wrap">
                         <div class="swiper-pagination"></div>
@@ -530,7 +483,7 @@
                 </div>
             </section>
             <script>
-                var bullet = ['추천 분양현장', '실시간 매물지도', '내 자산관리', '수익률 계산기'];
+                var bullet = @json($banner_title);;
                 var ex_serviceSwiper = new Swiper(".ex_serviceSwiper", {
                     touchRatio: 0,
                     pagination: {
@@ -574,9 +527,11 @@
                 <div class="item_box">
                     <h1>중개사 모집</h1>
                     <p>공실앤톡 파트너스 중개사가 되어 부동산 광고를 직접 경험해 보세요.</p>
-                    <button class="btn_point btn_basic" onclick="location.href='realtor_join_reg.html'">공인중개사
+                    <button class="btn_point btn_basic"
+                        onclick="location.href='{{ route('www.register.corp.register.view') }}'">공인중개사
                         회원가입</button>
                 </div>
+                {{--  카카오톡 상담으로 연결 --}}
                 <div class="item_box">
                     <h1>부동산 전속계약 및 제휴 문의</h1>
                     <p>공실앤톡과 업무 협약 및 제휴, 부동산 전속계약 체결을 원하는 업체는 아래로 신청해주세요.</p>
