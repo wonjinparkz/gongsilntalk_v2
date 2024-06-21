@@ -7,8 +7,8 @@
 
             <!-- m::header bar : s -->
             <div class="m_header">
-                <div class="left_area"><a href="main.html"><img src="{{ asset('assets/media/header_logo.png') }}"
-                            alt="공실앤톡 로고"></a></div>
+                <div class="left_area"><a href="{{ route('www.main.main') }}"><img
+                            src="{{ asset('assets/media/header_logo.png') }}" alt="공실앤톡 로고"></a></div>
                 <!-- <div class="m_title">홈</div> -->
                 <div class="right_area">
                     <a href="#">
@@ -84,18 +84,26 @@
             <section class="section_1">
                 <div class="swiper main_1">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="img_box"><img src="{{ asset('assets/media/main_s1_1.png') }}"></div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="img_box"><img src="{{ asset('assets/media/main_s1_1.png') }}"></div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="img_box"><img src="{{ asset('assets/media/main_s1_1.png') }}"></div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="img_box"><img src="{{ asset('assets/media/main_s1_1.png') }}"></div>
-                        </div>
+                        @php
+                            $banner_title = [];
+                            foreach ($banner_main as $item){
+                                array_push($banner_title, $item->title);
+                                // $banner_title[] = $item->title;
+                            }
+                        @endphp
+                        @foreach ($banner_main as $item)
+
+                            <div class="swiper-slide">
+                                <div class="img_box">
+                                    @if (count($item->images) > 0)
+                                        <img src="{{ Storage::url('image/' . $item->images[0]->path) }}"
+                                            onerror="this.src='{{ asset('assets/media/s_1.png') }}';">
+                                    @else
+                                        <img src="{{ asset('assets/media/main_s1_1.png') }}">
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
@@ -105,7 +113,7 @@
                 </div>
             </section>
             <script>
-                var bullet = ['매물제안서 받기', '인테리어 무료견적', '주변 데이터 분석', '신규 매물 내놓기'];
+                var bullet = @json($banner_title);
                 var main_1 = new Swiper(".main_1", {
                     navigation: {
                         nextEl: ".swiper-button-next",
@@ -220,16 +228,16 @@
             <!-- section 7 : s -->
             <section class="section_property">
                 <div class="inner_wrap">
-                <div class="txt_item_1">어떤 매물을 찾으시나요?</div>
-                <div class="txt_item_2">원하시는 부동산을 찾아보세요.</div>
-        
-                <ul class="property_img_wrap">
-                    <li class="active">사무실</li>
-                    <li>공장/창고</li>
-                    <li>건물</li>
-                    <li>상가</li>
-                </ul>
-                
+                    <div class="txt_item_1">어떤 매물을 찾으시나요?</div>
+                    <div class="txt_item_2">원하시는 부동산을 찾아보세요.</div>
+
+                    <ul class="property_img_wrap">
+                        <li class="active">사무실</li>
+                        <li>공장/창고</li>
+                        <li>건물</li>
+                        <li>상가</li>
+                    </ul>
+
                 </div>
             </section>
             <script>
@@ -244,41 +252,44 @@
             <!-- section 4 : s -->
             <section class="section_4">
                 <div class="inner_wrap">
-                <div class="txt_item_1">공간은 공간 전문가에게</div>
-                <div class="txt_item_2">
-                    지금 상담을 신청하고 우리 회사에 꼭 맞는 공간을 완성해보세요.<br>
-                    #무료 3D도면 제공 #퍼시스가구 #합리적 가격 #데스커가구 #기업전용서비스
-                </div>
-                <div class="con_box_wrap">
-                    <div class="con_box">
-                    <p class="box_item_1">오피스 인테리어</p>
-                    <div class="box_item_2">기업의 규모와 관계 없이 무료 3D도면을 제공<br>드리며, 회사의 정체성을 담은 완성도 높고<br>책임감 있는 설계와 공사를 진행합니다.</div>
-                    <div class="tag_area">
-                        <span class="txt_tag">#무료 3D도면 제공</span>
+                    <div class="txt_item_1">공간은 공간 전문가에게</div>
+                    <div class="txt_item_2">
+                        지금 상담을 신청하고 우리 회사에 꼭 맞는 공간을 완성해보세요.<br>
+                        #무료 3D도면 제공 #퍼시스가구 #합리적 가격 #데스커가구 #기업전용서비스
                     </div>
-                    <button>자세히보기</button>
-                    </div>
+                    <div class="con_box_wrap">
+                        <div class="con_box">
+                            <p class="box_item_1">오피스 인테리어</p>
+                            <div class="box_item_2">기업의 규모와 관계 없이 무료 3D도면을 제공<br>드리며, 회사의 정체성을 담은 완성도 높고<br>책임감 있는 설계와
+                                공사를 진행합니다.</div>
+                            <div class="tag_area">
+                                <span class="txt_tag">#무료 3D도면 제공</span>
+                            </div>
+                            <button>자세히보기</button>
+                        </div>
 
-                    <div class="con_box">
-                    <p class="box_item_1">퍼시스 가구</p>
-                    <div class="box_item_2">국내 사무가구 1위 브랜드, 퍼시스(FURSYS)<br>가구와 모든 서비스를 합리적인 단가로 제공<br>받으실 수 있습니다.</div>
-                    <div class="tag_area">
-                        <span class="txt_tag">#퍼시스 가구</span>
-                        <span class="txt_tag">#합리적인 가격</span>
-                    </div>
-                    <button>자세히보기</button>
-                    </div>
+                        <div class="con_box">
+                            <p class="box_item_1">퍼시스 가구</p>
+                            <div class="box_item_2">국내 사무가구 1위 브랜드, 퍼시스(FURSYS)<br>가구와 모든 서비스를 합리적인 단가로 제공<br>받으실 수
+                                있습니다.</div>
+                            <div class="tag_area">
+                                <span class="txt_tag">#퍼시스 가구</span>
+                                <span class="txt_tag">#합리적인 가격</span>
+                            </div>
+                            <button>자세히보기</button>
+                        </div>
 
-                    <div class="con_box">
-                    <p class="box_item_1">데스커 가구</p>
-                    <div class="box_item_2">본질에 집중하고, 깔끔한 디자인의 데스커<br>(DESKER)입니다. 데스커 기업전용 서비스를<br>데스커 공식 에이트에게 받으실 수 있습니다.</div>
-                    <div class="tag_area">
-                        <span class="txt_tag">#데스커 가구</span>
-                        <span class="txt_tag">#기업전용 서비스</span>
+                        <div class="con_box">
+                            <p class="box_item_1">데스커 가구</p>
+                            <div class="box_item_2">본질에 집중하고, 깔끔한 디자인의 데스커<br>(DESKER)입니다. 데스커 기업전용 서비스를<br>데스커 공식
+                                에이트에게 받으실 수 있습니다.</div>
+                            <div class="tag_area">
+                                <span class="txt_tag">#데스커 가구</span>
+                                <span class="txt_tag">#기업전용 서비스</span>
+                            </div>
+                            <button>자세히보기</button>
+                        </div>
                     </div>
-                    <button>자세히보기</button>
-                    </div>
-                </div>
                 </div>
 
             </section>
@@ -290,42 +301,42 @@
                 <!-- <span>누적 이용 사용자 수 12345</span> -->
                 <div class="swiper noticeSwiper">
                     <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <span>
-                        <img src="{{ asset('assets/media/ic_quotes_1.png') }}">
-                        누적 이용 사용자 수 12345
-                        <img src="{{ asset('assets/media/ic_quotes_1.png') }}" class="img_rotate">
-                        </span>
-                    </div>
-                    <div class="swiper-slide">
-                        <span>
-                        <img src="{{ asset('assets/media/ic_quotes_1.png') }}">
-                        공실앤톡 서비스 오픈
-                        <img src="{{ asset('assets/media/ic_quotes_1.png') }}" class="img_rotate">
-                        </span>
-                    </div>
-                    <div class="swiper-slide">
-                        <span>
-                        <img src="{{ asset('assets/media/ic_quotes_1.png') }}">
-                        공실앤톡 새롭게 시작
-                        <img src="{{ asset('assets/media/ic_quotes_1.png') }}" class="img_rotate">
-                        </span>
-                    </div>              
+                        <div class="swiper-slide">
+                            <span>
+                                <img src="{{ asset('assets/media/ic_quotes_1.png') }}">
+                                누적 이용 사용자 수 12345
+                                <img src="{{ asset('assets/media/ic_quotes_1.png') }}" class="img_rotate">
+                            </span>
+                        </div>
+                        <div class="swiper-slide">
+                            <span>
+                                <img src="{{ asset('assets/media/ic_quotes_1.png') }}">
+                                공실앤톡 서비스 오픈
+                                <img src="{{ asset('assets/media/ic_quotes_1.png') }}" class="img_rotate">
+                            </span>
+                        </div>
+                        <div class="swiper-slide">
+                            <span>
+                                <img src="{{ asset('assets/media/ic_quotes_1.png') }}">
+                                공실앤톡 새롭게 시작
+                                <img src="{{ asset('assets/media/ic_quotes_1.png') }}" class="img_rotate">
+                            </span>
+                        </div>
                     </div>
                 </div>
             </section>
             <script>
                 var noticeSwiper = new Swiper(".noticeSwiper", {
-                spaceBetween: 22,
+                    spaceBetween: 22,
                     autoplay: {
-                    delay: 0,
-                    disableOnInteraction: false,
-                },
-                speed: 5000,
-                loop: true,
-                direction:'vertical',
-                loopAdditionalSlides: 1,
-                autoHeight: true,
+                        delay: 0,
+                        disableOnInteraction: false,
+                    },
+                    speed: 5000,
+                    loop: true,
+                    direction: 'vertical',
+                    loopAdditionalSlides: 1,
+                    autoHeight: true,
                 });
             </script>
             <!-- section 3 : e -->
@@ -337,7 +348,7 @@
                     <div class="txt_item_2">
                         다양한 고객들의 니즈와 오피스의 컨설팅 사례들,<br>그 모든 니즈를 채워줄 수 있는 토탈 서비스를 <span>무료</span>로 제공합니다.
                     </div>
-                    
+
                     <ul class="brand_wrap">
                         <li><img src="{{ asset('assets/media/brand_01.png') }}"></li>
                         <li><img src="{{ asset('assets/media/brand_02.png') }}"></li>
@@ -377,100 +388,100 @@
             <section class="section_review">
                 <p class="txt_item_1">기업이 인정하는 공실앤톡</p>
                 <div class="swiper reviewSwiper" dir="ltr">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                    <h1>솔직히 반신반의 했는데, 이보다 더 좋은 부동산 서비스 찾기도 힘들어요.</h1>
-                    <p>전담 매니저들이 건물 이슈, 사무 공간 관리까지 맡아 알아서 해주기 때문에 확실히 좋은 더
-                        서비스를 받는다는 느낌이 듭니다. 솔직히 부동산 관리하기가 이 서류 챙기고, 저 서류 
-                        챙기고… 나중에 찾으려고 하면 없고. 이런 저런 불편함이 많았는데, 이렇게 매물 자체를 
-                        등록해놓고 한번에 관리하니까 얼마나 편한지 몰라요!!</p>
-                        <div class="bottom_wrap">
-                        <div class="review_star">★★★★★</div>
-                        <div class="review_user_info">홍*동님 | 2023.04.08</div>
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <h1>솔직히 반신반의 했는데, 이보다 더 좋은 부동산 서비스 찾기도 힘들어요.</h1>
+                            <p>전담 매니저들이 건물 이슈, 사무 공간 관리까지 맡아 알아서 해주기 때문에 확실히 좋은 더
+                                서비스를 받는다는 느낌이 듭니다. 솔직히 부동산 관리하기가 이 서류 챙기고, 저 서류
+                                챙기고… 나중에 찾으려고 하면 없고. 이런 저런 불편함이 많았는데, 이렇게 매물 자체를
+                                등록해놓고 한번에 관리하니까 얼마나 편한지 몰라요!!</p>
+                            <div class="bottom_wrap">
+                                <div class="review_star">★★★★★</div>
+                                <div class="review_user_info">홍*동님 | 2023.04.08</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="swiper-slide">
-                    <h1>매물 관리는 공실앤톡 하나로 끝나요!</h1>
-                    <p>전담 매니저들이 건물 이슈, 사무 공간 관리까지 맡아 알아서 해주기 때문에 확실히 좋은 더
-                        서비스를 받는다는 느낌이 듭니다. 솔직히 부동산 관리하기가 이 서류 챙기고, 저 서류 
-                        챙기고… 나중에 찾으려고 하면 없고. 이런 저런 불편함이 많았는데, 이렇게 매물 자체를 
-                        등록해놓고 한번에 관리하니까 얼마나 편한지 몰라요!!</p>
-                        <div class="bottom_wrap">
-                        <div class="review_star">★★★★★</div>
-                        <div class="review_user_info">홍*동님 | 2023.04.08</div>
+                        <div class="swiper-slide">
+                            <h1>매물 관리는 공실앤톡 하나로 끝나요!</h1>
+                            <p>전담 매니저들이 건물 이슈, 사무 공간 관리까지 맡아 알아서 해주기 때문에 확실히 좋은 더
+                                서비스를 받는다는 느낌이 듭니다. 솔직히 부동산 관리하기가 이 서류 챙기고, 저 서류
+                                챙기고… 나중에 찾으려고 하면 없고. 이런 저런 불편함이 많았는데, 이렇게 매물 자체를
+                                등록해놓고 한번에 관리하니까 얼마나 편한지 몰라요!!</p>
+                            <div class="bottom_wrap">
+                                <div class="review_star">★★★★★</div>
+                                <div class="review_user_info">홍*동님 | 2023.04.08</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="swiper-slide">
-                    <h1>솔직히 반신반의 했는데, 이보다 더 좋은 부동산 서비스 찾기도 힘들어요.</h1>
-                    <p>전담 매니저들이 건물 이슈, 사무 공간 관리까지 맡아 알아서 해주기 때문에 확실히 좋은 더
-                        서비스를 받는다는 느낌이 듭니다. 솔직히 부동산 관리하기가 이 서류 챙기고, 저 서류 
-                        챙기고… 나중에 찾으려고 하면 없고. 이런 저런 불편함이 많았는데, 이렇게 매물 자체를 
-                        등록해놓고 한번에 관리하니까 얼마나 편한지 몰라요!!</p>
-                        <div class="bottom_wrap">
-                        <div class="review_star">★★★★★</div>
-                        <div class="review_user_info">홍*동님 | 2023.04.08</div>
+                        <div class="swiper-slide">
+                            <h1>솔직히 반신반의 했는데, 이보다 더 좋은 부동산 서비스 찾기도 힘들어요.</h1>
+                            <p>전담 매니저들이 건물 이슈, 사무 공간 관리까지 맡아 알아서 해주기 때문에 확실히 좋은 더
+                                서비스를 받는다는 느낌이 듭니다. 솔직히 부동산 관리하기가 이 서류 챙기고, 저 서류
+                                챙기고… 나중에 찾으려고 하면 없고. 이런 저런 불편함이 많았는데, 이렇게 매물 자체를
+                                등록해놓고 한번에 관리하니까 얼마나 편한지 몰라요!!</p>
+                            <div class="bottom_wrap">
+                                <div class="review_star">★★★★★</div>
+                                <div class="review_user_info">홍*동님 | 2023.04.08</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="swiper-slide">
-                    <h1>매물 관리는 공실앤톡 하나로 끝나요!</h1>
-                    <p>전담 매니저들이 건물 이슈, 사무 공간 관리까지 맡아 알아서 해주기 때문에 확실히 좋은 더
-                        서비스를 받는다는 느낌이 듭니다. 솔직히 부동산 관리하기가 이 서류 챙기고, 저 서류 
-                        챙기고… 나중에 찾으려고 하면 없고. 이런 저런 불편함이 많았는데, 이렇게 매물 자체를 
-                        등록해놓고 한번에 관리하니까 얼마나 편한지 몰라요!!</p>
-                        <div class="bottom_wrap">
-                        <div class="review_star">★★★★★</div>
-                        <div class="review_user_info">홍*동님 | 2023.04.08</div>
+                        <div class="swiper-slide">
+                            <h1>매물 관리는 공실앤톡 하나로 끝나요!</h1>
+                            <p>전담 매니저들이 건물 이슈, 사무 공간 관리까지 맡아 알아서 해주기 때문에 확실히 좋은 더
+                                서비스를 받는다는 느낌이 듭니다. 솔직히 부동산 관리하기가 이 서류 챙기고, 저 서류
+                                챙기고… 나중에 찾으려고 하면 없고. 이런 저런 불편함이 많았는데, 이렇게 매물 자체를
+                                등록해놓고 한번에 관리하니까 얼마나 편한지 몰라요!!</p>
+                            <div class="bottom_wrap">
+                                <div class="review_star">★★★★★</div>
+                                <div class="review_user_info">홍*동님 | 2023.04.08</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="swiper-slide">
-                    <h1>이보다 더 좋은 부동산 서비스 찾기도 힘들어요.</h1>
-                    <p>솔직히 부동산 관리하기가 이 서류 챙기고, 저 서류 
-                        챙기고… 나중에 찾으려고 하면 없고. 이런 저런 불편함이 많았는데, 이렇게 매물 자체를 
-                        등록해놓고 한번에 관리하니까 얼마나 편한지 몰라요!!</p>
-                        <div class="bottom_wrap">
-                        <div class="review_star">★★★★★</div>
-                        <div class="review_user_info">홍*동님 | 2023.04.08</div>
+                        <div class="swiper-slide">
+                            <h1>이보다 더 좋은 부동산 서비스 찾기도 힘들어요.</h1>
+                            <p>솔직히 부동산 관리하기가 이 서류 챙기고, 저 서류
+                                챙기고… 나중에 찾으려고 하면 없고. 이런 저런 불편함이 많았는데, 이렇게 매물 자체를
+                                등록해놓고 한번에 관리하니까 얼마나 편한지 몰라요!!</p>
+                            <div class="bottom_wrap">
+                                <div class="review_star">★★★★★</div>
+                                <div class="review_user_info">홍*동님 | 2023.04.08</div>
+                            </div>
                         </div>
+                        <div class="swiper-slide">
+                            <h1>매물 관리는 공실앤톡 하나로 끝나요!</h1>
+                            <p>전담 매니저들이 건물 이슈, 사무 공간 관리까지 맡아 알아서 해주기 때문에 확실히 좋은 더
+                                서비스를 받는다는 느낌이 듭니다. 솔직히 부동산 관리하기가 이 서류 챙기고, 저 서류
+                                챙기고… 나중에 찾으려고 하면 없고. 이런 저런 불편함이 많았는데, 이렇게 매물 자체를
+                                등록해놓고 한번에 관리하니까 얼마나 편한지 몰라요!!</p>
+                            <div class="bottom_wrap">
+                                <div class="review_star">★★★★★</div>
+                                <div class="review_user_info">홍*동님 | 2023.04.08</div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <h1>이제 정착하네요.</h1>
+                            <p>전담 매니저들이 건물 이슈, 사무 공간 관리까지 맡아 알아서 해주기 때문에 확실히 좋은 더
+                                서비스를 받는다는 느낌이 듭니다. 솔직히 부동산 관리하기가 이 서류 챙기고, 저 서류
+                                챙기고… 나중에 찾으려고 하면 없고. 이런 저런 불편함이 많았는데, 이렇게 매물 자체를
+                                등록해놓고 한번에 관리하니까 얼마나 편한지 몰라요!!</p>
+                            <div class="bottom_wrap">
+                                <div class="review_star">★★★★★</div>
+                                <div class="review_user_info">홍*동님 | 2023.04.08</div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">Slide 8</div>
                     </div>
-                    <div class="swiper-slide">
-                    <h1>매물 관리는 공실앤톡 하나로 끝나요!</h1>
-                    <p>전담 매니저들이 건물 이슈, 사무 공간 관리까지 맡아 알아서 해주기 때문에 확실히 좋은 더
-                        서비스를 받는다는 느낌이 듭니다. 솔직히 부동산 관리하기가 이 서류 챙기고, 저 서류 
-                        챙기고… 나중에 찾으려고 하면 없고. 이런 저런 불편함이 많았는데, 이렇게 매물 자체를 
-                        등록해놓고 한번에 관리하니까 얼마나 편한지 몰라요!!</p>
-                    <div class="bottom_wrap">
-                        <div class="review_star">★★★★★</div>
-                        <div class="review_user_info">홍*동님 | 2023.04.08</div>
-                    </div>
-                    </div>
-                    <div class="swiper-slide">
-                    <h1>이제 정착하네요.</h1>
-                    <p>전담 매니저들이 건물 이슈, 사무 공간 관리까지 맡아 알아서 해주기 때문에 확실히 좋은 더
-                        서비스를 받는다는 느낌이 듭니다. 솔직히 부동산 관리하기가 이 서류 챙기고, 저 서류 
-                        챙기고… 나중에 찾으려고 하면 없고. 이런 저런 불편함이 많았는데, 이렇게 매물 자체를 
-                        등록해놓고 한번에 관리하니까 얼마나 편한지 몰라요!!</p>
-                    <div class="bottom_wrap">
-                        <div class="review_star">★★★★★</div>
-                        <div class="review_user_info">홍*동님 | 2023.04.08</div>
-                    </div>
-                    </div>
-                    <div class="swiper-slide">Slide 8</div>
-                </div>
-                <!-- <div class="swiper-pagination"></div> -->
+                    <!-- <div class="swiper-pagination"></div> -->
                 </div>
             </section>
             <script>
                 var reviewSwiper = new Swiper(".reviewSwiper", {
-                spaceBetween: 22,
+                    spaceBetween: 22,
                     autoplay: {
-                    delay: 0,
-                    disableOnInteraction: false,
-                },
-                speed: 5000,
-                loop: true,
-                loopAdditionalSlides: 1,
-                slidesPerView: 5,
-                autoHeight: true,
+                        delay: 0,
+                        disableOnInteraction: false,
+                    },
+                    speed: 5000,
+                    loop: true,
+                    loopAdditionalSlides: 1,
+                    slidesPerView: 5,
+                    autoHeight: true,
                 });
             </script>
             <!-- section 6 : e -->
@@ -479,56 +490,56 @@
             <section class="section_extra_service">
                 <h1>공실앤톡 부가서비스 혜택까지,<br>다양하게 경험해보세요</h1>
                 <div class="swiper ex_serviceSwiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                    <div class="ex_service_container">
-                        <div class="txt_item_1">추천 분양현장</div>
-                        <div class="txt_item_2">현재 분양 중인 매물이 궁금하다면?<br>추천 분양현장에서 직접 확인해보세요.</div>
-                        <button>서비스 바로가기</button>
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="ex_service_container">
+                                <div class="txt_item_1">추천 분양현장</div>
+                                <div class="txt_item_2">현재 분양 중인 매물이 궁금하다면?<br>추천 분양현장에서 직접 확인해보세요.</div>
+                                <button>서비스 바로가기</button>
+                            </div>
+                            <div class="img_box"><img src="{{ asset('assets/media/s_9.png') }}"></div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="ex_service_container">
+                                <div class="txt_item_1">실시간 매물지도</div>
+                                <div class="txt_item_2">현재 분양 중인 매물이 궁금하다면?<br>추천 분양현장에서 직접 확인해보세요.</div>
+                                <button>서비스 바로가기</button>
+                            </div>
+                            <div class="img_box"><img src="{{ asset('assets/media/s_9.png') }}"></div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="ex_service_container">
+                                <div class="txt_item_1">내 자산관리</div>
+                                <div class="txt_item_2">현재 분양 중인 매물이 궁금하다면?<br>추천 분양현장에서 직접 확인해보세요.</div>
+                                <button>서비스 바로가기</button>
+                            </div>
+                            <div class="img_box"><img src="{{ asset('assets/media/s_9.png') }}"></div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="ex_service_container">
+                                <div class="txt_item_1">수익률 계산기</div>
+                                <div class="txt_item_2">현재 분양 중인 매물이 궁금하다면?<br>추천 분양현장에서 직접 확인해보세요.</div>
+                                <button>서비스 바로가기</button>
+                            </div>
+                            <div class="img_box"><img src="{{ asset('assets/media/s_9.png') }}"></div>
+                        </div>
                     </div>
-                    <div class="img_box"><img src="{{ asset('assets/media/s_9.png') }}"></div>
+                    <div class="swiper-pagination_wrap">
+                        <div class="swiper-pagination"></div>
                     </div>
-                    <div class="swiper-slide">
-                    <div class="ex_service_container">
-                        <div class="txt_item_1">실시간 매물지도</div>
-                        <div class="txt_item_2">현재 분양 중인 매물이 궁금하다면?<br>추천 분양현장에서 직접 확인해보세요.</div>
-                        <button>서비스 바로가기</button>
-                    </div>
-                    <div class="img_box"><img src="{{ asset('assets/media/s_9.png') }}"></div>
-                    </div>
-                    <div class="swiper-slide">
-                    <div class="ex_service_container">
-                        <div class="txt_item_1">내 자산관리</div>
-                        <div class="txt_item_2">현재 분양 중인 매물이 궁금하다면?<br>추천 분양현장에서 직접 확인해보세요.</div>
-                        <button>서비스 바로가기</button>
-                    </div>
-                    <div class="img_box"><img src="{{ asset('assets/media/s_9.png') }}"></div>
-                    </div>
-                    <div class="swiper-slide">
-                    <div class="ex_service_container">
-                        <div class="txt_item_1">수익률 계산기</div>
-                        <div class="txt_item_2">현재 분양 중인 매물이 궁금하다면?<br>추천 분양현장에서 직접 확인해보세요.</div>
-                        <button>서비스 바로가기</button>
-                    </div>
-                    <div class="img_box"><img src="{{ asset('assets/media/s_9.png') }}"></div>
-                    </div>
-                </div>
-                <div class="swiper-pagination_wrap">
-                    <div class="swiper-pagination"></div>
-                </div>
                 </div>
             </section>
             <script>
                 var bullet = ['추천 분양현장', '실시간 매물지도', '내 자산관리', '수익률 계산기'];
                 var ex_serviceSwiper = new Swiper(".ex_serviceSwiper", {
-                touchRatio: 0,
-                pagination: {
-                el: '.ex_serviceSwiper .swiper-pagination',
-                clickable: true,
-                renderBullet: function (index, className) {
-                    return '<div class="' + className + '"><span>' + (bullet[index]) + '</span></div>';
-                }
-                },
+                    touchRatio: 0,
+                    pagination: {
+                        el: '.ex_serviceSwiper .swiper-pagination',
+                        clickable: true,
+                        renderBullet: function(index, className) {
+                            return '<div class="' + className + '"><span>' + (bullet[index]) + '</span></div>';
+                        }
+                    },
                 });
             </script>
             <!-- section 5 : e -->
@@ -538,17 +549,20 @@
             <!-- section 8 : s -->
             <section class="section_download">
                 <div class="inner_wrap">
-                <div class="main_download_wrap">
-                    <div class="download_info_wrap">
-                    <p class="txt_item_1">더욱 편리하게<br>앱을 이용해보세요.</p>
-                    <p class="txt_item_2">언제 어디서나 공실앤톡을 이용해 보세요.</p>
-                    <div class="main_download_btn">
-                        <button class="btn_point btn_basic"><img src="{{ asset('assets/media/ic_download_aos.png') }}">안드로이드</button>
-                        <button class="btn_point btn_basic"><img src="{{ asset('assets/media/ic_download_ios.png') }}">아이폰</button>
+                    <div class="main_download_wrap">
+                        <div class="download_info_wrap">
+                            <p class="txt_item_1">더욱 편리하게<br>앱을 이용해보세요.</p>
+                            <p class="txt_item_2">언제 어디서나 공실앤톡을 이용해 보세요.</p>
+                            <div class="main_download_btn">
+                                <button class="btn_point btn_basic"><img
+                                        src="{{ asset('assets/media/ic_download_aos.png') }}">안드로이드</button>
+                                <button class="btn_point btn_basic"><img
+                                        src="{{ asset('assets/media/ic_download_ios.png') }}">아이폰</button>
+                            </div>
+                        </div>
+                        <div><img src="{{ asset('assets/media/section_img_download.png') }}" class="download_img">
+                        </div>
                     </div>
-                    </div>
-                    <div><img src="{{ asset('assets/media/section_img_download.png') }}" class="download_img"></div>
-                </div>
                 </div>
             </section>
             <!-- section 8 : e -->
@@ -558,14 +572,15 @@
             <!-- section 9 : s -->
             <section class="section_join">
                 <div class="item_box">
-                <h1>중개사 모집</h1>
-                <p>공실앤톡 파트너스 중개사가 되어 부동산 광고를 직접 경험해 보세요.</p>
-                <button class="btn_point btn_basic" onclick="location.href='realtor_join_reg.html'">공인중개사 회원가입</button>
+                    <h1>중개사 모집</h1>
+                    <p>공실앤톡 파트너스 중개사가 되어 부동산 광고를 직접 경험해 보세요.</p>
+                    <button class="btn_point btn_basic" onclick="location.href='realtor_join_reg.html'">공인중개사
+                        회원가입</button>
                 </div>
                 <div class="item_box">
-                <h1>부동산 전속계약 및 제휴 문의</h1>
-                <p>공실앤톡과 업무 협약 및 제휴, 부동산 전속계약 체결을 원하는 업체는 아래로 신청해주세요.</p>
-                <button class="btn_point btn_basic">제휴 및 전속계약 문의</button>
+                    <h1>부동산 전속계약 및 제휴 문의</h1>
+                    <p>공실앤톡과 업무 협약 및 제휴, 부동산 전속계약 체결을 원하는 업체는 아래로 신청해주세요.</p>
+                    <button class="btn_point btn_basic">제휴 및 전속계약 문의</button>
                 </div>
             </section>
             <!-- section 9 : e -->
