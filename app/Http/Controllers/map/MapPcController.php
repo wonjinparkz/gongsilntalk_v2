@@ -124,11 +124,17 @@ class MapPcController extends Controller
 
         // 최근 본 매물 등록
         if (Auth::guard('web')->check()) {
-            $recent_product = RecentProduct::create([
-                'users_id' => Auth::guard('web')->user()->id,
-                'product_id' => $request->id,
-                'product_type' => 'product',
-            ]);
+            $check = RecentProduct::where('users_id', Auth::guard('web')->user()->id)
+                ->where('product_id', $request->id)
+                ->where('product_type', 'product')->first();
+
+            if ($check == null) {
+                $recent_product = RecentProduct::create([
+                    'users_id' => Auth::guard('web')->user()->id,
+                    'product_id' => $request->id,
+                    'product_type' => 'product',
+                ]);
+            }
         }
         return view('www.map.room-detail', compact('result'));
     }
