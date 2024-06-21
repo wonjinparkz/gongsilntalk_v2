@@ -53,13 +53,13 @@ class MapPcController extends Controller
 
         // 일반회원 +  중개사회원 매물 목록 보기
         if ($request->productIds) {
-            $propertyList = Product::with('priceInfo', 'productAddInfo', 'productOptions', 'productServices', 'users')
-                ->where('is_delete', '0');
-
+            $propertyList = Product::select('product.*')->with('priceInfo', 'productAddInfo', 'productOptions', 'productServices', 'users')
+                ->where('is_delete', '0')
+                ->like('product', Auth::guard('web')->user()->id ?? "");
             // 정렬
             switch ($request->orderby) {
                 case 'sort_new':
-                    $propertyList->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+                    $propertyList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc');
                     break;
                 case 'price_desc':
                     $propertyList->Leftjoin('product_price', 'product.id', '=', 'product_price.product_id')
@@ -72,13 +72,13 @@ class MapPcController extends Controller
                         ->select('product.*');
                     break;
                 case 'area_asc':
-                    $propertyList->orderBy('exclusive_square', 'desc')->orderBy('id', 'desc');
+                    $propertyList->orderBy('exclusive_square', 'desc')->orderBy('product.id', 'desc');
                     break;
                 case 'area_desc':
-                    $propertyList->orderBy('exclusive_square', 'asc')->orderBy('id', 'desc');
+                    $propertyList->orderBy('exclusive_square', 'asc')->orderBy('product.id', 'desc');
                     break;
                 default:
-                    $propertyList->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+                    $propertyList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc');
                     break;
             }
 
@@ -100,6 +100,7 @@ class MapPcController extends Controller
             $agentList = collect();
         }
 
+        info($agentList);
 
         if ($request->ajax()) {
             $property = view('components.m-property-layout', compact('propertyList'))->render();
