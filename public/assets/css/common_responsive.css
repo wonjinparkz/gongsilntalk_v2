@@ -77,7 +77,7 @@
     .fs_16_v{font-size: 14px;}
     .fs_14_v{font-size: 13px;}
 
-    .modal{background:#fff; position:fixed; border-radius:5px; width:calc(100% - 30px); height:auto; z-index:100; top:50%; left: 50%; transform: translate(-50%, -50%); display: none;}
+    .modal{background:#fff; position:fixed; border-radius:5px; width:calc(100% - 30px); height:auto; z-index:301; top:50%; left: 50%; transform: translate(-50%, -50%); display: none;}
 
     .slide_select_menu{overflow-y:auto; max-height:200px;}
     .slide_select_menu li{font-size:16px;}

@@ -419,7 +419,7 @@
 .room_detail_info .txt_item_3{font-size: 20px; margin-top: 10px;}
 .room_detail_info .txt_item_4{color:#63605F; margin-top: 14px; margin-bottom: 28px;}
 .room_detail_info .txt_item_5 span{background: rgba(241,99,65,0.1); border-radius: 20px; padding: 2px 6px; color:var(--main-color);}
-.room_detail_info .txt_item_6{display: flex; margin-top:18px;}
+.room_detail_info .txt_item_6{display: flex; margin-top:18px; margin-bottom: 20px;}
 .room_detail_info .txt_item_6 li{ color:#63605F;}
 .room_detail_info .txt_item_6 i{font-style:normal; font-family: 'font-b'; color:#D2D1D0; font-size: 10px; margin: 0 8px;}
 .room_detail_info .txt_item_6 p{display: none;}
@@ -463,6 +463,7 @@
 .mediation_txt_item3{font-size: 16px; color:#63605F; margin-top: 8px;}
 .mediation_room a.btn_more{border-radius: 5px; color:#63605F; font-size: 13px; padding: 10px; border: 1px solid #D2D1D0; display:inline-block; margin:22px 0;}
 .room_bottom_wrap{display: none;}
+.toggle_unit{cursor: pointer;}
 
 /* 커뮤니티 */
 .community_wrap {display: flex; justify-content:center;}

@@ -23,8 +23,11 @@
             <div class="m_inner_wrap m_main_wrap">
                 <h4>어떤 매물을 찾고 계신가요?</h4>
                 <div class="main_search">
-                    <input type="text" placeholder="단지명, 동이름, 지하철역으로 검색">
-                    <button><img src="{{ asset('assets/media/btn_point_search.png') }}" alt="검색"></button>
+                    <input type="text" id="search_input" name="search_input" placeholder="단지명, 동이름, 지하철역으로 검색"
+                        value="{{ $_GET['search_input'] ?? '' }}"
+                        onkeyup="if(window.event.keyCode==13){search_request();}">
+                    <button onclick="search_request()"><img src="{{ asset('assets/media/btn_point_search.png') }}"
+                            alt="검색"></button>
                 </div>
 
                 <div class="m_main_bn_1">
@@ -548,3 +551,16 @@
 
 
 </x-layout>
+
+
+<script>
+    // 검색 추가
+    function search_request() {
+        var search_input = $("#search_input").val();
+        if (search_input == "") {
+            alert("매물을 입력해주세요.", "확인");
+            return;
+        }
+        location.href = "{{ route('www.map.mobile') }}" + "?search_input=" + search_input;
+    }
+</script>

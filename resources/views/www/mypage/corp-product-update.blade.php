@@ -1179,11 +1179,11 @@
     });
 
     @if ($product->type == 7)
-    // 공급 면적 평수 변환
-    var area = document.getElementById('total_floor_area');
-    area.addEventListener('keyup', function(e) {
-        $('#total_floor_square').val((parseInt(e.target.value) * 3.3058).toFixed(2));
-    });
+        // 공급 면적 평수 변환
+        var area = document.getElementById('total_floor_area');
+        area.addEventListener('keyup', function(e) {
+            $('#total_floor_square').val((parseInt(e.target.value) * 3.3058).toFixed(2));
+        });
     @endif
 
     var profileimageDropzone = new Dropzone("#profile_drop", {
