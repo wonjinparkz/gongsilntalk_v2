@@ -368,7 +368,32 @@ class MapPcController extends Controller
                 ->whereRaw(
                     "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
                     [$address_lat, $address_lng, $address_lat, $distance]
-                )->get();
+                );
+
+            if (isset($request->product_type)) {
+                $product->where('product.type', $request->product_type);
+            }
+
+            $product->whereHas('priceInfo', function ($query) use ($request) {
+                // 거래유형
+                $paymentTypes = explode(',', $request->payment_type);
+                if (isset($request->payment_type)) {
+                    $query->whereIn('product_price.payment_type', $paymentTypes);
+                }
+                // 가격
+                if (isset($request->price)) {
+                    $priceArray = explode(',', $request->price);
+                    if ($priceArray[0] > 0) {
+                        Log::info('ddjdldj');
+                        $query->where('product_price.price', '>=', $priceArray[0] * 100000000);
+                    }
+                    if ($priceArray[1] < 200) {
+                        $query->where('product_price.price', '<=', $priceArray[1] * 100000000);
+                    }
+                }
+            });
+
+            $product = $product->get();
 
             $agent = User::select('users.id', 'company_address_lat', 'company_address_lng')->with('image')->where('type', 1)->where('state', 0)->where('company_state', 1)
                 ->whereRaw(

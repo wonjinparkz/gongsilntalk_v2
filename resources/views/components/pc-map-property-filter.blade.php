@@ -98,9 +98,13 @@
                         <input type="checkbox" name="payment_type" id="payment_type_0" value="0">
                         <label for="payment_type_0"><span></span>매매</label>
                     </div>
-                    <div class="product_payment1">
+                    <div class="product_payment0">
                         <input type="checkbox" name="payment_type" id="payment_type_1" value="1">
-                        <label for="payment_type_1"><span></span>전매</label>
+                        <label for="payment_type_1"><span></span>임대</label>
+                    </div>
+                    <div class="product_payment1">
+                        <input type="checkbox" name="payment_type" id="payment_type_5" value="5">
+                        <label for="payment_type_5"><span></span>전매</label>
                     </div>
                     <div class="product_payment0">
                         <input type="checkbox" name="payment_type" id="payment_type_3" value="3">
@@ -189,6 +193,9 @@
                             priceLabelText = '매매가';
                             break;
                         case 1:
+                            priceLabelText = '임대가';
+                            break;
+                        case 5:
                             priceLabelText = '전매가';
                             break;
                         case 3:
@@ -208,7 +215,7 @@
                     } else if (paymentTypeValues.includes(3) && (paymentTypeValues.includes(2) || paymentTypeValues
                             .includes(4))) {
                         priceLabelText = '전세가/보증금';
-                    } else if (paymentTypeValues.includes(1) && (paymentTypeValues.includes(2) || paymentTypeValues
+                    } else if (paymentTypeValues.includes(5) && (paymentTypeValues.includes(2) || paymentTypeValues
                             .includes(4))) {
                         priceLabelText = '전매가/보증금';
                     } else if (paymentTypeValues.includes(0) && paymentTypeValues.includes(3) && (paymentTypeValues

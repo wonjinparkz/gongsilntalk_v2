@@ -513,7 +513,6 @@ class UserPcController extends Controller
                 if (isset($request->product_type)) {
                     $productList->where('product.type', $request->product_type);
                 }
-
                 // 매매/전세/월세 등 여부
                 if (isset($request->payment_type)) {
                     $productList->where('product_price.payment_type', $request->payment_type);

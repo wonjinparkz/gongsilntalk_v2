@@ -151,6 +151,11 @@
             formData.square = $('#square').val();
             formData.service_price = $('#service_price').val();
             formData.approve_date = $('#approve_date').val();
+            formData.loan_type = $('#loan_type').val();
+            formData.premium_price = $('#premium_price').val();
+            formData.business_type = $('#business_type').val();
+            formData.floor_height_type = $('#floor_height_type').val();
+            formData.wattage_type = $('#wattage_type').val();
         }
 
         $.ajax({
@@ -830,6 +835,16 @@
         var text = '';
         text = $('#' + Name + '_title').text();
 
+        if (['payment_type'].includes(Name)) {
+            if (Name == 'payment_type') {
+                $('#price').val('');
+                $('#month_price').val('');
+            }
+        } else {
+            console.log('없다!');
+        }
+
+
         $('input[type="radio"][name="' + Name + '"][value="0"]').prop('checked', true);
         $('#filter_text_' + Name).text(text);
         $('#' + Name).val('');
@@ -848,13 +863,28 @@
         var text = textArray.length > 0 ? textArray.join(', ') : '';
         var value = valueArray.length > 0 ? valueArray.join(',') : '';
 
+        if (['payment_type', 'area'].includes(Name)) {
+            if (Name == 'payment_type') {
+                $('#price').val($('#temp_price').val());
+                $('#month_price').val($('#temp_month_price').val());
+            } else if (Name == 'area') {
+                var arayTypeText = $('.areaChage .active').text();
+                if (arayTypeText == '평') {
+                    $('#area').val($('temp_area').val());
+                    text = $('#area').val();
+                } else {
+                    $('#square').val($('temp_square').val());
+                }
+            }
+        } else {
+            console.log('없다!');
+        }
+
+
         if (text == '') {
             return;
         }
 
-        if (Name) {
-
-        }
         $('#filter_text_' + Name).text(text);
         $('#' + Name).val(value);
 
