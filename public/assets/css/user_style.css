@@ -374,6 +374,11 @@
 .map_side_btn .btn_zoom button:first-child{border-bottom: 1px solid #EEEDED; border-radius: 6px 6px 0 0;}
 .map_side_btn .btn_view_type{display: flex; flex-direction: column; gap: 8px;}
 
+/* 차트 */
+.chart_wrap{margin-top: 28px;}
+.chart_top{display: flex; justify-content: space-between; margin-bottom: 12px;}
+.chart_top p{font-size: 12px; color:#9D9999;}
+
 /* 중개사무소 */
 .agent_head{padding: 44px 0; background: #fff; border-bottom: 1px solid #EEEDED; display: flex; justify-content: center; align-items: center; gap: 28px;}
 .agent_img{width: 100px; height: 100px;}
@@ -390,7 +395,7 @@
 .agent_box .agent_box_info p{color: var(--color-gray-2); font-size: 16px;}
 .agent_box .agent_box_img{width: 60px; height: 60px; margin: 0 auto; margin-bottom: 20px; }
 .agent_box .agent_box_img img{border-radius: 99.9%; border: 1px solid #EEEDED; box-sizing: border-box;}
-.agent_box .add_info_wrap{margin-top: 18px; margin-bottom: 24px; gap:8px; display: flex; flex-direction: column;}
+.agent_box .add_info_wrap{margin-top: 18px; margin-bottom: 24px; gap:8px; display: flex; flex-direction: column; line-height: 1.4;}
 .subway_ic{min-width: 16px; height: 16px; display: inline-block; font-size: 12px; border-radius: 20px; text-align: center; line-height: 16px; margin-right: 4px;}
 .subway_ic_2{background:#3B9F37; color:#fff;}
 .room_info_wrap{background:var(--gray-bg); height: 60px; position: fixed; top:60px; left:0; width:100%; z-index: 100;}

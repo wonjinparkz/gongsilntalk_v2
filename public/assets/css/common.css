@@ -475,7 +475,7 @@ td.td_center{text-align: center;}
 .table_basic thead th{padding: 10px;}
 .table_basic thead th:first-child{border-radius: 5px 0 0 5px;}
 .table_basic thead th:last-child{border-radius: 0 5px 5px 0;}
-.table_basic td{border-bottom:1px solid var(--gray-line); padding: 18px 10px; text-align: center; box-sizing: border-box;}
+.table_basic td{border-bottom:1px solid var(--gray-line); padding: 18px 10px; text-align: center; box-sizing: border-box; line-height: 1.2;}
 
 .table_type_1 th{border-bottom:1px solid #D2D1D0; padding:8px; color:var(--color-gray-2)}
 .table_type_1 td{border-bottom:1px solid var(--gray-line); padding:8px; text-align: center;}
