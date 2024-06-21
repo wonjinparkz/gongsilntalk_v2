@@ -325,7 +325,8 @@
                                                         <label class="input_label">현 보증금</label>
                                                         <div class="flex_1">
                                                             <input type="number" id="current_price"
-                                                                name="current_price" value="{{ $product->priceInfo->current_price }}"
+                                                                name="current_price"
+                                                                value="{{ $product->priceInfo->current_price }}"
                                                                 class="w_input_150"><span>/</span>
                                                         </div>
                                                     </div>
@@ -333,7 +334,8 @@
                                                         <label class="input_label">현 월임대료</label>
                                                         <div class="flex_1">
                                                             <input type="number" id="current_month_price"
-                                                                name="current_month_price" value="{{ $product->priceInfo->current_month_price }}"
+                                                                name="current_month_price"
+                                                                value="{{ $product->priceInfo->current_month_price }}"
                                                                 class="w_input_150"><span>원</span>
                                                         </div>
                                                     </div>
@@ -476,7 +478,7 @@
                                 </div>
                                 <div class="mt8 gap_14">
                                     <input type="checkbox" name="temporary_address" id="temporary_address"
-                                        value="Y">
+                                        value="1" {{ $product->is_map == 1 ? 'checked' : '' }}>
                                     <label for="temporary_address" class="gray_deep"><span></span> 가(임시)주소</label>
 
                                     <input type="checkbox" name="unregistered" id="unregistered" value="Y">
@@ -503,7 +505,7 @@
                                     </div>
                                 </div>
 
-                                <div class="detail_address_1 mt18 active">
+                                <div class="detail_address_1 mt18 {{ $product->is_map == 0 ? 'active' : '' }}">
                                     <div class="flex_2">
                                         <div class="flex_1">
                                             <input type="text" id="address_dong" name="address_dong"
@@ -524,7 +526,7 @@
                                     </div>
                                 </div>
 
-                                <div class="detail_address_2 mt18">
+                                <div class="detail_address_2 mt18 {{ $product->is_map == 1 ? 'active' : '' }}">
                                     <div>
                                         <input type="text" id="address_detail" name="address_detail"
                                             value="{{ $product->address_detail }}"
@@ -1440,7 +1442,7 @@
                     <div class="step_btn_wrap">
                         <span></span>
                         <!-- <button class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                        <button class="btn_full_basic btn_point" type="button"
+                        <button class="btn_full_basic btn_point" type="button" id="nextPageButton"
                             onclick="onFormSubmit();">저장</button>
                     </div>
 
@@ -1769,6 +1771,8 @@
         $('#address').val(address + ' 999-99');
         $('#region_address').val(address);
         $('#old_address').val(address);
+
+        onFieldInputCheck();
     }
 
     $('#address_no_1').click(function() {
@@ -1932,6 +1936,8 @@
         callJusoroMapApiType1(rtentX, rtentY);
 
         console.log('주소 검색 끝!');
+
+        onFieldInputCheck();
     }
 
     // type1.좌표정보(GRS80, EPSG:5179)
@@ -1941,4 +1947,42 @@
             params: [rtentX, rtentY]
         }, '*');
     }
+
+
+    function debounce(func, timeout = 300) {
+        let timer;
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                func.apply(this, args);
+            }, timeout);
+        };
+    }
+
+    function onFieldInputCheck() {
+
+        var minusVal = 0;
+
+        ($('#floor_number').val() != '') ? true: minusVal++;
+        ($('#total_floor_number').val() != '') ? true: minusVal++;
+        ($('#comments').val() != '') ? true: minusVal++;
+        ($('#address').val() != '') ? true: minusVal++;
+        ($('#price_'+$("input[name='payment_type']:checked").val()).val() != '') ? true: minusVal++;
+
+        if (minusVal == 0) {
+            document.getElementById('nextPageButton').disabled = false;
+        } else {
+            document.getElementById('nextPageButton').disabled = true;
+        }
+    }
+
+    const processChange = debounce(() => onFieldInputCheck());
+
+    addEventListener("input", (event) => {
+        processChange();
+    });
+
+    addEventListener("checkbox", (event) => {
+        processChange();
+    });
 </script>
