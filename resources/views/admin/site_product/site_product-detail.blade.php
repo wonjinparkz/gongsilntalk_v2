@@ -332,6 +332,17 @@
                 </div>
 
             </x-screen-card>
+
+            <x-screen-card :title="'교육 자료'">
+
+                {{-- 내용 START --}}
+                <div class="card-body border-top p-9">
+                    <x-admin-image-picker :title="'교육 자료'" required="required" cnt='10' id="siteProductEdu"
+                        label_col='2' div_col='9' :images="$result->edu_images" />
+                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('siteProductEdu_image_ids')" />
+                </div>
+            </x-screen-card>
+
             <x-screen-card :title="'층별 정보'">
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">

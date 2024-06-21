@@ -268,6 +268,7 @@ class SiteProductController extends Controller
             'dong_info.*.floor_info.*.floor_name' => 'required',
             'dong_info.*.floor_info.*.floor_image_ids.*' => 'required',
             'siteProductMain_image_ids' => 'required',
+            'siteProductEdu_image_ids' => 'required',
             'schedule_title.*' => 'required',
         ], [
             'dong_info.*.dong_name.required' => '동 이름은 필수 항목입니다.',
@@ -315,7 +316,9 @@ class SiteProductController extends Controller
         ]);
 
 
-        $this->imageWithEdit($request->siteProductMain_image_ids, SiteProduct::class, $request->id);
+        $this->imageTypeWithEdit($request->siteProductMain_image_ids, SiteProduct::class, $request->id, 0);
+        $this->imageTypeWithEdit($request->siteProductEdu_image_ids, SiteProduct::class, $request->id, 1);
+
         $this->fileWithEdit($request->dimension_file_ids, SiteProduct::class, $request->id);
 
         // 분양매물 프리미엄은 하나의 테이블로 구성되어 있어 삭제하지 않고 업데이트
