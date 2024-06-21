@@ -360,6 +360,11 @@
 .agent_mark_img{width:32px; height: 32px; border-radius: 90px; position:absolute; transform:translate(-50%, -6px); left:50%;}
 .agent_mark_img .img_box{border-radius:90px; height: 100%; width: 100%;}
 
+/* 차트 */
+.chart_wrap{margin-top: 28px;}
+.chart_top{display: flex; justify-content: space-between; margin-bottom: 12px;}
+.chart_top p{font-size: 12px; color:#9D9999;}
+
 /* 매물 클러스터 마커 */
 .cluster_marker{background: url('/assets/media/cluster-marker.png'); cursor:pointer;width:50px;height:50px;line-height:50px;color:white;text-align:center;font-weight:bold;background-size:contain; font-size:20px; font-weight:bold; }
 .cluster_marker.active{background: url('/assets/media/cluster_marker_1.png'); cursor:pointer;width:50px;height:50px;line-height:50px;color:#F16341;text-align:center;font-weight:bold; background-size:contain; font-size:20px; font-weight:bold;}

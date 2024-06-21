@@ -138,7 +138,7 @@
 
     // 텝 변경
     function tabChange(e) {
-        $(".tab_toggle_menu li").removeClass("active");
+        $(".side_list_tab .tab_toggle_menu li").removeClass("active");
         $('.' + e).add('active');
 
         $(`#property_list`).css('display', 'none');
@@ -178,4 +178,6 @@
         $('.no_data').css('display', 'none');
         loadMoreData();
     }
+
+
 </script>

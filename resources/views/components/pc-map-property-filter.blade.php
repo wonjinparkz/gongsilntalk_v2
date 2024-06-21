@@ -32,16 +32,16 @@
         <div class="filter_panel_body">
             <h6 id="product_type_title">매물 종류</h6>
             <ul class="tab_type_3 tab_toggle_menu">
-                <li class="active">상업용</li>
-                <li>주거용</li>
-                <li>분양권</li>
+                <li class="active" onclick="productTypeChage(0)">상업용</li>
+                <li onclick="productTypeChage(8)">주거용</li>
+                <li onclick="productTypeChage(14)">분양권</li>
             </ul>
             <div class="tab_area_wrap">
                 <div>
                     <div class="btn_radioType">
                         @for ($i = 0; $i < 8; $i++)
                             <input type="radio" name="product_type" id="product_type_{{ $i }}"
-                                value="{{ $i }}">
+                                value="{{ $i }}" {{ $i == 0 ? 'checked' : '' }}>
                             <label
                                 for="product_type_{{ $i }}">{{ Lang::get('commons.product_type.' . $i) }}</label>
                         @endfor
@@ -57,7 +57,6 @@
                         @endfor
                     </div>
                 </div>
-
                 <div>
                     <div class="btn_radioType">
                         @for (; $i < Count(Lang::get('commons.product_type')); $i++)
@@ -74,11 +73,16 @@
             <button type="button" class="btn_graylight_ghost btn_md_full"
                 onclick="filter_reset('product_type')"><img
                     src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-            <button type="button" class="btn_point btn_md_full" onclick="filter_apply('product_type')">적용하기</button>
+            <button type="button" class="btn_point btn_md_full"
+                onclick="filter_apply('product_type', 0)">적용하기</button>
         </div>
-
     </div>
 </div>
+<script>
+    function productTypeChage(value) {
+        $('input[name="product_type"][value="' + value + '"]').prop('checked', true);
+    }
+</script>
 <!-- filter 매물 종류 : e -->
 
 <!-- filter 거래유형/가격 : s -->
@@ -232,7 +236,8 @@
             <button type="button" class="btn_graylight_ghost btn_md_full"
                 onclick="filter_reset('payment_type')"><img
                     src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-            <button type="button" class="btn_point btn_md_full" onclick="filter_apply('payment_type')">적용하기</button>
+            <button type="button" class="btn_point btn_md_full"
+                onclick="filter_apply('payment_type', 1)">적용하기</button>
         </div>
     </div>
 </div>
@@ -309,7 +314,7 @@
         <div class="filter_panel_bottom">
             <button type="button" class="btn_graylight_ghost btn_md_full" onclick="filter_reset('area')"><img
                     src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-            <button type="button" class="btn_point btn_md_full" onclick="filter_apply('area')">적용하기</button>
+            <button type="button" class="btn_point btn_md_full" onclick="filter_apply('area', 1)">적용하기</button>
         </div>
     </div>
 </div>
@@ -346,7 +351,7 @@
                 onclick="filter_reset('service_price')"><img
                     src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
             <button type="button" class="btn_point btn_md_full"
-                onclick="filter_apply('service_price')">적용하기</button>
+                onclick="filter_apply('service_price', 1)">적용하기</button>
         </div>
     </div>
 </div>
@@ -383,7 +388,8 @@
             <button type="button" class="btn_graylight_ghost btn_md_full"
                 onclick="filter_reset('approve_date')"><img
                     src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-            <button type="button" class="btn_point btn_md_full" onclick="filter_apply('approve_date')">적용하기</button>
+            <button type="button" class="btn_point btn_md_full"
+                onclick="filter_apply('approve_date', 1)">적용하기</button>
         </div>
     </div>
 </div>
@@ -409,7 +415,7 @@
         <div class="filter_panel_bottom">
             <button type="button" class="btn_graylight_ghost btn_md_full" onclick="filter_reset('loan_type')"><img
                     src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-            <button type="button" class="btn_point btn_md_full" onclick="filter_apply('loan_type')">적용하기</button>
+            <button type="button" class="btn_point btn_md_full" onclick="filter_apply('loan_type', 0)">적용하기</button>
         </div>
     </div>
 </div>
@@ -447,7 +453,7 @@
                 onclick="filter_reset('premium_price')"><img
                     src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
             <button type="button" class="btn_point btn_md_full"
-                onclick="filter_apply('premium_price')">적용하기</button>
+                onclick="filter_apply('premium_price', 1)">적용하기</button>
         </div>
     </div>
 </div>

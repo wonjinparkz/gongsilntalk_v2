@@ -238,6 +238,73 @@
                                         </div>
                                     </div>
 
+                                    <div class="chart_wrap">
+                                        <div class="chart_top">
+                                            <p>기간 : 전체</p>
+                                            <p>2023.07 국토교통부 기준</p>
+                                        </div>
+                                        <div id="container" style="height: 200px;"></div>
+                                    </div>
+                                    <script src="http://code.highcharts.com/highcharts.js"></script>
+                                    <script type="text/javascript">
+                                        Highcharts.chart('container', {
+                                            colors: ['#F16341'],
+                                            title: {
+                                                text: ''
+                                            },
+                                            yAxis: {
+                                                title: {
+                                                    text: ''
+                                                }
+                                            },
+
+                                            xAxis: {
+                                                categories: ['2021', '2022', '2023', '2024']
+                                            },
+
+                                            legend: {
+                                                enabled: false
+                                            },
+
+                                            plotOptions: {
+                                                series: {
+                                                    label: {
+                                                        connectorAllowed: false
+                                                    },
+                                                    marker: {
+                                                        fillColor: '#fff',
+                                                        lineWidth: 2,
+                                                        lineColor: '#F16341',
+                                                    },
+                                                    pointStart: 2021
+                                                }
+                                            },
+
+                                            series: [{
+                                                name: '2023년 2월, 2건<br>',
+                                                data: [
+                                                    400000000, 380000000, 300000000, 350000000, 420000000
+                                                ]
+                                            }, ],
+
+                                            responsive: {
+                                                rules: [{
+                                                    condition: {
+                                                        maxWidth: 500
+                                                    },
+                                                    chartOptions: {
+                                                        legend: {
+                                                            layout: 'horizontal',
+                                                            align: 'center',
+                                                            verticalAlign: 'bottom'
+                                                        }
+                                                    }
+                                                }]
+                                            }
+
+                                        });
+                                    </script>
+
                                     <div class="section_price_wrap mt20">
                                         <div class="default_box showstep1">
                                             <table class="table_type_1">
@@ -265,7 +332,8 @@
                                                         <tr>
                                                             <td>{{ $transaction->year . '.' . $transaction->month }}
                                                             </td>
-                                                            <td>{{ Commons::getformatPrice($transactionPrice) }}</td>
+                                                            <td>{{ Commons::getformatPrice($transactionPrice) }}
+                                                            </td>
                                                             <td>{{ $transaction->floor }}층</td>
                                                         </tr>
                                                     @endforeach

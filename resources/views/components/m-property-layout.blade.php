@@ -3,7 +3,8 @@
         <!-- list : s -->
         <div class="property_sm_list">
             <div class="frame_img_mid">
-                <span class="btn_wish_sm" onclick="btn_wish(this)"></span>
+                <span class="btn_wish_sm {{ $property->like_id > 0 ? 'on' : '' }}"
+                    onclick="btn_wish(this, {{ $property->id }})"></span>
                 <div class="img_box">
                     @if (count($property->images) > 0)
                         <img src="{{ Storage::url('image/' . $property->images[0]->path) }}"

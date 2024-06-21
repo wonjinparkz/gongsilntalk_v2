@@ -267,7 +267,7 @@ class MapPcController extends Controller
                 //     )->get();
 
                 // 아파트 데이터를 가져옴
-                if (!isset($request->sale_product_type) || $request->sale_product_type == 4) {
+                if (!isset($request->sale_product_type) || $request->sale_product_type == 3) {
                     $aptMaps = DataApt::select('data_apt.*', 'data_apt.y as address_lat', 'data_apt.x as address_lng')
                         ->where('is_base_info', 1)
                         ->where('is_detail_info', 1)
@@ -311,7 +311,7 @@ class MapPcController extends Controller
                         $filteredAptMaps[] = $apt;
                     }
                 }
-                if (!isset($request->sale_product_type) || $request->sale_product_type == 1) {
+                if (!isset($request->sale_product_type) || $request->sale_product_type == 0) {
                     // 지식 센터 데이터를 가져옴
                     $knowledges = KnowledgeCenter::select()
                         ->where('is_delete', '0')
@@ -321,7 +321,7 @@ class MapPcController extends Controller
                             [$address_lat, $address_lng, $address_lat, $distance]
                         )->get();
                 }
-                if (!isset($request->sale_product_type) || $request->sale_product_type == 2) {
+                if (!isset($request->sale_product_type) || $request->sale_product_type == 1) {
                     // 상가 데이터를 가져옴
                     $store = DataStore::select('data_store.*', 'data_store.y as address_lat', 'data_store.x as address_lng')
                         ->whereRaw(
@@ -329,7 +329,7 @@ class MapPcController extends Controller
                             [$address_lat, $address_lng, $address_lat, $distance]
                         )->get();
                 }
-                if (!isset($request->sale_product_type) || $request->sale_product_type == 3) {
+                if (!isset($request->sale_product_type) || $request->sale_product_type == 2) {
                     // 건물 데이터를 가져옴
                     $building = DataBuilding::select('data_building.*', 'data_building.y as address_lat', 'data_building.x as address_lng')
                         ->whereRaw(

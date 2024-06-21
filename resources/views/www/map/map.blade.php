@@ -86,6 +86,7 @@
     src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
 </script>
 <script src="{{ asset('assets/js/MarkerClustering.js') }}"></script>
+
 <script>
     var polygonMap = null;
     var map;
@@ -138,6 +139,20 @@
             'useDate': $('#useDate').val(),
             'mapType': $('#mapType').val(),
         };
+        if ($('#mapType').val() == 0) {
+            formData.sale_product_type = $('#sale_product_type').val();
+            formData.useDate = $('#useDate').val();
+        } else {
+            formData.product_type = $('#product_type').val();
+            formData.payment_type = $('#payment_type').val();
+            formData.price = $('#price').val();
+            formData.month_price = $('#month_price').val();
+            formData.area = $('#area').val();
+            formData.square = $('#square').val();
+            formData.service_price = $('#service_price').val();
+            formData.approve_date = $('#approve_date').val();
+        }
+
         $.ajax({
             type: "post", // 전송타입
             dataType: 'json',
@@ -675,7 +690,7 @@
         if (zoom <= 10) {
             zoomLock = 200;
         } else if (zoom >= 11 && zoom <= 13) {
-            zoomLock = 10;
+            zoomLock = 5;
         } else if (zoom >= 14 && zoom <= 15) {
             zoomLock = 5;
         } else {
@@ -753,7 +768,7 @@
     function clusterAgentMarkers() {
         MarkerIdArray = [];
 
-        if (13 >= map.getZoom()) {
+        if (13 > map.getZoom()) {
             agentMarkers.forEach(function(marker) {
                 MarkerIdArray.push(marker.id);
                 marker.setVisible(false); // 마커를 숨깁니다.
@@ -815,13 +830,13 @@
         var text = '';
         text = $('#' + Name + '_title').text();
 
-        $('input[name="' + Name + '"]').prop('checked', false);
+        $('input[type="radio"][name="' + Name + '"][value="0"]').prop('checked', true);
         $('#filter_text_' + Name).text(text);
         $('#' + Name).val('');
         mapReset();
     }
 
-    function filter_apply(Name) {
+    function filter_apply(Name, filertType) {
         var textArray = [];
         var valueArray = [];
 
@@ -837,6 +852,9 @@
             return;
         }
 
+        if (Name) {
+
+        }
         $('#filter_text_' + Name).text(text);
         $('#' + Name).val(value);
 
@@ -861,5 +879,40 @@
         $('#filterType' + type).show();
 
         mapReset();
+    }
+
+    // 좋아요 토글버튼
+    function btn_wish(element, id) {
+
+        var login_check =
+            @if (Auth::guard('web')->check())
+                false
+            @else
+                true
+            @endif ;
+
+        if (login_check) {
+            // dialog('로그인이 필요합니다.\n로그인 하시겠어요?', '로그인', '아니요', login);
+            return;
+        } else {
+            var formData = {
+                'target_id': id,
+                'target_type': 'product',
+            };
+
+            if ($(element).hasClass("on")) {
+                $(element).removeClass("on");
+            } else {
+                $(element).addClass("on");
+            }
+
+            $.ajax({
+                type: "post", //전송타입
+                url: "{{ route('www.commons.like') }}",
+                data: formData,
+                success: function(data, status, xhr) {},
+                error: function(xhr, status, e) {}
+            });
+        }
     }
 </script>
