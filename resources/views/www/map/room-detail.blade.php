@@ -354,7 +354,7 @@
                                     <div class="swiper-wrapper">
 
                                         @foreach ($result->productOptions as $item)
-                                            @if (in_array($item->type, [0, 1]))
+                                            @if (in_array($item->type, [$facility]))
                                                 @php
                                                     $imageNumber = $item->type == 0 ? 6 : ($item->type == 1 ? 7 : '');
                                                 @endphp
@@ -411,7 +411,7 @@
                                 <div class="swiper option_swiper">
                                     <div class="swiper-wrapper">
                                         @foreach ($result->productOptions as $item)
-                                            @if (in_array($item->type, [13, 14, 15, 16, 17, 18]))
+                                            @if (in_array($item->type, [$kitchen]))
                                                 @php
                                                     $typeToImageNumber = [
                                                         13 => 1,
@@ -441,7 +441,7 @@
                                 <div class="swiper option_swiper">
                                     <div class="swiper-wrapper">
                                         @foreach ($result->productOptions as $item)
-                                            @if (in_array($item->type, [19, 20, 21, 22, 23, 24]))
+                                            @if (in_array($item->type, [$home_appliances]))
                                                 @php
                                                     $typeToImageNumber = [
                                                         19 => 1,
@@ -472,7 +472,7 @@
                                 <div class="swiper option_swiper">
                                     <div class="swiper-wrapper">
                                         @foreach ($result->productOptions as $item)
-                                            @if (in_array($item->type, [25, 26, 27, 28, 29]))
+                                            @if (in_array($item->type, [$furniture]))
                                                 @php
                                                     $typeToImageNumber = [
                                                         25 => 1,

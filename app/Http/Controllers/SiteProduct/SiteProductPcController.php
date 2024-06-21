@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\SiteProduct;
 
 use App\Http\Controllers\Controller;
+use App\Models\RecentProduct;
 use App\Models\SiteProduct;
 use App\Models\SiteProductFloorInfo;
 use Illuminate\Http\Request;
@@ -52,13 +53,28 @@ class SiteProductPcController extends Controller
      */
     public function siteProductDetailView($id): View
     {
-        $result = SiteProduct::with('images','edu_images','files', 'dongInfo', 'premiumInfo')->select('site_product.*');
+        $result = SiteProduct::with('images', 'edu_images', 'files', 'dongInfo', 'premiumInfo')->select('site_product.*');
 
         if (Auth::guard('web')->user() != null) {
             $result->like('site_product', Auth::guard('web')->user()->id ?? "");
         }
 
         $result = $result->where('site_product.id', $id)->first();
+
+        // 최근 본 매물 등록
+        if (Auth::guard('web')->check()) {
+            $check = RecentProduct::where('users_id', Auth::guard('web')->user()->id)
+                ->where('product_id', $id)
+                ->where('product_type', 'site_product')->first();
+
+            if ($check == null) {
+                $recent_product = RecentProduct::create([
+                    'users_id' => Auth::guard('web')->user()->id,
+                    'product_id' => $id,
+                    'product_type' => 'site_product',
+                ]);
+            }
+        }
 
         return view('www.siteProduct.siteProduct_detail', compact('result'));
     }
