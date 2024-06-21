@@ -105,7 +105,7 @@ class MapPcController extends Controller
             return response()->json(['property' => $property, 'agent' => $agent]);
         }
 
-        return view('www.map.map-property-list-mobile', compact('property', 'agent'));
+        return view('www.map.map-property-list-mobile', compact('propertyList', 'agentList'));
     }
 
     // 매물 상세

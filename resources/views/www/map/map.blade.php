@@ -642,22 +642,27 @@
     }
 
 
-    var htmlMarker1 = {
+    var htmlMarker1 = { // 매물 클러스터링 마커
             content: `<div class="cluster_marker"></div>`,
             size: N.Size(40, 40),
             anchor: N.Point(20, 20)
         },
-        htmlMarker2 = {
-            content: `<div style="cursor:pointer;width:60px;height:60px;line-height:60px;color:white;text-align:center;font-weight:bold;background:url({{ asset('assets/media/cluster_marker_1.png') }});background-size:contain;"></div>`,
+        htmlMarker2 = { // 중개사 클러스터링 마커
+            content: `<div class="marker_default detail_info_toggle"><span></span></div>`,
             size: N.Size(40, 40),
             anchor: N.Point(20, 20)
-        },
+        };
 
     function clusterProductMarkers() {
         MarkerIdArray = [];
         if (productMarkers.length > 0) {
+
+            productMarkers.forEach(function(marker) {
+                marker.setVisible(false); // 마커를 숨깁니다.
+            });
+
             markerClustering = new MarkerClustering({
-                minClusterSize: 1,
+                minClusterSize: 0,
                 maxZoom: 999,
                 map: map,
                 markers: productMarkers, // product 마커들만 클러스터링
@@ -681,19 +686,19 @@
         }
     }
 
-    function clusterProductMarkers() {
+    function clusterAgentMarkers() {
         MarkerIdArray = [];
         if (agentMarkers.length > 0) {
             markerClustering = new MarkerClustering({
-                minClusterSize: 1,
+                minClusterSize: 2,
                 maxZoom: 999,
                 map: map,
                 markers: agentMarkers, // product 마커들만 클러스터링
                 disableClickZoom: false,
-                productClick: true,
+                productClick: false,
                 gridSize: 70,
                 icons: [htmlMarker1],
-                indexGenerator: [1],
+                indexGenerator: [2],
                 stylingFunction: function(clusterMarker, count) {
                     $(clusterMarker.getElement()).find('div:first-child').text(count);
                 }

@@ -327,7 +327,7 @@ naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
                 var exec = 'productClick';
 
                 if (value) {
-                    exec = 'productClick'
+                    exec = 'agentClick'
                 }
                 break;
         }
@@ -569,7 +569,6 @@ Cluster.prototype = {
         this._relation = null;
     },
 
-
     productClick: function () {
         if (this._relation) return;
 
@@ -611,6 +610,52 @@ Cluster.prototype = {
                 });
             }
             productIdArray = MarkerIdArray;
+            loadMoreData();
+        }, this));
+    },
+
+    agentClick: function () {
+        if (this._relation) return;
+
+        var map = this._markerClusterer.getMap();
+
+        this._relation = naver.maps.Event.addListener(this._clusterMarker, 'click', naver.maps.Util.bind(function (e) {
+
+            // 현재 클릭된 클러스터 마커 엘리먼트
+            var clusterMarkerElement = this._clusterMarker.getElement().querySelector('.cluster_marker');
+
+            // 현재 활성화된 클러스터가 있는지 확인
+            var activeCluster = document.querySelector('.cluster_marker.active');
+
+            // 기존에 활성화된 클러스터가 있고, 그 클러스터가 현재 클릭된 클러스터와 다른 경우
+            if (activeCluster && activeCluster !== clusterMarkerElement) {
+                // 기존 활성화된 클러스터 비활성화
+                activeCluster.classList.remove('active');
+            }
+
+            // 클릭된 클러스터가 활성화된 상태라면 비활성화하고 MarkerIdArray를 null로 설정
+            if (clusterMarkerElement && clusterMarkerElement.classList.contains('active')) {
+                clusterMarkerElement.classList.remove('active');
+                // getProductSide(null);
+                var allMarkers = this._markerClusterer.getMarkers();
+                allMarkers.forEach(function (marker) {
+                    console.log('모든 마커:', marker.id);
+                    MarkerIdArray.push(marker.id);
+                });
+            } else {
+                // 클릭된 클러스터를 활성화하고 마커 정보를 MarkerIdArray에 저장
+                if (clusterMarkerElement) {
+                    clusterMarkerElement.classList.add('active');
+                }
+
+                var markers = this.getClusterMember();
+                markers.forEach(function (marker) {
+                    console.log('클러스터 내 마커:', marker.id);
+                    MarkerIdArray.push(marker.id);
+                });
+            }
+
+            agentIdArray = MarkerIdArray;
             loadMoreData();
         }, this));
     },
