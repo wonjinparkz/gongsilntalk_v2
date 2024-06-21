@@ -10,7 +10,7 @@
     <table class="table_basic mt20 only_pc">
         <colgroup>
             <col width="40">
-            <col width="110"> 
+            <col width="110">
             <col width="110">
             <col width="80">
             <col width="120">
@@ -131,7 +131,7 @@
                             <button class="btn_gray btn_full_thin"
                                 onclick="modal_close('asset_delete_{{ $product->id }}')">취소</button>
                             <button class="btn_point btn_full_thin"
-                                onclick="modal_close('asset_delete_{{ $product->id }}')">삭제</button>
+                                onclick="onDelete('{{ $product->id }}');">삭제</button>
                         </div>
                     </div>
 
