@@ -12,6 +12,7 @@
         <form method="post" id="updateForm" action="{{ route('www.mypage.corp.product.magagement.update') }}">
 
             <input type="hidden" id="id" name="id" value="{{ $product->id }}">
+            <input type="hidden" id="type" name="type" value="{{ $product->type }}">
 
             <!-- my_body : s -->
             <div class="inner_mid_wrap m_inner_wrap mid_body">
@@ -148,6 +149,7 @@
                                                         <div class="flex_1">
                                                             <input type="number" id="current_price"
                                                                 name="current_price"
+                                                                value="{{ $product->priceInfo->current_price }}"
                                                                 class="w_input_150"><span>/</span>
                                                         </div>
                                                     </div>
@@ -156,6 +158,7 @@
                                                         <div class="flex_1">
                                                             <input type="number" id="current_month_price"
                                                                 name="current_month_price"
+                                                                value="{{ $product->priceInfo->current_month_price }}"
                                                                 class="w_input_150"><span>원</span>
                                                         </div>
                                                     </div>
@@ -322,7 +325,7 @@
                                                         <label class="input_label">현 보증금</label>
                                                         <div class="flex_1">
                                                             <input type="number" id="current_price"
-                                                                name="current_price"
+                                                                name="current_price" value="{{ $product->priceInfo->current_price }}"
                                                                 class="w_input_150"><span>/</span>
                                                         </div>
                                                     </div>
@@ -330,7 +333,7 @@
                                                         <label class="input_label">현 월임대료</label>
                                                         <div class="flex_1">
                                                             <input type="number" id="current_month_price"
-                                                                name="current_month_price"
+                                                                name="current_month_price" value="{{ $product->priceInfo->current_month_price }}"
                                                                 class="w_input_150"><span>원</span>
                                                         </div>
                                                     </div>
@@ -354,11 +357,6 @@
                                                 {{ $product->priceInfo->payment_type == 5 ? 'checked' : '' }}
                                                 value="5">
                                             <label for="payment_type_1" onclick="showDiv('type_3', 0)">전매</label>
-
-                                            <input type="radio" name="payment_type" id="payment_type_2"
-                                                {{ $product->priceInfo->payment_type == 3 ? 'checked' : '' }}
-                                                value="3">
-                                            <label for="payment_type_2" onclick="showDiv('type_3', 1)">전세</label>
 
                                             <input type="radio" name="payment_type" id="payment_type_3"
                                                 {{ $product->priceInfo->payment_type == 4 ? 'checked' : '' }}
@@ -384,26 +382,19 @@
                                                             협의가능</label>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- 전세 -->
-                                            <div
-                                                class="type_3_item open_key {{ $product->priceInfo->payment_type == 3 ? 'active' : '' }}">
-                                                <div>
-                                                    <label class="input_label">전세가</label>
+
+
+                                                <div class="mt20">
+                                                    <label class="input_label">프리미엄</label>
                                                     <div class="input_area_1">
-                                                        <input type="number" id="price_3" name="price_3"
-                                                            value="{{ $product->priceInfo->price }}" class="">
+                                                        <input type="number" id="premium_price" name="premium_price"
+                                                            value="{{ $product->priceInfo->premium_price }}">
+
                                                         <span class="gray_deep">원</span>
-                                                        <input type="checkbox" name="is_price_discussion"
-                                                            id="is_price_discussion_3" value="1"
-                                                            {{ $product->priceInfo->is_price_discussion == 1 ? 'checked' : '' }}>
-                                                        <label for="is_price_discussion_3"
-                                                            class="gray_deep"><span></span>
-                                                            협의가능</label>
                                                     </div>
                                                 </div>
-                                            </div>
 
+                                            </div>
                                             <!-- 월세 -->
                                             <div
                                                 class="type_3_item open_key {{ $product->priceInfo->payment_type == 4 ? 'active' : '' }}">
@@ -439,6 +430,7 @@
                                             </div>
 
                                         </div>
+
 
                                         <div>
                                             <label class="input_label">준공예정일</label>
@@ -560,22 +552,25 @@
 
 
 
-                        @if ($product->type == 7)
+                        @if ($product->type == 7 || $product->type == 6)
                             {{-- 단독공장 해당 : s --}}
                             <div class="reg_mid_wrap">
-                                <div class="reg_item">
-                                    <label class="input_label">최저/최고층 <span class="txt_point">*</span></label>
-                                    <div class="input_pyeong_area">
-                                        <div><input type="text" id="lowest_floor_number"
-                                                name="lowest_floor_number"
-                                                value="{{ $product->lowest_floor_number }}" placeholder="최저"> <span
-                                                class="gray_deep">층</span> </div>
-                                        <span class="gray_deep">/</span>
-                                        <div><input type="text" id="top_floor_number" name="top_floor_number"
-                                                value="{{ $product->top_floor_number }}" placeholder="최고"> <span
-                                                class="gray_deep">층</span></div>
+                                @if ($product->type != 6)
+                                    <div class="reg_item">
+                                        <label class="input_label">최저/최고층 <span class="txt_point">*</span></label>
+                                        <div class="input_pyeong_area">
+                                            <div><input type="text" id="lowest_floor_number"
+                                                    name="lowest_floor_number"
+                                                    value="{{ $product->lowest_floor_number }}" placeholder="최저">
+                                                <span class="gray_deep">층</span>
+                                            </div>
+                                            <span class="gray_deep">/</span>
+                                            <div><input type="text" id="top_floor_number" name="top_floor_number"
+                                                    value="{{ $product->top_floor_number }}" placeholder="최고"> <span
+                                                    class="gray_deep">층</span></div>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                                 <div class="reg_item">
                                     <label class="input_label">대지면적 <span class="txt_point">*</span></label>
                                     <div class="input_pyeong_area">
@@ -609,40 +604,42 @@
                             </div>
                         @endif
 
+                        @if ($product->type != 6)
 
-                        <div class="reg_mid_wrap">
+                            <div class="reg_mid_wrap">
 
-                            @if ($product->type == 7)
-                                {{-- 단독공장 해당  --}}
-                                <div class="reg_item">
-                                    <label class="input_label">연면적 <span class="txt_point">*</span></label>
-                                    <div class="input_pyeong_area">
-                                        <div><input type="text" id="total_floor_area" name="total_floor_area"
-                                                value="{{ $product->total_floor_area }}" placeholder="연면적"> <span
-                                                class="gray_deep">평</span> </div>
-                                        <span class="gray_deep">/</span>
-                                        <div><input type="text" id="total_floor_square" name="total_floor_square"
-                                                value="{{ $product->total_floor_square }}" placeholder="평 입력시 자동">
-                                            <span class="gray_deep">㎡</span>
+                                @if ($product->type == 7)
+                                    <div class="reg_item">
+                                        <label class="input_label">연면적 <span class="txt_point">*</span></label>
+                                        <div class="input_pyeong_area">
+                                            <div><input type="text" id="total_floor_area" name="total_floor_area"
+                                                    value="{{ $product->total_floor_area }}" placeholder="연면적"> <span
+                                                    class="gray_deep">평</span> </div>
+                                            <span class="gray_deep">/</span>
+                                            <div><input type="text" id="total_floor_square"
+                                                    name="total_floor_square"
+                                                    value="{{ $product->total_floor_square }}"
+                                                    placeholder="평 입력시 자동">
+                                                <span class="gray_deep">㎡</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @else
-                                <div class="reg_item">
-                                    <label class="input_label">공급 면적 <span class="txt_point">*</span></label>
-                                    <div class="input_pyeong_area">
-                                        <div><input type="text" id="area" name="area"
-                                                value="{{ $product->area }}" placeholder="전용면적"> <span
-                                                class="gray_deep">평</span>
-                                        </div>
-                                        <span class="gray_deep">/</span>
-                                        <div><input type="text"id="square" name="square"
-                                                value="{{ $product->square }}" placeholder="평 입력시 자동"> <span
-                                                class="gray_deep">㎡</span>
+                                @else
+                                    <div class="reg_item">
+                                        <label class="input_label">공급 면적 <span class="txt_point">*</span></label>
+                                        <div class="input_pyeong_area">
+                                            <div><input type="text" id="area" name="area"
+                                                    value="{{ $product->area }}" placeholder="전용면적"> <span
+                                                    class="gray_deep">평</span>
+                                            </div>
+                                            <span class="gray_deep">/</span>
+                                            <div><input type="text"id="square" name="square"
+                                                    value="{{ $product->square }}" placeholder="평 입력시 자동"> <span
+                                                    class="gray_deep">㎡</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
+                                @endif
                                 <div class="reg_item">
                                     <label class="input_label">전용 면적 <span class="txt_point">*</span></label>
                                     <div class="input_pyeong_area">
@@ -657,23 +654,30 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
-                        </div>
+
+                            </div>
+                        @endif
 
                         <div class="reg_mid_wrap">
-                            <div class="reg_item">
-                                <label class="input_label">사용승인일 <span class="txt_point">*</span></label>
-                                <input type="text" id="approve_date" name="approve_date"
-                                    value="{{ $product->approve_date }}" placeholder="예) 20230101">
-                            </div>
+                            @if ($product->type != 6)
+                                <div class="reg_item">
+                                    <label class="input_label">사용승인일 <span class="txt_point">*</span></label>
+                                    <input type="text" id="approve_date" name="approve_date"
+                                        value="{{ $product->approve_date }}" placeholder="예) 20230101">
+                                </div>
+                            @endif
 
+                            @php
+                                $buildingTypeText = $product->type == 6 ? '현용도' : '주용도';
+                            @endphp
                             <input type="hidden" name="building_type" id="building_type"
                                 value="{{ $product->building_type }}">
                             <div class="reg_item">
-                                <label class="input_label">주용도 <span class="txt_point">*</span></label>
+                                <label class="input_label">{{ $buildingTypeText }} <span
+                                        class="txt_point">*</span></label>
                                 <div class="dropdown_box">
                                     <button type="button"
-                                        class="dropdown_label">{{ $product->building_type != '' ? Lang::get('commons.building_type.' . $product->building_type) : '주용도 선택' }}</button>
+                                        class="dropdown_label">{{ $product->building_type != '' ? Lang::get('commons.building_type.' . $product->building_type) : $buildingTypeText . ' 선택' }}</button>
                                     <ul class="optionList">
                                         @for ($i = 0; $i < 15; $i++)
                                             <li class="optionItem"
@@ -686,71 +690,96 @@
                             </div>
                         </div>
 
-                        <div class="reg_mid_wrap">
-                            <div class="reg_item">
-                                <label class="input_label">입주가능일 <span class="txt_point">*</span></label>
-                                <div class="btn_radioType">
-                                    <input type="radio" name="move_type" id="move_type_1" value="0"
-                                        checked="">
-                                    <label for="move_type_1" onclick="showDiv('m_day', 0)">즉시 입주</label>
+                        @if ($product->type == 7)
 
-                                    <input type="radio" name="move_type" id="move_type_2" value="1">
-                                    <label for="move_type_2" onclick="showDiv('m_day', 0)">날짜 협의</label>
-
-                                    <input type="radio" name="move_type" id="move_type_3" value="2">
-                                    <label for="move_type_3" onclick="showDiv('m_day', 1)">직접 입력</label>
-                                </div>
-                                <div class="m_day_wrap mt8">
-                                    <div class="m_day_item open_key"></div>
-                                    <div class="m_day_item open_key">
-                                        <input type="text" id="move_date" name="move_date"
-                                            value="{{ $product->move_date }}" placeholder="예) 20230101"
-                                            class="">
+                            <div class="reg_mid_wrap">
+                                <div class="reg_item">
+                                    <label class="input_label">추천 용도</label>
+                                    <div class="dropdown_box">
+                                        <button type="button"
+                                            class="dropdown_label">{{ $product->building_type != '' ? Lang::get('commons.building_type.' . $product->building_type) : '추천용도 선택' }}</button>
+                                        <ul class="optionList">
+                                            @for ($i = 0; $i < 15; $i++)
+                                                <li class="optionItem" onclick="">
+                                                    {{ Lang::get('commons.building_type.' . $i) }}
+                                                </li>
+                                            @endfor
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                            <div class="reg_item only_pc"></div>
-                        </div>
+                        @endif
 
-                        <div class="reg_mid_wrap">
-                            <div class="reg_item">
-                                <label class="input_label">월 관리비 <span class="txt_point">*</span></label>
-                                <div class="input_area_1">
-                                    <input type="number" id="service_price" name="service_price"
-                                        value="{{ $product->service_price }}"> <span class="gray_deep">원</span>
+                        @if ($product->type != 6)
+                            <div class="reg_mid_wrap">
+                                <div class="reg_item">
+                                    <label class="input_label">입주가능일 <span class="txt_point">*</span></label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="move_type" id="move_type_1" value="0"
+                                            {{ $product->move_type == 0 ? 'checked' : '' }}>
+                                        <label for="move_type_1" onclick="showDiv('m_day', 0)">즉시 입주</label>
 
-                                    @if ($type == 1 || $type == 2 || $product->type == 4)
-                                        <input type="checkbox" name="is_service" id="is_service_4" value="1"
-                                            {{ $product->is_service == 1 ? 'checked' : '' }}>
-                                        <label for="is_service_4" class="gray_deep"><span></span> 관리비 없음</label>
-                                    @endif
+                                        <input type="radio" name="move_type" id="move_type_2" value="1"
+                                            {{ $product->move_type == 1 ? 'checked' : '' }}>
+                                        <label for="move_type_2" onclick="showDiv('m_day', 0)">날짜 협의</label>
 
+                                        <input type="radio" name="move_type" id="move_type_3" value="2"
+                                            {{ $product->move_type == 2 ? 'checked' : '' }}>
+                                        <label for="move_type_3" onclick="showDiv('m_day', 1)">직접 입력</label>
+                                    </div>
+                                    <div class="m_day_wrap mt8">
+                                        <div class="m_day_item open_key"></div>
+                                        <div
+                                            class="m_day_item open_key {{ $product->move_type == 2 ? 'active' : '' }}">
+                                            <input type="text" id="move_date" name="move_date"
+                                                value="{{ $product->move_date }}" placeholder="예) 20230101"
+                                                class="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="reg_item only_pc"></div>
+                            </div>
+
+                            <div class="reg_mid_wrap">
+                                <div class="reg_item">
+                                    <label class="input_label">월 관리비 <span class="txt_point">*</span></label>
+                                    <div class="input_area_1">
+                                        <input type="number" id="service_price" name="service_price"
+                                            value="{{ $product->service_price }}"> <span class="gray_deep">원</span>
+
+                                        @if ($type == 1 || $type == 2 || $product->type == 4)
+                                            <input type="checkbox" name="is_service" id="is_service_4"
+                                                value="1" {{ $product->is_service == 1 ? 'checked' : '' }}>
+                                            <label for="is_service_4" class="gray_deep"><span></span> 관리비 없음</label>
+                                        @endif
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
 
 
-                        <div>
-                            <label class="input_label">관리비 항목</label>
-                            @php
-                                $serviceTypeArray = [];
-                                foreach ($product->productServices as $key => $service) {
-                                    array_push($serviceTypeArray, $service->type);
-                                }
-                            @endphp
-                            <div class="checkbox_btn">
+                            <div>
+                                <label class="input_label">관리비 항목</label>
+                                @php
+                                    $serviceTypeArray = [];
+                                    foreach ($product->productServices as $key => $service) {
+                                        array_push($serviceTypeArray, $service->type);
+                                    }
+                                @endphp
+                                <div class="checkbox_btn">
 
-                                @foreach (Lang::get('commons.service_type') as $index => $service_type)
-                                    <input type="checkbox" name="service_type[]"
-                                        id="service_type_{{ $index }}" value="{{ $index }}"
-                                        {{ in_array($index, $serviceTypeArray) ? 'checked' : '' }}>
-                                    <label for="service_type_{{ $index }}">
-                                        {{ $service_type }}
-                                    </label>
-                                @endforeach
+                                    @foreach (Lang::get('commons.service_type') as $index => $service_type)
+                                        <input type="checkbox" name="service_type[]"
+                                            id="service_type_{{ $index }}" value="{{ $index }}"
+                                            {{ in_array($index, $serviceTypeArray) ? 'checked' : '' }}>
+                                        <label for="service_type_{{ $index }}">
+                                            {{ $service_type }}
+                                        </label>
+                                    @endforeach
+                                </div>
                             </div>
-                        </div>
+                        @endif
 
                         <div class="reg_mid_wrap">
                             <div class="reg_item">
@@ -770,294 +799,599 @@
                                 </div>
                                 <div class="flex_1 mt10">
                                     <input type="number" id="loan_price" name="loan_price" class="w_input_150"
+                                        value="{{ $product->loan_price }}"
                                         {{ $product->loan_type == 0 ? 'disabled' : '' }}><span>원</span>
                                 </div>
                             </div>
                             <div class="reg_item only_pc"></div>
                         </div>
 
-                        <div class="reg_mid_wrap">
-                            <div class="reg_item">
-                                <label class="input_label">주차 가능 여부</label>
-                                <div class="btn_radioType">
-                                    <input type="radio" name="parking_type" id="parking_type_1" value="0"
-                                        {{ $product->parking_type == 0 ? 'checked' : '' }} checked="">
-                                    <label for="parking_type_1">선택 안함</label>
+                        @if ($product->type != 6)
+                            <div class="reg_mid_wrap">
+                                <div class="reg_item">
+                                    <label class="input_label">주차 가능 여부</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="parking_type" id="parking_type_1" value="0"
+                                            {{ $product->parking_type == 0 ? 'checked' : '' }} checked="">
+                                        <label for="parking_type_1">선택 안함</label>
 
-                                    <input type="radio" name="parking_type" id="parking_type_2" value="1"
-                                        {{ $product->parking_type == 1 ? 'checked' : '' }}>
-                                    <label for="parking_type_2">가능</label>
+                                        <input type="radio" name="parking_type" id="parking_type_2" value="1"
+                                            {{ $product->parking_type == 1 ? 'checked' : '' }}>
+                                        <label for="parking_type_2">가능</label>
 
-                                    <input type="radio" name="parking_type" id="parking_type_3" value="2"
-                                        {{ $product->parking_type == 2 ? 'checked' : '' }}>
-                                    <label for="parking_type_3">불가능</label>
+                                        <input type="radio" name="parking_type" id="parking_type_3" value="2"
+                                            {{ $product->parking_type == 2 ? 'checked' : '' }}>
+                                        <label for="parking_type_3">불가능</label>
+                                    </div>
+                                    <div class="flex_1 mt10">
+                                        <input type="number" id="parking_price" name="parking_price"
+                                            class="w_input_150"
+                                            value="{{ $product->parking_type == 1 ? ($product->parking_price == '' ? '무료주차' : $product->parking_price) : '' }}"
+                                            {{ $product->parking_type == 0 ? 'disabled' : '' }}><span>원</span>
+                                    </div>
                                 </div>
-                                <div class="flex_1 mt10">
-                                    <input type="number" id="parking_price" name="parking_price"
-                                        class="w_input_150"
-                                        value="{{ $product->parking_type == 1 ? ($product->parking_price == '' ? '무료주차' : $product->parking_price) : '' }}"
-                                        {{ $product->parking_type == 0 ? 'disabled' : '' }}><span>원</span>
-                                </div>
+                                <div class="reg_item only_pc"></div>
                             </div>
-                            <div class="reg_item only_pc"></div>
-                        </div>
-
+                        @endif
                     </div>
 
                     <div class="box_01 box_reg">
                         <h4>추가 정보</h4>
+                        @if ($product->type != 6)
+                            {{-- 상업용 - 상가일 경우 --}}
+                            @if ($product->type == 3)
+                                <div class="reg_mid_wrap">
+                                    <div class="reg_item">
+                                        <input type="hidden" name="current_business_type"
+                                            value="{{ $product->productAddInfo->current_business_type }}">
+                                        <label class="input_label">현 업종</label>
+                                        <div class="dropdown_box">
+                                            <button type="button" class="dropdown_label">
+                                                {{ $product->productAddInfo->current_business_type != '' ? Lang::get('commons.product_business_type.' . $product->productAddInfo->current_business_type) : '추천 업종 선택' }}</button>
+                                            <ul class="optionList">
+                                                @foreach (Lang::get('commons.product_business_type') as $index => $business_type)
+                                                    <li class="optionItem"
+                                                        onclick="selectType('current_business_type','{{ $index }}')">
+                                                        {{ $business_type }}
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="reg_item">
+                                        <input type="hidden" name="recommend_business_type"
+                                            value="{{ $product->productAddInfo->recommend_business_type }}">
+                                        <label class="input_label">추천 업종</label>
+                                        <div class="dropdown_box">
+                                            <button type="button"
+                                                class="dropdown_label">{{ $product->productAddInfo->recommend_business_type != '' ? Lang::get('commons.product_business_type.' . $product->productAddInfo->recommend_business_type) : '추천 업종 선택' }}</button>
+                                            <ul class="optionList">
+                                                @foreach (Lang::get('commons.product_business_type') as $index => $business_type)
+                                                    <li class="optionItem"
+                                                        onclick="selectType('recommend_business_type','{{ $index }}')">
+                                                        {{ $business_type }}
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
 
-                        <div class="reg_mid_wrap">
-                            <div class="reg_item">
-                                <input type="hidden" name="direction_type"
-                                    value="{{ $product->productAddInfo->direction_type }}">
-                                <label class="input_label">건물 방향</label>
-                                <div class="dropdown_box">
-                                    <button type="button" class="dropdown_label">
-                                        {{ $product->productAddInfo->direction_type != '' ? Lang::get('commons.direction_type.' . $product->productAddInfo->direction_type) : '건물 방향 선택' }}</button>
-                                    <ul class="optionList">
-                                        @foreach (Lang::get('commons.direction_type') as $index => $directionType)
-                                            <li class="optionItem"
-                                                onclick="selectType('direction_type','{{ $index }}')">
-                                                {{ $directionType }}
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                            @if ($product->type == 4 || ($product->type > 7 && $product->type < 14))
+                                <div class="reg_mid_wrap">
+                                    <div class="reg_item">
+                                        <label class="input_label">방/욕실 수 <span class="txt_point">*</span></label>
+                                        <div class="input_pyeong_area">
+                                            <div><input type="text" name="room_count" placeholder="방 수"
+                                                    value="{{ $product->productAddInfo->room_count }}">
+                                                <span class="gray_deep">개</span>
+                                            </div>
+                                            <span class="gray_deep">/</span>
+                                            <div><input type="text" name="bathroom_count" placeholder="욕실 수"
+                                                    value="{{ $product->productAddInfo->bathroom_count }}">
+                                                <span class="gray_deep">개</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div class="reg_mid_wrap">
+                                <div class="reg_item">
+                                    <input type="hidden" name="direction_type"
+                                        value="{{ $product->productAddInfo->direction_type }}">
+                                    <label class="input_label">건물
+                                        방향{{ $product->type == 5 ? ' (주 출입구 기준)' : '' }}</label>
+                                    <div class="dropdown_box">
+                                        <button type="button" class="dropdown_label">
+                                            {{ $product->productAddInfo->direction_type != '' ? Lang::get('commons.direction_type.' . $product->productAddInfo->direction_type) : '건물 방향 선택' }}</button>
+                                        <ul class="optionList">
+                                            @foreach (Lang::get('commons.direction_type') as $index => $directionType)
+                                                <li class="optionItem"
+                                                    onclick="selectType('direction_type','{{ $index }}')">
+                                                    {{ $directionType }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="reg_item">
+                                    <input type="hidden" name="heating_type"
+                                        value="{{ $product->productAddInfo->heating_type }}">
+                                    <label class="input_label">난방 종류</label>
+                                    <div class="dropdown_box">
+                                        <button type="button"
+                                            class="dropdown_label">{{ $product->productAddInfo->heating_type != '' ? Lang::get('commons.heating_type.' . $product->productAddInfo->heating_type) : '난방 종류 선택' }}</button>
+                                        <ul class="optionList">
+                                            @foreach (Lang::get('commons.heating_type') as $index => $heating_type)
+                                                <li class="optionItem"
+                                                    onclick="selectType('heating_type','{{ $index }}')">
+                                                    {{ $heating_type }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="reg_item">
-                                <input type="hidden" name="heating_type"
-                                    value="{{ $product->productAddInfo->heating_type }}">
-                                <label class="input_label">난방 종류</label>
-                                <div class="dropdown_box">
-                                    <button type="button"
-                                        class="dropdown_label">{{ $product->productAddInfo->heating_type != '' ? Lang::get('commons.heating_type.' . $product->productAddInfo->heating_type) : '난방 종류 선택' }}</button>
-                                    <ul class="optionList">
-                                        @foreach (Lang::get('commons.heating_type') as $index => $heating_type)
-                                            <li class="optionItem"
-                                                onclick="selectType('heating_type','{{ $index }}')">
-                                                {{ $heating_type }}
-                                            </li>
-                                        @endforeach
-                                    </ul>
+
+                            <div class="reg_mid_wrap">
+                                @if (
+                                    $product->type != 3 &&
+                                        $product->type != 5 &&
+                                        $product->type != 7 &&
+                                        $product->type != 4 &&
+                                        ($product->type < 8 || $product->type > 13))
+                                    <div class="reg_item">
+                                        <label class="input_label">하중(평당)</label>
+                                        <div class="flex_1 mt10">
+                                            <input type="number" id="weight" name="weight"
+                                                value="{{ $product->productAddInfo->weight }}" class="w_input_150"
+                                                disabled><span></span>
+                                        </div>
+                                    </div>
+                                @endif
+                                <div class="reg_item">
+                                    <label class="input_label">승강시설 <span class="txt_point">*</span></label>
+                                    <div class="btn_radioType mt18">
+                                        <input type="radio" name="is_elevator" value="1" id="is_elevator_1"
+                                            {{ $product->productAddInfo->is_elevator == 1 ? 'checked' : '' }}>
+                                        <label for="is_elevator_1">있음</label>
+
+                                        <input type="radio" name="is_elevator" value="0" id="is_elevator_2"
+                                            {{ $product->productAddInfo->is_elevator == 0 ? 'checked' : '' }}>
+                                        <label for="is_elevator_2">없음</label>
+
+                                        @if (
+                                            $product->type != 3 &&
+                                                $product->type != 5 &&
+                                                $product->type != 7 &&
+                                                $product->type != 4 &&
+                                                ($product->type < 8 || $product->type > 13))
+                                            <input type="checkbox" name="is_goods_elevator" id="is_goods_elevator"
+                                                value="1"
+                                                {{ $product->productAddInfo->is_goods_elevator == 1 ? 'checked' : '' }}>
+                                            <label for="is_goods_elevator" class="gray_deep"><span></span> 화물용</label>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="reg_mid_wrap">
-                            <div class="reg_item">
-                                <label class="input_label">하중(평당)</label>
-                                <div class="flex_1 mt10">
-                                    <input type="number" id="weight" name="weight"
-                                        value="{{ $product->productAddInfo->weight }}" class="w_input_150"
-                                        disabled><span></span>
+                            @if ($product->type != 3 && $product->type != 5 && $product->type != 4 && ($product->type < 8 || $product->type > 13))
+                                @if ($product->type != 7)
+                                    <div class="reg_mid_wrap">
+                                        <div class="reg_item">
+                                            <label class="input_label">인테리어 여부</label>
+                                            <div class="btn_radioType">
+                                                <input type="radio" name="interior_type" id="interior_type_1"
+                                                    value="0"
+                                                    {{ $product->productAddInfo->interior_type == 0 ? 'checked' : '' }}
+                                                    checked="">
+                                                <label for="interior_type_1">선택 안함</label>
+
+                                                <input type="radio" name="interior_type" id="interior_type_2"
+                                                    value="1"
+                                                    {{ $product->productAddInfo->interior_type == 1 ? 'checked' : '' }}>
+                                                <label for="interior_type_2">있음</label>
+
+                                                <input type="radio" name="interior_type" id="interior_type_3"
+                                                    value="2"
+                                                    {{ $product->productAddInfo->interior_type == 2 ? 'checked' : '' }}>
+                                                <label for="interior_type_3">없음</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if ($product->type == 7)
+                                    <div class="reg_mid_wrap">
+                                        <div class="reg_item">
+                                            <label class="input_label">도크</label>
+                                            <div class="btn_radioType">
+                                                <input type="radio" name="is_dock" id="is_dock_1" value="1"
+                                                    {{ $product->productAddInfo->is_dock == 1 ? 'checked' : '' }}>
+                                                <label for="is_dock_1">있음</label>
+                                                <input type="radio" name="is_dock" id="is_dock_0" value="0"
+                                                    {{ $product->productAddInfo->is_dock == 0 ? 'checked' : '' }}>
+                                                <label for="is_dock_0">없음</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="reg_mid_wrap">
+                                        <div class="reg_item">
+                                            <label class="input_label">호이스트</label>
+                                            <div class="btn_radioType">
+                                                <input type="radio" name="is_hoist" id="is_hoist_1" value="1"
+                                                    {{ $product->productAddInfo->is_hoist == 1 ? 'checked' : '' }}>
+                                                <label for="is_hoist_1">가능</label>
+                                                <input type="radio" name="is_hoist" id="is_hoist_0" value="0"
+                                                    {{ $product->productAddInfo->is_hoist == 0 ? 'checked' : '' }}>
+                                                <label for="is_hoist_0">불가능</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                <div class="reg_mid_wrap">
+                                    <div class="reg_item">
+                                        <label class="input_label">층고</label>
+                                        <div class="btn_radioType">
+                                            <input type="radio" name="floor_height_type" id="floor_height_"
+                                                value="">
+                                            <label for="floor_height_">선택 안함</label>
+
+                                            @foreach (Lang::get('commons.floor_height_type') as $index => $floorHeightType)
+                                                <input type="radio" name="floor_height_type"
+                                                    id="floor_height_type_{{ $index }}"
+                                                    value="{{ $index }}"
+                                                    {{ $product->productAddInfo->floor_height_type == $index ? 'checked' : '' }}>
+                                                <label
+                                                    for="floor_height_type_{{ $index }}">{{ $floorHeightType }}</label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="reg_item">
+                                        <label class="input_label">사용전력</label>
+                                        <div class="btn_radioType">
+                                            <input type="radio" name="wattage_type" id="wattage_type_"
+                                                value="">
+                                            <label for="wattage_type_">선택 안함</label>
+                                            @foreach (Lang::get('commons.wattage_type') as $index => $wattageType)
+                                                <input type="radio" name="wattage_type"
+                                                    id="wattage_type_{{ $index }}"
+                                                    value="{{ $index }}"
+                                                    {{ $product->productAddInfo->wattageType == $index ? 'checked' : '' }}>
+                                                <label
+                                                    for="wattage_type_{{ $index }}">{{ $wattageType }}</label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @else
+                            <div class="reg_mid_wrap">
+                                <div class="reg_item">
+                                    <label class="input_label">국토이용</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="land_use_type" id="land_use_type_0"
+                                            value="0"
+                                            {{ $product->productAddInfo->land_use_type == 0 ? 'checked' : '' }}>
+                                        <label for="land_use_type_0">선택 안함</label>
+
+                                        <input type="radio" name="land_use_type" id="land_use_type_1"
+                                            value="1"
+                                            {{ $product->productAddInfo->land_use_type == 1 ? 'checked' : '' }}>
+                                        <label for="land_use_type_1">해당</label>
+
+                                        <input type="radio" name="land_use_type" id="land_use_type_2"
+                                            value="2"
+                                            {{ $product->productAddInfo->land_use_type == 2 ? 'checked' : '' }}>
+                                        <label for="land_use_type_2">미해당</label>
+                                    </div>
+                                </div>
+
+                                <div class="reg_item">
+                                    <label class="input_label">도시계획</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="city_plan_type" id="city_plan_type_0"
+                                            value="0"
+                                            {{ $product->productAddInfo->city_plan_type == 0 ? 'checked' : '' }}>
+                                        <label for="city_plan_type_0">선택 안함</label>
+
+                                        <input type="radio" name="city_plan_type" id="city_plan_type_1"
+                                            value="1"
+                                            {{ $product->productAddInfo->city_plan_type == 1 ? 'checked' : '' }}>
+                                        <label for="city_plan_type_1">있음</label>
+
+                                        <input type="radio" name="city_plan_type" id="city_plan_type_2"
+                                            value="2"
+                                            {{ $product->productAddInfo->city_plan_type == 2 ? 'checked' : '' }}>
+                                        <label for="city_plan_type_2">없음</label>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="reg_item">
-                                <label class="input_label">승강시설 <span class="txt_point">*</span></label>
-                                <div class="btn_radioType mt18">
-                                    <input type="radio" name="is_elevator" value="1" id="is_elevator_1"
-                                        {{ $product->productAddInfo->is_elevator == 1 ? 'checked' : '' }}>
-                                    <label for="is_elevator_1">있음</label>
 
-                                    <input type="radio" name="is_elevator" value="0" id="is_elevator_2"
-                                        {{ $product->productAddInfo->is_elevator == 0 ? 'checked' : '' }}>
-                                    <label for="is_elevator_2">없음</label>
+                            <div class="reg_mid_wrap">
+                                <div class="reg_item">
+                                    <label class="input_label">건축허가</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="building_permit_type" id="building_permit_type_0"
+                                            value="0"
+                                            {{ $product->productAddInfo->building_permit_type == 0 ? 'checked' : '' }}>
+                                        <label for="building_permit_type_0">선택 안함</label>
 
-                                    <input type="checkbox" name="is_goods_elevator" id="is_goods_elevator"
-                                        value="1"
-                                        {{ $product->productAddInfo->is_goods_elevator == 1 ? 'checked' : '' }}>
-                                    <label for="is_goods_elevator" class="gray_deep"><span></span> 화물용</label>
+                                        <input type="radio" name="building_permit_type" id="building_permit_type_1"
+                                            value="1"
+                                            {{ $product->productAddInfo->building_permit_type == 1 ? 'checked' : '' }}>
+                                        <label for="building_permit_type_1">발급</label>
+
+                                        <input type="radio" name="building_permit_type" id="building_permit_type_2"
+                                            value="2"
+                                            {{ $product->productAddInfo->building_permit_type == 2 ? 'checked' : '' }}>
+                                        <label for="building_permit_type_2">미발급</label>
+                                    </div>
+                                </div>
+
+                                <div class="reg_item">
+                                    <label class="input_label">토지거래허가구역</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="land_permit_type" id="land_permit_type_0"
+                                            value="0"
+                                            {{ $product->productAddInfo->land_permit_type == 0 ? 'checked' : '' }}>
+                                        <label for="land_permit_type_0">선택 안함</label>
+
+                                        <input type="radio" name="land_permit_type" id="land_permit_type_1"
+                                            value="1"
+                                            {{ $product->productAddInfo->land_permit_type == 1 ? 'checked' : '' }}>
+                                        <label for="land_permit_type_1">해당</label>
+
+                                        <input type="radio" name="land_permit_type" id="land_permit_type_2"
+                                            value="2"
+                                            {{ $product->productAddInfo->land_permit_type == 2 ? 'checked' : '' }}>
+                                        <label for="land_permit_type_2">미해당</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="reg_mid_wrap">
-                            <div class="reg_item">
-                                <label class="input_label">인테리어 여부</label>
-                                <div class="btn_radioType">
-                                    <input type="radio" name="interior_type" id="interior_type_1" value="0"
-                                        {{ $product->productAddInfo->interior_type == 0 ? 'checked' : '' }}
-                                        checked="">
-                                    <label for="interior_type_1">선택 안함</label>
+                            <div class="reg_mid_wrap">
+                                <div class="reg_item">
+                                    <label class="input_label">진입도로</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="access_load_type" id="access_load_type_0"
+                                            value="0"
+                                            {{ $product->productAddInfo->access_load_type == 0 ? 'checked' : '' }}>
+                                        <label for="access_load_type_0">선택 안함</label>
 
-                                    <input type="radio" name="interior_type" id="interior_type_2" value="1"
-                                        {{ $product->productAddInfo->interior_type == 1 ? 'checked' : '' }}>
-                                    <label for="interior_type_2">있음</label>
+                                        <input type="radio" name="access_load_type" id="access_load_type_1"
+                                            value="1"
+                                            {{ $product->productAddInfo->access_load_type == 1 ? 'checked' : '' }}>
+                                        <label for="access_load_type_1">있음</label>
 
-                                    <input type="radio" name="interior_type" id="interior_type_3" value="2"
-                                        {{ $product->productAddInfo->interior_type == 2 ? 'checked' : '' }}>
-                                    <label for="interior_type_3">없음</label>
+                                        <input type="radio" name="access_load_type" id="access_load_type_2"
+                                            value="2"
+                                            {{ $product->productAddInfo->access_load_type == 2 ? 'checked' : '' }}>
+                                        <label for="access_load_type_2">없음</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="reg_mid_wrap">
-                            <div class="reg_item">
-                                <label class="input_label">층고</label>
-                                <div class="btn_radioType">
-                                    <input type="radio" name="floor_height_type" id="floor_height_"
-                                        value="">
-                                    <label for="floor_height_">선택 안함</label>
-
-                                    @foreach (Lang::get('commons.floor_height_type') as $index => $floorHeightType)
-                                        <input type="radio" name="floor_height_type"
-                                            id="floor_height_type_{{ $index }}" value="{{ $index }}"
-                                            {{ $product->productAddInfo->floor_height_type == $index ? 'checked' : '' }}>
-                                        <label
-                                            for="floor_height_type_{{ $index }}">{{ $floorHeightType }}</label>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="reg_item">
-                                <label class="input_label">사용전력</label>
-                                <div class="btn_radioType">
-                                    <input type="radio" name="wattage_type" id="wattage_type_" value="">
-                                    <label for="wattage_type_">선택 안함</label>
-                                    @foreach (Lang::get('commons.wattage_type') as $index => $wattageType)
-                                        <input type="radio" name="wattage_type"
-                                            id="wattage_type_{{ $index }}" value="{{ $index }}"
-                                            {{ $product->productAddInfo->wattageType == $index ? 'checked' : '' }}>
-                                        <label for="wattage_type_{{ $index }}">{{ $wattageType }}</label>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-
+                        @endif
                     </div>
                     @php
                         $option_count = 0;
                     @endphp
 
-                    <div class="box_01 box_reg">
-                        <h4>옵션 정보</h4>
+                    @if ($product->type != 6)
+                        <div class="box_01 box_reg">
+                            <h4>옵션 정보</h4>
 
-                        <div>
-                            <div class="reg_item">
-                                <label class="input_label">옵션 여부</label>
-                                <div class="btn_radioType">
-                                    <input type="radio" name="option_info" id="option_info_1" value="Y"
-                                        checked="">
-                                    <label for="option_info_1" onclick="showDiv('option_info', 0)">있음</label>
+                            <div>
+                                <div class="reg_item">
+                                    <label class="input_label">옵션 여부</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="option_info" id="option_info_1" value="Y"
+                                            checked="">
+                                        <label for="option_info_1" onclick="showDiv('option_info', 0)">있음</label>
 
-                                    <input type="radio" name="option_info" id="option_info_2" value="Y">
-                                    <label for="option_info_2" onclick="showDiv('option_info', 1)">없음</label>
-                                </div>
-                                <div class="option_info_wrap">
-                                    <div class="option_info_item open_key active">
-                                        <div class="option_row">
-                                            <div class="option_tit">시설</div>
-                                            <div class="checkbox_btn">
-                                                @php
-                                                    $optionArray = [];
-                                                    foreach ($product->productOptions as $key => $option) {
-                                                        array_push($optionArray, $option->type);
-                                                    }
-                                                @endphp
-
-                                                @for ($i = 0; $i < count(Lang::get('commons.option_facility')); $i++)
-                                                    <input class="option_facility" type="checkbox"
-                                                        name="option_type[]" id="option_{{ $option_count }}"
-                                                        value="{{ $option_count }}"
-                                                        {{ in_array($option_count, $optionArray) ? 'checked' : '' }}>
-                                                    <label for="option_{{ $option_count }}">
-                                                        {{ Lang::get('commons.option_facility.' . $option_count++) }}
-                                                    </label>
-                                                @endfor
-                                            </div>
-                                        </div>
-                                        <div class="option_row">
-                                            <div class="option_tit">보안</div>
-                                            <div class="checkbox_btn">
-                                                @for ($i = 0; $i < count(Lang::get('commons.option_security')); $i++)
-                                                    <input class="option_security" type="checkbox"
-                                                        name="option_type[]" id="option_{{ $option_count }}"
-                                                        value="{{ $option_count }}"
-                                                        {{ in_array($option_count, $optionArray) ? 'checked' : '' }}>
-                                                    <label for="option_{{ $option_count }}">
-                                                        {{ Lang::get('commons.option_security.' . $option_count++) }}
-                                                    </label>
-                                                @endfor
-                                            </div>
-                                        </div>
-
-                                        <div class="option_row">
-                                            <div class="option_tit">주방</div>
-                                            <div class="checkbox_btn">
-                                                @for ($i = 0; $i < count(Lang::get('commons.option_kitchen')); $i++)
-                                                    <input class="option_kitchen" type="checkbox"
-                                                        name="option_type[]" id="option_{{ $option_count }}"
-                                                        value="{{ $option_count }}"
-                                                        {{ in_array($option_count, $optionArray) ? 'checked' : '' }}>
-                                                    <label for="option_{{ $option_count }}">
-                                                        {{ Lang::get('commons.option_kitchen.' . $option_count++) }}
-                                                    </label>
-                                                @endfor
-                                            </div>
-                                        </div>
-
-                                        <div class="option_row">
-                                            <div class="option_tit">가전</div>
-                                            <div class="checkbox_btn">
-                                                @for ($i = 0; $i < count(Lang::get('commons.option_home_appliances')); $i++)
-                                                    <input class="option_home_appliances" type="checkbox"
-                                                        name="option_type[]" id="option_{{ $option_count }}"
-                                                        value="{{ $option_count }}"
-                                                        {{ in_array($option_count, $optionArray) ? 'checked' : '' }}>
-                                                    <label for="option_{{ $option_count }}">
-                                                        {{ Lang::get('commons.option_home_appliances.' . $option_count++) }}
-                                                    </label>
-                                                @endfor
-                                            </div>
-                                        </div>
-
-                                        <div class="option_row">
-                                            <div class="option_tit">가구</div>
-                                            <div class="checkbox_btn">
-                                                @for ($i = 0; $i < count(Lang::get('commons.option_furniture')); $i++)
-                                                    <input class="option_furniture" type="checkbox"
-                                                        name="option_type[]" id="option_{{ $option_count }}"
-                                                        value="{{ $option_count }}"
-                                                        {{ in_array($option_count, $optionArray) ? 'checked' : '' }}>
-                                                    <label for="option_{{ $option_count }}">
-                                                        {{ Lang::get('commons.option_furniture.' . $option_count++) }}
-                                                    </label>
-                                                @endfor
-                                            </div>
-                                        </div>
-
-                                        <div class="option_row">
-                                            <div class="option_tit">기타</div>
-                                            <div class="checkbox_btn">
-                                                @for ($i = 0; $i < count(Lang::get('commons.option_etc')); $i++)
-                                                    <input class="option_etc" type="checkbox" name="option_type[]"
-                                                        id="option_{{ $option_count }}"
-                                                        value="{{ $option_count }}"
-                                                        {{ in_array($option_count, $optionArray) ? 'checked' : '' }}>
-                                                    <label for="option_{{ $option_count }}">
-                                                        {{ Lang::get('commons.option_etc.' . $option_count++) }}
-                                                    </label>
-                                                @endfor
-                                            </div>
-                                        </div>
+                                        <input type="radio" name="option_info" id="option_info_2" value="Y">
+                                        <label for="option_info_2" onclick="showDiv('option_info', 1)">없음</label>
                                     </div>
-                                    <div class="option_info_item open_key"></div>
 
+                                    @if ($product->type != 4 && $product->type != 9)
+                                        <div class="option_info_wrap">
+                                            <div class="option_info_item open_key active">
+                                                <div class="option_row">
+                                                    <div class="option_tit">시설</div>
+                                                    <div class="checkbox_btn">
+                                                        @php
+                                                            $optionArray = [];
+                                                            foreach ($product->productOptions as $key => $option) {
+                                                                array_push($optionArray, $option->type);
+                                                            }
+                                                        @endphp
+
+                                                        @for ($i = 0; $i < count(Lang::get('commons.option_facility')); $i++)
+                                                            <input class="option_facility" type="checkbox"
+                                                                name="option_type[]" id="option_{{ $option_count }}"
+                                                                value="{{ $option_count }}"
+                                                                {{ in_array($option_count, $optionArray) ? 'checked' : '' }}>
+                                                            <label for="option_{{ $option_count }}">
+                                                                {{ Lang::get('commons.option_facility.' . $option_count++) }}
+                                                            </label>
+                                                        @endfor
+                                                    </div>
+                                                </div>
+                                                <div class="option_row">
+                                                    <div class="option_tit">보안</div>
+                                                    <div class="checkbox_btn">
+                                                        @for ($i = 0; $i < count(Lang::get('commons.option_security')); $i++)
+                                                            <input class="option_security" type="checkbox"
+                                                                name="option_type[]" id="option_{{ $option_count }}"
+                                                                value="{{ $option_count }}"
+                                                                {{ in_array($option_count, $optionArray) ? 'checked' : '' }}>
+                                                            <label for="option_{{ $option_count }}">
+                                                                {{ Lang::get('commons.option_security.' . $option_count++) }}
+                                                            </label>
+                                                        @endfor
+                                                    </div>
+                                                </div>
+
+                                                @if ($product->type > 3 && $product->type != 5 && $product->type != 7)
+                                                    <div class="option_row">
+                                                        <div class="option_tit">주방</div>
+                                                        <div class="checkbox_btn">
+                                                            @for ($i = 0; $i < count(Lang::get('commons.option_kitchen')); $i++)
+                                                                <input class="option_kitchen" type="checkbox"
+                                                                    name="option_type[]"
+                                                                    id="option_{{ $option_count }}"
+                                                                    value="{{ $option_count }}"
+                                                                    {{ in_array($option_count, $optionArray) ? 'checked' : '' }}>
+                                                                <label for="option_{{ $option_count }}">
+                                                                    {{ Lang::get('commons.option_kitchen.' . $option_count++) }}
+                                                                </label>
+                                                            @endfor
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="option_row">
+                                                        <div class="option_tit">가전</div>
+                                                        <div class="checkbox_btn">
+                                                            @for ($i = 0; $i < count(Lang::get('commons.option_home_appliances')); $i++)
+                                                                <input class="option_home_appliances" type="checkbox"
+                                                                    name="option_type[]"
+                                                                    id="option_{{ $option_count }}"
+                                                                    value="{{ $option_count }}"
+                                                                    {{ in_array($option_count, $optionArray) ? 'checked' : '' }}>
+                                                                <label for="option_{{ $option_count }}">
+                                                                    {{ Lang::get('commons.option_home_appliances.' . $option_count++) }}
+                                                                </label>
+                                                            @endfor
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="option_row">
+                                                        <div class="option_tit">가구</div>
+                                                        <div class="checkbox_btn">
+                                                            @for ($i = 0; $i < count(Lang::get('commons.option_furniture')); $i++)
+                                                                <input class="option_furniture" type="checkbox"
+                                                                    name="option_type[]"
+                                                                    id="option_{{ $option_count }}"
+                                                                    value="{{ $option_count }}"
+                                                                    {{ in_array($option_count, $optionArray) ? 'checked' : '' }}>
+                                                                <label for="option_{{ $option_count }}">
+                                                                    {{ Lang::get('commons.option_furniture.' . $option_count++) }}
+                                                                </label>
+                                                            @endfor
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="option_row">
+                                                        <div class="option_tit">기타</div>
+                                                        <div class="checkbox_btn">
+                                                            @for ($i = 0; $i < count(Lang::get('commons.option_etc')); $i++)
+                                                                <input class="option_etc" type="checkbox"
+                                                                    name="option_type[]"
+                                                                    id="option_{{ $option_count }}"
+                                                                    value="{{ $option_count }}"
+                                                                    {{ in_array($option_count, $optionArray) ? 'checked' : '' }}>
+                                                                <label for="option_{{ $option_count }}">
+                                                                    {{ Lang::get('commons.option_etc.' . $option_count++) }}
+                                                                </label>
+                                                            @endfor
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="option_info_item open_key"></div>
+
+                                        </div>
+                                    @else
+                                        <div class="reg_mid_wrap mt10">
+                                            <div class="reg_item">
+                                                <label class="input_label">구조</label>
+                                                <div class="btn_radioType">
+                                                    <input type="radio" name="structure_type"
+                                                        id="structure_type_0" value="0"
+                                                        {{ $product->productAddInfo->structure_type == 0 ? 'checked' : '' }}>
+                                                    <label for="structure_type_0">선택 안함</label>
+
+                                                    <input type="radio" name="structure_type"
+                                                        id="structure_type_1" value="1"
+                                                        {{ $product->productAddInfo->structure_type == 1 ? 'checked' : '' }}>
+                                                    <label for="structure_type_1">복층</label>
+
+                                                    <input type="radio" name="structure_type"
+                                                        id="structure_type_2" value="2"
+                                                        {{ $product->productAddInfo->structure_type == 2 ? 'checked' : '' }}>
+                                                    <label for="structure_type_2">1.5룸/주방분리형</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="reg_mid_wrap mt10">
+                                            <div class="reg_item">
+                                                <label class="input_label">빌트인</label>
+                                                <div class="btn_radioType">
+                                                    <input type="radio" name="builtin_type" id="builtin_type_0"
+                                                        value="0"
+                                                        {{ $product->productAddInfo->builtin_type == 0 ? 'checked' : '' }}>
+                                                    <label for="builtin_type_0">선택 안함</label>
+
+                                                    <input type="radio" name="builtin_type" id="builtin_type_1"
+                                                        value="1"
+                                                        {{ $product->productAddInfo->builtin_type == 1 ? 'checked' : '' }}>
+                                                    <label for="builtin_type_1">있음</label>
+
+                                                    <input type="radio" name="builtin_type" id="builtin_type_2"
+                                                        value="2"
+                                                        {{ $product->productAddInfo->builtin_type == 2 ? 'checked' : '' }}>
+                                                    <label for="builtin_type_2">없음</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="reg_mid_wrap mt10">
+                                            <div class="reg_item">
+                                                <label class="input_label">전입신고 가능 여부</label>
+                                                <div class="btn_radioType">
+                                                    <input type="radio" name="declare_type" id="declare_type_0"
+                                                        value="0"
+                                                        {{ $product->productAddInfo->declare_type == 0 ? 'checked' : '' }}>
+                                                    <label for="declare_type_0">선택 안함</label>
+                                                    <input type="radio" name="declare_type" id="declare_type_1"
+                                                        value="1"
+                                                        {{ $product->productAddInfo->declare_type == 1 ? 'checked' : '' }}>
+                                                    <label for="declare_type_1">가능</label>
+                                                    <input type="radio" name="declare_type" id="declare_type_2"
+                                                        value="2"
+                                                        {{ $product->productAddInfo->declare_type == 2 ? 'checked' : '' }}>
+                                                    <label for="declare_type_2">불가능</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    @endif
                                 </div>
+
                             </div>
                         </div>
-                    </div>
+                    @endif
 
                     <div class="box_01 box_reg">
                         <div class="flex_between">
                             <h4>사진 및 상세 설명</h4>
-                            <p class="gray_basic">최대 8장 업로드 가능 <span
-                                    class="txt_point">{{ count($product->images) }}</span> / 8</p>
+                            <p class="gray_basic">최대 8장 업로드 가능 <span class="txt_point"
+                                    id="imageCount">{{ count($product->images) }}</span> / 8</p>
                         </div>
-                        <div class="img_add_wrap reg_step_type">
+                        <div class="img_add_wrap reg_step_type" id="imageList">
+                            <div class="cell">
+                                <button type="button" id="profile_drop">
+                                    <div class="img_box"><img src="{{ asset('assets/media/btn_img_add.png') }}"
+                                            onclick="plusClickEvent();">
+                                    </div>
+                                </button>
+                            </div>
                             @if (count($product->images) > 0)
                                 @foreach ($product->images as $image)
                                     <div class="cell">
@@ -1065,29 +1399,26 @@
                                             value="{{ $image->id }}">
                                         <img src="{{ asset('assets/media/btn_img_delete.png') }}"
                                             class="btn_img_delete" onclick="removeImage(this);">
-                                        <div class="img_box"><img src="{{ Storage::url('image/' . $image->path) }}">
+                                        <div class="img_box"><img
+                                                src="{{ Storage::url('image/' . $image->path) }}">
                                         </div>
                                     </div>
                                 @endforeach
                             @endif
-                            <div class="cell">
-                                <button type="button" id="profile_drop">
-                                    <div class="img_box"><img src="{{ asset('assets/media/btn_img_add.png') }}">
-                                    </div>
-                                </button>
-                            </div>
+
                         </div>
 
                         <div>
                             <div class="offer_textarea_wrap">
                                 <label class="input_label">상세 설명 <span class="txt_point">*</span></label>
                                 <input type="text" id="comments" name="comments"
-                                    value="{{ $product->comments }}" placeholder="매물 한줄요약. 예) 역에서 5분거리, 인프라 좋은 매물">
-                                <textarea class="mt10" id="contents" name="contents" placeholder="매물에 대해 추가로 어필하고 싶은 내용을 자세히 작성해 주세요.">
-                                    @php
-                                        echo nl2br($product->contents);
-                                    @endphp
-                                </textarea>
+                                    value="{{ $product->comments }}"
+                                    placeholder="매물 한줄요약. 예) 역에서 5분거리, 인프라 좋은 매물">
+                                <textarea class="mt10" id="contents" name="contents" placeholder="매물에 대해 추가로 어필하고 싶은 내용을 자세히 작성해 주세요.">{{ $product->contents }}</textarea>
+                            </div>
+                            <div class="offer_textarea_wrap mt10">
+                                <label class="input_label">비공개 메모</label>
+                                <textarea id="non_memo" name="non_memo" style="height:70px;" placeholder="외부에 공개되지 않으며, 등록자에게만 보이는 메모입니다.">{{ $product->non_memo }}</textarea>
                             </div>
                             <div class="reg_mid_wrap mt10">
                                 <div class="reg_item">
@@ -1098,16 +1429,19 @@
                                 <div class="reg_item">
                                     <label class="input_label">상한요율 <span class="txt_point">*</span></label>
                                     <input type="number" id="commission_rate" name="commission_rate"
-                                        value="{{ $product->commission_rate }}" placeholder="상한요율을 % 단위로 입력해 주세요.">
+                                        value="{{ $product->commission_rate }}"
+                                        placeholder="상한요율을 % 단위로 입력해 주세요.">
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
                     <div class="step_btn_wrap">
                         <span></span>
                         <!-- <button class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                        <button class="btn_full_basic btn_point" type="button" onclick="onFormSubmit();">저장</button>
+                        <button class="btn_full_basic btn_point" type="button"
+                            onclick="onFormSubmit();">저장</button>
                     </div>
 
                 </div>
@@ -1166,17 +1500,29 @@
 
 
 <script>
-    // 전용 면적 평수 변환
-    var exclusive_area = document.getElementById('exclusive_area');
-    exclusive_area.addEventListener('keyup', function(e) {
-        $('#exclusive_square').val((parseInt(e.target.value) * 3.3058).toFixed(2));
-    });
+    function plusClickEvent() {
+        var imageCount = parseInt($('#imageCount').text());
+
+        if (imageCount < 8) {
+            $("#profile_drop").trigger('click');
+        } else {
+            alert('최대 8장 등록 가능합니다.');
+        }
+    }
+    @if ($product->type != 6)
+        // 전용 면적 평수 변환
+        var exclusive_area = document.getElementById('exclusive_area');
+        exclusive_area.addEventListener('keyup', function(e) {
+            $('#exclusive_square').val((parseInt(e.target.value) * 3.3058).toFixed(2));
+        });
+    @endif
 
     // 공급 면적 평수 변환
     var area = document.getElementById('area');
     area.addEventListener('keyup', function(e) {
         $('#square').val((parseInt(e.target.value) * 3.3058).toFixed(2));
     });
+
 
     @if ($product->type == 7)
         // 공급 면적 평수 변환
@@ -1190,7 +1536,7 @@
         url: "{{ route('api.imageupload') }}", // URL
         method: 'post', // method
         paramName: "image", // 파라미터 이름
-        maxFiles: 10, // 파일 갯수
+        maxFiles: 1, // 파일 갯수
         maxFilesize: 10, // MB
         timeout: 300000, // 타임아웃 30초 기본 설정
         addRemoveLinks: true, // 업로드 후 파일 삭제버튼 표시 여부
@@ -1199,11 +1545,24 @@
             done();
         },
         success: function(file, responseText) {
+            var imageCount = parseInt($('#imageCount').text());
 
-            var imagePath = '{{ Storage::url('image/') }}' + responseText.result.path;
+            if (imageCount < 8) {
+                var imagePath = '{{ Storage::url('image/') }}' + responseText.result.path;
 
-            document.getElementById('member_img_src').src = imagePath;
+                var imageTag = `
+                    <div class="cell">
+                        <input type="hidden" id="image_ids[]" name="image_ids[]" value="${responseText.result.id}">
+                        <img src="{{ asset('assets/media/btn_img_delete.png') }}" class="btn_img_delete" onclick="removeImage(this);">
+                        <div class="img_box">
+                            <img src="${imagePath}">
+                        </div>
+                    </div>
+                    `;
 
+                $('#imageCount').text(imageCount + 1);
+                $('#imageList').append(imageTag);
+            }
             profileimageDropzone.removeFile(file);
             refreshFsLightbox();
 
@@ -1212,6 +1571,8 @@
 
     // 이미지 제거
     function removeImage(elem) {
+        var imageCount = parseInt($('#imageCount').text());
+        $('#imageCount').text(imageCount - 1);
         $(elem).parent().remove();
     }
 
