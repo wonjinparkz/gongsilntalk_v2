@@ -132,7 +132,7 @@
                         <a href="{{ route('www.site.product.detail.view', $siteProduct->id) }}">
                             <div class="sales_card_img">
                                 <div class="img_box">
-                                    <img src="{{ Storage::url('image/' . $siteProduct->images[0]->path) }}"
+                                    <img src="{{ Storage::url('image/' . $siteProduct->main_images[0]->path) }}"
                                         style="max-width:280px; max-height:186px;"
                                         onerror="this.onerror=null; this.src='{{ asset('assets/media/s_1.png') }}'">
                                 </div>
