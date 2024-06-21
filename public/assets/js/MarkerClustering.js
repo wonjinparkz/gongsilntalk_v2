@@ -252,6 +252,11 @@ naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
         return this.getOptions('productClick');
     },
 
+    // 클러스터 마커를 클릭했을 때 제품 클릭 동작 수행 여부를 반환합니다.
+    getProductClick: function () {
+        return this.getOptions('productClick');
+    },
+
     /**
      * 클러스터 마커를 클릭했을 때 줌 동작 수행 여부를 설정합니다.
      * @param {boolean} flag 줌 동작 수행 여부
@@ -266,6 +271,10 @@ naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
     setDisableClickZoom: function (flag) {
         this.setOptions('productClick', flag);
     },
+    setProductClick: function (flag) {
+        this.setOptions('productClick', flag);
+    },
+
 
     /**
      * 클러스터 마커의 위치를 클러스터를 구성하고 있는 마커의 평균 좌표로 할 것인지 여부를 반환합니다.
@@ -681,10 +690,13 @@ Cluster.prototype = {
                 map: this._markerClusterer.getMap()
             });
 
+
             if (!this._markerClusterer.getDisableClickZoom()) {
                 this.enableClickZoom();
-            } else {
+            } else if (this._markerClusterer.getProductClick()) { // 변경된 부분
                 this.productClick(); // 커스텀 클릭 이벤트 설정
+            } else {
+                this.agentClick(); // 에이전트 클릭 이벤트 설정
             }
         }
 
