@@ -384,14 +384,44 @@ class MapPcController extends Controller
                 if (isset($request->price)) {
                     $priceArray = explode(',', $request->price);
                     if ($priceArray[0] > 0) {
-                        Log::info('ddjdldj');
                         $query->where('product_price.price', '>=', $priceArray[0] * 100000000);
                     }
                     if ($priceArray[1] < 200) {
                         $query->where('product_price.price', '<=', $priceArray[1] * 100000000);
                     }
                 }
+                // 임대료
+                if (isset($request->month_price)) {
+                    if (array_intersect([2, 4], $paymentTypes)) {
+                        $monthPriceArray = explode(',', $request->month_price);
+                        if ($monthPriceArray[0] > 0) {
+                            $query->where('product_price.month_price', '>=', $monthPriceArray[0] * 10000);
+                        }
+                        if ($monthPriceArray[1] < 1000) {
+                            $query->where('product_price.month_price', '<=', $monthPriceArray[1] * 10000);
+                        }
+                    }
+                }
             });
+
+            if (isset($request->area)) {
+                $areaArray = explode(',', $request->area);
+                if ($areaArray[0] > 0) {
+                    $product->where('area', '>=', $areaArray[0]);
+                }
+                if ($areaArray[1] < 1000) {
+                    $product->where('area', '<=', $areaArray[1]);
+                }
+            }
+            if (isset($request->square)) {
+                $squareArray = explode(',', $request->square);
+                if ($squareArray[0] > 0) {
+                    $product->where('square', '>=', $squareArray[0]);
+                }
+                if ($squareArray[1] < 1000) {
+                    $product->where('square', '<=', $squareArray[1]);
+                }
+            }
 
             $product = $product->get();
 

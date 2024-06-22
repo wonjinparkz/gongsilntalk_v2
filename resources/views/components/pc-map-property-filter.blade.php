@@ -506,7 +506,7 @@
     <button class="filter_btn_trigger" id="filter_text_etc">기타</button>
     <div class="filter_panel panel_item_6">
         <div class="filter_panel_body">
-            <h6 id="etc_title">기타</h6>
+            <h6 style="display:none" id="etc_title">기타</h6>
             <h6>기타 옵션</h6>
             <p class="gray_deep mt18">층고</p>
             <div class="btn_radioType mt10">
@@ -696,16 +696,16 @@
             var maxValue = values[1];
 
             if (minValue == slider.range.min && maxValue == slider.range.max) {
+                $(slider.valueId).val([slider.range.min, slider.range.max]);
                 itemTxt.innerHTML = "전체";
-                $(slider.valueId).val();
             } else if (minValue == slider.range.min) {
-                $(slider.valueId).val([0, maxValue]);
+                $(slider.valueId).val([slider.range.min, maxValue]);
                 itemTxt.innerHTML =
                     "<span id='kt_slider_basic_min'></span> ~ <span id='kt_slider_basic_max'>" +
                     maxValue +
                     slider.unit + "</span>";
             } else if (maxValue == slider.range.max) {
-                $(slider.valueId).val([minValue, 0]);
+                $(slider.valueId).val([minValue, slider.range.max]);
                 itemTxt.innerHTML = "<span id='kt_slider_basic_min'>" + minValue +
                     slider.unit + "</span> ~ ";
             } else {

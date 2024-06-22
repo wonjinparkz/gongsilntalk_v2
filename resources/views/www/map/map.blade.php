@@ -855,6 +855,8 @@
         var textArray = [];
         var valueArray = [];
 
+        console.log('Name : ', Name);
+
         $('input[name="' + Name + '"]:checked').each(function() {
             textArray.push($(this).next('label').text());
             valueArray.push($(this).val());
@@ -863,30 +865,86 @@
         var text = textArray.length > 0 ? textArray.join(', ') : '';
         var value = valueArray.length > 0 ? valueArray.join(',') : '';
 
-        if (['payment_type', 'area'].includes(Name)) {
+        var min, max;
+
+        if (filertType == 1) {
             if (Name == 'payment_type') {
                 $('#price').val($('#temp_price').val());
                 $('#month_price').val($('#temp_month_price').val());
             } else if (Name == 'area') {
-                var arayTypeText = $('.areaChage .active').text();
+                var arayTypeText = $.trim($('.areaChage .active').text());
                 if (arayTypeText == '평') {
-                    $('#area').val($('temp_area').val());
-                    text = $('#area').val();
+                    $('#area').val($('#temp_area').val());
+                    [min, max] = $('#temp_area').val().split(',').map(Number);
+                    if (min == 0 && max == 1000) {
+                        text = "전체";
+                    } else {
+                        text = (min > 0 ? min + '평' : '') + ' ~ ' + (max < 1000 ? max + '평' : '');
+                    }
+                    initializeSliders('#rangeSquare');
                 } else {
-                    $('#square').val($('temp_square').val());
+                    $('#square').val($('#temp_square').val());
+                    [min, max] = $('#temp_square').val().split(',').map(Number);
+                    if (min == 0 && max == 3205) {
+                        text = "전체";
+                    } else {
+                        text = (min > 0 ? min + '㎡' : '') + ' ~ ' + (max < 3205 ? max + '㎡' : '');
+                    }
+                    initializeSliders('#rangeArea');
+                }
+            } else {
+                unit = '';
+                $('#' + Name).val($('#temp_' + Name).val());
+                console.log('servie : ', $('#temp_' + Name).val());
+                [min, max] = $('#temp_' + Name).val().split(',').map(Number);
+                console.log('max : min', min + '|' + max);
+                switch (Name) {
+                    case 'service_price':
+                        if (min == 0 && max == 50) {
+                            text = "전체";
+                        } else {
+                            text = (min > 0 ? min + '만' : '') + ' ~ ' + (max < 50 ? max + '만' : '');
+                        }
+                        break;
+                    case 'approve_date':
+                        if (min == 0 && max == 10) {
+                            text = "전체";
+                        } else {
+                            text = (min > 0 ? min + '년' : '') + ' ~ ' + (max < 10 ? max + '년' : '');
+                        }
+                        break;
+                    case 'premium_price':
+                        if (min == 0 && max == 10000) {
+                            text = "전체";
+                        } else {
+                            text = (min > 0 ? min + '천' : '') + ' ~ ' + (max < 10000 ? max + '천' : '');
+                        }
+                        break;
+                    default:
+                        text = '';
+                        break;
                 }
             }
         } else {
-            console.log('없다!');
-        }
+            if (Name == 'etc') {
+                value = $('input[name="floor_height_type"]:checked').val();
+                $('#floor_height_type').val(value);
+                etcText1 = '층고' + $('input[name="floor_height_type"]:checked').next('label').text();
+                value = $('input[name="wattage_type"]:checked').val();
+                $('#wattage_type').val(value);
+                etcText2 = '사용전력' + $('input[name="wattage_type"]:checked').next('label').text();
 
+                text = etcText1 + '/' + etcText2
+            } else {
+                $('#' + Name).val(value);
+            }
+        }
 
         if (text == '') {
             return;
         }
 
         $('#filter_text_' + Name).text(text);
-        $('#' + Name).val(value);
 
         mapReset();
     }
