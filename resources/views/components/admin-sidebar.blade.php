@@ -32,7 +32,7 @@
                 @endphp
 
                 {{-- 대시보드  메뉴 --}}
-                <div class="menu-item pt-5">
+                {{-- <div class="menu-item pt-5">
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteNamed('dashboard.view') ? 'active' : '' }}"
                             href="{{ route('dashboard.view') }}">
@@ -42,7 +42,7 @@
                             <span class="menu-title">대시보드</span>
                         </a>
                     </div>
-                </div>
+                </div> --}}
 
                 @if (in_array('0', $permissions))
                     {{-- 일반회원 관리 --}}
