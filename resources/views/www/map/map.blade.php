@@ -289,7 +289,7 @@
                 image
             } = item;
             createAgentMarker({
-                id: id,
+                id: item.id,
                 lat: company_address_lat,
                 lng: company_address_lng,
                 type: type,
@@ -452,8 +452,15 @@
         });
 
         bounds.extend(position);
+        naver.maps.Event.addListener(agentMarker, 'click', function() {
+            console.log('agentMarker : ', agentMarker.id);
+            markerId = agentMarker.id;
+            agentIdArray = [markerId];
+            $('li.agent').click();
+        });
 
         agentMarkers.push(agentMarker); // agent 마커 배열에 추가
+
     }
 
     // 각 데이터별 contentString 생성 함수
@@ -835,13 +842,14 @@
         var text = '';
         text = $('#' + Name + '_title').text();
 
-        if (['payment_type'].includes(Name)) {
-            if (Name == 'payment_type') {
-                $('#price').val('');
-                $('#month_price').val('');
-            }
-        } else {
-            console.log('없다!');
+        if (Name == 'payment_type') {
+            $('#price').val('');
+            $('#month_price').val('');
+        } else if (Name == 'area') {
+            $('#square').val('');
+        } else if (Name == 'etc') {
+            $('floor_height_type').val('');
+            $('wattage_type').val('');
         }
 
 

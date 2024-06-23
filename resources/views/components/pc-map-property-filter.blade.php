@@ -649,7 +649,7 @@
                     "min": 0,
                     "max": 10000
                 },
-                unit: "천"
+                unit: "만"
             }
         };
 
@@ -694,6 +694,8 @@
         sliderElement.noUiSlider.on("update", function(values, handle) {
             var minValue = values[0];
             var maxValue = values[1];
+
+            console.log('min max : ', minValue + '|' + maxValue);
 
             if (minValue == slider.range.min && maxValue == slider.range.max) {
                 $(slider.valueId).val([slider.range.min, slider.range.max]);

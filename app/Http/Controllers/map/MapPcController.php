@@ -402,26 +402,90 @@ class MapPcController extends Controller
                         }
                     }
                 }
+
+                //권리금
+                if (isset($request->premium_price)) {
+                    $premiumPriceArray = explode(',', $request->premium_price);
+                    if ($premiumPriceArray[0] > 0) {
+                        $query->where('product_price.premium_price', '>=', $premiumPriceArray[0] * 10000);
+                    }
+                    if ($premiumPriceArray[1] < 10000) {
+                        $query->where('product_price.premium_price', '<=', $premiumPriceArray[1] * 10000);
+                    }
+                }
             });
 
+
+            // 평수
             if (isset($request->area)) {
                 $areaArray = explode(',', $request->area);
                 if ($areaArray[0] > 0) {
-                    $product->where('area', '>=', $areaArray[0]);
+                    $product->where('product.area', '>=', $areaArray[0]);
                 }
                 if ($areaArray[1] < 1000) {
-                    $product->where('area', '<=', $areaArray[1]);
+                    $product->where('product.area', '<=', $areaArray[1]);
                 }
             }
+
+            // 제곱미터
             if (isset($request->square)) {
                 $squareArray = explode(',', $request->square);
                 if ($squareArray[0] > 0) {
-                    $product->where('square', '>=', $squareArray[0]);
+                    $product->where('product.square', '>=', $squareArray[0]);
                 }
                 if ($squareArray[1] < 1000) {
-                    $product->where('square', '<=', $squareArray[1]);
+                    $product->where('product.square', '<=', $squareArray[1]);
                 }
             }
+
+            // 관리비
+            if (isset($request->service_price)) {
+                $servicePriceArray = explode(',', $request->service_price);
+                if ($servicePriceArray[0] > 0) {
+                    $product->where('product.service_price', '>=', $servicePriceArray[0]);
+                }
+                if ($servicePriceArray[1] < 1000) {
+                    $product->where('product.service_price', '<=', $servicePriceArray[1]);
+                }
+            }
+
+            // 사용승인
+            if (isset($request->approve_date)) {
+                $approveDateArray = explode(',', $request->approve_date);
+                $minYears = (int)$approveDateArray[0]; // 최소 연도 값
+                $maxYears = (int)$approveDateArray[1]; // 최대 연도 값
+
+                // 현재 날짜
+                $currentDate = Carbon::now();
+
+                // 시작 날짜 (최소 연도만큼 전)
+                $startDate = $currentDate->copy()->subYears($maxYears)->startOfYear();
+
+                // 종료 날짜 (최대 연도만큼 전)
+                $endDate = $currentDate->copy()->subYears($minYears)->endOfYear();
+
+                // 조건에 따라 쿼리 빌더에 조건 추가
+                if ($approveDateArray[0] > 0) {
+                    $product->whereDate('product.approve_date', '>=', $startDate->format('Y-m-d'));
+                }
+                if ($approveDateArray[1] < 10) {
+                    $product->whereDate('product.approve_date', '<=', $endDate->format('Y-m-d'));
+                }
+            }
+
+            // 융자금
+            if (isset($request->loan_type)) {
+                $product->where('product.loan_type', $request->loan_type);
+            }
+
+            $product->whereHas('productAddInfo', function ($query) use ($request) {
+                // 거래유형
+                if (isset($request->business_type)) {
+                    $businessTypes = explode(',', $request->business_type);
+                    $query->whereIn('product_add_info.recommend_business_type', $businessTypes);
+                }
+            });
+
 
             $product = $product->get();
 
@@ -491,9 +555,9 @@ class MapPcController extends Controller
                 $result->groupedTransactionsRent = $result->transactionsRent->groupBy('exclusiveArea')->sortKeys();
             }
         } else if ($markerType == 'store') {
-            $result = DataStore::where('id', $request->id)->first();
+            $result = DataStore::select('data_store.*', 'data_store.y as address_lat', 'data_store.x as address_lng')->where('id', $request->id)->first();
         } else if ($markerType == 'building') {
-            $result = DataBuilding::where('id', $request->id)->first();
+            $result = DataBuilding::select('data_building.*', 'data_building.y as address_lat', 'data_building.x as address_lng')->where('id', $request->id)->first();
         }
 
         $productList = Product::where('state', 1)
