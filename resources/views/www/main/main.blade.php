@@ -97,9 +97,9 @@
                         @foreach ($banner_main as $item)
                             <div class="swiper-slide">
                                 <div class="txt_area">
-                                    <div class="main_1_tit">AI매칭 매물제안서 서비스 오픈</div>
-                                    <div class="main_1_sub">공실앤톡에서 제공하는 AI매칭 서비스를 통해 30초만에 원하는 매물을 찾아보세요!</div>
-                                    <button>더 알아보기</button>
+                                    <div class="main_1_tit">{{ $item->name }}</div>
+                                    <div class="main_1_sub">{{ $item->content }}</div>
+                                    <button onclick="location.href='{{ $item->url }}' ">더 알아보기</button>
                                 </div>
                                 <div class="img_box">
                                     @if (count($item->images) > 0)

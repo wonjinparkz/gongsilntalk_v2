@@ -133,11 +133,11 @@
                     <div class="txt_item_5">
                         <span>전용</span>
                         <spann class="square">{{ $result->exclusive_square ?? '-' }}㎡</spann> &nbsp;
-                            <spann class="area" style="display: none">{{ $result->exclusive_area ?? '-' }}평</spann>
-                            &nbsp;
-                            @if ($result->priceInfo->payment_type == 0)
-                                <span>평단가</span> {{ $formatAveragePrice }}
-                            @endif
+                        <spann class="area" style="display: none">{{ $result->exclusive_area ?? '-' }}평</spann>
+                        &nbsp;
+                        @if ($result->priceInfo->payment_type == 0)
+                            <span>평단가</span> {{ $formatAveragePrice }}
+                        @endif
                     </div>
                     {{-- 매물 요약 정보 - 하단 --}}
                     <ul class="txt_item_6">
@@ -289,31 +289,63 @@
                         <h3>상세정보</h3>
                         <div class="table_container">
                             <div>매물 종류</div>
-                            <div>아파트</div>
+                            <div>{{ Lang::get('commons.product_type.' . $result->type) }}</div>
                             <div>주용도</div>
-                            <div>공동주택</div>
+                            <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
                             <div>소재지</div>
-                            <div class="item_col_3">서울시 강남구 역삼동</div>
+                            <div class="item_col_3">{{ $result->address }}</div>
                             <div>공급/전용면적</div>
-                            <div>88.45㎡ / 79.33㎡</div>
+                            <div>공급 {{ $result->square ?? '-' }}㎡ / 전용
+                                {{ $result->exclusive_square ?? '-' }}㎡</div>
+                            {{-- 전용면적 / 공급면적 * 100 --}}
                             <div>전용률</div>
-                            <div>55%</div>
+                            <div>{{ round(($result->exclusive_square / $result->square) * 100) }}%</div>
                             <div>해당층/전체층</div>
-                            <div>11층 / 12층</div>
+                            <div>{{ $result->floor_number . '층 / ' . $result->total_floor_number . '층' }}</div>
                             <div>입주가능일</div>
-                            <div>2023.06.15 <span class="gray_basic">협의가능</span></div>
+                            <div>
+                                {{-- 2023.06.15 <span class="gray_basic">협의가능</span> --}}
+                                @if ($result->move_type == 0)
+                                    즉시입주
+                                @elseif($result->move_type == 1)
+                                    날짜협의
+                                @else
+                                    {{ $carbon::parse($result->move_date)->format('Y.m.d') }}
+                                @endif
+                            </div>
                             <div>방향</div>
-                            <div>남향 <span class="gray_basic">거실기준</span></div>
+                            <div>{{ Lang::get('commons.direction_type.' . $result->productAddInfo->direction_type) }}향
+                                <span class="gray_basic">거실기준</span>
+                            </div>
+                            {{-- <div>남향 <span class="gray_basic">거실기준</span></div> --}}
                             <div>방/욕실 수</div>
-                            <div>2개 / 1개</div>
+                            <div>{{ $result->productAddInfo->room_count }}개 /
+                                {{ $result->productAddInfo->bathroom_count }}개</div>
                             <div>현관구조</div>
                             <div>계단식</div>
                             <div>난방종류</div>
-                            <div>개별난방</div>
+                            <div>{{ Lang::get('commons.heating_type.' . $result->productAddInfo->heating_type) }}</div>
                             <div>엘리베이터</div>
                             <div>있음</div>
                             <div>주차 여부</div>
-                            <div>가능, 주차비 3만원</div>
+                            <div>
+                                @switch($result->parking_type)
+                                    @case(0)
+                                    @break
+
+                                    @case(1)
+                                        가능,
+                                        {{ $result->parking_price == null || $result->parking_price == 0 ? '무료주차' : $result->parking_price . '만원' }}
+                                    @break
+
+                                    @case(2)
+                                        불가능
+                                    @break
+
+                                    @default
+                                @endswitch
+                                {{-- 가능, 주차비 3만원 --}}
+                            </div>
                         </div>
                     </section>
 
@@ -354,7 +386,7 @@
                                     <div class="swiper-wrapper">
 
                                         @foreach ($result->productOptions as $item)
-                                            @if (in_array($item->type, [$facility]))
+                                            @if (in_array($item->type, [0, 1]))
                                                 @php
                                                     $imageNumber = $item->type == 0 ? 6 : ($item->type == 1 ? 7 : '');
                                                 @endphp
@@ -376,7 +408,7 @@
                                 <div class="swiper option_swiper">
                                     <div class="swiper-wrapper">
                                         @foreach ($result->productOptions as $item)
-                                            @if (in_array($item->type, [$security]))
+                                            @if (in_array($item->type, [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]))
                                                 @php
                                                     $typeToImageNumber = [
                                                         2 => 3,
@@ -411,7 +443,7 @@
                                 <div class="swiper option_swiper">
                                     <div class="swiper-wrapper">
                                         @foreach ($result->productOptions as $item)
-                                            @if (in_array($item->type, [$kitchen]))
+                                            @if (in_array($item->type, [13, 14, 15, 16, 17, 18]))
                                                 @php
                                                     $typeToImageNumber = [
                                                         13 => 1,
@@ -441,7 +473,7 @@
                                 <div class="swiper option_swiper">
                                     <div class="swiper-wrapper">
                                         @foreach ($result->productOptions as $item)
-                                            @if (in_array($item->type, [$home_appliances]))
+                                            @if (in_array($item->type, [19, 20, 21, 22, 23, 24]))
                                                 @php
                                                     $typeToImageNumber = [
                                                         19 => 1,
@@ -472,7 +504,7 @@
                                 <div class="swiper option_swiper">
                                     <div class="swiper-wrapper">
                                         @foreach ($result->productOptions as $item)
-                                            @if (in_array($item->type, [$furniture]))
+                                            @if (in_array($item->type, [25, 26, 27, 28, 29]))
                                                 @php
                                                     $typeToImageNumber = [
                                                         25 => 1,
@@ -502,7 +534,7 @@
                                 <div class="swiper option_swiper">
                                     <div class="swiper-wrapper">
                                         @foreach ($result->productOptions as $item)
-                                            @if (in_array($item->type, [$etc]))
+                                            @if (in_array($item->type, [30, 31, 32, 33]))
                                                 @php
                                                     $typeToImageNumber = [
                                                         30 => 1,
@@ -725,7 +757,8 @@
                         <div class="img_box">
                             @if (count($result->users->images) > 0)
                                 <img src="{{ Storage::url('image/' . $result->users->images[0]->path) }}"
-                                    onerror="this.src='{{ asset('assets/media/default_img.png') }}';" loading="lazy">
+                                    onerror="this.src='{{ asset('assets/media/default_img.png') }}';"
+                                    loading="lazy">
                             @else
                                 <img src="{{ asset('assets/media/default_img.png') }}">
                             @endif
