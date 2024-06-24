@@ -1,3 +1,10 @@
+<style>
+    .img_box_size {
+        height:80px;
+        width:80px;
+    }
+</style>
+
 <x-layout>
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
@@ -24,7 +31,7 @@
 
                     <div class="col-md-6 box_member">
                         <div class="user_profile_wrap">
-                            <div class="img_box">
+                            <div class="img_box img_box_size">
                                 @if ($user->image != null)
                                     <img id="member_img_src" src="{{ Storage::url('image/' . $user->image->path) }}"
                                         alt="">
