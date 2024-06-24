@@ -152,7 +152,7 @@
         maxFiles: 10, // 파일 갯수
         maxFilesize: 10, // MB
         timeout: 300000, // 타임아웃 30초 기본 설정
-        addRemoveLinks: true, // 업로드 후 파일 삭제버튼 표시 여부
+        addRemoveLinks: false, // 업로드 후 파일 삭제버튼 표시 여부
         acceptedFiles: '.jpeg,.jpg,.png,.gif,.JPEG,.JPG,.PNG,.GIF', // 이미지 파일 포맷만 허
         accept: function(file, done) {
             done();

@@ -43,7 +43,7 @@
                     <h5>위치 : {{ $product->address }}</h5>
                     <div class="item_img">
                         <iframe src="https://www.google.com/maps?q={{$product->address}}&output=embed" width="428"
-                            height="250" style="border:0;" allowfullscreen="" loading="lazy"
+                            height="293" style="border:0;" allowfullscreen="" loading="lazy"
                             referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>

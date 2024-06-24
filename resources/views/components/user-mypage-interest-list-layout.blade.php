@@ -49,7 +49,7 @@
                     <div class="sales_card">
                         <span class="sales_list_wish {{ isset($product->like_id) ? 'on' : '' }}"
                             onclick="onLikeStateChange('{{ $product->id }}', 'product');btn_wish(this);"></span>
-                        <a href="sales_detail.html">
+                        <a href="#">
                             <div class="sales_card_img">
                                 <div class="img_box">
                                     <img src="{{ Storage::url('image/' . $product->images[0]->path) }}"
@@ -103,14 +103,11 @@
             <!-- 데이터가 없을 경우 : e -->
         @else
             <div class="sales_list_wrap">
-                @php
-                    Log::info($result);
-                @endphp
                 @foreach ($result as $product)
                     <div class="sales_card">
                         <span class="sales_list_wish {{ isset($product->like_id) ? 'on' : '' }}"
                             onclick="onLikeStateChange('{{ $product->id }}', 'site_product');btn_wish(this)"></span>
-                        <a href="sales_detail.html">
+                        <a href="{{ route('www.site.product.detail.view', [$product->id])}}">
                             <div class="sales_card_img">
                                 <div class="img_box"><img
                                         src="{{ Storage::url('image/' . $product->images[0]->path) }}"
