@@ -66,13 +66,18 @@
                                                 </div>
                                                 <div class="board_inner_row">
                                                     <div class="board_item_4 only_pc">{{ $community->id }}</div>
-                                                    <div class="board_item_1"><a href="{{ route('www.community.detail.view', ['id' => $community->id, 'community' => 1]) }}"><span
+                                                    <div class="board_item_1"><a
+                                                            href="{{ route('www.community.detail.view', ['id' => $community->id, 'community' => 1]) }}"><span
                                                                 class="gray_deep">[{{ Commons::get_communityTypeTitle($community->category) }}]</span>
                                                             {{ $community->title }}</a> <span
-                                                            class="txt_point">[{{count($community->replys)}}]</span></div>
-                                                    <div class="board_item_3 gray_basic">{{ $carbon::parse($community->created_at)->format('Y-m-d H:m') }}<span
-                                                            class="gray_basic"> · 조회 {{ $community->view_count }}</span></div>
-                                                    <div class="board_item_4 gray_basic only_pc"> {{ $community->view_count }}</div>
+                                                            class="txt_point">[{{ number_format($community->replys_count) }}]</span>
+                                                    </div>
+                                                    <div class="board_item_3 gray_basic">
+                                                        {{ $carbon::parse($community->created_at)->format('Y-m-d H:m') }}<span
+                                                            class="gray_basic"> · 조회 {{ $community->view_count }}</span>
+                                                    </div>
+                                                    <div class="board_item_4 gray_basic only_pc">
+                                                        {{ $community->view_count }}</div>
                                                 </div>
                                             </div>
 

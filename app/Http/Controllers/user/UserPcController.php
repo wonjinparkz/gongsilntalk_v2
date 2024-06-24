@@ -139,7 +139,6 @@ class UserPcController extends Controller
      */
     public function corpProductStateChange(Request $request)
     {
-        info($request->id);
 
         $result = Product::where('id', $request->id)->update([
             'state' => $request->state
@@ -230,8 +229,6 @@ class UserPcController extends Controller
     public function corpProductMagagementUpdate(Request $request): RedirectResponse
     {
 
-        info($request);
-        info('이 위를 봐줭');
 
         $productDate = [
             'region_code' => $request->region_code,
@@ -677,7 +674,7 @@ class UserPcController extends Controller
      */
     public function serviceSecondCreateView(Request $request): View
     {
-        info($request);
+
         return view('www.mypage.asset-create-second', compact('request'));
     }
 
@@ -686,7 +683,7 @@ class UserPcController extends Controller
      */
     public function serviceThirdCreateView(Request $request): View
     {
-        info($request);
+
         return view('www.mypage.asset-create-third', compact('request'));
     }
 
@@ -695,7 +692,7 @@ class UserPcController extends Controller
      */
     public function serviceFourthCreateView(Request $request): View
     {
-        info($request);
+
         return view('www.mypage.asset-create-fourth', compact('request'));
     }
 
@@ -705,7 +702,7 @@ class UserPcController extends Controller
     public function serviceCreate(Request $request): RedirectResponse
     {
 
-        info($request);
+
 
         $asset_address_id = 0;
 
@@ -788,7 +785,7 @@ class UserPcController extends Controller
      */
     public function serviceSecondUpdateView(Request $request): View
     {
-        info($request);
+
 
         $result = Asset::with('asset_address')->select()->where('id', $request->id)->first();
 
@@ -800,7 +797,7 @@ class UserPcController extends Controller
      */
     public function serviceThirdUpdateView(Request $request): View
     {
-        info($request);
+
 
         $result = Asset::with('asset_address')->select()->where('id', $request->id)->first();
 
@@ -814,7 +811,7 @@ class UserPcController extends Controller
     {
         $result = Asset::with('asset_address', 'sale_images', 'entre_images', 'rental_images', 'etc_images')->select()->where('id', $request->id)->first();
         info('수정 해보자');
-        info($request);
+
 
         return view('www.mypage.asset-update-fourth', compact('request', 'result'));
     }
@@ -827,7 +824,7 @@ class UserPcController extends Controller
     {
 
         info('수정 해보자');
-        info($request);
+
 
         if ($request->asset_address_id == 'N') {
             $assetAddress = AssetAddress::create([
@@ -1074,7 +1071,10 @@ class UserPcController extends Controller
             ->first();
 
         // 커뮤니티 선택
-        $communityList = Community::select();
+        $communityList = Community::select(
+            'community.*',
+            DB::raw("(SELECT count(*) FROM reply WHERE target_id = community.id AND target_type = 'community' AND is_delete = 0) AS replys_count")
+        );
 
         $communityList->where('author', Auth::guard('web')->user()->id);
 
