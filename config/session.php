@@ -33,7 +33,8 @@ return [
 
     'lifetime' => env('SESSION_LIFETIME', 120), // 세션 유지 시간 분단위
 
-    'expire_on_close' => true, // 세션 완료 시 동작
+    // 'expire_on_close' => true, // 세션 완료 시 동작
+    'expire_on_close' => false, // 세션 완료 시 동작
 
     // 'expired-session-redirect' => url(env('APP_URL')), //세션 만료시
 
