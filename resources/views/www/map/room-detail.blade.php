@@ -729,7 +729,7 @@
                             </div>
                         </div>
                         <h4>{{ $result->users->company_name ?? '-' }}</h4>
-                        <p>대표중개사 {{ $result->users->company_ceo ?? $result->users->name }}</p>
+                        <p>대표중개사 {{ $result->users->company_ceo ?? '-'}}</p>
                     </div>
                     <hr class="mt18">
                     <div class="add_info_wrap">
@@ -780,7 +780,7 @@
                     <h4><a href="{{ route('www.map.agent.detail', [$result->users_id]) }}">{{ $result->users->company_name ?? '-' }}
                             <img src="{{ asset('assets/media/ic_list_arrow.png') }}"></a>
                     </h4>
-                    <p class="gray_deep">대표중개사 {{ $result->users->company_ceo ?? $result->users->name }}</p>
+                    <p class="gray_deep">대표중개사 {{ $result->users->company_ceo ?? '-' }}</p>
                 </div>
                 <div class="agent_popup_detail">
                     <p><span>주소</span>
