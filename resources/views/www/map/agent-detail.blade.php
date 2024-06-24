@@ -45,7 +45,7 @@
             </div>
             <div class="agent_detail_info">
                 <h3>{{ $result->company_name ?? '-' }}</h3>
-                <div class="info_row"><span>대표</span>{{ $result->company_ceo ?? $result->name }}</div>
+                <div class="info_row"><span>대표</span>{{ $result->company_ceo ?? '-'}}</div>
                 <div class="info_row"><span>주소</span>{{ $address ? $address . ' ' . $addressDetail : '-' }} </div>
                 <div class="info_row"><span>대표번호</span>{{ $result->company_phone ?? '-' }}</div>
                 <div class="info_row"><span>휴대전화</span>{{ $result->phone ?? '-' }}</div>
