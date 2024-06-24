@@ -1082,7 +1082,7 @@ class UserPcController extends Controller
         $communityList->orderBy('community.created_at', 'desc')->orderBy('id', 'desc');
 
         // 페이징 처리
-        $result_community = $communityList->paginate(1);
+        $result_community = $communityList->paginate($request->per_page == null ? 10 : $request->per_page);
 
         $result_community->appends(request()->except('page'));
 
