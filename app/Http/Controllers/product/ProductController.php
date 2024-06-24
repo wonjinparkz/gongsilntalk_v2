@@ -258,8 +258,8 @@ class ProductController extends Controller
             'address_detail' => $request->is_map != 1 ? $request->address_detail : null,
             'address_dong' => $request->is_map == 1 ? $request->address_dong : null,
             'address_number' => $request->is_map == 1 ? $request->address_number : null,
-            'floor_number' => in_array($request->type, ['6', '7']) ? '' : $request->floor_number,
-            'total_floor_number' => in_array($request->type, ['6', '7']) ? '' : $request->total_floor_number,
+            'floor_number' => in_array($request->type, ['6', '7']) ? null : $request->floor_number,
+            'total_floor_number' => in_array($request->type, ['6', '7']) ? null : $request->total_floor_number,
             'lowest_floor_number' => $request->type == 7 ? $request->lowest_floor_number : null,
             'top_floor_number' => $request->type == 7 ? $request->top_floor_number : null,
             'area' => $request->area,
@@ -310,7 +310,7 @@ class ProductController extends Controller
         $premium_price = $request->premium_price;
 
         if ($request->type == 3) {
-            $premium_price = $request->is_premium == 1 ? $premium_price : '';
+            $premium_price = $request->is_premium == 1 ? $premium_price : null;
         } else if ($request->type > 13) {
             $premium_price = $premium_price;
         }
@@ -320,7 +320,7 @@ class ProductController extends Controller
             'price' => $request->price,
             'month_price' => in_array($request->payment_type, [1, 2, 4]) ? $request->month_price : null,
             'is_price_discussion' => $request->is_price_discussion ?? 0,
-            'is_use' => $request->type > 13 ? '' : $request->is_use,
+            'is_use' => $request->type > 13 ? null : $request->is_use,
             'current_price' =>  $request->type < 14 && $request->is_use == 1 ? $request->current_price : null,
             'current_month_price' =>  $request->type < 14 && $request->is_use == 1 ? $request->current_month_price : null,
             'is_premium' => $request->type == 3 ? $request->is_premium : null,

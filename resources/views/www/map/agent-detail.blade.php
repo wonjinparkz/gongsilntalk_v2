@@ -35,11 +35,17 @@
     <div class="body">
         <div class="agent_head">
             <div class="agent_img">
-                <div class="img_box"><img src="{{ asset('assets/media/default_img.png') }}"></div>
+                <div class="img_box" style="height:100px; width:100px;">
+                    @if ($result->image != null)
+                        <img src="{{ Storage::url('image/' . $result->image->path) }}">
+                    @else
+                        <img src="{{ asset('assets/media/default_img.png') }}">
+                    @endif
+                </div>
             </div>
             <div class="agent_detail_info">
                 <h3>{{ $result->company_name ?? '-' }}</h3>
-                <div class="info_row"><span>대표</span>{{ $result->company_ceo ?? '-' }}</div>
+                <div class="info_row"><span>대표</span>{{ $result->company_ceo ?? '-'}}</div>
                 <div class="info_row"><span>주소</span>{{ $address ? $address . ' ' . $addressDetail : '-' }} </div>
                 <div class="info_row"><span>대표번호</span>{{ $result->company_phone ?? '-' }}</div>
                 <div class="info_row"><span>휴대전화</span>{{ $result->phone ?? '-' }}</div>
