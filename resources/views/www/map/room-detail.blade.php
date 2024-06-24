@@ -713,10 +713,16 @@
                 <div class="agent_box only_pc">
                     <div class="agent_box_info">
                         <div class="agent_box_img">
-                            <div class="img_box"><img src="{{ asset('assets/media/default_img.png') }}"></div>
+                            <div class="img_box" style="height:60px; width:60px;">
+                                @if ($result->users->image != null)
+                                    <img src="{{ Storage::url('image/' . $result->users->image->path) }}">
+                                @else
+                                    <img src="{{ asset('assets/media/default_img.png') }}">
+                                @endif
+                            </div>
                         </div>
                         <h4>{{ $result->users->company_name ?? '-' }}</h4>
-                        <p>대표중개사 {{ $result->users->company_ceo ?? '-' }}</p>
+                        <p>대표중개사 {{ $result->users->company_ceo ?? $result->users->name }}</p>
                     </div>
                     <hr class="mt18">
                     <div class="add_info_wrap">
@@ -767,7 +773,7 @@
                     <h4><a href="{{ route('www.map.agent.detail', [$result->users_id]) }}">{{ $result->users->company_name ?? '-' }}
                             <img src="{{ asset('assets/media/ic_list_arrow.png') }}"></a>
                     </h4>
-                    <p class="gray_deep">대표중개사 홍길동</p>
+                    <p class="gray_deep">대표중개사 {{ $result->users->company_ceo ?? $result->users->name }}</p>
                 </div>
                 <div class="agent_popup_detail">
                     <p><span>주소</span>
