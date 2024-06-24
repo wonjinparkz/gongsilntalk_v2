@@ -90,23 +90,7 @@
                         <!-- list : e -->
 
                         <!-- paging : s -->
-                        <div class="paging only_pc">
-                            <ul class="btn_wrap">
-                                <li class="btn_prev">
-                                    <a class="no_next" href="#1"><img
-                                            src="{{ asset('assets/media/btn_prev.png') }}" alt=""></a>
-                                </li>
-                                <li class="active">1</li>
-                                <li>2</li>
-                                <li>3</li>
-                                <li>4</li>
-                                <li>5</li>
-                                <li class="btn_next">
-                                    <a class="no_next" href="#1"><img
-                                            src="{{ asset('assets/media/btn_next.png') }}" alt=""></a>
-                                </li>
-                            </ul>
-                        </div>
+                        {{ $result_community->onEachSide(1)->links('components.pc-my-community-page-pagination') }}
                         <!-- paging : e -->
                     @else
                         <!-- 데이터가 없을 경우 : s -->
