@@ -5,6 +5,54 @@
         <!---------------------------------- only m : s ---------------------------------->
         <div class="only_m">
 
+            <!-- m::popup : s -->
+            <div class="modal_slide modal_slide_today" id="modal_today" style="display:block !important; bottom:0 !important; transition: all 0.4s ease 0s;">
+				<div class="popup_bn_swiper content22 swiper-initialized swiper-horizontal">
+					<div class="swiper-wrapper" style="text-align: center; transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
+						<div class="swiper-slide swiper-slide-active">
+                            <a href="https://m.cheotjang.com/news_v_1_0_0/news_detail?news_idx=114">
+                                <div class="img_box" style="text-align:center; height:90%; width:100%;">
+                                    <img style="height:100%;" src="{{ asset('assets/media/s_3.png') }}" alt="">
+                                </div>
+                            </a>
+						</div>
+                        <div class="swiper-slide">
+                            <a href="https://m.cheotjang.com/news_v_1_0_0/news_detail?news_idx=114">
+                                <div class="img_box" style="text-align:center; height:90%; width:100%;">
+                                    <img style="height:100%;" src="{{ asset('assets/media/s_1.png') }}" alt="">
+                                </div>
+                            </a>
+						</div>
+					</div><!-- popup : s -->
+       <div class="main_popup">
+        <div class="popup_wrap">
+          <div class="popup_bn_swiper">
+            <div class="swiper-wrapper" style="text-align: center; transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
+              <div class="swiper-slide swiper-slide-active">
+                  <a href="#">
+                      <div class="img_box" style="text-align:center; height:90%; width:100%;">
+                          <img style="height:100%;" src="images/s_2.png" alt="">
+                      </div>
+                  </a>
+              </div>
+              <div class="swiper-slide">
+                  <a href="#">
+                      <div class="img_box" style="text-align:center; height:90%; width:100%;">
+                          <img style="height:100%;" src="images/s_8.png" alt="">
+                      </div>
+                  </a>
+              </div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+          <div class="popup_bottom">
+            <span class="today_close">오늘 하루 보지 않기</span>
+            <span class="close">닫기</span>
+          </div>
+        </div>
+      </div>
+      <!-- popup : e -->
+
             <!-- m::header bar : s -->
             <div class="m_header">
                 <div class="left_area"><a href="{{ route('www.main.main') }}"><img
@@ -73,8 +121,6 @@
                 </script>
 
             </div>
-
-
         </div>
         <!-- nav : s -->
         <x-nav-layout />
