@@ -1077,6 +1077,7 @@ class UserPcController extends Controller
         );
 
         $communityList->where('author', Auth::guard('web')->user()->id);
+        $communityList->where('is_delete', 0);
 
         // 정렬
         $communityList->orderBy('community.created_at', 'desc')->orderBy('id', 'desc');

@@ -123,9 +123,6 @@
                                     </div>
                                 </li>
                             @else
-                                @php
-                                    Log::info($community);
-                                @endphp
                                 <li>
                                     <a href="{{ route('www.community.detail.view', ['id' => $community->id, 'community' => request()->query('community') ?? 0]) }}"
                                         class="community_list_link">

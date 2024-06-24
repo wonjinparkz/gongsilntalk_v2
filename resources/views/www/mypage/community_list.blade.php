@@ -33,7 +33,7 @@
                     </div>
 
 
-                    @if ($result_community)
+                    @if (count($result_community) > 0)
                         <!-- list : s -->
 
                         <table class="board_list">
