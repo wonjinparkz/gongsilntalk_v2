@@ -2,7 +2,7 @@
 
 <div class="my_side_top">
     <div class="my_profile_img">
-        <div class="img_box">
+        <div class="img_box" style="height:50px; width:50px;">
             @if ($result->images != null)
                 @foreach ($result->images as $image)
                     <img src="{{ Storage::url('image/' . $image->path) }}" />
