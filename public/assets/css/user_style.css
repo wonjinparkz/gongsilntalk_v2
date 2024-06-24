@@ -144,6 +144,7 @@
 .sales_card{width:280px; position: relative; margin-bottom: 28px; margin-right: 18px;}
 .sales_card:nth-child(4n){margin-right: 0;}
 .sales_card .sales_card_img{height:186px; width:280px;}
+.sales_card .sales_card_img .img_box{height:186px;}
 .sales_list_wish.on{background: url('/assets/media/btn_like_on.png') no-repeat; background-size:20px auto;}
 .sales_list_wish{background: url('/assets/media/btn_like_w.png') no-repeat; background-size:20px auto; cursor: pointer; width: 20px; height: 18px; position: absolute; right:10px; top:10px;}
 .sales_list_con{margin-top: 18px;}
