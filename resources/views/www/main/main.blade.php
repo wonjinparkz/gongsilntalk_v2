@@ -2,57 +2,80 @@
 
     <div class="body">
 
-    <!-- popup : s -->
-    <div class="main_popup">
-        <div class="popup_wrap">
-          <div class="popup_bn_swiper">
-            <div class="swiper-wrapper" style="text-align: center; transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
-              <div class="swiper-slide swiper-slide-active">
-                  <a href="#">
-                      <div class="img_box" style="text-align:center; height:90%; width:100%;">
-                          <img style="height:100%;" src="{{ asset('assets/media/s_2.png') }}" alt="">
-                      </div>
-                  </a>
-              </div>
-              <div class="swiper-slide">
-                  <a href="#">
-                      <div class="img_box" style="text-align:center; height:90%; width:100%;">
-                          <img style="height:100%;" src="{{ asset('assets/media/s_8.png') }}" alt="">
-                      </div>
-                  </a>
-              </div>
-            </div>
-            <div class="swiper-pagination"></div>
-          </div>
-          <div class="popup_bottom">
-            <span class="today_close">오늘 하루 보지 않기</span>
-            <span class="close">닫기</span>
-          </div>
-        </div>
-      </div>
-      <!-- popup : e -->
+        @php
+            $notToday = $_COOKIE['notToday'] ?? 'N';
+        @endphp
 
-      <script>
-        var swiperTop = new Swiper(".popup_bn_swiper", {
-            slidesPerView: 1,
-            pagination: {
-                el: ".popup_bn_swiper .swiper-pagination",
-                clickable: true,
-            },
-            // autoplay: {
-            //     delay: 1800,
-            //     stopOnLastSlide: false,
-            //     disableOnInteraction: true,
-            // },
-            // breakpoints: {
-            //     800: {
-            //         slidesPerView: 1,
-            //         spaceBetween: 1,
-            //     },
-            // },
-        });
+        <!-- popup : s -->
+        @if (count($popups) > 0)
+            @if ($notToday == 'N' || $notToday == null)
+                <div class="main_popup">
+                    <div class="popup_wrap">
+                        <div class="popup_bn_swiper">
+                            <div class="swiper-wrapper"
+                                style="text-align: center; transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
+                                @foreach ($popups as $item)
+                                    @if (isset($item->images))
+                                        <div class="swiper-slide swiper-slide-active">
+                                            <a href="{{ $item->url ?? route('www.main.main') }}">
+                                                <div class="img_box" style="text-align:center; height:90%; width:100%;">
+                                                    <img style="height:100%;" src="{{ asset('assets/media/s_2.png') }}"
+                                                        alt="">
+                                                </div>
+                                            </a>
+                                        </div>
+                                    @endif
+                                @endforeach
 
-    </script>
+                                {{-- <div class="swiper-slide swiper-slide-active">
+                                    <a href="#">
+                                        <div class="img_box" style="text-align:center; height:90%; width:100%;">
+                                            <img style="height:100%;" src="{{ asset('assets/media/s_2.png') }}"
+                                                alt="">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="swiper-slide">
+                                    <a href="#">
+                                        <div class="img_box" style="text-align:center; height:90%; width:100%;">
+                                            <img style="height:100%;" src="{{ asset('assets/media/s_8.png') }}"
+                                                alt="">
+                                        </div>
+                                    </a>
+                                </div> --}}
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                        <div class="popup_bottom">
+                            <span class="today_close" onclick="todayClosePopup();">오늘 하루 보지 않기</span>
+                            <span class="close" onclick="closePopup();">닫기</span>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        @endif
+        <!-- popup : e -->
+
+        <script>
+            var swiperTop = new Swiper(".popup_bn_swiper", {
+                slidesPerView: 1,
+                pagination: {
+                    el: ".popup_bn_swiper .swiper-pagination",
+                    clickable: true,
+                },
+                // autoplay: {
+                //     delay: 1800,
+                //     stopOnLastSlide: false,
+                //     disableOnInteraction: true,
+                // },
+                // breakpoints: {
+                //     800: {
+                //         slidesPerView: 1,
+                //         spaceBetween: 1,
+                //     },
+                // },
+            });
+        </script>
 
         <!---------------------------------- only m : s ---------------------------------->
         <div class="only_m">
@@ -617,5 +640,61 @@
             return;
         }
         location.href = "{{ route('www.map.mobile') }}" + "?search_input=" + search_input;
+    }
+
+    var today = getCookie('notToday');
+    if (today == 'Y') {
+        $(".main_popup").css({
+            display: "none"
+        });
+    }
+
+    // 하루동안 닫기
+    function todayClosePopup() {
+        setCookie('notToday', 'Y', 1);
+
+        $(".main_popup").css({
+            display: "none"
+        });
+    }
+
+    // 그냥 닫기
+    function closePopup(element) {
+        $(".main_popup").css({
+            display: "none"
+        });
+    }
+
+    // 쿠키 만들기
+    function setCookie(name, value, expiredays) {
+        var todayDate = new Date();
+        todayDate = new Date(parseInt(todayDate.getTime() / 86400000) * 86400000 + 54000000);
+
+        if (todayDate > new Date()) {
+            expiredays = expiredays - 1;
+        }
+
+        todayDate.setDate(todayDate.getDate() + expiredays);
+
+        document.cookie = name + '=' + escape(value) + '; path=/; expires=' + todayDate.toGMTString() + ';'
+    }
+
+    // 쿠키 가져오기
+    function getCookie(name) {
+        var cName = name + "=";
+        var x = 0;
+        var i = 0;
+        while (i <= document.cookie.length) {
+            var y = (x + cName.length);
+            if (document.cookie.substring(x, y) == cName) {
+                if ((endOfCookie = document.cookie.indexOf(";", y)) == -1)
+                    endOfCookie = document.cookie.length;
+                return unescape(document.cookie.substring(y, endOfCookie));
+            }
+            x = document.cookie.indexOf(" ", x) + 1;
+            if (x == 0)
+                break;
+        }
+        return "";
     }
 </script>
