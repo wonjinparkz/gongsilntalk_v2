@@ -19,7 +19,9 @@
                                         <div class="swiper-slide swiper-slide-active">
                                             <a href="{{ $item->url ?? route('www.main.main') }}">
                                                 <div class="img_box" style="text-align:center; height:90%; width:100%;">
-                                                    <img style="height:100%;" src="{{ asset('assets/media/s_2.png') }}"
+                                                    <img style="height:100%;"
+                                                        src="{{ Storage::url('image/' . $item->images[0]->path) }}"
+                                                        onerror="this.src='{{ asset('assets/media/s_2.png') }}';"
                                                         alt="">
                                                 </div>
                                             </a>
