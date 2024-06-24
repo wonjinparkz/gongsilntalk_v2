@@ -123,6 +123,9 @@
                                     </div>
                                 </li>
                             @else
+                                @php
+                                    Log::info($community);
+                                @endphp
                                 <li>
                                     <a href="{{ route('www.community.detail.view', ['id' => $community->id, 'community' => request()->query('community') ?? 0]) }}"
                                         class="community_list_link">
@@ -137,7 +140,7 @@
                                                         ·
                                                     </span>
                                                     <span>추천 {{ $community->like_count }} · </span>
-                                                    <span>댓글 {{ count($community->replys) }}</span>
+                                                    <span>댓글 {{ number_format($community->replys_count) }}</span>
                                                 </div>
                                             </div>
                                         </div>
