@@ -335,7 +335,7 @@
 
                                     @case(1)
                                         가능,
-                                        {{ $result->parking_price == null || $result->parking_price == 0 ? '무료주차' : $result->parking_price . '만원' }}
+                                        {{ $result->parking_price == null || $result->parking_price == 0 ? '무료주차' : Commons::get_priceTrans($result->parking_price) }}
                                     @break
 
                                     @case(2)
@@ -792,9 +792,6 @@
     </div>
     <div class="md_overlay md_overlay_agent_qa" onclick="modal_close('agent_qa')"></div>
     <!-- modal 문의하기 : e-->
-
-
-
 
     <script>
         //방 이미지
