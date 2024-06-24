@@ -5,6 +5,7 @@ use App\Http\Controllers\dashboard\AdaminDashboardController;
 use App\Http\Controllers\admin\AdminAuthController;
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\apt\AptController;
+use App\Http\Controllers\asset\AssetController;
 use App\Http\Controllers\community\CommunityCategoryController;
 use App\Http\Controllers\community\CommunityController;
 use App\Http\Controllers\faq\FaqController;
@@ -28,6 +29,7 @@ use App\Http\Controllers\SiteProduct\SiteProductController;
 use App\Http\Controllers\terms\TermsController;
 use App\Http\Controllers\transactions\TransactionsController;
 use App\Http\Controllers\user\UserController;
+use App\Http\Controllers\userAsset\UserAssetController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
@@ -324,7 +326,13 @@ Route::middleware('admin.auth')->controller(AdminController::class)->group(funct
     Route::post('/admins/update/me', 'updateMe')->name('admins.update.me');
 });
 
+/**
+ * 일반회원 자산 관리
+ */
+Route::middleware('admin.auth')->controller(AssetController::class)->group(function () {
+    Route::get('/asset/list/view', 'assetListView')->name('admin.asset.list.view');
 
+});
 
 
 /**

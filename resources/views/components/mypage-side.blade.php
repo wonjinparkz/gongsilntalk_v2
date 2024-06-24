@@ -3,10 +3,8 @@
 <div class="my_side_top">
     <div class="my_profile_img">
         <div class="img_box" style="height:50px; width:50px;">
-            @if ($result->images != null)
-                @foreach ($result->images as $image)
-                    <img src="{{ Storage::url('image/' . $image->path) }}" />
-                @endforeach
+            @if ($result->image != null)
+                <img src="{{ Storage::url('image/' . $result->image->path) }}" />
             @else
                 <img src="{{ asset('assets/media/default_user.png') }}" />
             @endif

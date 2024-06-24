@@ -98,6 +98,8 @@ Route::controller(UserAuthPcController::class)->group(function () {
     Route::get('/apple/oauth', 'appleCallback');
     Route::get('/register/type', 'snsJoinView')->name('www.register.type'); // sns 회원가입 화면
     Route::post('register/sns/joinreg', 'snsJoinReg')->name('www.sns.join.reg'); // sns 회원가입
+
+    Route::middleware('pc.auth')->post('/sns/addinfo/create', 'addInfo')->name('www.sns.addinfo.create'); // sns 추가정보 입력
 });
 
 Route::controller(SiteProductPcController::class)->group(function () {

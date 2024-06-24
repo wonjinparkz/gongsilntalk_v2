@@ -535,4 +535,44 @@ class UserAuthPcController extends Controller
 
         return view('www.password_reset.password-reset-success');
     }
+
+    /**
+     * sns 추가정보입력
+     */
+    public function addInfo(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:1',
+            // 'gender' => 'required',
+            'birth' => 'required',
+            'phone' => 'required|min:11',
+            'nickname' => 'required|unique:users|regex:/^[\p{L}0-9]{2,8}$/u',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // 전화 번호 중복 체크
+        $users = User::select('phone')->whereNull('leaved_at')->get();
+        if ($users->contains('phone', $request->phone)) {
+            return response()->json(['check' => ['이미 가입된 핸드폰 번호 입니다.']], 422);
+        }
+        // 닉네임 중복 체크
+        $users = User::select('nickname')->get();
+        if ($users->contains('nickname', $request->nickname)) {
+            return response()->json(['check' => ['중복된 닉네임 입니다.']], 422);
+        }
+
+        $user = User::select()->where('id', Auth::guard('web')->user()->id)->first();
+        $user->update([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+            'birth'  => $request->birth,
+            'nickname'  => $request->nickname,
+        ]);
+
+        return response()->json(['success' => true]);
+    }
 }

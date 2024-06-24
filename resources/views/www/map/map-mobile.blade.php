@@ -140,7 +140,7 @@
         </div>
 
         {{--  네이버 지도 --}}
-        <div id="map" style="width:100%; height:calc(100vh - 105px);"></div>
+        <div id="map" style="width:100%; height:calc(100vh - 60px);"></div>
 
         <div id="panoArea">
             <div id="pano" style="width:100%; height:100%;"></div>
@@ -193,17 +193,18 @@
 
         var text = type == 0 ? '실거래가지도' : '매물지도';
         var bottom_property = document.getElementById('bottom_property');
+        const mapElement = document.getElementById('map');
         // $('#mapTypeText').text(text);
         var mapType = document.getElementById('mapTypeText');
         mapType.childNodes[0].nodeValue = text;
         $('.centerDongMapText').text(type == 0 ? '매물현황' : '실거래가');
         if (type == 0) {
             bottom_property.style.display = "none";
+            mapElement.style.height = 'calc(100vh - 60px)';
         } else {
             bottom_property.style.display = "";
+            mapElement.style.height = 'calc(100vh - 105px)';
         }
-        $('#property_count').html(11);
-        $('#agent_count').html(11);
 
         $('#mapType').val(type);
         modal_close_slide('menu_map')
@@ -235,24 +236,6 @@
 
 
         }
-        // $.ajax({
-        //     type: "get", // 전송타입
-        //     url: "{{ route('www.map.side.view') }}",
-        //     data: {
-        //         'id': markerId,
-        //         'type': markerType
-        //     },
-        //     dataType: 'html',
-        //     success: function(data, status, xhr) {
-        //         if (polygonMap) {
-        //             polygonMap.setMap(null);
-        //         }
-        //         $('.map_side').html(data);
-        //     },
-        //     error: function(xhr, status, e) {
-        //         console.error("Error: ", e);
-        //     }
-        // });
     }
 
     // 마커 업데이트
@@ -674,56 +657,6 @@
         }
     }
 
-
     // 페이지 로드 시 지도 초기화
     window.onload = initializeMap;
 </script>
-{{--
-<script>
-    //페이지 탭
-    var detail_tab = new Swiper(".detail_tab", {
-        slidesPerView: 'auto',
-        freeMode: true,
-        breakpointsInverse: true,
-        breakpoints: {
-            1023: {
-                allowTouchMove: false
-            }
-        }
-    });
-
-    //슬라이드 탭
-    function showContent(index) {
-        var tabContents = document.querySelectorAll('.side_tab_wrap .sction_item');
-        tabContents.forEach(function(content) {
-            content.classList.remove('active');
-        });
-        tabContents[index].classList.add('active');
-    }
-
-    // slider range
-    var slider = document.querySelector("#rangeItem_1");
-    var valueMin = document.querySelector("#item_1_min");
-    var valueMax = document.querySelector("#item_1_max");
-    var item1txt = document.querySelector("#item_1_txt");
-
-    noUiSlider.create(slider, {
-        start: [0, 100],
-        connect: true,
-        range: {
-            "min": 0,
-            "max": 100
-        }
-    });
-
-    slider.noUiSlider.on("update", function(values, handle) {
-        if (values[0] < 0 || values[1] > 99) {
-            item1txt.innerHTML = "전체";
-        } else {
-            valueMin.innerHTML = values[0];
-            valueMax.innerHTML = values[1];
-            item1txt.innerHTML = "<span id='kt_slider_basic_min'>" + values[0] +
-                "원</span> ~ <span id='kt_slider_basic_max'>" + values[1] + "원</span>";
-        }
-    });
-</script> --}}

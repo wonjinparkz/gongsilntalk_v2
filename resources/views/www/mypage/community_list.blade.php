@@ -33,7 +33,7 @@
                     </div>
 
 
-                    @if ($result_community)
+                    @if (count($result_community) > 0)
                         <!-- list : s -->
 
                         <table class="board_list">
@@ -66,13 +66,18 @@
                                                 </div>
                                                 <div class="board_inner_row">
                                                     <div class="board_item_4 only_pc">{{ $community->id }}</div>
-                                                    <div class="board_item_1"><a href="{{ route('www.community.detail.view', ['id' => $community->id, 'community' => 1]) }}"><span
+                                                    <div class="board_item_1"><a
+                                                            href="{{ route('www.community.detail.view', ['id' => $community->id, 'community' => 1]) }}"><span
                                                                 class="gray_deep">[{{ Commons::get_communityTypeTitle($community->category) }}]</span>
                                                             {{ $community->title }}</a> <span
-                                                            class="txt_point">[{{count($community->replys)}}]</span></div>
-                                                    <div class="board_item_3 gray_basic">{{ $carbon::parse($community->created_at)->format('Y-m-d H:m') }}<span
-                                                            class="gray_basic"> · 조회 {{ $community->view_count }}</span></div>
-                                                    <div class="board_item_4 gray_basic only_pc"> {{ $community->view_count }}</div>
+                                                            class="txt_point">[{{ number_format($community->replys_count) }}]</span>
+                                                    </div>
+                                                    <div class="board_item_3 gray_basic">
+                                                        {{ $carbon::parse($community->created_at)->format('Y-m-d H:m') }}<span
+                                                            class="gray_basic"> · 조회 {{ $community->view_count }}</span>
+                                                    </div>
+                                                    <div class="board_item_4 gray_basic only_pc">
+                                                        {{ $community->view_count }}</div>
                                                 </div>
                                             </div>
 
@@ -85,23 +90,7 @@
                         <!-- list : e -->
 
                         <!-- paging : s -->
-                        <div class="paging only_pc">
-                            <ul class="btn_wrap">
-                                <li class="btn_prev">
-                                    <a class="no_next" href="#1"><img
-                                            src="{{ asset('assets/media/btn_prev.png') }}" alt=""></a>
-                                </li>
-                                <li class="active">1</li>
-                                <li>2</li>
-                                <li>3</li>
-                                <li>4</li>
-                                <li>5</li>
-                                <li class="btn_next">
-                                    <a class="no_next" href="#1"><img
-                                            src="{{ asset('assets/media/btn_next.png') }}" alt=""></a>
-                                </li>
-                            </ul>
-                        </div>
+                        {{ $result_community->onEachSide(1)->links('components.pc-my-community-page-pagination') }}
                         <!-- paging : e -->
                     @else
                         <!-- 데이터가 없을 경우 : s -->
