@@ -14,6 +14,7 @@ use App\Models\ReplyReport;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -50,6 +51,10 @@ class CommunityPcController extends Controller
         } else if ($is_community == 1) {
             // 커뮤니티
             $communityList = Community::withCount('replys')
+                ->select(
+                    "community.*",
+                    DB::raw("(SELECT count(*) FROM reply WHERE target_id = community.id AND target_type = 'community' AND is_delete = 0) AS replys_count")
+                )
                 ->where('community.category', '=', $request->type ?? 0)
                 ->where('community.is_blind', '0')
                 ->where('community.is_delete', '0');
