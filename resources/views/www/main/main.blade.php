@@ -97,8 +97,8 @@
                         @foreach ($banner_main as $item)
                             <div class="swiper-slide">
                                 <div class="txt_area">
-                                    <div class="main_1_tit">{{ $item->name }}</div>
-                                    <div class="main_1_sub">{{ $item->content }}</div>
+                                    <div class="main_1_tit">{!! nl2br($item->name) !!}</div>
+                                    <div class="main_1_sub">{!! nl2br($item->content) !!}</div>
                                     <button onclick="location.href='{{ $item->url }}' ">더 알아보기</button>
                                 </div>
                                 <div class="img_box">
