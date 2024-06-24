@@ -1,4 +1,5 @@
 <x-layout>
+    @inject('carbon', 'Carbon\Carbon')
     @php
         $square = $result->square ?? 1;
         $price = $result->priceInfo->price;
@@ -562,7 +563,13 @@
                     <section>
                         <h3>상세설명</h3>
                         <div class="detail_info_container">
-                            {{ $result->contents ?? '-' }}
+                            @php
+                                if ($result->contents != '') {
+                                    echo nl2br($result->contents);
+                                } else {
+                                    echo '-';
+                                }
+                            @endphp
                         </div>
                         <!-- 닫기 열기 텍스트는 css에 있음 -->
                         <!-- <input type="checkbox" class="detail_info_container_btn"> -->
@@ -729,8 +736,8 @@
                         <div class="info_row"><span class="gray_deep">주소
                             </span>{{ implode(', ', array_filter([$result->users->company_address ?? '', $result->users->company_address_detail ?? '-'])) }}
                         </div>
-                        <div class="info_row"><span
-                                class="gray_deep">중개등록번호</span>{{ $result->company_number ?? '-' }}</div>
+                        <div class="info_row"><span class="gray_deep">중개등록번호
+                            </span>{{ $result->users->company_number ?? '-' }}</div>
                     </div>
                     <button class="btn_point btn_full_thin" onclick="modal_open('agent_qa')">문의하기</button>
                 </div>
