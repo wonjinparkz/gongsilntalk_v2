@@ -311,7 +311,7 @@
 .agent_txt_item_2{font-family: 'font-r'; color: var(--color-gray-2); margin-top: 6px; overflow: hidden; text-overflow: ellipsis; white-space:nowrap;}
 .side_tab_wrap .sction_item{display: none;}
 .side_tab_wrap .sction_item.active{display: block;}
-.type_side .swiper::after{position: absolute; right: 0; top:0; width: 50px; height:58px; background:linear-gradient(270deg, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%); content: ''; z-index: 2;}
+.type_side .swiper::after{position: absolute; right: 0; top:0; width: 50px; height:58px; background:linear-gradient(270deg, rgba(246,246,246,1) 50%, rgba(246,246,246,0) 100%); content: ''; z-index: 2;}
 .type_side .swiper-button-next:after, .type_side .swiper-button-prev:after{font-size: 12px !important; font-weight: bold;}
 .type_side .swiper-button-next, .type_side .swiper-rtl .swiper-button-prev{right: 0;}
 .type_side .swiper-button-next.swiper-button-disabled, .type_side .swiper-button-prev.swiper-button-disabled{opacity: 0.2;}
