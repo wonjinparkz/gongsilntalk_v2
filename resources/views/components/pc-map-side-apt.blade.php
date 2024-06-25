@@ -241,11 +241,9 @@
                                     <div class="chart_wrap">
                                         <div class="chart_top">
                                             <p>기간 : 전체</p>
-                                            <p>2023.07 국토교통부 기준</p>
                                         </div>
                                         <div id="container" style="height: 200px;"></div>
                                     </div>
-                                    <script src="http://code.highcharts.com/highcharts.js"></script>
                                     <script type="text/javascript">
                                         Highcharts.chart('container', {
                                             colors: ['#F16341'],
@@ -603,7 +601,7 @@
         var list = $(this).index();
         $(".tab_sm_menu li").removeClass("active");
         $(this).addClass("active");
-    
+
         $(".tab_sm_wrap > div").hide();
         $(".tab_sm_wrap > div").eq(list).show();
         });

@@ -86,6 +86,7 @@
     src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
 </script>
 <script src="{{ asset('assets/js/MarkerClustering.js') }}"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
 
 <script>
     var polygonMap = null;

@@ -223,7 +223,8 @@
                     @endphp
                     @if (count($BrExposPubuseAreaInfoArray) > 0)
                         @foreach ($BrExposPubuseAreaInfoArray as $info)
-                            <li class="optionItem {{ $info['dongNm'] }} dongInfo">
+                            <li class="optionItem {{ $info['dongNm'] }} ">
+                            {{-- <li class="optionItem {{ $info['dongNm'] }} dongInfo"> --}}
                                 {{ $info['dongNm'] }} - {{ $info['hoNm'] }}
                             </li>
                         @endforeach
@@ -251,7 +252,8 @@
                     <tbody class="">
                         @if (count($BrExposPubuseAreaInfo) > 0)
                             @foreach ($BrExposPubuseAreaInfo as $info)
-                                <tr class="{{ $info['dongNm'] }} dongInfo">
+                                <tr class="{{ $info['dongNm'] }} ">
+                                {{-- <tr class="{{ $info['dongNm'] }} dongInfo"> --}}
                                     <td>{{ $info['exposPubuseGbCdNm'] }}</td>
                                     <td>{{ $info['flrNoNm'] }}</td>
                                     <td>{{ $info['mainPurpsCdNm'] }}</td>
