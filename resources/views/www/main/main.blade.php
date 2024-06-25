@@ -235,8 +235,8 @@
                                 </div>
                             </div>
                             <div class="main_2_btn">
-                                <div class="swiper-button-prev"><img src="{{ asset('assets/media/bn_arrow_next.png') }}" alt=""></div>
-                                <div class="swiper-button-next"><img src="{{ asset('assets/media/bn_arrow_prev.png') }}" alt=""></div>
+                                <div class="swiper-button-prev"><img src="{{ asset('assets/media/bn_arrow_prev.png') }}" alt=""></div>
+                                <div class="swiper-button-next"><img src="{{ asset('assets/media/bn_arrow_next.png') }}" alt=""></div>
                             </div>
                             <div class="swiper-pagination"></div>
                         </div>

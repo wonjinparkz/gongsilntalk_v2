@@ -813,7 +813,7 @@ a.btn_like{background: url('../images/btn_like_off.png') no-repeat; background-s
 .type_1_index .index_tit{display: flex; align-items: center; width:100%; justify-content: space-between;}
 .type_1_index .index_tit .index_number{width: 30px; color: #fff; font-size: 16px; text-align: right;}
 .type_1_index .index_tit .index_name{position: relative; color:#fff; font-size: 16px; flex: 1;}
-.type_1_index .index_tit .index_name:after{content: ''; position: absolute; left:70px; top:8px; width:calc(100% - 80px); height: 1px; background: #fff;}
+.type_1_index .index_tit .index_name:after{content: ''; position: absolute; left:100px; top:8px; width:calc(100% - 100px); height: 1px; background: #fff;}
 .type_1_index .index_item_list{display: flex; flex-direction: column; gap: 6px; margin-top: 10px;}
 .type_1_index .index_item_list .index_item_row{color:#fff;position: relative; padding-left:10px;}
 .type_1_index .index_item_list .index_item_row::before{content: ''; width: 3px; height: 3px; border-radius: 5px; background: #fff; position: absolute; top:8px; left: 0;}
