@@ -23,7 +23,7 @@
         </div>
         <div class="slide_modal_body">
             <div class="layer_share_con">
-                <a href="#">
+                <a class="kakaotalk-sharing-btn">
                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                     <p class="mt8">카카오톡</p>
                 </a>
@@ -63,7 +63,7 @@
                                         class="md_btn_close btn_share">
                                 </div>
                                 <div class="layer_share_con">
-                                    <a href="#">
+                                    <a class="kakaotalk-sharing-btn">
                                         <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                         <p class="mt8">카카오톡</p>
                                     </a>
@@ -143,6 +143,9 @@
                         @endif
                         {!! nl2br($result->content) !!}
                         @foreach ($result->images as $index => $image)
+                            @php
+                                $detailImage = $image->path;
+                            @endphp
                             <div class="detail_img_wrap">
                                 <img src="{{ Storage::url('image/' . $image->path) }}"
                                     onclick="modal_open('big_img_{{ $index }}')">
@@ -207,7 +210,8 @@
                     <textarea id="community_report_reason" name="community_report_reason" placeholder="신고사유를 입력하세요."></textarea>
                 </div>
                 <div class="mt10">
-                    <button class="btn_point btn_full_basic" type="button" onclick="onCommunityReportSubmit();"><b>신고하기</b></button>
+                    <button class="btn_point btn_full_basic" type="button"
+                        onclick="onCommunityReportSubmit();"><b>신고하기</b></button>
                 </div>
             </form>
         </div>
@@ -271,6 +275,34 @@
             return false;
         });
     </script>
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+        integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous">
+    </script>
+    <script>
+        Kakao.init('0137e2c7fcf3ebb6956ea376bc415ebc'); // 사용하려는 앱의 JavaScript 키 입력
+    </script>
+
+    <a id="create-kakaotalk-sharing-btn" href="javascript:;">
+        <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+            alt="카카오톡 공유 보내기 버튼" />
+    </a>
+
+    <script>
+        Kakao.Share.createDefaultButton({
+            container: "#create-kakaotalk-sharing-btn",
+            objectType: "feed",
+            content: {
+                title: 'ㅎㅇ',
+                description: 'ㅎㅇ',
+                imageUrl: "{{ $detailImage != '' ? 'http://localhost' . Storage::url('image/' . $detailImage) : '' }}",
+                link: {
+                    mobileWebUrl: `http://gsntalk.cafe24.com/community/detail?id=9&community=0`,
+                    webUrl: `http://gsntalk.cafe24.com/community/detail?id=9&community=0`,
+                },
+            }
+        });
+    </script>
+
 
 
 </x-layout>
