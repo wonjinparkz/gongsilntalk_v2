@@ -236,6 +236,8 @@
     .community_search_wrap{margin-top:60px !important;}
     .search_page .map_m_top_wrap{margin-top:20px !important;}
 
+    .layer_menu{right:10px;} 
+
 
     /* 마이페이지 */
     .my_inner_wrap{width:100%; margin: 0 auto;}
