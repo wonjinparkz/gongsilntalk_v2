@@ -16,14 +16,19 @@
 
 <script>
     window.miniMap = function() {
-        miniMap = new naver.maps.Map('minimap', {
-            center: new naver.maps.LatLng({{ $result->address_lat }}, {{ $result->address_lng }}),
-            // center: new naver.maps.LatLng(37.48860419800877, 126.8880090781063),
-            zoom: 17,
-            minZoom: 13,
-            maxZoom: 20,
-            mapTypeId: naver.maps.MapTypeId.NORMAL,
-        });
+        try {
+            const miniMap = new naver.maps.Map('minimap', {
+                center: new naver.maps.LatLng({{ $result->address_lat }}, {{ $result->address_lng }}),
+                // center: new naver.maps.LatLng(37.48860419800877, 126.8880090781063),
+                zoom: 17,
+                minZoom: 13,
+                maxZoom: 20,
+                mapTypeId: naver.maps.MapTypeId.NORMAL,
+            });
+        } catch (error) {
+            // Handle any errors that occur during map creation
+            console.error('no minimap:', error.message);
+        }
     }
 
     window.miniMap();
