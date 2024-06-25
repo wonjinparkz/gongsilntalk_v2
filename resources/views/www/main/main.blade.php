@@ -108,7 +108,7 @@
                 </div>
 
                 <div class="m_main_bn_1">
-                    <a href="#">
+                    <a href="{{ route('www.mypage.proposal.list.view') }}">
                         <div>
                             <h1>AI기반<br>매물 매칭 시스템</h1>
                             <p>전국 지식산업센터,<br>30초만에 매물 제안 받으세요.</p>
@@ -117,17 +117,19 @@
                 </div>
 
                 <div class="m_main_bn_2">
-                    <a href="#"><img src="{{ asset('assets/media/main_bn_2.png') }}" alt="매물 지도"></a>
-                    <a href="#"><img src="{{ asset('assets/media/main_bn_3.png') }}" alt="분양 현장"></a>
+                    <a href="{{ route('www.map.mobile') }}"><img src="{{ asset('assets/media/main_bn_2.png') }}"
+                            alt="매물 지도"></a>
+                    <a href="{{ route('www.site.product.list.view') }}"><img
+                            src="{{ asset('assets/media/main_bn_3.png') }}" alt="분양 현장"></a>
                 </div>
 
                 <div class="m_main_bn_3">
-                    <a href="#">
+                    <a href="{{ route('www.map.mobile') }}">
                         <span>구하기</span> <img src="{{ asset('assets/media/ic_arrow_more.png') }}">
                         <p>공간을 구하고 있어요.</p>
                     </a>
                     <span class="v_line"></span>
-                    <a href="#">
+                    <a href="{{ route('www.product.create.view') }}">
                         <span>내놓기</span> <img src="{{ asset('assets/media/ic_arrow_more.png') }}">
                         <p>여기 공실이 있어요.</p>
                     </a>

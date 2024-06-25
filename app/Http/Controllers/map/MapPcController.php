@@ -224,7 +224,7 @@ class MapPcController extends Controller
                     }
                 }
             } elseif ($zoomLv >= 11 && $zoomLv <= 13) {
-                $distance = 20;
+                $distance = 30;
                 $regionList = RegionCoordinate::select('id', 'sigungu as name', 'address_lat', 'address_lng')
                     ->whereNull('dong')
                     ->whereNotNull('sigungu')
@@ -248,7 +248,7 @@ class MapPcController extends Controller
                     }
                 }
             } elseif ($zoomLv >= 14 && $zoomLv <= 15) {
-                $distance = 8;
+                $distance = 20;
                 $regionList = RegionCoordinate::select('id', 'dong as name', 'address_lat', 'address_lng')->whereNotNull('dong')
                     ->whereRaw(
                         "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
@@ -270,17 +270,7 @@ class MapPcController extends Controller
                     }
                 }
             } else {
-                $distance = 1;
-                // // 매물 데이터를 가져옴
-                // $maps = Product::select()
-                //     ->where('is_delete', '0')
-                //     ->where('is_blind', '0')
-                //     ->where('is_map', '0')
-                //     ->where('state', '>', '0')
-                //     ->whereRaw(
-                //         "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
-                //         [$address_lat, $address_lng, $address_lat, $distance]
-                //     )->get();
+                $distance = 4;
 
                 // 아파트 데이터를 가져옴
                 if (!isset($request->sale_product_type) || $request->sale_product_type == 3) {
@@ -360,10 +350,11 @@ class MapPcController extends Controller
             } elseif ($zoomLv >= 11 && $zoomLv <= 13) {
                 $distance = 50;
             } elseif ($zoomLv >= 14 && $zoomLv <= 15) {
-                $distance = 2;
+                $distance = 10;
             } else {
-                $distance = 1;
+                $distance = 4;
             }
+
             $product = Product::select()->where('state', 1)
                 ->whereRaw(
                     "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
@@ -563,7 +554,7 @@ class MapPcController extends Controller
         $productList = Product::where('state', 1)
             ->whereRaw(
                 "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
-                [$result->address_lat, $result->address_lng, $result->address_lat, 10000]
+                [$result->address_lat, $result->address_lng, $result->address_lat, 1]
             )->limit(3)->get();
 
         $result->productList = $productList;
