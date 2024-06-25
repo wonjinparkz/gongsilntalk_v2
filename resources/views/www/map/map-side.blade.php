@@ -114,7 +114,6 @@
 
     // 슬라이드 탭
     function showContent(index) {
-        console.log('탭 : ', index);
         $('.side_tab_wrap .sction_item').removeClass('active');
         $('.side_tab_wrap .sction_item').eq(index).addClass('active');
         $('.swiper-slide').removeClass('active');
@@ -124,7 +123,6 @@
     // 탭에 클릭 이벤트 추가
     $('.detail_tab .swiper-slide').on('click', function() {
         var index = $(this).index();
-        console.log('탭12 : ', index);
         showContent(index);
     });
 

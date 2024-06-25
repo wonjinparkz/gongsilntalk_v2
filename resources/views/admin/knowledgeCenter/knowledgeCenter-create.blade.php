@@ -148,7 +148,7 @@
 
                     {{-- 층별도면 --}}
                     <x-admin-file-picker :title="'층별도면'" required="" cnt='50' id="floorPlan"
-                        label_col='3' div_col='9' acceptedFiles="jpg,png" />
+                        label_col='3' div_col='9' acceptedFiles=".jpg,.png" />
                     <x-input-error class="mt-2 text-danger" :messages="$errors->get('floorPlan_file_ids')" />
 
                 </div>

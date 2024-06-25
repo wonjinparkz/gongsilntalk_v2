@@ -117,6 +117,11 @@
             </div>
         </div>
 
+        <div class="only_m">
+            <!-- nav : s -->
+            <x-nav-layout />
+            <!-- nav : e -->
+        </div>
         <input type="hidden" id="productListType" name="productListType" value="0">
         <input type="hidden" id="productType" name="productType" value="">
         <input type="hidden" id="paymentType" name="paymentType" value="">

@@ -95,7 +95,7 @@
 
     <div class="side_info_wrap">
         <div>
-            <img src="{{ asset('assets/media/map_sample_sm.png') }}" class="size_100p">
+            <div id="minimap" style="width:100%; height:330px;" class="size_100p"></div>
         </div>
         <p class="txt_address">{{ $result->kbuildingAddr }}</p>
         <p class="txt_sub_1">{{ $result->subwayStation }} {{ $result->subwayLine }}
@@ -141,9 +141,9 @@
         <div class="sction_item active">
             <!-- 거래내역 : s -->
             <div class="side_section">
-                <!-- <h4>거래내역</h4> -->
-
-                <div class="sm_type">
+                <h4>거래내역</h4>
+                <!-- 데이터 없을 경우 -->
+                <div class="sm_type mt10">
                     <button class="btn_point btn_md_full" onclick="location.href='//rtdown.molit.go.kr/'">실거래가
                         보러가기</button>
                 </div>
