@@ -22,7 +22,7 @@
 <ul class="my_gnb">
     @if ($result->type == 0)
         <li class="{{ str_contains(Route::currentRouteName(), 'mypage.product.magagement') ? 'active' : '' }}">
-            <a href="{{ route('www.mypage.product.magagement.list.view') }}">내 매물 관리</a>
+            <a href="{{ route('www.mypage.product.magagement.main.view') }}">내 매물 관리</a>
         </li>
     @elseif($result->type == 1)
         <li class="{{ str_contains(Route::currentRouteName(), 'mypage.corp.product.magagement') ? 'active' : '' }}">
