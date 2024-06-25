@@ -676,16 +676,21 @@
                                     <div class="swiper-slide">
                                         <a href="{{ route('www.map.room.detail', [$item->id]) }}">
                                             <div class="mediation_room_img">
-                                                <div class="img_box"><img
-                                                        src="{{ Storage::url('image/' . $item->images[0]->path) }}"
-                                                        onerror="this.src='{{ asset('assets/media/s_1.png') }}';">
+                                                <div class="img_box">
+                                                    @if (count($item->images) > 0)
+                                                        <img src="{{ Storage::url('image/' . $item->images[0]->path) }}"
+                                                            onerror="this.src='{{ asset('assets/media/s_1.png') }}';">
+                                                    @else
+                                                        <img src="{{ asset('assets/media/s_1.png') }}">
+                                                    @endif
                                                 </div>
                                             </div>
                                             <p class="mediation_txt_item1">
-                                                {{ Lang::get('commons.payment_type.' . $item->priceInfo->payment_type) }}
-                                                {{ Commons::get_priceTrans($item->priceInfo->price) }}
+                                                {{ isset($item->priceInfo) ? Lang::get('commons.payment_type.' . $item->priceInfo->payment_type) : 0 }}
+                                                {{ isset($item->priceInfo) ? Commons::get_priceTrans($item->priceInfo->price) : 0 }}
+                                                {{-- {{ Commons::get_priceTrans($item->priceInfo->price) }} --}}
                                                 {{-- 월세/단기임대 --}}
-                                                @if (in_array($item->priceInfo->payment_type, [2, 4]))
+                                                @if (isset($item->priceInfo) && in_array($item->priceInfo->payment_type, [2, 4]))
                                                     / {{ Commons::get_priceTrans($item->priceInfo->month_price) }}
                                                 @endif
                                             </p>
@@ -729,7 +734,7 @@
                             </div>
                         </div>
                         <h4>{{ $result->users->company_name ?? '-' }}</h4>
-                        <p>대표중개사 {{ $result->users->company_ceo ?? '-'}}</p>
+                        <p>대표중개사 {{ $result->users->company_ceo ?? '-' }}</p>
                     </div>
                     <hr class="mt18">
                     <div class="add_info_wrap">
