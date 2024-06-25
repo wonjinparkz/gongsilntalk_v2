@@ -333,4 +333,11 @@
         $('.' + dongName).css('display', '');
     }
 
+//아코디언::여러개 열림
+$(document).ready(function () {
+    $('.open_trigger').click(function () {
+        $(this).siblings('.con_panel').slideToggle();
+        $(this).find('img').toggleClass('rotate');
+    });
+});
 </script>
