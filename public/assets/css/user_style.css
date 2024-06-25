@@ -324,7 +324,7 @@
 
 
 /* map marker */
-.iw_inner{border: 1px solid #F16341; border-radius:5px 5px 5px 0; background: #fff; position: relative;}
+.iw_inner{border: 1px solid #F16341; border-radius:5px 5px 5px 0; background: #fff; position: relative; min-width:80px;}
 .iw_inner.active{border: 1px solid #F16341; border-radius:5px 5px 5px 0; background: #F16341; position: relative;}
 .iw_inner::after{position: absolute; left:-1px; bottom: -9px; content: ''; background: url('/assets/media/mark_anchor_line.png'); background-size: 20px auto; width: 20px; height: 9px;}
 .iw_inner.active::after{position: absolute; left:-1px; bottom: -9px; content: ''; background: url('/assets/media/mark_anchor.png'); background-size: 20px auto; width: 20px; height: 9px;}
@@ -337,11 +337,11 @@
 .iw_inner .inner_info{padding:5px 8px;}
 .iw_inner .bubble_info{position: absolute; right: -5px; bottom: -12px; background: #fff; border: 1px solid #F16341; border-radius: 60px; color:#F16341; font-size: 12px; padding: 4px 4px;}
 
-.iw_region_inner{border: 1px solid #F16341; border-radius:5px 5px 5px 5px; background: #F16341; position: relative; min-width: 70px;}
+.iw_region_inner{border: 1px solid #F16341; border-radius:5px 5px 5px 5px; background: #F16341; position: relative; min-width:80px;}
 .iw_region_inner span{background:#F16341; display: block; color:#fff; font-size: 13px; padding:5px 8px; border-radius:4px 4px 0 0; text-align: center; font-weight: normal !important; }
 .iw_region_inner .mini_inner_info p{color:#fff; padding:2px 8px 8px 8px; text-align: center; font-weight: bold;}
 
-.iw_mini_inner{border: 1px solid #F16341; border-radius:5px 5px 5px 0; background: #F16341; position: relative; min-width: 60px;}
+.iw_mini_inner{border: 1px solid #F16341; border-radius:5px 5px 5px 0; background: #F16341; position: relative; min-width:80px;}
 .iw_mini_inner::after{position: absolute; left:-1px; bottom: -9px; content: ''; background: url('/assets/media/mark_anchor.png'); background-size: 20px auto; width: 20px; height: 9px;}
 .iw_mini_inner h3{background:#F16341; color:#fff; font-size: 14px; padding:5px 8px; border-radius:4px 4px 0 0; text-align: center;}
 .iw_mini_inner .mini_inner_info p{color:#fff; padding:2px 8px 8px 8px;}
