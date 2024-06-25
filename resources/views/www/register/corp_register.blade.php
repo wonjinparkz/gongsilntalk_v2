@@ -175,7 +175,7 @@
 
         function highlight(text, keyword) {
             var regex = new RegExp('(' + keyword + ')', 'gi');
-            return text.replace(regex, '<span class="highlight">$1</span>');
+            return text.replace(regex, '<span class="">$1</span>');
         }
 
         function renderResults(results) {
