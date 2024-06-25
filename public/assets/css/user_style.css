@@ -337,7 +337,7 @@
 .iw_inner .inner_info{padding:5px 8px;}
 .iw_inner .bubble_info{position: absolute; right: -5px; bottom: -12px; background: #fff; border: 1px solid #F16341; border-radius: 60px; color:#F16341; font-size: 12px; padding: 4px 4px;}
 
-.iw_region_inner{border: 1px solid #F16341; border-radius:5px 5px 5px 5px; background: #F16341; position: relative;}
+.iw_region_inner{border: 1px solid #F16341; border-radius:5px 5px 5px 5px; background: #F16341; position: relative; min-width: 70px;}
 .iw_region_inner span{background:#F16341; display: block; color:#fff; font-size: 13px; padding:5px 8px; border-radius:4px 4px 0 0; text-align: center; font-weight: normal !important; }
 .iw_region_inner .mini_inner_info p{color:#fff; padding:2px 8px 8px 8px; text-align: center; font-weight: bold;}
 
