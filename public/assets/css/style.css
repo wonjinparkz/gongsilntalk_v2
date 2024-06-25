@@ -34,9 +34,10 @@
 .main_2_wrap{display:flex; justify-content: space-between; align-items:flex-end;}
 .main_2{height:590px; width:600px; position: relative;}
 .main_2 .swiper-slide{background:#F5F5F5;}
-.main_2_btn{width:600px; height: 5px; position:absolute; top:320px; left:660px; z-index: 10;}
+.main_2_btn{width:600px; height: 5px; position:absolute; top:320px; left:660px; z-index: 10; height: 50px;}
 /* .main_2_btn{width:80px; height: 5px; position: absolute; top:320px; border:1px solid #ff0000; background: #ff0000;} */
-.main_2_btn .swiper-button-next, .main_2_btn .swiper-button-prev{height:20px !important; }
+.main_2_btn .swiper-button-next, .main_2_btn .swiper-button-prev{height:20px !important; width:30px;}
+.main_2_btn img{width:36px; height:55px;}
 .main_2_btn .swiper-button-prev, .main_2_btn .swiper-rtl .swiper-button-next{left:var(--swiper-navigation-sides-offset,0px);}
 .main_2_btn .swiper-button-next:after, .main_2_btn .swiper-button-prev:after{font-size:30px; font-weight: bold;}
 .main_2 .swiper-pagination{position: absolute; top:285px; left:0px; width:45px; background:none; z-index: 5; font-size:20px;}

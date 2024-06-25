@@ -117,7 +117,7 @@
 .header_bar a{display: inline-block; margin: 8px;}
 
 .dot_btn{position: relative;}
-.layer_menu{display: none; position: absolute; z-index: 2; width: auto; background: #fff; box-shadow : 0px 0px 8px 0px rgb(0 0 0 / 8%); border-radius: 5px;}
+.layer_menu{display: none; position: absolute; z-index: 2; width: auto; background: #fff; box-shadow : 0px 0px 8px 0px rgb(0 0 0 / 8%); border-radius: 5px; min-width:60px;} 
 .layer_menu a{display: block; padding: 8px 10px; color:var(--color-gray-2)}
 
 .search_wrap{display: flex; border: 1px solid #D2D1D0; border-radius:5px; height:42px; box-sizing: border-box;}
@@ -514,7 +514,7 @@ a.community_list_link{display: flex; align-items:flex-start; justify-content: sp
 .community_mark{background: rgba(241,99,65,0.1); color:var(--main-color); border-radius: 6px; padding: 5px 10px; display: inline-block;}
 .detail_user{display:inline-flex; min-height:30px; align-items: center; margin-bottom: 14px; margin-top: 20px;}
 .detail_user .list_user_photo{width:40px; height:40px; margin-right: 8px;}
-.detail_user .list_user_photo .img_box{border-radius: 50%;}
+.detail_user .list_user_photo .img_box{border-radius:90px; height: 40px;}
 .detail_user .txt_name{color:#2A2828;}
 .detail_user .txt_date{color:#9D9999; font-family: 'font-r'; margin-top:6px;}
 .community_contents{line-height: 1.4; font-family: 'font-r'; border-bottom: 1px solid var(--gray-line); padding-bottom:22px;}

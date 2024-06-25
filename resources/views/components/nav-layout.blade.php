@@ -29,7 +29,7 @@
                  커뮤니티
              </a>
          </li>
-         <li>
+         <li class="{{ str_contains(Route::currentRouteName(), 'mypage') ? 'active' : '' }}">
              <a href="{{ route('www.mypage.product.magagement.list.view') }}">
                  <span>
                      <img src="{{ asset('assets/media/mcnu_ic_4.png') }}" alt="">

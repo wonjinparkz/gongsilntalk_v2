@@ -30,7 +30,7 @@
             <ul class="util_menu">
                 <li><a href="{{ route('www.login.login') }}">로그인</a></li>
                 <li><a href="{{ route('www.register.register.view') }}">회원가입</a></li>
-                <li><a href="{{ route('www.register.corp.register.view') }}">중개사 가입</a></li>
+                <li class="btn_type"><a href="{{ route('www.register.corp.register.view') }}">중개사 가입</a></li>
             </ul>
         @else
             <div class="util_area">
@@ -39,15 +39,15 @@
                 </div>
                 {{ Auth::guard('web')->user()->name }}
                 <ul class="util_menu">
-                    <li><a href="{{ route('www.logout.logout') }}">로그아웃</a></li>
+                    <li class="btn_type"><a href="{{ route('www.logout.logout') }}">로그아웃</a></li>
                 </ul>
             </div>
         @endguest
     </div>
 
-
-    <!-- modal 추가정보 입력 : s-->
-    <form class="form" id="form" name="form" method="POST" action="{{ route('www.sns.addinfo.create') }}">
+</header>
+<!-- modal 추가정보 입력 : s-->
+<form class="form" id="form" name="form" method="POST" action="{{ route('www.sns.addinfo.create') }}">
         @csrf
         <div class="modal modal_mid modal_add_info">
             <div class="modal_title">
@@ -85,8 +85,6 @@
         <div class="md_overlay md_overlay_add_info" onclick="modal_close('add_info')"></div>
         <!-- modal 추가정보 입력 : e-->
     </form>
-
-</header>
 <!-- header : e -->
 
 
