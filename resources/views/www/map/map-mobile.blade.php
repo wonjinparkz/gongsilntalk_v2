@@ -156,12 +156,19 @@
             </a>
         </li>
     </ul>
+
+    <div class="side_list_scroll" id="property_list" style="display:none;">
+    </div>
+    <div class="side_list_scroll" id="agent_list" style="display:none;">
+    </div>
+
     <x-nav-layout />
 </x-layout>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.5/proj4.js"></script>
 <script type="text/javascript"
     src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
 </script>
+<script src="{{ asset('assets/js/MarkerClustering.js') }}"></script>
 <script>
     var polygonMap = null;
     var map;
@@ -228,16 +235,6 @@
         markerUpdate(center.lat(), center.lng(), zoom);
     }
 
-
-    // 마커 클릭 사이드맵
-    function getProductSide(markerId, markerType) {
-        var zoom = map.getZoom();
-        if (zoom > 15) {
-
-
-        }
-    }
-
     // 마커 업데이트
     function markerUpdate(lat, lng, zoomLv) {
         console.log('lat:', lat);
@@ -247,7 +244,29 @@
             'lat': lat,
             'lng': lng,
             'zoomLv': zoomLv,
+            'sale_product_type': $('#sale_product_type').val(),
+            'useDate': $('#useDate').val(),
+            'mapType': $('#mapType').val(),
         };
+        if ($('#mapType').val() == 0) {
+            formData.sale_product_type = $('#sale_product_type').val();
+            formData.useDate = $('#useDate').val();
+        } else {
+            formData.product_type = $('#product_type').val();
+            formData.payment_type = $('#payment_type').val();
+            formData.price = $('#price').val();
+            formData.month_price = $('#month_price').val();
+            formData.area = $('#area').val();
+            formData.square = $('#square').val();
+            formData.service_price = $('#service_price').val();
+            formData.approve_date = $('#approve_date').val();
+            formData.loan_type = $('#loan_type').val();
+            formData.premium_price = $('#premium_price').val();
+            formData.business_type = $('#business_type').val();
+            formData.floor_height_type = $('#floor_height_type').val();
+            formData.wattage_type = $('#wattage_type').val();
+        }
+
         $.ajax({
             type: "post", // 전송타입
             dataType: 'json',
@@ -257,22 +276,51 @@
                 var data = data.data;
 
                 // 기존 마커 제거
+                if (productClustering) {
+                    productClustering.setMap(null);
+                    productClustering = null;
+                }
+                if (agentClustering) {
+                    agentClustering.setMap(null);
+                    agentClustering = null;
+                }
                 markers.forEach(marker => marker.setMap(null)); // 마커를 지도에서 제거
                 markers = []; // 마커 배열 초기화
+
+                productMarkers.forEach(productMarkers => productMarkers.setMap(null));
+                productMarkers = []; // product 마커 배열 초기화
+
+                agentMarkers.forEach(agentMarkers => agentMarkers.setMap(null));
+                agentMarkers = []; // agent 마커 배열 초기화
+
                 bounds = new naver.maps.LatLngBounds(); // bounds 초기화
 
                 // 새 마커 추가
-                processDataArray(data.region, 'region', getContentStringForRegion, 25, 55);
+                processRegionArray(data.region, 'region', getContentStringForRegion, 25, 55);
                 processDataArray(data.knowledges, 'knowledge', getContentStringForKnowledge, 0, 73);
                 processDataArray(data.aptMaps, 'apt', getContentStringForApt, 0, 50);
                 processDataArray(data.store, 'store', getContentStringForStore, 0, 50);
                 processDataArray(data.building, 'building', getContentStringForBuilding, 0, 50);
 
+                processProductArray(data.product, 'product', 0, 50);
+                processAgentArray(data.agent, 'agent', 0, 50);
+
+
+                if (data.centerDongName != null) {
+                    $('#centerDongText').text(data.centerDongName.dong);
+                }
+
+                if ($('#mapType').val() != 0) {
+                    clusterProductMarkers();
+                    clusterAgentMarkers();
+                    loadMoreData();
+                }
+
                 // 지도 경계 설정
                 // map.fitBounds(bounds);
             },
             error: function(xhr, status, e) {
-                console.error("Error: ", e);
+                console.error("Error1: ", e);
             }
         });
     }
@@ -292,6 +340,69 @@
                 lng: address_lng,
                 type: type,
                 contentString: contentString,
+                anchorX: anchorX,
+                anchorY: anchorY
+            });
+        });
+    }
+
+    // 데이터 배열 처리 함수
+    function processRegionArray(array, type, getContentString, anchorX, anchorY) {
+        array.forEach(item => {
+            var {
+                id,
+                address_lat,
+                address_lng
+            } = item;
+            var contentString = getContentString(item);
+            createRegionMarker({
+                id: id,
+                lat: address_lat,
+                lng: address_lng,
+                type: type,
+                contentString: contentString,
+                anchorX: anchorX,
+                anchorY: anchorY
+            });
+        });
+    }
+
+    // 데이터 배열 처리 함수
+    function processProductArray(array, type, anchorX, anchorY) {
+        array.forEach(item => {
+            var {
+                id,
+                address_lat,
+                address_lng,
+                type,
+            } = item;
+            createProductMarker({
+                id: id,
+                lat: address_lat,
+                lng: address_lng,
+                type: type,
+                anchorX: anchorX,
+                anchorY: anchorY
+            });
+        });
+    }
+
+    // 데이터 배열 처리 함수
+    function processAgentArray(array, type, anchorX, anchorY) {
+        array.forEach(item => {
+            var {
+                id,
+                company_address_lat,
+                company_address_lng,
+                type,
+                image
+            } = item;
+            createAgentMarker({
+                id: item.id,
+                lat: company_address_lat,
+                lng: company_address_lng,
+                type: type,
+                image: image,
                 anchorX: anchorX,
                 anchorY: anchorY
             });
@@ -346,12 +457,11 @@
             var markerElement = marker.getElement();
             var markerId = marker.id;
             var markerType = marker.type;
-            var mapSide = document.querySelector('.map_side');
+            var mapSide = document.querySelector('.map_side_0');
             var currentActiveMarkerElement = markerElement.querySelector('.activeMarker');
-            var zoom = map.getZoom();
 
             if (lastActiveMarkerElement === currentActiveMarkerElement) {
-                // mapSide.classList.remove('active');
+                mapSide.classList.remove('active');
                 $(currentActiveMarkerElement).removeClass('active');
                 lastActiveMarkerElement = null;
 
@@ -359,21 +469,107 @@
                     polygonMap.setMap(null);
                 }
             } else {
-                getProductSide(markerId, markerType);
+                getProductSide(markerId, markerType, 0);
                 $('.activeMarker').removeClass('active');
                 $(currentActiveMarkerElement).addClass('active');
-                if (zoom > 15) {
-                    // window.location(
-                    //     "{{ route('www.map.detail.mobile', [12]) }}");
+                if (!mapSide.classList.contains('active')) {
+                    mapSide.classList.add('active');
                 }
-                // if (!mapSide.classList.contains('active')) {
-                //     mapSide.classList.add('active');
-                // }
                 lastActiveMarkerElement = currentActiveMarkerElement;
             }
         });
 
         markers.push(marker);
+    }
+
+    // 마커 생성 및 클릭 이벤트 리스너 추가 함수
+    function createRegionMarker({
+        id,
+        lat,
+        lng,
+        type,
+        contentString,
+        anchorX,
+        anchorY
+    }) {
+        var position = new naver.maps.LatLng(lat, lng);
+        var regionMarker = new naver.maps.Marker({
+            id: id,
+            type: type,
+            map: map,
+            position: position,
+            icon: {
+                content: contentString,
+                anchor: new naver.maps.Point(anchorX, anchorY) // 기준점을 하단 중앙으로 설정
+            }
+        });
+
+        bounds.extend(position);
+
+        markers.push(regionMarker);
+    }
+
+    function createProductMarker({
+        id,
+        lat,
+        lng,
+        type,
+        anchorX,
+        anchorY
+    }) {
+        var position = new naver.maps.LatLng(lat, lng);
+        var productMarker = new naver.maps.Marker({
+            id: id,
+            map: map,
+            position: position,
+            icon: {
+                url: "{{ asset('assets/media/map_marker_default.png') }}",
+                size: new naver.maps.Size(100, 100), //아이콘 크기
+                scaledSize: new naver.maps.Size(30, 43), //아이콘 크기
+                // origin: new naver.maps.Point(0, 0),
+                anchor: new naver.maps.Point(anchorX, anchorY)
+            }
+        });
+
+        bounds.extend(position);
+
+        productMarkers.push(productMarker); // product 마커 배열에 추가
+    }
+
+    function createAgentMarker({
+        id,
+        lat,
+        lng,
+        type,
+        image,
+        anchorX,
+        anchorY
+    }) {
+        var position = new naver.maps.LatLng(lat, lng);
+        var imagePath = image != null ? "{{ Storage::url('image/') }}" + image.path :
+            "{{ asset('assets/media/default_img.png') }} "
+        var agentMarker = new naver.maps.Marker({
+            id: id,
+            map: map,
+            position: position,
+            icon: {
+                content: `<div class="marker_default detail_info_toggle"><div class="agent_mark_img"><div class="img_box"><img src="` +
+                    imagePath + `"></div></div></div>`,
+                size: new naver.maps.Size(22, 35),
+                anchor: new naver.maps.Point(11, 35)
+            }
+        });
+
+        bounds.extend(position);
+        naver.maps.Event.addListener(agentMarker, 'click', function() {
+            console.log('agentMarker : ', agentMarker.id);
+            markerId = agentMarker.id;
+            agentIdArray = [markerId];
+            $('li.agent').click();
+        });
+
+        agentMarkers.push(agentMarker); // agent 마커 배열에 추가
+
     }
 
     // 각 데이터별 contentString 생성 함수
@@ -446,11 +642,11 @@
 
     function initializeMap() {
         map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.5665, 126.9780),
-            zoom: 15,
+            center: new naver.maps.LatLng(37.45404740497049, 126.9087944960182),
+            zoom: 20,
             minZoom: 8,
             maxZoom: 21,
-            // size: new naver.maps.Size(window.innerWidth, window.innerHeight),
+            size: new naver.maps.Size(window.innerWidth, window.innerHeight),
             mapTypeId: naver.maps.MapTypeId.NORMAL,
         });
 
@@ -537,31 +733,6 @@
                 });
             });
 
-            // 필터 버튼 이벤트 리스너 추가
-            const filterBtns = document.querySelectorAll('.filter_btn_trigger');
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', function(event) {
-                    const parent = this.parentElement;
-                    const panel = parent.querySelector('.filter_panel');
-                    document.querySelectorAll('.filter_panel').forEach(p => {
-                        if (p !== panel && p.style.display === 'block') {
-                            p.style.display = 'none';
-                        }
-                    });
-                    panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
-                    event.stopPropagation();
-                });
-            });
-
-            document.addEventListener('click', function(event) {
-                const isOutsideFilterPanel = !event.target.closest('.filter_panel');
-                if (isOutsideFilterPanel) {
-                    document.querySelectorAll('.filter_panel').forEach(p => {
-                        p.style.display = 'none';
-                    });
-                }
-            });
-
             window.toggleSatelliteView = function() {
                 var currentMapTypeId = map.getMapTypeId();
                 if (currentMapTypeId === naver.maps.MapTypeId.NORMAL) {
@@ -595,8 +766,21 @@
                 }
             });
 
+            var currentbtn = $('#current');
+            currentbtn.on("click", function(e) {
+                e.preventDefault();
+                navigator.geolocation.getCurrentPosition((position) => {
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+                    var currentLocation = new naver.maps.LatLng(lat, lng);
+                    map.setZoom(18, true);
+                    map.setCenter(currentLocation);
+                    updateCenter();
+                });
+            });
+
             // 초기 마커 설정
-            updateCenter()
+            mapTypeChage({{ $mapType ?? 0 }})
 
         });
     }
@@ -618,21 +802,22 @@
         return R * 2 * Math.asin(Math.sqrt(a));
     }
 
-    function updateCenter() {
+    function updateCenter(force) {
         var center = map.getCenter();
         var zoom = map.getZoom();
 
         var zoomLock;
 
-        if (zoom <= 12) {
-            zoomLock = 10000;
+        if (zoom <= 10) {
+            zoomLock = 200;
         } else if (zoom >= 11 && zoom <= 13) {
-            zoomLock = 7;
+            zoomLock = 5;
         } else if (zoom >= 14 && zoom <= 15) {
-            zoomLock = 1;
+            zoomLock = 5;
         } else {
             zoomLock = 0.6;
         }
+
         if (lastCenter && lastZoom !== null) {
             var distance = getDistance(lastCenter.lat(), lastCenter.lng(), center.lat(), center.lng());
 
@@ -657,6 +842,108 @@
         }
     }
 
+
+    var htmlMarker1 = { // 매물 클러스터링 마커
+            content: `<div class="cluster_marker"></div>`,
+            size: N.Size(40, 40),
+            anchor: N.Point(20, 20)
+        },
+        htmlMarker2 = { // 중개사 클러스터링 마커
+            content: `<div class="marker_default detail_info_toggle"><span></span></div>`,
+            size: N.Size(40, 40),
+            anchor: N.Point(20, 20)
+        };
+
+    function clusterProductMarkers() {
+        MarkerIdArray = [];
+        if (productMarkers.length > 0) {
+
+            productMarkers.forEach(function(marker) {
+                marker.setVisible(false); // 마커를 숨깁니다.
+            });
+
+            productClustering = new MarkerClustering({
+                minClusterSize: 0,
+                maxZoom: 999,
+                map: map,
+                markers: productMarkers, // product 마커들만 클러스터링
+                disableClickZoom: true,
+                productClick: true,
+                gridSize: 70,
+                icons: [htmlMarker1],
+                indexGenerator: [1],
+                stylingFunction: function(clusterMarker, count) {
+                    $(clusterMarker.getElement()).find('div:first-child').text(count);
+                }
+            });
+            productMarkers.forEach(function(marker) {
+                MarkerIdArray.push(marker.id);
+            });
+
+            productIdArray = MarkerIdArray;
+            console.log('productIdArray'.productIdArray);
+        } else {
+            productIdArray = [];
+        }
+    }
+
+    function clusterAgentMarkers() {
+        MarkerIdArray = [];
+
+        if (13 > map.getZoom()) {
+            agentMarkers.forEach(function(marker) {
+                MarkerIdArray.push(marker.id);
+                marker.setVisible(false); // 마커를 숨깁니다.
+            });
+            agentMarkers = [];
+        }
+        if (agentMarkers.length > 0) {
+            agentClustering = new MarkerClustering({
+                minClusterSize: 2,
+                maxZoom: 999,
+                map: map,
+                markers: agentMarkers, // product 마커들만 클러스터링
+                disableClickZoom: true,
+                agentClick: true,
+                gridSize: 70,
+                icons: [htmlMarker2],
+                indexGenerator: [2],
+                stylingFunction: function(clusterMarker, count) {
+                    $(clusterMarker.getElement()).find('div:first-child').text(count);
+                }
+            });
+            agentMarkers.forEach(function(marker) {
+                MarkerIdArray.push(marker.id);
+            });
+
+            agentIdArray = MarkerIdArray;
+        } else {
+            agentIdArray = MarkerIdArray;
+        }
+    }
+
     // 페이지 로드 시 지도 초기화
     window.onload = initializeMap;
+
+    // 페이징
+    function loadMoreData() {
+        $.ajax({
+                url: "{{ route('www.map.property.list') }}",
+                data: {
+                    page: null,
+                    orderby: $('#orderby').val(),
+                    productIds: productIdArray,
+                    agentIds: agentIdArray,
+                },
+                type: "get",
+                beforeSend: function() {
+                    // $('.ajax-load').show();
+                }
+            })
+            .done(function(data) {
+                $("#property_list").html(data.property);
+                $("#agent_list").html(data.agent);
+            })
+            .fail(function(jqXHR, ajaxOptions, thrownError) {});
+    }
 </script>

@@ -12,7 +12,7 @@
 
 @if (count($productList) > 0)
     @foreach ($productList as $product)
-        <div class="property_sm_list">
+        <div class="property_sm_list" onclick="location.href='{{route('www.map.room.detail', [$product->id])}}'">
             <div class="frame_img_mid">
                 <span class="btn_wish_sm {{ $product->like_id > 0 ? 'on' : '' }}"
                     onclick="btn_wish(this, {{ $product->id }})"></span>
