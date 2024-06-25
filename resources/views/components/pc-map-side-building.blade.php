@@ -143,7 +143,7 @@
             <div class="side_section">
                 <h4>거래내역</h4>
                 <!-- 데이터 없을 경우 -->
-                <div class="sm_type mt10">
+                <div class="sm_type">
                     <button class="btn_point btn_md_full" onclick="location.href='//rtdown.molit.go.kr/'">실거래가
                         보러가기</button>
                 </div>
