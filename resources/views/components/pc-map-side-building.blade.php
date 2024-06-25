@@ -83,26 +83,6 @@
     <!-- 공유하기 : e -->
 </div>
 
-<div class="side_fixed">
-    <div class="top_wrap flex_between">
-        <ul class="tab_type_3 toggle_tab">
-            <li class="active" data-type="sale">매매</li>
-            <li class="" data-type="rent">전월세</li>
-        </ul>
-
-        <div class="dropdown_box s_sm">
-            <button class="dropdown_label">71.1㎡</button>
-            <ul class="optionList">
-                <li class="optionItem">71.1㎡</li>
-                <li class="optionItem">79.33평</li>
-                <li class="optionItem">81.13㎡</li>
-                <li class="optionItem">84㎡</li>
-            </ul>
-        </div>
-    </div>
-</div>
-<script></script>
-
 <div class="scroll_wrap_1">
     <hr class="space">
     <div class="estate_link">
