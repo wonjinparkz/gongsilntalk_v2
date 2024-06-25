@@ -31,15 +31,39 @@
         ? decodeJsonData($result->BrExposPubuseAreaInfo)
         : [];
 
+    // 총괄표제부
+    $dongCount = '-';
+    $mainUse = '-';
+
+    if (count($BrRecapTitleInfo) > 0) {
+        $mainBldcnt = $BrRecapTitleInfo[0]['mainBldcnt'];
+        $mainPurpsCdNm = $BrRecapTitleInfo[0]['mainPurpsCdNm'];
+        if ($mainBldcnt > 0 || $mainBldcnt != '') {
+            $dongCount = $mainBldcnt;
+        }
+        if ($mainPurpsCdNm > 0 || $mainPurpsCdNm != '') {
+            $mainUse = $mainPurpsCdNm;
+        }
+    }
+
     // 모든 표제부 층 정보를 가져와 상단 층별정보에 값 넣어주기
     $floor = 0;
     $floorMin = 100;
     $Minfloor = 0;
+    $useAprDay = '-';
 
     if (count($BrTitleInfo) > 0) {
         foreach ($BrTitleInfo as $key => $info) {
             $Tfloor = $info['grndFlrCnt'];
             $TMinfloor = $info['ugrndFlrCnt'];
+
+            if (($info['mainPurpsCdNm'] > 0 || $info['mainPurpsCdNm'] != '') && $mainUse == '-') {
+                $mainUse = $info['mainPurpsCdNm'];
+            }
+
+            if ($info['useAprDay'] > 0 || $info['useAprDay'] != '') {
+                $useAprDay = substr($info['useAprDay'], 0, 4);
+            }
 
             if ($Tfloor > $floor) {
                 $floor = $Tfloor;
@@ -103,10 +127,10 @@
         </p>
         <ul class="info_detail">
             <li>
-                <p>{{ $result->kbuildingDongCnt }}동</p><label>총 동수</label>
+                <p>{{ $dongCount }}동</p><label>총 동수</label>
             </li>
             <li>
-                <p>{{ $result->kbuildingdaCnt }}세대</p><label>총 세대수</label>
+                <p>{{ $mainUse }}</p><label>주용도</label>
             </li>
             <li>
                 <p>
@@ -115,7 +139,7 @@
                 <label>최저/최고</label>
             </li>
             <li>
-                <p>{{ $result->constructionYear }}년</p><label>준공년도</label>
+                <p>{{ $useAprDay }}년</p><label>준공년도</label>
             </li>
         </ul>
     </div>
