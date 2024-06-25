@@ -455,16 +455,16 @@
                                         <p class="traffic_row">정류장 <span>15~20분이내</span></p>
 
                                     </div>
-                                    <div>
-                                        <div class="facility_wrap">
-                                            관공서(양천세무서) 병원(다민한의원, 신천호한의원) 백화점(목동현대백화점) 공원(양천공원) 기타(안양천)
-                                        </div>
+                                    
+                                    <div class="facility_wrap">
+                                        관공서(양천세무서) 병원(다민한의원, 신천호한의원) 백화점(목동현대백화점) 공원(양천공원) 기타(안양천)
                                     </div>
-                                    <div>
-                                        <div class="edu_wrap">
-                                            초등학교(신목) 중학교(목동) 고등학교(신목)
-                                        </div>
+                                
+                                
+                                    <div class="edu_wrap">
+                                        초등학교(신목) 중학교(목동) 고등학교(신목)
                                     </div>
+                                  
                                 </div>
                             </div>
                         </div>

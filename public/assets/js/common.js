@@ -91,6 +91,20 @@ $(function () {
         $(this).parents('.tab_toggle_menu').siblings('.tab_area_wrap').find('>div').eq(list).show();
     });
 
+    // 탭메뉴 토글기능
+    $(document).ready(function() {
+        $(".tab_sm_wrap > div").hide();
+        $(".tab_sm_wrap > div").first().show();
+        $(".tab_sm_menu li").click(function() {
+        var list = $(this).index();
+        $(".tab_sm_menu li").removeClass("active");
+        $(this).addClass("active");
+    
+        $(".tab_sm_wrap > div").hide();
+        $(".tab_sm_wrap > div").eq(list).show();
+        });
+    });
+
     // swiper 탭메뉴 토글기능
     // $(document).ready(function() {
     //   var swiper = new Swiper('.side_tab', {
