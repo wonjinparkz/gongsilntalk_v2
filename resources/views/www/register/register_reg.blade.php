@@ -152,7 +152,6 @@
         }
         var gender = $('input[name="gender"]').is(':checked');
 
-
         if (email !== '' && password !== '' && password_confirmation !== '' && nickname !== '' && verification == 'Y' &&
             checkOne_1 !== false && checkOne_2 !== false && checkOne_3 !== false && gender !== false) {
             $('#button_active').css('display', '');
