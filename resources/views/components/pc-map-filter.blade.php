@@ -1,7 +1,6 @@
 <!-- filter 매물 종류 : s -->
 <div class="filter_btn_wrap">
-    <button type="button" class="filter_btn_trigger" id="filter_text_sale_product_type">매물
-        종류</button>
+    <button type="button" class="filter_btn_trigger" id="filter_text_sale_product_type">지식산업센터</button>
     <div class="filter_panel panel_item_1">
         <div class="filter_panel_body">
             <h6 id="sale_product_type_title">매물 종류</h6>
@@ -14,7 +13,7 @@
                 <label for="sale_product_type_2">건물</label>
                 <input type="radio" name="sale_product_type" id="sale_product_type_3" value="3">
                 <label for="sale_product_type_3">아파트</label>
-                <input type="hidden" id="sale_product_type" value="">
+                <input type="hidden" id="sale_product_type" value="0">
             </div>
         </div>
         <div class="filter_panel_bottom">

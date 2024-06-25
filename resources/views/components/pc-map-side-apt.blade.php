@@ -478,12 +478,12 @@
                     <x-pc-around-map :address_lat="$result->address_lat" :address_lng="$result->address_lng" />
                 </div>
                 <div class="map_detail_wrp">
-                    <ul class="tab_toggle_menu tab_type_4">
+                    <ul class="tab_sm_menu tab_type_4">
                         <li class="active"><a href="javascript:(0)">대중교통</a></li>
                         <li><a href="javascript:(0)">편의시설</a></li>
                         <li><a href="javascript:(0)">교육시설</a></li>
                     </ul>
-                    <div class="tab_area_wrap">
+                    <div class="tab_sm_wrap">
                         <div class="traffic_wrap">
                             <div class="traffic_tit"><img src="{{ asset('assets/media/ic_subway.png') }}">지하철
                             </div>
@@ -594,4 +594,18 @@
     // $('#areaTypeText').click(function() {
     //     $(this).parent().toggleClass('active');
     // });
+
+    // 탭메뉴 토글기능
+    $(document).ready(function() {
+        $(".tab_sm_wrap > div").hide();
+        $(".tab_sm_wrap > div").first().show();
+        $(".tab_sm_menu li").click(function() {
+        var list = $(this).index();
+        $(".tab_sm_menu li").removeClass("active");
+        $(this).addClass("active");
+    
+        $(".tab_sm_wrap > div").hide();
+        $(".tab_sm_wrap > div").eq(list).show();
+        });
+    });
 </script>

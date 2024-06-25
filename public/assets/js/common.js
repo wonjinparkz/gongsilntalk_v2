@@ -91,6 +91,8 @@ $(function () {
         $(this).parents('.tab_toggle_menu').siblings('.tab_area_wrap').find('>div').eq(list).show();
     });
 
+    
+
     // swiper 탭메뉴 토글기능
     // $(document).ready(function() {
     //   var swiper = new Swiper('.side_tab', {
