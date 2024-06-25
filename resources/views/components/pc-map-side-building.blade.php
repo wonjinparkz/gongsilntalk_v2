@@ -161,9 +161,9 @@
         <div class="sction_item active">
             <!-- 거래내역 : s -->
             <div class="side_section">
-                <h4>거래내역</h4>
+                <!-- <h4>거래내역</h4> -->
                 <!-- 데이터 없을 경우 -->
-                <div class="sm_type">
+                <div class="sm_type mt20">
                     <button class="btn_point btn_md_full" onclick="location.href='//rtdown.molit.go.kr/'">실거래가 보러가기</button>
                 </div>
 
