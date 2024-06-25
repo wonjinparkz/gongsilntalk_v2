@@ -151,8 +151,46 @@ class ProductController extends Controller
      */
     public function productStateUpdate(Request $request): RedirectResponse
     {
-        $result = Product::where('id', $request->id)->first()
-            ->update(['state' => $request->state]);
+        $checkVal = 0;
+        $result = Product::with('productAddInfo')->where('id', $request->id)->first();
+
+        if ($result->type == 7) { // 단독 공장
+            $checkVal = ($result->lowest_floor_number == '') ? 1 : 0;
+            $checkVal = ($result->top_floor_number == '') ? 1 : 0;
+
+            $checkVal = ($result->total_floor_area == '') ? 1 : 0;
+            $checkVal = ($result->total_floor_square == '') ? 1 : 0;
+
+            $checkVal = ($result->area == '') ? 1 : 0;
+            $checkVal = ($result->square == '') ? 1 : 0;
+        } else if ($result->type != 6) {
+            if($result->type > 7 && $result->type < 14){
+                $checkVal = (!isset($result->productAddInfo->room_count)) ? 1 : 0;
+                $checkVal = (!isset($result->productAddInfo->bathroom_count)) ? 1 : 0;
+            }
+            $checkVal = ($result->floor_number == '') ? 1 : 0;
+            $checkVal = ($result->total_floor_number == '') ? 1 : 0;
+
+            $checkVal = ($result->area == '') ? 1 : 0;
+            $checkVal = ($result->square == '') ? 1 : 0;
+
+        } else if ($result->type == 6) { // 토지 임야
+            $checkVal = ($result->area == '') ? 1 : 0;
+            $checkVal = ($result->square == '') ? 1 : 0;
+        }
+
+        $checkVal = ($result->approve_date == '') ? 1 : 0;
+        $checkVal = ($result->building_type == '') ? 1 : 0;
+        $checkVal = ($result->is_service == '') ? 1 : 0;
+        $checkVal = ($result->commission == '') ? 1 : 0;
+        $checkVal = ($result->commission_rate == '') ? 1 : 0;
+        $checkVal = ($result->comments == '') ? 1 : 0;
+
+        if ($checkVal == 0) {
+            $result->update(['state' => $request->state]);
+        } else {
+            return back()->with('message', '매물 정보를 입력 해주세요.');
+        }
 
         return back()->with('message', '매물 상태를 수정했습니다.');
     }
