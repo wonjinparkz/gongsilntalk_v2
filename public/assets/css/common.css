@@ -246,7 +246,8 @@ header .util_area{display: flex; align-items: center;}
 header .util_menu li{display: inline-block; margin-left:12px; position:relative; color:#626B80}
 header .util_menu li a{color:#9D9999; font-size:16px;}
 header .util_menu li:first-child::before{position: absolute; content: ''; width:2px; height:12px; background:#D2D1D0; right:-8px; top:2px}
-header .util_menu li:last-child a{background: #D2D1D0; color:#2A2828; font-size:16px; padding: 4px 10px; border-radius: 30px; font-weight: 500;}
+header .util_menu li.btn_type a{background: #D2D1D0; color:#2A2828; font-size:16px; padding: 4px 10px; border-radius: 30px; font-weight: 500;}
+header .util_menu li.btn_type::before{display: none;}
 header .header_user_img {width:32px; height:32px; margin-right:8px;}
 header .header_user_img .img_box{border-radius: 50%;}
 

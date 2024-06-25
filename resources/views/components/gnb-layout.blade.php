@@ -30,7 +30,7 @@
             <ul class="util_menu">
                 <li><a href="{{ route('www.login.login') }}">로그인</a></li>
                 <li><a href="{{ route('www.register.register.view') }}">회원가입</a></li>
-                <li><a href="{{ route('www.register.corp.register.view') }}">중개사 가입</a></li>
+                <li class="btn_type"><a href="{{ route('www.register.corp.register.view') }}">중개사 가입</a></li>
             </ul>
         @else
             <div class="util_area">
@@ -39,7 +39,7 @@
                 </div>
                 {{ Auth::guard('web')->user()->name }}
                 <ul class="util_menu">
-                    <li><a href="{{ route('www.logout.logout') }}">로그아웃</a></li>
+                    <li class="btn_type"><a href="{{ route('www.logout.logout') }}">로그아웃</a></li>
                 </ul>
             </div>
         @endguest
