@@ -230,8 +230,8 @@ button.toast-close-button {
 }
 
 .toast-top-right {
-    top: 12px;
-    right: 12px;
+    bottom: 0;
+    left:50%; transform:translateX(-50%); position:absolute;
 }
 
 .toast-bottom-right {
@@ -262,11 +262,11 @@ button.toast-close-button {
     pointer-events: auto;
     overflow: hidden;
     margin: 0 0 6px;
-    padding: 15px 15px 15px 50px;
+    padding: 15px 25px 15px 50px;
     width: 300px;
     -moz-border-radius: 3px 3px 3px 3px;
     -webkit-border-radius: 3px 3px 3px 3px;
-    border-radius: 3px 3px 3px 3px;
+    border-radius:50px;
     background-position: 15px center;
     background-repeat: no-repeat;
     -moz-box-shadow: 0 0 12px #999999;
@@ -303,7 +303,7 @@ button.toast-close-button {
 }
 
 #toast-container>.toast-success {
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADsSURBVEhLY2AYBfQMgf///3P8+/evAIgvA/FsIF+BavYDDWMBGroaSMMBiE8VC7AZDrIFaMFnii3AZTjUgsUUWUDA8OdAH6iQbQEhw4HyGsPEcKBXBIC4ARhex4G4BsjmweU1soIFaGg/WtoFZRIZdEvIMhxkCCjXIVsATV6gFGACs4Rsw0EGgIIH3QJYJgHSARQZDrWAB+jawzgs+Q2UO49D7jnRSRGoEFRILcdmEMWGI0cm0JJ2QpYA1RDvcmzJEWhABhD/pqrL0S0CWuABKgnRki9lLseS7g2AlqwHWQSKH4oKLrILpRGhEQCw2LiRUIa4lwAAAABJRU5ErkJggg==") !important;
+    /* background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADsSURBVEhLY2AYBfQMgf///3P8+/evAIgvA/FsIF+BavYDDWMBGroaSMMBiE8VC7AZDrIFaMFnii3AZTjUgsUUWUDA8OdAH6iQbQEhw4HyGsPEcKBXBIC4ARhex4G4BsjmweU1soIFaGg/WtoFZRIZdEvIMhxkCCjXIVsATV6gFGACs4Rsw0EGgIIH3QJYJgHSARQZDrWAB+jawzgs+Q2UO49D7jnRSRGoEFRILcdmEMWGI0cm0JJ2QpYA1RDvcmzJEWhABhD/pqrL0S0CWuABKgnRki9lLseS7g2AlqwHWQSKH4oKLrILpRGhEQCw2LiRUIa4lwAAAABJRU5ErkJggg==") !important; */
 }
 
 #toast-container>.toast-warning {
@@ -329,7 +329,7 @@ button.toast-close-button {
 }
 
 .toast-success {
-    background-color: #51A351;
+    background-color:rgba(0,0,0,0.9); display: flex; justify-content: space-between; align-items: center; flex-direction: row-reverse;
 }
 
 .toast-error {
@@ -368,7 +368,9 @@ button.toast-close-button {
 
     #toast-container .toast-close-button {
         right: -0.2em;
-        top: -0.2em;
+        top: -0.3em;
+        margin: 10px; display:inline-block;
+        width:30px;
     }
 
     #toast-container .rtl .toast-close-button {
@@ -389,7 +391,9 @@ button.toast-close-button {
 
     #toast-container .toast-close-button {
         right: -0.2em;
-        top: -0.2em;
+        top: 0px;
+        margin: 10px; display:inline-block;
+        width:30px;
     }
 
     #toast-container .rtl .toast-close-button {
