@@ -813,7 +813,7 @@ a.btn_like{background: url('/assets/media/btn_like_off.png') no-repeat; backgrou
 .type_1_index .index_tit{display: flex; align-items: center; width:100%; justify-content: space-between;}
 .type_1_index .index_tit .index_number{width: 30px; color: #fff; font-size: 16px; text-align: right;}
 .type_1_index .index_tit .index_name{position: relative; color:#fff; font-size: 16px; flex: 1;}
-.type_1_index .index_tit .index_name:after{content: ''; position: absolute; left:70px; top:8px; width:calc(100% - 80px); height: 1px; background: #fff;}
+.type_1_index .index_tit .index_name:after{content: ''; position: absolute; left:100px; top:8px; width:calc(100% - 100px); height: 1px; background: #fff;}
 .type_1_index .index_item_list{display: flex; flex-direction: column; gap: 6px; margin-top: 10px;}
 .type_1_index .index_item_list .index_item_row{color:#fff;position: relative; padding-left:10px;}
 .type_1_index .index_item_list .index_item_row::before{content: ''; width: 3px; height: 3px; border-radius: 5px; background: #fff; position: absolute; top:8px; left: 0;}
@@ -821,10 +821,12 @@ a.btn_like{background: url('/assets/media/btn_like_off.png') no-repeat; backgrou
 .type_1_page h3{font-size: 20px; background:#FAFAFA; border: 1px solid #EDEDED; margin-top:80px; text-align: center; padding: 14px;}
 .proposal_type_item .item_wrap{display: flex; justify-content: space-between; gap:28px; margin-top: 60px;}
 .proposal_type_item .item_wrap .item_img{width:428px; height: 293px; margin-top:14px;}
+.proposal_type_item .item_wrap .item_img .img_box{height:293px;}
 .proposal_type_item .item_wrap h5{font-size: 18px;}
 .proposal_type_item .item_2_wrap{display: grid; grid-template-columns:repeat(2, 1fr); gap: 28px; margin-top: 60px;}
 .proposal_type_item .item_3_wrap{display: grid; grid-template-columns:repeat(2, 1fr); gap:28px; grid-row-gap:28px; width: 786px; margin:80px auto 0;}
 .proposal_type_item .item_3_wrap .item_img{width:379px; height:259px;}
+.proposal_type_item .item_3_wrap .item_img .img_box{height:259px;}
 .proposal_type_item .item_4_wrap {display: flex; justify-content: space-between; gap:60px; margin-top: 60px;}
 .proposal_type_item .item_4_wrap h4{font-size: 18px; border: 1px solid #EDEDED; padding: 14px; text-align: center; margin-bottom: 10px;}
 .proposal_type_item .item_4_wrap .item_div{flex: 1;}
