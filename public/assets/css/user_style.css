@@ -344,13 +344,13 @@
 .iw_mini_inner{border: 1px solid #F16341; border-radius:5px 5px 5px 0; background: #F16341; position: relative; min-width:80px;}
 .iw_mini_inner::after{position: absolute; left:-1px; bottom: -9px; content: ''; background: url('/assets/media/mark_anchor.png'); background-size: 20px auto; width: 20px; height: 9px;}
 .iw_mini_inner h3{background:#F16341; color:#fff; font-size: 14px; padding:5px 8px; border-radius:4px 4px 0 0; text-align: center;}
-.iw_mini_inner .mini_inner_info p{color:#fff; padding:2px 8px 8px 8px;}
+.iw_mini_inner .mini_inner_info p{color:#fff; padding:2px 8px 8px 8px; text-align: center; }
 .iw_mini_inner .bubble_info{position:absolute; right: -5px; bottom: -15px; background: #fff; border: 1px solid #F16341; border-radius: 60px; color:#F16341; font-size: 12px; padding: 4px 4px;}
 
 .iw_mini_inner.active{border: 1px solid #F16341; border-radius:5px 5px 5px 0; background: #fff; position: relative;}
 .iw_mini_inner.active::after{position: absolute; left:-1px; bottom: -9px; content: ''; background: url('/assets/media/mark_anchor_line.png'); background-size: 20px auto; width: 20px; height: 9px;}
 .iw_mini_inner.active h3{background:#fff; color:#F16341; font-size: 14px; padding:5px 8px; border-radius:4px 4px 0 0; text-align: center;}
-.iw_mini_inner.active .mini_inner_info p{color:#F16341; padding:2px 8px 8px 8px;}
+.iw_mini_inner.active .mini_inner_info p{color:#F16341; padding:2px 8px 8px 8px; text-align: center; }
 .iw_mini_inner.active .bubble_info{position:absolute; right: -5px; bottom: -15px; background: #F16341; border: 1px solid #F16341; border-radius: 60px; color:#fff; font-size: 12px; padding: 4px 4px;}
 
 .cs_mapbridge .map_group .map_marker .ico{border:1px solid #ff0000; background: url('/assets/media/map_marker_default.png'); background-size: 38px 52px; }

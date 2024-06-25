@@ -38,7 +38,6 @@
                 </thead>
                 <tbody>
                     @php
-                        Log::info('BrExposPubuseAreaInfo', $BrExposPubuseAreaInfo);
                         $index = 0;
                     @endphp
                     @if (count($BrRecapTitleInfo) > 0)
@@ -46,7 +45,7 @@
                             <tr>
                                 <td class="txt_sm">
                                     <input type="radio" name="dong" id="dong_{{ $index }}" value="총괄표제부"
-                                        checked>
+                                        @if ($index == 0) checked @endif>
                                     <label for="dong_{{ $index++ }}"><span></span></label>
                                 </td>
                                 <td class="txt_sm">
@@ -70,7 +69,8 @@
                             <tr>
                                 <td class="txt_sm">
                                     <input type="radio" name="dong" id="dong_{{ $index }}"
-                                        value="{{ str_replace(' ', '', $info['dongNm']) }}">
+                                        value="{{ str_replace(' ', '', $info['dongNm']) }}"
+                                        @if ($index == 0 && count($BrRecapTitleInfo) == 0) checked @endif>
                                     <label for="dong_{{ $index++ }}"><span></span></label>
                                 </td>
                                 <td class="txt_sm">
@@ -203,68 +203,72 @@
     </div>
 </div>
 
-<div class="open_con_wrap building_item_3">
-    <div class="open_trigger">전유부 <span><img src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
-    </div>
-    {{-- <div class="con_panel">
-        <div class="dropdown_box s_sm w_40">
-            <button class="dropdown_label"></button>
-            <ul class="optionList">
-                @php
-                    $uniqueList = [];
-                    foreach ($BrExposPubuseAreaInfo ?? [] as $info) {
-                        $key = $info['dongNm'] . ' ' . $info['hoNm'];
-                        if (!isset($uniqueList[$key])) {
-                            $uniqueList[$key] = $info;
-                        }
-                    }
-                    $BrExposPubuseAreaInfoArray = array_values($uniqueList);
-                @endphp
-                @if (count($BrExposPubuseAreaInfoArray) > 0)
-                    @foreach ($BrExposPubuseAreaInfoArray as $info)
-                        <li class="optionItem {{ $info['dongNm'] }} dongInfo">
-                            {{ $info['dongNm'] }} - {{ $info['hoNm'] }}
-                        </li>
-                    @endforeach
-                @endif
-            </ul>
+@if (count($BrExposPubuseAreaInfo) > 0)
+    <div class="open_con_wrap building_item_3">
+        <div class="open_trigger">전유부 <span><img src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
         </div>
-        <div class="default_box showstep1 mt10">
-            <table class="table_type_1">
-                <colgroup>
-                    <col width="50">
-                    <col width="50">
-                    <col width="60">
-                    <col width="*">
-                    <col width="100">
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>구분</th>
-                        <th>층별</th>
-                        <th>건축물</th>
-                        <th>용도</th>
-                        <th>면적</th>
-                    </tr>
-                </thead>
-                <tbody class="">
-                    @if (count($BrExposPubuseAreaInfo) > 0)
-                        @foreach ($BrExposPubuseAreaInfo as $info)
-                            <tr class="{{ $info['dongNm'] }} dongInfo">
-                                <td>{{ $info['exposPubuseGbCdNm'] }}</td>
-                                <td>{{ $info['flrNoNm'] }}</td>
-                                <td>{{ $info['mainPurpsCdNm'] }}</td>
-                                <td>{{ $info['mainAtchGbCdNm'] }}</td>
-                                <td>{{ $info['area'] }}㎡</td>
-                            </tr>
+        <div class="con_panel">
+            <div class="dropdown_box s_sm w_40">
+                <button class="dropdown_label"></button>
+                <ul class="optionList">
+                    @php
+                        $uniqueList = [];
+                        foreach ($BrExposPubuseAreaInfo ?? [] as $info) {
+                            $key = $info['dongNm'] . ' ' . $info['hoNm'];
+                            if (!isset($uniqueList[$key])) {
+                                $uniqueList[$key] = $info;
+                            }
+                        }
+                        $BrExposPubuseAreaInfoArray = array_values($uniqueList);
+                    @endphp
+                    @if (count($BrExposPubuseAreaInfoArray) > 0)
+                        @foreach ($BrExposPubuseAreaInfoArray as $info)
+                            <li class="optionItem {{ $info['dongNm'] }} ">
+                            {{-- <li class="optionItem {{ $info['dongNm'] }} dongInfo"> --}}
+                                {{ $info['dongNm'] }} - {{ $info['hoNm'] }}
+                            </li>
                         @endforeach
                     @endif
-                </tbody>
-            </table>
+                </ul>
+            </div>
+            <div class="default_box showstep1 mt10">
+                <table class="table_type_1">
+                    <colgroup>
+                        <col width="50">
+                        <col width="50">
+                        <col width="60">
+                        <col width="*">
+                        <col width="100">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>구분</th>
+                            <th>층별</th>
+                            <th>건축물</th>
+                            <th>용도</th>
+                            <th>면적</th>
+                        </tr>
+                    </thead>
+                    <tbody class="">
+                        @if (count($BrExposPubuseAreaInfo) > 0)
+                            @foreach ($BrExposPubuseAreaInfo as $info)
+                                <tr class="{{ $info['dongNm'] }} ">
+                                {{-- <tr class="{{ $info['dongNm'] }} dongInfo"> --}}
+                                    <td>{{ $info['exposPubuseGbCdNm'] }}</td>
+                                    <td>{{ $info['flrNoNm'] }}</td>
+                                    <td>{{ $info['mainPurpsCdNm'] }}</td>
+                                    <td>{{ $info['mainAtchGbCdNm'] }}</td>
+                                    <td>{{ $info['area'] }}㎡</td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+            <div class="btn_more_open">더보기</div>
         </div>
-        <div class="btn_more_open">더보기</div>
-    </div> --}}
-</div>
+    </div>
+@endif
 
 @if ($characteristics_json != '')
     @php
@@ -329,15 +333,12 @@
 
     function ShowDongInfo() {
         var dongName = $('input[name="dong"]:checked').val();
-        $('.dongInfo').css('display', 'none');
-        $('.' + dongName).css('display', '');
+        if (!dongName || dongName.trim() === '') {
+            dongName = $('input[name="dong"]').first().val();
+        }
+        if (dongName) {
+            $('.dongInfo').css('display', 'none');
+            $('.' + dongName).css('display', '');
+        }
     }
-
-//아코디언::여러개 열림
-$(document).ready(function () {
-    $('.open_trigger').click(function () {
-        $(this).siblings('.con_panel').slideToggle();
-        $(this).find('img').toggleClass('rotate');
-    });
-});
 </script>

@@ -159,7 +159,7 @@ Route::controller(CommunityPcController::class)->group(function () {
  * 마이페이지
  */
 Route::middleware('pc.auth')->controller(UserPcController::class)->group(function () {
-    Route::get('/mypage/main', 'mypageMainView')->name('www.mypage.mian.view');
+    Route::get('/mypage/main', 'mypageMainView')->name('www.mypage.product.magagement.main.view');
     // 사용자 매물 관리
     Route::get('/mypage/product/magagement/list', 'productMagagementListView')->name('www.mypage.product.magagement.list.view');
 

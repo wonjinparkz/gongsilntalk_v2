@@ -5,14 +5,14 @@
 <div class="side_section">
     <div class="flex_between">
         <h4>매물정보</h4>
-        <button class="btn_xs btn_gray btn_all" onclick="location.href='property_map.html'">매물 더보기<img
+        <button class="btn_xs btn_gray btn_all" onclick="mapTypeChage(1)">매물 더보기<img
                 src="{{ asset('assets/media/ic_list_arrow.png') }}"></button>
     </div>
 </div>
 
 @if (count($productList) > 0)
     @foreach ($productList as $product)
-        <div class="property_sm_list" onclick="location.href='{{route('www.map.room.detail', [$product->id])}}'">
+        <div class="property_sm_list" onclick="location.href='{{ route('www.map.room.detail', [$product->id]) }}'">
             <div class="frame_img_mid">
                 <span class="btn_wish_sm {{ $product->like_id > 0 ? 'on' : '' }}"
                     onclick="btn_wish(this, {{ $product->id }})"></span>
@@ -38,7 +38,7 @@
         <div class="empty_wrap box_type">
             <p>등록된 매물이 없습니다.</p>
             <span>찾고 있는 매물이 있다면<br>검색을 통해 직접 매물을 탐색해보세요.</span>
-            <div class="mt8"><button class="btn_point_ghost btn_md" onclick="location.href='property_map.html'">매물
+            <div class="mt8"><button class="btn_point_ghost btn_md" onclick="mapTypeChage(1)">매물
                     검색하기</button></div>
         </div>
     </div>

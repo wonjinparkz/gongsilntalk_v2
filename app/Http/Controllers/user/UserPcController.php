@@ -37,25 +37,58 @@ class UserPcController extends Controller
     /**
      * 내 매물 관리
      */
-    public function mypageMainView(Request $request): View
+    public function mypageMainView(Request $request)
     {
         // 회원 정보
         $user = User::select()
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
-        $productList = Product::select();
+        $countList = Product::select(
+            DB::RAW('(select count(*) from product where users_id = ' . Auth::guard('web')->user()->id . ' and state < 1) as request_count'),
+            DB::RAW('(select count(*) from product where users_id = ' . Auth::guard('web')->user()->id . ' and state > 0) as transactions_count')
+        )->where('users_id', Auth::guard('web')->user()->id)->first();
 
-        $productList->where('users.id', Auth::guard('web')->user()->id);
+        if ($request->ajax()) {
+            $type = $request->type ?? 0;
 
-        // 정렬
-        $productList->orderBy('product.created_at', 'desc')->orderBy('id', 'desc');
+            $productList = Product::select('product.*');
+            $productList->leftjoin('product_price', 'product_price.product_id', 'product.id');
 
-        $result_product = $productList->paginate($request->per_page == null ? 10 : $request->per_page);
+            $productList->where('product.users_id', Auth::guard('web')->user()->id);
 
-        $result_product->appends(request()->except('page'));
+            if ($request->type != 1) {
+                $productList->where('product.state', '<', 1);
+            } else {
+                $productList->where('product.state', '>', 0);
+            }
 
-        return view('www.mypage.productMagagement_list', compact('user', 'result_product'));
+            // 매물 종류
+            if (isset($request->product_type)) {
+                $productList->where('product.type', $request->product_type);
+            }
+
+            // 매매/전세/월세 등 여부
+            if (isset($request->payment_type)) {
+                $productList->where('product_price.payment_type', $request->payment_type);
+            }
+
+            // 주소 / 매물번호 검색
+            if (isset($request->search_text)) {
+                $productList->where(function ($query) use ($request) {
+                    $query->where('product.product_number', 'like', "%{$request->search_text}%")
+                        ->orWhere('product.address', 'like', "%{$request->search_text}%");
+                });
+            }
+
+            $productList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc');
+            $result = $productList->paginate(10);
+
+            $view = view('components.user-mypage-product-main-list-layout', compact('result', 'type'))->render();
+            return response()->json(['html' => $view]);
+        }
+
+        return view('www.mypage.product-management-list', compact('user', 'countList'));
     }
 
     /**

@@ -47,7 +47,9 @@
 
 </header>
 <!-- modal 추가정보 입력 : s-->
-<form class="form" id="form" name="form" method="POST" action="{{ route('www.sns.addinfo.create') }}">
+@guest
+@else
+    <form class="form" id="form" name="form" method="POST" action="{{ route('www.sns.addinfo.create') }}">
         @csrf
         <div class="modal modal_mid modal_add_info">
             <div class="modal_title">
@@ -85,8 +87,8 @@
         <div class="md_overlay md_overlay_add_info" onclick="modal_close('add_info')"></div>
         <!-- modal 추가정보 입력 : e-->
     </form>
-<!-- header : e -->
-
+    <!-- header : e -->
+@endguest
 
 <script>
     // 본인인증 모듈 실행
