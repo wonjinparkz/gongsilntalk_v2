@@ -283,7 +283,15 @@
     </script>
 
     @php
+        // content 변수에서 HTML 태그 제거
         $cleaned_content = strip_tags(html_entity_decode($result->content));
+
+        // content 변수에서 줄바꿈 처리
+        $cleaned_content = preg_replace("/\r|\n/", ' ', $cleaned_content);
+
+        // 길이 제한 및 줄임표 추가
+        $shortened_content =
+            mb_strlen($cleaned_content) > 50 ? mb_substr($cleaned_content, 0, 50) . '...' : $cleaned_content;
     @endphp
 
     <script>
@@ -293,7 +301,7 @@
                 objectType: "feed",
                 content: {
                     title: '{{ $result->title }}',
-                    description: '{{ mb_strlen($cleaned_content) > 50 ? mb_substr($cleaned_content, 0, 50) . '...' : $cleaned_content }}',
+                    description: '{{ $shortened_content }}',
                     imageUrl: "{{ $result->images ? asset('storage/image/' . $result->images[0]->path) : '' }}",
                     link: {
                         mobileWebUrl: `{!! url()->full() !!}`,
