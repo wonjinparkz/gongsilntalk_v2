@@ -33,5 +33,5 @@
 @endif
 
 <script>
-    $('#agent_count').html({{ count($agentList) }});
+    $('.agent_count').html({{ count($agentList) }});
 </script>

@@ -1,11 +1,12 @@
 <div class="side_list_wrap">
 
     <ul class="side_list_tab tab_toggle_menu">
-        <li class="property active" onclick="tabChange('property')"><a href="javascript:void(0);">지도 내 매물 <span
-                    id="property_count">0</span>
+        <li class="property active" id="getPropertyList" onclick="tabChange('property')"><a href="javascript:void(0);">지도 내
+                매물 <span class="property_count">0</span>
             </a>
         </li>
-        <li class="agent" onclick="tabChange('agent')"><a href="javascript:void(0);">중개사무소 <span id="agent_count">0</span>
+        <li class="agent" id="getAgentList" onclick="tabChange('agent')"><a href="javascript:void(0);">중개사무소 <span
+                    class="agent_count">0</span>
             </a>
         </li>
     </ul>
@@ -178,6 +179,4 @@
         $('.no_data').css('display', 'none');
         loadMoreData();
     }
-
-
 </script>

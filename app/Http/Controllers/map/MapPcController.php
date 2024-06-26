@@ -42,7 +42,7 @@ class MapPcController extends Controller
     // 모바일 지도 내 매물목록
     public function mapPropertyList(Request $request)
     {
-        info(json_encode($request->all()) . 'request');
+        Log::info('request123123 : '. json_encode($request->all()));
         // 목록 기준
         // 가(임시)주소인 경우 지도/목록에 노출하지 않는다.
         // 사용자가 등록 후 관리자의 의해 수정이 완료되어 등록된 매물 과 중개인이 등록한 매물을 노출한다.

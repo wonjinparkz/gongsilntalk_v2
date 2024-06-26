@@ -128,16 +128,16 @@
             </div>
             <button id="streetView"><img src="{{ asset('assets/media/ic_map_activate4.png') }}"></button>
         </div>
-        <button type="button" class="map_view_btn map_view_btn_2" onclick="mapTypeViewChage()">
+        <button type="button" class="map_view_btn map_view_btn_2" id="map_view_btn" onclick="mapTypeViewChage()">
             <span id="centerDongText">익선동</span>
             <span class="txt_point centerDongMapText">실거래가</span> 보기
         </button>
-        <div class="map_bottom_area map_bottom_area_2">
+        <div class="map_bottom_area map_bottom_area_2" id="map_bottom_area">
             <div class="map_bottom_btn">
                 <button onclick="location.href='{{ route('www.product.create.view') }}'"><img
                         src="{{ asset('assets/media/ic_org_estate.png') }}">매물 내놓기</button>
                 <button onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'"><img
-                    src="{{ asset('assets/media/btn_point_search.png') }}">매물 구하기</button>
+                        src="{{ asset('assets/media/btn_point_search.png') }}">매물 구하기</button>
             </div>
         </div>
 
@@ -149,31 +149,13 @@
         </div>
     </div>
 
-    <div class="map_bottom_tab">
-            <button onclick="modal_open('m_property_list')">지도 내 매물 15</button>
-            <button onclick="modal_open('m_agent_list')">중개사무소 62</button>
-        </div>
-
-    <!-- <ul class="side_list_tab tab_toggle_menu" id="bottom_property" style="display: none">
-        <li class="property active"><a href="javascript:(0)" onclick="modal_open('m_property_list')">지도 내 매물 <span
-                    id="property_count">0</span>
-            </a>
-        </li>
-        <li class="property active"><a href="{{ route('www.map.property.list') }}">지도 내 매물 <span
-                    id="property_count">0</span>
-            </a>
-        </li>
-        <li class="agent"><a href="javascript:(0)" onclick="modal_open('m_agent_list')">중개사무소 <span id="agent_count">0</span>
-            </a>
-        </li>
-        <li class="agent"><a href="{{ route('www.map.property.list') }}">중개사무소 <span id="agent_count">0</span>
-            </a>
-        </li>
-    </ul> -->
-
-    <div class="side_list_scroll" id="property_list" style="display:none;">
-    </div>
-    <div class="side_list_scroll" id="agent_list" style="display:none;">
+    <div class="map_bottom_tab" id="bottom_property">
+        <button id="getPropertyList"
+            onclick="loadMoreData();setTimeout(function() { modal_open('m_property_list'); }, 100);">지도 내 매물 <span
+                class="property_count">0</span></button>
+        <button id="getAgentList"
+            onclick="loadMoreData();setTimeout(function() { modal_open('m_agent_list'); }, 100);">중개사무소 <span
+                class="agent_count">0</span></button>
     </div>
 
     <x-nav-layout />
@@ -182,27 +164,29 @@
 <!-- 지도 내 매물 : s -->
 <div class="modal modal_full modal_m_property_list">
     <div class="modal_title">
-        <h5>지도 내 매물 16</h5>
-    <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close" onclick="modal_close('m_property_list')">
+        <h5>지도 내 매물 <span class="property_count">0</span></h5>
+        <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close"
+            onclick="modal_close('m_property_list')">
     </div>
     <div class="modal_container_full">
         <ul class="list_sort2 toggle_tab">
-            <li class="active"><a href="#">최신순</a></li>
+            <li class="active sort_new"><a>최신순</a></li>
             <li class="inner_toggle">
-            <a href="#">
-                <span class="sort_direction active">가격순</span>
-                <button class="inner_button sort_price"><span class="price_txt">낮은가격순</span> <img src="{{ asset('assets/media/sort_arrow.png') }}" class="sort_arrow"></button>
-            </a>
+                <a>
+                    <span class="sort_direction active price">가격순</span>
+                    <button class="inner_button sort_price"><span class="price_txt">낮은가격순</span> <img
+                            src="{{ asset('assets/media/sort_arrow.png') }}" class="sort_arrow"></button>
+                </a>
             </li>
             <li class="inner_toggle">
-            <a href="#">
-                <span class="sort_direction active">면적순</span>
-                <button class="inner_button sort_area"><span class="price_txt">넓은면적순</span> <img src="{{ asset('assets/media/sort_arrow.png') }}" class="sort_arrow"></button>
-            </a>
+                <a>
+                    <span class="sort_direction active area">면적순</span>
+                    <button class="inner_button sort_area"><span class="price_txt">넓은면적순</span> <img
+                            src="{{ asset('assets/media/sort_arrow.png') }}" class="sort_arrow"></button>
+                </a>
             </li>
         </ul>
-        <div class="side_list_scroll">
-            여기에 리스트를 넣으면 됨<div style="height:2000px;">개발시 삭제 할 것</div>
+        <div class="side_list_scroll" id="property_list">
         </div>
     </div>
 </div>
@@ -211,54 +195,138 @@
 <!-- 중개사무소 list : s -->
 <div class="modal modal_full modal_m_agent_list">
     <div class="modal_title">
-        <h5>중개사무소 10</h5>
-    <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close" onclick="modal_close('m_agent_list')">
+        <h5>중개사무소 <span class="agent_count">0</span></h5>
+        <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close"
+            onclick="modal_close('m_agent_list')">
     </div>
     <div class="modal_container_full">
         <ul class="list_sort2 toggle_tab">
-            <li class="active"><a href="#">가까운 거리순</a></li>
-            <li><a href="#">이름순</a></li>
-            
+            <li class="active sort_distance"><a>가까운 거리순</a></li>
+            <li class="sort_name"><a>이름순</a></li>
         </ul>
-        <div class="side_list_scroll">
-            여기에 리스트를 넣으면 됨<div style="height:2000px;">개발시 삭제 할 것</div>
+        <div class="side_list_scroll" id="agent_list">
         </div>
     </div>
-</div> 
+</div>
 <!-- 중개사무소 list : e -->
 
+<input type="hidden" id="orderby" name="orderby" value="">
 <script>
-//정렬
-document.addEventListener("DOMContentLoaded", function() {
-    const priceButton = document.querySelector(".sort_price");
-    const priceTextSpan = priceButton.querySelector(".price_txt");
-    const priceArrowImg = priceButton.querySelector(".sort_arrow");
-    
-    priceButton.addEventListener("click", function() {
-        if (priceTextSpan.textContent === "낮은가격순") {
-            priceTextSpan.textContent = "높은가격순";
-            priceArrowImg.style.transform = "rotate(180deg)";
-        } else {
-            priceTextSpan.textContent = "낮은가격순";
-            priceArrowImg.style.transform = "rotate(0deg)";
-        }
+    // 정렬
+    document.addEventListener("DOMContentLoaded", function() {
+        // 최신순
+        const newButton = document.querySelector(".sort_new");
+        newButton.addEventListener("click", function() {
+            $('#orderby').val('sort_new');
+            deleteDivItem();
+        });
+
+        // 가격순
+        const price = document.querySelector(".price");
+        const priceButton = document.querySelector(".sort_price");
+        const priceTextSpan = priceButton.querySelector(".price_txt");
+        const priceArrowImg = priceButton.querySelector(".sort_arrow");
+
+        price.addEventListener("click", function() {
+            $('#orderby').val('price_desc');
+            deleteDivItem();
+        });
+        priceButton.addEventListener("click", function() {
+            if (priceTextSpan.textContent === "낮은가격순") {
+                priceTextSpan.textContent = "높은가격순";
+                priceArrowImg.style.transform = "rotate(180deg)";
+                $('#orderby').val('price_asc');
+            } else {
+                priceTextSpan.textContent = "낮은가격순";
+                priceArrowImg.style.transform = "rotate(0deg)";
+                $('#orderby').val('price_desc');
+            }
+            deleteDivItem();
+        });
+
+        // 면적순
+        const area = document.querySelector(".area");
+        const areaButton = document.querySelector(".sort_area");
+        const areaTextSpan = areaButton.querySelector(".price_txt");
+        const areaArrowImg = areaButton.querySelector(".sort_arrow");
+        area.addEventListener("click", function() {
+            $('#orderby').val('area_desc');
+            deleteDivItem();
+        });
+        areaButton.addEventListener("click", function() {
+            if (areaTextSpan.textContent === "넓은면적순") {
+                areaTextSpan.textContent = "좁은면적순";
+                areaArrowImg.style.transform = "rotate(180deg)";
+                $('#orderby').val('area_desc');
+            } else {
+                areaTextSpan.textContent = "넓은면적순";
+                areaArrowImg.style.transform = "rotate(0deg)";
+                $('#orderby').val('area_asc');
+            }
+
+            deleteDivItem();
+        });
+
+        // 가까운 거리순
+        const distanceButton = document.querySelector(".sort_distance");
+        distanceButton.addEventListener("click", function() {
+            $('#orderby').val('sort_distance');
+            deleteAItem();
+        });
+
+        // 이름순
+        const nameButton = document.querySelector(".sort_name");
+        nameButton.addEventListener("click", function() {
+            $('#orderby').val('sort_name');
+            deleteAItem();
+        });
     });
 
-    const areaButton = document.querySelector(".sort_area");
-    const areaTextSpan = areaButton.querySelector(".price_txt");
-    const areaArrowImg = areaButton.querySelector(".sort_arrow");
+    // 페이징
+    function loadMoreData() {
+        console.log('매물리스트 정리');
+        $.ajax({
+                url: "{{ route('www.map.property.list') }}",
+                data: {
+                    page: null,
+                    orderby: $('#orderby').val(),
+                    productIds: productIdArray,
+                    agentIds: agentIdArray,
+                },
+                type: "get",
+                beforeSend: function() {
+                    // $('.ajax-load').show();
+                }
+            })
+            .done(function(data) {
+                $("#property_list").html(data.property);
+                $("#agent_list").html(data.agent);
+            })
+            .fail(function(jqXHR, ajaxOptions, thrownError) {});
+    }
 
-    areaButton.addEventListener("click", function() {
-        if (areaTextSpan.textContent === "넓은면적순") {
-            areaTextSpan.textContent = "좁은면적순";
-            areaArrowImg.style.transform = "rotate(180deg)";
-        } else {
-            areaTextSpan.textContent = "넓은면적순";
-            areaArrowImg.style.transform = "rotate(0deg)";
+    // 지도내매물 목록 삭제
+    function deleteDivItem() {
+        const div = document.getElementById('property_list');
+        const items = div.getElementsByTagName('div');
+        for (var i = items.length - 1; i >= 0; i--) {
+            items[i].remove();
         }
-    });
-});
+        $('.no_data').css('display', 'none');
+        loadMoreData();
+    }
 
+    // 중개사무소 목록 삭제
+    function deleteAItem() {
+        const div = document.getElementById('agent_list');
+        const items = div.getElementsByTagName('a');
+
+        for (var i = items.length - 1; i >= 0; i--) {
+            items[i].remove();
+        }
+        $('.no_data').css('display', 'none');
+        loadMoreData();
+    }
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.5/proj4.js"></script>
@@ -297,6 +365,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
         var text = type == 0 ? '실거래가지도' : '매물지도';
         var bottom_property = document.getElementById('bottom_property');
+        var map_view_btn = document.getElementById('map_view_btn');
+        var map_bottom_area = document.getElementById('map_bottom_area');
         const mapElement = document.getElementById('map');
         // $('#mapTypeText').text(text);
         var mapType = document.getElementById('mapTypeText');
@@ -305,9 +375,13 @@ document.addEventListener("DOMContentLoaded", function() {
         if (type == 0) {
             bottom_property.style.display = "none";
             mapElement.style.height = 'calc(100vh - 60px)';
+            map_view_btn.classList.remove('map_view_btn_2');
+            map_bottom_area.classList.remove('map_bottom_area_2');
         } else {
             bottom_property.style.display = "";
             mapElement.style.height = 'calc(100vh - 105px)';
+            map_view_btn.classList.add('map_view_btn_2');
+            map_bottom_area.classList.add('map_bottom_area_2');
         }
 
         $('#mapType').val(type);
@@ -629,7 +703,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         bounds.extend(position);
-
         productMarkers.push(productMarker); // product 마커 배열에 추가
     }
 
@@ -978,7 +1051,6 @@ document.addEventListener("DOMContentLoaded", function() {
             });
 
             productIdArray = MarkerIdArray;
-            console.log('productIdArray'.productIdArray);
         } else {
             productIdArray = [];
         }
@@ -1021,26 +1093,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 페이지 로드 시 지도 초기화
     window.onload = initializeMap;
-
-    // 페이징
-    function loadMoreData() {
-        $.ajax({
-                url: "{{ route('www.map.property.list') }}",
-                data: {
-                    page: null,
-                    orderby: $('#orderby').val(),
-                    productIds: productIdArray,
-                    agentIds: agentIdArray,
-                },
-                type: "get",
-                beforeSend: function() {
-                    // $('.ajax-load').show();
-                }
-            })
-            .done(function(data) {
-                $("#property_list").html(data.property);
-                $("#agent_list").html(data.agent);
-            })
-            .fail(function(jqXHR, ajaxOptions, thrownError) {});
-    }
 </script>

@@ -42,5 +42,5 @@
 @endif
 
 <script>
-    $('#property_count').html({{ count($propertyList) }});
+    $('.property_count').html({{ count($propertyList) }});
 </script>
