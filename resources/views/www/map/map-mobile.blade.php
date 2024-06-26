@@ -128,15 +128,17 @@
             </div>
             <button id="streetView"><img src="{{ asset('assets/media/ic_map_activate4.png') }}"></button>
         </div>
-        <button type="button" class="map_view_btn" onclick="mapTypeViewChage()">
+        <button type="button" class="map_view_btn map_view_btn_2" onclick="mapTypeViewChage()">
             <span id="centerDongText">익선동</span>
             <span class="txt_point centerDongMapText">실거래가</span> 보기
         </button>
-        <div class="map_bottom_btn">
-            <button onclick="location.href='{{ route('www.product.create.view') }}'"><img
-                    src="{{ asset('assets/media/ic_org_estate.png') }}">매물 내놓기</button>
-            <button onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'"><img
+        <div class="map_bottom_area map_bottom_area_2">
+            <div class="map_bottom_btn">
+                <button onclick="location.href='{{ route('www.product.create.view') }}'"><img
+                        src="{{ asset('assets/media/ic_org_estate.png') }}">매물 내놓기</button>
+                <button onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'"><img
                     src="{{ asset('assets/media/btn_point_search.png') }}">매물 구하기</button>
+            </div>
         </div>
 
         {{--  네이버 지도 --}}
@@ -147,15 +149,27 @@
         </div>
     </div>
 
-    <ul class="side_list_tab tab_toggle_menu" id="bottom_property" style="display: none">
+    <div class="map_bottom_tab">
+            <button onclick="modal_open('m_property_list')">지도 내 매물 15</button>
+            <button onclick="modal_open('m_agent_list')">중개사무소 62</button>
+        </div>
+
+    <!-- <ul class="side_list_tab tab_toggle_menu" id="bottom_property" style="display: none">
+        <li class="property active"><a href="javascript:(0)" onclick="modal_open('m_property_list')">지도 내 매물 <span
+                    id="property_count">0</span>
+            </a>
+        </li>
         <li class="property active"><a href="{{ route('www.map.property.list') }}">지도 내 매물 <span
                     id="property_count">0</span>
+            </a>
+        </li>
+        <li class="agent"><a href="javascript:(0)" onclick="modal_open('m_agent_list')">중개사무소 <span id="agent_count">0</span>
             </a>
         </li>
         <li class="agent"><a href="{{ route('www.map.property.list') }}">중개사무소 <span id="agent_count">0</span>
             </a>
         </li>
-    </ul>
+    </ul> -->
 
     <div class="side_list_scroll" id="property_list" style="display:none;">
     </div>
@@ -164,6 +178,89 @@
 
     <x-nav-layout />
 </x-layout>
+
+<!-- 지도 내 매물 : s -->
+<div class="modal modal_full modal_m_property_list">
+    <div class="modal_title">
+        <h5>지도 내 매물 16</h5>
+    <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close" onclick="modal_close('m_property_list')">
+    </div>
+    <div class="modal_container_full">
+        <ul class="list_sort2 toggle_tab">
+            <li class="active"><a href="#">최신순</a></li>
+            <li class="inner_toggle">
+            <a href="#">
+                <span class="sort_direction active">가격순</span>
+                <button class="inner_button sort_price"><span class="price_txt">낮은가격순</span> <img src="{{ asset('assets/media/sort_arrow.png') }}" class="sort_arrow"></button>
+            </a>
+            </li>
+            <li class="inner_toggle">
+            <a href="#">
+                <span class="sort_direction active">면적순</span>
+                <button class="inner_button sort_area"><span class="price_txt">넓은면적순</span> <img src="{{ asset('assets/media/sort_arrow.png') }}" class="sort_arrow"></button>
+            </a>
+            </li>
+        </ul>
+        <div class="side_list_scroll">
+            여기에 리스트를 넣으면 됨<div style="height:2000px;">개발시 삭제 할 것</div>
+        </div>
+    </div>
+</div>
+<!-- 지도 내 매물 : e -->
+
+<!-- 중개사무소 list : s -->
+<div class="modal modal_full modal_m_agent_list">
+    <div class="modal_title">
+        <h5>중개사무소 10</h5>
+    <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close" onclick="modal_close('m_agent_list')">
+    </div>
+    <div class="modal_container_full">
+        <ul class="list_sort2 toggle_tab">
+            <li class="active"><a href="#">가까운 거리순</a></li>
+            <li><a href="#">이름순</a></li>
+            
+        </ul>
+        <div class="side_list_scroll">
+            여기에 리스트를 넣으면 됨<div style="height:2000px;">개발시 삭제 할 것</div>
+        </div>
+    </div>
+</div> 
+<!-- 중개사무소 list : e -->
+
+<script>
+//정렬
+document.addEventListener("DOMContentLoaded", function() {
+    const priceButton = document.querySelector(".sort_price");
+    const priceTextSpan = priceButton.querySelector(".price_txt");
+    const priceArrowImg = priceButton.querySelector(".sort_arrow");
+    
+    priceButton.addEventListener("click", function() {
+        if (priceTextSpan.textContent === "낮은가격순") {
+            priceTextSpan.textContent = "높은가격순";
+            priceArrowImg.style.transform = "rotate(180deg)";
+        } else {
+            priceTextSpan.textContent = "낮은가격순";
+            priceArrowImg.style.transform = "rotate(0deg)";
+        }
+    });
+
+    const areaButton = document.querySelector(".sort_area");
+    const areaTextSpan = areaButton.querySelector(".price_txt");
+    const areaArrowImg = areaButton.querySelector(".sort_arrow");
+
+    areaButton.addEventListener("click", function() {
+        if (areaTextSpan.textContent === "넓은면적순") {
+            areaTextSpan.textContent = "좁은면적순";
+            areaArrowImg.style.transform = "rotate(180deg)";
+        } else {
+            areaTextSpan.textContent = "넓은면적순";
+            areaArrowImg.style.transform = "rotate(0deg)";
+        }
+    });
+});
+
+</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.5/proj4.js"></script>
 <script type="text/javascript"
     src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">

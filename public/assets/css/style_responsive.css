@@ -113,6 +113,8 @@
     .floating_btn_wrap{position: fixed; z-index: 10; bottom: 0; left: 0; width:100%; display:flex; background: #fff;}
     .floating_wish{background:url('/assets/media/btn_like_off.png') 20px 50% no-repeat; background-size: 20px auto; width:150px; display:flex; align-items: center; padding-left:47px; border: 1px solid #D2D1D0; box-sizing: border-box;}
     .floating_wish.on{background:url('/assets/media/btn_like_on.png') 20px 50% no-repeat; background-size: 20px auto;}
+    .rotation_wrap{width:100%; height:248px;}
+    .rotation_wrap #panorama-360-view{width:100%; height:248px;}
 
     /* map */
     .map_wrap{width:100%; height:100vh; box-sizing: border-box; background: #f6f6f6; position: relative; overflow: hidden;}
@@ -125,16 +127,44 @@
     .map_side{display: block; top:0px; background:#fff; width:100%; height:auto; border-right:none; box-sizing: border-box; padding-top:0; overflow: hidden;}
     .side_fixed{background: #fff; position:relative; top:50px; left:0; width:100%; z-index:9; box-sizing: border-box; border-top: 1px solid #EEEDED; padding-bottom: 30px;}
     .map_side .scroll_wrap_1{height:auto; overflow-y:auto; position: relative; padding-bottom: 30px;}
-    .map_bottom_tab{position: fixed; display: flex; bottom: 60px; width: 100%; height:44px; background: #fff;}
+    .map_side_btn{right: 10px; top:110px}
+    .map_bottom_tab{position: absolute; display:flex; width:100%; height:44px; bottom:60px; background: #fff;}
     .map_bottom_tab button{display: flex; flex: 1; justify-content: center; align-items: center;}
-    .map_bottom_btn{width:60px; position: fixed; z-index:2; display: flex; flex-direction: column; right: 16px; bottom:74px; gap: 8px; z-index: 2;}
+    .map_bottom_area{position:fixed; width:60px; z-index:2; right:0px; bottom:74px;}
+    .map_bottom_area.map_bottom_area_2{bottom:120px;}
+    .map_bottom_area .map_bottom_btn{width:60px; right: 10px; bottom:auto; z-index:2; display: flex; flex-direction: column; gap: 8px; position: relative !important;}
     .map_bottom_btn.p_area{bottom: 120px !important;}
     .map_bottom_btn button{background: #fff; border-radius:6px; display: flex; flex-direction: column; gap:6px; font-size: 11px; letter-spacing: -1px; align-items: center; padding:10px 0; box-shadow: 0 0 5px rgba(0,0,0,0.1);}
     .map_bottom_btn button img{width:22px;}
-    .map_view_btn{position: fixed; z-index: 2; left: 50%; transform: translateX(-50%); bottom:118px; background: #fff; border-radius: 50px; padding:8px 12px; box-shadow: 0 0 5px rgba(0,0,0,0.1);}
+    .map_view_btn{position: fixed; z-index: 2; left: 50%; transform: translateX(-50%); bottom:74px; background: #fff; border-radius: 50px; padding:8px 12px; box-shadow: 0 0 5px rgba(0,0,0,0.1);}
+    .map_view_btn.map_view_btn_2{bottom:118px;}
     .side_list_wrap{width: 100%; height:calc(100vh - 50px); padding-top: 50px;}
     .side_list_wrap .tab_area_wrap .side_list_scroll{height:calc(100vh - 142px);}
     .side_list_wrap .tab_area_wrap1 .side_list_scroll{height:calc(100vh - 142px);}
+    .modal_container_full{padding: 0;}
+    .modal_container_full .side_list_scroll{overflow-y: auto; height:calc(100vh - 95px); background: #fff;}
+    .side_list_tab {
+        width: 100%;
+        display:block;
+        align-items: center;
+    }
+    
+    .side_list_tab li {
+        width: 50%;
+        height: 44px;
+        color: var(--color-gray-3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-bottom: 1px solid #F0F0F0;
+        box-sizing: border-box;
+    }
+    
+    .side_list_tab li.active {
+        color: var(--txt-color);
+        position: relative;
+    }
 
     /* map marker */
     .iw_inner p{color:#fff; line-height: 1.2; font-size: 12px; text-align: left;}

@@ -226,6 +226,8 @@ input:checked + .check_slider:before {-webkit-transform: translateX(16px); -ms-t
 .slide_modal_menu li a{display:block; width:100%; padding:15px 0; font-size:16px; color:#63605F;}
 .slide_modal_body{padding: 14px 16px;}
 
+
+
 /* 대표 wrap */
 .body{box-sizing: border-box; padding-top:60px}
 .gray_body{background:#F5F5F5;}
@@ -391,7 +393,7 @@ nav{display: none;}
 .tab_type_1 li a{border: 1px solid #D4D4D4; border-radius:6px; padding:10px 14px; box-sizing: border-box;}
 .tab_type_1 li.active a{border: 1px solid var(--main-color); color:var(--main-color); background: rgba(241,99,65,0.1); box-sizing: border-box;}
 
-.tab_type_2{position:fixed; top:120px; left: 0; width: 100%; height: 38px; border-bottom: 1px solid #EEEDED; background: #fff; z-index: 100; box-sizing: border-box;}
+.tab_type_2{position:fixed; top:120px; left: 0; width: 100%; height: 38px; border-bottom: 1px solid #EEEDED; background: #fff; z-index: 9; box-sizing: border-box;}
 .detail_tab {overflow: hidden; padding: 0 16px !important; box-sizing: border-box;}
 .detail_tab .swiper-slide{width: auto !important; margin-right:0px; display:inline-flex; align-items: center; height: 38px; cursor: pointer;  position: relative;}
 .detail_tab .swiper-slide a{color: #9D9999; display: block; padding: 0 10px; white-space: nowrap;}

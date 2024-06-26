@@ -63,25 +63,28 @@
                     <a class="btn_share"><img src="{{ asset('assets/media/header_btn_share_deep.png') }}"
                             class="header_ic_btn"></a>
                     <button class="btn_graydeep_ghost btn_md_bold">분양문의</button>
-                </div>
-                <!-- 공유하기 : s -->
-                <div class="layer layer_share_wrap layer_share_top">
-                    <div class="layer_title">
-                        <h5>공유하기</h5>
-                        <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close btn_share">
+
+                    <!-- 공유하기 : s -->
+                    <div class="layer layer_share_wrap layer_share_top">
+                        <div class="layer_title">
+                            <h5>공유하기</h5>
+                            <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close btn_share">
+                        </div>
+                        <div class="layer_share_con">
+                            <a class="kakaotalk-sharing-btn">
+                                <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                                <p class="mt8">카카오톡</p>
+                            </a>
+                            <a href="#">
+                                <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                                <p class="mt8">링크복사</p>
+                            </a>
+                        </div>
                     </div>
-                    <div class="layer_share_con">
-                        <a class="kakaotalk-sharing-btn">
-                            <img src="{{ asset('assets/media/share_ic_01.png') }}">
-                            <p class="mt8">카카오톡</p>
-                        </a>
-                        <a href="#">
-                            <img src="{{ asset('assets/media/share_ic_02.png') }}">
-                            <p class="mt8">링크복사</p>
-                        </a>
-                    </div>
+                    <!-- 공유하기 : e -->
+
                 </div>
-                <!-- 공유하기 : e -->
+                
             </div>
         </div>
 
@@ -165,7 +168,7 @@
 
                 <div class="detail_camera_wrap" {{ count($result->files) > 0 ? '' : 'style=display:none;' }}>
                     <div class="gray_basic">*클릭을 통해 직접 건물 내부를 이동하며 확인해보세요.</div>
-                    <div class="mt8" onclick="onMetaLink();">
+                    <div class="rotation_wrap mt8" onclick="onMetaLink();">
                         <div id="panorama-360-view"></div>
                     </div>
                 </div>
