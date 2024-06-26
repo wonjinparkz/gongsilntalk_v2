@@ -288,7 +288,7 @@
     </a>
 
     @php
-        $cleaned_content = strip_tags($result->content);
+        $cleaned_content = strip_tags(html_entity_decode($result->content));
     @endphp
     <script>
         Kakao.Share.createDefaultButton({
