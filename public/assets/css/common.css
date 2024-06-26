@@ -226,6 +226,8 @@ input:checked + .check_slider:before {-webkit-transform: translateX(16px); -ms-t
 .slide_modal_menu li a{display:block; width:100%; padding:15px 0; font-size:16px; color:#63605F;}
 .slide_modal_body{padding: 14px 16px;}
 
+
+
 /* 대표 wrap */
 .body{box-sizing: border-box; padding-top:60px}
 .gray_body{background:#F5F5F5;}
