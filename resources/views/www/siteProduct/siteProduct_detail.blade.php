@@ -23,7 +23,28 @@
         <div class="left_area"><a href="javascript:history.go(-1)"><img
                     src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
         <div class="m_title">{{ $result->title }}</div>
-        <div class="right_area"></div>
+        <div class="right_area">
+            <img src="{{ asset('assets/media/header_btn_share_deep.png') }}" onclick="modal_open_slide('share')">
+        </div>
+        <div class="modal_slide modal_slide_share">
+            <div class="slide_title_wrap">
+                <span>공유하기</span>
+                <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('share')">
+            </div>
+            <div class="slide_modal_body">
+                <div class="layer_share_con">
+                    <a class="kakaotalk-sharing-btn">
+                        <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                        <p class="mt8">카카오톡</p>
+                    </a>
+                    <a href="#">
+                        <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                        <p class="mt8">링크복사</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="md_slide_overlay md_slide_overlay_share" onclick="modal_close_slide('share')"></div>
     </div>
     <!----------------------------- m::header bar : s ----------------------------->
 
@@ -39,10 +60,28 @@
                         onclick="onLikeStateChange('{{ $result->id }}', 'site_product');btn_wish(this)"></span>
                     <a href="#"><img src="{{ asset('assets/media/header_btn_alarm.png') }}"
                             class="header_ic_btn"></a>
-                    <a href="#"><img src="{{ asset('assets/media/header_btn_share_deep.png') }}"
+                    <a class="btn_share"><img src="{{ asset('assets/media/header_btn_share_deep.png') }}"
                             class="header_ic_btn"></a>
                     <button class="btn_graydeep_ghost btn_md_bold">분양문의</button>
                 </div>
+                <!-- 공유하기 : s -->
+                <div class="layer layer_share_wrap layer_share_top">
+                    <div class="layer_title">
+                        <h5>공유하기</h5>
+                        <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close btn_share">
+                    </div>
+                    <div class="layer_share_con">
+                        <a class="kakaotalk-sharing-btn">
+                            <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                            <p class="mt8">카카오톡</p>
+                        </a>
+                        <a href="#">
+                            <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                            <p class="mt8">링크복사</p>
+                        </a>
+                    </div>
+                </div>
+                <!-- 공유하기 : e -->
             </div>
         </div>
 
@@ -359,6 +398,12 @@
         var onMetaLink = () => {
             // location.href = '{{ $result->matterport_link }}';
         }
+
+        //공유하기 레이어
+        $(".btn_share").click(function() {
+            $(".layer_share_wrap").stop().slideToggle(0);
+            return false;
+        });
 
         pannellum.viewer('panorama-360-view', {
             "type": "equirectangular",

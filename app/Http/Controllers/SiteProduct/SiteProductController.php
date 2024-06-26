@@ -193,37 +193,39 @@ class SiteProductController extends Controller
             'is_blind_2' => $request->is_blind_2 ?? 0,
         ]);
 
-
-        foreach ($request->dong_info as $dongIndex => $dongInfo) {
-            $dongResult = SiteProductDong::create([
-                'site_product_id' => $result->id,
-                'dong_name' => $dongInfo['dong_name'],
-            ]);
-            foreach ($dongInfo['floor_info'] ?? [] as $floorIndex => $floorInfo) {
-                $floorResult = SiteProductFloorInfo::create([
-                    'site_product_dong_id' => $dongResult->id,
-                    'floor_name' => $floorInfo['floor_name'],
-                    'is_neighborhood_life' => $floorInfo['is_neighborhood_life'] ?? 0,
-                    'is_industry_center' => $floorInfo['is_industry_center'] ?? 0,
-                    'is_warehouse' => $floorInfo['is_warehouse'] ?? 0,
-                    'is_dormitory' => $floorInfo['is_dormitory'] ?? 0,
-                    'is_business_support' => $floorInfo['is_business_support'] ?? 0,
+        if ($request->dong_info) {
+            foreach ($request->dong_info as $dongIndex => $dongInfo) {
+                $dongResult = SiteProductDong::create([
+                    'site_product_id' => $result->id,
+                    'dong_name' => $dongInfo['dong_name'],
                 ]);
+                foreach ($dongInfo['floor_info'] ?? [] as $floorIndex => $floorInfo) {
+                    $floorResult = SiteProductFloorInfo::create([
+                        'site_product_dong_id' => $dongResult->id,
+                        'floor_name' => $floorInfo['floor_name'],
+                        'is_neighborhood_life' => $floorInfo['is_neighborhood_life'] ?? 0,
+                        'is_industry_center' => $floorInfo['is_industry_center'] ?? 0,
+                        'is_warehouse' => $floorInfo['is_warehouse'] ?? 0,
+                        'is_dormitory' => $floorInfo['is_dormitory'] ?? 0,
+                        'is_business_support' => $floorInfo['is_business_support'] ?? 0,
+                    ]);
 
-                $this->imageWithCreate($floorInfo['floor_image_ids'], SiteProductFloorInfo::class, $floorResult->id);
+                    $this->imageWithCreate($floorInfo['floor_image_ids'], SiteProductFloorInfo::class, $floorResult->id);
+                }
             }
         }
 
-        foreach ($request->schedule_title as $index => $schedule) {
-            $scheduleResult = SiteProductSchedule::create([
-                'site_product_id' => $result->id,
-                'title' => $schedule,
-                'start_date' => $request->start_date[$index],
-                'ended_date' => $request->ended_date[$index] ?? null,
-                'is_ended' => $request->is_ended[$index],
-            ]);
+        if ($request->schedule_title) {
+            foreach ($request->schedule_title as $index => $schedule) {
+                $scheduleResult = SiteProductSchedule::create([
+                    'site_product_id' => $result->id,
+                    'title' => $schedule,
+                    'start_date' => $request->start_date[$index],
+                    'ended_date' => $request->ended_date[$index] ?? null,
+                    'is_ended' => $request->is_ended[$index],
+                ]);
+            }
         }
-
 
 
         return Redirect::route('admin.site.product.list.view')->with('message', '분양현장 매물을 등록했습니다.');
@@ -346,40 +348,54 @@ class SiteProductController extends Controller
         SiteProductDong::where('site_product_id', $request->id)->delete();
 
 
-        foreach ($request->dong_info as $dongIndex => $dongInfo) {
-            $dongResult = SiteProductDong::create([
-                'site_product_id' => $request->id,
-                'dong_name' => $dongInfo['dong_name'],
-            ]);
-            foreach ($dongInfo['floor_info'] ?? [] as $floorIndex => $floorInfo) {
-                $floorResult = SiteProductFloorInfo::create([
-                    'site_product_dong_id' => $dongResult->id,
-                    'floor_name' => $floorInfo['floor_name'],
-                    'is_neighborhood_life' => $floorInfo['is_neighborhood_life'] ?? 0,
-                    'is_industry_center' => $floorInfo['is_industry_center'] ?? 0,
-                    'is_warehouse' => $floorInfo['is_warehouse'] ?? 0,
-                    'is_dormitory' => $floorInfo['is_dormitory'] ?? 0,
-                    'is_business_support' => $floorInfo['is_business_support'] ?? 0,
+        if ($request->dong_info) {
+            foreach ($request->dong_info as $dongIndex => $dongInfo) {
+                $dongResult = SiteProductDong::create([
+                    'site_product_id' => $request->id,
+                    'dong_name' => $dongInfo['dong_name'],
                 ]);
+                foreach ($dongInfo['floor_info'] ?? [] as $floorIndex => $floorInfo) {
+                    $floorResult = SiteProductFloorInfo::create([
+                        'site_product_dong_id' => $dongResult->id,
+                        'floor_name' => $floorInfo['floor_name'],
+                        'is_neighborhood_life' => $floorInfo['is_neighborhood_life'] ?? 0,
+                        'is_industry_center' => $floorInfo['is_industry_center'] ?? 0,
+                        'is_warehouse' => $floorInfo['is_warehouse'] ?? 0,
+                        'is_dormitory' => $floorInfo['is_dormitory'] ?? 0,
+                        'is_business_support' => $floorInfo['is_business_support'] ?? 0,
+                    ]);
 
-                $this->imageWithEdit($floorInfo['floor_image_ids'], SiteProductFloorInfo::class, $floorResult->id);
+                    $this->imageWithEdit($floorInfo['floor_image_ids'], SiteProductFloorInfo::class, $floorResult->id);
+                }
             }
         }
 
         // 분양매물에 해당되는 분양일정 삭제후 다시 생성
         SiteProductSchedule::where('site_product_id', $request->id)->delete();
-
-        foreach ($request->schedule_title as $index => $schedule) {
-            $scheduleResult = SiteProductSchedule::create([
-                'site_product_id' => $request->id,
-                'title' => $schedule,
-                'start_date' => $request->start_date[$index],
-                'ended_date' => $request->ended_date[$index] ?? null,
-                'is_ended' => $request->is_ended[$index],
-            ]);
+        if ($request->schedule_title) {
+            foreach ($request->schedule_title as $index => $schedule) {
+                $scheduleResult = SiteProductSchedule::create([
+                    'site_product_id' => $request->id,
+                    'title' => $schedule,
+                    'start_date' => $request->start_date[$index],
+                    'ended_date' => $request->ended_date[$index] ?? null,
+                    'is_ended' => $request->is_ended[$index],
+                ]);
+            }
         }
 
         return Redirect::route('admin.site.product.detail.view', [$request->id])->with('message', '분양현장 매물을 수정했습니다.');
+    }
+
+    /**
+     * 분양현장 매물 삭제
+     */
+    public function siteProductDelete(Request $request)
+    {
+        $result = SiteProduct::where('id', $request->id)->first()
+            ->update(['is_delete' => '1']);
+
+        return back()->with('message', '건물을 삭제했습니다.');
     }
 
 

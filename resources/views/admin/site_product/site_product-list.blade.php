@@ -243,7 +243,7 @@
                     }
                 }).then(function(result) {
                     if (result.value) {
-                        $('#deleteNotice' + id).submit();
+                        $('#deleteKnowledgeCenter' + id).submit();
                     }
                 });
             }
