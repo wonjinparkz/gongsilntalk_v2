@@ -297,7 +297,7 @@
             content: {
                 title: '{{ $result->title }}',
                 description: '{{ mb_strlen($cleaned_content) > 50 ? mb_substr($cleaned_content, 0, 50) . '...' : $cleaned_content }}',
-                imageUrl: "{{ $result->image ? asset('storage/image/' . $result->image[0]->path) : '' }}",
+                imageUrl: "{{ $result->images ? asset('storage/image/' . $result->images[0]->path) : '' }}",
                 link: {
                     mobileWebUrl: `{{ url()->full() }}`,
                     webUrl: `{{ url()->full() }}`,
