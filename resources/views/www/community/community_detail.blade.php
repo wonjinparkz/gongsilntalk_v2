@@ -299,8 +299,8 @@
                 description: '{{ mb_strlen($cleaned_content) > 50 ? mb_substr($cleaned_content, 0, 50) . '...' : $cleaned_content }}',
                 imageUrl: "{{ $result->image ? Storage::url('image/' . $result->image[0]->path) : '' }}",
                 link: {
-                    mobileWebUrl: `{{ url->full() }}`,
-                    webUrl: `{{ url->full() }}`,
+                    mobileWebUrl: `{{ url()->full() }}`,
+                    webUrl: `{{ url()->full() }}`,
                 },
             }
         });
