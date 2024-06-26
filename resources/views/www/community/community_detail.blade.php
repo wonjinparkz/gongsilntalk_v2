@@ -90,7 +90,7 @@
                     </div>
 
 
-                    <!-- contents : s -->
+                    <!-- content : s -->
                     <div class="community_detail_top">
                         @if ((request()->query('community') ?? 0) == 0 ? 'active' : '')
                             <span class="community_mark">
@@ -133,7 +133,7 @@
                         @endif
                     </div>
 
-                    <div class="community_contents">
+                    <div class="community_content">
                         @if ($result->url != '')
                             <div class="detail_img_wrap">
                                 <iframe width="100%" height="350" src="{{ $result->url }}" frameborder="0"
@@ -158,7 +158,7 @@
                             <span id="like_count">{{ $result->like_count }}</span>
                         </div>
                     </div>
-                    <!-- contents : e -->
+                    <!-- content : e -->
 
                     <x-community-reply :replys="$replys" :community_id="$result->id" :replyCount="$replyCount" />
 
@@ -287,17 +287,20 @@
             alt="카카오톡 공유 보내기 버튼" />
     </a>
 
+    @php
+        $cleaned_content = strip_tags($result->content);
+    @endphp
     <script>
         Kakao.Share.createDefaultButton({
             container: "#create-kakaotalk-sharing-btn",
             objectType: "feed",
             content: {
-                title: 'ㅎㅇ',
-                description: 'ㅎㅇ',
-                imageUrl: "{{ $detailImage != '' ? 'http://localhost' . Storage::url('image/' . $detailImage) : '' }}",
+                title: '{{ $result->title }}',
+                description: '{{ mb_strlen($cleaned_content) > 50 ? mb_substr($cleaned_content, 0, 50) . '...' : $cleaned_content }}',
+                imageUrl: "{{ $result->image ? Storage::url('image/' . $result->image[0]->path) : '' }}",
                 link: {
-                    mobileWebUrl: `http://gsntalk.cafe24.com/community/detail?id=9&community=0`,
-                    webUrl: `http://gsntalk.cafe24.com/community/detail?id=9&community=0`,
+                    mobileWebUrl: `{{ url->full() }}`,
+                    webUrl: `{{ url->full() }}`,
                 },
             }
         });
