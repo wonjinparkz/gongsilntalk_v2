@@ -282,28 +282,25 @@
         Kakao.init('0137e2c7fcf3ebb6956ea376bc415ebc'); // 사용하려는 앱의 JavaScript 키 입력
     </script>
 
-    <a id="create-kakaotalk-sharing-btn" href="javascript:;">
-        <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
-            alt="카카오톡 공유 보내기 버튼" />
-        {{ url()->full() }}
-    </a>
-
     @php
         $cleaned_content = strip_tags(html_entity_decode($result->content));
     @endphp
+
     <script>
-        Kakao.Share.createDefaultButton({
-            container: "#create-kakaotalk-sharing-btn",
-            objectType: "feed",
-            content: {
-                title: '{{ $result->title }}',
-                description: '{{ mb_strlen($cleaned_content) > 50 ? mb_substr($cleaned_content, 0, 50) . '...' : $cleaned_content }}',
-                imageUrl: "{{ $result->images ? asset('storage/image/' . $result->images[0]->path) : '' }}",
-                link: {
-                    mobileWebUrl: `{!! url()->full() !!}`,
-                    webUrl: `{!! url()->full() !!}`,
-                },
-            }
+        document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
+            Kakao.Share.createDefaultButton({
+                container: button,
+                objectType: "feed",
+                content: {
+                    title: '{{ $result->title }}',
+                    description: '{{ mb_strlen($cleaned_content) > 50 ? mb_substr($cleaned_content, 0, 50) . '...' : $cleaned_content }}',
+                    imageUrl: "{{ $result->images ? asset('storage/image/' . $result->images[0]->path) : '' }}",
+                    link: {
+                        mobileWebUrl: `{!! url()->full() !!}`,
+                        webUrl: `{!! url()->full() !!}`,
+                    },
+                }
+            });
         });
     </script>
 
