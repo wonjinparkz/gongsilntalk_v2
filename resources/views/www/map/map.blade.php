@@ -457,7 +457,7 @@
             console.log('agentMarker : ', agentMarker.id);
             markerId = agentMarker.id;
             agentIdArray = [markerId];
-            $('li.agent').click();
+            $('#getAgentList').click();
         });
 
         agentMarkers.push(agentMarker); // agent 마커 배열에 추가

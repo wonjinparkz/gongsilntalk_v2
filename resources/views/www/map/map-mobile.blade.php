@@ -36,7 +36,7 @@
         </div>
 
         <!-- tab : s -->
-        <div class="inner_wrap">
+        <div class="inner_wrap" id="filterType0">
             <div class="swiper detail_tab m_swiper_filter">
                 <div class="swiper-wrapper menu">
                     <div class="swiper-slide active"><button class="filter_btn_trigger"
@@ -47,75 +47,39 @@
             </div>
         </div>
         <!-- tab : e -->
+
+        <!-- tab : s -->
+        <div class="inner_wrap" id="filterType1">
+            <div class="swiper detail_tab m_swiper_filter">
+                <div class="swiper-wrapper menu">
+                    <div class="swiper-slide active"><button class="filter_btn_trigger"
+                            onclick="modal_open_slide('filter_3')">지식산업센터</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger"
+                            onclick="modal_open_slide('filter_4')">거래유형/가격</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger"
+                            onclick="modal_open_slide('filter_5')">면적</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger"
+                            onclick="modal_open_slide('filter_6')">관리비</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger"
+                            onclick="modal_open_slide('filter_7')">사용승인연도</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger"
+                            onclick="modal_open_slide('filter_8')">융자금</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger"
+                            onclick="modal_open_slide('filter_9')">권리금</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger"
+                            onclick="modal_open_slide('filter_10')">업종</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger"
+                            onclick="modal_open_slide('filter_11')">기타</button></div>
+                </div>
+            </div>
+        </div>
+        <!-- tab : e -->
+
     </div>
     <!-- top area : e  -->
+    <x-m-map-filter />
+    <x-m-map-property-filter />
 
-    <!-- 지식산업센터 modal : s -->
-    <div class="modal_slide modal_slide_filter_1">
-        <div class="slide_title_wrap">
-            <span>매물 종류</span>
-            <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('filter_1')">
-        </div>
-        <div class="slide_modal_body">
-            <div class="btn_radioType">
-                <input type="radio" name="estate_type" id="estate_type_1" value="Y">
-                <label for="estate_type_1">지식산업센터</label>
-                <input type="radio" name="estate_type" id="estate_type_2" value="Y">
-                <label for="estate_type_2">상가</label>
-                <input type="radio" name="estate_type" id="estate_type_3" value="Y">
-                <label for="estate_type_3">건물</label>
-                <input type="radio" name="estate_type" id="estate_type_4" value="Y">
-                <label for="estate_type_4">아파트</label>
-            </div>
-        </div>
-        <div class="filter_panel_bottom">
-            <button class="btn_graylight_ghost btn_md_full"><img
-                    src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-            <button class="btn_point btn_md_full">적용하기</button>
-        </div>
-    </div>
-    <div class="md_slide_overlay md_slide_overlay_filter_1" onclick="modal_close_slide('filter_1')"></div>
-    <!-- 지식산업센터 modal : e -->
-
-
-    <!-- 융자금 modal : s -->
-    <div class="modal_slide modal_slide_filter_2">
-        <div class="slide_title_wrap">
-            <span>융자금</span>
-            <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('filter_2')">
-        </div>
-        <div class="slide_modal_body">
-            <div class="btn_radioType">
-                <input type="radio" name="year" id="year_1" value="Y">
-                <label for="year_1">전체</label>
-
-                <input type="radio" name="year" id="year_2" value="Y">
-                <label for="year_2">1년 이내</label>
-
-                <input type="radio" name="year" id="year_3" value="Y">
-                <label for="year_3">2년 이내</label>
-
-                <input type="radio" name="year" id="year_4" value="Y">
-                <label for="year_4">5년 이내</label>
-
-                <input type="radio" name="year" id="year_5" value="Y">
-                <label for="year_5">10년 이내</label>
-
-                <input type="radio" name="year" id="year_6" value="Y">
-                <label for="year_6">15년 이내</label>
-
-                <input type="radio" name="year" id="year_7" value="Y">
-                <label for="year_7">15년 이상</label>
-            </div>
-        </div>
-        <div class="filter_panel_bottom">
-            <button class="btn_graylight_ghost btn_md_full"><img
-                    src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-            <button class="btn_point btn_md_full">적용하기</button>
-        </div>
-    </div>
-    <div class="md_slide_overlay md_slide_overlay_filter_2" onclick="modal_close_slide('filter_2')"></div>
-    <!-- 융자금 modal : e -->
 
     <div class="body">
         <div class="map_side_btn">
@@ -384,8 +348,132 @@
             map_bottom_area.classList.add('map_bottom_area_2');
         }
 
+        $('#filterType' + (type == 0 ? 1 : 0)).hide();
+        $('#filterType' + type).show();
+
         $('#mapType').val(type);
         modal_close_slide('menu_map')
+        mapReset();
+    }
+
+
+    function filter_reset(Name) {
+
+        var text = '';
+        text = $('#' + Name + '_title').text();
+
+        if (Name == 'payment_type') {
+            $('#price').val('');
+            $('#month_price').val('');
+        } else if (Name == 'area') {
+            $('#square').val('');
+        } else if (Name == 'etc') {
+            $('floor_height_type').val('');
+            $('wattage_type').val('');
+        }
+
+
+        $('input[type="radio"][name="' + Name + '"][value="0"]').prop('checked', true);
+        $('#filter_text_' + Name).text(text);
+        $('#' + Name).val('');
+        mapReset();
+    }
+
+    function filter_apply(Name, filertType) {
+        var textArray = [];
+        var valueArray = [];
+
+        console.log('Name : ', Name);
+
+        $('input[name="' + Name + '"]:checked').each(function() {
+            textArray.push($(this).next('label').text());
+            valueArray.push($(this).val());
+        });
+
+        var text = textArray.length > 0 ? textArray.join(', ') : '';
+        var value = valueArray.length > 0 ? valueArray.join(',') : '';
+
+        var min, max;
+
+        if (filertType == 1) {
+            if (Name == 'payment_type') {
+                $('#price').val($('#temp_price').val());
+                $('#month_price').val($('#temp_month_price').val());
+            } else if (Name == 'area') {
+                var arayTypeText = $.trim($('.areaChage .active').text());
+                if (arayTypeText == '평') {
+                    $('#area').val($('#temp_area').val());
+                    [min, max] = $('#temp_area').val().split(',').map(Number);
+                    if (min == 0 && max == 1000) {
+                        text = "전체";
+                    } else {
+                        text = (min > 0 ? min + '평' : '') + ' ~ ' + (max < 1000 ? max + '평' : '');
+                    }
+                    initializeSliders('#rangeSquare');
+                } else {
+                    $('#square').val($('#temp_square').val());
+                    [min, max] = $('#temp_square').val().split(',').map(Number);
+                    if (min == 0 && max == 3205) {
+                        text = "전체";
+                    } else {
+                        text = (min > 0 ? min + '㎡' : '') + ' ~ ' + (max < 3205 ? max + '㎡' : '');
+                    }
+                    initializeSliders('#rangeArea');
+                }
+            } else {
+                unit = '';
+                $('#' + Name).val($('#temp_' + Name).val());
+                console.log('servie : ', $('#temp_' + Name).val());
+                [min, max] = $('#temp_' + Name).val().split(',').map(Number);
+                console.log('max : min', min + '|' + max);
+                switch (Name) {
+                    case 'service_price':
+                        if (min == 0 && max == 50) {
+                            text = "전체";
+                        } else {
+                            text = (min > 0 ? min + '만' : '') + ' ~ ' + (max < 50 ? max + '만' : '');
+                        }
+                        break;
+                    case 'approve_date':
+                        if (min == 0 && max == 10) {
+                            text = "전체";
+                        } else {
+                            text = (min > 0 ? min + '년' : '') + ' ~ ' + (max < 10 ? max + '년' : '');
+                        }
+                        break;
+                    case 'premium_price':
+                        if (min == 0 && max == 10000) {
+                            text = "전체";
+                        } else {
+                            text = (min > 0 ? min + '천' : '') + ' ~ ' + (max < 10000 ? max + '천' : '');
+                        }
+                        break;
+                    default:
+                        text = '';
+                        break;
+                }
+            }
+        } else {
+            if (Name == 'etc') {
+                value = $('input[name="floor_height_type"]:checked').val();
+                $('#floor_height_type').val(value);
+                etcText1 = '층고' + $('input[name="floor_height_type"]:checked').next('label').text();
+                value = $('input[name="wattage_type"]:checked').val();
+                $('#wattage_type').val(value);
+                etcText2 = '사용전력' + $('input[name="wattage_type"]:checked').next('label').text();
+
+                text = etcText1 + '/' + etcText2
+            } else {
+                $('#' + Name).val(value);
+            }
+        }
+
+        if (text == '') {
+            return;
+        }
+
+        $('#filter_text_' + Name).text(text);
+
         mapReset();
     }
 
@@ -735,7 +823,7 @@
             console.log('agentMarker : ', agentMarker.id);
             markerId = agentMarker.id;
             agentIdArray = [markerId];
-            $('li.agent').click();
+            $('#getAgentList').click();
         });
 
         agentMarkers.push(agentMarker); // agent 마커 배열에 추가
