@@ -119,26 +119,27 @@
                                 <!-- <button class="btn_gray_ghost btn_sm" type="button"
                                     onclick="downloadPDF();">공유하기</button> -->
                                 <button class="btn_gray_ghost btn_sm btn_share" type="button">공유하기</button>
-                            </div>
-                            <!-- 공유하기 : s -->
-                            <div class="layer layer_share_wrap layer_share_top">
-                                <div class="layer_title">
-                                    <h5>공유하기</h5>
-                                    <img src="{{ asset('assets/media/btn_md_close.png') }}"
-                                        class="md_btn_close btn_share">
+                                <!-- 공유하기 : s -->
+                                <div class="layer layer_share_wrap">
+                                    <div class="layer_title">
+                                        <h5>공유하기</h5>
+                                        <img src="{{ asset('assets/media/btn_md_close.png') }}"
+                                            class="md_btn_close btn_share">
+                                    </div>
+                                    <div class="layer_share_con">
+                                        <a class="kakaotalk-sharing-btn">
+                                            <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                                            <p class="mt8">카카오톡</p>
+                                        </a>
+                                        <a href="#">
+                                            <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                                            <p class="mt8">링크복사</p>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="layer_share_con">
-                                    <a class="kakaotalk-sharing-btn">
-                                        <img src="{{ asset('assets/media/share_ic_01.png') }}">
-                                        <p class="mt8">카카오톡</p>
-                                    </a>
-                                    <a href="#">
-                                        <img src="{{ asset('assets/media/share_ic_02.png') }}">
-                                        <p class="mt8">링크복사</p>
-                                    </a>
-                                </div>
+                                <!-- 공유하기 : e -->
                             </div>
-                            <!-- 공유하기 : e -->
+                            
 
                             <div class="mt18">
                                 {{-- <img src="{{ asset('assets/media/s_7.png') }}"

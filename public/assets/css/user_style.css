@@ -658,9 +658,10 @@ a.btn_like{background: url('/assets/media/btn_like_off.png') no-repeat; backgrou
 .proposal_toggle_btn{display: none;}
 .proposal_table_wrap{margin-top: 14px;}
 .number_box{border: 1px solid #D2D1D0; display:inline-block; width:28px; height:28px; text-align: center; line-height: 28px;}
-.proposal_detail_row{display: flex; justify-content: space-between; align-items: center;}
+.proposal_detail_row{display: flex; justify-content: space-between; align-items: center; position:relative;}
 .proposal_detail_row .proposal_item_1{flex: 1;}
 .proposal_detail_row .txt_item_1{color: var(--color-gray-2); margin-top: 8px;}
+.proposal_detail_row .layer_share_wrap{top:-10px; right: 0;}
 .offer_step_wrap{margin-top:38px; display: flex; flex-direction: column; gap:14px;}
 .box_reg{display: flex; flex-direction: column; gap:22px; margin: 0;}
 .input_pyeong_area{display: flex; align-items: center; margin-top: 8px; gap: 4px; }
