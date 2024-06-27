@@ -118,8 +118,8 @@
                                 </div>
                                 <!-- <button class="btn_gray_ghost btn_sm" type="button"
                                     onclick="downloadPDF();">공유하기</button> -->
-                                <!-- <button class="btn_gray_ghost btn_sm" type="button"
-                                   >공유하기</button> -->
+                                <button class="btn_gray_ghost btn_sm" type="button"
+                                   >공유하기</button>
                             </div>
 
                             <div class="mt18">

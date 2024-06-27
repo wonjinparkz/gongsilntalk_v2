@@ -204,6 +204,7 @@
 
                 if ($('#mapType').val() != 0) {
                     clusterProductMarkers();
+                    clusterKnowledgesMarkers();
                     clusterAgentMarkers();
                     loadMoreData();
                 }
@@ -745,6 +746,30 @@
             size: N.Size(40, 40),
             anchor: N.Point(20, 20)
         };
+
+    function clusterKnowledgesMarkers() {
+        if (productMarkers.length > 0) {
+
+            productMarkers.forEach(function(marker) {
+                marker.setVisible(false); // 마커를 숨깁니다.
+            });
+
+            productClustering = new MarkerClustering({
+                minClusterSize: 0,
+                maxZoom: 999,
+                map: map,
+                markers: productMarkers, // product 마커들만 클러스터링
+                disableClickZoom: false,
+                gridSize: 70,
+                icons: [htmlMarker1],
+                indexGenerator: [1],
+                stylingFunction: function(clusterMarker, count) {
+                    $(clusterMarker.getElement()).find('div:first-child').text(count);
+                }
+            });
+
+        }
+    }
 
     function clusterProductMarkers() {
         MarkerIdArray = [];

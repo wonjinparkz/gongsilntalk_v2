@@ -10,6 +10,7 @@ use App\Http\Controllers\main\MainPcController;
 use App\Http\Controllers\map\MapPcController;
 use App\Http\Controllers\product\ProductPcController;
 use App\Http\Controllers\proposal\ProposalPcController;
+use App\Http\Controllers\share\SharePcController;
 use App\Http\Controllers\SiteProduct\SiteProductPcController;
 use App\Http\Controllers\terms\TermsController;
 use App\Http\Controllers\user\UserPcController;
@@ -44,6 +45,12 @@ Route::controller(MainPcController::class)->group(function () {
     // Route::get('/main/search', 'mainSearch')->name('www.main.search');
 });
 
+/**
+ * 공유되는 페이지
+ */
+Route::controller(SharePcController::class)->group(function() {
+    Route::get('/share/proposal/detail', 'shareProposalDetail')->name('share.detail.view'); // 공유된 매물 제안서
+});
 
 /**
  * 지도맵
