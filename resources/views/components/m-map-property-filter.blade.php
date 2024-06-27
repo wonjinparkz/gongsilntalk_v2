@@ -24,6 +24,7 @@
     <input type="hidden" id="temp_wattage_type" value="">
     <input type="hidden" id="wattage_type" value="">
 </form>
+
 <!-- 지식산업센터 modal : s -->
 <div class="modal_slide modal_slide_filter_3">
     <div class="slide_title_wrap">
@@ -160,9 +161,11 @@
         <!-- slider : e -->
     </div>
     <div class="filter_panel_bottom">
-        <button type="button" class="btn_graylight_ghost btn_md_full" onclick="filter_reset('payment_type')"><img
+        <button type="button" class="btn_graylight_ghost btn_md_full"
+            onclick="modal_close_slide('filter_4'); filter_reset('payment_type')"><img
                 src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-        <button type="button" class="btn_point btn_md_full" onclick="filter_apply('payment_type', 1)">적용하기</button>
+        <button type="button" class="btn_point btn_md_full"
+            onclick="modal_close_slide('filter_4'); filter_apply('payment_type', 1)">적용하기</button>
     </div>
 </div>
 <div class="md_slide_overlay md_slide_overlay_filter_4" onclick="modal_close_slide('filter_4')"></div>
@@ -258,17 +261,70 @@
         <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('filter_5')">
     </div>
     <div class="slide_modal_body">
-        컨텐츠
-
+        <!-- slider : s -->
+        <div class="range_wrap squareSlider">
+            <div class="slider_between">
+                <label>㎡</label>
+                <div class="pt-5">
+                    <div class="fw-semibold mb-2" id="square_txt"><span id="square_min"></span> ~ <span
+                            id="square_max"></span></div>
+                </div>
+            </div>
+            <div class="mb-0">
+                <div id="rangeSquare"></div>
+            </div>
+            <ul class="range_txt">
+                <li>0 ㎡</li>
+                <li>1652㎡</li>
+                <li>3205㎡~</li>
+            </ul>
+        </div>
+        <div class="range_wrap areaSlider" style="display: none;">
+            <div class="slider_between">
+                <label>평</label>
+                <div class="pt-5">
+                    <div class="fw-semibold mb-2" id="area_txt"><span id="area_min"></span> ~ <span
+                            id="area_max"></span></div>
+                </div>
+            </div>
+            <div class="mb-0">
+                <div id="rangeArea"></div>
+            </div>
+            <ul class="range_txt">
+                <li>0 평</li>
+                <li>500평</li>
+                <li>1,000평~</li>
+            </ul>
+        </div>
+        <!-- slider : e -->
     </div>
     <div class="filter_panel_bottom">
-        <button class="btn_graylight_ghost btn_md_full"><img
+        <button type="button" class="btn_graylight_ghost btn_md_full"
+            onclick="modal_close_slide('filter_5'); filter_reset('area')"><img
                 src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-        <button class="btn_point btn_md_full">적용하기</button>
+        <button type="button" class="btn_point btn_md_full"
+            onclick="modal_close_slide('filter_5'); filter_apply('area', 1)">적용하기</button>
     </div>
 </div>
-<div class="md_slide_overlay md_slide_overlay_filter_5" onclick="modal_close_slide('filter_4')"></div>
+<div class="md_slide_overlay md_slide_overlay_filter_5" onclick="modal_close_slide('filter_5')"></div>
 <!-- 면적 modal : e -->
+<script>
+    $('.areaChage').on('click', function() {
+        // 클릭된 요소의 텍스트를 가져옵니다.
+        var selectedUnit = $(this).find('.active').text().trim();
+
+        // 클릭된 단위에 따라 슬라이더를 전환합니다.
+        if (selectedUnit === '㎡') {
+            // '㎡'을 선택했을 때
+            $('.areaSlider').hide();
+            $('.squareSlider').show();
+        } else {
+            // '평'을 선택했을 때
+            $('.squareSlider').hide();
+            $('.areaSlider').show();
+        }
+    });
+</script>
 
 <!-- 관리비 modal : s -->
 <div class="modal_slide modal_slide_filter_6">
@@ -277,13 +333,30 @@
         <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('filter_6')">
     </div>
     <div class="slide_modal_body">
-        컨텐츠
-
+        <!-- slider : s -->
+        <div class="range_wrap">
+            <div class="slider_between">
+                <label></label>
+                <div class="pt-5">
+                    <div class="fw-semibold mb-2" id="service_price_txt"><span id="service_price_min"></span>
+                        ~ <span id="service_price_max"></span></div>
+                </div>
+            </div>
+            <div class="mb-0">
+                <div id="rangeServicePrice"></div>
+            </div>
+            <ul class="range_txt">
+                <li>0</li>
+                <li>25만</li>
+                <li>50만~</li>
+            </ul>
+        </div>
+        <!-- slider : e -->
     </div>
     <div class="filter_panel_bottom">
-        <button class="btn_graylight_ghost btn_md_full"><img
+        <button type="button" class="btn_graylight_ghost btn_md_full" onclick="modal_close_slide('filter_6'); filter_reset('service_price')"><img
                 src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-        <button class="btn_point btn_md_full">적용하기</button>
+        <button type="button" class="btn_point btn_md_full" onclick="modal_close_slide('filter_6'); filter_apply('service_price', 1)">적용하기</button>
     </div>
 </div>
 <div class="md_slide_overlay md_slide_overlay_filter_6" onclick="modal_close_slide('filter_6')"></div>
@@ -296,13 +369,31 @@
         <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('filter_7')">
     </div>
     <div class="slide_modal_body">
-        컨텐츠
-
+        <!-- slider : s -->
+        <div class="range_wrap">
+            <div class="slider_between">
+                <label></label>
+                <div class="pt-5">
+                    <div class="fw-semibold mb-2" id="approve_date_txt"><span id="approve_date_min"></span> ~
+                        <span id="approve_date_max"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-0">
+                <div id="rangeApproveDate"></div>
+            </div>
+            <ul class="range_txt">
+                <li>0</li>
+                <li>5년</li>
+                <li>10년</li>
+            </ul>
+        </div>
+        <!-- slider : e -->
     </div>
     <div class="filter_panel_bottom">
-        <button class="btn_graylight_ghost btn_md_full"><img
+        <button type="button" class="btn_graylight_ghost btn_md_full" onclick="modal_close_slide('filter_7'); filter_reset('approve_date')"><img
                 src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-        <button class="btn_point btn_md_full">적용하기</button>
+        <button type="button" class="btn_point btn_md_full" onclick="modal_close_slide('filter_7'); filter_apply('approve_date', 1)">적용하기</button>
     </div>
 </div>
 <div class="md_slide_overlay md_slide_overlay_filter_7" onclick="modal_close_slide('filter_7')"></div>
@@ -316,20 +407,20 @@
     </div>
     <div class="slide_modal_body">
         <div class="btn_radioType">
-            <input type="radio" name="loan" id="loan_1" value="Y">
-            <label for="loan_1">융자금 없음</label>
+            <input type="radio" name="loan_type" id="loan_type_0" value="0">
+            <label for="loan_type_0">융자금 없음</label>
 
-            <input type="radio" name="loan" id="loan_2" value="Y">
-            <label for="loan_2">30% 미만</label>
+            <input type="radio" name="loan_type" id="loan_type_1" value="1">
+            <label for="loan_type_1">30% 미만</label>
 
-            <input type="radio" name="loan" id="loan_3" value="Y">
-            <label for="loan_3">30% 이상</label>
+            <input type="radio" name="loan_type" id="loan_type_2" value="2">
+            <label for="loan_type_2">30% 이상</label>
         </div>
     </div>
     <div class="filter_panel_bottom">
-        <button class="btn_graylight_ghost btn_md_full"><img
+        <button type="button" class="btn_graylight_ghost btn_md_full" onclick="modal_close_slide('filter_8'); filter_reset('loan_type')"><img
                 src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-        <button class="btn_point btn_md_full">적용하기</button>
+        <button type="button" class="btn_point btn_md_full" onclick="modal_close_slide('filter_8'); filter_apply('loan_type', 0)">적용하기</button>
     </div>
 </div>
 <div class="md_slide_overlay md_slide_overlay_filter_8" onclick="modal_close_slide('filter_8')"></div>
@@ -342,12 +433,30 @@
         <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('filter_9')">
     </div>
     <div class="slide_modal_body">
-
+        <!-- slider : s -->
+        <div class="range_wrap">
+            <div class="slider_between">
+                <label></label>
+                <div class="pt-5">
+                    <div class="fw-semibold mb-2" id="premium_price_txt"><span id="premium_price_min"></span>
+                        ~ <span id="premium_price_max"></span></div>
+                </div>
+            </div>
+            <div class="mb-0">
+                <div id="rangePremiumPrice"></div>
+            </div>
+            <ul class="range_txt">
+                <li>0</li>
+                <li>5천</li>
+                <li>1억~</li>
+            </ul>
+        </div>
+        <!-- slider : e -->
     </div>
     <div class="filter_panel_bottom">
-        <button class="btn_graylight_ghost btn_md_full"><img
+        <button type="button" class="btn_graylight_ghost btn_md_full" onclick="modal_close_slide('filter_9'); filter_reset('premium_price')"><img
                 src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-        <button class="btn_point btn_md_full">적용하기</button>
+        <button type="button" class="btn_point btn_md_full" onclick="modal_close_slide('filter_9'); filter_apply('premium_price', 1)">적용하기</button>
     </div>
 </div>
 <div class="md_slide_overlay md_slide_overlay_filter_9" onclick="modal_close_slide('filter_9')"></div>
@@ -371,9 +480,9 @@
         </div>
     </div>
     <div class="filter_panel_bottom">
-        <button class="btn_graylight_ghost btn_md_full"><img
+        <button type="button" class="btn_graylight_ghost btn_md_full" onclick="modal_close_slide('filter_10'); filter_reset('business_type')"><img
                 src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-        <button class="btn_point btn_md_full">적용하기</button>
+        <button type="button" class="btn_point btn_md_full" onclick="modal_close_slide('filter_10'); filter_apply('business_type')">적용하기</button>
     </div>
 </div>
 <div class="md_slide_overlay md_slide_overlay_filter_10" onclick="modal_close_slide('filter_10')"></div>
@@ -409,9 +518,9 @@
         </div>
     </div>
     <div class="filter_panel_bottom">
-        <button class="btn_graylight_ghost btn_md_full"><img
+        <button type="button" class="btn_graylight_ghost btn_md_full" onclick="modal_close_slide('filter_11'); filter_reset('etc')"><img
                 src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-        <button class="btn_point btn_md_full">적용하기</button>
+        <button type="button" class="btn_point btn_md_full" onclick="modal_close_slide('filter_11'); filter_apply('etc')">적용하기</button>
     </div>
 </div>
 <div class="md_slide_overlay md_slide_overlay_filter_11" onclick="modal_close_slide('filter_11')"></div>
@@ -420,30 +529,30 @@
 
 <script>
     // 필터 열기
-    const filterBtns = document.querySelectorAll('.filter_btn_trigger');
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function(event) {
-            const parent = this.parentElement;
-            const panel = parent.querySelector('.filter_panel');
+    // const filterBtns = document.querySelectorAll('.filter_btn_trigger');
+    // filterBtns.forEach(btn => {
+    //     btn.addEventListener('click', function(event) {
+    //         const parent = this.parentElement;
+    //         const panel = parent.querySelector('.filter_panel');
 
-            document.querySelectorAll('.filter_panel').forEach(p => {
-                if (p !== panel && p.style.display === 'block') {
-                    p.style.display = 'none';
-                }
-            });
-            panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
-            event.stopPropagation();
-        });
-    });
+    //         document.querySelectorAll('.filter_panel').forEach(p => {
+    //             if (p !== panel && p.style.display === 'block') {
+    //                 p.style.display = 'none';
+    //             }
+    //         });
+    //         panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+    //         event.stopPropagation();
+    //     });
+    // });
 
-    document.addEventListener('click', function(event) {
-        const isOutsideFilterPanel = !event.target.closest('.filter_panel');
-        if (isOutsideFilterPanel) {
-            document.querySelectorAll('.filter_panel').forEach(p => {
-                p.style.display = 'none';
-            });
-        }
-    });
+    // document.addEventListener('click', function(event) {
+    //     const isOutsideFilterPanel = !event.target.closest('.filter_panel');
+    //     if (isOutsideFilterPanel) {
+    //         document.querySelectorAll('.filter_panel').forEach(p => {
+    //             p.style.display = 'none';
+    //         });
+    //     }
+    // });
 
     function initializeSliders(sliderId) {
         var sliders = {

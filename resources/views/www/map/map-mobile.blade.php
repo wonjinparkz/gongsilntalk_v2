@@ -39,10 +39,18 @@
         <div class="inner_wrap" id="filterType0">
             <div class="swiper detail_tab m_swiper_filter">
                 <div class="swiper-wrapper menu">
-                    <div class="swiper-slide active"><button class="filter_btn_trigger"
-                            onclick="modal_open_slide('filter_1')">매물 종류</button></div>
-                    <div class="swiper-slide"><button class="filter_btn_trigger"
-                            onclick="modal_open_slide('filter_2')">거래유형/가격</button></div>
+                    <div class="swiper-slide active">
+                        <button class="filter_btn_trigger" onclick="modal_open_slide('filter_1')"
+                            id="filter_text_sale_product_type">
+                            지식산업센터
+                        </button>
+                    </div>
+                    <div class="swiper-slide">
+                        <button class="filter_btn_trigger" onclick="modal_open_slide('filter_2')"
+                            id="filter_text_useDate">
+                            준공연차
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,24 +60,24 @@
         <div class="inner_wrap" id="filterType1">
             <div class="swiper detail_tab m_swiper_filter">
                 <div class="swiper-wrapper menu">
-                    <div class="swiper-slide active"><button class="filter_btn_trigger"
-                            onclick="modal_open_slide('filter_3')">지식산업센터</button></div>
-                    <div class="swiper-slide"><button class="filter_btn_trigger"
-                            onclick="modal_open_slide('filter_4')">거래유형/가격</button></div>
-                    <div class="swiper-slide"><button class="filter_btn_trigger"
-                            onclick="modal_open_slide('filter_5')">면적</button></div>
-                    <div class="swiper-slide"><button class="filter_btn_trigger"
-                            onclick="modal_open_slide('filter_6')">관리비</button></div>
-                    <div class="swiper-slide"><button class="filter_btn_trigger"
-                            onclick="modal_open_slide('filter_7')">사용승인연도</button></div>
-                    <div class="swiper-slide"><button class="filter_btn_trigger"
-                            onclick="modal_open_slide('filter_8')">융자금</button></div>
-                    <div class="swiper-slide"><button class="filter_btn_trigger"
-                            onclick="modal_open_slide('filter_9')">권리금</button></div>
-                    <div class="swiper-slide"><button class="filter_btn_trigger"
-                            onclick="modal_open_slide('filter_10')">업종</button></div>
-                    <div class="swiper-slide"><button class="filter_btn_trigger"
-                            onclick="modal_open_slide('filter_11')">기타</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger" onclick="modal_open_slide('filter_3')"
+                            id="filter_text_product_type">매물 종류</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger" onclick="modal_open_slide('filter_4')"
+                            id="filter_text_payment_type">거래유형/가격</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger" onclick="modal_open_slide('filter_5')"
+                            id="filter_text_area">면적</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger" onclick="modal_open_slide('filter_6')"
+                            id="filter_text_service_price">관리비</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger" onclick="modal_open_slide('filter_7')"
+                            id="filter_text_approve_date">사용승인연도</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger" onclick="modal_open_slide('filter_8')"
+                            id="filter_text_loan_type">융자금</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger" onclick="modal_open_slide('filter_9')"
+                            id="filter_text_premium_price">권리금</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger" onclick="modal_open_slide('filter_10')"
+                            id="filter_text_business_type">업종</button></div>
+                    <div class="swiper-slide"><button class="filter_btn_trigger" onclick="modal_open_slide('filter_11')"
+                            id="filter_text_etc">기타</button></div>
                 </div>
             </div>
         </div>
@@ -77,9 +85,12 @@
 
     </div>
     <!-- top area : e  -->
-    <x-m-map-filter />
-    <x-m-map-property-filter />
-
+    <div>
+        <x-m-map-filter />
+    </div>
+    <div>
+        <x-m-map-property-filter />
+    </div>
 
     <div class="body">
         <div class="map_side_btn">
