@@ -17,8 +17,8 @@
     .main_popup{width: 100%; height: 100vh; padding: 0 20px; box-sizing: border-box; position: absolute; z-index: 500; background: rgba(0,0,0,0.4);}
     .popup_wrap{width:100%; height: 440px; position:relative; overflow: hidden; background: #fff; border-radius:8px;}
     .popup_bottom .today_close{cursor: pointer; font-size:14px; color:#999999;}
-    .popup_bottom .close{color: #262626; font-size:14px; font-family:'font-b';} 
-    
+    .popup_bottom .close{color: #262626; font-size:14px; font-family:'font-b';}
+
     /* .modal_slide_today{padding: 0; border-top-left-radius: 20px; border-top-right-radius: 20px; overflow:hidden; padding-bottom: 50px; display: block !important;}
     .modal_slide_today::before{content: ""; display: block; padding-top: 100%;}
     .modal_slide_today .img_box{width: 100%;height: 370px}
@@ -26,7 +26,7 @@
     .popup_bottom .today_close{cursor: pointer;flex:1;font-size:16px; color:#999999;}
     .popup_bottom .close{color: #262626;flex:1;font-size:16px; font-family:'font-b';}
 
-    .popup_bn_swiper{position:absolute; top:0; right:0; bottom:0; left: 0;}  
+    .popup_bn_swiper{position:absolute; top:0; right:0; bottom:0; left: 0;}
     .modal_slide_today .swiper-pagination{ position:absolute; bottom:64px !important; left:50% !important; transform:translateX(-50%); z-index: 100;display: inline-block; right:auto; width:auto;}
     .modal_slide_today .swiper-pagination-bullet{border:1px solid #FFFFFF;border-radius: 10px;width:10px; height: 10px; background: transparent; box-sizing: border-box; margin: 0 3px;}
     .modal_slide_today .swiper-pagination-bullet-active{background: #FFFFFF80; border:1px solid #fff;}
@@ -148,7 +148,7 @@
         display:block;
         align-items: center;
     }
-    
+
     .side_list_tab li {
         width: 50%;
         height: 44px;
@@ -160,15 +160,17 @@
         border-bottom: 1px solid #F0F0F0;
         box-sizing: border-box;
     }
-    
+
     .side_list_tab li.active {
         color: var(--txt-color);
         position: relative;
     }
 
     /* map marker */
-    .iw_inner p{color:#fff; line-height: 1.2; font-size: 12px; text-align: left;}
-    .iw_inner p span{color:#fff; font-family: 'font-b'; font-size: 12px;}
+    .iw_inner p{color:#F16341; line-height: 1.2; font-size: 12px; text-align: left;}
+    .iw_inner p span{color:#F16341; font-family: 'font-b'; font-size: 12px;}
+    .iw_inner.active p{color:#fff; line-height: 1.2;}
+    .iw_inner.active p span{color:#fff; font-family: 'font-b';}
 
     /* 중개사무소 */
     .agent_head{padding: 44px 0; background: #fff; border-bottom: 1px solid #EEEDED; display: flex; justify-content: center; align-items: center; gap: 20px; padding: 0 16px; box-sizing: border-box; padding-top: 70px;}
@@ -266,7 +268,7 @@
     .community_search_wrap{margin-top:60px !important;}
     .search_page .map_m_top_wrap{margin-top:20px !important;}
 
-    .layer_menu{right:10px;} 
+    .layer_menu{right:10px;}
 
 
     /* 마이페이지 */

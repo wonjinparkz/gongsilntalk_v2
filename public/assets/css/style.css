@@ -5,7 +5,7 @@
 
 /* main */
 .popup_wrap{width:400px; height: 440px; position:absolute; transform:translateX(-50%); left:50% !important; top:100px; z-index: 500; overflow: hidden; background: #fff; border-radius:8px;}
-.popup_bn_swiper{width: 400px; height: 400px;}  
+.popup_bn_swiper{width: 400px; height: 400px;}
 .popup_bn_swiper .img_box{height: 400px !important;}
 .popup_bn_swiper .swiper-pagination{ position:absolute; bottom:64px !important; left:50% !important; transform:translateX(-50%); z-index: 100;display: inline-block; right:auto; width:auto;}
 .popup_bn_swiper .swiper-pagination-bullet{border:1px solid #FFFFFF;border-radius: 10px;width:10px; height: 10px; background: transparent; box-sizing: border-box; margin: 0 3px;}
