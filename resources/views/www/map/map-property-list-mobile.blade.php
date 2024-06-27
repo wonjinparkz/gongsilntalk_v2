@@ -12,12 +12,12 @@
     <div class="body map_side">
         <div class="side_list_wrap">
             <ul class="side_list_tab tab_toggle_menu">
-                <li class="property active" onclick="tabChange(this)">
+                <li class="property active" id="getPropertyList" onclick="tabChange(this)">
                     <a href="javascript:void(0);">
                         지도 내 매물 <span id="property_count">0</span>
                     </a>
                 </li>
-                <li class="agent" onclick="tabChange(this)">
+                <li class="agent" id="getAgentList" onclick="tabChange(this)">
                     <a href="javascript:void(0);">
                         중개사무소 <span id="agent_count">0</span>
                     </a>

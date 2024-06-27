@@ -645,7 +645,7 @@ Cluster.prototype = {
             }
             console.log('MarkerIdArray :', MarkerIdArray);
             productIdArray = MarkerIdArray;
-            $('li.property').click();
+            $('#getPropertyList').click();
         }, this));
     },
 
@@ -706,7 +706,7 @@ Cluster.prototype = {
             }
 
             agentIdArray = MarkerIdArray;
-            $('li.agent').click();
+            $('#getAgentList').click();
         }, this));
     },
 

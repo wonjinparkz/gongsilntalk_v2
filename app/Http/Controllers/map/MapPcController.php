@@ -42,7 +42,6 @@ class MapPcController extends Controller
     // 모바일 지도 내 매물목록
     public function mapPropertyList(Request $request)
     {
-        info(json_encode($request->all()) . 'request');
         // 목록 기준
         // 가(임시)주소인 경우 지도/목록에 노출하지 않는다.
         // 사용자가 등록 후 관리자의 의해 수정이 완료되어 등록된 매물 과 중개인이 등록한 매물을 노출한다.
@@ -224,7 +223,7 @@ class MapPcController extends Controller
                     }
                 }
             } elseif ($zoomLv >= 11 && $zoomLv <= 13) {
-                $distance = 3;
+                $distance = 30;
                 $regionList = RegionCoordinate::select('id', 'sigungu as name', 'address_lat', 'address_lng')
                     ->whereNull('dong')
                     ->whereNotNull('sigungu')
@@ -248,7 +247,7 @@ class MapPcController extends Controller
                     }
                 }
             } elseif ($zoomLv >= 14 && $zoomLv <= 15) {
-                $distance = 2;
+                $distance = 10;
                 $regionList = RegionCoordinate::select('id', 'dong as name', 'address_lat', 'address_lng')->whereNotNull('dong')
                     ->whereRaw(
                         "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
@@ -270,7 +269,7 @@ class MapPcController extends Controller
                     }
                 }
             } else {
-                $distance = 1;
+                $distance = 5;
 
                 // 아파트 데이터를 가져옴
                 if (!isset($request->sale_product_type) || $request->sale_product_type == 3) {
@@ -352,7 +351,7 @@ class MapPcController extends Controller
             } elseif ($zoomLv >= 14 && $zoomLv <= 15) {
                 $distance = 10;
             } else {
-                $distance = 4;
+                $distance = 5;
             }
 
             $product = Product::select()->where('state', 1)

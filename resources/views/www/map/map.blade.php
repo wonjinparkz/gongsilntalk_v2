@@ -457,7 +457,7 @@
             console.log('agentMarker : ', agentMarker.id);
             markerId = agentMarker.id;
             agentIdArray = [markerId];
-            $('li.agent').click();
+            $('#getAgentList').click();
         });
 
         agentMarkers.push(agentMarker); // agent 마커 배열에 추가
@@ -534,7 +534,7 @@
 
     function initializeMap() {
         map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.45404740497049, 126.9087944960182),
+            center: new naver.maps.LatLng(37.2109494, 127.0922858),
             zoom: 20,
             minZoom: 8,
             maxZoom: 21,
