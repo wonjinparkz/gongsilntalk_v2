@@ -133,7 +133,7 @@
                     <div>인테리어 유무</div>
                     <div>{{ Lang::get('commons.interior_type.' . $proposal->interior_type) }}</div>
                     <div>요청사항</div>
-                    <div {{ $proposal->type != 0 ? 'class=item_col_3' : '' }}>
+                    <div>
                         {{ $proposal->content ?? '-' }}</div>
                 </div>
             </div>
