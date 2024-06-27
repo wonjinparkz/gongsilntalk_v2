@@ -28,7 +28,7 @@
 <!-- 지식산업센터 modal : s -->
 <div class="modal_slide modal_slide_filter_3">
     <div class="slide_title_wrap">
-        <span>매물 종류</span>
+        <span id="product_type_title">매물 종류</span>
         <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('filter_3')">
     </div>
     <div class="slide_modal_body">
@@ -90,8 +90,8 @@
 <!-- 거래 유형 modal : s -->
 <div class="modal_slide modal_slide_filter_4">
     <div class="slide_title_wrap">
+        <span style="display:none" id="payment_type_title">거래유형/가격</span>
         <span>거래 유형 <span class="sm_txt">중복 선택 가능</span></span>
-        <h6 style="display:none" id="payment_type_title">거래유형/가격</h6>
         <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('filter_4')">
     </div>
     <div class="slide_modal_body">
@@ -251,6 +251,7 @@
 <!-- 면적 modal : s -->
 <div class="modal_slide modal_slide_filter_5">
     <div class="slide_title_wrap">
+        <span style="display: none" id="area_title">면적</span>
         <span>
             면적
             <div class="change_unit type_sm toggle_menu areaChage">
@@ -329,7 +330,7 @@
 <!-- 관리비 modal : s -->
 <div class="modal_slide modal_slide_filter_6">
     <div class="slide_title_wrap">
-        <span>관리비</span>
+        <span id="service_price_title">관리비</span>
         <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('filter_6')">
     </div>
     <div class="slide_modal_body">
@@ -354,9 +355,11 @@
         <!-- slider : e -->
     </div>
     <div class="filter_panel_bottom">
-        <button type="button" class="btn_graylight_ghost btn_md_full" onclick="modal_close_slide('filter_6'); filter_reset('service_price')"><img
+        <button type="button" class="btn_graylight_ghost btn_md_full"
+            onclick="modal_close_slide('filter_6'); filter_reset('service_price')"><img
                 src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-        <button type="button" class="btn_point btn_md_full" onclick="modal_close_slide('filter_6'); filter_apply('service_price', 1)">적용하기</button>
+        <button type="button" class="btn_point btn_md_full"
+            onclick="modal_close_slide('filter_6'); filter_apply('service_price', 1)">적용하기</button>
     </div>
 </div>
 <div class="md_slide_overlay md_slide_overlay_filter_6" onclick="modal_close_slide('filter_6')"></div>
@@ -365,7 +368,7 @@
 <!-- 사용승인연도 modal : s -->
 <div class="modal_slide modal_slide_filter_7">
     <div class="slide_title_wrap">
-        <span>사용승인연도</span>
+        <span id="approve_date_title">사용승인연도</span>
         <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('filter_7')">
     </div>
     <div class="slide_modal_body">
@@ -391,9 +394,11 @@
         <!-- slider : e -->
     </div>
     <div class="filter_panel_bottom">
-        <button type="button" class="btn_graylight_ghost btn_md_full" onclick="modal_close_slide('filter_7'); filter_reset('approve_date')"><img
+        <button type="button" class="btn_graylight_ghost btn_md_full"
+            onclick="modal_close_slide('filter_7'); filter_reset('approve_date')"><img
                 src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-        <button type="button" class="btn_point btn_md_full" onclick="modal_close_slide('filter_7'); filter_apply('approve_date', 1)">적용하기</button>
+        <button type="button" class="btn_point btn_md_full"
+            onclick="modal_close_slide('filter_7'); filter_apply('approve_date', 1)">적용하기</button>
     </div>
 </div>
 <div class="md_slide_overlay md_slide_overlay_filter_7" onclick="modal_close_slide('filter_7')"></div>
@@ -402,7 +407,7 @@
 <!-- 융자금 modal : s -->
 <div class="modal_slide modal_slide_filter_8">
     <div class="slide_title_wrap">
-        <span>융자금</span>
+        <span id="loan_type_title">융자금</span>
         <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('filter_8')">
     </div>
     <div class="slide_modal_body">
@@ -418,9 +423,11 @@
         </div>
     </div>
     <div class="filter_panel_bottom">
-        <button type="button" class="btn_graylight_ghost btn_md_full" onclick="modal_close_slide('filter_8'); filter_reset('loan_type')"><img
+        <button type="button" class="btn_graylight_ghost btn_md_full"
+            onclick="modal_close_slide('filter_8'); filter_reset('loan_type')"><img
                 src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-        <button type="button" class="btn_point btn_md_full" onclick="modal_close_slide('filter_8'); filter_apply('loan_type', 0)">적용하기</button>
+        <button type="button" class="btn_point btn_md_full"
+            onclick="modal_close_slide('filter_8'); filter_apply('loan_type', 0)">적용하기</button>
     </div>
 </div>
 <div class="md_slide_overlay md_slide_overlay_filter_8" onclick="modal_close_slide('filter_8')"></div>
@@ -429,7 +436,7 @@
 <!-- 권리금 modal : s -->
 <div class="modal_slide modal_slide_filter_9">
     <div class="slide_title_wrap">
-        <span>권리금</span>
+        <span id="premium_price_title">권리금</span>
         <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('filter_9')">
     </div>
     <div class="slide_modal_body">
@@ -454,9 +461,11 @@
         <!-- slider : e -->
     </div>
     <div class="filter_panel_bottom">
-        <button type="button" class="btn_graylight_ghost btn_md_full" onclick="modal_close_slide('filter_9'); filter_reset('premium_price')"><img
+        <button type="button" class="btn_graylight_ghost btn_md_full"
+            onclick="modal_close_slide('filter_9'); filter_reset('premium_price')"><img
                 src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-        <button type="button" class="btn_point btn_md_full" onclick="modal_close_slide('filter_9'); filter_apply('premium_price', 1)">적용하기</button>
+        <button type="button" class="btn_point btn_md_full"
+            onclick="modal_close_slide('filter_9'); filter_apply('premium_price', 1)">적용하기</button>
     </div>
 </div>
 <div class="md_slide_overlay md_slide_overlay_filter_9" onclick="modal_close_slide('filter_9')"></div>
@@ -465,7 +474,7 @@
 <!-- 업종 modal : s -->
 <div class="modal_slide modal_slide_filter_10">
     <div class="slide_title_wrap">
-        <span>업종</span>
+        <span id="business_type_title">업종</span>
         <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('filter_10')">
     </div>
     <div class="slide_modal_body">
@@ -480,9 +489,11 @@
         </div>
     </div>
     <div class="filter_panel_bottom">
-        <button type="button" class="btn_graylight_ghost btn_md_full" onclick="modal_close_slide('filter_10'); filter_reset('business_type')"><img
+        <button type="button" class="btn_graylight_ghost btn_md_full"
+            onclick="modal_close_slide('filter_10'); filter_reset('business_type')"><img
                 src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-        <button type="button" class="btn_point btn_md_full" onclick="modal_close_slide('filter_10'); filter_apply('business_type')">적용하기</button>
+        <button type="button" class="btn_point btn_md_full"
+            onclick="modal_close_slide('filter_10'); filter_apply('business_type')">적용하기</button>
     </div>
 </div>
 <div class="md_slide_overlay md_slide_overlay_filter_10" onclick="modal_close_slide('filter_10')"></div>
@@ -492,7 +503,7 @@
 <!-- 기타 modal : s -->
 <div class="modal_slide modal_slide_filter_11">
     <div class="slide_title_wrap">
-        <span>기타</span>
+        <span id="etc_title">기타</span>
         <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('filter_11')">
     </div>
     <div class="slide_modal_body">
@@ -518,9 +529,11 @@
         </div>
     </div>
     <div class="filter_panel_bottom">
-        <button type="button" class="btn_graylight_ghost btn_md_full" onclick="modal_close_slide('filter_11'); filter_reset('etc')"><img
+        <button type="button" class="btn_graylight_ghost btn_md_full"
+            onclick="modal_close_slide('filter_11'); filter_reset('etc')"><img
                 src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
-        <button type="button" class="btn_point btn_md_full" onclick="modal_close_slide('filter_11'); filter_apply('etc')">적용하기</button>
+        <button type="button" class="btn_point btn_md_full"
+            onclick="modal_close_slide('filter_11'); filter_apply('etc')">적용하기</button>
     </div>
 </div>
 <div class="md_slide_overlay md_slide_overlay_filter_11" onclick="modal_close_slide('filter_11')"></div>
