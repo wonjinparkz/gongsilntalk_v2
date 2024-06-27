@@ -259,7 +259,8 @@
 
 
         <div class="share_btn_floting">
-            <button class="btn_point btn_full_basic">공실앤톡 사이트 방문하기</button>
+            <button class="btn_point btn_full_basic" onclick="location.href='{{ env('APP_URL') }}'">공실앤톡 사이트
+                방문하기</button>
         </div>
 
         <div class="my_inner_wrap">
