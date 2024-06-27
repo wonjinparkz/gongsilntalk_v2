@@ -118,9 +118,27 @@
                                 </div>
                                 <!-- <button class="btn_gray_ghost btn_sm" type="button"
                                     onclick="downloadPDF();">공유하기</button> -->
-                                <button class="btn_gray_ghost btn_sm" type="button"
-                                   >공유하기</button>
+                                <button class="btn_gray_ghost btn_sm btn_share" type="button">공유하기</button>
                             </div>
+                            <!-- 공유하기 : s -->
+                            <div class="layer layer_share_wrap layer_share_top">
+                                <div class="layer_title">
+                                    <h5>공유하기</h5>
+                                    <img src="{{ asset('assets/media/btn_md_close.png') }}"
+                                        class="md_btn_close btn_share">
+                                </div>
+                                <div class="layer_share_con">
+                                    <a class="kakaotalk-sharing-btn">
+                                        <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                                        <p class="mt8">카카오톡</p>
+                                    </a>
+                                    <a href="#">
+                                        <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                                        <p class="mt8">링크복사</p>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- 공유하기 : e -->
 
                             <div class="mt18">
                                 {{-- <img src="{{ asset('assets/media/s_7.png') }}"
@@ -362,6 +380,41 @@
     </div>
 
     <script>
+        //공유하기 레이어
+        $(".btn_share").click(function() {
+            $(".layer_share_wrap").stop().slideToggle(0);
+            return false;
+        });
+
+
+        @php
+            // content 변수에서 HTML 태그 제거
+            $cleaned_content = strip_tags(html_entity_decode($proposal->content));
+
+            // content 변수에서 줄바꿈 처리
+            $cleaned_content = preg_replace("/\r|\n/", ' ', $cleaned_content);
+
+            // 길이 제한 및 줄임표 추가
+            $shortened_content = mb_strlen($cleaned_content) > 50 ? mb_substr($cleaned_content, 0, 50) . '...' : $cleaned_content;
+        @endphp
+
+        {{ $proposal->images }}
+        document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
+            Kakao.Share.createDefaultButton({
+                container: button,
+                objectType: "feed",
+                content: {
+                    title: '{{ $proposal->title }}',
+                    description: '고정 메시지 정해주세요.',
+                    imageUrl: "",
+                    link: {
+                        mobileWebUrl: `{{ env('APP_URL') }}/share/proposal/detail?id={{ $proposal->id }}`,
+                        webUrl: `{{ env('APP_URL') }}/share/proposal/detail?id={{ $proposal->id }}`,
+                    },
+                }
+            });
+        });
+
         let markerList = {};
 
         var map = new naver.maps.Map('map', {

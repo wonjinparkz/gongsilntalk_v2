@@ -41,6 +41,14 @@
     <script src="{{ asset('assets/plugins/custom/fslightbox/fslightbox.bundle.js') }}"></script>
     <script src="{{ asset('assets/plugins/custom/draggable/draggable.bundle.js') }}"></script>
 
+    {{-- 카카오톡 공유 메시지 --}}
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+        integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous">
+    </script>
+    <script>
+        Kakao.init('0137e2c7fcf3ebb6956ea376bc415ebc'); // 사용하려는 앱의 JavaScript 키 입력
+    </script>
+
 
 
 </head>
