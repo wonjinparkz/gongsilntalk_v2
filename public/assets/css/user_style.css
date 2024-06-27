@@ -969,3 +969,23 @@ a.btn_like{background: url('/assets/media/btn_like_off.png') no-repeat; backgrou
 .type_5_end .end_company_wrap .txt_item_1{color:#fff; font-size: 16px; line-height: 1.3;}
 .type_5_end .end_company_wrap .txt_item_2{color:#fff; font-size: 20px; line-height: 1.4; font-family: 'font-b';}
 .type_5_end .end_company_wrap .txt_item_3{color:#fff; font-size: 14px;}
+
+/* share */
+.share_body{max-width:400px; width:400px; margin: 0 auto;}
+.share_tit{height:50px; font-size:14px; display:flex; align-items: center; justify-content: center; border-bottom:1px solid #EEEDED}
+.share_section{margin-bottom:48px; padding: 0 20px;}
+.section_tit_wrap{display: flex; justify-content: space-between; align-items: center; height:50px;}
+.section_tit_wrap img{width: 12px; height: 6px;}
+.table_container.columns_2.share_table {grid-template-columns:120px 1fr !important}
+.share_table div{font-size: 14px !important;}
+.share_map_wrap{border: 1px solid #D2D1D0; border-radius: 5px; width: 100%; height: 190px; margin-top: 14px;}
+
+.share_offer_list_card{border-bottom: 1px solid var(--gray-line); padding: 14px 0;}
+.share_offer_card_info{width:calc(100% - 80px); padding-left:10px; box-sizing: border-box;}
+.share_offer_card_info .txt_item_1{font-family: 'font-b'; line-height: 1.6;}
+.share_offer_card_info .txt_item_1 span{color: var(--color-gray-3); font-family: 'font-r';}
+.share_offer_card_info .txt_item_2{font-size: 13px; line-height: 1.2;}
+.share_offer_card_info .txt_item_3{font-size: 13px; margin-top: 8px; color:var(--color-gray-2)}
+
+.proposal_detail_s3{margin-bottom: 100px;}
+.share_btn_floting{position: fixed; width:400px; bottom: 0; padding: 10px; box-sizing: border-box; background: #fff;}
