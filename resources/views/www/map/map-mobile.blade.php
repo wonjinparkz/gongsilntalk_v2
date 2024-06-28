@@ -318,6 +318,7 @@
     var agentMarkers = []; // product 마커 배열 초기화
     var bounds; // bounds 전역 변수로 선언
     var lastActiveMarkerElement = null; // 마지막으로 활성화된 마커 요소를 저장
+    var knowledgeClustering;
     var productClustering;
     var agentClustering;
     var MarkerIdArray = []; // 클러스터링 매물,중개사 ids 임시 저장소
@@ -546,6 +547,11 @@
                 var data = data.data;
 
                 // 기존 마커 제거
+                if (knowledgeClustering) {
+                    knowledgeClustering.setMap(null);
+                    knowledgeClustering = null;
+                }
+
                 if (productClustering) {
                     productClustering.setMap(null);
                     productClustering = null;
@@ -584,6 +590,8 @@
                     clusterProductMarkers();
                     clusterAgentMarkers();
                     loadMoreData();
+                } else {
+                    clusterKnowledgesMarkers();
                 }
 
                 // 지도 경계 설정
@@ -609,6 +617,7 @@
                 lat: address_lat,
                 lng: address_lng,
                 type: type,
+                sale_mid_price: (type == 'knowledge' ? item.sale_mid_price : ''),
                 contentString: contentString,
                 anchorX: anchorX,
                 anchorY: anchorY
@@ -705,6 +714,7 @@
         lat,
         lng,
         type,
+        sale_mid_price,
         contentString,
         anchorX,
         anchorY
@@ -713,6 +723,7 @@
         var marker = new naver.maps.Marker({
             id: id,
             type: type,
+            sale_mid_price: sale_mid_price,
             map: map,
             position: position,
             icon: {
@@ -1111,7 +1122,6 @@
         }
     }
 
-
     var htmlMarker1 = { // 매물 클러스터링 마커
             content: `<div class="cluster_marker"></div>`,
             size: N.Size(40, 40),
@@ -1122,6 +1132,28 @@
             size: N.Size(40, 40),
             anchor: N.Point(20, 20)
         };
+
+
+    function clusterKnowledgesMarkers() {
+        if (markers.length > 0) {
+            // knowledge 타입의 마커들만 필터링합니다.
+            const knowledgeMarkers = markers.filter(function(marker) {
+                return marker.type === 'knowledge';
+            });
+
+            knowledgeClustering = new MarkerClustering({
+                minClusterSize: 1,
+                maxZoom: 16,
+                map: map,
+                markers: knowledgeMarkers, // knowledge 마커들만 클러스터링
+                disableClickZoom: false,
+                knowledgeSaleMidPrice: true,
+                gridSize: 70,
+                icons: [htmlMarker1],
+                indexGenerator: [1],
+            });
+        }
+    }
 
     function clusterProductMarkers() {
         MarkerIdArray = [];
