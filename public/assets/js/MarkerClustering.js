@@ -44,7 +44,9 @@ var MarkerClustering = function (options) {
         // 클러스터 마커의 위치를 클러스터를 구성하고 있는 마커의 평균 좌표로 할 것인지 여부입니다.
         averageCenter: false,
         // 클러스터 마커를 갱신할 때 호출하는 콜백함수입니다. 이 함수를 통해 클러스터 마커에 개수를 표현하는 등의 엘리먼트를 조작할 수 있습니다.
-        stylingFunction: function () { }
+        stylingFunction: function () { },
+        // 클러스터 지식산업센터 마커의 평균값을 계산해서 표시 여부
+        knowledgeSaleMidPrice: false
     };
 
     this._clusters = [];
@@ -398,6 +400,9 @@ naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
 
         for (var i = 0, ii = clusters.length; i < ii; i++) {
             clusters[i].updateCluster();
+            if (this.getOptions('knowledgeSaleMidPrice')) {
+                clusters[i].knowledgeUpdateSaleMidPrice(); // knowledgeSaleMidPrice 업데이트 함수 호출
+            }
         }
     },
 
@@ -474,6 +479,8 @@ naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
     _onDragEnd: function () {
         this._redraw();
     }
+
+
 });
 
 /**
@@ -921,5 +928,14 @@ Cluster.prototype = {
         averageCenter[1] /= numberOfMarkers;
 
         return new naver.maps.Point(averageCenter[0], averageCenter[1]);
-    }
+    },
+
+    knowledgeUpdateSaleMidPrice: function () {
+        const markersInCluster = this.getClusterMember();
+        const saleMidPrices = markersInCluster.map(marker => marker.sale_mid_price);
+        const total = saleMidPrices.reduce((sum, price) => sum + price, 0);
+        const averageSaleMidPrice = Math.round(total / saleMidPrices.length); // 평균값 계산 및 정수로 반올림
+        $(this._clusterMarker.getElement()).find('div:first-child').text(averageSaleMidPrice);
+    },
+
 };

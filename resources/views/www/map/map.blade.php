@@ -97,6 +97,7 @@
     var agentMarkers = []; // product 마커 배열 초기화
     var bounds; // bounds 전역 변수로 선언
     var lastActiveMarkerElement = null; // 마지막으로 활성화된 마커 요소를 저장
+    var knowledgeClustering;
     var productClustering;
     var agentClustering;
     var MarkerIdArray = []; // 클러스터링 매물,중개사 ids 임시 저장소
@@ -168,6 +169,10 @@
                 var data = data.data;
 
                 // 기존 마커 제거
+                if (knowledgeClustering) {
+                    knowledgeClustering.setMap(null);
+                    knowledgeClustering = null;
+                }
                 if (productClustering) {
                     productClustering.setMap(null);
                     productClustering = null;
@@ -204,9 +209,10 @@
 
                 if ($('#mapType').val() != 0) {
                     clusterProductMarkers();
-                    clusterKnowledgesMarkers();
                     clusterAgentMarkers();
                     loadMoreData();
+                } else {
+                    clusterKnowledgesMarkers();
                 }
 
                 // 지도 경계 설정
@@ -224,7 +230,7 @@
             var {
                 id,
                 address_lat,
-                address_lng
+                address_lng,
             } = item;
             var contentString = getContentString(item);
             createMarker({
@@ -232,6 +238,7 @@
                 lat: address_lat,
                 lng: address_lng,
                 type: type,
+                sale_mid_price: (type == 'knowledge' ? item.sale_mid_price : ''),
                 contentString: contentString,
                 anchorX: anchorX,
                 anchorY: anchorY
@@ -328,6 +335,7 @@
         lat,
         lng,
         type,
+        sale_mid_price,
         contentString,
         anchorX,
         anchorY
@@ -336,6 +344,7 @@
         var marker = new naver.maps.Marker({
             id: id,
             type: type,
+            sale_mid_price: sale_mid_price,
             map: map,
             position: position,
             icon: {
@@ -455,7 +464,6 @@
 
         bounds.extend(position);
         naver.maps.Event.addListener(agentMarker, 'click', function() {
-            console.log('agentMarker : ', agentMarker.id);
             markerId = agentMarker.id;
             agentIdArray = [markerId];
             $('#getAgentList').click();
@@ -748,26 +756,23 @@
         };
 
     function clusterKnowledgesMarkers() {
-        if (productMarkers.length > 0) {
-
-            productMarkers.forEach(function(marker) {
-                marker.setVisible(false); // 마커를 숨깁니다.
+        if (markers.length > 0) {
+            // knowledge 타입의 마커들만 필터링합니다.
+            const knowledgeMarkers = markers.filter(function(marker) {
+                return marker.type === 'knowledge';
             });
 
-            productClustering = new MarkerClustering({
-                minClusterSize: 0,
-                maxZoom: 999,
+            knowledgeClustering = new MarkerClustering({
+                minClusterSize: 1,
+                maxZoom: 16,
                 map: map,
-                markers: productMarkers, // product 마커들만 클러스터링
+                markers: knowledgeMarkers, // knowledge 마커들만 클러스터링
                 disableClickZoom: false,
+                knowledgeSaleMidPrice: true,
                 gridSize: 70,
                 icons: [htmlMarker1],
                 indexGenerator: [1],
-                stylingFunction: function(clusterMarker, count) {
-                    $(clusterMarker.getElement()).find('div:first-child').text(count);
-                }
             });
-
         }
     }
 
@@ -889,8 +894,6 @@
         var textArray = [];
         var valueArray = [];
 
-        console.log('Name : ', Name);
-
         $('input[name="' + Name + '"]:checked').each(function() {
             textArray.push($(this).next('label').text());
             valueArray.push($(this).val());
@@ -929,9 +932,7 @@
             } else {
                 unit = '';
                 $('#' + Name).val($('#temp_' + Name).val());
-                console.log('servie : ', $('#temp_' + Name).val());
                 [min, max] = $('#temp_' + Name).val().split(',').map(Number);
-                console.log('max : min', min + '|' + max);
                 switch (Name) {
                     case 'service_price':
                         if (min == 0 && max == 50) {

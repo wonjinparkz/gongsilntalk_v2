@@ -246,6 +246,16 @@ class MapPcController extends Controller
                         $region->average_price = null;
                     }
                 }
+                if (!isset($request->sale_product_type) || $request->sale_product_type == 0) {
+                    // 지식 센터 데이터를 가져옴
+                    $knowledges = KnowledgeCenter::select()
+                        ->where('is_delete', '0')
+                        ->where('is_blind', '0')
+                        ->whereRaw(
+                            "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
+                            [$address_lat, $address_lng, $address_lat, $distance]
+                        )->get();
+                }
             } elseif ($zoomLv >= 14 && $zoomLv <= 15) {
                 $distance = 10;
                 $regionList = RegionCoordinate::select('id', 'dong as name', 'address_lat', 'address_lng')->whereNotNull('dong')
@@ -267,6 +277,16 @@ class MapPcController extends Controller
                     } else {
                         $region->average_price = null;
                     }
+                }
+                if (!isset($request->sale_product_type) || $request->sale_product_type == 0) {
+                    // 지식 센터 데이터를 가져옴
+                    $knowledges = KnowledgeCenter::select()
+                        ->where('is_delete', '0')
+                        ->where('is_blind', '0')
+                        ->whereRaw(
+                            "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
+                            [$address_lat, $address_lng, $address_lat, $distance]
+                        )->get();
                 }
             } else {
                 $distance = 5;
