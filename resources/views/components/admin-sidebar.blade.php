@@ -448,7 +448,7 @@
                         @if (in_array('25', $permissions))
                             {{-- 일반 회원 자산 관리 메뉴 --}}
                             <div class="menu-item">
-                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'apt.complex') ? 'active' : '' }}"
+                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'asset') ? 'active' : '' }}"
                                     href="{{ route('admin.asset.list.view') }}">
                                     <span class="menu-icon">
                                         <i class="fa-solid fa-money-bill-trend-up"></i>

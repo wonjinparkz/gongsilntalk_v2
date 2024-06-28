@@ -935,7 +935,7 @@ Cluster.prototype = {
         const saleMidPrices = markersInCluster.map(marker => marker.sale_mid_price);
         const total = saleMidPrices.reduce((sum, price) => sum + price, 0);
         const averageSaleMidPrice = Math.round(total / saleMidPrices.length); // 평균값 계산 및 정수로 반올림
-        $(this._clusterMarker.getElement()).find('div:first-child').text(averageSaleMidPrice);
+        $(this._clusterMarker.getElement()).find('div:first-child').text(averageSaleMidPrice > 0 ? averageSaleMidPrice + '만' : '');
     },
 
 };

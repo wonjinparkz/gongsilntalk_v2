@@ -372,6 +372,9 @@
 .cluster_marker{background: url('/assets/media/cluster-marker.png'); cursor:pointer;width:50px;height:50px;line-height:50px;color:white;text-align:center;font-weight:bold;background-size:contain; font-size:20px; font-weight:bold; }
 .cluster_marker.active{background: url('/assets/media/cluster_marker_1.png'); cursor:pointer;width:50px;height:50px;line-height:50px;color:#F16341;text-align:center;font-weight:bold; background-size:contain; font-size:20px; font-weight:bold;}
 
+/* 지식산업센터 클러스터 마커 */
+.knowledge_cluster_marker.active{background: url('/assets/media/cluster_marker_1.png'); cursor:pointer;width:50px;height:50px;line-height:50px;color:#F16341;text-align:center;font-weight:bold; background-size:contain; font-size:13px; font-weight:bold;}
+
 .map_bottom_btn{width:60px; position: fixed; z-index:2; display: flex; flex-direction: column; right:30px; bottom:30px; gap: 8px; z-index: 2;}
 .map_bottom_btn.p_area{bottom: 120px !important;}
 .map_bottom_btn button{background: #fff; border-radius:6px; display: flex; flex-direction: column; gap:6px; font-size: 11px; letter-spacing: -1px; align-items: center; padding:10px 0; box-shadow: 0 0 5px rgba(0,0,0,0.1);}
