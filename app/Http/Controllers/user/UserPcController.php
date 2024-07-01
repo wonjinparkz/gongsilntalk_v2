@@ -1138,7 +1138,7 @@ class UserPcController extends Controller
         $checkCount = Alarms::select()->where('readed_at', NULL)->where('users_id', Auth::guard('web')->user()->id)->where('index', '!=', 101)->count();
 
         // 분양 알림
-        $productAlarmList = Alarms::with('product')->select()->where('users_id', Auth::guard('web')->user()->id)->where('index', 101)->get();
+        $productAlarmList = Alarms::with('siteProduct')->select()->where('users_id', Auth::guard('web')->user()->id)->where('index', 101)->get();
         $prouctCheckCount = Alarms::select()->where('readed_at', NULL)->where('users_id', Auth::guard('web')->user()->id)->where('index', 101)->count();
 
         return view('www.mypage.alarm_list', compact('user', 'alarmList', 'checkCount', 'productAlarmList', 'prouctCheckCount'));

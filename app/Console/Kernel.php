@@ -13,8 +13,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('app:get-apt-info')->everyMinute();
-        $schedule->command('app:get-building-ledger')->everyMinute();
+        // $schedule->command('app:get-apt-info')->everyMinute();
+        // $schedule->command('app:get-building-ledger')->everyMinute();
+        $schedule->command('app:send-siteProduct-alarm')->everyMinute();
+        $schedule->command('app:send-siteProduct-alarm')->dailyAt('00:00');
 
         $schedule->call(function () {
         })->everyMinute();

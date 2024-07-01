@@ -4,6 +4,7 @@ use App\Http\Controllers\auth\PasswordResetController;
 use App\Http\Controllers\auth\UserAuthPcController;
 use App\Http\Controllers\commons\LikePcController;
 use App\Http\Controllers\commons\PopupOpenController;
+use App\Http\Controllers\commons\SiteProductAlarmPcController;
 use App\Http\Controllers\commons\VerificationController;
 use App\Http\Controllers\community\CommunityPcController;
 use App\Http\Controllers\main\MainPcController;
@@ -48,7 +49,7 @@ Route::controller(MainPcController::class)->group(function () {
 /**
  * 공유되는 페이지
  */
-Route::controller(SharePcController::class)->group(function() {
+Route::controller(SharePcController::class)->group(function () {
     Route::get('/share/proposal/detail', 'shareProposalDetail')->name('share.detail.view'); // 공유된 매물 제안서
 });
 
@@ -286,4 +287,11 @@ Route::controller(VerificationController::class)->group(function () {
 Route::middleware('pc.auth')->controller(LikePcController::class)->group(function () {
     Route::post('/like', 'like')->name('www.commons.like'); // 좋아요 등록/해제
     Route::get('/like/list', 'list'); // 좋아요 목록 보기
+});
+
+/**
+ * 분양현장 알림
+ */
+Route::middleware('pc.auth')->controller(SiteProductAlarmPcController::class)->group(function () {
+    Route::post('/alarm', 'alarm')->name('www.commons.alarm'); // 좋아요 등록/해제
 });

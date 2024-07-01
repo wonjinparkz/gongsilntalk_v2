@@ -279,8 +279,8 @@
                                                 </p>
                                             </div>
                                             <div class="alarm_info alarm_address">
-                                                {{ Lang::get('commons.product_type.' . $productAlarm->product->type) }}
-                                                {{ $productAlarm->product->address }}</div>
+                                                {{-- {{ Lang::get('commons.product_type.' . $productAlarm->product->type) }} --}}
+                                                {{ $productAlarm->siteProduct->address }}</div>
                                             <div class="alarm_arrow">
                                                 <img src="{{ asset('assets/media/ic_list_arrow.png') }}"
                                                     class="w_8p">

@@ -16,9 +16,6 @@ return new class extends Migration
             $table->id();
             $table->string('users_id')->comment('사용자 id');
             $table->integer('site_product_id')->comment('분양매물 아이디');
-            $table->integer('is_dday')->nullable()->comment('당일 알림 여부');
-            $table->integer('is_oneday')->nullable()->comment('하루전 알림 여부');
-            $table->integer('is_week')->nullable()->comment('일주일전 알림 여부');
             $table->timestamps();
         });
 

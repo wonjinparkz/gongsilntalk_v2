@@ -57,13 +57,13 @@
                 </div>
                 <div class="sales_bar_right">
                     <span class="header_btn_wish {{ isset($result->like_id) ? 'on' : '' }}"
-                        onclick="onLikeStateChange('{{ $result->id }}', 'site_product');btn_wish(this)"></span>
-                    <a href="#"><img src="{{ asset('assets/media/header_btn_alarm.png') }}"
-                            class="header_ic_btn"></a>
+                        onclick="onLikeStateChange('{{ $result->id }}', 'site_product');"></span>
+                    <span class="header_btn_alarm {{ isset($result->alarm_id) ? 'on' : '' }}"
+                        onclick="onAlarmStateChage('{{ $result->id }}')"></span>
                     <a class="btn_share"><img src="{{ asset('assets/media/header_btn_share_deep.png') }}"
                             class="header_ic_btn"></a>
-                    <button
-                        class="btn_graydeep_ghost btn_md_bold" onclick="window.open('https://pf.kakao.com/_HxkzPb', '_blank')">분양문의</button>
+                    <button class="btn_graydeep_ghost btn_md_bold"
+                        onclick="window.open('https://pf.kakao.com/_HxkzPb', '_blank')">분양문의</button>
 
                     <!-- 공유하기 : s -->
                     <div class="layer layer_share_wrap layer_share_top">
@@ -418,17 +418,65 @@
 
         // 좋아요
         var onLikeStateChange = (id, type) => {
+            var login_check =
+                @if (Auth::guard('web')->check())
+                    false
+                @else
+                    true
+                @endif ;
+            if (login_check) {
+                // dialog('로그인이 필요합니다.\n로그인 하시겠어요?', '로그인', '아니요', login);
+                return;
+            } else {
 
-            $.ajax({
-                url: '{{ route('www.commons.like') }}',
-                type: "post",
-                data: {
-                    'target_id': id,
-                    'target_type': type
+                if ($('.header_btn_wish').hasClass("on")) {
+                    $('.header_btn_wish').removeClass("on");
+                } else {
+                    $('.header_btn_wish').addClass("on");
                 }
-            }).fail(function(jqXHR, ajaxOptions, thrownError) {
-                alert('다시 시도해주세요.');
-            });
+
+                $.ajax({
+                    url: '{{ route('www.commons.like') }}',
+                    type: "post",
+                    data: {
+                        'target_id': id,
+                        'target_type': type
+                    }
+                }).fail(function(jqXHR, ajaxOptions, thrownError) {
+                    alert('다시 시도해주세요.');
+                });
+            }
+        }
+
+        // 알림 설정
+        var onAlarmStateChage = (id) => {
+            var login_check =
+                @if (Auth::guard('web')->check())
+                    false
+                @else
+                    true
+                @endif ;
+            if (login_check) {
+                // dialog('로그인이 필요합니다.\n로그인 하시겠어요?', '로그인', '아니요', login);
+                return;
+            } else {
+
+                if ($('.header_btn_alarm').hasClass("on")) {
+                    $('.header_btn_alarm').removeClass("on");
+                } else {
+                    $('.header_btn_alarm').addClass("on");
+                }
+
+                $.ajax({
+                    url: '{{ route('www.commons.alarm') }}',
+                    type: "post",
+                    data: {
+                        'site_product_id': id
+                    }
+                }).fail(function(jqXHR, ajaxOptions, thrownError) {
+                    alert('다시 시도해주세요.');
+                });
+            }
         }
 
         // 주소 복사
@@ -480,7 +528,8 @@
                     (data.result.is_business_support) ? arrayFloorType.push('업무지원시설'): '';
 
                     $('.floor_title').text(data.result.floor_name);
-                    document.getElementById("floorDetailImage").src = '{{ Storage::url('image/') }}' + data
+                    document.getElementById("floorDetailImage").src = '{{ Storage::url('image/') }}' +
+                        data
                         .result.images.path;
 
                     $('.floor_info').text(arrayFloorType.join('/'));

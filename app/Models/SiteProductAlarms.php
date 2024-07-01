@@ -13,7 +13,7 @@ class SiteProductAlarms extends BaseModel
     /**
      * Table Name
      */
-    protected $table = 'alarms';
+    protected $table = 'site_product_alarms';
 
     /**
      * Fillable
@@ -21,10 +21,6 @@ class SiteProductAlarms extends BaseModel
     protected $fillable = [
         'users_id',
         'site_product_id',
-        'is_dday',
-        'is_oneday',
-        'is_oneday',
-        'is_week',
     ];
 
     /**

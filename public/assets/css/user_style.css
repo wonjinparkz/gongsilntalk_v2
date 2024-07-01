@@ -163,6 +163,8 @@
 .sales_name_bar .header_ic_btn{height: 24px;margin: 0 14px;}
 .header_btn_wish.on{background: url('/assets/media/btn_like_on.png') no-repeat; background-size:21px auto;}
 .header_btn_wish{background: url('/assets/media/btn_like_off.png') no-repeat; background-size:21px auto; cursor: pointer; width:21px; height:21px; display: inline-block; margin: 0 14px;}
+.header_btn_alarm.on{background: url('/assets/media/header_btn_alarm_on.png') no-repeat; background-size:21px auto;}
+.header_btn_alarm{background: url('/assets/media/header_btn_alarm.png') no-repeat; background-size:21px auto; cursor: pointer; width:21px; height:21px; display: inline-block; margin: 0 14px;}
 .sales_bar_right{display: flex; align-items: center; position: relative; z-index: 1000;}
 .sales_bar_right button{margin-left: 16px;}
 .sales_bar_right .btn_share{cursor: pointer;}
