@@ -37,7 +37,7 @@ class DataController extends Controller
         $url = "http://apis.data.go.kr/1613000/AptListService2/getTotalAptList";
 
         $param = [
-            'serviceKey' => 'OOOeb2NMDrvDEatMXUQZ/bLs8pjBm+0c4X5snSQHQ/rWaslq3lhn0rbXISZf7yRCzLU5C0hSKHUnYw8CcFvg5A==',
+            'serviceKey' => "{{ env('ENCODING_API_DATE_KEY') }}",
             'numOfRows' => '100000',
             ''
         ];
@@ -86,7 +86,7 @@ class DataController extends Controller
         Log::info('베이스 정보 아파트 정보 :' . $baseInfo);
 
         $url = "http://apis.data.go.kr/1613000/AptBasisInfoService1/getAphusBassInfo";
-        $serviceKey = 'OOOeb2NMDrvDEatMXUQZ/bLs8pjBm+0c4X5snSQHQ/rWaslq3lhn0rbXISZf7yRCzLU5C0hSKHUnYw8CcFvg5A==';
+        $serviceKey = "{{ env('ENCODING_API_DATE_KEY') }}";
 
         $param = [
             'serviceKey' => $serviceKey,
@@ -131,7 +131,7 @@ class DataController extends Controller
         Log::info('상세 정보 아파트 정보 :' . $DetailInfo);
 
         $url = "http://apis.data.go.kr/1613000/AptBasisInfoService1/getAphusDtlInfo";
-        $serviceKey = 'OOOeb2NMDrvDEatMXUQZ/bLs8pjBm+0c4X5snSQHQ/rWaslq3lhn0rbXISZf7yRCzLU5C0hSKHUnYw8CcFvg5A==';
+        $serviceKey = "{{ env('ENCODING_API_DATE_KEY') }}";
 
         $param = [
             'serviceKey' => $serviceKey,
@@ -184,8 +184,8 @@ class DataController extends Controller
         ];
 
         $promise = Http::withHeaders([
-            'X-NCP-APIGW-API-KEY-ID' => 'iipoiiuz42',
-            'X-NCP-APIGW-API-KEY' => '733JkOIwJF6wOkI66OWBe8jDen72TrzP6qbTSkbP',
+            'X-NCP-APIGW-API-KEY-ID' => "{{ env('VITE_NAVER_MAP_CLIENT_ID') }}",
+            'X-NCP-APIGW-API-KEY' => "{{ env('VITE_NAVER_MAP_CLIENT_SECRET') }}",
             'Accept' => 'application/json'
         ])->async()->get($url, $param)->then(
             function (Response|TransferException $response) use ($mapInfo) {
@@ -254,7 +254,7 @@ class DataController extends Controller
         $url = "http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev";
 
         $param = [
-            'serviceKey' => '58+BxzpkxifZ5RGHKDirbnr5Y3l1iK7+y6WxyiyR6sIp8jwIMXeQDAi8zXNY+kyFHznaAHVFxb33c40XOGqaqg==',
+            'serviceKey' => "{{ env('ENCODING_API_DATE_KEY') }}",
             'numOfRows' => '20000',
             'LAWD_CD' => $region->lawd_cd,
             'DEAL_YMD' => $newLastUpdatedAt,
@@ -354,7 +354,7 @@ class DataController extends Controller
         $url = "http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptRent";
 
         $param = [
-            'serviceKey' => 'OOOeb2NMDrvDEatMXUQZ/bLs8pjBm+0c4X5snSQHQ/rWaslq3lhn0rbXISZf7yRCzLU5C0hSKHUnYw8CcFvg5A==',
+            'serviceKey' => "{{ env('ENCODING_API_DATE_KEY') }}",
             'numOfRows' => '20000',
             // 'LAWD_CD' => '11110',
             // 'DEAL_YMD' => '202406',

@@ -62,7 +62,8 @@
                             class="header_ic_btn"></a>
                     <a class="btn_share"><img src="{{ asset('assets/media/header_btn_share_deep.png') }}"
                             class="header_ic_btn"></a>
-                    <button class="btn_graydeep_ghost btn_md_bold">분양문의</button>
+                    <button
+                        class="btn_graydeep_ghost btn_md_bold" onclick="window.open('https://pf.kakao.com/_HxkzPb', '_blank')">분양문의</button>
 
                     <!-- 공유하기 : s -->
                     <div class="layer layer_share_wrap layer_share_top">
@@ -84,7 +85,7 @@
                     <!-- 공유하기 : e -->
 
                 </div>
-                
+
             </div>
         </div>
 
@@ -390,7 +391,8 @@
         <div class="floating_btn_wrap only_m">
             <a href="javascript:void(0)" class="floating_wish"
                 onclick="onLikeStateChange('{{ $result->id }}', 'site_product');btn_wish(this);">관심등록</a>
-            <button class="btn_point btn_full_floting">분양문의</button>
+            <button class="btn_point btn_full_floting"
+                onclick="window.open('https://pf.kakao.com/_HxkzPb', '_blank')">분양문의</button>
         </div>
         <!-- floating btn : e -->
 
