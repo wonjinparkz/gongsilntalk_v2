@@ -20,8 +20,7 @@ return new class extends Migration
             $table->string('title')->comment('제목');
             $table->longText('body')->comment('내용');
             $table->longText('msg')->comment('데이터');
-            $table->integer('site_product_id')->nullable()->comment('분양현장 매물 아이디');
-            $table->integer('product_id')->nullable()->comment('매물 아이디');
+            $table->integer('target_id')->nullable()->comment('타겟 아이디');
             $table->integer('tour_users_id')->nullable()->comment('투어 받는 사용자 아이디');
             $table->timestamp('readed_at')->nullable()->comment('알림 읽은 시간');
             $table->timestamps();

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\notice;
 
 use App\Http\Controllers\Controller;
+use App\Models\Alarms;
 use App\Models\Images;
 use App\Models\Notice;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -107,6 +109,18 @@ class NoticeController extends Controller
 
         $this->imageWithCreate($request->notice_image_ids, Notice::class, $result->id);
 
+        $userList = User::where('state', 0)->get();
+
+        foreach ($userList as $user) {
+            Alarms::Create([
+                'users_id' => $user->id,
+                'title' => '새로운 공지사항이 작성 되었습니다.',
+                'index' => '106',
+                'target_id' => $result->id,
+                'body' => 'body',
+                'msg' => 'msg'
+            ]);
+        }
 
         return Redirect::route('admin.notice.list.view')->with('message', '공지사항을 등록했습니다.');
     }

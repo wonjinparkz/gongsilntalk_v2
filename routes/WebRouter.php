@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\auth\PasswordResetController;
 use App\Http\Controllers\auth\UserAuthPcController;
+use App\Http\Controllers\commons\AlarmPcController;
 use App\Http\Controllers\commons\LikePcController;
 use App\Http\Controllers\commons\PopupOpenController;
 use App\Http\Controllers\commons\SiteProductAlarmPcController;
@@ -294,4 +295,12 @@ Route::middleware('pc.auth')->controller(LikePcController::class)->group(functio
  */
 Route::middleware('pc.auth')->controller(SiteProductAlarmPcController::class)->group(function () {
     Route::post('/alarm', 'alarm')->name('www.commons.alarm'); // 좋아요 등록/해제
+});
+
+/**
+ * 알림 처리
+ */
+Route::middleware('pc.auth')->controller(AlarmPcController::class)->group(function () {
+    Route::get('/alarm/read', 'alarmRead')->name('www.alarm.read');
+    Route::get('/alarm/read/site/product', 'alarmReadSiteProduct')->name('www.alarm.read.site.product');
 });

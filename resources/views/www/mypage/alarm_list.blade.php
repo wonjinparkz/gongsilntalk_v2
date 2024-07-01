@@ -133,7 +133,8 @@
                             @else
                                 @foreach ($alarmList as $alarm)
                                     <!-- 전체알림 : s -->
-                                    <div class="alarm_list">
+                                    <div class="alarm_list"
+                                        onclick="location.href='{{ route('www.alarm.read', ['id' => $alarm->id]) }}'">
                                         <div>
                                             <p class="alarm_item_1">
                                                 <span class="alarm_tit">{{ $alarm->title }}
@@ -143,108 +144,6 @@
                                                 </span>
                                                 <span class="alarm_date">{{ onDateChange($alarm->created_at) }}</span>
                                             </p>
-                                            <p class="alarm_info">{!! $alarm->body !!}</p>
-                                        </div>
-                                        <div>
-                                            {{-- 투어 요청 안내 알림 --}}
-                                            @if ($alarm->index == 0 && isset($alarm->product_id))
-                                                <button class="btn_sm btn_gray_ghost" type="button"
-                                                    onclick="modal_open('check_{{ $alarm->id }}')">요청확인</button>
-
-                                                <!-- modal 요청확인 : s -->
-                                                <div class="modal modal_mid modal_check_{{ $alarm->id }}">
-                                                    <div class="modal_title">
-                                                        <h5>투어 요청 확인</h5>
-                                                        <img src="{{ asset('assets/media/btn_md_close.png') }}"
-                                                            class="md_btn_close"
-                                                            onclick="modal_close('check_{{ $alarm->id }}')">
-                                                    </div>
-                                                    <div class="modal_container">
-                                                        <h6>요청자 정보</h6>
-                                                        <div class="table_container_sm mt8">
-                                                            <div class="td">이름</div>
-                                                            <div class="td">{{ $alarm->tour_users->name }}</div>
-                                                            <div class="td">연락처</div>
-                                                            <div class="td">
-                                                                {{ format_tel($alarm->tour_users->phone) }}
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="flex_between mt20">
-                                                            <h6>투어 요청 매물 정보</h6>
-                                                            <button class="btn_gray_ghost btn_sm" type="button"
-                                                                onclick="location.href='{{ route('www.mypage.product.magagement.list.view') }}'">상세보기</button>
-                                                        </div>
-                                                        <div class="table_container_sm mt8">
-                                                            <div class="td">사진</div>
-                                                            <div class="td">
-                                                                <div class="frame_img_sm">
-                                                                    <div class="img_box">
-                                                                        <img
-                                                                            src="{{ Storage::url('image/' . $alarm->product->images[0]->path) }}">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="td">주소</div>
-                                                            <div class="td">{{ $alarm->product->address }}</div>
-                                                            <div class="td">거래정보</div>
-                                                            @php
-                                                                $monthPrice = '';
-                                                                $priceArea = 0.0;
-                                                                if (
-                                                                    $alarm->product->priceInfo->payment_type == 1 ||
-                                                                    $alarm->product->priceInfo->payment_type == 2 ||
-                                                                    $alarm->product->priceInfo->payment_type == 4
-                                                                ) {
-                                                                    $monthPrice =
-                                                                        ' / ' .
-                                                                        priceChange(
-                                                                            $alarm->product->priceInfo->month_price,
-                                                                        );
-                                                                    $priceArea =
-                                                                        $alarm->product->priceInfo->month_price /
-                                                                        $alarm->product->exclusive_area;
-                                                                } else {
-                                                                    $monthPrice = '';
-                                                                    $priceArea =
-                                                                        $alarm->product->priceInfo->price /
-                                                                        $alarm->product->exclusive_area;
-                                                                }
-
-                                                            @endphp
-
-                                                            <div class="td">
-                                                                {{ Lang::get('commons.payment_type.' . $alarm->product->priceInfo->payment_type) }}
-                                                                {{ priceChange($alarm->product->priceInfo->price) }}
-                                                                {{ $monthPrice }}
-                                                                <span
-                                                                    class="gray_basic">({{ priceChange($priceArea) }}/평)</span>
-                                                            </div>
-                                                            <div class="td">면적</div>
-                                                            <div class="td">전용
-                                                                {{ $alarm->product->exclusive_area }}평
-                                                                <span
-                                                                    class="gray_basic">({{ $alarm->product->exclusive_square }}㎡)</span>
-                                                            </div>
-                                                            <div class="td">층정보</div>
-                                                            <div class="td">{{ $alarm->product->floor_number }}층 /
-                                                                {{ $alarm->product->total_floor_number }}층</div>
-                                                            <div class="td">관리비</div>
-                                                            <div class="td">
-                                                                {{ $alarm->product->is_service == 0 ? '관리비 ' . number_format($alarm->product->service_price) . '원' : '-' }}
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                                <div class="md_overlay md_overlay_check_{{ $alarm->id }}"
-                                                    onclick="modal_close('check_{{ $alarm->id }}')"></div>
-                                                <!-- modal 요청확인 : e -->
-                                            @elseif($alarm->index == 1)
-                                                {{-- 등기일 입력 안내 알림 --}}
-                                                <button class="btn_sm btn_gray_ghost" type="button"
-                                                    onclick="location.href='{{ route('www.mypage.product.magagement.list.view') }}'">바로가기</button>
-                                            @endif
                                         </div>
                                     </div>
                                 @endforeach
@@ -266,7 +165,7 @@
                                         <!-- 전체알림 : e -->
                                         <!-- 분양현장 알림 : s -->
                                         <div class="alarm_list alarm_list_2"
-                                            onclick="location.href='{{ route('www.mypage.product.magagement.list.view') }}'">
+                                            onclick="location.href='{{ route('www.alarm.read.site.product', ['id' => $productAlarm->id]) }}'">
                                             <div class="alarm_dday">
                                                 <p class="alarm_item_1"><span
                                                         class="alarm_tit">{{ $productAlarm->siteProduct->region_address }}
@@ -282,8 +181,7 @@
                                                 {{-- {{ Lang::get('commons.product_type.' . $productAlarm->product->type) }} --}}
                                                 {{ $productAlarm->title }}</div>
                                             <div class="alarm_arrow">
-                                                <img src="{{ asset('assets/media/ic_list_arrow.png') }}"
-                                                    class="w_8p">
+                                                <img src="{{ asset('assets/media/ic_list_arrow.png') }}" class="w_8p">
                                             </div>
                                         </div>
                                         <!-- 분양현장 알림 : e -->

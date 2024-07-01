@@ -192,7 +192,7 @@
                                         @foreach ($regionList as $region)
                                             <option value="{{ $region->id }}">
                                                 {{ $region->region_name }}
-                                                ({{ $region->last_updated_at != '' ? $carbon::parse($region->last_updated_at)->format('Y.m') . ' 실거래가 업데이트' : '-' }})
+                                                ({{ $region->last_updated_at ? (strlen($region->last_updated_at) == 6 ? substr($region->last_updated_at, 0, 4) . '.' . substr($region->last_updated_at, 4, 2) . ' 실거래가 업데이트' : $carbon::parse($region->last_updated_at)->format('Y.m') . ' 실거래가 업데이트') : '-' }})
                                             </option>
                                         @endforeach
                                     </select>

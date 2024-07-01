@@ -13,6 +13,7 @@ use App\Models\RegionCoordinate;
 use App\Models\Transactions;
 use App\Models\TransactionsRegionUpdate;
 use DateTime;
+use Exception;
 use GuzzleHttp\Exception\TransferException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Client\Response;
@@ -37,7 +38,7 @@ class DataController extends Controller
         $url = "http://apis.data.go.kr/1613000/AptListService2/getTotalAptList";
 
         $param = [
-            'serviceKey' => "{{ env('ENCODING_API_DATE_KEY') }}",
+            'serviceKey' => env('ENCODING_API_DATE_KEY'),
             'numOfRows' => '100000',
             ''
         ];
@@ -86,7 +87,7 @@ class DataController extends Controller
         Log::info('베이스 정보 아파트 정보 :' . $baseInfo);
 
         $url = "http://apis.data.go.kr/1613000/AptBasisInfoService1/getAphusBassInfo";
-        $serviceKey = "{{ env('ENCODING_API_DATE_KEY') }}";
+        $serviceKey = env('ENCODING_API_DATE_KEY');
 
         $param = [
             'serviceKey' => $serviceKey,
@@ -131,7 +132,7 @@ class DataController extends Controller
         Log::info('상세 정보 아파트 정보 :' . $DetailInfo);
 
         $url = "http://apis.data.go.kr/1613000/AptBasisInfoService1/getAphusDtlInfo";
-        $serviceKey = "{{ env('ENCODING_API_DATE_KEY') }}";
+        $serviceKey = env('ENCODING_API_DATE_KEY');
 
         $param = [
             'serviceKey' => $serviceKey,
@@ -184,8 +185,8 @@ class DataController extends Controller
         ];
 
         $promise = Http::withHeaders([
-            'X-NCP-APIGW-API-KEY-ID' => "{{ env('VITE_NAVER_MAP_CLIENT_ID') }}",
-            'X-NCP-APIGW-API-KEY' => "{{ env('VITE_NAVER_MAP_CLIENT_SECRET') }}",
+            'X-NCP-APIGW-API-KEY-ID' => env('VITE_NAVER_MAP_CLIENT_ID'),
+            'X-NCP-APIGW-API-KEY' => env('VITE_NAVER_MAP_CLIENT_SECRET'),
             'Accept' => 'application/json'
         ])->async()->get($url, $param)->then(
             function (Response|TransferException $response) use ($mapInfo) {
@@ -254,62 +255,87 @@ class DataController extends Controller
         $url = "http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev";
 
         $param = [
-            'serviceKey' => "{{ env('ENCODING_API_DATE_KEY') }}",
+            'serviceKey' => env('ENCODING_API_DATE_KEY'),
             'numOfRows' => '20000',
             'LAWD_CD' => $region->lawd_cd,
             'DEAL_YMD' => $newLastUpdatedAt,
         ];
 
+        Log::info(env('ENCODING_API_DATE_KEY'));
+
         $promise = Http::async()->get($url, $param)->then(
             function (Response|TransferException $response) {
-                $xml = simplexml_load_string($response->getBody(), 'SimpleXMLElement', LIBXML_NOCDATA);
-                $json = json_encode($xml);
-                $jsonDecode = json_decode($json, true);
-                $header = $jsonDecode['header'];
-                $body = $jsonDecode['body'];
-                $items = $body['items'];
-                $item = $items['item'] ?? [];
-                $originItem = [];
-                if ($header['resultCode'] == "00") {
-                    foreach ($item as $value) {
-
-                        $obj = [
-                            'type' => '0',
-                            'transactionPrice' => isset($value['거래금액']) ? trim($value['거래금액']) : '',
-                            'constructionYear' => isset($value['건축년도']) ? trim($value['건축년도']) : '',
-                            'year' => isset($value['년']) ? trim($value['년']) : '',
-                            'roadName' => isset($value['도로명']) ? trim($value['도로명']) : '',
-                            'roadBuildingMainCode' => isset($value['도로명건물본번호코드']) ? trim($value['도로명건물본번호코드']) : '',
-                            'roadBuildingSubCode' => isset($value['도로명건물부번호코드']) ? trim($value['도로명건물부번호코드']) : '',
-                            'roadCityCode' => isset($value['도로명시군구코드']) ? trim($value['도로명시군구코드']) : '',
-                            'roadSerialCode' => isset($value['도로명일련번호코드']) ? trim($value['도로명일련번호코드']) : '',
-                            'roadUpDownCode' => isset($value['도로명지상지하코드']) ? trim($value['도로명지상지하코드']) : '',
-                            'roadCode' => isset($value['도로명코드']) ? trim($value['도로명코드']) : '',
-                            'legalDong' => isset($value['법정동']) ? trim($value['법정동']) : '',
-                            'legalDongMainNumberCode' => isset($value['법정동본번코드']) ? trim($value['법정동본번코드']) : '',
-                            'legalDongSubNumberCode' => isset($value['법정동부번코드']) ? trim($value['법정동부번코드']) : '',
-                            'legalDongCityCode' => isset($value['법정동시군구코드']) ? trim($value['법정동시군구코드']) : '',
-                            'legalDongDistrictCode' => isset($value['법정동읍면동코드']) ? trim($value['법정동읍면동코드']) : '',
-                            'legalDongCode' => isset($value['법정동지번코드']) ? trim($value['법정동지번코드']) : '',
-                            'aptName' => isset($value['아파트']) ? trim($value['아파트']) : '',
-                            'month' => isset($value['월']) ? trim($value['월']) : '',
-                            'day' => isset($value['일']) ? trim($value['일']) : '',
-                            'serialNumber' => isset($value['일련번호']) ? trim($value['일련번호']) : '',
-                            'exclusiveArea' => isset($value['전용면적']) ? trim($value['전용면적']) : '',
-                            'jibun' => isset($value['지번']) ? trim($value['지번']) : '',
-                            'regionCode' => isset($value['지역코드']) ? trim($value['지역코드']) : '',
-                            'floor' => isset($value['층']) ? trim($value['층']) : '',
-                            'unique_code' => '0' . (isset($value['년']) ? trim($value['년']) : '') . (isset($value['월']) ? trim($value['월']) : '') . (isset($value['일']) ? trim($value['일']) : '') . (isset($value['일련번호']) ? trim($value['일련번호']) : '') . (isset($value['층']) ? trim($value['층']) : '') . (isset($value['거래금액']) ? trim($value['거래금액']) : ''),
-                        ];
-
-                        // Transactions::create($obj);
-                        array_push($originItem, $obj);
+                try {
+                    if ($response instanceof TransferException) {
+                        // 예외 처리
+                        Log::error('HTTP request failed: ' . $response->getMessage());
+                        return;
                     }
-                    foreach (array_chunk($originItem, 1000) as $t) {
-                        // Transactions::create($t);
-                        Log::info($t);
-                        Transactions::upsert($t, 'unique_code');
+
+                    $xml = simplexml_load_string($response->getBody(), 'SimpleXMLElement', LIBXML_NOCDATA);
+                    if ($xml === false) {
+                        // XML 파싱 오류 처리
+                        Log::error('Failed to parse XML response: ' . $response->getBody());
+                        return;
                     }
+
+                    $json = json_encode($xml);
+                    $jsonDecode = json_decode($json, true);
+                    if (json_last_error() !== JSON_ERROR_NONE) {
+                        // JSON 디코딩 오류 처리
+                        Log::error('Failed to decode JSON: ' . json_last_error_msg());
+                        return;
+                    }
+
+                    $header = $jsonDecode['header'];
+                    $body = $jsonDecode['body'];
+                    $items = $body['items'];
+                    $item = $items['item'] ?? [];
+                    $originItem = [];
+
+                    if ($header['resultCode'] == "00") {
+                        foreach ($item as $value) {
+                            $obj = [
+                                'type' => '0',
+                                'transactionPrice' => isset($value['거래금액']) ? trim($value['거래금액']) : '',
+                                'constructionYear' => isset($value['건축년도']) ? trim($value['건축년도']) : '',
+                                'year' => isset($value['년']) ? trim($value['년']) : '',
+                                'roadName' => isset($value['도로명']) ? trim($value['도로명']) : '',
+                                'roadBuildingMainCode' => isset($value['도로명건물본번호코드']) ? trim($value['도로명건물본번호코드']) : '',
+                                'roadBuildingSubCode' => isset($value['도로명건물부번호코드']) ? trim($value['도로명건물부번호코드']) : '',
+                                'roadCityCode' => isset($value['도로명시군구코드']) ? trim($value['도로명시군구코드']) : '',
+                                'roadSerialCode' => isset($value['도로명일련번호코드']) ? trim($value['도로명일련번호코드']) : '',
+                                'roadUpDownCode' => isset($value['도로명지상지하코드']) ? trim($value['도로명지상지하코드']) : '',
+                                'roadCode' => isset($value['도로명코드']) ? trim($value['도로명코드']) : '',
+                                'legalDong' => isset($value['법정동']) ? trim($value['법정동']) : '',
+                                'legalDongMainNumberCode' => isset($value['법정동본번코드']) ? trim($value['법정동본번코드']) : '',
+                                'legalDongSubNumberCode' => isset($value['법정동부번코드']) ? trim($value['법정동부번코드']) : '',
+                                'legalDongCityCode' => isset($value['법정동시군구코드']) ? trim($value['법정동시군구코드']) : '',
+                                'legalDongDistrictCode' => isset($value['법정동읍면동코드']) ? trim($value['법정동읍면동코드']) : '',
+                                'legalDongCode' => isset($value['법정동지번코드']) ? trim($value['법정동지번코드']) : '',
+                                'aptName' => isset($value['아파트']) ? trim($value['아파트']) : '',
+                                'month' => isset($value['월']) ? trim($value['월']) : '',
+                                'day' => isset($value['일']) ? trim($value['일']) : '',
+                                'serialNumber' => isset($value['일련번호']) ? trim($value['일련번호']) : '',
+                                'exclusiveArea' => isset($value['전용면적']) ? trim($value['전용면적']) : '',
+                                'jibun' => isset($value['지번']) ? trim($value['지번']) : '',
+                                'regionCode' => isset($value['지역코드']) ? trim($value['지역코드']) : '',
+                                'floor' => isset($value['층']) ? trim($value['층']) : '',
+                                'unique_code' => '0' . (isset($value['년']) ? trim($value['년']) : '') . (isset($value['월']) ? trim($value['월']) : '') . (isset($value['일']) ? trim($value['일']) : '') . (isset($value['일련번호']) ? trim($value['일련번호']) : '') . (isset($value['층']) ? trim($value['층']) : '') . (isset($value['거래금액']) ? trim($value['거래금액']) : ''),
+                            ];
+
+                            array_push($originItem, $obj);
+                        }
+                        foreach (array_chunk($originItem, 1000) as $t) {
+                            // Transactions::create($t);
+                            Log::info('Inserting transactions: ' . json_encode($t));
+                            Transactions::upsert($t, 'unique_code');
+                        }
+                    } else {
+                        Log::warning('API response returned with resultCode: ' . $header['resultCode']);
+                    }
+                } catch (Exception $e) {
+                    Log::error('An error occurred: ' . $e->getMessage());
                 }
             }
         );
@@ -354,7 +380,7 @@ class DataController extends Controller
         $url = "http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptRent";
 
         $param = [
-            'serviceKey' => "{{ env('ENCODING_API_DATE_KEY') }}",
+            'serviceKey' => env('ENCODING_API_DATE_KEY'),
             'numOfRows' => '20000',
             // 'LAWD_CD' => '11110',
             // 'DEAL_YMD' => '202406',

@@ -25,8 +25,7 @@ class Alarms extends BaseModel
         'title',
         'body',
         'msg',
-        'site_product_id',
-        'product_id',
+        'target_id',
         'tour_users_id',
         'readed_at'
     ];
@@ -67,6 +66,6 @@ class Alarms extends BaseModel
      */
     public function siteProduct()
     {
-        return $this->hasOne(SiteProduct::class, 'id', 'site_product_id');
+        return $this->hasOne(SiteProduct::class, 'id', 'target_id');
     }
 }

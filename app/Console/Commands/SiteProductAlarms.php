@@ -28,8 +28,8 @@ class SiteProductAlarms extends Command
     {
         $siteAlarm = new SiteProductAlarmPcController;
         $siteAlarm->sendSiteProductAlramDday();
-        // $siteAlarm->sendSiteProductAlramOneday();
-        // $siteAlarm->sendSiteProductAlramWeek();
+        $siteAlarm->sendSiteProductAlramOneday();
+        $siteAlarm->sendSiteProductAlramWeek();
 
         $this->info('분양현장 알림을 보냈습니다.');
     }

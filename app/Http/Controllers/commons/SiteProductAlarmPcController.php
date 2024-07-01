@@ -50,9 +50,8 @@ class SiteProductAlarmPcController extends Controller
     {
 
         $today = Carbon::today()->toDateString();
-        // $todayAlarmList = SiteProductSchedule::whereDate('start_date', $today)->get();
-        $todayAlarmList = SiteProductSchedule::get();
-
+        $todayAlarmList = SiteProductSchedule::whereDate('start_date', $today)->get();
+        // $todayAlarmList = SiteProductSchedule::get();
 
         if (isset($todayAlarmList)) {
             $siteProductIds = $todayAlarmList->pluck('site_product_id')->toArray();
@@ -74,7 +73,81 @@ class SiteProductAlarmPcController extends Controller
                 Alarms::Create([
                     'users_id' => $alarm->users_id,
                     'title' => $productTitle . '의 ' . $scheduleTitle . '입니다.',
-                    'site_product_id' => $alarm->site_product_id,
+                    'target_id' => $alarm->site_product_id,
+                    'index' => '101',
+                    'body' => 'body',
+                    'msg' => 'msg'
+                ]);
+            }
+        }
+    }
+
+    /**
+     * 전날 알림 보내기
+     */
+    public function sendSiteProductAlramOneday()
+    {
+        $today = Carbon::today()->toDateString();
+        $todayAlarmList = SiteProductSchedule::whereDate('start_date', $today)->get();
+
+        if (isset($todayAlarmList)) {
+            $siteProductIds = $todayAlarmList->pluck('site_product_id')->toArray();
+            $ddayAlarmList = SiteProductAlarms::whereIn('site_product_alarms.site_product_id', $siteProductIds)
+                ->join('site_product_schedule', 'site_product_alarms.site_product_id', '=', 'site_product_schedule.site_product_id')
+                ->join('site_product', function ($join) {
+                    $join->on('site_product_alarms.site_product_id', '=', 'site_product.id')
+                        ->where('site_product.is_delete', '==', 0);
+                })
+                ->select('site_product_alarms.*', 'site_product_schedule.title as schedule_title', 'site_product.title as product_title')
+                ->get();
+
+            Log::info('todayAlarmList' . $ddayAlarmList);
+
+            foreach ($ddayAlarmList as $alarm) {
+                $productTitle = $alarm->product_title;
+                $scheduleTitle = $alarm->schedule_title;
+
+                Alarms::Create([
+                    'users_id' => $alarm->users_id,
+                    'title' => $productTitle . '의 ' . $scheduleTitle . '입니다.',
+                    'target_id' => $alarm->site_product_id,
+                    'index' => '101',
+                    'body' => 'body',
+                    'msg' => 'msg'
+                ]);
+            }
+        }
+    }
+
+    /**
+     * 전날 알림 보내기
+     */
+    public function sendSiteProductAlramWeek()
+    {
+        $today = Carbon::today()->subWeek()->toDateString();
+        $todayAlarmList = SiteProductSchedule::whereDate('start_date', $today)->get();
+
+        if (isset($todayAlarmList)) {
+            $siteProductIds = $todayAlarmList->pluck('site_product_id')->toArray();
+            $ddayAlarmList = SiteProductAlarms::whereIn('site_product_alarms.site_product_id', $siteProductIds)
+                ->join('site_product_schedule', 'site_product_alarms.site_product_id', '=', 'site_product_schedule.site_product_id')
+                ->join('site_product', function ($join) {
+                    $join->on('site_product_alarms.site_product_id', '=', 'site_product.id')
+                        ->where('site_product.is_delete', '==', 0);
+                })
+                ->select('site_product_alarms.*', 'site_product_schedule.title as schedule_title', 'site_product.title as product_title')
+                ->get();
+
+            Log::info('todayAlarmList' . $ddayAlarmList);
+
+            foreach ($ddayAlarmList as $alarm) {
+                $productTitle = $alarm->product_title;
+                $scheduleTitle = $alarm->schedule_title;
+
+                Alarms::Create([
+                    'users_id' => $alarm->users_id,
+                    'title' => $productTitle . '의 ' . $scheduleTitle . '입니다.',
+                    'target_id' => $alarm->site_product_id,
                     'index' => '101',
                     'body' => 'body',
                     'msg' => 'msg'
