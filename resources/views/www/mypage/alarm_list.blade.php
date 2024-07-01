@@ -269,7 +269,7 @@
                                             onclick="location.href='{{ route('www.mypage.product.magagement.list.view') }}'">
                                             <div class="alarm_dday">
                                                 <p class="alarm_item_1"><span
-                                                        class="alarm_tit">{{ $productAlarm->title }}
+                                                        class="alarm_tit">{{ $productAlarm->siteProduct->region_address }}
                                                         @if ($productAlarm->readed_at == null)
                                                             <i title="new"></i>
                                                         @endif
@@ -280,7 +280,7 @@
                                             </div>
                                             <div class="alarm_info alarm_address">
                                                 {{-- {{ Lang::get('commons.product_type.' . $productAlarm->product->type) }} --}}
-                                                {{ $productAlarm->siteProduct->address }}</div>
+                                                {{ $productAlarm->title }}</div>
                                             <div class="alarm_arrow">
                                                 <img src="{{ asset('assets/media/ic_list_arrow.png') }}"
                                                     class="w_8p">
