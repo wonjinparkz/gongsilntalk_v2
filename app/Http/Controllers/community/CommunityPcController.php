@@ -46,10 +46,10 @@ class CommunityPcController extends Controller
 
             // 매거진
             $communityList = Magazine::withCount('replys')
-            ->select(
-                'magazine.*',
-                DB::raw("(SELECT count(*) FROM reply WHERE target_id = magazine.id AND target_type = 'magazine' AND is_delete = 0) AS replys_count")
-            )
+                ->select(
+                    'magazine.*',
+                    DB::raw("(SELECT count(*) FROM reply WHERE target_id = magazine.id AND target_type = 'magazine' AND is_delete = 0) AS replys_count")
+                )
                 ->where('magazine.type', '=', $request->type ?? 0)
                 ->where('magazine.is_blind', '0');
         } else if ($is_community == 1) {
@@ -527,6 +527,9 @@ class CommunityPcController extends Controller
     public function noticeDetailView($id): View
     {
         $result = Notice::where('id', $id)->where('is_blind', 0)->first();
+
+        // 조회수 증가
+        $result->increment('view_count', '1');
 
         return view('www.community.notice_detail', compact('result'));
     }
