@@ -95,7 +95,7 @@
                                     $revenue_rate = ($revenue_price / $investment_price) * 100;
 
                                     // 실투자금 회수기간
-                                    $payback_period = ($investment_price / $revenue_price) * 10;
+                                    $payback_period = $investment_price / $revenue_price;
                                 @endphp
                                 <div class="table_container columns_2 mt18">
                                     <div class="td">매매/분양가</div>
@@ -168,7 +168,7 @@
                                         실투자금 회수기간
                                     </div>
                                     <div class="td">
-                                        {{ number_format($payback_period) }}개월
+                                        {{ number_format($payback_period, 1) }}년
                                     </div>
                                 </div>
                             </div>
