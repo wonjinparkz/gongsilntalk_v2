@@ -1,110 +1,124 @@
 <x-admin-layout>
+    @inject('carbon', 'Carbon\Carbon');
     <div class="app-container container-xxl">
-        <x-screen-card :title="'일반 회원 자산관리 상세'">
-            {{-- FORM START  --}}
-            {{-- <form class="form" method="POST" action="{{ route('admin.notice.update') }}"> --}}
-            <form class="form" method="POST" action="#">
-                @csrf
-                <input type="hidden" name="lasturl" value="{{ URL::previous() }}">
-                {{-- 사용자 아이디 --}}
-                <input type="hidden" name="id" value="{{ $result->id }}" />
-                {{-- 내용 START --}}
-                <div class="card-body border-top p-9">
-                    <div class="row">
+        <div class="app-toolbar py-3 py-lg-6">
+            <div class="app-container container-xxl d-flex flex-stack">
+                {{-- 페이지 제목 --}}
+                <div class="d-inline-block position-relative">
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">
+                        자산 현황
+                    </h1>
+                    <span
+                        class="d-inline-block position-absolute mt-3 h-8px bottom-0 end-0 start-0 bg-success translate rounded" />
 
-                        <div class="row-lg-12 mb-10">
-                            <div class="symbol symbol-150px symbol-circle mb-5">
-                                @if ($result->images != null)
-                                    @foreach ($result->images as $image)
-                                        <img src="{{ Storage::url('image/' . $image->path) }}" />
-                                    @endforeach
-                                @else
-                                    <img src="{{ asset('assets/media/default_user.png') }}" />
-                                @endif
+                </div>
+            </div>
+        </div>
+        {{-- FORM START  --}}
 
-                            </div>
-                            <div class="col-lg-2 justify-content-center">
-                                @if ($result->state == 0)
-                                    <div class="badge badge-light-success">
-                                        사용가능
-                                    </div>
-                                @elseif ($result->state == 1)
-                                    <div class="badge badge-light-warning">
-                                        사용불가능
-                                    </div>
-                                @else
-                                    <div class="badge badge-light-danger">
-                                        탈퇴
-                                    </div>
-                                @endif
+        {{-- 내용 START --}}
+        <x-screen-card :title="'회원 정보'">
+            <div class="card-body border-top p-9">
+                <div class="row">
 
-                                @php
-                                    $lastUsedAt = Carbon::parse($result->last_used_at);
-                                    $now = Carbon::now();
-                                @endphp
-                                {{-- 상태 뱃지 --}}
-                                @if ($now->diffInMinutes($lastUsedAt) < 5)
-                                    <div class="badge badge-light-success">
-                                        온라인
-                                    </div>
-                                @else
-                                    <div class="badge badge-light-danger">
-                                        오프라인
-                                    </div>
-                                @endif
-                            </div>
-
+                    {{-- 이름 --}}
+                    <div class="col-lg-12">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">이름</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="이름"
+                                value="{{ $user->name }}" />
                         </div>
+                    </div>
 
-                        {{-- 아이디 --}}
-                        <div class="col-lg-6 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">사용자 아이디</label>
-                            <div class="row-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid" placeholder="아이디"
-                                    value="{{ $result->email }}" />
-                            </div>
+                    {{-- ID --}}
+                    <div class="col-lg-12">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">ID</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="ID"
+                                value="{{ $user->email }}" />
                         </div>
+                    </div>
 
-                        {{-- 이름 --}}
-                        <div class="col-lg-6 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">사용자 이름</label>
-                            <div class="row-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid" placeholder="이름"
-                                    value="{{ $result->name }}" />
-                            </div>
+                    {{-- 총 자산 현황 --}}
+                    <div class="col-lg-12">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">총 자산 현황</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="총 자산 현황"
+                                value="{{ number_format($addressData->price) }}" />
                         </div>
+                    </div>
 
-                        {{-- 전화번호 --}}
-                        <div class="col-lg-6 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">전화번호</label>
-                            <div class="row-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="전화번호" value="{{ $result->phone }}" />
-                            </div>
+                    {{-- 최근 등록일 --}}
+                    <div class="col-lg-12">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">최근 등록일</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="최근 등록일"
+                                value="{{ $carbon::parse($addressData->max_created_at)->format('Y.m.d') }}" />
                         </div>
-
-                        {{-- 성별 --}}
-                        <div class="col-lg-6 mb-6">
-                            <label class="row-lg-4 col-form-label fw-semibold fs-6">성별</label>
-                            <div class="row-lg-8 fv-row">
-                                <input type="text" disabled class="form-control form-control-solid" placeholder="성별"
-                                    value="{{ $result->gender == 0 ? '남성' : '여성' }}" />
-                            </div>
-                        </div>
-
                     </div>
 
                 </div>
-                <!--내용 END-->
-                {{-- Footer Bottom START --}}
-                <div class="card-footer d-flex justify-content-end py-6 px-9">
-                    <button type="submit" class="btn btn-primary">수정</button>
-                </div>
-                {{-- Footer END --}}
-            </form>
-            {{-- FORM END --}}
 
+            </div>
         </x-screen-card>
+        <!--내용 END-->
+
+        {{-- 내용 START --}}
+        <x-screen-card :title="'자산 정보'">
+            <div class="card-body border-top p-9">
+                <div class="row">
+                    @php
+                        $monthProfitPrice = 0;
+                        $monthProfitRate = 0;
+                        $price_1 = isset($monthProfitPrice) ? $monthProfitPrice : 1;
+                        $price_2 = isset($addressData->price) ? $addressData->price : 1;
+                        $monthProfitRate = round($price_1 / $price_2, 2);
+                    @endphp
+                    {{-- 자산정보 --}}
+                    <div class="row">
+                        <label class="col-lg-6 fs-2 flex-column">
+                            <span class="fw-bold text-gray-700">총 자산 현황</span>
+                            <p class="fw-bold">{{ number_format($addressData->price) }}원</p>
+                        </label>
+                        <label class="col-lg-2 fw-bold fs-2 flex-column">
+                            <span>실투자금</span>
+                            <p class="fw-bold gsntalk-color">
+                                {{ number_format($addressData->price - $addressData->loan_price) }}원</p>
+                        </label>
+                        <label class="col-lg-2 fw-bold fs-2 flex-column">
+                            <span>월순수익</span>
+                            <p class="fw-bold gsntalk-color">
+                                {{ number_format($monthProfitPrice) }}원</p>
+                        </label>
+                        <label class="col-lg-2 fw-bold fs-2 flex-column">
+                            <span>수익률</span>
+                            <p class="fw-bold gsntalk-color">{{ number_format($monthProfitRate) }}%</p>
+                        </label>
+                    </div>
+
+                    {{-- 총 자산 현황 --}}
+                    <div class="row">
+                        <div class="col-lg-6 row">
+                            <label class="col-lg-2 col-form-label fw-semibold fs-5">최근 등록일</label>
+                            <div class="col-lg-10 fv-row">
+                                <span class="col-form-label fw-semibold fs-5">123</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 row">
+                            <label class="col-lg-2 col-form-label fw-semibold fs-5">최근 등록일</label>
+                            <div class="col-lg-10 fv-row">
+                                <span class="fw-bold fs-5">123</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </x-screen-card>
+        <!--내용 END-->
+
+        {{-- FORM END --}}
     </div>
 
     {{--

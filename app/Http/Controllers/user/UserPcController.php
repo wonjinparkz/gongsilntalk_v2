@@ -688,7 +688,7 @@ class UserPcController extends Controller
         $addressList = AssetAddress::select();
 
         $addressList->where('users_id', Auth::guard('web')->user()->id);
-        $addressList->where('region_code', $request->region_code);
+        $addressList->where('old_address', $request->old_address);
 
         $result = $addressList->first();
 

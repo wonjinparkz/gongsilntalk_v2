@@ -45,6 +45,15 @@ class AssetAddress extends BaseModel
         'created_at' => 'datetime',
     ];
 
+
+    /**
+     * 등록한 유저
+     */
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'users_id');
+    }
+
     /**
      * 상세 자산
      */

@@ -331,7 +331,7 @@ Route::middleware('admin.auth')->controller(AdminController::class)->group(funct
  */
 Route::middleware('admin.auth')->controller(AssetController::class)->group(function () {
     Route::get('/asset/list/view', 'assetListView')->name('admin.asset.list.view');
-
+    Route::get('/asset/detail/{id}', 'assetDetailView')->name('admin.asset.detail.view');
 });
 
 

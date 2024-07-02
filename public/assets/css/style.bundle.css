@@ -28149,6 +28149,7 @@ textarea.form-control-lg {
   --bs-engage-btn-color: #3F4254;
   --bs-engage-btn-icon-color: #7E8299;
   --bs-engage-btn-color-active: #3F4254;
+  --gsntalk-color: #F16341;
 }
 
 [data-bs-theme=dark] {
@@ -28293,6 +28294,7 @@ textarea.form-control-lg {
   --bs-engage-btn-color: #CDCDDE;
   --bs-engage-btn-icon-color: #6D6D80;
   --bs-engage-btn-color-active: #CDCDDE;
+  --gsntalk-color: #F16341;
 }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
@@ -46247,6 +46249,10 @@ label.rating-label:hover ~ .rating-label > i, label.rating-label:hover ~ .rating
 
 .text-gray-700 {
   color: var(--bs-text-gray-700) !important;
+}
+
+.gsntalk-color {
+  color: var(--gsntalk-color) !important;
 }
 
 .text-hover-gray-700 {
