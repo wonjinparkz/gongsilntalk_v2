@@ -593,7 +593,7 @@
         $('#region_address').val(address);
         $('#old_address').val(address);
 
-        usersAddressList($('#region_code').val());
+        usersAddressList($('#old_address').val());
     }
 
     $('#address_no_1').click(function() {
@@ -759,7 +759,7 @@
         console.log('주소 검색 끝!');
 
         onFieldInputCheck();
-        usersAddressList($('#region_code').val());
+        usersAddressList($('#old_address').val());
     }
 
     // type1.좌표정보(GRS80, EPSG:5179)
@@ -770,13 +770,13 @@
         }, '*');
     }
 
-    function usersAddressList(code) {
+    function usersAddressList(address) {
 
         $.ajax({
             type: "GET",
             url: "{{ route('www.my.address.list') }}",
             data: {
-                'region_code': code
+                'old_address': address
             },
             success: function(result) {
                 console.log(result.result);

@@ -212,8 +212,8 @@
                             <div class="reg_item">
                                 <label class="input_label">대출기간 </label>
                                 <div class="flex_1 flex_between">
-                                    <input type="number" max="12" min="0" id="loan_period"
-                                        value="{{ $result->loan_period }}" name="loan_period"> <span>개월</span>
+                                    <input type="number" id="loan_period" value="{{ $result->loan_period }}"
+                                        name="loan_period"> <span>개월</span>
                                 </div>
                             </div>
                             <div class="reg_item">
@@ -314,7 +314,8 @@
             $(`#loan_price_0`).val(numberToKorean(parseInt($(`#loan_price`).val())));
 
             $(`#contracted_at_{{ $result->tran_type }}`).val(numberToDate(parseInt($('#contracted_at').val())));
-            $(`#registered_at_{{ $result->tran_type }}`).val($('#registered_at').val() != '' ? numberToDate(parseInt($('#registered_at').val())) : '');
+            $(`#registered_at_{{ $result->tran_type }}`).val($('#registered_at').val() != '' ? numberToDate(parseInt($(
+                '#registered_at').val())) : '');
             $(`#loaned_at_0`).val(numberToDate(parseInt($('#loaned_at').val())));
 
             onFieldInputCheck();
