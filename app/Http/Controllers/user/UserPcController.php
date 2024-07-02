@@ -20,6 +20,7 @@ use App\Models\ProductServices;
 use App\Models\Proposal;
 use App\Models\SiteProduct;
 use App\Models\User;
+use Carbon\Carbon;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -334,7 +335,7 @@ class UserPcController extends Controller
         ProductPrice::create([
             'product_id' => $request->id,
             'payment_type' => $request->payment_type,
-            'price' => $request->{'price_'.$request->payment_type},
+            'price' => $request->{'price_' . $request->payment_type},
             'month_price' => in_array($request->payment_type, [1, 2, 4]) ? $request->month_price : null,
             'is_price_discussion' => $request->is_price_discussion ?? 0,
             'is_use' => $request->type >= 14 ? NULL : $request->is_use ?? 0,
@@ -1133,13 +1134,39 @@ class UserPcController extends Controller
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
+        $sevenDaysAgo = Carbon::now()->subDays(7);
+
         // 전체 알림
-        $alarmList = Alarms::with('tour_users', 'product')->select()->where('users_id', Auth::guard('web')->user()->id)->where('index', '!=', 101)->get();
-        $checkCount = Alarms::select()->where('readed_at', NULL)->where('users_id', Auth::guard('web')->user()->id)->where('index', '!=', 101)->count();
+        $alarmList = Alarms::with('tour_users', 'product')
+            ->select()
+            ->where('users_id', Auth::guard('web')->user()->id)
+            ->where('created_at', '>=', $sevenDaysAgo)
+            ->where('index', '!=', 101)
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
+            ->get();
+        $checkCount = Alarms::select()
+            ->where('readed_at', NULL)
+            ->where('users_id', Auth::guard('web')->user()->id)
+            ->where('created_at', '>=', $sevenDaysAgo)
+            ->where('index', '!=', 101)
+            ->count();
 
         // 분양 알림
-        $productAlarmList = Alarms::with('siteProduct')->select()->where('users_id', Auth::guard('web')->user()->id)->where('index', 101)->get();
-        $prouctCheckCount = Alarms::select()->where('readed_at', NULL)->where('users_id', Auth::guard('web')->user()->id)->where('index', 101)->count();
+        $productAlarmList = Alarms::with('siteProduct')
+            ->select()
+            ->where('users_id', Auth::guard('web')->user()->id)
+            ->where('created_at', '>=', $sevenDaysAgo)
+            ->where('index', 101)
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
+            ->get();
+        $prouctCheckCount = Alarms::select()
+            ->where('readed_at', NULL)
+            ->where('users_id', Auth::guard('web')->user()->id)
+            ->where('created_at', '>=', $sevenDaysAgo)
+            ->where('index', 101)
+            ->count();
 
         return view('www.mypage.alarm_list', compact('user', 'alarmList', 'checkCount', 'productAlarmList', 'prouctCheckCount'));
     }

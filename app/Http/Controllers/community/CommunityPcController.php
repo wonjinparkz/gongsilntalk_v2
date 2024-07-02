@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\community;
 
 use App\Http\Controllers\Controller;
+use App\Models\Alarms;
 use App\Models\Community;
 use App\Models\CommunityBlock;
 use App\Models\CommunityReport;
@@ -381,6 +382,57 @@ class CommunityPcController extends Controller
             'is_blind' => 0,
             'is_delete' => 0
         ]);
+
+
+        $community_type = $request->community_type == 'magazine' ? 0 : 1;
+
+        $users_id = null;
+        $title = null;
+        $index = null;
+
+        if ($community_type == 0 && $request->parent_id > 0) {
+            $users_id = $request->parent_id;
+            $title = '공톡컨텐츠 댓글에 답글이 작성되었습니다.';
+            $index = '105';
+            Alarms::Create([
+                'users_id' => $users_id,
+                'title' => $title,
+                'target_id' => $request->community_id,
+                'index' => $index,
+                'body' => 'body',
+                'msg' => 'msg'
+            ]);
+        } else if ($community_type == 1) {
+            $reply = Reply::where('id', $request->community_id)->first();
+            $community = Community::where('id', $request->community_id)->first();
+            if ($request->parent_id > 0) {
+                $title = '커뮤니티 댓글에 답글이 작성되었습니다.';
+                $users_id = $reply->author;
+                $index = '104';
+                Alarms::Create([
+                    'users_id' => $users_id,
+                    'title' => $title,
+                    'target_id' => $request->community_id,
+                    'index' => $index,
+                    'body' => 'body',
+                    'msg' => 'msg'
+                ]);
+            }
+
+            if ($community->author != $reply->author) {
+                $title = '내 글에 댓글이 작성되었습니다.';
+                $users_id = $community->author;
+                $index = '103';
+                Alarms::Create([
+                    'users_id' => $users_id,
+                    'title' => $title,
+                    'target_id' => $request->community_id,
+                    'index' => $index,
+                    'body' => 'body',
+                    'msg' => 'msg'
+                ]);
+            }
+        }
 
         return Redirect::back();
     }
