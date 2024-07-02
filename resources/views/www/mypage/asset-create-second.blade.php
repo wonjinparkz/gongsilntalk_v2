@@ -355,7 +355,7 @@
             if (value.length > 6) {
                 formattedValue += '.' + value.substring(6, 8);
             }
-            $('#' + name).val(formattedValue);
+            $('#' + name + '_' + index).val(formattedValue);
         }
 
         var prev = "";

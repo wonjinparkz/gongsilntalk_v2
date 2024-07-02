@@ -222,7 +222,7 @@
             if (value.length > 6) {
                 formattedValue += '.' + value.substring(6, 8);
             }
-            $('#' + name).val(formattedValue);
+            $('#' + name + '_temp').val(formattedValue);
         }
 
         //기본 토글 이벤트

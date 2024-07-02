@@ -39,7 +39,7 @@
                                     @php
                                         $monthProfitPrice = 0;
                                     @endphp
-                                    <li>월순수익<p id="monthProfit">27,750,000원 <span>(14.08%)</span></p>
+                                    <li>월순수익<p id="monthProfit"></p>
                                     </li>
                                 </ul>
                                 <div class="detail_price_wrap simple_toggle_layer">
