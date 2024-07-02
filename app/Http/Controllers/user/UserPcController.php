@@ -1182,7 +1182,7 @@ class UserPcController extends Controller
             'acquisition_tax' => $request->acquisition_tax,
             'tax_price' => $request->tax_price ?? 0,
             'commission' => $request->commission ?? 0,
-            'ctc_price' => $request->ctc_price ?? 0,
+            'etc_price' => $request->etc_price ?? 0,
             'price' => $request->price ?? 0,
             'month_price' => $request->month_price ?? 0,
             'loan_ratio' => $request->loan_ratio ?? 0,
