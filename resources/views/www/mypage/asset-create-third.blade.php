@@ -84,8 +84,7 @@
                                         <label class="input_label">보증금</label>
                                         <div class="flex_1">
                                             <input type="text" class="tenantClass" id="check_price_temp"
-                                                name="check_price_temp" disabled
-                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                name="check_price_temp" disabled onkeypress="onlyNumbers(event)"
                                                 onkeyup="onTextChangeEvent('check_price');"><span>/</span>
                                         </div>
                                     </div>
@@ -93,8 +92,7 @@
                                         <label class="input_label">월임대료</label>
                                         <div class="flex_1">
                                             <input type="text" class="tenantClass" id="month_price_temp"
-                                                name="month_price_temp" disabled
-                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                name="month_price_temp" disabled onkeypress="onlyNumbers(event)"
                                                 onkeyup="onTextChangeEvent('month_price');"><span>원</span>
                                         </div>
                                     </div>
@@ -124,7 +122,7 @@
                                     <label class="input_label">계약시작일</label>
                                     <input type="text" id="started_at_temp" name="started_at_temp"
                                         class="tenantClass" placeholder="예) 20230101" disabled
-                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                        onkeypress="onlyDateCharacters(event)"
                                         onkeyup="onDateChangeEvent('started_at');">
                                 </div>
                                 <span>~</span>
@@ -132,7 +130,7 @@
                                     <label class="input_label">계약종료일</label>
                                     <input type="text" class="tenantClass" id="ended_at_temp"
                                         name="ended_at_temp" placeholder="예) 20230101" disabled
-                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                        onkeypress="onlyDateCharacters(event)"
                                         onkeyup="onDateChangeEvent('ended_at');">
                                 </div>
                             </div>
@@ -185,22 +183,46 @@
             $('#deposit_day').val(string);
         }
 
+        function onlyNumbers(event) {
+            // 숫자 이외의 문자가 입력되면 이벤트를 취소합니다.
+            if (!/\d/.test(event.key) && event.key !== 'Backspace') {
+                event.preventDefault();
+            }
+        }
+
         // 금액 한글 변환
         function onTextChangeEvent(name) {
-            $('#' + name).val($('#' + name + '_temp').val());
-            setTimeout(function() {
-                $('#' + name + '_temp').val(numberToKorean(parseInt($('#' + name).val())));
-            }, 3000);
+            let value = $('#' + name + '_temp').val()
+            value = value.replace(/,/g, '');
+            $('#' + name).val(value);
+            value = Number(value).toLocaleString('en');
+            $('#' + name + '_temp').val((value == 0 ? '' : value));
+        }
+
+        function onlyDateCharacters(event) {
+            const key = event.key;
+            if (!/[0-9]/.test(key)) {
+                event.preventDefault();
+            }
         }
 
         // 숫자 날짜 포맷
         function onDateChangeEvent(name) {
-            $('#' + name).val($('#' + name + '_temp').val());
-            setTimeout(function() {
-                if ($('#' + name + '_temp').val() != '') {
-                    $('#' + name + '_temp').val(numberToDate(parseInt($('#' + name).val())));
-                }
-            }, 4000);
+            let value = $('#' + name + '_temp').val();
+            value = value.replace(/\./g, '');
+            $('#' + name).val(value);
+            let formattedValue = '';
+            if (value.length > 4) {
+                formattedValue = value.substring(0, 4) + '.' + value.substring(4, 6);
+            } else if (value.length > 2) {
+                formattedValue = value.substring(0, 4) + (value.length > 4 ? '.' : '') + value.substring(4);
+            } else {
+                formattedValue = value;
+            }
+            if (value.length > 6) {
+                formattedValue += '.' + value.substring(6, 8);
+            }
+            $('#' + name).val(formattedValue);
         }
 
         //기본 토글 이벤트

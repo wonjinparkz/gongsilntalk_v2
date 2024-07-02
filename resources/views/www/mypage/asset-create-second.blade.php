@@ -112,7 +112,7 @@
                                         <label class="input_label">계약일자 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="contracted_at_1" name="contracted_at_1"
-                                                placeholder="예) 20230101"
+                                                placeholder="예) 20230101" onkeypress="onlyDateCharacters(event)"
                                                 onkeyup="onDateChangeEvent('contracted_at', 1);">
                                         </div>
                                     </div>
@@ -209,7 +209,8 @@
                                 <label class="input_label">대출일자</label>
                                 <div class="flex_1 flex_between">
                                     <input type="text" id="loaned_at_0" name="loaned_at_0"
-                                        placeholder="예) 20230101" onkeyup="onDateChangeEvent('loaned_at', 0);">
+                                        onkeypress="onlyDateCharacters(event)" placeholder="예) 20230101"
+                                        onkeyup="onDateChangeEvent('loaned_at', 0);">
                                 </div>
                             </div>
                         </div>
@@ -354,7 +355,6 @@
             if (value.length > 6) {
                 formattedValue += '.' + value.substring(6, 8);
             }
-            $('#' + name + '_' + index).val(formattedValue);
             $('#' + name).val(formattedValue);
         }
 
