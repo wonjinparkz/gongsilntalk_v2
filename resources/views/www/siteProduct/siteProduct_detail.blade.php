@@ -95,7 +95,8 @@
                 <p class="txt_con">@php echo nl2br($result->contents); @endphp</p>
             </div>
             <div class="template_img">
-                <div class="img_box"><img
+                <div class="img_box">
+                    <img
                         src="{{ Storage::url('image/' . $result->main_images[0]->path) }}"onerror="this.onerror=null; this.src='{{ asset('assets/media/s_3.png') }}'">
                 </div>
             </div>
@@ -613,6 +614,33 @@
                 nextEl: ".swiper-button-next",
                 prevEl: ".swiper-button-prev",
             },
+        });
+
+        @php
+            // content 변수에서 HTML 태그 제거
+            $cleaned_content = strip_tags(html_entity_decode($result->contents));
+
+            // content 변수에서 줄바꿈 처리
+            $cleaned_content = preg_replace("/\r|\n/", ' ', $cleaned_content);
+
+            // 길이 제한 및 줄임표 추가
+            $shortened_content = mb_strlen($cleaned_content) > 50 ? mb_substr($cleaned_content, 0, 50) . '...' : $cleaned_content;
+        @endphp
+
+        document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
+            Kakao.Share.createDefaultButton({
+                container: button,
+                objectType: "feed",
+                content: {
+                    title: '{{ $result->title }}',
+                    description: '{{ $shortened_content }}',
+                    imageUrl: "{{ $result->main_images ? asset('storage/image/' . $result->main_images[0]->path) : '' }}",
+                    link: {
+                        mobileWebUrl: `{!! url()->full() !!}`,
+                        webUrl: `{!! url()->full() !!}`,
+                    },
+                }
+            });
         });
     </script>
 
