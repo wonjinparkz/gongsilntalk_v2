@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\commons;
 
 use App\Http\Controllers\Controller;
+use App\Models\Subway;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -33,8 +34,8 @@ class PopupOpenController extends Controller
      */
     public function searchAddress(Request $request)
     {
+        $subwayList = Subway::where('subway_name', 'like', "%{$request->search}%")->get();
 
-
-        // return $this->sendResponse($result, "주소 검색 결과값.");
+        return $this->sendResponse($subwayList, "주소 검색 결과값.");
     }
 }
