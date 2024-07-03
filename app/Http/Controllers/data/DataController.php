@@ -451,24 +451,38 @@ class DataController extends Controller
      */
     public function getTransactionsAptConnection()
     {
-        $aptList = DataApt::select()->get();
+        // $aptList = DataApt::select()->get();
 
-        foreach ($aptList as $index => $apt) {
+        // foreach ($aptList as $index => $apt) {
 
-            // 쉼표로 구분하여 배열로 변환
-            $transactionsList = Transactions::
-                // 시도+시군구 코드 비교
-                where('legalDongCityCode', substr($apt->bjdCode, 0, 5))
-                // 읍면동 비교
-                ->where('legalDong', $apt->as3)
+        //     // 쉼표로 구분하여 배열로 변환
+        //     $transactionsList = Transactions::
+        //         // 시도+시군구 코드 비교
+        //         where('legalDongCityCode', substr($apt->bjdCode, 0, 5))
 
-                // 아파트 단지명 비교
-                ->where(function ($query) use ($apt) {
-                    $query->where('aptName', 'like', "%{$apt->kaptName}%")
-                        ->orWhere(function ($subQuery) use ($apt) {
-                            $subQuery->whereRaw('FIND_IN_SET(transactions_apt.aptName, ?)', [$apt->complex_name]);
+        //         // 아파트 단지명 비교
+        //         ->where(function ($query) use ($apt) {
+        //             $query->where('aptName', 'like', "%{$apt->kaptName}%")
+        //                 ->orWhere(function ($subQuery) use ($apt) {
+        //                     $subQuery->whereRaw('FIND_IN_SET(transactions_apt.aptName, ?)', [$apt->complex_name]);
+        //                 });
+        //         })->update(['is_matching' => 1]);
+        // }
+
+        $transactionsList = Transactions::where('is_matching', '=', '0')->get();
+
+        foreach ($transactionsList as $index => $transaction) {
+            $apt = DataApt::whereRaw('LEFT(bjdCode, 5)', [substr($transaction->legalDongCityCode, 0, 5)])
+                ->where(function ($query) use ($transaction) {
+                    $query->where('kaptName', 'like', "%{$transaction->aptName}%")
+                        ->orWhere(function ($subQuery) use ($transaction) {
+                            $subQuery->whereRaw('FIND_IN_SET(?, transactions_apt.aptName)', [$transaction->aptName]);
                         });
-                })->update(['is_matching' => 1]);
+                })
+                ->first();
+            if (isset($apt)) {
+                Transactions::where('id', $transaction->id)->update(['is_matching' => 1]);
+            }
         }
 
         return back()->with('message', '아파트 실거래가가 연결되었습니다.');

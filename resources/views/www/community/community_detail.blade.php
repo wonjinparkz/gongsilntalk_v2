@@ -23,11 +23,11 @@
         </div>
         <div class="slide_modal_body">
             <div class="layer_share_con">
-                <a class="kakaotalk-sharing-btn">
+                <a class="kakaotalk-sharing-btn" onclick="modal_close_slide('share');">
                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                     <p class="mt8">카카오톡</p>
                 </a>
-                <a href="#">
+                <a onclick="textCopy('{!! url()->full() !!}');modal_close_slide('share');">
                     <img src="{{ asset('assets/media/share_ic_02.png') }}">
                     <p class="mt8">링크복사</p>
                 </a>
@@ -63,11 +63,11 @@
                                         class="md_btn_close btn_share">
                                 </div>
                                 <div class="layer_share_con">
-                                    <a class="kakaotalk-sharing-btn">
+                                    <a class="kakaotalk-sharing-btn" onclick="$('.md_btn_close').click();">
                                         <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                         <p class="mt8">카카오톡</p>
                                     </a>
-                                    <a href="#">
+                                    <a onclick="textCopy('{!! url()->full() !!}');$('.md_btn_close').click();">
                                         <img src="{{ asset('assets/media/share_ic_02.png') }}">
                                         <p class="mt8">링크복사</p>
                                     </a>
@@ -220,6 +220,13 @@
     <!-- modal 신고하기 : s -->
 
     <script>
+        // 주소 복사
+        var textCopy = (url) => {
+            window.navigator.clipboard.writeText(url).then(() => {
+                alert("링크가 복사 되었습니다.");
+            });
+        };
+
         function onCommunityReportSubmit() {
             $('#communityReportForm').submit();
         }

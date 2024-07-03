@@ -15,9 +15,11 @@
 </script>
 
 <script>
+    var miniMap;
+
     window.miniMap = function() {
         try {
-            const miniMap = new naver.maps.Map('minimap', {
+            miniMap = new naver.maps.Map('minimap', {
                 center: new naver.maps.LatLng({{ $result->address_lat }}, {{ $result->address_lng }}),
                 // center: new naver.maps.LatLng(37.48860419800877, 126.8880090781063),
                 zoom: 17,

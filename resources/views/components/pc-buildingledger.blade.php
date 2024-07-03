@@ -214,7 +214,10 @@
                     @php
                         $uniqueList = [];
                         foreach ($BrExposPubuseAreaInfo ?? [] as $info) {
-                            $key = $info['dongNm'] . ' ' . $info['hoNm'];
+                            $key =
+                                (isset($info['dongNm']) && $info['dongNm'] !== '' ? '단일' : $info['dongNm']) .
+                                ' ' .
+                                $info['hoNm'];
                             if (!isset($uniqueList[$key])) {
                                 $uniqueList[$key] = $info;
                             }
@@ -223,9 +226,11 @@
                     @endphp
                     @if (count($BrExposPubuseAreaInfoArray) > 0)
                         @foreach ($BrExposPubuseAreaInfoArray as $info)
-                            <li class="optionItem {{ $info['dongNm'] }} ">
-                            {{-- <li class="optionItem {{ $info['dongNm'] }} dongInfo"> --}}
-                                {{ $info['dongNm'] }} - {{ $info['hoNm'] }}
+                            <li
+                                class="optionItem {{ isset($info['dongNm']) && $info['dongNm'] !== '' ? '단일' : $info['dongNm'] }} ">
+                                {{-- <li class="optionItem {{ $info['dongNm'] }} dongInfo"> --}}
+                                {{ isset($info['dongNm']) && $info['dongNm'] !== '' ? '' : $info['dongNm'] . ' - ' }}
+                                {{ $info['hoNm'] }}
                             </li>
                         @endforeach
                     @endif
@@ -252,10 +257,13 @@
                     <tbody class="">
                         @if (count($BrExposPubuseAreaInfo) > 0)
                             @foreach ($BrExposPubuseAreaInfo as $info)
-                                <tr class="{{ $info['dongNm'] }} ">
-                                {{-- <tr class="{{ $info['dongNm'] }} dongInfo"> --}}
+                                {{ Log::info($info) }}
+                                <tr
+                                    class="{{ isset($info['dongNm']) && $info['dongNm'] !== '' ? '단일' : $info['dongNm'] }}">
+                                    {{-- <tr class="{{ $info['dongNm'] }} dongInfo"> --}}
                                     <td>{{ $info['exposPubuseGbCdNm'] }}</td>
-                                    <td>{{ $info['flrNoNm'] }}</td>
+                                    <td>{{ isset($info['dongNm']) && $info['dongNm'] !== '' ? '' : $info['dongNm'] }}
+                                    </td>
                                     <td>{{ $info['mainPurpsCdNm'] }}</td>
                                     <td>{{ $info['mainAtchGbCdNm'] }}</td>
                                     <td>{{ $info['area'] }}㎡</td>

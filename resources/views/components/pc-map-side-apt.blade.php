@@ -416,6 +416,72 @@
                                             </div>
                                         </div>
                                     @endif
+
+                                    <div class="chart_wrap">
+                                        <div class="chart_top">
+                                            <p>기간 : 전체</p>
+                                        </div>
+                                        <div id="container2" style="height: 200px;"></div>
+                                    </div>
+                                    <script type="text/javascript">
+                                        Highcharts.chart('container2', {
+                                            colors: ['#F16341'],
+                                            title: {
+                                                text: ''
+                                            },
+                                            yAxis: {
+                                                title: {
+                                                    text: ''
+                                                }
+                                            },
+
+                                            xAxis: {
+                                                categories: ['2021', '2022', '2023', '2024']
+                                            },
+
+                                            legend: {
+                                                enabled: false
+                                            },
+
+                                            plotOptions: {
+                                                series: {
+                                                    label: {
+                                                        connectorAllowed: false
+                                                    },
+                                                    marker: {
+                                                        fillColor: '#fff',
+                                                        lineWidth: 2,
+                                                        lineColor: '#F16341',
+                                                    },
+                                                    pointStart: 2021
+                                                }
+                                            },
+
+                                            series: [{
+                                                name: '2023년 2월, 2건<br>',
+                                                data: [
+                                                    400000000, 380000000, 300000000, 350000000, 420000000
+                                                ]
+                                            }, ],
+
+                                            responsive: {
+                                                rules: [{
+                                                    condition: {
+                                                        maxWidth: 500
+                                                    },
+                                                    chartOptions: {
+                                                        legend: {
+                                                            layout: 'horizontal',
+                                                            align: 'center',
+                                                            verticalAlign: 'bottom'
+                                                        }
+                                                    }
+                                                }]
+                                            }
+
+                                        });
+                                    </script>
+
                                     <div class="section_price_wrap mt20">
                                         <div class="default_box showstep1">
                                             <table class="table_type_1">
@@ -598,12 +664,12 @@
         $(".tab_sm_wrap > div").hide();
         $(".tab_sm_wrap > div").first().show();
         $(".tab_sm_menu li").click(function() {
-        var list = $(this).index();
-        $(".tab_sm_menu li").removeClass("active");
-        $(this).addClass("active");
+            var list = $(this).index();
+            $(".tab_sm_menu li").removeClass("active");
+            $(this).addClass("active");
 
-        $(".tab_sm_wrap > div").hide();
-        $(".tab_sm_wrap > div").eq(list).show();
+            $(".tab_sm_wrap > div").hide();
+            $(".tab_sm_wrap > div").eq(list).show();
         });
     });
 </script>

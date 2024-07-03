@@ -33,11 +33,11 @@
             </div>
             <div class="slide_modal_body">
                 <div class="layer_share_con">
-                    <a class="kakaotalk-sharing-btn">
+                    <a class="kakaotalk-sharing-btn" onclick="modal_close_slide('share');">
                         <img src="{{ asset('assets/media/share_ic_01.png') }}">
                         <p class="mt8">카카오톡</p>
                     </a>
-                    <a href="#">
+                    <a onclick="textCopy('{!! url()->full() !!}');modal_close_slide('share');">
                         <img src="{{ asset('assets/media/share_ic_02.png') }}">
                         <p class="mt8">링크복사</p>
                     </a>
@@ -72,11 +72,11 @@
                             <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close btn_share">
                         </div>
                         <div class="layer_share_con">
-                            <a class="kakaotalk-sharing-btn">
+                            <a class="kakaotalk-sharing-btn" onclick="$('.md_btn_close').click();">
                                 <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                 <p class="mt8">카카오톡</p>
                             </a>
-                            <a href="#">
+                            <a onclick="textCopy('{!! url()->full() !!}');$('.md_btn_close').click();">
                                 <img src="{{ asset('assets/media/share_ic_02.png') }}">
                                 <p class="mt8">링크복사</p>
                             </a>
@@ -372,7 +372,8 @@
 
                 <div class="sales_address_info">
                     <div class="txt_sales_address">{{ $result->address }}</div>
-                    <button class="btn_gray_ghost btn_sm only_pc"type="button" onclick="textCopy();">주소복사</button>
+                    <button class="btn_gray_ghost btn_sm only_pc"type="button"
+                        onclick="textCopy('{{ $result->address }}');">주소복사</button>
                 </div>
 
                 <div class="sales_map_wrap">
@@ -381,7 +382,8 @@
                 </div>
 
                 <div class="m_address_btn only_m">
-                    <button class="btn_gray_ghost btn_sm" type="button" onclick="textCopy();">주소복사</button>
+                    <button class="btn_gray_ghost btn_sm" type="button"
+                        onclick="textCopy('{{ $result->address }}');">주소복사</button>
                 </div>
             </section>
         </div>
@@ -481,8 +483,8 @@
         }
 
         // 주소 복사
-        var textCopy = () => {
-            window.navigator.clipboard.writeText('{{ $result->address }}').then(() => {
+        var textCopy = (url) => {
+            window.navigator.clipboard.writeText(url).then(() => {
                 alert("주소가 복사 되었습니다.");
             });
         };

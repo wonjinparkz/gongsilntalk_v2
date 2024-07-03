@@ -38,7 +38,7 @@
                         <label class="col-lg-3 col-form-label fw-semibold fs-6">법정동코드</label>
                         <div class="col-lg-8 fv-row">
                             <input type="text" disabled class="form-control form-control-solid" placeholder="법정동코드"
-                                value="{{ $result->kaptCode }}" />
+                                value="{{ $result->bjdCode }}" />
                         </div>
                     </div>
 
