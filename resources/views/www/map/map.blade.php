@@ -31,7 +31,9 @@
                     <button><img src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button>
                 </div>
             </div>
-            <div class="flex_between dropdown_search" style="display:;" id="searchList">
+
+            {{-- 검색어 리스트 나와야하는 부분 --}}
+            {{-- <div class="flex_between dropdown_search" style="display:;" id="searchList">
                 <ul class="optionList" id="searchOptionList">
                     <li class="optionItem" onclick="">
                         123123
@@ -46,9 +48,9 @@
                         123123
                     </li>
                 </ul>
-            </div>
+            </div> --}}
 
-            <div class="suggestion " style="display:;">
+            {{-- <div class="suggestion " style="display:;">
                 <div class="suggestion-block">
                     <div class="title-group">
                         <h3 class="title">최근 방문</h3>
@@ -58,7 +60,7 @@
                 </div>
                 <div><a href="#" class="btn-remove-history" data-ga-event="search,removeHistory">최근 방문기록 삭제</a>
                 </div>
-            </div>
+            </div> --}}
 
 
             <script>

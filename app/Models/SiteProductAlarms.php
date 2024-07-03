@@ -19,6 +19,7 @@ class SiteProductAlarms extends BaseModel
      * Fillable
      */
     protected $fillable = [
+        'id',
         'users_id',
         'site_product_id',
     ];

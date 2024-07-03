@@ -54,7 +54,7 @@ class SiteProductPcController extends Controller
     public function siteProductDetailView($id): View
     {
         $result = SiteProduct::with('images', 'edu_images', 'files', 'dongInfo', 'premiumInfo')
-            ->select('site_product.*', 'site_product_alarms.id AS alarm_id');
+            ->select('site_product.*');
 
         if (Auth::guard('web')->user() != null) {
             $result->like('site_product', Auth::guard('web')->user()->id ?? "");
@@ -64,6 +64,7 @@ class SiteProductPcController extends Controller
                 $alarm->on('site_product.id', '=', 'site_product_alarms.site_product_id')
                     ->where('site_product_alarms.users_id', '=', Auth::guard('web')->user()->id ?? "");
             });
+            $result->addSelect('site_product_alarms.id AS alarm_id');
         }
 
         $result = $result->where('site_product.id', $id)->first();
