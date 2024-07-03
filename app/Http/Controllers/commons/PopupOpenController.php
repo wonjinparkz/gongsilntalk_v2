@@ -27,4 +27,14 @@ class PopupOpenController extends Controller
         $result = $request;
         return view('address.jusoPopupRedirect', compact('result'));
     }
+
+    /**
+     *  주소 검색
+     */
+    public function searchAddress(Request $request)
+    {
+
+
+        // return $this->sendResponse($result, "주소 검색 결과값.");
+    }
 }

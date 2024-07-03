@@ -1043,4 +1043,8 @@
             });
         }
     }
+
+    $('#search_input').on('keyup', function(e) {
+        console.log('search_input');
+    });
 </script>
