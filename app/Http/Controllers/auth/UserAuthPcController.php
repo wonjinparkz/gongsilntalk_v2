@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 
 class UserAuthPcController extends Controller
@@ -142,6 +143,10 @@ class UserAuthPcController extends Controller
         } else if ($user->state == 2) {
             return redirect(route('www.login.login'))
                 ->withErrors('탈퇴한 사용자 입니다.')
+                ->withInput();
+        } else if ($user->state == 3) {
+            return redirect(route('www.login.login'))
+                ->withErrors('계약을 해지한 중개사 입니다.')
                 ->withInput();
         }
 
@@ -417,8 +422,16 @@ class UserAuthPcController extends Controller
     /**
      * 카카오 로그인
      */
-    public function kakaoLogin()
+    public function kakaoLogin(Request $request)
     {
+        Session::forget('fcm_key');
+        Session::forget('device_type');
+
+        if ($request->fcm_key != '' && $request->device_type != '') {
+            Session::put('fcm_key', $request->fcm_key);
+            Session::put('device_type', $request->device_type);
+        }
+
         return Socialite::driver('kakao')->redirect();
     }
 
@@ -433,15 +446,40 @@ class UserAuthPcController extends Controller
             $user = User::select()->where('token', $kakao->id)->where('provider', 'K')->first();
 
             if ($user != null) { // 로그인 후 메인 화면으로 이동
-                // if ($user->state == 0) {
-                //     return redirect(route('www.login.login'))
-                //         ->withErrors('탈퇴한 회원입니다.')
-                //         ->withInput();
-                // } else if ($user->state == 2) {
-                //     return redirect(route('www.login.login'))
-                //         ->withErrors('관리자에 의해 사용 불가능한 회원입니다.')
-                //         ->withInput();
-                // }
+                if ($user->state == 1) {
+                    return redirect(route('www.login.login'))
+                        ->withErrors('관리자에 의해 사용 불가능한 회원입니다.')
+                        ->withInput();
+                } else if ($user->state == 2) {
+                    return redirect(route('www.login.login'))
+                        ->withErrors('탈퇴한 회원입니다.')
+                        ->withInput();
+                }
+
+                $fcm_key = Session::get('fcm_key');
+                $device_type = Session::get('device_type');
+
+                Session::forget('fcm_key');
+                Session::forget('device_type');
+
+                // 업데이트할 데이터 배열 초기화
+                $updateArray = [];
+
+                // device_type이 전달된 경우
+                if ($$device_type != '') {
+                    $updateArray['device_type'] = $$device_type;
+                }
+
+                // fcm_key가 전달된 경우
+                if ($$fcm_key != '') {
+                    $updateArray['fcm_key'] = $$fcm_key;
+                }
+
+                // 항상 업데이트할 필드
+                $updateArray['last_used_at'] = Carbon::now();
+
+                // 사용자 정보 업데이트
+                $user->update($updateArray);
 
                 Auth::guard('web')->login($user);
 
@@ -460,6 +498,14 @@ class UserAuthPcController extends Controller
      */
     public function naverLogin(Request $request)
     {
+        Session::forget('fcm_key');
+        Session::forget('device_type');
+
+        if ($request->fcm_key != '' && $request->device_type != '') {
+            Session::put('fcm_key', $request->fcm_key);
+            Session::put('device_type', $request->device_type);
+        }
+
         return Socialite::driver('naver')->redirect();
     }
 
@@ -474,15 +520,41 @@ class UserAuthPcController extends Controller
             $user = User::select()->where('token', $naver->id)->where('provider', 'N')->first();
 
             if ($user != null) { // 로그인 후 메인 화면으로 이동
-                // if ($user->state == 0) {
-                //     return redirect(route('www.login.login'))
-                //         ->withErrors('탈퇴한 회원입니다.')
-                //         ->withInput();
-                // } else if ($user->state == 2) {
-                //     return redirect(route('www.login.login'))
-                //         ->withErrors('관리자에 의해 사용 불가능한 회원입니다.')
-                //         ->withInput();
-                // }
+                if ($user->state == 1) {
+                    return redirect(route('www.login.login'))
+                        ->withErrors('관리자에 의해 사용 불가능한 회원입니다.')
+                        ->withInput();
+                } else if ($user->state == 2) {
+                    return redirect(route('www.login.login'))
+                        ->withErrors('탈퇴한 회원입니다.')
+                        ->withInput();
+                }
+
+                $fcm_key = Session::get('fcm_key');
+                $device_type = Session::get('device_type');
+
+                Session::forget('fcm_key');
+                Session::forget('device_type');
+
+                // 업데이트할 데이터 배열 초기화
+                $updateArray = [];
+
+                // device_type이 전달된 경우
+                if ($$device_type != '') {
+                    $updateArray['device_type'] = $$device_type;
+                }
+
+                // fcm_key가 전달된 경우
+                if ($$fcm_key != '') {
+                    $updateArray['fcm_key'] = $$fcm_key;
+                }
+
+                // 항상 업데이트할 필드
+                $updateArray['last_used_at'] = Carbon::now();
+
+                // 사용자 정보 업데이트
+                $user->update($updateArray);
+
 
                 Auth::guard('web')->login($user);
                 return Redirect::route('www.main.main');
@@ -499,6 +571,13 @@ class UserAuthPcController extends Controller
      */
     public function appleLogin(Request $request)
     {
+        Session::forget('fcm_key');
+        Session::forget('device_type');
+
+        if ($request->fcm_key != '' && $request->device_type != '') {
+            Session::put('fcm_key', $request->fcm_key);
+            Session::put('device_type', $request->device_type);
+        }
         return Socialite::driver('apple')->redirect();
     }
 
@@ -513,15 +592,40 @@ class UserAuthPcController extends Controller
             $user = User::select()->where('token', $naver->id)->where('provider', 'A')->first();
 
             if ($user != null) { // 로그인 후 메인 화면으로 이동
-                if ($user->state == 0) {
-                    return redirect(route('www.login.login'))
-                        ->withErrors('탈퇴한 회원입니다.')
-                        ->withInput();
-                } else if ($user->state == 2) {
+                if ($user->state == 1) {
                     return redirect(route('www.login.login'))
                         ->withErrors('관리자에 의해 사용 불가능한 회원입니다.')
                         ->withInput();
+                } else if ($user->state == 2) {
+                    return redirect(route('www.login.login'))
+                        ->withErrors('탈퇴한 회원입니다.')
+                        ->withInput();
                 }
+
+                $fcm_key = Session::get('fcm_key');
+                $device_type = Session::get('device_type');
+
+                Session::forget('fcm_key');
+                Session::forget('device_type');
+
+                // 업데이트할 데이터 배열 초기화
+                $updateArray = [];
+
+                // device_type이 전달된 경우
+                if ($$device_type != '') {
+                    $updateArray['device_type'] = $$device_type;
+                }
+
+                // fcm_key가 전달된 경우
+                if ($$fcm_key != '') {
+                    $updateArray['fcm_key'] = $$fcm_key;
+                }
+
+                // 항상 업데이트할 필드
+                $updateArray['last_used_at'] = Carbon::now();
+
+                // 사용자 정보 업데이트
+                $user->update($updateArray);
 
                 Auth::guard('web')->login($user);
                 return Redirect::route('www.main.main');
