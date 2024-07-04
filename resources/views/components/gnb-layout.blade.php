@@ -92,45 +92,48 @@
 
 <script>
     // 본인인증 모듈 실행
-    function verificationstart() {
+    @guest
+    @else
+        function verificationstart() {
 
-        IMP.init("{{ env('IMP_CODE') }}");
-        IMP.certification({ // param
-            // 주문 번호
-            // pg: 'PG사코드.{CPID}', //본인인증 설정이 2개이상 되어 있는 경우 필
-            merchant_uid: "MIIiasTest",
-            popup: true
-        }, function(rsp) { // callback
-            if (rsp.success) { // 인증 성공
-                console.log(rsp);
-                jQuery.ajax({
-                        url: "{{ route('www.verification.result') }}",
-                        method: "get",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        data: {
-                            imp_uid: rsp.imp_uid,
-                            success: rsp.success,
-                            merchant_uid: rsp.merchant_uid,
-                        }
-                    }).done(function(data) {
-                        // console.log(json_decode(data));
-                        // console.log();
-                        $("#verificat").html(data);
-                        $("#confirm").attr('onclick', '').unbind('click');
-                        button_active();
-                    })
-                    .fail(function(jqXHR, ajaxOptions, thrownError) {
-                        console.log(thrownError);
-                        alert('다시 시도해주세요.', "확인");
-                    });
+            IMP.init("{{ env('IMP_CODE') }}");
+            IMP.certification({ // param
+                // 주문 번호
+                // pg: 'PG사코드.{CPID}', //본인인증 설정이 2개이상 되어 있는 경우 필
+                merchant_uid: "MIIiasTest",
+                popup: true
+            }, function(rsp) { // callback
+                if (rsp.success) { // 인증 성공
+                    console.log(rsp);
+                    jQuery.ajax({
+                            url: "{{ route('www.verification.result') }}",
+                            method: "get",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            data: {
+                                imp_uid: rsp.imp_uid,
+                                success: rsp.success,
+                                merchant_uid: rsp.merchant_uid,
+                            }
+                        }).done(function(data) {
+                            // console.log(json_decode(data));
+                            // console.log();
+                            $("#verificat").html(data);
+                            $("#confirm").attr('onclick', '').unbind('click');
+                            button_active();
+                        })
+                        .fail(function(jqXHR, ajaxOptions, thrownError) {
+                            console.log(thrownError);
+                            alert('다시 시도해주세요.', "확인");
+                        });
 
-            } else { // 인증 실패
+                } else { // 인증 실패
 
-            }
-        });
-    }
+                }
+            });
+        }
+    @endguest
 
     function add_info() {
         var formData = $("#form").serialize();

@@ -8,8 +8,8 @@
                     <form class="form" name="login" id="login" method="POST"
                         action="{{ route('www.login.create') }}">
                         @csrf
-                        <input type="hidden" name="fcm_key" id="fcm_key" value="">
-                        <input type="hidden" name="device_type" id="device_type" value="">
+                        <input type="hidden" name="fcm_key" value="">
+                        <input type="hidden" name="device_type" value="">
 
                         <ul class="login_wrap">
                             <li>
@@ -31,13 +31,13 @@
                     </form>
 
                     <div class="ss_login">
-                        <a href="{{ route('www.login.apple') }}">
+                        {{-- <a onclick="form_sns_login('{{ route('www.login.apple') }}');">
                             <img src="{{ asset('assets/media/btn_ss_1.png') }}" alt="애플로그인">
-                        </a>
-                        <a href="{{ route('www.login.kakao') }}">
+                        </a> --}}
+                        <a onclick="form_sns_login('{{ route('www.login.kakao') }}');">
                             <img src="{{ asset('assets/media/btn_ss_2.png') }}" alt="카카오로그인">
                         </a>
-                        <a href="{{ route('www.login.naver') }}">
+                        <a onclick="form_sns_login('{{ route('www.login.naver') }}');">
                             <img src="{{ asset('assets/media/btn_ss_3.png') }}" alt="네이버로그인">
                         </a>
                     </div>
@@ -134,26 +134,39 @@
             <input type="hidden" id="passwordUser" name="passwordUser" value=''>
         </form>
 
+        <form class="form" name="sns_login" id="sns_login" method="GET" action="">
+            <input type="hidden" name="fcm_key" value="">
+            <input type="hidden" name="device_type" value="">
+
+        </form>
+
     </x-layout>
 </body>
 
 <script>
-    // 받아오기 성공 데이터 처리
-    function responseToken(fcm_key, device_type) {
-        if (fcm_key && device_type) {
-            $('#fcm_key').val(fcm_key);
-            $('#device_type').val(device_type);
-        }
-    }
+    $(document).ready(function() {
 
-    if (isMobile.any()) {
-        if (isMobile.Android()) {
-            window.rocateer.requestToken();
-        } else if (isMobile.iOS()) {
-            webkit.messageHandlers.requestToken.postMessage();
+        // 받아오기 성공 데이터 처리
+        function responseToken(fcm_key, device_type) {
+            if (fcm_key && device_type) {
+                $('input[name="fcm_key"]').val(fcm_key);
+                $('input[name="device_type"]').val(device_type);
+            }
         }
-    }
 
+        if (isMobile.any()) {
+            if (isMobile.Android()) {
+                window.rocateer.requestToken();
+            } else if (isMobile.iOS()) {
+                webkit.messageHandlers.requestToken.postMessage();
+            }
+        }
+
+    });
+
+    function form_sns_login(sns_url) {
+        $('#sns_login').attr('action', sns_url).submit();
+    }
 
     $('input[name="change_password"]').change(function() {
         passwordInputCheck2();
