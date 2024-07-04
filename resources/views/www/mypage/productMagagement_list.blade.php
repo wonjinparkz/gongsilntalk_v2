@@ -2,10 +2,15 @@
 
     <!-- m::header bar : s -->
     <div class="m_header">
-        <div class="left_area"></div>
+        <div class="left_area">
+            <a href="javascript:history.go(-1)">
+                <img src="http://localhost/assets/media/header_btn_back.png"></a>
+        </div>
         <div class="m_title">마이페이지</div>
-        <div class="right_area"><a href="javascript:history.go(-1)"><img
-                    src="{{ asset('assets/media/header_btn_alarm.png') }}"></a></div>
+        <div class="right_area">
+            <a href="{{ route('www.mypage.alarm.list.view') }}">
+                <img src="{{ asset('assets/media/header_btn_alarm.png') }}"></a>
+        </div>
     </div>
     <!-- m::header bar : s -->
 
