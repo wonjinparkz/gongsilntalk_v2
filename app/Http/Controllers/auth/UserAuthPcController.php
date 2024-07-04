@@ -175,6 +175,8 @@ class UserAuthPcController extends Controller
             $updateArray['fcm_key'] = $request->fcm_key;
         }
 
+        Log::info($updateArray);
+
         // 항상 업데이트할 필드
         $updateArray['last_used_at'] = Carbon::now();
 
