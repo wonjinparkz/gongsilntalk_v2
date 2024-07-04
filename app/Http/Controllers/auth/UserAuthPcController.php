@@ -103,6 +103,8 @@ class UserAuthPcController extends Controller
      */
     public function login(PcLoginRequest $request): RedirectResponse
     {
+        Log::info($request->all());
+
         $validator = Validator::make($request->all(), [
             'email' => "required|email",
             'password' => 'required',
@@ -153,6 +155,14 @@ class UserAuthPcController extends Controller
                     ->withInput();
             }
         }
+
+
+        // 사용자 정보 업데이트
+        // $user->update([
+        //     'device_type' => $request->device_type,
+        //     'fcm_key' => $request->fcm_key,
+        //     'last_used_at' => Carbon::now()
+        // ]);
 
         $request->authenticate();
         $request->session()->regenerate();
