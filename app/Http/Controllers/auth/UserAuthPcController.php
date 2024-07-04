@@ -157,13 +157,24 @@ class UserAuthPcController extends Controller
             }
         }
 
+        // 업데이트할 데이터 배열 초기화
+        $updateArray = [];
+
+        // device_type이 전달된 경우
+        if ($request->device_type != '') {
+            $updateArray['device_type'] = $request->device_type;
+        }
+
+        // fcm_key가 전달된 경우
+        if ($request->fcm_key != '') {
+            $updateArray['fcm_key'] = $request->fcm_key;
+        }
+
+        // 항상 업데이트할 필드
+        $updateArray['last_used_at'] = Carbon::now();
 
         // 사용자 정보 업데이트
-        // $user->update([
-        //     'device_type' => $request->device_type,
-        //     'fcm_key' => $request->fcm_key,
-        //     'last_used_at' => Carbon::now()
-        // ]);
+        $user->update($updateArray);
 
         $request->authenticate();
         $request->session()->regenerate();

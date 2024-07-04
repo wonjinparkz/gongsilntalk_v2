@@ -88,11 +88,14 @@
                             src="{{ asset('assets/media/header_logo.png') }}" alt="공실앤톡 로고"></a></div>
                 <!-- <div class="m_title">홈</div> -->
                 <div class="right_area">
-                    <a href="#">
-                        <div class="user_profileImg">
-                            <div class="img_box"><img src="{{ asset('assets/media/s_3.png') }}"></div>
-                        </div>
-                    </a>
+                    @guest
+                    @else
+                        <a>
+                            <div class="user_profileImg">
+                                <div class="img_box"><img src="{{ asset('assets/media/default_user.png') }}"></div>
+                            </div>
+                        </a>
+                    @endguest
                 </div>
             </div>
             <!-- m::header bar : s -->
@@ -235,8 +238,10 @@
                                 </div>
                             </div>
                             <div class="main_2_btn">
-                                <div class="swiper-button-prev"><img src="{{ asset('assets/media/bn_arrow_prev.png') }}" alt=""></div>
-                                <div class="swiper-button-next"><img src="{{ asset('assets/media/bn_arrow_next.png') }}" alt=""></div>
+                                <div class="swiper-button-prev"><img
+                                        src="{{ asset('assets/media/bn_arrow_prev.png') }}" alt=""></div>
+                                <div class="swiper-button-next"><img
+                                        src="{{ asset('assets/media/bn_arrow_next.png') }}" alt=""></div>
                             </div>
                             <div class="swiper-pagination"></div>
                         </div>

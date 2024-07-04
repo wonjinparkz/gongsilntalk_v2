@@ -138,9 +138,12 @@
 </body>
 
 <script>
-
-    function responseToken(token, type) {
-        alert('token' + token + '\n' + 'type : ' + type);
+    // 받아오기 성공 데이터 처리
+    function responseToken(fcm_key, device_type) {
+        if (fcm_key && device_type) {
+            $('#fcm_key').val(fcm_key);
+            $('#device_type').val(device_type);
+        }
     }
 
     if (isMobile.any()) {
