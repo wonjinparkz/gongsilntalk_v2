@@ -138,6 +138,11 @@
 </body>
 
 <script>
+
+    function responseToken(token, type) {
+        alert('token' + token + '\n' + 'type : ' + type);
+    }
+
     if (isMobile.any()) {
         if (isMobile.Android()) {
             window.rocateer.requestToken();
@@ -146,9 +151,6 @@
         }
     }
 
-    function responseToken(token, type) {
-        alert('token', token + '\n' + 'type : ', type);
-    }
 
     $('input[name="change_password"]').change(function() {
         passwordInputCheck2();
