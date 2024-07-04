@@ -8,6 +8,9 @@
                     <form class="form" name="login" id="login" method="POST"
                         action="{{ route('www.login.create') }}">
                         @csrf
+                        <input type="hidden" name="fcm_key" id="fcm_key" value="">
+                        <input type="hidden" name="device_type" id="device_type" value="">
+
                         <ul class="login_wrap">
                             <li>
                                 <input name="email" id="email" type="text" placeholder="이메일을 입력해주세요.">
@@ -135,6 +138,18 @@
 </body>
 
 <script>
+    if (isMobile.any()) {
+        if (isMobile.Android()) {
+            window.rocateer.requestToken();
+        } else if (isMobile.iOS()) {
+            webkit.messageHandlers.requestToken.postMessage();
+        }
+    }
+
+    function resposeToken(token, type) {
+        alert('token', token + '\n' + 'type : ', type);
+    }
+
     $('input[name="change_password"]').change(function() {
         passwordInputCheck2();
     })
