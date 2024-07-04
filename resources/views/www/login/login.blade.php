@@ -146,7 +146,7 @@
         }
     }
 
-    function resposeToken(token, type) {
+    function responseToken(token, type) {
         alert('token', token + '\n' + 'type : ', type);
     }
 
