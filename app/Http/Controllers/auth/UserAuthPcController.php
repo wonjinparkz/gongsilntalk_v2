@@ -466,13 +466,13 @@ class UserAuthPcController extends Controller
                 $updateArray = [];
 
                 // device_type이 전달된 경우
-                if ($$device_type != '') {
-                    $updateArray['device_type'] = $$device_type;
+                if ($device_type != '') {
+                    $updateArray['device_type'] = $device_type;
                 }
 
                 // fcm_key가 전달된 경우
-                if ($$fcm_key != '') {
-                    $updateArray['fcm_key'] = $$fcm_key;
+                if ($fcm_key != '') {
+                    $updateArray['fcm_key'] = $fcm_key;
                 }
 
                 // 항상 업데이트할 필드
@@ -540,13 +540,13 @@ class UserAuthPcController extends Controller
                 $updateArray = [];
 
                 // device_type이 전달된 경우
-                if ($$device_type != '') {
-                    $updateArray['device_type'] = $$device_type;
+                if ($device_type != '') {
+                    $updateArray['device_type'] = $device_type;
                 }
 
                 // fcm_key가 전달된 경우
-                if ($$fcm_key != '') {
-                    $updateArray['fcm_key'] = $$fcm_key;
+                if ($fcm_key != '') {
+                    $updateArray['fcm_key'] = $fcm_key;
                 }
 
                 // 항상 업데이트할 필드
@@ -612,13 +612,13 @@ class UserAuthPcController extends Controller
                 $updateArray = [];
 
                 // device_type이 전달된 경우
-                if ($$device_type != '') {
-                    $updateArray['device_type'] = $$device_type;
+                if ($device_type != '') {
+                    $updateArray['device_type'] = $device_type;
                 }
 
                 // fcm_key가 전달된 경우
-                if ($$fcm_key != '') {
-                    $updateArray['fcm_key'] = $$fcm_key;
+                if ($fcm_key != '') {
+                    $updateArray['fcm_key'] = $fcm_key;
                 }
 
                 // 항상 업데이트할 필드
