@@ -49,4 +49,8 @@ return [
         'redirect' => env('APPLE_REDIRECT_URI')
     ],
 
+    'firebase' => [
+        'credentials_file' => env('FIREBASE_CREDENTIALS'),
+    ],
+
 ];
