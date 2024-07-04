@@ -472,15 +472,15 @@ class DataController extends Controller
         $transactionsList = Transactions::where('is_matching', '=', '0')->get();
 
         foreach ($transactionsList as $index => $transaction) {
-            $apt = DataApt::whereRaw('LEFT(bjdCode, 5)', [substr($transaction->legalDongCityCode, 0, 5)])
+            $apt = DataApt::where('bjdCode', 'like', "{$transaction->legalDongCityCode}%")
                 ->where(function ($query) use ($transaction) {
                     $query->where('kaptName', 'like', "%{$transaction->aptName}%")
                         ->orWhere(function ($subQuery) use ($transaction) {
-                            $subQuery->whereRaw('FIND_IN_SET(?, transactions_apt.aptName)', [$transaction->aptName]);
+                            $subQuery->whereRaw('FIND_IN_SET(?, data_apt.kaptName)', [$transaction->aptName]);
                         });
                 })
                 ->first();
-            if (isset($apt)) {
+            if ($apt) {
                 Transactions::where('id', $transaction->id)->update(['is_matching' => 1]);
             }
         }
