@@ -103,7 +103,8 @@ class UserAuthPcController extends Controller
      */
     public function login(PcLoginRequest $request): RedirectResponse
     {
-        Log::info($request->all());
+        Log::info($request->device_type);
+        Log::info($request->fcm_key);
 
         $validator = Validator::make($request->all(), [
             'email' => "required|email",
