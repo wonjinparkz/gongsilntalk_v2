@@ -7,6 +7,7 @@ use App\Models\Alarms;
 use App\Models\SiteProduct;
 use App\Models\SiteProductAlarms;
 use App\Models\SiteProductSchedule;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -70,6 +71,7 @@ class SiteProductAlarmPcController extends Controller
                 $productTitle = $alarm->product_title;
                 $scheduleTitle = $alarm->schedule_title;
 
+
                 Alarms::Create([
                     'users_id' => $alarm->users_id,
                     'title' => $productTitle . '의 ' . $scheduleTitle . '입니다.',
@@ -78,6 +80,24 @@ class SiteProductAlarmPcController extends Controller
                     'body' => 'body',
                     'msg' => 'msg'
                 ]);
+
+
+                $data = [
+                    'title' => env('APP_NAME'),
+                    'body' => $productTitle . '의 ' . $scheduleTitle . '입니다.',
+                    'index' => intval(101),
+                    'id' => intval($alarm->site_product_id)
+                ];
+
+                $user = User::where('id', $alarm->users_id)->where('state', 0)->first();
+
+                if ($user->device_type == "1") {
+                    array_push($androidTokens, $user->fcm_key);
+                } else if ($user->device_type == "2") {
+                    array_push($iosTokens, $user->fcm_key);
+                }
+
+                $this->sendAlarm($iosTokens, $androidTokens, $data);
             }
         }
     }
@@ -115,6 +135,23 @@ class SiteProductAlarmPcController extends Controller
                     'body' => 'body',
                     'msg' => 'msg'
                 ]);
+
+                $data = [
+                    'title' => env('APP_NAME'),
+                    'body' => $productTitle . '의 ' . $scheduleTitle . '입니다.',
+                    'index' => intval(101),
+                    'id' => intval($alarm->site_product_id)
+                ];
+
+                $user = User::where('id', $alarm->users_id)->where('state', 0)->first();
+
+                if ($user->device_type == "1") {
+                    array_push($androidTokens, $user->fcm_key);
+                } else if ($user->device_type == "2") {
+                    array_push($iosTokens, $user->fcm_key);
+                }
+
+                $this->sendAlarm($iosTokens, $androidTokens, $data);
             }
         }
     }
@@ -152,6 +189,23 @@ class SiteProductAlarmPcController extends Controller
                     'body' => 'body',
                     'msg' => 'msg'
                 ]);
+
+                $data = [
+                    'title' => env('APP_NAME'),
+                    'body' => $productTitle . '의 ' . $scheduleTitle . '입니다.',
+                    'index' => intval(101),
+                    'id' => intval($alarm->site_product_id)
+                ];
+
+                $user = User::where('id', $alarm->users_id)->where('state', 0)->first();
+
+                if ($user->device_type == "1") {
+                    array_push($androidTokens, $user->fcm_key);
+                } else if ($user->device_type == "2") {
+                    array_push($iosTokens, $user->fcm_key);
+                }
+
+                $this->sendAlarm($iosTokens, $androidTokens, $data);
             }
         }
     }
