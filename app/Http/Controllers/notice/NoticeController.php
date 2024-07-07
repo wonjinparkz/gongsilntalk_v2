@@ -109,18 +109,37 @@ class NoticeController extends Controller
 
         $this->imageWithCreate($request->notice_image_ids, Notice::class, $result->id);
 
-        $userList = User::where('state', 0)->get();
+        $userList = User::where('state', 0)->whereNotNull('fcm_key')->get();
 
         foreach ($userList as $user) {
+            $androidTokens = [];
+            $iosTokens = [];
+
+            $data = [
+                'title' => env('APP_NAME'),
+                'body' => '새로운 공지사항이 작성 되었습니다.',
+                'index' => intval(106),
+                'id' => intval($result->id)
+            ];
+
             Alarms::Create([
                 'users_id' => $user->id,
-                'title' => '새로운 공지사항이 작성 되었습니다.',
+                'title' => $data['body'],
                 'index' => '106',
-                'target_id' => $result->id,
+                'target_id' => $data['id'],
                 'body' => 'body',
                 'msg' => 'msg'
             ]);
+
+            if ($user->device_type == "1") {
+                array_push($androidTokens, $user->fcm_key);
+            } else if ($user->device_type == "2") {
+                array_push($iosTokens, $user->fcm_key);
+            }
+
+            $this->sendAlarm($iosTokens, $androidTokens, $data);
         }
+
 
         return Redirect::route('admin.notice.list.view')->with('message', '공지사항을 등록했습니다.');
     }

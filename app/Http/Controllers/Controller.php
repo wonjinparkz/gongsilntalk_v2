@@ -167,7 +167,7 @@ class Controller extends BaseController
         if (count($androidFcmTokens) > 0) {
             $androidMessage = CloudMessage::fromArray([
                 // 'notification' => ['title' => "앱이름", 'body' => '테스트 메세지' . 'notification'],
-                'data' => ['title' => "앱이름", 'body' => '테스트 메세지', 'index' => '1010'],
+                'data' => $data
             ]);
             $response = $messaging->sendMulticast($androidMessage, $androidFcmTokens);
 
@@ -177,7 +177,6 @@ class Controller extends BaseController
             $invalidTokens = count($response->invalidTokens());
 
             Log::info('성공 토큰:' . $validTokens . ' - 알수 없는 토큰 수:' . $unknownTokens . '- 불가 토큰:' . $invalidTokens);
-            Log::info("안드로이드 알림 발송 성공");
         } else {
             Log::info("안드로이드 알림 발송 실패");
         }
@@ -185,8 +184,8 @@ class Controller extends BaseController
         // iOS
         if (count($iosFcmTokens) > 0) {
             $iosMessage = CloudMessage::fromArray([
-                'notification' => ['title' => "앱이름", 'body' => '테스트 메세지' . 'notification'],
-                'data' => ['title' => "앱이름", 'body' => '테스트 메세지', 'index' => '1010'],
+                'notification' => $data,
+                'data' => $data,
             ]);
             $response = $messaging->sendMulticast($iosMessage, $androidFcmTokens);
 
