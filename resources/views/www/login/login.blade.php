@@ -1,6 +1,13 @@
 <body class="gray_body">
     <x-layout>
 
+        <div class="m_header">
+            <div class="left_area"><a href="javascript:history.go(-1)"><img
+                        src="http://localhost/assets/media/header_btn_close.png"></a></div>
+            <div class="m_title"></div>
+            <div class="right_area"></div>
+        </div>
+
         <div class="body">
             <div class="inner_wrap login_inner_wrap">
                 <div class="col-md-6 box_member">
