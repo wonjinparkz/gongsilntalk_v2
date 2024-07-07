@@ -12,6 +12,7 @@ use App\Models\Notice;
 use App\Models\Reply;
 use App\Models\ReplyBlock;
 use App\Models\ReplyReport;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -389,6 +390,7 @@ class CommunityPcController extends Controller
         $users_id = null;
         $title = null;
         $index = null;
+        $target_id = $request->community_id;
 
         if ($community_type == 0 && $request->parent_id > 0) {
             $users_id = $request->parent_id;
@@ -397,7 +399,7 @@ class CommunityPcController extends Controller
             Alarms::Create([
                 'users_id' => $users_id,
                 'title' => $title,
-                'target_id' => $request->community_id,
+                'target_id' => $target_id,
                 'index' => $index,
                 'body' => 'body',
                 'msg' => 'msg'
@@ -412,7 +414,7 @@ class CommunityPcController extends Controller
                 Alarms::Create([
                     'users_id' => $users_id,
                     'title' => $title,
-                    'target_id' => $request->community_id,
+                    'target_id' => $target_id,
                     'index' => $index,
                     'body' => 'body',
                     'msg' => 'msg'
@@ -426,13 +428,33 @@ class CommunityPcController extends Controller
                 Alarms::Create([
                     'users_id' => $users_id,
                     'title' => $title,
-                    'target_id' => $request->community_id,
+                    'target_id' => $target_id,
                     'index' => $index,
                     'body' => 'body',
                     'msg' => 'msg'
                 ]);
             }
         }
+
+        $androidTokens = [];
+        $iosTokens = [];
+
+        $data = [
+            'title' => env('APP_NAME'),
+            'body' => $title,
+            'index' => intval($index),
+            'id' => intval($target_id)
+        ];
+
+        $user = User::where('id', $users_id)->where('state', 0)->first();
+
+        if ($user->device_type == "1") {
+            array_push($androidTokens, $user->fcm_key);
+        } else if ($user->device_type == "2") {
+            array_push($iosTokens, $user->fcm_key);
+        }
+
+        $this->sendAlarm($iosTokens, $androidTokens, $data);
 
         return Redirect::back();
     }

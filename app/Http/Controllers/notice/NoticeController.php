@@ -131,7 +131,6 @@ class NoticeController extends Controller
                 'msg' => 'msg'
             ]);
 
-            Log::info($user->name . '의 디바이스 타입' . $user->device_type);
             if ($user->device_type == "1") {
                 array_push($androidTokens, $user->fcm_key);
             } else if ($user->device_type == "2") {
