@@ -109,7 +109,7 @@ class NoticeController extends Controller
 
         $this->imageWithCreate($request->notice_image_ids, Notice::class, $result->id);
 
-        $userList = User::where('state', 0)->whereNotNull('fcm_key')->get();
+        $userList = User::where('state', 0)->get();
 
         foreach ($userList as $user) {
             $androidTokens = [];
@@ -131,6 +131,7 @@ class NoticeController extends Controller
                 'msg' => 'msg'
             ]);
 
+            Log::info($user->name . '의 디바이스 타입' . $user->device_type);
             if ($user->device_type == "1") {
                 array_push($androidTokens, $user->fcm_key);
             } else if ($user->device_type == "2") {
