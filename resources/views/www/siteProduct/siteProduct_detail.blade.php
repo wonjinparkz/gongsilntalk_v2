@@ -1,4 +1,5 @@
 <x-layout>
+    @inject('carbon', 'Carbon\Carbon')
     <script type="text/javascript"
         src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
     </script>
@@ -145,23 +146,23 @@
                     <div>주소</div>
                     <div>{{ $result->address }}</div>
                     <div>규모</div>
-                    <div>{{ $result->min_floor }}층 / {{ $result->max_floor }}층 {{ $result->dong_count }}개동</div>
+                    <div>{{ $result->min_floor }}층 ~ {{ $result->max_floor }}층 {{ $result->dong_count }}개동</div>
                     <div>총 세대수</div>
-                    <div>{{ $result->generation_count }}실</div>
+                    <div>{{ number_format($result->generation_count) }}실</div>
                     <div>주차대수</div>
-                    <div>{{ $result->parking_count }}대</div>
+                    <div>{{ number_format($result->parking_count) }}대</div>
                     <div>대지면적</div>
-                    <div id="basicArea">{{ $result->square }}㎡</div>
+                    <div id="basicArea">{{ number_format($result->square, 2) }}㎡</div>
                     <div>건축면적</div>
-                    <div id="buildingArea">{{ $result->building_square }}㎡</div>
+                    <div id="buildingArea">{{ number_format($result->building_square, 2) }}㎡</div>
                     <div>연면적</div>
-                    <div id="totalFloorArea">{{ $result->total_floor_square }}㎡</div>
+                    <div id="totalFloorArea">{{ number_format($result->total_floor_square, 2) }}㎡</div>
                     <div>용적률/건폐율</div>
                     <div>{{ $result->floor_area_ratio }}% / {{ $result->builging_ratio }}%</div>
                     <div>준공일</div>
-                    <div>{{ $result->completion_date }}</div>
+                    <div>{{ $carbon::parse($result->completion_date)->format('Y.m.d') }}</div>
                     <div>입주예정</div>
-                    <div>{{ $result->expected_move_date }}</div>
+                    <div>{{ $carbon::parse($result->expected_move_date)->format('Y.m.d') }}</div>
                     <div>시행사</div>
                     <div>{{ $result->developer ?? '-' }}</div>
                     <div>시공사</div>
