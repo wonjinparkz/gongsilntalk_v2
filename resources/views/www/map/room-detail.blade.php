@@ -335,7 +335,7 @@
                                         {{ $carbon::parse($result->move_date)->format('Y.m.d') }}
                                     @endif
                                 </div>
-                                @if($result->productAddInfo->direction_type > 0)
+                                @if ($result->productAddInfo->direction_type > 0)
                                     <div>건물 방향</div>
                                     <div>
                                         {{ Lang::get('commons.direction_type.' . $result->productAddInfo->direction_type) }}향
@@ -346,16 +346,19 @@
                                     <div>방/욕실 수</div>
                                     <div>{{ $result->productAddInfo->room_count }}개 /
                                         {{ $result->productAddInfo->bathroom_count }}개</div>
-                                    <div>난방종류</div>
-                                    <div>
-                                        {{ Lang::get('commons.heating_type.' . $result->productAddInfo->heating_type) }}
-                                    </div>
+                                    @if ($result->productAddInfo->heating_type > 0)
+                                        <div>난방종류</div>
+                                        <div>
+                                            {{ Lang::get('commons.heating_type.' . $result->productAddInfo->heating_type) }}
+                                        </div>
+                                    @endif
                                     <div>승강시설</div>
                                     <div>{{ $result->is_elevator == 0 ? '없음' : '있음' }}</div>
                                     <div>주차 여부</div>
                                     <div>
                                         @switch($result->parking_type)
                                             @case(0)
+                                                '-'
                                             @break
 
                                             @case(1)
