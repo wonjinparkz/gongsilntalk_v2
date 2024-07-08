@@ -299,27 +299,37 @@
                 <div id="tab_area_2" class="page">
                     <section>
                         <h3>상세정보</h3>
-                        @if ($result->type != 6)
-                            <div class="table_container">
+                        <div class="table_container">
+                            @if ($result->type != 6)
                                 <div>매물 종류</div>
                                 <div>{{ Lang::get('commons.product_type.' . $result->type) }}</div>
-                                <div>주용도</div>
-                                <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                                @if ($result->type != 7)
+                                    <div>주용도</div>
+                                    <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                                @endif
                                 <div>소재지</div>
                                 <div class="item_col_3">{{ $result->address }}</div>
-                                <div>공급/전용면적</div>
-                                <div class="area_chage">공급 {{ $result->square ?? '-' }}㎡ / 전용
-                                    {{ $result->exclusive_square ?? '-' }}㎡</div>
-                                {{-- 전용면적 / 공급면적 * 100 --}}
-                                @if (!in_array($result->type, [5, 6]))
+                                @if (!in_array($result->type, [5, 7]))
+                                    <div>공급/전용면적</div>
+                                    <div class="area_chage">공급 {{ $result->square ?? '-' }}㎡ / 전용
+                                        {{ $result->exclusive_square ?? '-' }}㎡</div>
+                                    {{-- 전용면적 / 공급면적 * 100 --}}
                                     <div>전용률</div>
                                     <div>{{ round(($result->exclusive_square / $result->square) * 100) }}%</div>
-                                @endif
-                                @if (!in_array($result->type, [5, 6, 7]))
                                     <div>해당층/전체층</div>
                                     <div>{{ $result->floor_number . '층 / ' . $result->total_floor_number . '층' }}</div>
-                                @endif
-                                @if (in_array($result->type, [5, 7]))
+                                @elseif(in_array($result->type, [5, 7]))
+                                    <div>대지/연면적</div>
+                                    <div class="area_chage">대지 {{ $result->square ?? '-' }}㎡ / 연
+                                        {{ $result->total_floor_square ?? '-' }}㎡</div>
+                                    @if ($result->type == 7)
+                                        <div>전용면적</div>
+                                        <div class="area_chage">
+                                            {{ $result->exclusive_square ?? '-' }}㎡</div>
+                                        {{-- 전용면적 / 공급면적 * 100 --}}
+                                        <div>전용률</div>
+                                        <div>{{ round(($result->exclusive_square / $result->square) * 100) }}%</div>
+                                    @endif
                                     <div>최저층/최고층</div>
                                     <div>{{ $result->lowest_floor_number . '층 / ' . $result->top_floor_number . '층' }}
                                     </div>
@@ -335,68 +345,148 @@
                                         {{ $carbon::parse($result->move_date)->format('Y.m.d') }}
                                     @endif
                                 </div>
+                                @if ($result->type == 7)
+                                    <div>도크</div>
+                                    <div>{{ $result->productAddInfo->is_dock == 0 ? '없음' : '있음' }}</div>
+                                    <div>호이스트</div>
+                                    <div>{{ $result->productAddInfo->is_hoist == 0 ? '없음' : '있음' }}</div>
+                                    <div>화물용 승강시설</div>
+                                    <div>{{ $result->productAddInfo->is_goods_elevator == 0 ? '없음' : '있음' }}</div>
+                                    <div>층고</div>
+                                    <div>
+                                        {{ Lang::get('commons.floor_height_type.' . $result->productAddInfo->floor_height_type) }}
+                                    </div>
+                                    <div>사용전력</div>
+                                    <div>
+                                        {{ Lang::get('commons.wattage_type.' . $result->productAddInfo->wattage_type) }}
+                                    </div>
+                                @endif
                                 @if ($result->productAddInfo->direction_type > 0)
                                     <div>건물 방향</div>
                                     <div>
                                         {{ Lang::get('commons.direction_type.' . $result->productAddInfo->direction_type) }}향
                                     </div>
                                 @endif
-                                {{-- <div>남향 <span class="gray_basic">거실기준</span></div> --}}
-                                @if (in_array($result->type, [8]))
+                                @if ($result->type == 3)
+                                    <div>현 업종</div>
+                                    <div>
+                                        {{ Lang::get('commons.product_business_type.' . $result->productAddInfo->current_business_type) }}
+                                    </div>
+                                    <div>추천 업종</div>
+                                    <div>
+                                        {{ Lang::get('commons.product_business_type.' . $result->productAddInfo->recommend_business_type) }}
+                                    </div>
+                                @endif
+                                @if (in_array($result->type, [0, 1, 2, 4]))
+                                    <div>인테리어 여부</div>
+                                    <div>
+                                        @if ($result->productAddInfo->interior_type == 1)
+                                            있음
+                                        @elseif ($result->productAddInfo->interior_type == 2)
+                                            없음
+                                        @else
+                                            -
+                                        @endif
+                                    </div>
+                                    <div>하중 (평당)</div>
+                                    <div>
+                                        {{ $result->productAddInfo->weight != '' ? $result->productAddInfo->weight . '톤' : '-' }}
+                                    </div>
+                                @endif
+                                @if ($result->type > 7)
                                     <div>방/욕실 수</div>
                                     <div>{{ $result->productAddInfo->room_count }}개 /
                                         {{ $result->productAddInfo->bathroom_count }}개</div>
-                                    @if ($result->productAddInfo->heating_type > 0)
-                                        <div>난방종류</div>
+                                    @if ($result->type == 9)
+                                        <div>구조</div>
                                         <div>
-                                            {{ Lang::get('commons.heating_type.' . $result->productAddInfo->heating_type) }}
+                                            @if ($result->productAddInfo->structure_type == 1)
+                                                복층
+                                            @elseif ($result->productAddInfo->structure_type == 2)
+                                                1.5룸/주방분리형
+                                            @else
+                                                선택안함
+                                            @endif
+                                        </div>
+                                        <div>빌트인</div>
+                                        <div>
+                                            @if ($result->productAddInfo->builtin_type == 1)
+                                                있음
+                                            @elseif ($result->productAddInfo->builtin_type == 2)
+                                                없음
+                                            @else
+                                                선택안함
+                                            @endif
+                                        </div>
+                                        <div>전입신고</div>
+                                        <div>
+                                            @if ($result->productAddInfo->declare_type == 1)
+                                                가능
+                                            @elseif ($result->productAddInfo->declare_type == 2)
+                                                불가능
+                                            @else
+                                                선택안함
+                                            @endif
                                         </div>
                                     @endif
-                                    <div>승강시설</div>
-                                    <div>{{ $result->is_elevator == 0 ? '없음' : '있음' }}</div>
-                                    <div>주차 여부</div>
+                                @endif
+                                @if ($result->productAddInfo->heating_type > 0)
+                                    <div>난방종류</div>
                                     <div>
-                                        @switch($result->parking_type)
-                                            @case(0)
-                                                '-'
-                                            @break
+                                        {{ Lang::get('commons.heating_type.' . $result->productAddInfo->heating_type) }}
+                                    </div>
+                                @endif
+                                <div>승강시설</div>
+                                <div>{{ $result->is_elevator == 0 ? '없음' : '있음' }}</div>
+                                <div>주차 여부</div>
+                                <div>
+                                    @switch($result->parking_type)
+                                        @case(0)
+                                            -
+                                        @break
 
-                                            @case(1)
-                                                가능,
-                                                {{ $result->parking_price == null || $result->parking_price == 0 ? '무료주차' : Commons::get_priceTrans($result->parking_price) }}
-                                            @break
+                                        @case(1)
+                                            가능,
+                                            {{ $result->parking_price == null || $result->parking_price == 0 ? '무료주차' : Commons::get_priceTrans($result->parking_price) }}
+                                        @break
 
-                                            @case(2)
-                                                불가능
-                                            @break
+                                        @case(2)
+                                            불가능
+                                        @break
 
-                                            @default
-                                        @endswitch
-                                        {{-- 가능, 주차비 3만원 --}}
+                                        @default
+                                    @endswitch
+                                    {{-- 가능, 주차비 3만원 --}}
+                                </div>
+                                @if ($result->type == 7)
+                                    <div>주용도</div>
+                                    <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                                    <div>추천 용도</div>
+                                    <div>
+                                        {{ Lang::get('commons.product_business_type.' . $result->productAddInfo->recommend_business_type) }}
                                     </div>
                                 @endif
                                 <div>{{ $result->type > 13 ? '준공예정일' : '사용승인일' }}</div>
                                 <div>{{ $carbon::parse($result->approve_date)->format('Y.m.d') }}</div>
-
-                            </div>
-                        @elseif($result->type == 6)
-                            <div>매물 종류</div>
-                            <div>{{ Lang::get('commons.product_type.' . $result->type) }}</div>
-                            <div>현용도</div>
-                            <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
-                            <div>소재지</div>
-                            <div class="item_col_3">{{ $result->address }}</div>
-                            <div>대지면적</div>
-                            <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
-                            <div>도시계획</div>
-                            <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
-                            <div>건축허가</div>
-                            <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
-                            <div>토지거래허가</div>
-                            <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
-                            <div>진입도로</div>
-                            <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
-                        @endif
+                            @elseif($result->type == 6)
+                                <div>매물 종류</div>
+                                <div>{{ Lang::get('commons.product_type.' . $result->type) }}</div>
+                                <div>현용도</div>
+                                <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                                <div>소재지</div>
+                                <div class="item_col_3">{{ $result->address }}</div>
+                                <div>대지면적</div>
+                                <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                                <div>도시계획</div>
+                                <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                                <div>건축허가</div>
+                                <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                                <div>토지거래허가</div>
+                                <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                                <div>진입도로</div>
+                                <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                            @endif
+                        </div>
                     </section>
 
                     @php
