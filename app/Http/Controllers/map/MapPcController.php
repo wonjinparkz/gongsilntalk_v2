@@ -32,13 +32,6 @@ class MapPcController extends Controller
         return view('www.map.map-mobile');
     }
 
-    // 모바일 맵 상세
-    public function mapDetailMobile(Request $request): View
-    {
-
-        return view('www.map.map-detail-mobile');
-    }
-
     // 모바일 지도 내 매물목록
     public function mapPropertyList(Request $request)
     {

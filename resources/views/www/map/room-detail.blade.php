@@ -1,7 +1,8 @@
 <x-layout>
     @inject('carbon', 'Carbon\Carbon')
     @php
-        $square = $result->square ?? 1;
+        $exclusive_square = $result->exclusive_square > 0 ? $result->exclusive_square : 1;
+        $exclusive_area = $result->exclusive_area > 0 ? $result->exclusive_area : 1;
         $price = $result->priceInfo->price;
         $service_price = $result->service_price;
         $month_price = $result->priceInfo->month_price;
@@ -9,16 +10,14 @@
         $current_price = $result->priceInfo->current_price;
         $current_month_price = $result->priceInfo->current_month_price;
         $commission = $result->commission !== null ? number_format($result->commission) : '0';
-        if ($square == 0) {
-            $square = 1;
-        }
 
         $approveDate = $result->approve_date ?? '-';
         $displayDate = $approveDate !== '-' ? Str::substr($approveDate, 0, 4) : '-'; // 사용승인연도
 
         $formatPrice = Commons::get_priceTrans($price); // 매매가
         $formatMonthPrice = Commons::get_priceTrans($month_price); // 월세
-        $formatAveragePrice = Commons::get_priceTrans($price / $square); // 평단가 = 가격 / 분양면적(공급면적)
+        $formatAveragePrice = Commons::get_priceTrans($price / $exclusive_square); // 평단가 = 가격 / 분양면적(공급면적)
+        $formatAveragePrice1 = Commons::get_priceTrans($price / $exclusive_area); // 평단가 = 가격 / 분양면적(공급면적)
         $formatServicePrice = Commons::get_priceTrans($service_price); // 관리비
         $formatCurrentPrice = Commons::get_priceTrans($current_price); // 현재 매물 보증금
         $formatCurrentMonthPrice = Commons::get_priceTrans($current_month_price); // 현재 매물 월임대료
@@ -31,7 +30,7 @@
                     class="txt_item_1">{{ $result->region_address }}·{{ Lang::get('commons.product_type.' . $result->type) }}</span>
                 <span class="txt_item_2 square">공급 {{ $result->square ?? '-' }}㎡ / 전용
                     {{ $result->exclusive_square ?? '-' }}㎡</span>
-                <span class="txt_item_2 area" style="display: none">공급 {{ $result->area ?? '-' }}㎡ / 전용
+                <span class="txt_item_2 area" style="display: none">공급 {{ $result->area ?? '-' }}평 / 전용
                     {{ $result->exclusive_area ?? '-' }}평</span>
             </div>
             <div class="txt_item_3">
@@ -137,7 +136,9 @@
                         <spann class="area" style="display: none">{{ $result->exclusive_area ?? '-' }}평</spann>
                         &nbsp;
                         @if ($result->priceInfo->payment_type == 0)
-                            <span>평단가</span> {{ $formatAveragePrice }}
+                            <span>단가</span>
+                            <spann class="square">{{ $formatAveragePrice }}</spann> &nbsp;
+                            <spann class="area" style="display: none">{{ $formatAveragePrice1 }}</spann>
                         @endif
                     </div>
                     {{-- 매물 요약 정보 - 하단 --}}
@@ -705,7 +706,8 @@
                             </div>
 
                             <div class="t_center">
-                                <a href="{{ route('www.map.agent.detail', ['id' => $result->users_id]) }}" class="btn_more">더
+                                <a href="{{ route('www.map.agent.detail', ['id' => $result->users_id]) }}"
+                                    class="btn_more">더
                                     많은 매물 보러가기</a>
                             </div>
                         </div>

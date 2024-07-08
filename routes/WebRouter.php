@@ -61,7 +61,6 @@ Route::controller(SharePcController::class)->group(function () {
 Route::controller(MapPcController::class)->group(function () {
     Route::get('/map', 'map')->name('www.map.map');
     Route::get('/map/mobile', 'mapMobile')->name('www.map.mobile');                           // 모바일 맵
-    Route::get('/map/mobile/detail/{id}', 'mapDetailMobile')->name('www.map.detail.mobile');  // 모바일 맵 상세
     Route::get('/map/property/list', 'mapPropertyList')->name('www.map.property.list'); //지도 내 매물목록
     Route::get('/map/room/detail/{id}', 'mapRoomDetail')->name('www.map.room.detail');        // 매물 상세
     Route::get('/map/agent/detail', 'mapAgentDetail')->name('www.map.agent.detail');          // 중개사무소 상세
