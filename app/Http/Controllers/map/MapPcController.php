@@ -148,7 +148,7 @@ class MapPcController extends Controller
             ->leftjoin('product_price', 'product_price.product_id', 'product.id')
             ->where('is_delete', '0')
             ->where('user_type', '1')
-            ->where('users_id', $result->id);
+            ->where('product.users_id', $result->id);
 
         // 매매/전세/월세 등 여부
         if (isset($request->payment_type)) {
