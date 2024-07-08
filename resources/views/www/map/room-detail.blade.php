@@ -297,7 +297,7 @@
                             <div>소재지</div>
                             <div class="item_col_3">{{ $result->address }}</div>
                             <div>공급/전용면적</div>
-                            <div>공급 {{ $result->square ?? '-' }}㎡ / 전용
+                            <div class="area_chage">공급 {{ $result->square ?? '-' }}㎡ / 전용
                                 {{ $result->exclusive_square ?? '-' }}㎡</div>
                             {{-- 전용면적 / 공급면적 * 100 --}}
                             <div>전용률</div>
@@ -933,6 +933,7 @@
             var image = document.getElementById('toggle_unit');
             const square = document.querySelectorAll(".square");
             const area = document.querySelectorAll(".area");
+
             if (image.src.match('btn_unit.png')) {
                 // m2 -> 평
                 image.src = "{{ asset('assets/media/btn_unit2.png') }}";
@@ -942,6 +943,7 @@
                 area.forEach(area => {
                     area.style.display = "";
                 });
+                $('.area_chage').text($(".area.txt_item_2").text());
             } else {
                 // 평 -> m2
                 image.src = "{{ asset('assets/media/btn_unit.png') }}";
@@ -951,6 +953,7 @@
                 area.forEach(area => {
                     area.style.display = "none";
                 });
+                $('.area_chage').text($(".square.txt_item_2").text());
             }
         }
 
