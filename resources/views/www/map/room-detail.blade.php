@@ -335,12 +335,12 @@
                                         {{ $carbon::parse($result->move_date)->format('Y.m.d') }}
                                     @endif
                                 </div>
-                                @if($result->productAddInfo->direction_type > 0){
+                                @if($result->productAddInfo->direction_type > 0)
                                     <div>건물 방향</div>
                                     <div>
                                         {{ Lang::get('commons.direction_type.' . $result->productAddInfo->direction_type) }}향
                                     </div>
-                                }
+                                @endif
                                 {{-- <div>남향 <span class="gray_basic">거실기준</span></div> --}}
                                 @if (in_array($result->type, [8]))
                                     <div>방/욕실 수</div>
