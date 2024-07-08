@@ -52,7 +52,6 @@ const handleSelectWrapper = (lb, opt) => {
 }
 
 const handleSelect = (label, item) => {
-    console.log('옵션 제목 바꿈');
     label.innerHTML = item.textContent;
     label.parentNode.classList.remove('active');
 }
@@ -91,7 +90,7 @@ $(function () {
         $(this).parents('.tab_toggle_menu').siblings('.tab_area_wrap').find('>div').eq(list).show();
     });
 
-    
+
 
     // swiper 탭메뉴 토글기능
     // $(document).ready(function() {

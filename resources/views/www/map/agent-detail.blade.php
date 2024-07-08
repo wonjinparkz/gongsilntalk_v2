@@ -158,7 +158,7 @@
 
         // 페이징
         function loadMoreData(page) {
-
+            console.log('123');
             $.ajax({
                     url: '{{ Request::url() }}',
                     data: {
@@ -174,8 +174,7 @@
                 })
                 .done(function(data) {
                     $(".productListDiv").html(data.html);
-                    var countElement = document.querySelector('.txt_point');
-                    countElement.innerText = data.count;
+                    var countElement = $('.txt_point').text(data.count + '건');
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError) {});
         }

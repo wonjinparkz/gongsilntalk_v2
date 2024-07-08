@@ -153,6 +153,9 @@ class MapPcController extends Controller
         if (isset($request->payment_type)) {
             $product->where('product_price.payment_type', $request->payment_type);
         }
+        if (isset($request->id)) {
+            $product->where('product.users_id', $request->id);
+        }
 
         // 좋아요
         if (Auth::guard('web')->user() != null) {
