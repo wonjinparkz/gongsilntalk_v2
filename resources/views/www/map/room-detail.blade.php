@@ -18,7 +18,7 @@
         $formatMonthPrice = Commons::get_priceTrans($month_price); // 월세
         $formatAveragePrice = Commons::get_priceTrans($price / $exclusive_square); // 평단가 = 가격 / 분양면적(공급면적)
         $formatAveragePrice1 = Commons::get_priceTrans($price / $exclusive_area); // 평단가 = 가격 / 분양면적(공급면적)
-        $formatServicePrice = Commons::get_priceTrans($service_price); // 관리비
+        $formatServicePrice = Commons::get_priceTrans($service_price * 10000); // 관리비
         $formatCurrentPrice = Commons::get_priceTrans($current_price); // 현재 매물 보증금
         $formatCurrentMonthPrice = Commons::get_priceTrans($current_month_price); // 현재 매물 월임대료
     @endphp
@@ -262,18 +262,16 @@
                             @endif
                         </div>
                         {{-- 기존 임대차 내용 없음으로 선택한 경우 노출하지 않음 --}}
-                        @if ($result->priceInfo->is_use == 1)
-                            <div>융자금</div>
-                            <div class="item_col_3">
-                                @if ($result->loan_type == 1)
-                                    30%미만 {{ number_format($result->loan_price) }}원
-                                @elseif($result->loan_type == 2)
-                                    30%이상 {{ number_format($result->loan_price) }}원
-                                @else
-                                    없음
-                                @endif
-                            </div>
-                        @endif
+                        <div>융자금</div>
+                        <div class="item_col_3">
+                            @if ($result->loan_type == 1)
+                                30%미만 {{ number_format($result->loan_price) }}원
+                            @elseif($result->loan_type == 2)
+                                30%이상 {{ number_format($result->loan_price) }}원
+                            @else
+                                없음
+                            @endif
+                        </div>
                         {{--
                             매매일 때
                             기존 임대차 내용 없음으로 선택한 경우 노출하지 않음
@@ -281,6 +279,18 @@
                         @if ($result->priceInfo->payment_type == 0 && $result->priceInfo->is_use == 1)
                             <div>기존 임대차 내용</div>
                             <div class="item_col_3">보증금 {{ $formatCurrentPrice }} / 월세 {{ $formatCurrentMonthPrice }}
+                            </div>
+                        @endif
+
+                        {{-- 상가 권리금 --}}
+                        @if ($result->type == 3)
+                            <div>권리금</div>
+                            <div class="item_col_3">
+                                @if ($result->priceInfo->is_premium == 1)
+                                    {{ number_format($result->priceInfo->premium_price) }}원
+                                @else
+                                    없음
+                                @endif
                             </div>
                         @endif
                     </div>

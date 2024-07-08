@@ -676,12 +676,12 @@
                                     style="display: @if ($type != 3) none @endif">
                                     <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                         <input class="form-check-input" name="is_premium" type="radio"
-                                            value="0" @if ((old('is_premium') ?? $result->is_premium) == 0) checked @endif>
+                                            value="0" @if ((old('is_premium') ?? $result->priceInfo->is_premium) == 0) checked @endif>
                                         <span class="fw-semibold ps-2 fs-6">없음</span>
                                     </label>
                                     <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                         <input class="form-check-input" name="is_premium" type="radio"
-                                            value="1"@if ((old('is_premium') ?? $result->is_premium) == 1) checked @endif>
+                                            value="1"@if ((old('is_premium') ?? $result->priceInfo->is_premium) == 1) checked @endif>
                                         <span class="fw-semibold ps-2 fs-6">있음</span>
                                     </label>
                                 </div>
@@ -691,7 +691,7 @@
                                             <input type="text" name="premium_price" id="premium_price"
                                                 class="form-control" placeholder="예) 10"
                                                 value="{{ old('premium_price') ?? $result->priceInfo->premium_price }}"
-                                                @if ((old('is_premium') ?? $result->is_premium) == 0 && $type == 3) disabled @endif />
+                                                @if ((old('is_premium') ?? $result->priceInfo->is_premium) == 0 && $type == 3) disabled @endif />
                                             <span class="input-group-text" id="basic-addon2">원</span>
                                         </div>
                                     </div>
