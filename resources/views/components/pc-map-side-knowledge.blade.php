@@ -256,9 +256,9 @@
                                 <span>{{ $result->subway_time }}</span>
                             </p>
 
-                            {{-- <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스
+                            <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스
                             </div>
-                            <p class="traffic_row">정류장 <span>{{ $result->kaptdWtimebus }}</span></p> --}}
+                            <p class="traffic_row">정류장 <span>{{ $result->bus_stop_contents }}</span></p>
 
                         </div>
                         <div>
@@ -312,7 +312,7 @@
         var list = $(this).index();
         $(".tab_sm_menu li").removeClass("active");
         $(this).addClass("active");
-    
+
         $(".tab_sm_wrap > div").hide();
         $(".tab_sm_wrap > div").eq(list).show();
         });
