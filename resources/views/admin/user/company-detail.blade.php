@@ -58,6 +58,15 @@
                         </div>
                     </div>
 
+                    {{-- 대표명 --}}
+                    <div class="col-lg-12 mb-6">
+                        <label class="row-lg-4 col-form-label fw-semibold fs-6">대표명</label>
+                        <div class="row-lg-8 fv-row">
+                            <input type="text" disabled class="form-control form-control-solid" placeholder="대표명"
+                                value="{{ $result->company_ceo }}" />
+                        </div>
+                    </div>
+
                     {{-- 대표 전화번호 --}}
                     <div class="col-lg-12 mb-6">
                         <label class="row-lg-4 col-form-label fw-semibold fs-6">대표 전화번호</label>
@@ -66,7 +75,6 @@
                                 value="{{ $result->company_phone }}" />
                         </div>
                     </div>
-
 
                     {{-- 중개사무소 주소지 --}}
                     <div class="col-lg-12 mb-6">
