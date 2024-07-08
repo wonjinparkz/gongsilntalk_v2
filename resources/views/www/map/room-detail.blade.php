@@ -299,66 +299,99 @@
                 <div id="tab_area_2" class="page">
                     <section>
                         <h3>상세정보</h3>
-                        <div class="table_container">
+                        @if ($result->type != 6)
+                            <div class="table_container">
+                                <div>매물 종류</div>
+                                <div>{{ Lang::get('commons.product_type.' . $result->type) }}</div>
+                                <div>주용도</div>
+                                <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                                <div>소재지</div>
+                                <div class="item_col_3">{{ $result->address }}</div>
+                                <div>공급/전용면적</div>
+                                <div class="area_chage">공급 {{ $result->square ?? '-' }}㎡ / 전용
+                                    {{ $result->exclusive_square ?? '-' }}㎡</div>
+                                {{-- 전용면적 / 공급면적 * 100 --}}
+                                @if (!in_array($result->type, [5, 6]))
+                                    <div>전용률</div>
+                                    <div>{{ round(($result->exclusive_square / $result->square) * 100) }}%</div>
+                                @endif
+                                @if (!in_array($result->type, [5, 6, 7]))
+                                    <div>해당층/전체층</div>
+                                    <div>{{ $result->floor_number . '층 / ' . $result->total_floor_number . '층' }}</div>
+                                @endif
+                                @if (in_array($result->type, [5, 7]))
+                                    <div>최저층/최고층</div>
+                                    <div>{{ $result->lowest_floor_number . '층 / ' . $result->top_floor_number . '층' }}
+                                    </div>
+                                @endif
+                                <div>입주가능일</div>
+                                <div>
+                                    {{-- 2023.06.15 <span class="gray_basic">협의가능</span> --}}
+                                    @if ($result->move_type == 0)
+                                        즉시입주
+                                    @elseif($result->move_type == 1)
+                                        날짜협의
+                                    @else
+                                        {{ $carbon::parse($result->move_date)->format('Y.m.d') }}
+                                    @endif
+                                </div>
+                                <div>건물 방향</div>
+                                <div>
+                                    {{ Lang::get('commons.direction_type.' . $result->productAddInfo->direction_type) }}향
+                                </div>
+                                {{-- <div>남향 <span class="gray_basic">거실기준</span></div> --}}
+                                @if (in_array($result->type, [8]))
+                                    <div>방/욕실 수</div>
+                                    <div>{{ $result->productAddInfo->room_count }}개 /
+                                        {{ $result->productAddInfo->bathroom_count }}개</div>
+                                    <div>난방종류</div>
+                                    <div>
+                                        {{ Lang::get('commons.heating_type.' . $result->productAddInfo->heating_type) }}
+                                    </div>
+                                    <div>승강시설</div>
+                                    <div>{{ $result->is_elevator == 0 ? '없음' : '있음' }}</div>
+                                    <div>주차 여부</div>
+                                    <div>
+                                        @switch($result->parking_type)
+                                            @case(0)
+                                            @break
+
+                                            @case(1)
+                                                가능,
+                                                {{ $result->parking_price == null || $result->parking_price == 0 ? '무료주차' : Commons::get_priceTrans($result->parking_price) }}
+                                            @break
+
+                                            @case(2)
+                                                불가능
+                                            @break
+
+                                            @default
+                                        @endswitch
+                                        {{-- 가능, 주차비 3만원 --}}
+                                    </div>
+                                @endif
+                                <div>{{ $result->type > 13 ? '준공예정일' : '사용승인일' }}</div>
+                                <div>{{ $carbon::parse($result->approve_date)->format('Y.m.d') }}</div>
+
+                            </div>
+                        @elseif($result->type == 6)
                             <div>매물 종류</div>
                             <div>{{ Lang::get('commons.product_type.' . $result->type) }}</div>
-                            <div>주용도</div>
+                            <div>현용도</div>
                             <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
                             <div>소재지</div>
                             <div class="item_col_3">{{ $result->address }}</div>
-                            <div>공급/전용면적</div>
-                            <div class="area_chage">공급 {{ $result->square ?? '-' }}㎡ / 전용
-                                {{ $result->exclusive_square ?? '-' }}㎡</div>
-                            {{-- 전용면적 / 공급면적 * 100 --}}
-                            <div>전용률</div>
-                            <div>{{ round(($result->exclusive_square / $result->square) * 100) }}%</div>
-                            <div>해당층/전체층</div>
-                            <div>{{ $result->floor_number . '층 / ' . $result->total_floor_number . '층' }}</div>
-                            <div>입주가능일</div>
-                            <div>
-                                {{-- 2023.06.15 <span class="gray_basic">협의가능</span> --}}
-                                @if ($result->move_type == 0)
-                                    즉시입주
-                                @elseif($result->move_type == 1)
-                                    날짜협의
-                                @else
-                                    {{ $carbon::parse($result->move_date)->format('Y.m.d') }}
-                                @endif
-                            </div>
-                            <div>방향</div>
-                            <div>{{ Lang::get('commons.direction_type.' . $result->productAddInfo->direction_type) }}향
-                                <span class="gray_basic">거실기준</span>
-                            </div>
-                            {{-- <div>남향 <span class="gray_basic">거실기준</span></div> --}}
-                            <div>방/욕실 수</div>
-                            <div>{{ $result->productAddInfo->room_count }}개 /
-                                {{ $result->productAddInfo->bathroom_count }}개</div>
-                            <div>현관구조</div>
-                            <div>계단식</div>
-                            <div>난방종류</div>
-                            <div>{{ Lang::get('commons.heating_type.' . $result->productAddInfo->heating_type) }}</div>
-                            <div>엘리베이터</div>
-                            <div>있음</div>
-                            <div>주차 여부</div>
-                            <div>
-                                @switch($result->parking_type)
-                                    @case(0)
-                                    @break
-
-                                    @case(1)
-                                        가능,
-                                        {{ $result->parking_price == null || $result->parking_price == 0 ? '무료주차' : Commons::get_priceTrans($result->parking_price) }}
-                                    @break
-
-                                    @case(2)
-                                        불가능
-                                    @break
-
-                                    @default
-                                @endswitch
-                                {{-- 가능, 주차비 3만원 --}}
-                            </div>
-                        </div>
+                            <div>대지면적</div>
+                            <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                            <div>도시계획</div>
+                            <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                            <div>건축허가</div>
+                            <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                            <div>토지거래허가</div>
+                            <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                            <div>진입도로</div>
+                            <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                        @endif
                     </section>
 
                     @php
