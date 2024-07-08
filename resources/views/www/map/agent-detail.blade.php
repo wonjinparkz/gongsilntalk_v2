@@ -45,7 +45,7 @@
             </div>
             <div class="agent_detail_info">
                 <h3>{{ $result->company_name ?? '-' }}</h3>
-                <div class="info_row"><span>대표</span>{{ $result->company_ceo ?? '-'}}</div>
+                <div class="info_row"><span>대표</span>{{ $result->company_ceo ?? '-' }}</div>
                 <div class="info_row"><span>주소</span>{{ $address ? $address . ' ' . $addressDetail : '-' }} </div>
                 <div class="info_row"><span>대표번호</span>{{ $result->company_phone ?? '-' }}</div>
                 <div class="info_row"><span>휴대전화</span>{{ $result->phone ?? '-' }}</div>
@@ -121,6 +121,7 @@
 
     <input type="hidden" id="orderby" name="orderby" value="">
     <input type="hidden" id="paymentType" name="paymentType" value="">
+    <input type="hidden" id="users_id" name="users_id" value="{{ $result->id }}">
     <script>
         // 거래 유형
         function typeChange(type) {
@@ -162,6 +163,7 @@
                     url: '{{ Request::url() }}',
                     data: {
                         page: page,
+                        users_id: $('users_id').val(),
                         payment_type: $('#paymentType').val(),
                         orderby: $('#orderby').val()
                     },

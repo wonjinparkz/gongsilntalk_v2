@@ -145,7 +145,6 @@ class MapPcController extends Controller
         $result = User::select()->where('type', '1')->where('company_state', '1')->where('id', $request->id)->first();
 
         $product = Product::select('product.*', 'product_price.payment_type')->with('users', 'priceInfo')
-            ->where('product.users_id', $result->id)
             ->leftjoin('product_price', 'product_price.product_id', 'product.id')
             ->where('is_delete', '0')
             ->where('user_type', '1');
