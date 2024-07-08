@@ -121,7 +121,7 @@
 
     <input type="hidden" id="orderby" name="orderby" value="">
     <input type="hidden" id="paymentType" name="paymentType" value="">
-    <input type="hidden" id="users_id" name="users_id" value="{{ $result->id }}">
+    <input type="hidden" id="id" name="id" value="{{ $result->id }}">
     <script>
         // 거래 유형
         function typeChange(type) {
@@ -163,7 +163,7 @@
                     url: '{{ Request::url() }}',
                     data: {
                         page: page,
-                        users_id: $('users_id').val(),
+                        id: $('#id').val(),
                         payment_type: $('#paymentType').val(),
                         orderby: $('#orderby').val()
                     },
