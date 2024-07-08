@@ -142,7 +142,7 @@ class MapPcController extends Controller
     // 중개사무소 상세
     public function mapAgentDetail(Request $request)
     {
-        $result = User::select()->where('type', '1')->where('company_state', '1')->first();
+        $result = User::select()->where('type', '1')->where('company_state', '1')->where('id', $request->id)->first();
 
         $product = Product::select('product.*', 'product_price.payment_type')->with('users', 'priceInfo')
             ->leftjoin('product_price', 'product_price.product_id', 'product.id')

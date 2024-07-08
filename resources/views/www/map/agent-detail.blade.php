@@ -227,7 +227,7 @@
         var title = '공실앤톡';
         var imageUrl = "{{ asset('assets/media/default_gs.png') }}";
         var url = "http://localhost"
-        var detailUrl = "{{ route('www.map.agent.detail', [$result->id]) }}"
+        var detailUrl = "{{ route('www.map.agent.detail', ['id' => $result->id]) }}"
         Kakao.Share.createDefaultButton({
             container: '#kakaotalk-sharing-btn',
             objectType: 'feed',

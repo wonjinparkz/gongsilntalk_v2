@@ -5,7 +5,7 @@
             $addressDetail = $agent->company_address_detail ?? null;
         @endphp
         <!-- list : s -->
-        <a href="{{ route('www.map.agent.detail', [$agent->id]) }}">
+        <a href="{{ route('www.map.agent.detail', ['id' => $agent->id]) }}">
             <div class="agent_sm_list">
                 <div class="agent_sm_info">
                     <p class="agent_txt_item_1">{{ $agent->company_name }}</p>
