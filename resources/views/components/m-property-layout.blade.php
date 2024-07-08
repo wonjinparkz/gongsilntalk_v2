@@ -28,7 +28,7 @@
                         {{ $property->region_address }}</p>
                     <p class="txt_lh_1">{{ $property->square ?? '-' }}㎡ /
                         {{ $property->exclusive_square ?? '-' }}㎡·{{ $property->floor_number ?? '-' }}층</p>
-                    <p class="property_sm_item_2">{{ $property->contents ?? '' }}</p>
+                    <p class="property_sm_item_2">{{ $property->comments ?? '' }}</p>
                 </div>
             </a>
         </div>
