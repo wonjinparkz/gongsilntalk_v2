@@ -83,7 +83,7 @@
                                         </div>
                                         <span class="gray_deep">/</span>
                                         <div><input type="text" name="square" id="square"
-                                                placeholder="평 입력시 자동" onkeyup="square_change('')">
+                                                placeholder="평 입력시 자동" onkeyup="imsi(this); square_change('')">
                                             <span class="gray_deep">㎡</span>
                                         </div>
                                     </div>
@@ -105,7 +105,7 @@
                                         <span class="gray_deep">/</span>
                                         <div>
                                             <input type="text" name="square" id="square"
-                                                placeholder="평 입력시 자동" onkeyup="square_change('')">
+                                                placeholder="평 입력시 자동" onkeyup="imsi(this); square_change('')">
                                             <span class="gray_deep">㎡</span>
                                         </div>
                                     </div>
@@ -125,7 +125,8 @@
                                         <span class="gray_deep">/</span>
                                         <div>
                                             <input type="text" name="total_floor_square" id="total_floor_square"
-                                                placeholder="평 입력시 자동" onkeyup="square_change('total_floor_')">
+                                                placeholder="평 입력시 자동"
+                                                onkeyup="simsi(this); quare_change('total_floor_')">
                                             <span class="gray_deep">㎡</span>
                                         </div>
                                     </div>
@@ -145,7 +146,8 @@
                                         <span class="gray_deep">/</span>
                                         <div>
                                             <input type="text" name="exclusive_square" id="exclusive_square"
-                                                placeholder="평 입력시 자동" onkeyup="square_change('exclusive_')">
+                                                placeholder="평 입력시 자동"
+                                                onkeyup="imsi(this); square_change('exclusive_')">
                                             <span class="gray_deep">㎡</span>
                                         </div>
                                     </div>
@@ -413,6 +415,17 @@
             }
         }
 
+        var prev = "";
+        var regexp = /^\d*(\.\d{0,2})?$/;
+
+        function imsi(obj) {
+            if (obj.value.search(regexp) == -1) {
+                obj.value = prev;
+            } else {
+                prev = obj.value;
+            }
+        }
+
         // 평수 제곱 변환
         function square_change(name) {
             var area_name = name + 'area';
@@ -420,8 +433,13 @@
 
             var square = $('#' + square_name).val();
 
-            var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
-            $('#' + area_name).val(convertedArea);
+            if (square > 0) {
+                var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
+                $('#' + area_name).val(convertedArea);
+            } else {
+                $('#' + square_name).val('');
+                $('#' + area_name).val('');
+            }
         }
 
         // 평수 제곱 변환
@@ -431,9 +449,15 @@
             var square_name = name + 'square';
 
             var area = $('#' + area_name).val();
-            var convertedSquare = (area * 3.3058).toString();
-            var decimalIndex = convertedSquare.indexOf('.') + 3; // 소수점 이하 세 번째 자리까지
-            $('#' + square_name).val(convertedSquare.substr(0, decimalIndex));
+
+            if (area > 0) {
+                var convertedSquare = (area * 3.3058).toString();
+                var decimalIndex = convertedSquare.indexOf('.') + 3; // 소수점 이하 세 번째 자리까지
+                $('#' + square_name).val(convertedSquare.substr(0, decimalIndex));
+            } else {
+                $('#' + area_name).val('');
+                $('#' + square_name).val('');
+            }
         }
 
         // 용도 선택

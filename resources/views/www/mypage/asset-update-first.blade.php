@@ -240,12 +240,12 @@
                                 <label class="input_label">공급 면적 <span class="txt_point">*</span></label>
                                 <div class="input_pyeong_area">
                                     <div><input type="text" id="area" name="area" placeholder="전용면적"
-                                            value="{{ $result->area }}">
+                                            value="{{ $result->area }}" onkeyup="area_change('')">
                                         <span class="gray_deep">평</span>
                                     </div>
                                     <span class="gray_deep">/</span>
                                     <div><input type="text" id="square" name="square" placeholder="평 입력시 자동"
-                                            value="{{ $result->square }}">
+                                            onkeyup="imsi(this); square_change('');" value="{{ $result->square }}">
                                         <span class="gray_deep">㎡</span>
                                     </div>
                                 </div>
@@ -254,13 +254,13 @@
                                 <label class="input_label">전용 면적 <span class="txt_point">*</span></label>
                                 <div class="input_pyeong_area">
                                     <div><input type="text" id="exclusive_area" name="exclusive_area"
-                                            placeholder="전용면적" value="{{ $result->exclusive_area }}"> <span
-                                            class="gray_deep">평</span>
+                                            onkeyup="area_change('exclusive_')" placeholder="전용면적"
+                                            value="{{ $result->exclusive_area }}"> <span class="gray_deep">평</span>
                                     </div>
                                     <span class="gray_deep">/</span>
                                     <div><input type="text" id="exclusive_square" name="exclusive_square"
-                                            placeholder="평 입력시 자동" value="{{ $result->exclusive_square }}"> <span
-                                            class="gray_deep">㎡</span>
+                                            onkeyup="imsi(this); square_change('exclusive_')" placeholder="평 입력시 자동"
+                                            value="{{ $result->exclusive_square }}"> <span class="gray_deep">㎡</span>
                                     </div>
                                 </div>
                             </div>
@@ -385,6 +385,52 @@
 <script>
     onFieldInputCheck();
 
+    var prev = "";
+    var regexp = /^\d*(\.\d{0,2})?$/;
+
+    function imsi(obj) {
+        if (obj.value.search(regexp) == -1) {
+            obj.value = prev;
+        } else {
+            prev = obj.value;
+        }
+    }
+
+    // 평수 제곱 변환
+    function square_change(name) {
+        var area_name = name + 'area';
+        var square_name = name + 'square';
+
+        var square = $('#' + square_name).val();
+
+        if (square > 0) {
+            var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
+            $('#' + area_name).val(convertedArea);
+        } else {
+            $('#' + square_name).val('');
+            $('#' + area_name).val('');
+        }
+    }
+
+    // 평수 제곱 변환
+    function area_change(name) {
+
+        var area_name = name + 'area';
+        var square_name = name + 'square';
+
+        var area = $('#' + area_name).val();
+
+        if (area > 0) {
+            var convertedSquare = (area * 3.3058).toString();
+            var decimalIndex = convertedSquare.indexOf('.') + 3; // 소수점 이하 세 번째 자리까지
+            $('#' + square_name).val(convertedSquare.substr(0, decimalIndex));
+        } else {
+            $('#' + area_name).val('');
+            $('#' + square_name).val('');
+        }
+    }
+
+
     function onTypeChange(index) {
         $('#type').val(index);
         if (index == 1) {
@@ -462,19 +508,6 @@
 
     addEventListener("checkbox", (event) => {
         processChange();
-    });
-
-
-    // 전용 면적 평수 변환
-    var exclusive_area = document.getElementById('exclusive_area');
-    exclusive_area.addEventListener('keyup', function(e) {
-        $('#exclusive_square').val((parseInt(e.target.value) * 3.3058).toFixed(2));
-    });
-
-    // 공급 면적 평수 변환
-    var area = document.getElementById('area');
-    area.addEventListener('keyup', function(e) {
-        $('#square').val((parseInt(e.target.value) * 3.3058).toFixed(2));
     });
 
 

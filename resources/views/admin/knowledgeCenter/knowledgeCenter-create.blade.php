@@ -216,7 +216,7 @@
                             <div class="input-group">
                                 <input type="text" name="building_square" id="building_square"
                                     onkeyup="imsi(this)" class="form-control" placeholder="변환 버튼을 눌러주세요."
-                                    value="{{ old('building_square') }}" onkeyup="imsi(this)" />
+                                    value="{{ old('building_square') }}" />
                                 <span class="input-group-text" id="basic-addon2">㎡</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('building_square')" />
@@ -248,7 +248,7 @@
                             <div class="input-group">
                                 <input type="text" name="total_floor_square" id="total_floor_square"
                                     onkeyup="imsi(this)" class="form-control" placeholder="변환 버튼을 눌러주세요."
-                                    value="{{ old('total_floor_square') }}" onkeyup="imsi(this)" />
+                                    value="{{ old('total_floor_square') }}" />
                                 <span class="input-group-text" id="basic-addon2">㎡</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('total_floor_square')" />
@@ -422,31 +422,40 @@
             }
         }
 
-
+        // 평수 제곱 변환
         function square_change(name) {
             var area_name = name + 'area';
             var square_name = name + 'square';
 
             var square = $('#' + square_name).val();
+
             if (square > 0) {
                 var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
                 $('#' + area_name).val(convertedArea);
+            } else {
+                $('#' + square_name).val('');
+                $('#' + area_name).val('');
             }
-
         }
 
+        // 평수 제곱 변환
         function area_change(name) {
+
             var area_name = name + 'area';
             var square_name = name + 'square';
 
             var area = $('#' + area_name).val();
+
             if (area > 0) {
                 var convertedSquare = (area * 3.3058).toString();
                 var decimalIndex = convertedSquare.indexOf('.') + 3; // 소수점 이하 세 번째 자리까지
                 $('#' + square_name).val(convertedSquare.substr(0, decimalIndex));
+            } else {
+                $('#' + area_name).val('');
+                $('#' + square_name).val('');
             }
-
         }
+
         // 생성된 태그 삭제
         function add_delete(element) {
             // 클릭한 <a> 태그의 부모 <li> 요소 가져오기

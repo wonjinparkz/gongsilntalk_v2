@@ -1857,24 +1857,31 @@
             var square_name = name + 'square';
 
             var square = $('#' + square_name).val();
+
             if (square > 0) {
                 var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
                 $('#' + area_name).val(convertedArea);
+            } else {
+                $('#' + square_name).val('');
+                $('#' + area_name).val('');
             }
         }
 
         // 평수 제곱 변환
         function area_change(name) {
-            console.log('gd');
 
             var area_name = name + 'area';
             var square_name = name + 'square';
 
             var area = $('#' + area_name).val();
+
             if (area > 0) {
                 var convertedSquare = (area * 3.3058).toString();
                 var decimalIndex = convertedSquare.indexOf('.') + 3; // 소수점 이하 세 번째 자리까지
                 $('#' + square_name).val(convertedSquare.substr(0, decimalIndex));
+            } else {
+                $('#' + area_name).val('');
+                $('#' + square_name).val('');
             }
         }
 

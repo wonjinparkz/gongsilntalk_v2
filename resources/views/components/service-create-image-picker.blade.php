@@ -20,7 +20,7 @@
         <div class="gap_8">
             <button class="btn_graylight_ghost btn_sm" type="button" id="{{ $id }}_drop">업로드</button>
             <button class="btn_graylight_ghost btn_sm" type="button"
-                onclick="onImageDeleteUpdate('{{ $id }}');">삭제</button>
+                onclick="onImageDeleteUpdate('{{ $id }}', '{{ $title }}');">삭제</button>
         </div>
     </li>
 @else
@@ -37,7 +37,7 @@
         <div class="gap_8">
             <button class="btn_graylight_ghost btn_sm" type="button" id="{{ $id }}_drop">업로드</button>
             <button class="btn_graylight_ghost btn_sm" type="button"
-                onclick="onImageDeleteUpdate('{{ $id }}');">삭제</button>
+                onclick="onImageDeleteUpdate('{{ $id }}', '{{ $title }}');">삭제</button>
         </div>
     </li>
 @endif
@@ -49,7 +49,7 @@
         method: 'post', // method
         paramName: "image", // 파라미터 이름
         maxFiles: 1, // 파일 갯수
-        maxFilesize: 10, // MB
+        maxFilesize: 1000, // MB
         timeout: 300000, // 타임아웃 30초 기본 설정
         acceptedFiles: '.jpeg,.jpg,.png,.JPEG,.JPG,.PNG', // 이미지 파일 포맷만 허
         accept: function(file, done) {
@@ -79,7 +79,7 @@
     });
 
     // 이미지 삭제
-    var onImageDeleteUpdate = (id) => {
+    var onImageDeleteUpdate = (id, title) => {
 
         var image =
 
@@ -87,7 +87,7 @@
                     <div class="document_img_reg"></div>
                 </div>
                 <div class="document_name_wrap">
-                    <p>{{ $title }}</p>
+                    <p>` + title + `</p>
                     <p class="mt8 gray_basic fs_13">png 또는 jpg 업로드</p>
                 </div>`
 
