@@ -22,6 +22,11 @@
         $formatCurrentPrice = Commons::get_priceTrans($current_price); // 현재 매물 보증금
         $formatCurrentMonthPrice = Commons::get_priceTrans($current_month_price); // 현재 매물 월임대료
     @endphp
+
+    <script type="text/javascript"
+        src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
+    </script>
+
     <!-- top : s -->
     <div class="room_info_wrap">
         <div class="inner_wrap room_info_inner">
@@ -203,7 +208,7 @@
                         <div class="swiper-slide active"><a href="#tab_area_1">가격정보</a></div>
                         <div class="swiper-slide"><a href="#tab_area_2">상세정보</a></div>
                         <div class="swiper-slide"><a href="#tab_area_3">상세설명</a></div>
-                        <div class="swiper-slide"><a href="#tab_area_4">위치 및 주변정보</a></div>
+                        <div class="swiper-slide"><a href="#tab_area_4">위치정보</a></div>
                         <div class="swiper-slide"><a href="#tab_area_5">중개사 정보</a></div>
                     </div>
                 </div>
@@ -217,9 +222,9 @@
                 0 => '매매가',
                 1 => '임대',
                 2 => '단기임대',
-                3 => '전세가',
-                4 => '월세가',
-                5 => '전매가',
+                3 => '전세',
+                4 => '월세',
+                5 => '전매',
             ];
             $paymentType = $result->priceInfo->payment_type;
             $isDiscussion = $result->priceInfo->is_price_discussion == 1 ? '협의가능' : '';
@@ -234,7 +239,7 @@
                         @if (isset($paymentTypes[$paymentType]))
                             <div>
                                 {{ $paymentTypes[$paymentType] }}
-                                @if ($paymentType != 0)
+                                @if ($paymentType == 0)
                                     <span class="gray_basic">({{ $isDiscussion }}/㎡)</span>
                                 @endif
                             </div>
@@ -702,6 +707,9 @@
                     <section>
                         <h3>상세설명</h3>
                         <div class="detail_info_container">
+                            <div>
+                                <h3>{{ $result->comments }}</h3>
+                            </div>
                             @php
                                 if ($result->contents != '') {
                                     echo nl2br($result->contents);
@@ -722,42 +730,13 @@
 
                 </div>
 
-                {{-- 기획서, 디자인없는 탭 일단 주석함 --}}
-                {{-- <section class="page" id="tab_area_4">
-                    <h3>위치 및 주변정보</h3>
-                    <div class="container_map_wrap"><img src="{{ asset('assets/media/s_map.png') }}" class="w_100">
+                {{-- 위치정보 --}}
+                <section class="page" id="tab_area_4">
+                    <h3>위치정보</h3>
+                    <div class="container_map_wrap">
+                        <x-pc-around-map :address_lat="$result->address_lat" :address_lng="$result->address_lng" />
                     </div>
-                    <div class="map_detail_wrp">
-                        <ul class="tab_toggle_menu tab_type_4">
-                            <li class="active"><a href="javascript:(0)">대중교통</a></li>
-                            <li><a href="javascript:(0)">편의시설</a></li>
-                            <li><a href="javascript:(0)">교육시설</a></li>
-                        </ul>
-                        <div class="tab_area_wrap">
-                            <div class="traffic_wrap">
-                                <div class="traffic_tit"><img src="{{ asset('assets/media/ic_subway.png') }}">지하철
-                                </div>
-                                <p class="traffic_row">가산디지털단지역 1호선, 3호선 <span>15~20분이내</span></p>
-                                <p class="traffic_row">가산디지털단지역 7호선 <span>15~20분이내</span></p>
-
-                                <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스
-                                </div>
-                                <p class="traffic_row">정류장 <span>15~20분이내</span></p>
-
-                            </div>
-                            <div>
-                                <div class="facility_wrap">
-                                    관공서(양천세무서) 병원(다민한의원, 신천호한의원) 백화점(목동현대백화점) 공원(양천공원) 기타(안양천)
-                                </div>
-                            </div>
-                            <div>
-                                <div class="edu_wrap">
-                                    초등학교(신목) 중학교(목동) 고등학교(신목)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section> --}}
+                </section>
 
                 <div class="page" id="tab_area_5">
                     <section>
