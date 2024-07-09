@@ -35,11 +35,20 @@
 
         @if ($result->total() < 1)
             <!-- 데이터가 없을 경우 : s -->
-            <div class="empty_wrap">
+            <div class="empty_wrap only_pc">
                 <p>관심 등록된 매물이 없습니다.</p>
                 <span>매물지도에서 마음에 드는 매물을 찾아<br>관심 매물로 등록해보세요.</span>
                 <div class="mt8">
-                    <button class="btn_point btn_md_bold" onclick="location.href='sales_list.html'">매물 찾아보기</button>
+                    <button class="btn_point btn_md_bold"
+                        onclick="location.href='{{ route('www.map.map', ['mapType' => 1]) }}'">매물 찾아보기</button>
+                </div>
+            </div>
+            <div class="empty_wrap only_m">
+                <p>관심 등록된 매물이 없습니다.</p>
+                <span>매물지도에서 마음에 드는 매물을 찾아<br>관심 매물로 등록해보세요.</span>
+                <div class="mt8">
+                    <button class="btn_point btn_md_bold"
+                        onclick="location.href='{{ route('www.map.mobile', ['mapType' => 1]) }}'">매물 찾아보기</button>
                 </div>
             </div>
             <!-- 데이터가 없을 경우 : e -->
@@ -49,7 +58,7 @@
                     <div class="sales_card">
                         <span class="sales_list_wish {{ isset($product->like_id) ? 'on' : '' }}"
                             onclick="onLikeStateChange('{{ $product->id }}', 'product');btn_wish(this);"></span>
-                        <a href="#">
+                        <a href="{{ route('www.map.room.detail', [$product->id]) }}">
                             <div class="sales_card_img">
                                 <div class="img_box">
                                     <img src="{{ Storage::url('image/' . $product->images[0]->path) }}"
@@ -97,7 +106,8 @@
             <div class="empty_wrap">
                 <p>관심 등록된 매물이 없습니다.</p>
                 <span>매물지도에서 마음에 드는 매물을 찾아<br>관심 매물로 등록해보세요.</span>
-                <div class="mt8"><button class="btn_point btn_md_bold" onclick="location.href='sales_list.html'">매물
+                <div class="mt8"><button class="btn_point btn_md_bold"
+                        onclick="location.href='{{ route('www.site.product.list.view') }}'">매물
                         찾아보기</button></div>
             </div>
             <!-- 데이터가 없을 경우 : e -->
@@ -107,7 +117,7 @@
                     <div class="sales_card">
                         <span class="sales_list_wish {{ isset($product->like_id) ? 'on' : '' }}"
                             onclick="onLikeStateChange('{{ $product->id }}', 'site_product');btn_wish(this)"></span>
-                        <a href="{{ route('www.site.product.detail.view', [$product->id])}}">
+                        <a href="{{ route('www.site.product.detail.view', [$product->id]) }}">
                             <div class="sales_card_img">
                                 <div class="img_box"><img
                                         src="{{ Storage::url('image/' . $product->images[0]->path) }}"

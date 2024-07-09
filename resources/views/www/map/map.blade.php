@@ -10,7 +10,7 @@
                             <li class="optionItem" onclick="mapTypeChage(0)">실거래가지도</li>
                             <li class="optionItem" onclick="mapTypeChage(1)">매물지도</li>
                         </ul>
-                        <input type="hidden" id="mapType" value="0">
+                        <input type="hidden" id="mapType" value="{{ $mapType ?? 0 }}">
                     </div>
                     <div class="filter_dropdown_wrap" id="filterType0">
                         <x-pc-map-filter />

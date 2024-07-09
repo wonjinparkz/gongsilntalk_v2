@@ -23,13 +23,17 @@ class MapPcController extends Controller
 {
     public function map(Request $request): View
     {
-        return view('www.map.map');
+        $mapType = $request->mapType ?? 0;
+
+        return view('www.map.map', compact('mapType'));
     }
 
     // 모바일 맵
     public function mapMobile(Request $request): View
     {
-        return view('www.map.map-mobile');
+        $mapType = $request->mapType ?? 0;
+
+        return view('www.map.map-mobile', compact('mapType'));
     }
 
     // 모바일 지도 내 매물목록

@@ -18,7 +18,7 @@
             <li><a href="javascript:;" onclick="mapTypeChage(0)">실거래가지도</a></li>
             <li><a href="javascript:;" onclick="mapTypeChage(1)">매물지도</a></li>
         </ul>
-        <input type="hidden" id="mapType" value="0">
+        <input type="hidden" id="mapType" value="{{ $mapType ?? 0 }}">
     </div>
     <div class="md_slide_overlay md_slide_overlay_menu_map" onclick="modal_close_slide('menu_map')"></div>
     <!----------------------------- m::header bar : s ----------------------------->
