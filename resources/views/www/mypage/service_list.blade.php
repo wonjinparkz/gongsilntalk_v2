@@ -41,8 +41,11 @@
                                         $addressData->check_price;
 
                                     $myPrice = $addressData->month_price - $addressData->loan_rate_price;
-
-                                    $realMonthPrice = (($myPrice * 12) / $realPrice) * 100;
+                                    if ($myPrice > $realPrice) {
+                                        $realMonthPrice = (($myPrice * 12) / $realPrice) * 100;
+                                    } else {
+                                        $realMonthPrice = ($realPrice / ($myPrice * 12)) * 100;
+                                    }
                                 @endphp
                                 <h1>{{ number_format($addressData->price) }}원</h1>
                                 <ul class="main_price_wrap">

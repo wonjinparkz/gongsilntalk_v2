@@ -135,7 +135,7 @@
 
             $APrice =
                 $industryCenterAvgPrice * 10000 * $result->area -
-                $result->price / 10000 -
+                $result->price -
                 $acquisition_tax_price -
                 $etc_price -
                 $avgRealPrice * 0.1;
@@ -203,7 +203,13 @@
                             </li>
                             <li>
                                 <p>수익률</p>
-                                <p class="item_price">{{ number_format((($myPrice * 12) / $realPrice) * 100, 2) }}%</p>
+                                <p class="item_price">
+                                    @if ($myPrice > $realPrice)
+                                        {{ number_format((($myPrice * 12) / $realPrice) * 100, 2) }}%
+                                    @else
+                                        {{ number_format((($myPrice * 12) / $realPrice) * 100, 2) }}%
+                                    @endif
+                                </p>
                             </li>
                         </ul>
                     </div>
@@ -293,8 +299,7 @@
                                         <div class="status_item">
                                             <p>시세차익</p>
                                             <div>
-                                                <span
-                                                    {{ $addPrice > 0 ? 'class=status_item_red' : '' }}>
+                                                <span {{ $addPrice > 0 ? 'class=status_item_red' : '' }}>
                                                     {{ $addPrice > 0 ? number_format($addPrice) : '0' }}만원
                                                 </span>
                                             </div>
