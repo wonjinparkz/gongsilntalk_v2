@@ -845,32 +845,35 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <div class="agent_box only_pc">
-                    <div class="agent_box_info">
-                        <div class="agent_box_img">
-                            <div class="img_box" style="height:60px; width:60px;">
-                                @if ($result->users->image != null)
-                                    <img src="{{ Storage::url('image/' . $result->users->image->path) }}">
-                                @else
-                                    <img src="{{ asset('assets/media/default_img.png') }}">
-                                @endif
+
+            @if ($result->user_type == 1)
+                <div>
+                    <div class="agent_box only_pc">
+                        <div class="agent_box_info">
+                            <div class="agent_box_img">
+                                <div class="img_box" style="height:60px; width:60px;">
+                                    @if ($result->users->image != null)
+                                        <img src="{{ Storage::url('image/' . $result->users->image->path) }}">
+                                    @else
+                                        <img src="{{ asset('assets/media/default_img.png') }}">
+                                    @endif
+                                </div>
                             </div>
+                            <h4>{{ $result->users->company_name ?? '-' }}</h4>
+                            <p>대표중개사 {{ $result->users->company_ceo ?? '-' }}</p>
                         </div>
-                        <h4>{{ $result->users->company_name ?? '-' }}</h4>
-                        <p>대표중개사 {{ $result->users->company_ceo ?? '-' }}</p>
-                    </div>
-                    <hr class="mt18">
-                    <div class="add_info_wrap">
-                        <div class="info_row"><span class="gray_deep">주소
-                            </span>{{ implode(', ', array_filter([$result->users->company_address ?? '', $result->users->company_address_detail ?? '-'])) }}
+                        <hr class="mt18">
+                        <div class="add_info_wrap">
+                            <div class="info_row"><span class="gray_deep">주소
+                                </span>{{ implode(', ', array_filter([$result->users->company_address ?? '', $result->users->company_address_detail ?? '-'])) }}
+                            </div>
+                            <div class="info_row"><span class="gray_deep">중개등록번호
+                                </span>{{ $result->users->company_number ?? '-' }}</div>
                         </div>
-                        <div class="info_row"><span class="gray_deep">중개등록번호
-                            </span>{{ $result->users->company_number ?? '-' }}</div>
+                        <button class="btn_point btn_full_thin" onclick="modal_open('agent_qa')">문의하기</button>
                     </div>
-                    <button class="btn_point btn_full_thin" onclick="modal_open('agent_qa')">문의하기</button>
                 </div>
-            </div>
+            @endif
         </div>
         <!-- section 2 : e -->
 
