@@ -299,7 +299,7 @@
                             <li>
                                 <label>대출금리</label>
                                 <div class="flex_1">
-                                    <input type="number" class="" onkeyup="imsi(this)"
+                                    <input type="text" class="" onkeyup="imsi(this)"
                                         placeholder="소수점 두자리까지 입력" name="loan_interest">
                                     <span>%</span>
                                 </div>

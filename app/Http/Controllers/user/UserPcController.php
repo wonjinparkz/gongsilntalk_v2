@@ -615,7 +615,7 @@ class UserPcController extends Controller
             DB::raw('SUM(asset.check_price) AS check_price'),
             DB::raw('SUM(asset.month_price) AS month_price'),
             DB::raw('SUM(asset.loan_price) AS loan_price'),
-            DB::raw('SUM(asset.etc_price +asset.tax_price+asset.estate_price) AS etc_price'),
+            DB::raw('SUM(asset.etc_price) + SUM(asset.tax_price) + SUM(asset.estate_price) AS etc_price'),
             DB::raw('SUM(IFNULL(((asset.loan_price * (asset.loan_rate / 100)) / 12), 0)) AS loan_rate_price'),
             DB::raw('SUM(IFNULL((asset.price * (asset.acquisition_tax_rate / 100)), 0)) AS acquisition_tax_price')
         )

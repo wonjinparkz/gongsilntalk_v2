@@ -32,14 +32,24 @@
                                             class="w_100"></button>
                                 </div>
 
+                                @php
+                                    $realPrice =
+                                        $addressData->price +
+                                        $addressData->acquisition_tax_price +
+                                        $addressData->etc_price -
+                                        $addressData->loan_price -
+                                        $addressData->check_price;
+
+                                    $myPrice = $addressData->month_price - $addressData->loan_rate_price;
+
+                                    $realMonthPrice = (($myPrice * 12) / $realPrice) * 100;
+                                @endphp
                                 <h1>{{ number_format($addressData->price) }}원</h1>
                                 <ul class="main_price_wrap">
-                                    <li>실투자금<p>{{ number_format($addressData->price - $addressData->loan_price) }}원</p>
+                                    <li>실투자금<p>{{ number_format($realPrice) }}원</p>
                                     </li>
-                                    @php
-                                        $monthProfitPrice = 0;
-                                    @endphp
-                                    <li>월순수익<p id="monthProfit"></p>
+                                    <li>월순수익<p>{{ number_format($myPrice) }}원 ({{ number_format($realMonthPrice, 2) }}%)
+                                        </p>
                                     </li>
                                 </ul>
                                 <div class="detail_price_wrap simple_toggle_layer">
@@ -58,7 +68,7 @@
                                     </ul>
                                     <hr>
                                     <ul class="detail_price">
-                                        <li>취득세<p>{{ number_format($addressData->price * 0.4) }}원</p>
+                                        <li>취득세<p>{{ number_format($addressData->acquisition_tax_price) }}원</p>
                                         </li>
                                         <li>기타비용<p>
                                                 {{ number_format($addressData->etc_price) }}원
@@ -200,14 +210,6 @@
 
                     </div>
 
-                    @php
-                        $monthProfitRate = 0;
-                        $price_1 = isset($monthProfitPrice) ? $monthProfitPrice : 1;
-                        $price_2 = isset($addressData->price) ? $addressData->price : 1;
-                        $monthProfitRate = round($price_1 / $price_2, 2);
-                    @endphp
-
-
                     <!----------------------- m:: s ----------------------->
                     <div class="m_asset_reg only_m"
                         onclick="location.href='{{ route('www.mypage.service.create.first.view') }}'">
@@ -301,9 +303,6 @@
 
     </div>
     <script>
-        document.getElementById('monthProfit').innerText =
-            "{{ number_format($monthProfitPrice) }}원 ({{ number_format($monthProfitRate) }}%)";
-
         // 평 변환
         function sizeChange(id) {
 

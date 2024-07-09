@@ -136,7 +136,7 @@
                         <label class="col-lg-2 col-form-label fw-semibold fs-4 text-gray-700 fw-bold">취득세</label>
                         <div class="col-lg-10 fv-row d-flex align-items-center">
                             <span class="fw-bold fs-5">
-                                {{ number_format($addressData->price * 0.4) }}원
+                                {{ number_format($addressData->acquisition_tax_price) }}원
                             </span>
                         </div>
                     </div>
