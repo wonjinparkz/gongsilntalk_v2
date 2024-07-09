@@ -1,5 +1,13 @@
 <x-layout>
+
     @php
+
+        $acquisition_tax_price = $result->price * ($result->acquisition_tax_rate / 100);
+        $etc_price = $result->etc_price + $result->tax_price + $result->estate_price;
+        $realPrice = $result->price + $acquisition_tax_price + $etc_price - $result->loan_price - $result->check_price;
+
+        $myPrice = $result->month_price - ($result->loan_price * ($result->loan_rate / 100)) / 12;
+
         function taxRate($price)
         {
             $percent = 0;
@@ -111,25 +119,37 @@
         $address_detail .= $result->address_detail . '호';
 
         if ($result->type_detail == 0) {
-            $avgPrice = ($result->price / $result->area - $industryCenterAvgPrice) / 10000;
+            $avgPrice = $result->price / $result->area / 10000;
 
-            $avgRate = $avgPrice / $result->price;
+            if ($avgPrice > $industryCenterAvgPrice) {
+                $avgRate = $avgPrice / $industryCenterAvgPrice;
+            } else {
+                $avgRate = $industryCenterAvgPrice / $avgPrice;
+            }
 
-            $addPrice = (($result->price / $result->area - $industryCenterAvgPrice) * $industryCenterArea) / 10000;
+            $profit = $avgPrice - $industryCenterAvgPrice;
+
+            $addPrice = $profit * $result->area;
+
+            $avgRealPrice = $industryCenterAvgPrice * $result->area;
 
             $APrice =
-                $avgPrice * $result->area -
-                $result->price -
-                $result->price * ($result->acquisition_tax_rate / 100) -
-                $result->etc_price -
-                $avgPrice * $result->area * 0.1;
+                $industryCenterAvgPrice * 10000 * $result->area -
+                $result->price / 10000 -
+                $acquisition_tax_price -
+                $etc_price -
+                $avgRealPrice * 0.1;
 
-            $BPrice = $APrice * yearRate($result->contracted_at);
+            $CPrice = $APrice * yearRate($result->contracted_at);
+            $BPrice = $APrice - $CPrice;
 
             $DPrice = $BPrice - 2500000;
             $lastPrice = $DPrice * taxRate($DPrice);
+            $lastPrice /= 10000;
         }
     @endphp
+
+
 
     @inject('carbon', 'Carbon\Carbon')
     <!----------------------------- m::header bar : s ----------------------------->
@@ -153,7 +173,8 @@
 
                 <div class="asset_detail_tit only_pc">
 
-                    <h1>{{ $result->is_temporary == 0 ? $address_detail : $result->address_detail }}</h1>
+                    <h1>{{ $result->is_temporary == 0 ? $address_detail : $result->address_detail }}
+                    </h1>
                     <div class="gap_8">
                         <button class="btn_point btn_sm" type="button"
                             onclick="location.href='{{ route('www.mypage.service.update.first.view', [$result->id]) }}'">수정</button>
@@ -170,19 +191,7 @@
                         </div>
                         <ul class="asser_detail_item">
                             <li>
-                                @php
-                                    $acquisition_tax_price = $result->price * ($result->acquisition_tax_rate / 100);
-                                    $etc_price = $result->etc_price + $result->tax_price + $result->estate_price;
-                                    $realPrice =
-                                        $result->price +
-                                        $acquisition_tax_price +
-                                        $etc_price -
-                                        $result->loan_price -
-                                        $result->check_price;
 
-                                    $myPrice =
-                                        $result->month_price - ($result->loan_price * ($result->loan_rate / 100)) / 12;
-                                @endphp
                                 <p>실투자금</p>
                                 <p class="item_price">{{ number_format($realPrice) }}원</p>
                             </li>
@@ -194,7 +203,7 @@
                             </li>
                             <li>
                                 <p>수익률</p>
-                                <p class="item_price">{{ round(($myPrice / $realPrice) * 100, 2) }}%</p>
+                                <p class="item_price">{{ number_format((($myPrice * 12) / $realPrice) * 100, 2) }}%</p>
                             </li>
                         </ul>
                     </div>
@@ -240,7 +249,7 @@
                                 <li>실투자금<p>{{ number_format($realPrice) }}원</p>
                                 </li>
                                 <li>월순수익<p>{{ number_format($myPrice) }}원
-                                        <span>({{ round(($myPrice / $realPrice) * 100, 2) }}%)</span>
+                                        <span>({{ number_format((($myPrice * 12) / $realPrice) * 100, 2) }}%)</span>
                                     </p>
                                 </li>
                             </ul>
@@ -274,15 +283,30 @@
                                     <div class="price_status_box">
                                         <div class="status_item">
                                             <p>평당</p>
-                                            <div><span class="status_item_blue">548만원 (10.7%)</span></div>
+                                            <div>
+                                                <span
+                                                    {{ $profit > 0 ? 'class=status_item_red' : 'class=status_item_blue' }}>
+                                                    {{ number_format($profit) }}만원 ({{ number_format($avgRate) }}%)
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class="status_item">
                                             <p>시세차익</p>
-                                            <div><span class="status_item_red">15,248만원</span></div>
+                                            <div>
+                                                <span
+                                                    {{ $addPrice > 0 ? 'class=status_item_red' : '' }}>
+                                                    {{ $addPrice > 0 ? number_format($addPrice) : '0' }}만원
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class="status_item">
                                             <p>양도세 납부 후 시세차익</p>
-                                            <div><span class="status_item_red">6,935만원</span></div>
+                                            <div>
+                                                <span
+                                                    {{ $lastPrice > 0 ? 'class=status_item_red' : 'class=status_item_blue' }}>
+                                                    {{ number_format($lastPrice) }}만원
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 @endif
@@ -298,16 +322,16 @@
                         <div class="status_item">
                             <p>평당</p>
                             <div>
-                                <span {{ $avgPrice > 0 ? 'class=status_item_red' : 'class=status_item_blue' }}>
-                                    {{ number_format($avgPrice) }}만원 ({{ number_format($avgRate) }}%)
+                                <span {{ $profit > 0 ? 'class=status_item_red' : 'class=status_item_blue' }}>
+                                    {{ number_format($profit) }}만원 ({{ number_format($avgRate) }}%)
                                 </span>
                             </div>
                         </div>
                         <div class="status_item">
                             <p>시세차익</p>
                             <div>
-                                <span {{ $addPrice > 0 ? 'class=status_item_red' : 'class=status_item_blue' }}>
-                                    {{ number_format($addPrice) }}만원
+                                <span {{ $addPrice > 0 ? 'class=status_item_red' : '' }}>
+                                    {{ $addPrice > 0 ? number_format($addPrice) : '0' }}만원
                                 </span>
                             </div>
                         </div>

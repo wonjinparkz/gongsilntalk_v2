@@ -12,6 +12,7 @@ use App\Models\CalculatorLoanRate;
 use App\Models\CalculatorRevenue;
 use App\Models\Community;
 use App\Models\CorpProposal;
+use App\Models\KnowledgeCenter;
 use App\Models\Product;
 use App\Models\ProductAddInfo;
 use App\Models\ProductOptions;
@@ -31,6 +32,7 @@ use Illuminate\View\View;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class UserPcController extends Controller
@@ -663,21 +665,30 @@ class UserPcController extends Controller
     {
         $result = Asset::with('asset_address', 'images')->select()->where('id', $id)->first();
 
-        $industryCenterAvgPrice = Asset::select()
-            ->leftJoin('asset_address', function ($report) use ($result) {
-                $report->on('asset_address.id', '=', 'asset.asset_address_id')
-                    ->where('asset_address.region_code', '=', $result->asset_address->region_code);
-            })
-            ->where('asset.type_detail', 0)->avg('price');
+        $knowledge = KnowledgeCenter::select()->where('address', $result->asset_address->address)->first();
 
-        $industryCenterArea = Asset::select()
-            ->leftJoin('asset_address', function ($report) use ($result) {
-                $report->on('asset_address.id', '=', 'asset.asset_address_id')
-                    ->where('asset_address.region_code', '=', $result->asset_address->region_code);
-            })
-            ->where('asset.type_detail', 0)->sum('area');
+        $industryCenterAvgPrice = 0;
+        $knowledge = KnowledgeCenter::select()->where('address', 'like', "%{$result->asset_address->address}%")->first();
 
-        return view('www.mypage.asset-detail', compact('result', 'industryCenterAvgPrice', 'industryCenterArea'));
+        if ($knowledge) {
+            $industryCenterAvgPrice = $knowledge->sale_mid_price;
+        }
+
+        // $industryCenterAvgPrice = Asset::select()
+        //     ->leftJoin('asset_address', function ($report) use ($result) {
+        //         $report->on('asset_address.id', '=', 'asset.asset_address_id')
+        //             ->where('asset_address.region_code', '=', $result->asset_address->region_code);
+        //     })
+        //     ->where('asset.type_detail', 0)->avg('price');
+
+        // $industryCenterArea = Asset::select()
+        //     ->leftJoin('asset_address', function ($report) use ($result) {
+        //         $report->on('asset_address.id', '=', 'asset.asset_address_id')
+        //             ->where('asset_address.region_code', '=', $result->asset_address->region_code);
+        //     })
+        //     ->where('asset.type_detail', 0)->sum('area');
+
+        return view('www.mypage.asset-detail', compact('result', 'industryCenterAvgPrice'));
     }
 
     /**
