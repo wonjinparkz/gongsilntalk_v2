@@ -224,7 +224,7 @@
                 2 => '단기임대',
                 3 => '전세',
                 4 => '월세',
-                5 => '전매',
+                5 => '전매가',
             ];
             $paymentType = $result->priceInfo->payment_type;
             $isDiscussion = $result->priceInfo->is_price_discussion == 1 ? '협의가능' : '';
@@ -239,13 +239,18 @@
                         @if (isset($paymentTypes[$paymentType]))
                             <div>
                                 {{ $paymentTypes[$paymentType] }}
-                                @if ($paymentType == 0)
+                                @if (in_array($paymentType, [0, 5]))
                                     <span class="gray_basic">({{ $isDiscussion }}/㎡)</span>
                                 @endif
                             </div>
                         @endif
                         <div class="item_col_3">{{ $formatPrice }}
-                            <span class="gray_basic">({{ $formatAveragePrice }}/㎡)</span>
+                            @if (in_array($result->priceInfo->payment_type, [2, 4]))
+                                / {{ $formatMonthPrice }}
+                            @endif
+                            @if (in_array($paymentType, [0, 5]))
+                                <span class="gray_basic">({{ $formatAveragePrice }}/㎡)</span>
+                            @endif
                         </div>
                         <div>관리비</div>
                         <div class="item_col_3">
