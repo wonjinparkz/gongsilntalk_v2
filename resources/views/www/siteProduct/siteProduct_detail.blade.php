@@ -158,8 +158,8 @@
                         <div id="buildingArea">{{ number_format($result->building_square, 2) }}㎡</div>
                         <div>연면적</div>
                         <div id="totalFloorArea">{{ number_format($result->total_floor_square, 2) }}㎡</div>
-                        <div>용적률/건폐율</div>
-                        <div>{{ $result->floor_area_ratio }}% / {{ $result->builging_ratio }}%</div>
+                        <div>건폐율/용적률</div>
+                        <div>{{ $result->builging_ratio }}% /  {{ $result->floor_area_ratio }}%</div>
                         <div>준공일</div>
                         <div>{{ $carbon::parse($result->completion_date)->format('Y.m.d') }}</div>
                         <div>입주예정</div>
