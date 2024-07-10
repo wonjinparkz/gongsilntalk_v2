@@ -1,7 +1,7 @@
 <style>
     .img_box_size {
-        height:80px;
-        width:80px;
+        height: 80px;
+        width: 80px;
     }
 </style>
 
@@ -70,6 +70,15 @@
                             <li>
                                 <label>이름</label>
                                 <input type="text" value="{{ $user->name }}" disabled>
+                            </li>
+                            <li>
+                                <label>닉네임</label>
+                                <input type="text" id="chage_nickname" name="chage_nickname"
+                                    value="{{ $user->nickname }}">
+                                <p id="nickname_confirm" style="color:red; display:none;"></p>
+                                <p />
+                                <button class="btn_gray_ghost btn_sm" id="btn_pw" onclick="changeNickName()">닉네임
+                                    변경</button>
                             </li>
                             <li>
                                 <label>이메일</label>
@@ -261,6 +270,29 @@
                 }, timeout);
             };
         }
+
+        function changeNickName() {
+            $('#nickname_confirm').hide();
+
+            $.ajax({
+                    url: '{{ route('www.change.nickname') }}',
+                    type: "post",
+                    data: {
+                        'nickname': $('#chage_nickname').val(),
+                    }
+                })
+                .done(function(data) {
+                    location.reload();
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError) {
+                    $('#chage_nickname').css('border', '1px solid #ff0000');
+                    $('#chage_nickname').focus();
+
+                    $('#nickname_confirm').css('display', 'inline');
+                    $('#nickname_confirm').text(jqXHR.responseJSON.message);
+                });
+        }
+
 
         // 수정 버튼 disabled
         function onFieldInputCheck() {
