@@ -303,7 +303,7 @@
                 content: {
                     title: '{{ $result->title }}',
                     description: '{{ $shortened_content }}',
-                    imageUrl: "{{ $result->images ? asset('storage/image/' . $result->images[0]->path) : '' }}",
+                    imageUrl: "{{ count($result->images) > 0 ? asset('storage/image/' . $result->images[0]->path) : '' }}",
                     link: {
                         mobileWebUrl: `{!! url()->full() !!}`,
                         webUrl: `{!! url()->full() !!}`,

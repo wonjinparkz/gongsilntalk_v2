@@ -26,7 +26,9 @@
                                 value="{{ $searchInput }}">
 
                             <img src="{{ asset('assets/media/btn_solid_delete.png') }}" alt="del" class="btn_del">
-                            <button><img src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button>
+                            <button id="saveSearch">
+                                <img src="{{ asset('assets/media/btn_search.png') }}" alt="검색">
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -53,6 +55,9 @@
                             </li>
                             <li class="{{ request()->query('order') == 1 ? 'active' : '' }}">
                                 <a onclick="changeorderOption('1')">추천순</a>
+                            </li>
+                            <li class="{{ request()->query('order') == 2 ? 'active' : '' }}">
+                                <a onclick="changeorderOption('2')">댓글순</a>
                             </li>
                         </ul>
                     </div>
@@ -98,7 +103,7 @@
                                                         ·
                                                     </span>
                                                     <span>추천 {{ $community->like_count }} · </span>
-                                                    <span>댓글 {{ count($community->replys) }}</span>
+                                                    <span>댓글 {{ number_format($community->replys_count) }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -106,7 +111,8 @@
                                         <div class="community_row_img">
                                             @if (count($community->images) > 0)
                                                 <div class="img_box">
-                                                    <img src="{{ Storage::url('image/' . $community->images[0]->path) }}">
+                                                    <img
+                                                        src="{{ Storage::url('image/' . $community->images[0]->path) }}">
                                                 </div>
                                             @endif
                                         </div>
@@ -181,6 +187,7 @@
             setCookie('communitySearchTerm', existingTerms, 365); // 365일 동안 쿠키 저장
 
         } else {
+            event.preventDefault(); // 폼 제출 방지
             alert('검색어를 입력하세요.');
         }
     });

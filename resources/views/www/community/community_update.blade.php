@@ -50,7 +50,8 @@
                         <!-- 사진 등록 : s -->
                         <div class="flex_between ">
                             <h6>사진 등록</h6>
-                            <p class="gray_basic">최대 8장 업로드 가능 <span class="txt_point imageCount">0</span> / 8</p>
+                            <p class="gray_basic">최대 8장 업로드 가능 <span
+                                    class="txt_point imageCount">{{ count($result->images) }}</span> / 8</p>
                         </div>
                         <div class="img_add_wrap draggable-zone">
                             <x-pc-image-picker :title="''" id="community" cnt="8" required="required"

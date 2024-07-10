@@ -191,11 +191,19 @@ class CommunityPcController extends Controller
 
             // 매거진
             $communityList = Magazine::withCount('replys')
+                ->select(
+                    'magazine.*',
+                    DB::raw("(SELECT count(*) FROM reply WHERE target_id = magazine.id AND target_type = 'magazine' AND is_delete = 0) AS replys_count")
+                )
                 ->where('magazine.type', '=', $request->type ?? 0)
                 ->where('magazine.is_blind', '0');
         } else if ($is_community == 1) {
             // 커뮤니티
             $communityList = Community::withCount('replys')
+                ->select(
+                    "community.*",
+                    DB::raw("(SELECT count(*) FROM reply WHERE target_id = community.id AND target_type = 'community' AND is_delete = 0) AS replys_count")
+                )
                 ->where('community.category', '=', $request->type ?? 0)
                 ->where('community.is_blind', '0')
                 ->where('community.is_delete', '0');

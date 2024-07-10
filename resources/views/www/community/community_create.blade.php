@@ -48,11 +48,11 @@
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('category')" />
                             </li>
                             <li>
-                                <input type="text" name="title" id="title" placeholder="제목을 입력해주세요.">
+                                <input type="text" name="title" id="title" placeholder="제목을 입력해주세요." value="{{ old('title')}}">
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('title')" />
                             </li>
                             <li>
-                                <textarea name="content" id="content" placeholder="내용을 입력해주세요."></textarea>
+                                <textarea name="content" id="content" placeholder="내용을 입력해주세요.">{{ old('content') }}</textarea>
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('content')" />
                             </li>
                         </ul>

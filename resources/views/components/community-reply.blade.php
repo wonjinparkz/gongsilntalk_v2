@@ -36,7 +36,7 @@
                     @endphp
                 </div>
                 <div class="mt8">
-                    <span class="txt_date">{{ $carbon::parse($reply->created_at)->format('Y.m.d H:m') }}</span>
+                    <span class="txt_date">{{ $carbon::parse($reply->created_at)->format('Y.m.d H:i') }}</span>
                     <button class="btn_re"
                         onclick="replyInfoSetting('{{ $reply->author_name }}', '{{ $reply->id }}');reg_reply(0)">답글
                         쓰기</button>
@@ -72,7 +72,7 @@
                     @endphp
                 </div>
                 <div class="mt8">
-                    <span class="txt_date">{{ $carbon::parse($rereply->created_at)->format('Y.m.d H:m') }} </span>
+                    <span class="txt_date">{{ $carbon::parse($rereply->created_at)->format('Y.m.d H:i') }} </span>
                     <button class="btn_re"
                         onclick="replyInfoSetting('{{ $rereply->author_name }}', '{{ $rereply->id }}');reg_reply(0)">답글
                         쓰기</button>
@@ -105,7 +105,7 @@
                         @endphp
                     </div>
                     <div class="mt8">
-                        <span class="txt_date">{{ $carbon::parse($rerereply->created_at)->format('Y.m.d H:m') }}
+                        <span class="txt_date">{{ $carbon::parse($rerereply->created_at)->format('Y.m.d H:i') }}
                         </span>
                         <button class="btn_re"
                             onclick="replyInfoSetting('{{ $rerereply->author_name }}', '{{ $rerereply->id }}');reg_reply(0)">답글

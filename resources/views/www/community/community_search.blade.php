@@ -111,6 +111,7 @@
             addSearchTermToList(searchInputValue);
 
         } else {
+            event.preventDefault(); // 폼 제출 방지
             alert('검색어를 입력하세요.');
         }
     });

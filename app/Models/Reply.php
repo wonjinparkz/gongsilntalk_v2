@@ -65,7 +65,7 @@ class Reply extends BaseModel
         $child = $this->hasMany(Reply::class, 'parent_id', 'id');
         $child->select(
             'reply.*',
-            'users.name AS author_name',
+            'users.nickname AS author_name',
             'reply_like.id AS like_id',
             'reply_report.id AS report_id',
             'reply_block.id AS block_id',
