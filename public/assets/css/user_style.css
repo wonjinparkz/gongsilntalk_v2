@@ -189,6 +189,7 @@
 .edu_document .swiper-pagination-fraction{background: none !important;}
 .edu_document .swiper-pagination-fraction, .edu_document .swiper-pagination span{color:#fff !important; font-size: 18px;}
 .edu_document .swiper-button-prev, .edu_document .swiper-rtl .swiper-button-next, .edu_document .swiper-button-next, .edu_document .swiper-rtl .swiper-button-prev{color:#fff; background: rgba(0,0,0,0.3); width:40px; height: 40px; border-radius: 2px;}
+.edu_document .swiper-button-prev img, .edu_document .swiper-rtl .swiper-button-next img, .edu_document .swiper-button-next img, .edu_document .swiper-rtl .swiper-button-prev img{width:9px;}
 .edu_document .swiper-button-next:after, .edu_document .swiper-button-prev:after{font-size:18px; }
 .edu_document .swiper-slide{text-align:center; height: auto !important;}
 .edu_document .swiper-wrapper{height: auto !important;}
