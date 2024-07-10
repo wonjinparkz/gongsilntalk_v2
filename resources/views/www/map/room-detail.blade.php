@@ -1037,13 +1037,13 @@
 
         // top 버튼
         $(document).ready(function() {
-            $(window).scroll(function() {
-                if ($(this).scrollTop() > 300) {
-                    $('.top').fadeIn();
-                } else {
-                    $('.top').fadeOut();
-                }
-            });
+            // $(window).scroll(function() {
+            //     if ($(this).scrollTop() > 300) {
+            //         $('.top').fadeIn();
+            //     } else {
+            //         $('.top').fadeOut();
+            //     }
+            // });
             $('.floting_top').click(function() {
                 $('html, body').animate({
                     scrollTop: 0

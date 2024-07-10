@@ -175,7 +175,7 @@
 .template_wrap .txt_con{font-size: 34px; line-height: 1.6; margin-top:28px;}
 .template_wrap .template_img{width:100%; height: 948px;}
 .template_wrap .template_img .img_box{height: 948px;}
-.sales_section_1{padding:140px 0;}
+.sales_section_1{padding:80px 0;}
 .sales_table_info{margin-top: 24px;}
 .change_unit{border-radius: 5px; overflow: hidden; flex-direction: row; display: flex;}
 .change_unit div{cursor:pointer; width:36px; height:28px; display:flex; align-items: center; justify-content: center; background: #EDEDED; font-size: 16px;}
@@ -189,6 +189,7 @@
 .edu_document .swiper-pagination-fraction{background: none !important;}
 .edu_document .swiper-pagination-fraction, .edu_document .swiper-pagination span{color:#fff !important; font-size: 18px;}
 .edu_document .swiper-button-prev, .edu_document .swiper-rtl .swiper-button-next, .edu_document .swiper-button-next, .edu_document .swiper-rtl .swiper-button-prev{color:#fff; background: rgba(0,0,0,0.3); width:40px; height: 40px; border-radius: 2px;}
+.edu_document .swiper-button-prev img, .edu_document .swiper-rtl .swiper-button-next img, .edu_document .swiper-button-next img, .edu_document .swiper-rtl .swiper-button-prev img{width:9px;}
 .edu_document .swiper-button-next:after, .edu_document .swiper-button-prev:after{font-size:18px; }
 .edu_document .swiper-slide{text-align:center; height: auto !important;}
 .edu_document .swiper-wrapper{height: auto !important;}
@@ -223,6 +224,7 @@
 .sales_address_info{display: flex; justify-content: space-between; align-items: center; margin-top: 38px; margin-bottom: 8px;}
 .txt_sales_address{font-size: 20px;}
 .m_address_btn{text-align: center; margin-top: 24px;}
+.map_size{width: 100%; height: 500px;}
 
 
 /* map */
@@ -448,7 +450,7 @@
 .layer_share_con img{width:40px; height: 40px !important;}
 .room_section_wrap{position:relative; display: flex; justify-content: space-between;}
 .btn_floting_wrap{position:fixed; z-index:3; display:scroll; width:1175px; height:0px; bottom:0; left:50%; transform:translateX(-50%);}
-.btn_floting{text-align:right; width:764px; margin-top: -100px; display: none;}
+.btn_floting{text-align:right; width:764px; margin-top: -100px; display:block;}
 .btn_floting img{width:40px; margin-bottom:6px; z-index: 5; margin-right: 10px;}
 .room_section_wrap section{padding-bottom: 100px; width:764px}
 .room_section_wrap section h3, .sales_section_wrap section h3{margin-bottom: 22px;}
