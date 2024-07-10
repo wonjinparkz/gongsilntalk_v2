@@ -226,6 +226,7 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
     Route::get('/mypage/alarm/list', 'alarmListView')->name('www.mypage.alarm.list.view');
 
     Route::post('/changepw', 'changePw')->name('www.change.pw');
+    Route::post('/change/nickname', 'changeNickname')->name('www.change.nickname');
 });
 
 Route::middleware('pc.auth')->controller(ProposalPcController::class)->group(function () {

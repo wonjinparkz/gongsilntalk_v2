@@ -1257,4 +1257,40 @@ class UserPcController extends Controller
 
         return $this->sendResponse(null, '비밀번호 변경에 성공했습니다.');
     }
+
+    public function changeNickname(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nickname' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError("닉네임을 입력해주세요.", $validator->errors()->all(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $users = User::select('nickname')->get();
+
+        if ($users->contains('nickname', $request->nickname)) {
+            return $this->sendError("중복된 닉네임 입니다.", 0, Response::HTTP_BAD_REQUEST);
+        }
+
+        $pattern = "/^[\p{L}0-9]{2,8}$/u";
+        $specialCharPattern = "/^[\p{L}0-9]+$/u";
+
+        if (!preg_match($specialCharPattern, $request->nickname, $matchResult)) {
+            return $this->sendError("특수문자는 사용할 수 없습니다. 영문자, 한글, 숫자만 입력해 주세요.", 2, Response::HTTP_BAD_REQUEST);
+        }
+
+        if (!preg_match($pattern, $request->nickname, $matchResult)) {
+            return $this->sendError("2자리 이상 8자리 미만으로 입력해 주세요.", 2, Response::HTTP_BAD_REQUEST);
+        }
+
+        $user = User::where('id', Auth::guard('web')->user()->id)->first();
+
+        $user->update([
+            'nickname' => $request->nickname,
+        ]);
+
+        return $this->sendResponse(null, '닉네임 변경에 성공했습니다.');
+    }
 }
