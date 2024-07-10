@@ -78,7 +78,7 @@
                         <div class="col-lg-8 fv-row">
                             <span class="fw-bold fs-5">
                                 @inject('carbon', 'Carbon\Carbon')
-                                {{ $carbon::parse($result->created_at)->format('Y년 m월 d일 H:m') }}
+                                {{ $carbon::parse($result->created_at)->format('Y년 m월 d일 H:i') }}
                             </span>
                         </div>
                     </div>

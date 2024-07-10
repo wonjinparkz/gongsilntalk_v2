@@ -903,7 +903,7 @@
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">최종 수정일</label>
                     <div class="col-lg-8 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
-                            {{ $carbon::parse($result->updated_at)->format('Y.m.d H:m') }}
+                            {{ $carbon::parse($result->updated_at)->format('Y.m.d H:i') }}
                         </label>
                     </div>
                 </div>

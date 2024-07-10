@@ -16,7 +16,7 @@
                     <!-- contents : s -->
                     <div class="board_detail_top">
                         <h3>{{ $result->title }}</h3>
-                        <p class="txt_date mt8">{{ $carbon::parse($result->created_at)->format('Y-m-d H:m') }}
+                        <p class="txt_date mt8">{{ $carbon::parse($result->created_at)->format('Y-m-d H:i') }}
                             ·
                             조회 {{ $result->view_count }}</p>
 

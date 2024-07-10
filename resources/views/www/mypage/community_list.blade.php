@@ -73,7 +73,7 @@
                                                             class="txt_point">[{{ number_format($community->replys_count) }}]</span>
                                                     </div>
                                                     <div class="board_item_3 gray_basic">
-                                                        {{ $carbon::parse($community->created_at)->format('Y-m-d H:m') }}<span
+                                                        {{ $carbon::parse($community->created_at)->format('Y-m-d H:i') }}<span
                                                             class="gray_basic"> · 조회 {{ $community->view_count }}</span>
                                                     </div>
                                                     <div class="board_item_4 gray_basic only_pc">

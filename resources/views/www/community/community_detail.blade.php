@@ -118,7 +118,7 @@
                                 </div>
                                 <div>
                                     <span class="txt_name">{{ $result->users->nickname }}</span>
-                                    <p class="txt_date">{{ $carbon::parse($result->created_at)->format('Y-m-d H:m') }}
+                                    <p class="txt_date">{{ $carbon::parse($result->created_at)->format('Y-m-d H:i') }}
                                         ·
                                         조회 {{ $result->view_count }}</p>
                                 </div>
@@ -126,7 +126,7 @@
                         @else
                             <div class="detail_user">
                                 <div>
-                                    <p class="txt_date">{{ $carbon::parse($result->created_at)->format('Y-m-d H:m') }}
+                                    <p class="txt_date">{{ $carbon::parse($result->created_at)->format('Y-m-d H:i') }}
                                         · 조회 {{ $result->view_count }}</p>
                                 </div>
                             </div>

@@ -1343,7 +1343,7 @@
                         <div class="col-lg-8 fv-row">
                             <input type="text" disabled class="form-control form-control-solid"
                                 placeholder="최종 수정자"
-                                value="{{ $carbon::parse($result->updated_at)->format('Y.m.d H:m') . ' - ' . ($result->update_user_type == 0 ? '일반회원' : '관리자') }}" />
+                                value="{{ $carbon::parse($result->updated_at)->format('Y.m.d H:i') . ' - ' . ($result->update_user_type == 0 ? '일반회원' : '관리자') }}" />
                         </div>
                     </div>
 
