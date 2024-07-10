@@ -450,7 +450,7 @@
 .layer_share_con img{width:40px; height: 40px !important;}
 .room_section_wrap{position:relative; display: flex; justify-content: space-between;}
 .btn_floting_wrap{position:fixed; z-index:3; display:scroll; width:1175px; height:0px; bottom:0; left:50%; transform:translateX(-50%);}
-.btn_floting{text-align:right; width:764px; margin-top: -100px; display: none;}
+.btn_floting{text-align:right; width:764px; margin-top: -100px; display:block;}
 .btn_floting img{width:40px; margin-bottom:6px; z-index: 5; margin-right: 10px;}
 .room_section_wrap section{padding-bottom: 100px; width:764px}
 .room_section_wrap section h3, .sales_section_wrap section h3{margin-bottom: 22px;}
