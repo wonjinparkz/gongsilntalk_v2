@@ -119,90 +119,92 @@
         </div>
         <!-- tab : e -->
 
-
+        
         <!-- 기본정보 : s -->
-        <div class="inner_wrap sales_section_1">
-            <section id="tab_area_1" class="page">
-                <div class="flex_between">
-                    <h3>기본정보</h3>
-                    <div class="change_unit toggle_menu">
-                        <div class="active" onclick="onSizeTextChange(0);">㎡</div>
-                        <div onclick="onSizeTextChange(1);">평</div>
+        <div class="page" id="tab_area_1">
+            <div class="inner_wrap sales_section_1" >
+                <section>
+                    <div class="flex_between">
+                        <h3>기본정보</h3>
+                        <div class="change_unit toggle_menu">
+                            <div class="active" onclick="onSizeTextChange(0);">㎡</div>
+                            <div onclick="onSizeTextChange(1);">평</div>
+                        </div>
                     </div>
-                </div>
 
-                <input type="hidden" id="area" name="area" value="{{ $result->area }}">
-                <input type="hidden" id="square" name="square" value="{{ $result->square }}">
-                <input type="hidden" id="building_area" name="building_area" value="{{ $result->building_area }}">
-                <input type="hidden" id="building_square" name="building_square"
-                    value="{{ $result->building_square }}">
-                <input type="hidden" id="total_floor_area" name="total_floor_area"
-                    value="{{ $result->total_floor_area }}">
-                <input type="hidden" id="total_floor_square" name="total_floor_square"
-                    value="{{ $result->total_floor_square }}">
+                    <input type="hidden" id="area" name="area" value="{{ $result->area }}">
+                    <input type="hidden" id="square" name="square" value="{{ $result->square }}">
+                    <input type="hidden" id="building_area" name="building_area" value="{{ $result->building_area }}">
+                    <input type="hidden" id="building_square" name="building_square"
+                        value="{{ $result->building_square }}">
+                    <input type="hidden" id="total_floor_area" name="total_floor_area"
+                        value="{{ $result->total_floor_area }}">
+                    <input type="hidden" id="total_floor_square" name="total_floor_square"
+                        value="{{ $result->total_floor_square }}">
 
 
-                <div class="table_container sales_table_info">
-                    <div>주소</div>
-                    <div>{{ $result->address }}</div>
-                    <div>규모</div>
-                    <div>{{ $result->min_floor }}층 ~ {{ $result->max_floor }}층 {{ $result->dong_count }}개동</div>
-                    <div>총 세대수</div>
-                    <div>{{ number_format($result->generation_count) }}실</div>
-                    <div>주차대수</div>
-                    <div>{{ number_format($result->parking_count) }}대</div>
-                    <div>대지면적</div>
-                    <div id="basicArea">{{ number_format($result->square, 2) }}㎡</div>
-                    <div>건축면적</div>
-                    <div id="buildingArea">{{ number_format($result->building_square, 2) }}㎡</div>
-                    <div>연면적</div>
-                    <div id="totalFloorArea">{{ number_format($result->total_floor_square, 2) }}㎡</div>
-                    <div>용적률/건폐율</div>
-                    <div>{{ $result->floor_area_ratio }}% / {{ $result->builging_ratio }}%</div>
-                    <div>준공일</div>
-                    <div>{{ $carbon::parse($result->completion_date)->format('Y.m.d') }}</div>
-                    <div>입주예정</div>
-                    <div>{{ $carbon::parse($result->expected_move_date)->format('Y.m.d') }}</div>
-                    <div>시행사</div>
-                    <div>{{ $result->developer ?? '-' }}</div>
-                    <div>시공사</div>
-                    <div>{{ $result->comstruction_company ?? '-' }}</div>
-                </div>
-
-                <div class="detail_camera_wrap" {{ count($result->files) > 0 ? '' : 'style=display:none;' }}>
-                    <div class="gray_basic">*클릭을 통해 직접 건물 내부를 이동하며 확인해보세요.</div>
-                    <div class="rotation_wrap mt8" onclick="onMetaLink();">
-                        <div id="panorama-360-view"></div>
+                    <div class="table_container sales_table_info">
+                        <div>주소</div>
+                        <div>{{ $result->address }}</div>
+                        <div>규모</div>
+                        <div>{{ $result->min_floor }}층 ~ {{ $result->max_floor }}층 {{ $result->dong_count }}개동</div>
+                        <div>총 세대수</div>
+                        <div>{{ number_format($result->generation_count) }}실</div>
+                        <div>주차대수</div>
+                        <div>{{ number_format($result->parking_count) }}대</div>
+                        <div>대지면적</div>
+                        <div id="basicArea">{{ number_format($result->square, 2) }}㎡</div>
+                        <div>건축면적</div>
+                        <div id="buildingArea">{{ number_format($result->building_square, 2) }}㎡</div>
+                        <div>연면적</div>
+                        <div id="totalFloorArea">{{ number_format($result->total_floor_square, 2) }}㎡</div>
+                        <div>용적률/건폐율</div>
+                        <div>{{ $result->floor_area_ratio }}% / {{ $result->builging_ratio }}%</div>
+                        <div>준공일</div>
+                        <div>{{ $carbon::parse($result->completion_date)->format('Y.m.d') }}</div>
+                        <div>입주예정</div>
+                        <div>{{ $carbon::parse($result->expected_move_date)->format('Y.m.d') }}</div>
+                        <div>시행사</div>
+                        <div>{{ $result->developer ?? '-' }}</div>
+                        <div>시공사</div>
+                        <div>{{ $result->comstruction_company ?? '-' }}</div>
                     </div>
+
+                    <div class="detail_camera_wrap" {{ count($result->files) > 0 ? '' : 'style=display:none;' }}>
+                        <div class="gray_basic">*클릭을 통해 직접 건물 내부를 이동하며 확인해보세요.</div>
+                        <div class="rotation_wrap mt8" onclick="onMetaLink();">
+                            <div id="panorama-360-view"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <section class="sales_section_2">
+                <div class="inner_wrap">
+                    <h3>교육자료</h3>
+
+                    <div class="swiper edu_document">
+                        <div class="swiper-wrapper">
+                            @foreach ($result->edu_images as $image)
+                                <div class="swiper-slide"><img src="{{ Storage::url('image/' . $image->path) }}"
+                                        class="document_img">
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="swiper-button-next"><img src="{{ asset('assets/media/arrow_w_next.png') }}"></div>
+                        <div class="swiper-button-prev"><img src="{{ asset('assets/media/arrow_w_prev.png') }}"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+
                 </div>
             </section>
         </div>
-
-        <section class="sales_section_2 page">
-            <div class="inner_wrap">
-                <h3>교육자료</h3>
-
-                <div class="swiper edu_document">
-                    <div class="swiper-wrapper">
-                        @foreach ($result->edu_images as $image)
-                            <div class="swiper-slide"><img src="{{ Storage::url('image/' . $image->path) }}"
-                                    class="document_img">
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="swiper-button-next"><img src="{{ asset('assets/media/arrow_w_next.png') }}"></div>
-                    <div class="swiper-button-prev"><img src="{{ asset('assets/media/arrow_w_prev.png') }}"></div>
-                    <div class="swiper-pagination"></div>
-                </div>
-
-            </div>
-        </section>
         <!-- 기본정보 : s -->
 
         <!-- 층별정보  : s -->
-        <div class="inner_wrap sales_section_2-2">
+        <div class="inner_wrap sales_section_2-2" id="tab_area_2">
             <h3>층별정보</h3>
-            <section id="tab_area_2" class="page">
+            <section class="page">
 
                 <ul class="tab_type_6 toggle_tab mt28">
                     @php
@@ -266,8 +268,8 @@
         <!-- 층별정보  : e -->
 
         <!-- 프리미엄  : s -->
-        <div class="inner_wrap sales_section_3">
-            <section id="tab_area_3" class="page">
+        <div class="inner_wrap sales_section_3 page" id="tab_area_3">
+            <section>
                 <h3>프리미엄</h3>
 
                 <div class="premium_wrap">
@@ -314,8 +316,8 @@
         <!-- 프리미엄  : e -->
 
         <!-- 분양일정  : s -->
-        <div class="inner_wrap sales_section_4">
-            <section id="tab_area_4" class="page">
+        <div class="inner_wrap sales_section_4 page" id="tab_area_4">
+            <section>
                 <h3>분양일정</h3>
                 <p class="txt_item_1">*분양 일정은 건설사 사정에 따라 변경될 수 있습니다.</p>
 
@@ -367,8 +369,8 @@
         <!-- 분양일정  : e -->
 
         <!-- 오시는길  : s -->
-        <div class="inner_wrap sales_section_5">
-            <section id="tab_area_5" class="page">
+        <div class="inner_wrap sales_section_5" id="tab_area_5">
+            <section class="page">
                 <h3>오시는 길</h3>
 
                 <div class="sales_address_info">
@@ -378,7 +380,7 @@
                 </div>
 
                 <div class="sales_map_wrap">
-                    <div id="map" style="width:100%; height:500px">
+                    <div id="map" class="map_size">
                     </div>
                 </div>
 

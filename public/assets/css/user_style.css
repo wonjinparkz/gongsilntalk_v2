@@ -175,7 +175,7 @@
 .template_wrap .txt_con{font-size: 34px; line-height: 1.6; margin-top:28px;}
 .template_wrap .template_img{width:100%; height: 948px;}
 .template_wrap .template_img .img_box{height: 948px;}
-.sales_section_1{padding:140px 0;}
+.sales_section_1{padding:80px 0;}
 .sales_table_info{margin-top: 24px;}
 .change_unit{border-radius: 5px; overflow: hidden; flex-direction: row; display: flex;}
 .change_unit div{cursor:pointer; width:36px; height:28px; display:flex; align-items: center; justify-content: center; background: #EDEDED; font-size: 16px;}
@@ -224,6 +224,7 @@
 .sales_address_info{display: flex; justify-content: space-between; align-items: center; margin-top: 38px; margin-bottom: 8px;}
 .txt_sales_address{font-size: 20px;}
 .m_address_btn{text-align: center; margin-top: 24px;}
+.map_size{width: 100%; height: 500px;}
 
 
 /* map */

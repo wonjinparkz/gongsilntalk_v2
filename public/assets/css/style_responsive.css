@@ -115,6 +115,7 @@
     .floating_wish.on{background:url('/assets/media/btn_like_on.png') 20px 50% no-repeat; background-size: 20px auto;}
     .rotation_wrap{width:100%; height:248px;}
     .rotation_wrap #panorama-360-view{width:100%; height:248px;}
+    .map_size{width: 100%; height:250px;}
 
     /* map */
     .map_wrap{width:100%; height:100vh; box-sizing: border-box; background: #f6f6f6; position: relative; overflow: hidden;}
