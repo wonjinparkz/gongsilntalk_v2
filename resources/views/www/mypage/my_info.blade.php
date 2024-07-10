@@ -48,6 +48,8 @@
                                 <label>이름</label>
                                 <input type="text" value="{{ $user->name }}" disabled>
                             </li>
+
+                            {{-- QA-68 디자인 변경 필요 --}}
                             <li>
                                 <label>닉네임</label>
                                 <input type="text" id="chage_nickname" name="chage_nickname"
@@ -57,6 +59,7 @@
                                 <button class="btn_gray_ghost btn_sm" id="btn_pw" onclick="changeNickName()">닉네임
                                     변경</button>
                             </li>
+
                             <li>
                                 <label>이메일</label>
                                 <input type="text" value="{{ $user->email }}" disabled>

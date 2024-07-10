@@ -328,7 +328,9 @@
                             <div class="tag_area">
                                 <span class="txt_tag">#무료 3D도면 제공</span>
                             </div>
-                            <button>자세히보기</button>
+                            <a href="https://xn--s39awro00dcgl.com/portfolio?category=66C5Dz078" target="_blank">
+                                <button>자세히보기</button>
+                            </a>
                         </div>
 
                         <div class="con_box">
@@ -339,7 +341,9 @@
                                 <span class="txt_tag">#퍼시스 가구</span>
                                 <span class="txt_tag">#합리적인 가격</span>
                             </div>
-                            <button>자세히보기</button>
+                            <a href="https://xn--s39awro00dcgl.com/portfolio?category=54K087K540" target="_blank">
+                                <button>자세히보기</button>
+                            </a>
                         </div>
 
                         <div class="con_box">
@@ -350,9 +354,25 @@
                                 <span class="txt_tag">#데스커 가구</span>
                                 <span class="txt_tag">#기업전용 서비스</span>
                             </div>
-                            <button>자세히보기</button>
+                            <a href="https://xn--s39awro00dcgl.com/portfolio?category=726406uT5e" target="_blank">
+                                <button>자세히보기</button>
+                            </a>
                         </div>
                     </div>
+                </div>
+
+
+                {{-- QA-64 디자인 변경 필요 --}}
+                <div class="con_box_wrap">
+                    <a href='https://xn--s39awro00dcgl.com/portfolio'>
+                        <button class="btn_black_ghost btn_basic">
+                            더 많은 사례 확인하기
+                        </button>
+                    </a>
+
+                    <button class="btn_point btn_basic">
+                        공간 컨설팅 신청하기
+                    </button>
                 </div>
 
             </section>

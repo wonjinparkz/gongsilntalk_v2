@@ -71,6 +71,8 @@
                                 <label>이름</label>
                                 <input type="text" value="{{ $user->name }}" disabled>
                             </li>
+
+                            {{-- QA-68 디자인 변경 필요 --}}
                             <li>
                                 <label>닉네임</label>
                                 <input type="text" id="chage_nickname" name="chage_nickname"
