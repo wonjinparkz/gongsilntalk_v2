@@ -311,7 +311,7 @@
 .filter_tit_2{display: flex; gap: 8px; align-items: center; margin-bottom: 16px;}
 .filter_tit_2 h6{margin-bottom: 0;}
 .filter_panel.panel_item_6{width:330px}
-.side_list_wrap{width:359px; height:calc(100vh - 165px);}
+.side_list_wrap{width:439px; height:calc(100vh - 165px);}
 .side_list_tab{width:100%; display: flex; align-items: center;}
 .side_list_tab li{width:50%; height: 44px; color: var(--color-gray-3); display: flex; align-items: center; justify-content: center; cursor: pointer; border-bottom: 1px solid #F0F0F0; box-sizing: border-box;}
 .side_list_tab li.active{color: var(--txt-color); position: relative;}
