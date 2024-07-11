@@ -80,8 +80,8 @@
         }
     }
 @endphp
-<!-- 전월세 있는 경우 transaction_type 추가 -->
-<div class="map_side_body">
+
+<div class="map_side_body transaction_type">
     <div class="side_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
                     src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
@@ -120,7 +120,7 @@
 
         <div class="side_info_wrap">
             <div>
-                <div id="minimap" style="width:100%; height:330px;" class="size_100p"></div>
+                <div id="minimap" style="width:100%; height:230px;" class="size_100p"></div>
             </div>
             <p class="txt_address">{{ $result->kbuildingAddr }}</p>
             <p class="txt_sub_1">{{ $result->subwayStation }} {{ $result->subwayLine }}
@@ -174,49 +174,33 @@
                     </div>
 
                 </div>
-                <!-- 거래내역 : e -->
-            </div>
-            <div class="sction_item">
-                <!-- 건물·토지정보 : s -->
-                <x-pc-buildingledger :BrTitleInfo="$BrTitleInfo" :BrRecapTitleInfo="$BrRecapTitleInfo" :BrFlrOulnInfo="$BrFlrOulnInfo" :BrExposInfo="$BrExposInfo"
-                    :BrExposPubuseAreaInfo="$BrExposPubuseAreaInfo" :characteristics_json="$result->characteristics_json" :useWFS_json="$result->useWFS_json" />
-                <!-- 건물·토지정보 : e -->
-            </div>
-            <div class="sction_item">
-                <!-- 위치정보 : s -->
-                <div class="side_section">
-                    <h4>위치 및 주변정보</h4>
-                    <div class="container_map_wrap mt18">
-                        <x-pc-around-map :address_lat="$result->address_lat" :address_lng="$result->address_lng" />
-                    </div>
-                    <div class="map_detail_wrp">
-                        <ul class="tab_sm_menu tab_type_4">
-                            <li class="active"><a href="javascript:(0)">대중교통</a></li>
-                            <li><a href="javascript:(0)">편의시설</a></li>
-                            <li><a href="javascript:(0)">교육시설</a></li>
-                        </ul>
-                        <div class="tab_sm_wrap">
-                            <div class="traffic_wrap">
-                                <div class="traffic_tit"><img src="{{ asset('assets/media/ic_subway.png') }}">지하철
-                                </div>
-                                <p class="traffic_row">{{ $result->subwayStation }} {{ $result->subwayLine }}
-                                    <span>{{ $result->kaptdWtimesub }}</span>
-                                </p>
-
-                                <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스
-                                </div>
-                                <p class="traffic_row">정류장 <span>{{ $result->kaptdWtimebus }}</span></p>
-
+                <div class="map_detail_wrp">
+                    <ul class="tab_sm_menu tab_type_4">
+                        <li class="active"><a href="javascript:(0)">대중교통</a></li>
+                        <li><a href="javascript:(0)">편의시설</a></li>
+                        <li><a href="javascript:(0)">교육시설</a></li>
+                    </ul>
+                    <div class="tab_sm_wrap">
+                        <div class="traffic_wrap">
+                            <div class="traffic_tit"><img src="{{ asset('assets/media/ic_subway.png') }}">지하철
                             </div>
-                            <div>
-                                <div class="facility_wrap">
-                                    {!! nl2br($result->convenientFacility) !!}
-                                </div>
+                            <p class="traffic_row">{{ $result->subwayStation }} {{ $result->subwayLine }}
+                                <span>{{ $result->kaptdWtimesub }}</span>
+                            </p>
+
+                            <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스
                             </div>
-                            <div>
-                                <div class="edu_wrap">
-                                    {!! nl2br($result->educationFacility) !!}
-                                </div>
+                            <p class="traffic_row">정류장 <span>{{ $result->kaptdWtimebus }}</span></p>
+
+                        </div>
+                        <div>
+                            <div class="facility_wrap">
+                                {!! nl2br($result->convenientFacility) !!}
+                            </div>
+                        </div>
+                        <div>
+                            <div class="edu_wrap">
+                                {!! nl2br($result->educationFacility) !!}
                             </div>
                         </div>
                     </div>
@@ -225,14 +209,19 @@
             </div>
             <div class="sction_item">
                 <!-- 매물정보 : s -->
-                <x-pc-map-product-list :productList="$result->productList" />
+                <x-pc-map-product-list />
                 <!-- 매물정보 : e -->
             </div>
+            <!-- 위치정보 : s -->
+        </div>
+        <div class="sction_item">
+            <!-- 매물정보 : s -->
+            <x-pc-map-product-list :productList="$result->productList" />
+            <!-- 매물정보 : e -->
         </div>
 
     </div>
 </div>
-
 <script>
     $(document).ready(function() {
 

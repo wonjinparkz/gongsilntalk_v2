@@ -56,62 +56,60 @@
         }
     }
 @endphp
-<!-- 전월세 있는 경우 transaction_type 추가 -->
-<div class="map_side_body @if (count($result->transactions) > 0 || count($result->transactionsRent) > 0) transaction_type @endif">
-    <div class="side_header">
-        <div class="left_area"><a href="javascript:history.go(-1)"><img
-                    src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
-        <div class="m_title">{{ $result->kaptName }}</div>
-        <div class="right_area"><a href="#" class="btn_share"><img
-                    src="{{ asset('assets/media/header_btn_share_deep.png') }}"></a></div>
-        <!-- 공유하기 : s -->
-        <div class="layer layer_share_wrap layer_share_top">
-            <div class="layer_title">
-                <h5>공유하기</h5>
-                <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close btn_share">
-            </div>
-            <div class="layer_share_con">
-                <a href="#">
-                    <img src="{{ asset('assets/media/share_ic_01.png') }}">
-                    <p class="mt8">카카오톡</p>
-                </a>
-                <a href="#">
-                    <img src="{{ asset('assets/media/share_ic_02.png') }}">
-                    <p class="mt8">링크복사</p>
-                </a>
-            </div>
+<div class="side_header">
+    <div class="left_area"><a href="javascript:history.go(-1)"><img
+                src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
+    <div class="m_title">{{ $result->kaptName }}</div>
+    <div class="right_area"><a href="#" class="btn_share"><img
+                src="{{ asset('assets/media/header_btn_share_deep.png') }}"></a></div>
+    <!-- 공유하기 : s -->
+    <div class="layer layer_share_wrap layer_share_top">
+        <div class="layer_title">
+            <h5>공유하기</h5>
+            <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close btn_share">
         </div>
-        <!-- 공유하기 : e -->
+        <div class="layer_share_con">
+            <a href="#">
+                <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                <p class="mt8">카카오톡</p>
+            </a>
+            <a href="#">
+                <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                <p class="mt8">링크복사</p>
+            </a>
+        </div>
     </div>
+    <!-- 공유하기 : e -->
+</div>
 
-    <div class="side_fixed">
-        <div class="top_wrap flex_between">
-            <ul class="tab_type_3 toggle_tab">
-                @if (count($result->transactions) > 0)
-                    <li class="active" data-type="sale">매매</li>
-                @endif
-                @if (count($result->transactionsRent) > 0)
-                    <li class="" data-type="rent">전월세</li>
-                @endif
-            </ul>
-
-            @if (count($result->exclusiveAreasSale) > 0)
-                <div class="dropdown_box s_sm">
-                    <button class="dropdown_label dropdown_area_label"
-                        id="areaTypeText">{{ $result->exclusiveAreasSale[0] }}㎡</button>
-                    <ul class="optionList areaList transactionsType">
-                        @foreach ($result->exclusiveAreasSale as $area)
-                            <li class="optionItem areaItem sale rent" data-area="{{ $area }}">
-                                {{ $area }}㎡
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+<div class="side_fixed">
+    <div class="top_wrap flex_between">
+        <ul class="tab_type_3 toggle_tab">
+            @if (count($result->transactions) > 0)
+                <li class="active" data-type="sale">매매</li>
             @endif
-        </div>
-    </div>
-    <script></script>
+            @if (count($result->transactionsRent) > 0)
+                <li class="" data-type="rent">전월세</li>
+            @endif
+        </ul>
 
+        @if (count($result->exclusiveAreasSale) > 0)
+            <div class="dropdown_box s_sm">
+                <button class="dropdown_label dropdown_area_label"
+                    id="areaTypeText">{{ $result->exclusiveAreasSale[0] }}㎡</button>
+                <ul class="optionList areaList transactionsType">
+                    @foreach ($result->exclusiveAreasSale as $area)
+                        <li class="optionItem areaItem sale rent" data-area="{{ $area }}">{{ $area }}㎡
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+    </div>
+</div>
+<script></script>
+
+<div class="map_side_body">
     <div class="scroll_wrap_1">
         <hr class="space">
         <div class="estate_link">
@@ -124,7 +122,7 @@
 
         <div class="side_info_wrap">
             <div>
-                <div id="minimap" style="width:100%; height:330px;" class="size_100p"></div>
+                <div id="minimap" style="width:100%; height:230px;" class="size_100p"></div>
                 {{-- <img src="{{ asset('assets/media/map_sample_sm.png') }}" class="size_100p"> --}}
             </div>
             <p class="txt_address">{{ $result->kaptAddr }}</p>
@@ -145,8 +143,7 @@
                     <label>최저/최고</label>
                 </li>
                 <li>
-                    <p>{{ $result->kaptUsedate != '' ? substr($result->kaptUsedate, 0, 4) : '-' }}년</p>
-                    <label>준공년도</label>
+                    <p>{{ $result->kaptUsedate != '' ? substr($result->kaptUsedate, 0, 4) : '-' }}년</p><label>준공년도</label>
                 </li>
             </ul>
         </div>
@@ -588,7 +585,6 @@
 
     </div>
 </div>
-
 <script>
     $(document).ready(function() {
 
