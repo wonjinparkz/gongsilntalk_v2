@@ -52,6 +52,8 @@
                                     </option>
                                     <option value="1" @if ($is_sale == 1) selected @endif>분양중
                                     </option>
+                                    <option value="2" @if ($is_sale == 2) selected @endif>분양완료
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -128,7 +130,19 @@
                                         {{-- 분양상태 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                {{ $siteProduct->is_sale ? '분양중' : '분양예정' }}
+                                                @php
+                                                    switch ($siteProduct->is_sale) {
+                                                        case 0:
+                                                            echo '분양예정';
+                                                            break;
+                                                        case 1:
+                                                            echo '분양중';
+                                                            break;
+                                                        case 2:
+                                                            echo '분양완료';
+                                                            break;
+                                                    }
+                                                @endphp
                                             </span>
                                         </td>
 
@@ -178,16 +192,26 @@
                                                         @csrf
                                                         <input type="hidden" name="id"
                                                             value="{{ $siteProduct->id }}" />
-                                                        <input type="hidden" name="is_sale"
+                                                        <input type="hidden" name="is_sale" id="is_sale"
                                                             value="{{ $siteProduct->is_sale }}" />
-                                                        <a href="#" onclick="parentNode.submit();"
-                                                            class="menu-link px-3">
-                                                            @if ($siteProduct->is_sale == 0)
-                                                                분양중
-                                                            @elseif ($siteProduct->is_sale == 1)
+                                                        @if ($siteProduct->is_sale != 0)
+                                                            <a onclick="$('#is_sale').val(0);parentNode.submit();"
+                                                                class="menu-link px-3">
                                                                 분양예정
-                                                            @endif
-                                                        </a>
+                                                            </a>
+                                                        @endif
+                                                        @if ($siteProduct->is_sale != 1)
+                                                            <a onclick="$('#is_sale').val(1);parentNode.submit();"
+                                                                class="menu-link px-3">
+                                                                분양중
+                                                            </a>
+                                                        @endif
+                                                        @if ($siteProduct->is_sale != 2)
+                                                            <a onclick="$('#is_sale').val(2);parentNode.submit();"
+                                                                class="menu-link px-3">
+                                                                분양완료
+                                                            </a>
+                                                        @endif
                                                     </form>
                                                 </div>
                                                 {{-- 삭제 --}}

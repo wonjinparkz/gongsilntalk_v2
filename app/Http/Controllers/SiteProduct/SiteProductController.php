@@ -287,6 +287,7 @@ class SiteProductController extends Controller
 
         $result = SiteProduct::where('id', $request->id)->update([
             'admins_id' => Auth::guard('admin')->user()->id,
+            'is_sale' => $request->is_sale,
             'region_type' => $request->region_type,
             'address' => $request->address,
             'region_code' => $request->region_code,
@@ -387,6 +388,18 @@ class SiteProductController extends Controller
         return Redirect::route('admin.site.product.detail.view', [$request->id])->with('message', '분양현장 매물을 수정했습니다.');
     }
 
+
+    /**
+     * 분양현장 매물 삭제
+     */
+    public function siteProductSaleUpdate(Request $request)
+    {
+        $result = SiteProduct::where('id', $request->id)->first()
+            ->update(['is_sale' => $request->is_sale]);
+
+        return back()->with('message', '분양매물 분양타입을 변경했습니다.');
+    }
+
     /**
      * 분양현장 매물 삭제
      */
@@ -395,7 +408,7 @@ class SiteProductController extends Controller
         $result = SiteProduct::where('id', $request->id)->first()
             ->update(['is_delete' => '1']);
 
-        return back()->with('message', '건물을 삭제했습니다.');
+        return back()->with('message', '분양매물을 삭제했습니다.');
     }
 
 

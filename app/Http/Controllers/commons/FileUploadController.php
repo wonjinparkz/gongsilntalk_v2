@@ -106,7 +106,7 @@ class FileUploadController extends Controller
         $originImage = Image::make($image);
 
         // 이미지 리사이징
-        $imageWidth = ($originImage->width() > 1000) ? 1000 : $originImage->width();
+        $imageWidth = ($originImage->width() > 2560) ? 2560 : $originImage->width();
         $originImage->resize($imageWidth, null, function ($constraint) {
             $constraint->aspectRatio();
         })->orientate()->encode('png', 100);

@@ -43,7 +43,7 @@ return new class extends Migration
             $table->string('developer')->nullable()->comment('시행사');
             $table->string('comstruction_company')->nullable()->comment('시공사');
             $table->string('matterport_link')->nullable()->comment('메타포트 링크');
-            $table->integer('is_sale')->nullable()->comment('분양 여부 - 0: 분양예정, 1: 분양중');
+            $table->integer('is_sale')->nullable()->comment('분양 여부 - 0: 분양예정, 1: 분양중, 2: 분양완료');
             $table->integer('is_delete')->nullable()->comment('삭제 여부 - 0: 게시중, 1: 삭제함');
 
             // Indexes

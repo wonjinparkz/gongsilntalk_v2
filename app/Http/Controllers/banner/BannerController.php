@@ -41,8 +41,8 @@ class BannerController extends Controller
         $bannerList = Banners::with('images')->select();
 
         // 검색어
-        if (isset($request->is_sale)) {
-            $bannerList->where('banners.is_sale', "$request->is_sale");
+        if (isset($request->is_blind)) {
+            $bannerList->where('banners.is_blind', "$request->is_blind");
         }
 
         // 게시 시작일 from ~ to
