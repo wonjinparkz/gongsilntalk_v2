@@ -100,8 +100,8 @@
             <div class="btn_view_type">
                 <button class="toggle-btn" id="cadastral">지적도</button>
                 <button class="toggle-btn" onclick="toggleSatelliteView()">위성뷰</button>
-                <button class="toggle-btn" id="streetView"><img src="{{ asset('assets/media/ic_map_activate4.png') }}"></button>
             </div>
+            <button class="toggle-btn line_type" id="streetView"><span></span></button>
             
         </div>
         <button type="button" class="map_view_btn map_view_btn_2" id="map_view_btn" onclick="mapTypeViewChage()">
@@ -142,13 +142,8 @@ const buttons = document.querySelectorAll('.toggle-btn');
 
 buttons.forEach(button => {
   button.addEventListener('click', function() {
-    buttons.forEach(btn => {
-      if (btn === button) {
-        btn.classList.toggle('clicked');
-      } else {
-        btn.classList.remove('clicked');
-      }
-    });
+    // 버튼의 'clicked' 클래스를 토글합니다.
+    button.classList.toggle('clicked');
   });
 });
 </script>
