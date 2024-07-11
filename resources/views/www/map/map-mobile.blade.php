@@ -98,10 +98,11 @@
                 <button id="current"><img src="{{ asset('assets/media/ic_map_activate1.png') }}"></button>
             </div>
             <div class="btn_view_type">
-                <button id="cadastral">지적도</button>
-                <button onclick="toggleSatelliteView()">위성뷰</button>
+                <button class="toggle-btn" id="cadastral">지적도</button>
+                <button class="toggle-btn" onclick="toggleSatelliteView()">위성뷰</button>
+                <button class="toggle-btn" id="streetView"><img src="{{ asset('assets/media/ic_map_activate4.png') }}"></button>
             </div>
-            <button id="streetView"><img src="{{ asset('assets/media/ic_map_activate4.png') }}"></button>
+            
         </div>
         <button type="button" class="map_view_btn map_view_btn_2" id="map_view_btn" onclick="mapTypeViewChage()">
             <span id="centerDongText">익선동</span>
@@ -135,6 +136,22 @@
 
     <x-nav-layout />
 </x-layout>
+
+<script>
+const buttons = document.querySelectorAll('.toggle-btn');
+
+buttons.forEach(button => {
+  button.addEventListener('click', function() {
+    buttons.forEach(btn => {
+      if (btn === button) {
+        btn.classList.toggle('clicked');
+      } else {
+        btn.classList.remove('clicked');
+      }
+    });
+  });
+});
+</script>
 
 <!-- 지도 내 매물 : s -->
 <div class="modal modal_full modal_m_property_list">
