@@ -3,7 +3,6 @@
         <x-screen-card :title="'지식산업센터 상세'">
         </x-screen-card>
         {{-- FORM START  --}}
-
         @inject('carbon', 'Carbon\Carbon')
         <form class="form" method="POST" action="{{ route('admin.knowledgeCenter.update') }}">
             @csrf
