@@ -109,297 +109,120 @@
 </div>
 <script></script>
 
-<div class="scroll_wrap_1">
-    <hr class="space">
-    <div class="estate_link">
-        <a href="{{ route('www.product.create.view') }}" class="flex_between">
-            <span><img src="{{ asset('assets/media/ic_org_estate.png') }}" class="ic_left_20"> 부동산 내놓기</span>
-            <span><img src="{{ asset('assets/media/ic_list_arrow.png') }}" class="ic_10"></span>
-        </a>
-    </div>
-    <hr class="space">
-
-    <div class="side_info_wrap">
-        <div>
-            <div id="minimap" style="width:100%; height:330px;" class="size_100p"></div>
-            {{-- <img src="{{ asset('assets/media/map_sample_sm.png') }}" class="size_100p"> --}}
+<div class="map_side_body">
+    <div class="scroll_wrap_1">
+        <hr class="space">
+        <div class="estate_link">
+            <a href="{{ route('www.product.create.view') }}" class="flex_between">
+                <span><img src="{{ asset('assets/media/ic_org_estate.png') }}" class="ic_left_20"> 부동산 내놓기</span>
+                <span><img src="{{ asset('assets/media/ic_list_arrow.png') }}" class="ic_10"></span>
+            </a>
         </div>
-        <p class="txt_address">{{ $result->kaptAddr }}</p>
-        <p class="txt_sub_1">{{ $result->subwayStation }} {{ $result->subwayLine }}
-            <span>{{ $result->kaptdWtimesub }}</span>
-        </p>
-        <ul class="info_detail">
-            <li>
-                <p>{{ $result->kaptDongCnt }}동</p><label>총 동수</label>
-            </li>
-            <li>
-                <p>{{ $result->kaptdaCnt }}세대</p><label>총 세대수</label>
-            </li>
-            <li>
-                <p>
-                    {{ $Minfloor > 0 ? 'B' . $Minfloor : ($floor > 0 ? $floorMin : '-') }}층/{{ $floor > 0 ? $floor : '-' }}층
-                </p>
-                <label>최저/최고</label>
-            </li>
-            <li>
-                <p>{{ $result->kaptUsedate != '' ? substr($result->kaptUsedate, 0, 4) : '-' }}년</p><label>준공년도</label>
-            </li>
-        </ul>
-    </div>
+        <hr class="space">
 
-    <!-- tab : s -->
-    <div class="tab_type_2 type_side">
-        <div style="width: 100%;">
-            <div class="swiper detail_tab">
-                <div class="swiper-wrapper menu toggle_menu">
-                    <div class="swiper-slide active"><a>가격·거래내역</a></div>
-                    <div class="swiper-slide"><a>건물·토지정보</a></div>
-                    <div class="swiper-slide"><a>위치 및 주변정보</a></div>
-                    <div class="swiper-slide"><a>매물정보</a></div>
-                </div>
+        <div class="side_info_wrap">
+            <div>
+                <div id="minimap" style="width:100%; height:230px;" class="size_100p"></div>
+                {{-- <img src="{{ asset('assets/media/map_sample_sm.png') }}" class="size_100p"> --}}
             </div>
-            <div class="swiper-button-next detail-tab-next"></div>
-            <!-- <div class="swiper-button-prev detail-tab-prev"></div> -->
+            <p class="txt_address">{{ $result->kaptAddr }}</p>
+            <p class="txt_sub_1">{{ $result->subwayStation }} {{ $result->subwayLine }}
+                <span>{{ $result->kaptdWtimesub }}</span>
+            </p>
+            <ul class="info_detail">
+                <li>
+                    <p>{{ $result->kaptDongCnt }}동</p><label>총 동수</label>
+                </li>
+                <li>
+                    <p>{{ $result->kaptdaCnt }}세대</p><label>총 세대수</label>
+                </li>
+                <li>
+                    <p>
+                        {{ $Minfloor > 0 ? 'B' . $Minfloor : ($floor > 0 ? $floorMin : '-') }}층/{{ $floor > 0 ? $floor : '-' }}층
+                    </p>
+                    <label>최저/최고</label>
+                </li>
+                <li>
+                    <p>{{ $result->kaptUsedate != '' ? substr($result->kaptUsedate, 0, 4) : '-' }}년</p><label>준공년도</label>
+                </li>
+            </ul>
         </div>
-    </div>
-    <!-- tab : e -->
 
-    <div class="side_tab_wrap">
-        <div class="sction_item active">
-            <div id="saleContent" class="content_item">
-                <!-- 매매 거래내역 : s -->
-                <div class="side_section">
-                    <h4>매매 거래내역</h4>
-                    <!-- 데이터 없을 경우 -->
-                    @if (count($result->groupedTransactions) <= 0)
-                        <div class="empty_wrap sm_type">
-                            <span>실거래 내역이 없습니다.</span>
-                        </div>
-                    @else
-                        <div id="saleTransactionContainer">
-                            @foreach ($result->groupedTransactions as $area => $group)
-                                @php
-                                    $latestTransaction = $group->first();
-                                    $previousTransaction = $group->skip(1)->first();
-                                    $priceChange = 0;
-                                    $priceChangePercent = 0;
-                                    $latestPrice = 0;
-                                    if ($latestTransaction) {
-                                        $latestPrice = (float) str_replace(
-                                            ',',
-                                            '',
-                                            $latestTransaction->transactionPrice,
-                                        );
-                                        if ($previousTransaction) {
-                                            $previousPrice = (float) str_replace(
+        <!-- tab : s -->
+        <div class="tab_type_2 type_side">
+            <div style="width: 100%;">
+                <div class="swiper detail_tab">
+                    <div class="swiper-wrapper menu toggle_menu">
+                        <div class="swiper-slide active"><a>가격·거래내역</a></div>
+                        <div class="swiper-slide"><a>건물·토지정보</a></div>
+                        <div class="swiper-slide"><a>위치 및 주변정보</a></div>
+                        <div class="swiper-slide"><a>매물정보</a></div>
+                    </div>
+                </div>
+                <div class="swiper-button-next detail-tab-next"></div>
+                <!-- <div class="swiper-button-prev detail-tab-prev"></div> -->
+            </div>
+        </div>
+        <!-- tab : e -->
+
+        <div class="side_tab_wrap">
+            <div class="sction_item active">
+                <div id="saleContent" class="content_item">
+                    <!-- 매매 거래내역 : s -->
+                    <div class="side_section">
+                        <h4>매매 거래내역</h4>
+                        <!-- 데이터 없을 경우 -->
+                        @if (count($result->groupedTransactions) <= 0)
+                            <div class="empty_wrap sm_type">
+                                <span>실거래 내역이 없습니다.</span>
+                            </div>
+                        @else
+                            <div id="saleTransactionContainer">
+                                @foreach ($result->groupedTransactions as $area => $group)
+                                    @php
+                                        $latestTransaction = $group->first();
+                                        $previousTransaction = $group->skip(1)->first();
+                                        $priceChange = 0;
+                                        $priceChangePercent = 0;
+                                        $latestPrice = 0;
+                                        if ($latestTransaction) {
+                                            $latestPrice = (float) str_replace(
                                                 ',',
                                                 '',
-                                                $previousTransaction->transactionPrice,
+                                                $latestTransaction->transactionPrice,
                                             );
-                                            $priceChange = $latestPrice - $previousPrice;
-                                            if ($previousPrice != 0) {
-                                                $priceChangePercent = ($priceChange / $previousPrice) * 100;
+                                            if ($previousTransaction) {
+                                                $previousPrice = (float) str_replace(
+                                                    ',',
+                                                    '',
+                                                    $previousTransaction->transactionPrice,
+                                                );
+                                                $priceChange = $latestPrice - $previousPrice;
+                                                if ($previousPrice != 0) {
+                                                    $priceChangePercent = ($priceChange / $previousPrice) * 100;
+                                                }
                                             }
                                         }
-                                    }
-                                    $priceChangeClass =
-                                        $priceChange > 0
-                                            ? 'status_item_red'
-                                            : ($priceChange < 0
-                                                ? 'status_item_blue'
-                                                : 'status_item_normal');
+                                        $priceChangeClass =
+                                            $priceChange > 0
+                                                ? 'status_item_red'
+                                                : ($priceChange < 0
+                                                    ? 'status_item_blue'
+                                                    : 'status_item_normal');
 
-                                @endphp
-                                <div class="transactionGroup" data-area="{{ $latestTransaction->exclusiveArea }}">
+                                    @endphp
+                                    <div class="transactionGroup" data-area="{{ $latestTransaction->exclusiveArea }}">
 
-                                    <div class="transaction_box mt10">
-                                        <div class="gray_deep">
-                                            <span
-                                                class="transaction_price">{{ Commons::getformatPrice($latestPrice) }}</span>({{ $latestTransaction->floor }}층)
-                                        </div>
-                                        <div class="{{ $priceChangeClass }}">
-                                            @if ($priceChangeClass != 'status_item_normal')
-                                                {{ Commons::getformatPrice($priceChange) }}
-                                                ({{ number_format($priceChangePercent, 2) }}%)
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="table_container2_sm mt10">
-                                        <div class="td">거래일시</div>
-                                        <div class="td">
-                                            {{ $latestTransaction->year . '.' . $latestTransaction->month }}
-                                        </div>
-                                        <div class="td">거래 총면적</div>
-                                        <div class="td">전용 {{ $latestTransaction->exclusiveArea }}㎡</div>
-                                        <div class="td">면적당 단가</div>
-                                        <div class="td">전용
-                                            {{ Commons::getformatPrice($latestPrice / $latestTransaction->exclusiveArea) }}/㎡
-                                        </div>
-                                    </div>
-
-                                    <div class="chart_wrap">
-                                        <div class="chart_top">
-                                            <p>기간 : 전체</p>
-                                        </div>
-                                        <div id="container" style="height: 200px;"></div>
-                                    </div>
-                                    <script type="text/javascript">
-                                        Highcharts.chart('container', {
-                                            colors: ['#F16341'],
-                                            title: {
-                                                text: ''
-                                            },
-                                            yAxis: {
-                                                title: {
-                                                    text: ''
-                                                }
-                                            },
-
-                                            xAxis: {
-                                                categories: ['2021', '2022', '2023', '2024']
-                                            },
-
-                                            legend: {
-                                                enabled: false
-                                            },
-
-                                            plotOptions: {
-                                                series: {
-                                                    label: {
-                                                        connectorAllowed: false
-                                                    },
-                                                    marker: {
-                                                        fillColor: '#fff',
-                                                        lineWidth: 2,
-                                                        lineColor: '#F16341',
-                                                    },
-                                                    pointStart: 2021
-                                                }
-                                            },
-
-                                            series: [{
-                                                name: '2023년 2월, 2건<br>',
-                                                data: [
-                                                    400000000, 380000000, 300000000, 350000000, 420000000
-                                                ]
-                                            }, ],
-
-                                            responsive: {
-                                                rules: [{
-                                                    condition: {
-                                                        maxWidth: 500
-                                                    },
-                                                    chartOptions: {
-                                                        legend: {
-                                                            layout: 'horizontal',
-                                                            align: 'center',
-                                                            verticalAlign: 'bottom'
-                                                        }
-                                                    }
-                                                }]
-                                            }
-
-                                        });
-                                    </script>
-
-                                    <div class="section_price_wrap mt20">
-                                        <div class="default_box showstep1">
-                                            <table class="table_type_1">
-                                                <colgroup>
-                                                    <col width="80">
-                                                    <col width="*">
-                                                    <col width="*">
-                                                </colgroup>
-                                                <thead>
-                                                    <tr>
-                                                        <th>거래일</th>
-                                                        <th>거래금액</th>
-                                                        <th>층수</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($group as $transaction)
-                                                        @php
-                                                            $transactionPrice = (float) str_replace(
-                                                                ',',
-                                                                '',
-                                                                $transaction->transactionPrice,
-                                                            );
-                                                        @endphp
-                                                        <tr>
-                                                            <td>{{ $transaction->year . '.' . $transaction->month }}
-                                                            </td>
-                                                            <td>{{ Commons::getformatPrice($transactionPrice) }}
-                                                            </td>
-                                                            <td>{{ $transaction->floor }}층</td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="btn_more_open">더보기</div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
-                </div>
-                <!-- 매매 거래내역 : e -->
-            </div>
-
-            <div id="rentContent" class="content_item">
-                <!-- 전월세 거래내역 : s -->
-                <div class="side_section">
-                    <h4>전월세 거래내역</h4>
-                    <!-- 데이터 없을 경우 -->
-                    @if (count($result->groupedTransactionsRent) <= 0)
-                        <div class="empty_wrap sm_type">
-                            <span>실거래 내역이 없습니다.</span>
-                        </div>
-                    @else
-                        <div id="rentTransactionContainer">
-                            @foreach ($result->groupedTransactionsRent as $area => $group)
-                                @php
-                                    $filteredGroup = $group->filter(function ($transaction) {
-                                        return $transaction->transactionMonthPrice < 1;
-                                    });
-
-                                    $Transaction = $group->first();
-
-                                    $latestTransaction = $filteredGroup->first();
-                                    $previousTransaction = $filteredGroup->skip(1)->first();
-                                    $priceChange = 0;
-                                    $priceChangePercent = 0;
-                                    if ($latestTransaction && $previousTransaction) {
-                                        $latestPrice = (float) str_replace(
-                                            ',',
-                                            '',
-                                            $latestTransaction->transactionPrice,
-                                        );
-                                        $previousPrice = (float) str_replace(
-                                            ',',
-                                            '',
-                                            $previousTransaction->transactionPrice,
-                                        );
-                                        $priceChange = $latestPrice - $previousPrice;
-                                        if ($previousPrice != 0) {
-                                            $priceChangePercent = ($priceChange / $previousPrice) * 100;
-                                        }
-                                    }
-                                    $priceChangeClass = $priceChange > 0 ? 'status_item_red' : 'status_item_blue';
-                                @endphp
-
-                                <div class="transactionGroup" data-area="{{ $Transaction->exclusiveArea }}">
-                                    @if (count($filteredGroup) > 0)
                                         <div class="transaction_box mt10">
                                             <div class="gray_deep">
                                                 <span
                                                     class="transaction_price">{{ Commons::getformatPrice($latestPrice) }}</span>({{ $latestTransaction->floor }}층)
                                             </div>
                                             <div class="{{ $priceChangeClass }}">
-                                                {{ Commons::getformatPrice($priceChange) }}
-                                                ({{ number_format($priceChangePercent, 2) }}%)
+                                                @if ($priceChangeClass != 'status_item_normal')
+                                                    {{ Commons::getformatPrice($priceChange) }}
+                                                    ({{ number_format($priceChangePercent, 2) }}%)
+                                                @endif
                                             </div>
                                         </div>
 
@@ -415,175 +238,353 @@
                                                 {{ Commons::getformatPrice($latestPrice / $latestTransaction->exclusiveArea) }}/㎡
                                             </div>
                                         </div>
-                                    @endif
 
-                                    <div class="chart_wrap">
-                                        <div class="chart_top">
-                                            <p>기간 : 전체</p>
+                                        <div class="chart_wrap">
+                                            <div class="chart_top">
+                                                <p>기간 : 전체</p>
+                                            </div>
+                                            <div id="container" style="height: 200px;"></div>
                                         </div>
-                                        <div id="container2" style="height: 200px;"></div>
-                                    </div>
-                                    <script type="text/javascript">
-                                        Highcharts.chart('container2', {
-                                            colors: ['#F16341'],
-                                            title: {
-                                                text: ''
-                                            },
-                                            yAxis: {
+                                        <script type="text/javascript">
+                                            Highcharts.chart('container', {
+                                                colors: ['#F16341'],
                                                 title: {
                                                     text: ''
-                                                }
-                                            },
-
-                                            xAxis: {
-                                                categories: ['2021', '2022', '2023', '2024']
-                                            },
-
-                                            legend: {
-                                                enabled: false
-                                            },
-
-                                            plotOptions: {
-                                                series: {
-                                                    label: {
-                                                        connectorAllowed: false
-                                                    },
-                                                    marker: {
-                                                        fillColor: '#fff',
-                                                        lineWidth: 2,
-                                                        lineColor: '#F16341',
-                                                    },
-                                                    pointStart: 2021
-                                                }
-                                            },
-
-                                            series: [{
-                                                name: '2023년 2월, 2건<br>',
-                                                data: [
-                                                    400000000, 380000000, 300000000, 350000000, 420000000
-                                                ]
-                                            }, ],
-
-                                            responsive: {
-                                                rules: [{
-                                                    condition: {
-                                                        maxWidth: 500
-                                                    },
-                                                    chartOptions: {
-                                                        legend: {
-                                                            layout: 'horizontal',
-                                                            align: 'center',
-                                                            verticalAlign: 'bottom'
-                                                        }
+                                                },
+                                                yAxis: {
+                                                    title: {
+                                                        text: ''
                                                     }
-                                                }]
-                                            }
+                                                },
 
-                                        });
-                                    </script>
+                                                xAxis: {
+                                                    categories: ['2021', '2022', '2023', '2024']
+                                                },
 
-                                    <div class="section_price_wrap mt20">
-                                        <div class="default_box showstep1">
-                                            <table class="table_type_1">
-                                                <colgroup>
-                                                    <col width="80">
-                                                    <col width="*">
-                                                    <col width="*">
-                                                </colgroup>
-                                                <thead>
-                                                    <tr>
-                                                        <th>거래일</th>
-                                                        <th>거래금액</th>
-                                                        <th>층수</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($group as $transaction)
-                                                        @php
-                                                            $transactionPrice = (float) str_replace(
-                                                                ',',
-                                                                '',
-                                                                $transaction->transactionPrice,
-                                                            );
-                                                        @endphp
+                                                legend: {
+                                                    enabled: false
+                                                },
+
+                                                plotOptions: {
+                                                    series: {
+                                                        label: {
+                                                            connectorAllowed: false
+                                                        },
+                                                        marker: {
+                                                            fillColor: '#fff',
+                                                            lineWidth: 2,
+                                                            lineColor: '#F16341',
+                                                        },
+                                                        pointStart: 2021
+                                                    }
+                                                },
+
+                                                series: [{
+                                                    name: '2023년 2월, 2건<br>',
+                                                    data: [
+                                                        400000000, 380000000, 300000000, 350000000, 420000000
+                                                    ]
+                                                }, ],
+
+                                                responsive: {
+                                                    rules: [{
+                                                        condition: {
+                                                            maxWidth: 500
+                                                        },
+                                                        chartOptions: {
+                                                            legend: {
+                                                                layout: 'horizontal',
+                                                                align: 'center',
+                                                                verticalAlign: 'bottom'
+                                                            }
+                                                        }
+                                                    }]
+                                                }
+
+                                            });
+                                        </script>
+
+                                        <div class="section_price_wrap mt20">
+                                            <div class="default_box showstep1">
+                                                <table class="table_type_1">
+                                                    <colgroup>
+                                                        <col width="80">
+                                                        <col width="*">
+                                                        <col width="*">
+                                                    </colgroup>
+                                                    <thead>
                                                         <tr>
-                                                            <td>{{ $transaction->year . '.' . $transaction->month }}
-                                                            </td>
-                                                            <td>{{ Commons::getformatPrice($transactionPrice) }}
-                                                            </td>
-                                                            <td>{{ $transaction->floor }}층</td>
+                                                            <th>거래일</th>
+                                                            <th>거래금액</th>
+                                                            <th>층수</th>
                                                         </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($group as $transaction)
+                                                            @php
+                                                                $transactionPrice = (float) str_replace(
+                                                                    ',',
+                                                                    '',
+                                                                    $transaction->transactionPrice,
+                                                                );
+                                                            @endphp
+                                                            <tr>
+                                                                <td>{{ $transaction->year . '.' . $transaction->month }}
+                                                                </td>
+                                                                <td>{{ Commons::getformatPrice($transactionPrice) }}
+                                                                </td>
+                                                                <td>{{ $transaction->floor }}층</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="btn_more_open">더보기</div>
                                         </div>
-                                        <div class="btn_more_open">더보기</div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                    <!-- 매매 거래내역 : e -->
                 </div>
-                <!-- 전월세 거래내역 : e -->
+
+                <div id="rentContent" class="content_item">
+                    <!-- 전월세 거래내역 : s -->
+                    <div class="side_section">
+                        <h4>전월세 거래내역</h4>
+                        <!-- 데이터 없을 경우 -->
+                        @if (count($result->groupedTransactionsRent) <= 0)
+                            <div class="empty_wrap sm_type">
+                                <span>실거래 내역이 없습니다.</span>
+                            </div>
+                        @else
+                            <div id="rentTransactionContainer">
+                                @foreach ($result->groupedTransactionsRent as $area => $group)
+                                    @php
+                                        $filteredGroup = $group->filter(function ($transaction) {
+                                            return $transaction->transactionMonthPrice < 1;
+                                        });
+
+                                        $Transaction = $group->first();
+
+                                        $latestTransaction = $filteredGroup->first();
+                                        $previousTransaction = $filteredGroup->skip(1)->first();
+                                        $priceChange = 0;
+                                        $priceChangePercent = 0;
+                                        if ($latestTransaction && $previousTransaction) {
+                                            $latestPrice = (float) str_replace(
+                                                ',',
+                                                '',
+                                                $latestTransaction->transactionPrice,
+                                            );
+                                            $previousPrice = (float) str_replace(
+                                                ',',
+                                                '',
+                                                $previousTransaction->transactionPrice,
+                                            );
+                                            $priceChange = $latestPrice - $previousPrice;
+                                            if ($previousPrice != 0) {
+                                                $priceChangePercent = ($priceChange / $previousPrice) * 100;
+                                            }
+                                        }
+                                        $priceChangeClass = $priceChange > 0 ? 'status_item_red' : 'status_item_blue';
+                                    @endphp
+
+                                    <div class="transactionGroup" data-area="{{ $Transaction->exclusiveArea }}">
+                                        @if (count($filteredGroup) > 0)
+                                            <div class="transaction_box mt10">
+                                                <div class="gray_deep">
+                                                    <span
+                                                        class="transaction_price">{{ Commons::getformatPrice($latestPrice) }}</span>({{ $latestTransaction->floor }}층)
+                                                </div>
+                                                <div class="{{ $priceChangeClass }}">
+                                                    {{ Commons::getformatPrice($priceChange) }}
+                                                    ({{ number_format($priceChangePercent, 2) }}%)
+                                                </div>
+                                            </div>
+
+                                            <div class="table_container2_sm mt10">
+                                                <div class="td">거래일시</div>
+                                                <div class="td">
+                                                    {{ $latestTransaction->year . '.' . $latestTransaction->month }}
+                                                </div>
+                                                <div class="td">거래 총면적</div>
+                                                <div class="td">전용 {{ $latestTransaction->exclusiveArea }}㎡</div>
+                                                <div class="td">면적당 단가</div>
+                                                <div class="td">전용
+                                                    {{ Commons::getformatPrice($latestPrice / $latestTransaction->exclusiveArea) }}/㎡
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        <div class="chart_wrap">
+                                            <div class="chart_top">
+                                                <p>기간 : 전체</p>
+                                            </div>
+                                            <div id="container2" style="height: 200px;"></div>
+                                        </div>
+                                        <script type="text/javascript">
+                                            Highcharts.chart('container2', {
+                                                colors: ['#F16341'],
+                                                title: {
+                                                    text: ''
+                                                },
+                                                yAxis: {
+                                                    title: {
+                                                        text: ''
+                                                    }
+                                                },
+
+                                                xAxis: {
+                                                    categories: ['2021', '2022', '2023', '2024']
+                                                },
+
+                                                legend: {
+                                                    enabled: false
+                                                },
+
+                                                plotOptions: {
+                                                    series: {
+                                                        label: {
+                                                            connectorAllowed: false
+                                                        },
+                                                        marker: {
+                                                            fillColor: '#fff',
+                                                            lineWidth: 2,
+                                                            lineColor: '#F16341',
+                                                        },
+                                                        pointStart: 2021
+                                                    }
+                                                },
+
+                                                series: [{
+                                                    name: '2023년 2월, 2건<br>',
+                                                    data: [
+                                                        400000000, 380000000, 300000000, 350000000, 420000000
+                                                    ]
+                                                }, ],
+
+                                                responsive: {
+                                                    rules: [{
+                                                        condition: {
+                                                            maxWidth: 500
+                                                        },
+                                                        chartOptions: {
+                                                            legend: {
+                                                                layout: 'horizontal',
+                                                                align: 'center',
+                                                                verticalAlign: 'bottom'
+                                                            }
+                                                        }
+                                                    }]
+                                                }
+
+                                            });
+                                        </script>
+
+                                        <div class="section_price_wrap mt20">
+                                            <div class="default_box showstep1">
+                                                <table class="table_type_1">
+                                                    <colgroup>
+                                                        <col width="80">
+                                                        <col width="*">
+                                                        <col width="*">
+                                                    </colgroup>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>거래일</th>
+                                                            <th>거래금액</th>
+                                                            <th>층수</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($group as $transaction)
+                                                            @php
+                                                                $transactionPrice = (float) str_replace(
+                                                                    ',',
+                                                                    '',
+                                                                    $transaction->transactionPrice,
+                                                                );
+                                                            @endphp
+                                                            <tr>
+                                                                <td>{{ $transaction->year . '.' . $transaction->month }}
+                                                                </td>
+                                                                <td>{{ Commons::getformatPrice($transactionPrice) }}
+                                                                </td>
+                                                                <td>{{ $transaction->floor }}층</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="btn_more_open">더보기</div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                    <!-- 전월세 거래내역 : e -->
+                </div>
             </div>
-        </div>
 
-        <div class="sction_item">
-            <!-- 건물·토지정보 : s -->
-            <x-pc-buildingledger :BrTitleInfo="$BrTitleInfo" :BrRecapTitleInfo="$BrRecapTitleInfo" :BrFlrOulnInfo="$BrFlrOulnInfo" :BrExposInfo="$BrExposInfo"
-                :BrExposPubuseAreaInfo="$BrExposPubuseAreaInfo" :characteristics_json="$result->characteristics_json" :useWFS_json="$result->useWFS_json" />
-            <!-- 건물·토지정보 : e -->
-        </div>
-        <div class="sction_item">
-            <!-- 위치정보 : s -->
-            <div class="side_section">
-                <h4>위치 및 주변정보</h4>
-                <div class="container_map_wrap mt18">
-                    <x-pc-around-map :address_lat="$result->address_lat" :address_lng="$result->address_lng" />
-                </div>
-                <div class="map_detail_wrp">
-                    <ul class="tab_sm_menu tab_type_4">
-                        <li class="active"><a href="javascript:(0)">대중교통</a></li>
-                        <li><a href="javascript:(0)">편의시설</a></li>
-                        <li><a href="javascript:(0)">교육시설</a></li>
-                    </ul>
-                    <div class="tab_sm_wrap">
-                        <div class="traffic_wrap">
-                            <div class="traffic_tit"><img src="{{ asset('assets/media/ic_subway.png') }}">지하철
-                            </div>
-                            <p class="traffic_row">{{ $result->subwayStation }} {{ $result->subwayLine }}
-                                <span>{{ $result->kaptdWtimesub }}</span>
-                            </p>
+            <div class="sction_item">
+                <!-- 건물·토지정보 : s -->
+                <x-pc-buildingledger :BrTitleInfo="$BrTitleInfo" :BrRecapTitleInfo="$BrRecapTitleInfo" :BrFlrOulnInfo="$BrFlrOulnInfo" :BrExposInfo="$BrExposInfo"
+                    :BrExposPubuseAreaInfo="$BrExposPubuseAreaInfo" :characteristics_json="$result->characteristics_json" :useWFS_json="$result->useWFS_json" />
+                <!-- 건물·토지정보 : e -->
+            </div>
+            <div class="sction_item">
+                <!-- 위치정보 : s -->
+                <div class="side_section">
+                    <h4>위치 및 주변정보</h4>
+                    <div class="container_map_wrap mt18">
+                        <x-pc-around-map :address_lat="$result->address_lat" :address_lng="$result->address_lng" />
+                    </div>
+                    <div class="map_detail_wrp">
+                        <ul class="tab_sm_menu tab_type_4">
+                            <li class="active"><a href="javascript:(0)">대중교통</a></li>
+                            <li><a href="javascript:(0)">편의시설</a></li>
+                            <li><a href="javascript:(0)">교육시설</a></li>
+                        </ul>
+                        <div class="tab_sm_wrap">
+                            <div class="traffic_wrap">
+                                <div class="traffic_tit"><img src="{{ asset('assets/media/ic_subway.png') }}">지하철
+                                </div>
+                                <p class="traffic_row">{{ $result->subwayStation }} {{ $result->subwayLine }}
+                                    <span>{{ $result->kaptdWtimesub }}</span>
+                                </p>
 
-                            <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스
-                            </div>
-                            <p class="traffic_row">정류장 <span>{{ $result->kaptdWtimebus }}</span></p>
+                                <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스
+                                </div>
+                                <p class="traffic_row">정류장 <span>{{ $result->kaptdWtimebus }}</span></p>
 
-                        </div>
-                        <div>
-                            <div class="facility_wrap">
-                                {!! nl2br($result->convenientFacility) !!}
                             </div>
-                        </div>
-                        <div>
-                            <div class="edu_wrap">
-                                {!! nl2br($result->educationFacility) !!}
+                            <div>
+                                <div class="facility_wrap">
+                                    {!! nl2br($result->convenientFacility) !!}
+                                </div>
+                            </div>
+                            <div>
+                                <div class="edu_wrap">
+                                    {!! nl2br($result->educationFacility) !!}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- 위치정보 : e -->
             </div>
-            <!-- 위치정보 : e -->
+            <div class="sction_item">
+                <!-- 매물정보 : s -->
+                <x-pc-map-product-list :productList="$result->productList" />
+                <!-- 매물정보 : e -->
+            </div>
         </div>
-        <div class="sction_item">
-            <!-- 매물정보 : s -->
-            <x-pc-map-product-list :productList="$result->productList" />
-            <!-- 매물정보 : e -->
-        </div>
+
     </div>
-
 </div>
-
 <script>
     $(document).ready(function() {
 

@@ -71,11 +71,13 @@
             </script>
             <div class="map_body">
                 <!-- map side : s -->
-                <div class="map_side map_side_0">
-                </div>
-                <div class="map_side property_type map_side_1">
+                 <div class="map_side map_side_0"></div> <!-- 실거래가 -->
+                 <div class="map_side property_type map_side_1">
                     <x-pc-map-side-product />
                 </div>
+                <!-- <div class="map_side transaction_type">
+                </div> -->
+                
                 <!-- map side : e -->
 
                 <div class="map_area">
