@@ -174,46 +174,33 @@
                     </div>
 
                 </div>
-                <!-- 거래내역 : e -->
-            </div>
-            <div class="sction_item">
-                <!-- 건물·토지정보 : s -->
-                <x-pc-buildingledger :BrTitleInfo="$BrTitleInfo" :BrRecapTitleInfo="$BrRecapTitleInfo" :BrFlrOulnInfo="$BrFlrOulnInfo" :BrExposInfo="$BrExposInfo"
-                    :BrExposPubuseAreaInfo="$BrExposPubuseAreaInfo" :characteristics_json="$result->characteristics_json" :useWFS_json="$result->useWFS_json" />
-                <!-- 건물·토지정보 : e -->
-            </div>
-            <div class="sction_item">
-                <!-- 위치정보 : s -->
-                <div class="side_section">
-                    <h4>위치 및 주변정보</h4>
-                    <div class="container_map_wrap mt18">
-                        <x-pc-around-map :address_lat="$result->address_lat" :address_lng="$result->address_lng" />
-                    </div>
-                    <div class="map_detail_wrp">
-                        <ul class="tab_sm_menu tab_type_4">
-                            <li class="active"><a href="javascript:(0)">대중교통</a></li>
-                            <li><a href="javascript:(0)">편의시설</a></li>
-                            <li><a href="javascript:(0)">교육시설</a></li>
-                        </ul>
-                        <div class="tab_sm_wrap">
-                            <div class="traffic_wrap">
-                                <div class="traffic_tit"><img src="{{ asset('assets/media/ic_subway.png') }}">지하철</div>
-                                <p class="traffic_row">가산디지털단지역 1호선, 3호선 <span>15~20분이내</span></p>
-                                <p class="traffic_row">가산디지털단지역 7호선 <span>15~20분이내</span></p>
-
-                                <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스</div>
-                                <p class="traffic_row">정류장 <span>15~20분이내</span></p>
-
+                <div class="map_detail_wrp">
+                    <ul class="tab_sm_menu tab_type_4">
+                        <li class="active"><a href="javascript:(0)">대중교통</a></li>
+                        <li><a href="javascript:(0)">편의시설</a></li>
+                        <li><a href="javascript:(0)">교육시설</a></li>
+                    </ul>
+                    <div class="tab_sm_wrap">
+                        <div class="traffic_wrap">
+                            <div class="traffic_tit"><img src="{{ asset('assets/media/ic_subway.png') }}">지하철
                             </div>
-                            <div>
-                                <div class="facility_wrap">
-                                    관공서(양천세무서) 병원(다민한의원, 신천호한의원) 백화점(목동현대백화점) 공원(양천공원) 기타(안양천)
-                                </div>
+                            <p class="traffic_row">{{ $result->subwayStation }} {{ $result->subwayLine }}
+                                <span>{{ $result->kaptdWtimesub }}</span>
+                            </p>
+
+                            <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스
                             </div>
-                            <div>
-                                <div class="edu_wrap">
-                                    초등학교(신목) 중학교(목동) 고등학교(신목)
-                                </div>
+                            <p class="traffic_row">정류장 <span>{{ $result->kaptdWtimebus }}</span></p>
+
+                        </div>
+                        <div>
+                            <div class="facility_wrap">
+                                {!! nl2br($result->convenientFacility) !!}
+                            </div>
+                        </div>
+                        <div>
+                            <div class="edu_wrap">
+                                {!! nl2br($result->educationFacility) !!}
                             </div>
                         </div>
                     </div>
@@ -225,6 +212,12 @@
                 <x-pc-map-product-list />
                 <!-- 매물정보 : e -->
             </div>
+            <!-- 위치정보 : s -->
+        </div>
+        <div class="sction_item">
+            <!-- 매물정보 : s -->
+            <x-pc-map-product-list :productList="$result->productList" />
+            <!-- 매물정보 : e -->
         </div>
 
     </div>

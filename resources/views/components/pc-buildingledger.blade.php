@@ -54,7 +54,8 @@
                                 </td>
                                 <td class="txt_sm">-</td>
                                 <td class="txt_sm">-</td>
-                                <td class="txt_sm">{{ $info['archArea'] != '' ? $info['archArea'] . '㎡' : '-' }}</td>
+                                <td class="txt_sm">
+                                    {{ $info['archArea'] != '' ? number_format($info['archArea'], 2) . '㎡' : '-' }}</td>
                             </tr>
                         @endforeach
                     @endif
@@ -79,7 +80,9 @@
                                 </td>
                                 <td class="txt_sm">{{ $info['dongNm'] ?? '-' }}</td>
                                 <td class="txt_sm">{{ $info['mainPurpsCdNm'] ?? '-' }}</td>
-                                <td class="txt_sm">{{ $info['archArea'] != '' ? $info['archArea'] . '㎡' : '-' }}</td>
+                                <td class="txt_sm">
+                                    {{ $info['archArea'] != '' ? number_format($info['archArea'], 2) . '㎡' : '-' }}
+                                </td>
                             </tr>
                         @endforeach
                     @endif
@@ -106,11 +109,14 @@
                     <div class="td">주용도</div>
                     <div class="td">{{ $info['mainPurpsCdNm'] ?? '-' }}</div>
                     <div class="td">건축면적</div>
-                    <div class="td">{{ $info['archArea'] != '' ? $info['archArea'] . '㎡' : '-' }}</div>
+                    <div class="td">{{ $info['archArea'] != '' ? number_format($info['archArea'], 2) . '㎡' : '-' }}
+                    </div>
                     <div class="td">연면적</div>
-                    <div class="td">{{ $info['totArea'] != '' ? $info['totArea'] . '㎡' : '-' }}</div>
+                    <div class="td">{{ $info['totArea'] != '' ? number_format($info['totArea'], 2) . '㎡' : '-' }}
+                    </div>
                     <div class="td">대지면적</div>
-                    <div class="td">{{ $info['platArea'] != '' ? $info['platArea'] . '㎡' : '-' }}</div>
+                    <div class="td">{{ $info['platArea'] != '' ? number_format($info['platArea'], 2) . '㎡' : '-' }}
+                    </div>
                     <div class="td">주구조</div>
                     <div class="td">{{ $info['strctCdNm'] ?? '-' }}</div>
                     <div class="td">지붕구조</div>
@@ -118,7 +124,7 @@
                     <div class="td">엘리베이터</div>
                     <div class="td">{{ $info['rideUseElvtCnt'] ?? '-' }}</div>
                     <div class="td">용적률</div>
-                    <div class="td">{{ $info['vlRat'] ?? '-' }}</div>
+                    <div class="td">{{ $info['vlRat'] != '' ? $info['vlRat'] . '%' : '-' }}</div>
                     <div class="td">건폐율</div>
                     <div class="td">{{ $info['bcRat'] != '' ? $info['bcRat'] . '%' : '-' }}</div>
                 </div>
@@ -141,11 +147,14 @@
                     <div class="td">주용도</div>
                     <div class="td">{{ $info['mainPurpsCdNm'] ?? '-' }}</div>
                     <div class="td">건축면적</div>
-                    <div class="td">{{ $info['archArea'] != '' ? $info['archArea'] . '㎡' : '-' }}</div>
+                    <div class="td">{{ $info['archArea'] != '' ? number_format($info['archArea'], 2) . '㎡' : '-' }}
+                    </div>
                     <div class="td">연면적</div>
-                    <div class="td">{{ $info['totArea'] != '' ? $info['totArea'] . '㎡' : '-' }}</div>
+                    <div class="td">{{ $info['totArea'] != '' ? number_format($info['totArea'], 2) . '㎡' : '-' }}
+                    </div>
                     <div class="td">대지면적</div>
-                    <div class="td">{{ $info['platArea'] != '' ? $info['platArea'] . '㎡' : '-' }}</div>
+                    <div class="td">{{ $info['platArea'] != '' ? number_format($info['platArea'], 2) . '㎡' : '-' }}
+                    </div>
                     <div class="td">주구조</div>
                     <div class="td">{{ $info['strctCdNm'] ?? '-' }}</div>
                     <div class="td">지붕구조</div>
@@ -154,7 +163,7 @@
                     <div class="td">{{ $info['rideUseElvtCnt'] > 0 ? '총 ' . $info['rideUseElvtCnt'] . '대' : '-' }}
                     </div>
                     <div class="td">용적률</div>
-                    <div class="td">{{ $info['vlRat'] ?? '-' }}</div>
+                    <div class="td">{{ $info['vlRat'] != '' ? $info['vlRat'] . '%' : '-' }}</div>
                     <div class="td">건폐율</div>
                     <div class="td">{{ $info['bcRat'] != '' ? $info['bcRat'] . '%' : '-' }}</div>
                 </div>
@@ -190,7 +199,7 @@
                                     <tr>
                                         <td>{{ $info['flrNoNm'] }}</td>
                                         <td>{{ $info['mainPurpsCdNm'] }}</td>
-                                        <td>{{ $info['area'] }}㎡</td>
+                                        <td>{{ number_format($info['area'], 2) }}㎡</td>
                                     </tr>
                                 @endif
                             @endforeach
@@ -266,7 +275,7 @@
                                     </td>
                                     <td>{{ $info['mainPurpsCdNm'] }}</td>
                                     <td>{{ $info['mainAtchGbCdNm'] }}</td>
-                                    <td>{{ $info['area'] }}㎡</td>
+                                    <td>{{ number_format($info['area']) }}㎡</td>
                                 </tr>
                             @endforeach
                         @endif
@@ -305,7 +314,7 @@
             <div class="default_box showstep1">
                 <div class="table_container2_sm mt10">
                     <div class="td">면적</div>
-                    <div class="td">{{ $jsonArray['lndpclAr'] }}㎡</div>
+                    <div class="td">{{ number_format($jsonArray['lndpclAr']) }}㎡</div>
                     <div class="td">지목</div>
                     <div class="td">{{ $jsonArray['lndcgrCodeNm'] }}</div>
                     <div class="td">용도지역</div>
@@ -317,7 +326,7 @@
                     <div class="td">지형높이</div>
                     <div class="td">{{ $jsonArray['tpgrphHgCodeNm'] }}</div>
                     <div class="td">동 개별 공시지가(원/m²)</div>
-                    <div class="td">{{ $jsonArray['pblntfPclnd'] }}</div>
+                    <div class="td">{{ number_format($jsonArray['pblntfPclnd']) }}</div>
                     <div class="td">지역지구등<br>지정여부</div>
                     <div class="td">{{ $prpos ?? '-' }}</div>
                 </div>

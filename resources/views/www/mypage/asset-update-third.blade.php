@@ -36,8 +36,8 @@
                                 <input type="radio" name="vacancy" id="vacancy_2" value="1">
                                 <label for="vacancy_2">계약중</label>
 
-                                <input type="radio" name="vacancy" id="vacancy_3" value="2">
-                                <label for="vacancy_3">미임대</label>
+                                {{-- <input type="radio" name="vacancy" id="vacancy_3" value="2">
+                                <label for="vacancy_3">미임대</label> --}}
                             </div>
                         </div>
 
