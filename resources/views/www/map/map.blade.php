@@ -127,6 +127,7 @@
 <script src="http://code.highcharts.com/highcharts.js"></script>
 
 <script>
+    var today = new Date();
     var polygonMap = null;
     var map;
     var pano;
@@ -141,6 +142,12 @@
     var MarkerIdArray = []; // 클러스터링 매물,중개사 ids 임시 저장소
     var productIdArray = []; // 매물 ids 저장소
     var agentIdArray = []; // 중개사 ids 저장소
+
+    function compareDate(completion_date) {
+        const todayString = today.toISOString().slice(0, 10).replace(/-/g, '');
+        return completion_date < todayString ? 0 : 1;
+    }
+
 
 
     // 마커 클릭 사이드맵
@@ -530,14 +537,19 @@
         sale_min_price,
         sale_max_price,
         lease_min_price,
-        lease_max_price
+        lease_max_price,
+        completion_date
     }) {
+        is_sale = '';
+        if (compareDate(completion_date)) {
+            is_sale = '<span class="bubble_info">분양</span>';
+        }
         return `<div class="activeMarker iw_inner">
         <h3>${product_name || 'No name'}</h3>
         <div class="inner_info">
             <p>매매 <span>${sale_min_price}~${sale_max_price}</span></p>
             <p>임대 <span>${lease_min_price}~${lease_max_price}</span></p>
-            <span class="bubble_info">분양</span>
+            ${is_sale}
         </div>
     </div>`;
     }

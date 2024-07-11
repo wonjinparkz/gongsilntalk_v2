@@ -157,8 +157,44 @@
 
         <div class="sction_item">
             <!-- 건물·토지정보 : s -->
-            <x-pc-buildingledger :BrTitleInfo="$BrTitleInfo" :BrRecapTitleInfo="$BrRecapTitleInfo" :BrFlrOulnInfo="$BrFlrOulnInfo" :BrExposInfo="$BrExposInfo"
-                :BrExposPubuseAreaInfo="$BrExposPubuseAreaInfo" :characteristics_json="$result->characteristics_json" :useWFS_json="$result->useWFS_json" />
+            @if (count($BrTitleInfo) > 0 || count($BrRecapTitleInfo) > 0)
+                <x-pc-buildingledger :BrTitleInfo="$BrTitleInfo" :BrRecapTitleInfo="$BrRecapTitleInfo" :BrFlrOulnInfo="$BrFlrOulnInfo" :BrExposInfo="$BrExposInfo"
+                    :BrExposPubuseAreaInfo="$BrExposPubuseAreaInfo" :characteristics_json="$result->characteristics_json" :useWFS_json="$result->useWFS_json" />
+            @else
+                <div class="side_section">
+                    <h4>건물·토지정보</h4>
+                </div>
+
+                <div class="">
+                    <div class="default_box showstep1">
+                        <div class="table_container2_sm mt10">
+                            <div class="td">규모</div>
+                            <div class="td">{{ $result->min_floor ?? '-' }}층 / {{ $result->max_floor ?? '-' }}층</div>
+                            <div class="td">사용승인일</div>
+                            <div class="td">-</div>
+                            <div class="td">주용도</div>
+                            <div class="td">-</div>
+                            <div class="td">건축면적</div>
+                            <div class="td">{{$result->building_area}}평 / {{$result->building_square}}㎡</div>
+                            <div class="td">연면적</div>
+                            <div class="td">{{$result->total_floor_area}}평 / {{$result->total_floor_square}}㎡</div>
+                            <div class="td">대지면적</div>
+                            <div class="td"></div>
+                            <div class="td">주구조</div>
+                            <div class="td"></div>
+                            <div class="td">지붕구조</div>
+                            <div class="td"></div>
+                            <div class="td">엘리베이터</div>
+                            <div class="td"></div>
+                            <div class="td">용적률</div>
+                            <div class="td"></div>
+                            <div class="td">건폐율</div>
+                            <div class="td"></div>
+                        </div>
+                    </div>
+                    <div class="btn_more_open">더보기</div>
+                </div>
+            @endif
             <!-- 건물·토지정보 : e -->
         </div>
 
@@ -309,14 +345,12 @@
         $(".tab_sm_wrap > div").hide();
         $(".tab_sm_wrap > div").first().show();
         $(".tab_sm_menu li").click(function() {
-        var list = $(this).index();
-        $(".tab_sm_menu li").removeClass("active");
-        $(this).addClass("active");
+            var list = $(this).index();
+            $(".tab_sm_menu li").removeClass("active");
+            $(this).addClass("active");
 
-        $(".tab_sm_wrap > div").hide();
-        $(".tab_sm_wrap > div").eq(list).show();
+            $(".tab_sm_wrap > div").hide();
+            $(".tab_sm_wrap > div").eq(list).show();
         });
     });
-
-
 </script>
