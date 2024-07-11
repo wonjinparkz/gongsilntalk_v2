@@ -398,8 +398,8 @@
 .map_side_btn button.line_type span{width:20px; height: 22px; display: inline-block; background: url('/assets/media/ic_map_activate4.png'); background-size: 20px auto;}
 .map_side_btn button.clicked.line_type span{width:20px; height: 22px; display: inline-block; background: url('/assets/media/ic_map_activate4_on.png'); background-size: 20px auto;}
 /* .pano_wrap{position: relative;} */
-.pano_wrap .btn_close{position: absolute; right:30px; top:80px; z-index: 3; display: none;}
-.pano_wrap .btn_close img{width:44px;}
+.btn_pano_close{position:fixed; right:30px; top:80px; z-index:20;}
+.btn_pano_close img{width:44px;}
 
 
 /* 중개사무소 */

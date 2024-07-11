@@ -95,7 +95,6 @@
                         </div>
                         <button class="toggle-btn line_type" id="streetView"><span></span></button>
                         <!-- <button class="toggle-btn line_type" id="streetView"><img src="{{ asset('assets/media/ic_map_activate4.png') }}"></button> -->
-
                     </div>
                     <button type="button" class="map_view_btn" onclick="mapTypeViewChage()">
                         <span id="centerDongText">익선동</span>
@@ -112,8 +111,8 @@
                     <div id="mapArea">
                         <div id="map" style="width:100%; height:100%;"></div>
                     </div>
+                    <button class="btn_pano_close"><img src="{{ asset('assets/media/btn_img_delete.png') }}"></button>
                     <div id="panoArea" class="pano_wrap">
-                        <button class="btn_close"><img src="{{ asset('assets/media/btn_img_delete.png') }}"></button>
                         <div id="pano" style="width:100%; height:100%;"></div>
                     </div>
                 </div>
