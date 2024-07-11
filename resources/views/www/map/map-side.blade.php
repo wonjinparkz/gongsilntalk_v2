@@ -1,5 +1,4 @@
 <!-- map side : s -->
-
 @if ($markerType == 'apt')
     <x-pc-map-side-apt :result="$result" />
 @elseif($markerType == 'store')

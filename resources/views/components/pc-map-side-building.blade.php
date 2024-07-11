@@ -196,22 +196,25 @@
                     </ul>
                     <div class="tab_sm_wrap">
                         <div class="traffic_wrap">
-                            <div class="traffic_tit"><img src="{{ asset('assets/media/ic_subway.png') }}">지하철</div>
-                            <p class="traffic_row">가산디지털단지역 1호선, 3호선 <span>15~20분이내</span></p>
-                            <p class="traffic_row">가산디지털단지역 7호선 <span>15~20분이내</span></p>
+                            <div class="traffic_tit"><img src="{{ asset('assets/media/ic_subway.png') }}">지하철
+                            </div>
+                            <p class="traffic_row">{{ $result->subwayStation }} {{ $result->subwayLine }}
+                                <span>{{ $result->kaptdWtimesub }}</span>
+                            </p>
 
-                            <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스</div>
-                            <p class="traffic_row">정류장 <span>15~20분이내</span></p>
+                            <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스
+                            </div>
+                            <p class="traffic_row">정류장 <span>{{ $result->kaptdWtimebus }}</span></p>
 
                         </div>
                         <div>
                             <div class="facility_wrap">
-                                관공서(양천세무서) 병원(다민한의원, 신천호한의원) 백화점(목동현대백화점) 공원(양천공원) 기타(안양천)
+                                {!! nl2br($result->convenientFacility) !!}
                             </div>
                         </div>
                         <div>
                             <div class="edu_wrap">
-                                초등학교(신목) 중학교(목동) 고등학교(신목)
+                                {!! nl2br($result->educationFacility) !!}
                             </div>
                         </div>
                     </div>
@@ -221,7 +224,7 @@
         </div>
         <div class="sction_item">
             <!-- 매물정보 : s -->
-            <x-pc-map-product-list />
+            <x-pc-map-product-list :productList="$result->productList" />
             <!-- 매물정보 : e -->
         </div>
     </div>

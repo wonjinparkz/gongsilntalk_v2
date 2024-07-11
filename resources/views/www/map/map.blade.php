@@ -670,6 +670,8 @@
             naver.maps.Event.addListener(map, 'click', function(e) {
                 if (streetLayer.getMap()) {
                     $('.btn_pano_close').show();
+                    $('.map_side_btn').hide();
+
                     var latlng = e.coord;
 
                     // 파노라마의 setPosition()은 해당 위치에서 가장 가까운 파노라마(검색 반경 300미터)를 자동으로 설정합니다.
