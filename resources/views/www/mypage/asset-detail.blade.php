@@ -480,10 +480,31 @@
                     <div class="download_item">
                         <div class="flex_between">
                             <span class="fs_16 gray_deep">매매계약서</span>
-                            @if (isset($result->sale_images->path))
-                                <button class="btn_graylight_ghost btn_sm" type="button"
-                                    onclick="location.href='{{ route('api.imagedownload', $result->sale_images->path) }}'">다운</button>
-                            @endif
+                            <div class="relative">
+                                @if (isset($result->sale_images->path))
+                                    <button class="btn_graylight_ghost btn_sm btn_share"><img src="{{ asset('assets/media/header_btn_share_deep.png') }}" class="normal"></button>
+                                    <button class="btn_graylight_ghost btn_sm" type="button"
+                                        onclick="location.href='{{ route('api.imagedownload', $result->sale_images->path) }}'">다운</button>
+                                @endif
+
+                                <div class="layer layer_share_wrap layer_share_top">
+                                    <div class="layer_title">
+                                        <h5>공유하기</h5>
+                                        <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close btn_share">
+                                    </div>
+                                    <div class="layer_share_con">
+                                        <a href="#">
+                                            <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                                            <p class="mt8">카카오톡</p>
+                                        </a>
+                                        <a href="#">
+                                            <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                                            <p class="mt8">링크복사</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                         <div class="download_img_box">
                             @if (isset($result->sale_images->path))
@@ -614,6 +635,12 @@
             var form = document.deleteForm;
             form.submit();
         }
+
+        //공유하기 레이어
+        $(".btn_share").click(function(){
+            $(".layer_share_wrap").stop().slideToggle(0);
+            return false;
+        });
     </script>
 
 

@@ -238,14 +238,14 @@
 .dropdown_box.type_2 .dropdown_label{font-size: 18px; font-family: 'font-b'; color: var(--txt-color) !important;}
 .dropdown_box.type_2 .optionList{top:56px !important; margin-top: 0; z-index: 100; border: none; border-right: 1px solid #D2D1D0; border-radius: 0; box-sizing: border-box; width:152px;}
 .dropdown_box.type_2 .optionList .optionItem{border-bottom: 1px solid #D2D1D0; font-size: 16px; text-align: center; padding: 12px 0 12px;}
-.map_search_wrap{background: #fff; width:360px; height:50px; position: absolute; z-index: 9; top:115px; left: 0; border: 1px solid #D2D1D0; box-sizing: border-box;}
+.map_search_wrap{background: #fff; width:440px; height:50px; position: absolute; z-index: 9; top:115px; left: 0; border: 1px solid #D2D1D0; box-sizing: border-box;}
 .map_search_wrap input{border-radius: 0; border: none; height:48px;}
 .map_search_wrap img{width:16px; margin-right: 16px;}
 .map_search_wrap .btn_del{display: none;}
-.map_side{display:none; position: absolute; z-index: 2; left:0; top:116px; background:#fff; width:360px; height: calc(100vh - 116px); border-right: 1px solid #D2D1D0; box-sizing: border-box; padding-top:160px; overflow: hidden;}
+.map_side{display:none; position: absolute; z-index: 2; left:0; top:116px; background:#fff; width:440px; height: calc(100vh - 116px); border-right: 1px solid #D2D1D0; box-sizing: border-box; padding-top:160px; overflow: hidden;}
 .map_side.active{display:block;}
 .map_side.property_type{padding-top:49px;}
-.side_header{background:#fff; height: 50px; display:flex; justify-content: space-between; align-items: center; position:fixed; top:165px; left:0; width:359px; z-index:10; padding: 0 16px; box-sizing: border-box;}
+.side_header{background:#fff; height: 50px; display:flex; justify-content: space-between; align-items: center; position:fixed; top:165px; left:0; width:439px; z-index:10; padding: 0 16px; box-sizing: border-box;}
 .side_header .m_title{font-family:'font-b'; position: absolute; left:50%;top:50%;transform:translate(-50%, -50%);}
 .side_header .left_area, .m_header .right_area{display: flex; align-items: center;}
 .side_header .left_area a{margin-right:14px; height:20px; display:inline-block; vertical-align: middle;}
@@ -397,10 +397,10 @@
 .map_side_btn button.clicked.line_type{background: #fff; border: 1px solid #F16341;}
 .map_side_btn button.line_type span{width:20px; height: 22px; display: inline-block; background: url('/assets/media/ic_map_activate4.png'); background-size: 20px auto;}
 .map_side_btn button.clicked.line_type span{width:20px; height: 22px; display: inline-block; background: url('/assets/media/ic_map_activate4_on.png'); background-size: 20px auto;}
-/* .pano_wrap{position: relative;} */
+#panoArea{}
 .btn_pano_close{position:fixed; right:30px; top:80px; z-index:46;}
 .btn_pano_close img{width:44px;}
-#pano div{z-index:45 !important;}
+
 
 /* 중개사무소 */
 .agent_head{padding: 44px 0; background: #fff; border-bottom: 1px solid #EEEDED; display: flex; justify-content: center; align-items: center; gap: 28px;}
