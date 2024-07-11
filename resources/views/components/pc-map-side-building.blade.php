@@ -81,7 +81,7 @@
     }
 @endphp
 
-<div class="map_side_body transaction_type">
+<div class="map_side_body">
     <div class="side_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
                     src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
@@ -156,7 +156,8 @@
                         <div class="swiper-slide"><a href="javascript:void(0);">매물정보</a></div>
                     </div>
                 </div>
-                <div class="swiper-button-next detail-tab-next"></div>
+                <div class="swiper-button-next detail-tab-next"><img src="{{ asset('assets/media/ic_list_arrow.png') }}"
+                    style="width:10px;"></div>
                 <!-- <div class="swiper-button-prev detail-tab-prev"></div> -->
             </div>
         </div>

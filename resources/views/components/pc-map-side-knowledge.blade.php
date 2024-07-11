@@ -31,8 +31,6 @@
         ? decodeJsonData($result->BrExposPubuseAreaInfo)
         : [];
 @endphp
-
-<!-- 전월세 있는 경우 transaction_type 추가 -->
 <div class="map_side_body">
     <div class="side_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
@@ -92,7 +90,8 @@
                         <div class="swiper-slide"><a>위치 및 주변정보</a></div>
                     </div>
                 </div>
-                <div class="swiper-button-next detail-tab-next"><img src="{{ asset('assets/media/ic_list_arrow.png') }}" style="width:10px;"></div>
+                <div class="swiper-button-next detail-tab-next"><img
+                        src="{{ asset('assets/media/ic_list_arrow.png') }}" style="width:10px;"></div>
                 <!-- <div class="swiper-button-prev detail-tab-prev"></div> -->
             </div>
         </div>
@@ -108,101 +107,43 @@
                     </div>
                     <div class="mt20">
                         <div class="table_container2_sm mt10">
-                            <div class="td">규모</div>
-                            <div class="td">{{ $result->min_floor ?? '-' }}층 / {{ $result->max_floor ?? '-' }}층
-                            </div>
-                            <div class="td">준공일</div>
-                            @inject('carbon', 'Carbon\Carbon')
-                            <div class="td">{{ $carbon::parse($result->completion_date)->format('Y.m.d') }}</div>
-                            <div class="td">건축면적</div>
-                            <div class="td">
-                                {{ number_format($result->building_area) }}평 /
-                                {{ number_format($result->building_square, 2) }}㎡
-                            </div>
-                            <div class="td">연면적</div>
-                            <div class="td">
-                                {{ number_format($result->total_floor_area) }}평 /
-                                {{ number_format($result->total_floor_square, 2) }}㎡
-                            </div>
-                            <div class="td">대지면적</div>
-                            <div class="td">
-                                {{ number_format($result->area) }}평 / {{ number_format($result->square, 2) }}㎡
-                            </div>
-                            <div class="td">주차대수</div>
-                            <div class="td">{{ number_format($result->parking_count) }}</div>
-                            <div class="td">세대수</div>
-                            <div class="td">{{ number_format($result->generation_count) }}</div>
-                            <div class="td">시공사</div>
-                            <div class="td">{{ $result->comstruction_company ?? '-' }}</div>
-                            <div class="td">시행사</div>
-                            <div class="td">{{ $result->developer ?? '-' }}</div>
+                            <table class="table_type_1">
+                                <colgroup>
+                                    <col width="50">
+                                    <col width="100">
+                                    <col width="100">
+                                    <col width="100">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>최저가</th>
+                                        <th>평균가</th>
+                                        <th>최고가</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>매매</td>
+                                        <td>{{ $result->sale_min_price }}만원</td>
+                                        <td><span
+                                                style="color: var(--main-color)">{{ $result->sale_mid_price }}만원</span>
+                                        </td>
+                                        <td>{{ $result->sale_max_price }}만원</td>
+                                    </tr>
+                                    <tr>
+                                        <td>임대</td>
+                                        <td>{{ $result->lease_min_price }}만원</td>
+                                        <td><span style="color: var(--main-color)">{{ $result->lease_mid_price }}만원
+                                        </td>
+                                        <td>{{ $result->lease_max_price }}만원</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-
-                @if ($result->characteristics_json != '')
-                    @php
-                        // 주어진 문자열
-                        $encodedString = $result->characteristics_json;
-                        // HTML 엔티티를 디코드
-                        $decodedString = html_entity_decode($encodedString);
-
-                        // JSON 문자열을 PHP 배열로 변환
-                        $jsonArray = json_decode($decodedString, true);
-
-                        // 특정 키의 값 추출
-
-                        // JSON 문자열을 PHP 배열로 변환
-                        if ($result->useWFS_json != '') {
-                            $WFSencodedString = $result->useWFS_json;
-                            $WFSdecodedString = html_entity_decode($WFSencodedString);
-                            $useWFSArray = json_decode($WFSdecodedString, true);
-                            $prpos = $useWFSArray['prpos_area_dstrc_nm_list'] ?? '-';
-                        }
-                    @endphp
-                    <div class="open_con_wrap building_item_4">
-                        <div class="open_trigger">토지정보 <span><img
-                                    src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
-                        </div>
-                        <div class="con_panel">
-                            <div class="default_box showstep1">
-                                <div class="table_container2_sm mt10">
-                                    <div class="td">면적</div>
-                                    <div class="td">{{ number_format($jsonArray['lndpclAr'], 2) }}㎡</div>
-                                    <div class="td">지목</div>
-                                    <div class="td">{{ $jsonArray['lndcgrCodeNm'] }}</div>
-                                    <div class="td">용도지역</div>
-                                    <div class="td">{{ $jsonArray['prposArea1Nm'] }}</div>
-                                    <div class="td">이용상황</div>
-                                    <div class="td">{{ $jsonArray['ladUseSittnNm'] }}</div>
-                                    <div class="td">형상</div>
-                                    <div class="td">{{ $jsonArray['tpgrphFrmCodeNm'] }}</div>
-                                    <div class="td">지형높이</div>
-                                    <div class="td">{{ $jsonArray['tpgrphHgCodeNm'] }}</div>
-                                    <div class="td">동 개별 공시지가(원/m²)</div>
-                                    <div class="td">{{ number_format($jsonArray['pblntfPclnd']) }}</div>
-                                    <div class="td">지역지구등<br>지정여부</div>
-                                    <div class="td">{{ $prpos ?? '-' }}</div>
-                                </div>
-                            </div>
-                            <div class="btn_more_open">더보기</div>
-                        </div>
-                    </div>
-                @endif
-            @endif
-            <!-- 건물·토지정보 : e -->
-        </div>
-
-        <div class="sction_item">
-            <!-- 현장설명 : s -->
-            <div class="side_section">
-                <h4>현장설명</h4>
-            </div>
-            <div>
-                <div class="edu_wrap building_item_2">
-                    {!! nl2br($result->site_contents) !!}
-                </div>
-                <!-- 현장설명 : e -->
+                <!-- 거래내역 : e -->
             </div>
 
             <div class="sction_item">
@@ -214,11 +155,6 @@
                             <img src="{{ Storage::url('file/' . $file->path . '/' . $file->path) }}" class="size_100p">
                         @endforeach
                     </div>
-                    <div class="swiper-button-next features-doc-next"><img
-                            src="{{ asset('assets/media/arrow_w_next.png') }}"></div>
-                    <div class="swiper-button-prev features-doc-prev"><img
-                            src="{{ asset('assets/media/arrow_w_prev.png') }}"></div>
-                    <div class="swiper-pagination"></div>
                 </div>
                 <!-- 조감도 : e -->
             </div>
@@ -232,12 +168,96 @@
                     <div class="side_section">
                         <h4>건물·토지정보</h4>
                     </div>
-                    <div class="swiper-button-next floor-doc-next"><img
-                            src="{{ asset('assets/media/arrow_w_next.png') }}"></div>
-                    <div class="swiper-button-prev floor-doc-prev"><img
-                            src="{{ asset('assets/media/arrow_w_prev.png') }}"></div>
-                    <div class="swiper-pagination"></div>
-                </div>
+
+                    <div class="">
+                        <div class="default_box showstep1">
+                            <div class="table_container2_sm mt10">
+                                <div class="td">규모</div>
+                                <div class="td">{{ $result->min_floor ?? '-' }}층 /
+                                    {{ $result->max_floor ?? '-' }}층
+                                </div>
+                                <div class="td">준공일</div>
+                                @inject('carbon', 'Carbon\Carbon')
+                                <div class="td">{{ $carbon::parse($result->completion_date)->format('Y.m.d') }}
+                                </div>
+                                <div class="td">건축면적</div>
+                                <div class="td">
+                                    {{ number_format($result->building_area) }}평 /
+                                    {{ number_format($result->building_square, 2) }}㎡
+                                </div>
+                                <div class="td">연면적</div>
+                                <div class="td">
+                                    {{ number_format($result->total_floor_area) }}평 /
+                                    {{ number_format($result->total_floor_square, 2) }}㎡
+                                </div>
+                                <div class="td">대지면적</div>
+                                <div class="td">
+                                    {{ number_format($result->area) }}평 / {{ number_format($result->square, 2) }}㎡
+                                </div>
+                                <div class="td">주차대수</div>
+                                <div class="td">{{ number_format($result->parking_count) }}</div>
+                                <div class="td">세대수</div>
+                                <div class="td">{{ number_format($result->generation_count) }}</div>
+                                <div class="td">시공사</div>
+                                <div class="td">{{ $result->comstruction_company ?? '-' }}</div>
+                                <div class="td">시행사</div>
+                                <div class="td">{{ $result->developer ?? '-' }}</div>
+                            </div>
+                        </div>
+                        <div class="btn_more_open">더보기</div>
+                    </div>
+
+                    @if ($result->characteristics_json != '')
+                        @php
+                            // 주어진 문자열
+                            $encodedString = $result->characteristics_json;
+                            // HTML 엔티티를 디코드
+                            $decodedString = html_entity_decode($encodedString);
+
+                            // JSON 문자열을 PHP 배열로 변환
+                            $jsonArray = json_decode($decodedString, true);
+
+                            // 특정 키의 값 추출
+
+                            // JSON 문자열을 PHP 배열로 변환
+                            if ($result->useWFS_json != '') {
+                                $WFSencodedString = $result->useWFS_json;
+                                $WFSdecodedString = html_entity_decode($WFSencodedString);
+                                $useWFSArray = json_decode($WFSdecodedString, true);
+                                $prpos = $useWFSArray['prpos_area_dstrc_nm_list'] ?? '-';
+                            }
+                        @endphp
+                        <div class="open_con_wrap building_item_4">
+                            <div class="open_trigger">토지정보 <span><img
+                                        src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
+                            </div>
+                            <div class="con_panel">
+                                <div class="default_box showstep1">
+                                    <div class="table_container2_sm mt10">
+                                        <div class="td">면적</div>
+                                        <div class="td">{{ number_format($jsonArray['lndpclAr'], 2) }}㎡</div>
+                                        <div class="td">지목</div>
+                                        <div class="td">{{ $jsonArray['lndcgrCodeNm'] }}</div>
+                                        <div class="td">용도지역</div>
+                                        <div class="td">{{ $jsonArray['prposArea1Nm'] }}</div>
+                                        <div class="td">이용상황</div>
+                                        <div class="td">{{ $jsonArray['ladUseSittnNm'] }}</div>
+                                        <div class="td">형상</div>
+                                        <div class="td">{{ $jsonArray['tpgrphFrmCodeNm'] }}</div>
+                                        <div class="td">지형높이</div>
+                                        <div class="td">{{ $jsonArray['tpgrphHgCodeNm'] }}</div>
+                                        <div class="td">동 개별 공시지가(원/m²)</div>
+                                        <div class="td">{{ number_format($jsonArray['pblntfPclnd']) }}</div>
+                                        <div class="td">지역지구등<br>지정여부</div>
+                                        <div class="td">{{ $prpos ?? '-' }}</div>
+                                    </div>
+                                </div>
+                                <div class="btn_more_open">더보기</div>
+                            </div>
+                        </div>
+                    @endif
+                @endif
+                <!-- 건물·토지정보 : e -->
             </div>
 
             <div class="sction_item">
@@ -281,8 +301,10 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div class="swiper-button-next features-doc-next"><img src="{{ asset('assets/media/arrow_w_next.png') }}"></div>
-                        <div class="swiper-button-prev features-doc-prev"><img src="{{ asset('assets/media/arrow_w_prev.png') }}"></div>
+                        <div class="swiper-button-next features-doc-next"><img
+                                src="{{ asset('assets/media/arrow_w_next.png') }}"></div>
+                        <div class="swiper-button-prev features-doc-prev"><img
+                                src="{{ asset('assets/media/arrow_w_prev.png') }}"></div>
                         <div class="swiper-pagination"></div>
                     </div>
                 </div>
@@ -305,8 +327,10 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div class="swiper-button-next floor-doc-next"><img src="{{ asset('assets/media/arrow_w_next.png') }}"></div>
-                        <div class="swiper-button-prev floor-doc-prev"><img src="{{ asset('assets/media/arrow_w_prev.png') }}"></div>
+                        <div class="swiper-button-next floor-doc-next"><img
+                                src="{{ asset('assets/media/arrow_w_next.png') }}"></div>
+                        <div class="swiper-button-prev floor-doc-prev"><img
+                                src="{{ asset('assets/media/arrow_w_prev.png') }}"></div>
                         <div class="swiper-pagination"></div>
                     </div>
                 </div>
@@ -358,6 +382,7 @@
         </div>
     </div>
 </div>
+
 <script>
     // 특장점
     var features = new Swiper(".features1", {

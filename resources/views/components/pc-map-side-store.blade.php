@@ -120,7 +120,7 @@
 
         <div class="side_info_wrap">
             <div>
-                <div id="minimap" style="width:100%; height:330px;" class="size_100p"></div>
+                <div id="minimap" style="width:100%; height:230px;" class="size_100p"></div>
             </div>
             <p class="txt_address">{{ $result->kstoreAddr }}</p>
             <p class="txt_sub_1">{{ $result->subwayStation }} {{ $result->subwayLine }}
@@ -156,7 +156,8 @@
                         <div class="swiper-slide"><a href="javascript:void(0);">매물정보</a></div>
                     </div>
                 </div>
-                <div class="swiper-button-next detail-tab-next"></div>
+                <div class="swiper-button-next detail-tab-next"><img src="{{ asset('assets/media/ic_list_arrow.png') }}"
+                    style="width:10px;"></div>
                 <!-- <div class="swiper-button-prev detail-tab-prev"></div> -->
             </div>
         </div>

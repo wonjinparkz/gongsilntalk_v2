@@ -242,9 +242,13 @@
 .map_search_wrap input{border-radius: 0; border: none; height:48px;}
 .map_search_wrap img{width:16px; margin-right: 16px;}
 .map_search_wrap .btn_del{display: none;}
-.map_side{display:none; position: absolute; z-index: 2; left:0; top:116px; background:#fff; width:440px; height: calc(100vh - 116px); border-right: 1px solid #D2D1D0; box-sizing: border-box; padding-top:160px; overflow: hidden;}
+
+.map_side{display:none; background:#fff; width:440px; overflow:hidden; height: calc(100vh - 116px);}
 .map_side.active{display:block;}
-.map_side.property_type{padding-top:49px;}
+.map_side_body{position: absolute; z-index: 2; width: 440px; left:0; top:0; height: calc(100vh - 116px); border-right: 1px solid #D2D1D0; box-sizing: border-box; padding-top:98px; overflow: hidden;}
+.map_side_body.property_type{padding-top:49px;}
+.map_side_body.transaction_type{padding-top:155px;}/* 전월세 거래 있을 때*/
+
 .side_header{background:#fff; height: 50px; display:flex; justify-content: space-between; align-items: center; position:fixed; top:165px; left:0; width:439px; z-index:10; padding: 0 16px; box-sizing: border-box;}
 .side_header .m_title{font-family:'font-b'; position: absolute; left:50%;top:50%;transform:translate(-50%, -50%);}
 .side_header .left_area, .m_header .right_area{display: flex; align-items: center;}
@@ -252,10 +256,11 @@
 .side_header .right_area a{margin-left:14px; display: inline-block; vertical-align: middle;}
 .side_header img{height:20px;}
 .side_header .layer_share_wrap.layer_share_top{margin-top:170px !important; left: 100px; z-index:10; position: fixed;}
-.side_fixed{background: #fff; position:fixed; top:215px; left:0; width:359px; z-index:9; box-sizing: border-box; border-top: 1px solid #EEEDED;}
+.side_fixed{background: #fff; position:fixed; top:215px; left:0; width:439px; z-index:9; box-sizing: border-box; border-top: 1px solid #EEEDED;}
 .side_fixed .top_wrap{ padding: 10px 16px;}
 .estate_link a{height:50px; align-items: center; padding:16px 16px; box-sizing: border-box;}
-.map_side .scroll_wrap_1{height:calc(100vh - 280px); overflow-y:auto; position: relative;}
+.map_side .scroll_wrap_1{height:calc(100vh - 214px); overflow-y:auto; position: relative;}
+.map_side.transaction_type .scroll_wrap_1{height:calc(100vh - 271px); overflow-y:auto; position: relative;}
 .map_side .side_info_wrap{padding: 16px;}
 .map_side .txt_address{font-size: 18; font-family: 'font-b'; margin-top: 20px;}
 .map_side .txt_sub_1{font-size:14px; color:var(--color-gray-2); margin-top: 10px;}
@@ -306,7 +311,7 @@
 .filter_tit_2{display: flex; gap: 8px; align-items: center; margin-bottom: 16px;}
 .filter_tit_2 h6{margin-bottom: 0;}
 .filter_panel.panel_item_6{width:330px}
-.side_list_wrap{width:359px; height:calc(100vh - 165px);}
+.side_list_wrap{width:439px; height:calc(100vh - 165px);}
 .side_list_tab{width:100%; display: flex; align-items: center;}
 .side_list_tab li{width:50%; height: 44px; color: var(--color-gray-3); display: flex; align-items: center; justify-content: center; cursor: pointer; border-bottom: 1px solid #F0F0F0; box-sizing: border-box;}
 .side_list_tab li.active{color: var(--txt-color); position: relative;}
