@@ -34,6 +34,9 @@
                                     case 1:
                                         $stateText = '분양중';
                                         break;
+                                    case 2:
+                                        $stateText = '분양완료';
+                                        break;
 
                                     default:
                                         $stateText = '상태구분';
@@ -133,13 +136,32 @@
                             <div class="sales_card_img">
                                 <div class="img_box">
                                     <img src="{{ Storage::url('image/' . $siteProduct->main_images[0]->path) }}"
-                                        style="max-width:280px; max-height:186px;"
+                                        style="max-width:280px; max-height:186px; filter:{{ $siteProduct->is_sale == 2 ? 'grayscale(100%)' : '' }}"
                                         onerror="this.onerror=null; this.src='{{ asset('assets/media/s_1.png') }}'">
                                 </div>
                             </div>
                             <div class="sales_list_con">
-                                <span
-                                    class="{{ $siteProduct->is_sale ? 'mark_proceeding' : 'mark_plans' }}">{{ $siteProduct->is_sale ? '분양중' : '분양예정' }}</span>
+                                @php
+                                    $mark_proceeding = '';
+                                    $sale_type = '';
+                                    switch ($siteProduct->is_sale) {
+                                        case 0:
+                                            $mark_proceeding = 'mark_plans';
+                                            $sale_type = '분양예정';
+                                            break;
+                                        case 1:
+                                            $mark_proceeding = 'mark_proceeding';
+                                            $sale_type = '분양중';
+                                            break;
+                                        case 2:
+                                            $mark_proceeding = 'mark_complete';
+                                            $sale_type = '분양완료';
+                                            break;
+                                    }
+                                @endphp
+                                <span class="{{ $mark_proceeding }}">
+                                    {{ $sale_type }}
+                                </span>
                                 <p class="txt_item_1">{{ $siteProduct->title }}</p>
                                 <p class="txt_item_2">{{ $siteProduct->region_address }}</p>
                                 <p class="txt_item_3">{{ $siteProduct->comments }}</p>

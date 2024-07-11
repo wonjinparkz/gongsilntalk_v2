@@ -11,6 +11,35 @@
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
 
+                    {{-- 분양 상태 --}}
+                    <div class="row mb-6">
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">분양 상태</label>
+                        <div class="col-lg-9 fv-row">
+                            @php
+                                $is_sale = Request::get('is_sale') ?? $result->is_sale;
+                            @endphp
+                            <label class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                <input class="form-check-input" name="is_sale" type="radio" value="0"
+                                    @if (old('is_sale') ?? $is_sale == '0') checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">분양예정</span>
+                            </label>
+
+                            <label class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                <input class="form-check-input" name="is_sale" type="radio" value="1"
+                                    @if (old('is_sale') ?? $is_sale == '1') checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">분양중</span>
+                            </label>
+
+                            <label class="form-check form-check-custom form-check-inline me-1 p-1 form-check-sm">
+                                <input class="form-check-input" name="is_sale" type="radio" value="2"
+                                    @if (old('is_sale') ?? $is_sale == '2') checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">분양완료</span>
+                            </label>
+
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('is_sale')" />
+                        </div>
+                    </div>
+
                     {{-- 지역 선택 --}}
                     <div class="row mb-6">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">지역
