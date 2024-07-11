@@ -112,22 +112,50 @@
                     <div id="mapArea">
                         <div id="map" style="width:100%; height:100%;"></div>
                     </div>
-                    <div id="panoArea">
-                        <div id="pano" style="width:100%; height:100%;"></div>
+                    <div>
+                        <button class="btn_close"><img src="{{ asset('assets/media/btn_img_delete.png') }}"></button>
+                        <div id="panoArea" class="pano_wrap" >
+                            <div id="pano" style="width:100%; height:100%;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </x-layout>
+
+
 <script>
 const buttons = document.querySelectorAll('.toggle-btn');
 
 buttons.forEach(button => {
   button.addEventListener('click', function() {
-    // 버튼의 'clicked' 클래스를 토글합니다.
     button.classList.toggle('clicked');
   });
+});
+
+// 커리뷰 끄기
+$(document).ready(function(){
+    // 초기 상태에서 버튼 숨기기
+    $('.btn_close').hide();
+
+    // 버튼 클릭 시 pano의 스타일 변경
+    $('.btn_close').on('click', function(){
+        $('#pano').css('position', 'relative');
+        checkPosition();
+    });
+
+    function checkPosition() {
+        // pano의 position이 relative가 아닌지 확인
+        if ($('#pano').css('position') !== 'relative') {
+            $('.btn_close').show();
+        } else {
+            $('.btn_close').hide();
+        }
+    }
+
+    // 페이지 로드 시 초기 상태 확인
+    checkPosition();
 });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.5/proj4.js"></script>

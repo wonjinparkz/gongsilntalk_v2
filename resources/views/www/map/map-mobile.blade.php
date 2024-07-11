@@ -120,7 +120,8 @@
         {{--  네이버 지도 --}}
         <div id="map" style="width:100%; height:calc(100vh - 60px);"></div>
 
-        <div id="panoArea">
+        <div id="panoArea" class="pano_wrap">
+            <button class="btn_close"><img src="{{ asset('assets/media/btn_img_delete.png') }}"></button>
             <div id="pano" style="width:100%; height:100%;"></div>
         </div>
     </div>
@@ -142,9 +143,15 @@ const buttons = document.querySelectorAll('.toggle-btn');
 
 buttons.forEach(button => {
   button.addEventListener('click', function() {
-    // 버튼의 'clicked' 클래스를 토글합니다.
     button.classList.toggle('clicked');
   });
+});
+
+// 커리뷰 끄기
+$(document).ready(function(){
+    $('.btn_close').on('click', function(){
+        $('#panoArea').hide();
+    });
 });
 </script>
 
