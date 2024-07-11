@@ -328,6 +328,7 @@
 .type_side .detail_tab .swiper-slide.active::after{background:#F16341;}
 .type_side.tab_type_2{height: 58px;}
 .type_side .detail_tab .swiper-slide{height: 58px;}
+.features .swiper-button-prev img, .features .swiper-rtl .swiper-button-next img, .features .swiper-button-next img, .features .swiper-rtl .swiper-button-prev img{width:9px;}
 
 
 /* map marker */
@@ -392,6 +393,8 @@
 .map_side_btn .btn_zoom button{box-shadow:none; }
 .map_side_btn .btn_zoom button:first-child{border-bottom: 1px solid #EEEDED; border-radius: 6px 6px 0 0;}
 .map_side_btn .btn_view_type{display: flex; flex-direction: column; gap: 8px;}
+.map_side_btn .btn_view_type button.clicked{background: #F16341; color:#fff}
+
 
 
 /* 중개사무소 */

@@ -6,6 +6,32 @@
             $notToday = $_COOKIE['notToday'] ?? 'N';
         @endphp
 
+        <!-- popup new : s -->
+        <div class="popup_area">
+
+            <div class="popup_div">
+                <div class="popup_img">
+                    <div class="img_box"><img src="{{ asset('assets/media/s_2.png') }}"></div>
+                </div>
+                <div class="popup_bottom">
+                    <span class="today_close" onclick="todayClosePopup();">오늘 하루 보지 않기</span>
+                    <span class="close" onclick="closePopup();">닫기</span>
+                </div>
+            </div>
+
+            <div class="popup_div">
+                <div class="popup_img">
+                    <div class="img_box"><img src="{{ asset('assets/media/s_2.png') }}"></div>
+                </div>
+                <div class="popup_bottom">
+                    <span class="today_close" onclick="todayClosePopup();">오늘 하루 보지 않기</span>
+                    <span class="close" onclick="closePopup();">닫기</span>
+                </div>
+            </div>
+
+        </div>
+        <!-- popup new : e -->
+
         <!-- popup : s -->
         @if (count($popups) > 0)
             @if ($notToday == 'N' || $notToday == null)

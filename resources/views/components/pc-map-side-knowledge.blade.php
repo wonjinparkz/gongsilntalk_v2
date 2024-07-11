@@ -239,8 +239,8 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="swiper-button-next features-doc-next"></div>
-                    <div class="swiper-button-prev features-doc-prev"></div>
+                    <div class="swiper-button-next features-doc-next"><img src="{{ asset('assets/media/arrow_w_next.png') }}"></div>
+                    <div class="swiper-button-prev features-doc-prev"><img src="{{ asset('assets/media/arrow_w_prev.png') }}"></div>
                     <div class="swiper-pagination"></div>
                 </div>
             </div>
@@ -263,8 +263,8 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="swiper-button-next floor-doc-next"></div>
-                    <div class="swiper-button-prev floor-doc-prev"></div>
+                    <div class="swiper-button-next floor-doc-next"><img src="{{ asset('assets/media/arrow_w_next.png') }}"></div>
+                    <div class="swiper-button-prev floor-doc-prev"><img src="{{ asset('assets/media/arrow_w_prev.png') }}"></div>
                     <div class="swiper-pagination"></div>
                 </div>
             </div>
