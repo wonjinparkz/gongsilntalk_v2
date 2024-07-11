@@ -42,11 +42,7 @@
 
                                     $myPrice = $addressData->month_price - $addressData->loan_rate_price;
                                     if ($myPrice > 0 && $realPrice > 0) {
-                                        if ($myPrice > $realPrice) {
-                                            $realMonthPrice = (($myPrice * 12) / $realPrice) * 100;
-                                        } else {
-                                            $realMonthPrice = ($realPrice / ($myPrice * 12)) * 100;
-                                        }
+                                        $realMonthPrice = (($myPrice * 12) / $realPrice) * 100;
                                     } else {
                                         $realMonthPrice = 0; // 또는 적절한 오류 처리를 할 수 있습니다.
                                     }
@@ -200,7 +196,7 @@
                                                 <td><span class="txt_point">{{ number_format($myPrice) }}원</span>
                                                 </td>
                                                 <td><span
-                                                        class="txt_point">{{ round(($myPrice / $realPrice) * 100, 2) }}%</span>
+                                                        class="txt_point">{{ round((($myPrice * 12) / $realPrice) * 100, 2) }}%</span>
                                                 </td>
                                                 <td><img src="{{ asset('assets/media/ic_list_arrow.png') }}"
                                                         class="w_8p">
@@ -266,7 +262,7 @@
                                                     class="txt_point">{{ number_format($myPrice) }}원</span>
                                             </div>
                                             <div class="list_detail_item">수익률 <span
-                                                    class="txt_point">{{ round(($myPrice / $realPrice) * 100, 2) }}%</span>
+                                                    class="txt_point">{{ round((($myPrice * 12) / $realPrice) * 100, 2) }}%</span>
                                             </div>
                                             <button class="btn_graylight_ghost btn_sm_full mt10"
                                                 onclick="location.href='{{ route('www.mypage.service.detail.view', [$asset->id]) }}'">자세히보기</button>
