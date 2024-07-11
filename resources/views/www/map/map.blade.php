@@ -90,10 +90,11 @@
                             </div>
                         </div>
                         <div class="btn_view_type">
-                            <button id="cadastral">지적도</button>
-                            <button onclick="toggleSatelliteView()">위성뷰</button>
+                            <button class="toggle-btn" id="cadastral">지적도</button>
+                            <button class="toggle-btn" onclick="toggleSatelliteView()">위성뷰</button>
+                            <button class="toggle-btn" id="streetView"><img src="{{ asset('assets/media/ic_map_activate4.png') }}"></button>
                         </div>
-                        <button id="streetView"><img src="{{ asset('assets/media/ic_map_activate4.png') }}"></button>
+                        
                     </div>
                     <button type="button" class="map_view_btn" onclick="mapTypeViewChage()">
                         <span id="centerDongText">익선동</span>
@@ -117,8 +118,22 @@
             </div>
         </div>
     </div>
-
 </x-layout>
+<script>
+const buttons = document.querySelectorAll('.toggle-btn');
+
+buttons.forEach(button => {
+  button.addEventListener('click', function() {
+    buttons.forEach(btn => {
+      if (btn === button) {
+        btn.classList.toggle('clicked');
+      } else {
+        btn.classList.remove('clicked');
+      }
+    });
+  });
+});
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.5/proj4.js"></script>
 <script type="text/javascript"
     src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
