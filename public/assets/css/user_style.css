@@ -327,6 +327,7 @@
 .type_side .detail_tab .swiper-slide.active::after{background:#F16341;}
 .type_side.tab_type_2{height: 58px;}
 .type_side .detail_tab .swiper-slide{height: 58px;}
+.features .swiper-button-prev img, .features .swiper-rtl .swiper-button-next img, .features .swiper-button-next img, .features .swiper-rtl .swiper-button-prev img{width:9px;}
 
 
 /* map marker */
@@ -387,6 +388,7 @@
 .map_side_btn{width:44px; position:fixed; z-index: 2; right:30px; top:145px; display: flex; flex-direction: column; gap: 14px;}
 .map_side_btn button{display: flex; justify-content: center; align-items: center; width: 44px; height: 44px; font-size: 13px; border-radius: 6px; background: #fff; box-shadow: 0 0 6px rgba(0,0,0,0.2);}
 .map_side_btn button img{width:20px;}
+.map_side_btn button.control-on{background: #F16341; color:#fff}
 .map_side_btn .btn_zoom{background:#fff; border-radius: 6px; box-shadow: 0 0 6px rgba(0,0,0,0.2); margin-top: 8px;}
 .map_side_btn .btn_zoom button{box-shadow:none; }
 .map_side_btn .btn_zoom button:first-child{border-bottom: 1px solid #EEEDED; border-radius: 6px 6px 0 0;}

@@ -4,6 +4,11 @@
 .input_type_wrap{display: flex; gap:14px;}
 
 /* main */
+.popup_area{position:absolute; transform:translateX(-50%); left:50% !important; z-index: 501; top:100px; display:flex; gap: 1px; width:1206px; flex-wrap: wrap; justify-content: center;}
+.popup_area .popup_div{width:400px; height: 440px; border-radius: 8px; overflow: hidden;}
+.popup_area .popup_div .popup_img{width: 400px; height: 400px;}
+.popup_area .popup_div .popup_img .img_box{width: 400px; height: 400px;}
+
 .popup_wrap{width:400px; height: 440px; position:absolute; transform:translateX(-50%); left:50% !important; top:100px; z-index: 500; overflow: hidden; background: #fff; border-radius:8px;}
 .popup_bn_swiper{width: 400px; height: 400px;}
 .popup_bn_swiper .img_box{height: 400px !important;}
@@ -11,7 +16,7 @@
 .popup_bn_swiper .swiper-pagination-bullet{border:1px solid #FFFFFF;border-radius: 10px;width:10px; height: 10px; background: transparent; box-sizing: border-box; margin: 0 3px;}
 .popup_bn_swiper .swiper-pagination-bullet-active{background: #FFFFFF80; border:1px solid #fff;}
 .swiper-button-next:after, .swiper-container-rtl .swiper-button-prev:after, .swiper-button-prev:after, .swiper-container-rtl .swiper-button-next:after{display: none;}
-.popup_bottom{ display: flex; height: 40px; align-items: center; justify-content: space-between;}
+.popup_bottom{ display: flex; height: 40px; align-items: center; justify-content: space-between; background:#fff;}
 .popup_bottom .today_close{cursor: pointer; font-size:16px; color:#999999;}
 .popup_bottom .close{color: #262626; font-size:16px; font-family:'font-b';}
 .popup_bottom span{cursor: pointer; padding: 0 20px;}
