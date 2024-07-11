@@ -134,9 +134,10 @@
     // 커리뷰 끄기
     $(document).ready(function() {
         // 초기 상태에서 버튼 숨기기
+        $('.btn_pano_close').hide();
 
         // 버튼 클릭 시 pano의 스타일 변경
-        $('.btn_close').on('click', function() {
+        $('.btn_pano_close').on('click', function() {
             $('#pano').css('position', 'relative');
             checkPosition();
         });
@@ -144,9 +145,9 @@
         function checkPosition() {
             // pano의 position이 relative가 아닌지 확인
             if ($('#pano').css('position') !== 'relative') {
-                $('.btn_close').show();
+                $('.btn_pano_close').show();
             } else {
-                $('.btn_close').hide();
+                $('.btn_pano_close').hide();
             }
         }
 
@@ -668,7 +669,7 @@
             // 지도를 클릭했을 때 발생하는 이벤트를 받아 파노라마 위치를 갱신합니다. 이때 거리뷰 레이어가 있을 때만 갱신하도록 합니다.
             naver.maps.Event.addListener(map, 'click', function(e) {
                 if (streetLayer.getMap()) {
-                    $('.btn_close').show();
+                    $('.btn_pano_close').show();
                     var latlng = e.coord;
 
                     // 파노라마의 setPosition()은 해당 위치에서 가장 가까운 파노라마(검색 반경 300미터)를 자동으로 설정합니다.
