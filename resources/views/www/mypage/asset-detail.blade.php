@@ -732,8 +732,8 @@
                         description: 'ㅂㅈㄷㅂㅈㄷ',
                         imageUrl: imageUrl,
                         link: {
-                            mobileWebUrl: `{!! url()->full() !!}`,
-                            webUrl: `{!! url()->full() !!}`,
+                            mobileWebUrl: imageUrl,
+                            webUrl: imageUrl,
                         },
                     }
                 });
