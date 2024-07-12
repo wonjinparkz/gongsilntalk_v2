@@ -5,7 +5,7 @@
         src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
     </script>
     @foreach ($proposal->products as $product)
-        {{ Log::info($product) }}
+        {{ Log::info($product->product ?? $product . '엉?') }}
     @endforeach
     @php
         function priceChange($price)
