@@ -210,8 +210,8 @@
                                                 </td>
                                                 <td>
                                                     @php
-                                                        // $monthPrice = '';
-                                                        // $priceArea = 0.0;
+                                                        $monthPrice = '';
+                                                        $priceArea = 0.0;
                                                         // if (
                                                         //     $product->product->priceInfo->payment_type == 1 ||
                                                         //     $product->product->priceInfo->payment_type == 2 ||
