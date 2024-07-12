@@ -183,12 +183,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (count($proposal->products) > 0)
-                                        @php
-                                            $lat = 37.5664056;
-                                            $lng = 126.9778222;
+                                    @php
+                                        $lat = 37.5664056;
+                                        $lng = 126.9778222;
 
-                                        @endphp
+                                    @endphp
+                                    @if (count($proposal->products) > 0)
 
                                         @foreach ($proposal->products as $key => $product)
                                             @php
@@ -203,8 +203,8 @@
                                                 <td>
                                                     <div class="frame_img_mid">
                                                         <div class="img_box">
-                                                            {{-- <img
-                                                                src="{{ Storage::url('image/' . $product->product->images[0]->path) }}"> --}}
+                                                            <img
+                                                                src="{{ Storage::url('image/' . $product->product->images[0]->path) }}">
                                                         </div>
                                                     </div>
                                                 </td>
