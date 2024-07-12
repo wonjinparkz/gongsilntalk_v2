@@ -37,7 +37,6 @@
             return $result;
         }
 
-        $proposal->products = [];
     @endphp
 
     <!----------------------------- m::header bar : s ----------------------------->
