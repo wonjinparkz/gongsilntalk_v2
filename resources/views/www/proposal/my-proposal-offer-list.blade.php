@@ -219,6 +219,7 @@
                                                         $priceArea = 0.0;
                                                         $price = $product->product->priceInfo->price ?? 0;
                                                         $month_price = $product->product->priceInfo->month_price ?? 0;
+                                                        $exclusive_area = $product->product->exclusive_area ?? 0;
 
                                                         if (
                                                             $product->product->priceInfo->payment_type == 1 ||
@@ -229,14 +230,17 @@
                                                                 $monthPrice =
                                                                     ' / ' .
                                                                     ($month_price > 0 ? priceChange($month_price) : 0);
-                                                                $priceArea =
-                                                                    $month_price / $product->product->exclusive_area;
+                                                                if ($exclusive_area > 0) {
+                                                                    $priceArea =
+                                                                        $month_price /
+                                                                        $product->product->exclusive_area;
+                                                                }
                                                             }
                                                         } else {
-                                                            // $monthPrice = '';
-                                                            // if ($price > 0) {
-                                                            //     $priceArea = $price / $product->product->exclusive_area;
-                                                            // }
+                                                            $monthPrice = '';
+                                                            if ($price > 0 && $exclusive_area > 0) {
+                                                                $priceArea = $price / $product->product->exclusive_area;
+                                                            }
                                                         }
                                                     @endphp
                                                     <span>{{ Lang::get('commons.payment_type.' . $product->product->priceInfo->payment_type) }}
@@ -332,21 +336,32 @@
                                                             $price = $product->product->priceInfo->price ?? 0;
                                                             $month_price =
                                                                 $product->product->priceInfo->month_price ?? 0;
+                                                            $exclusive_area = $product->product->exclusive_area ?? 0;
 
-                                                            // if (
-                                                            //     $product->product->priceInfo->payment_type == 1 ||
-                                                            //     $product->product->priceInfo->payment_type == 2 ||
-                                                            //     $product->product->priceInfo->payment_type == 4
-                                                            // ) {
-                                                            //     $monthPrice =
-                                                            //         ' / ' .
-                                                            //         ($month_price > 0 ? priceChange($month_price) : 0);
-                                                            //     $priceArea =
-                                                            //         $month_price / $product->product->exclusive_area;
-                                                            // } else {
-                                                            //     $monthPrice = '';
-                                                            //     $priceArea = $price / $product->product->exclusive_area;
-                                                            // }
+                                                            if (
+                                                                $product->product->priceInfo->payment_type == 1 ||
+                                                                $product->product->priceInfo->payment_type == 2 ||
+                                                                $product->product->priceInfo->payment_type == 4
+                                                            ) {
+                                                                if ($month_price > 0) {
+                                                                    $monthPrice =
+                                                                        ' / ' .
+                                                                        ($month_price > 0
+                                                                            ? priceChange($month_price)
+                                                                            : 0);
+                                                                    if ($exclusive_area > 0) {
+                                                                        $priceArea =
+                                                                            $month_price /
+                                                                            $product->product->exclusive_area;
+                                                                    }
+                                                                }
+                                                            } else {
+                                                                $monthPrice = '';
+                                                                if ($price > 0 && $exclusive_area > 0) {
+                                                                    $priceArea =
+                                                                        $price / $product->product->exclusive_area;
+                                                                }
+                                                            }
                                                         @endphp
                                                         {{ Lang::get('commons.payment_type.' . $product->product->priceInfo->payment_type) }}
                                                         {{ $price > 0 ? priceChange($price) : 0 }}
