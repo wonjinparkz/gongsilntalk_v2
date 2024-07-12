@@ -183,23 +183,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (count($proposal->products) < 1)
+                                    @if (count($proposal->products) > 0)
                                         @php
                                             $lat = 37.5664056;
                                             $lng = 126.9778222;
 
                                         @endphp
-                                        <tr>
-                                            <td colspan="9">
-                                                <!-- 데이터가 없을 경우 : s -->
-                                                <div class="empty_wrap">
-                                                    <p>조건에 맞는 매물이 없습니다.</p>
-                                                    <span>관리자가 조건에 맞는 매물이 있는지 재확인 후에<br>다시 연락드릴테니, 조금만 기다려주세요!</span>
-                                                </div>
-                                                <!-- 데이터가 없을 경우 : e -->
-                                            </td>
-                                        </tr>
-                                    @else
+
                                         @foreach ($proposal->products as $key => $product)
                                             @php
                                                 if ($key == 0) {
@@ -292,6 +282,17 @@
                                                     value="{{ $product->product->id }}">
                                             </form>
                                         @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="9">
+                                                <!-- 데이터가 없을 경우 : s -->
+                                                <div class="empty_wrap">
+                                                    <p>조건에 맞는 매물이 없습니다.</p>
+                                                    <span>관리자가 조건에 맞는 매물이 있는지 재확인 후에<br>다시 연락드릴테니, 조금만 기다려주세요!</span>
+                                                </div>
+                                                <!-- 데이터가 없을 경우 : e -->
+                                            </td>
+                                        </tr>
                                     @endif
                                 </tbody>
                             </table>
