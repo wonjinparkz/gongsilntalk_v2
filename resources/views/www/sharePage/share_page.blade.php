@@ -120,7 +120,7 @@
                     </div>
                     <div>예산</div>
                     <div>
-                        {{ $proposal->payment_type == 0 ? '매매 ' . priceChange($proposal->price) . '원' : '월세 ' . priceChange($proposal->price) . '원 / ' . priceChange($proposal->month_price) . '원' }}
+                        {{ $proposal->payment_type == 0 ? '매매 ' . priceChange($proposal->price) . '원' : '임대 ' . priceChange($proposal->price) . '원 / ' . priceChange($proposal->month_price) . '원' }}
                     </div>
                     @if ($proposal->type == 0)
                         <div>희망 상가 층</div>
@@ -185,51 +185,36 @@
                                         <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
                                     </div>
                                     <div class="share_offer_card_info">
-                                        @php
-                                            $monthPrice = '';
-                                            $priceArea = 0.0;
-                                            if (
-                                                $product->product->priceInfo->payment_type == 1 ||
-                                                $product->product->priceInfo->payment_type == 2 ||
-                                                $product->product->priceInfo->payment_type == 4
-                                            ) {
-                                                $monthPrice =
-                                                    ' / ' . priceChange($product->product->priceInfo->month_price);
-                                                $priceArea =
-                                                    $product->product->priceInfo->month_price /
-                                                    $product->product->exclusive_area;
-                                            } else {
-                                                $monthPrice = '';
-                                                $priceArea =
-                                                    $product->product->priceInfo->price /
-                                                    $product->product->exclusive_area;
-                                            }
-
-                                        @endphp
                                         <p class="txt_item_1">
                                             @php
                                                 $monthPrice = '';
                                                 $priceArea = 0.0;
+                                                $price = $product->product->priceInfo->price ?? 0;
+                                                $month_price = $product->product->priceInfo->month_price ?? 0;
+                                                $exclusive_area = $product->product->exclusive_area ?? 0;
+
                                                 if (
                                                     $product->product->priceInfo->payment_type == 1 ||
                                                     $product->product->priceInfo->payment_type == 2 ||
                                                     $product->product->priceInfo->payment_type == 4
                                                 ) {
-                                                    $monthPrice =
-                                                        ' / ' . priceChange($product->product->priceInfo->month_price);
-                                                    $priceArea =
-                                                        $product->product->priceInfo->month_price /
-                                                        $product->product->exclusive_area;
+                                                    if ($month_price > 0) {
+                                                        $monthPrice =
+                                                            ' / ' . ($month_price > 0 ? priceChange($month_price) : 0);
+                                                        if ($exclusive_area > 0) {
+                                                            $priceArea =
+                                                                $month_price / $product->product->exclusive_area;
+                                                        }
+                                                    }
                                                 } else {
                                                     $monthPrice = '';
-                                                    $priceArea =
-                                                        $product->product->priceInfo->price /
-                                                        $product->product->exclusive_area;
+                                                    if ($price > 0 && $exclusive_area > 0) {
+                                                        $priceArea = $price / $product->product->exclusive_area;
+                                                    }
                                                 }
-
                                             @endphp
                                             {{ Lang::get('commons.payment_type.' . $product->product->priceInfo->payment_type) }}
-                                            {{ priceChange($product->product->priceInfo->price) }}
+                                            {{ $price > 0 ? priceChange($price) : 0 }}
                                             {{ $monthPrice }}
                                             <span>({{ priceChange($priceArea) }}/평)</span>
                                         </p>
@@ -305,8 +290,7 @@
             map: map,
 
             icon: {
-                url: "{{ asset('assets/media/map_marker_default.png') }}",
-
+                content: `<div class="marker_default detail_info_toggle"><span>{{ $key + 1 }}</span></div>`,
                 size: new naver.maps.Size(100, 100), //아이콘 크기
                 scaledSize: new naver.maps.Size(30, 43), //아이콘 크기
                 origin: new naver.maps.Point(0, 0),
@@ -318,4 +302,8 @@
             onMarkerClick('{{ $key + 1 }}');
         });
     @endforeach
+
+    function onMarkerClick(index) {
+        document.getElementById(index + "_product_tr").scrollIntoView(true);
+    }
 </script>

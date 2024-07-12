@@ -247,7 +247,7 @@
                                                         {{ $price > 0 ? priceChange($price) : 0 }}
                                                         {{ $monthPrice }}
                                                     </span><br>
-                                                    <span>({{ priceChange($priceArea) }}/㎡)</span>
+                                                    <span class="area">({{ priceChange($priceArea) }}/평)</span>
                                                 </td>
                                                 <td>{{ $product->product->address }} </td>
                                                 <td>전용 {{ $product->product->exclusive_square }}㎡</td>
@@ -326,7 +326,8 @@
                                             <div class="flex_between mt10">
                                                 <div class="frame_img_mid">
                                                     <div class="img_box"><img
-                                                            src="{{ asset('assets/media/s_1.png') }}"></div>
+                                                            src="{{ Storage::url('image/' . $product->product->images[0]->path) }}">
+                                                    </div>
                                                 </div>
                                                 <div class="offer_card_info">
                                                     <p class="txt_item_1">
@@ -373,12 +374,14 @@
                                                         /
                                                         {{ $product->product->total_floor_number }}층</p>
                                                     <p class="txt_item_3">
-                                                        {{ $product->product->is_service == 0 ? '관리비 ' . number_format($product->product->service_price) . '원' : '-' }}
+                                                        관리비
+                                                        {{ $product->product->is_service == 0 ? number_format($product->product->service_price) . '원' : '-' }}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="btn_half_wrap">
-                                                <button class="btn_gray_ghost btn_md_full">상세보기</button>
+                                                <button class="btn_gray_ghost btn_md_full"
+                                                    onclick="location.href='{{ route('www.map.room.detail', [$product->product->id]) }}'">상세보기</button>
                                                 <button class="btn_point_ghost btn_md_full txt_bold" type="button"
                                                     onclick="modal_open('tour_{{ $product->product->id }}')">투어
                                                     요청</button>
@@ -454,8 +457,7 @@
                 map: map,
 
                 icon: {
-                    url: "{{ asset('assets/media/map_marker_default.png') }}",
-
+                    content: `<div class="marker_default detail_info_toggle"><span>{{ $key + 1 }}</span></div>`,
                     size: new naver.maps.Size(100, 100), //아이콘 크기
                     scaledSize: new naver.maps.Size(30, 43), //아이콘 크기
                     origin: new naver.maps.Point(0, 0),
