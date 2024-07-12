@@ -268,7 +268,7 @@
 .map_side .info_detail{border-top: 1px solid var(--gray-line); display: flex; padding: 18px 0; margin-top: 24px;}
 .map_side .info_detail li{width: 25%; text-align: center;}
 .map_side .info_detail li label{color:var(--color-gray-3); margin-top: 4px; display: inline-block;}
-.side_section{padding:20px 16px;}
+.side_section{padding:20px 16px; box-sizing: border-box;}
 .transaction_box{background:#FEEFEC; border-radius: 5px; display: flex; justify-content: space-between; padding: 14px 16px; box-sizing: border-box;}
 .transaction_box .transaction_price{font-size:18px; font-family: 'font-b'; color: var(--main-color);}
 .status_item_red{color: #FF1E1E;  position: relative; padding-left: 20px;}
@@ -334,6 +334,7 @@
 .type_side.tab_type_2{height: 58px;}
 .type_side .detail_tab .swiper-slide{height: 58px;}
 .features .swiper-button-prev img, .features .swiper-rtl .swiper-button-next img, .features .swiper-button-next img, .features .swiper-rtl .swiper-button-prev img{width:9px;}
+.min_height{min-height:640px;}
 
 
 /* map marker */
