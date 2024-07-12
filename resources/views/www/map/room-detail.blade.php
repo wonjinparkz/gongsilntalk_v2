@@ -1103,15 +1103,8 @@
     </script>
 
     {{-- 카카오톡 공유 --}}
-    {{-- JavaScript 키, url 변경 수정필요 --}}
-    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
-        integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous">
-    </script>
-    <script>
-        Kakao.init('053a66b906cb1cf1d805d47831668657'); // 사용하려는 앱의 JavaScript 키 입력
-    </script>
 
-    <script>
+<script>
         var title = '공실앤톡';
         var imageUrl = "{{ asset('assets/media/default_gs.png') }}";
         var url = "http://localhost"

@@ -161,7 +161,7 @@
                     src="{{ asset('assets/media/header_btn_dot.png') }}"></span></div>
         <div class="layer_menu">
             <a href="community_modify.html">수정</a>
-            <a href="#">삭제</a>
+            <a>삭제</a>
         </div>
     </div>
     <!----------------------------- m::header bar : s ----------------------------->
@@ -482,25 +482,26 @@
                             <span class="fs_16 gray_deep">매매계약서</span>
                             <div class="relative">
                                 @if (isset($result->sale_images->path))
-                                    <button class="btn_graylight_ghost btn_sm btn_share"><img
+                                    <button class="btn_graylight_ghost btn_sm btn_share" data-share="share_sale"><img
                                             src="{{ asset('assets/media/header_btn_share_deep.png') }}"
                                             class="normal"></button>
                                     <button class="btn_graylight_ghost btn_sm" type="button"
                                         onclick="location.href='{{ route('api.imagedownload', $result->sale_images->path) }}'">다운</button>
                                 @endif
 
-                                <div class="layer layer_share_wrap layer_share_top">
+                                <div class="layer layer_share_wrap layer_share_top share_sale">
                                     <div class="layer_title">
                                         <h5>공유하기</h5>
                                         <img src="{{ asset('assets/media/btn_md_close.png') }}"
-                                            class="md_btn_close btn_share">
+                                            class="md_btn_close btn_share" data-share="share_sale">
                                     </div>
                                     <div class="layer_share_con">
-                                        <a href="#">
+                                        <a class="kakaotalk-sharing-btn"
+                                            data-image-url="{{ asset('storage/image/') . '/' . $result->sale_images->path }}">
                                             <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                             <p class="mt8">카카오톡</p>
                                         </a>
-                                        <a href="#">
+                                        <a>
                                             <img src="{{ asset('assets/media/share_ic_02.png') }}">
                                             <p class="mt8">링크복사</p>
                                         </a>
@@ -523,25 +524,25 @@
                             <span class="fs_16 gray_deep">사업자등록증</span>
                             <div class="relative">
                                 @if (isset($result->entre_images->path))
-                                    <button class="btn_graylight_ghost btn_sm btn_share"><img
+                                    <button class="btn_graylight_ghost btn_sm btn_share" data-share="share_entre"><img
                                             src="{{ asset('assets/media/header_btn_share_deep.png') }}"
                                             class="normal"></button>
                                     <button class="btn_graylight_ghost btn_sm" type="button"
                                         onclick="location.href='{{ route('api.imagedownload', $result->entre_images->path) }}'">다운</button>
                                 @endif
 
-                                <div class="layer layer_share_wrap layer_share_top">
+                                <div class="layer layer_share_wrap layer_share_top share_entre">
                                     <div class="layer_title">
                                         <h5>공유하기</h5>
                                         <img src="{{ asset('assets/media/btn_md_close.png') }}"
-                                            class="md_btn_close btn_share">
+                                            class="md_btn_close btn_share" data-share="share_entre">
                                     </div>
                                     <div class="layer_share_con">
-                                        <a href="#">
+                                        <a>
                                             <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                             <p class="mt8">카카오톡</p>
                                         </a>
-                                        <a href="#">
+                                        <a>
                                             <img src="{{ asset('assets/media/share_ic_02.png') }}">
                                             <p class="mt8">링크복사</p>
                                         </a>
@@ -564,22 +565,26 @@
                             <span class="fs_16 gray_deep">임대차 계약서</span>
                             <div class="relative">
                                 @if (isset($result->rental_images->path))
+                                    <button class="btn_graylight_ghost btn_sm btn_share"
+                                        data-share="share_rental"><img
+                                            src="{{ asset('assets/media/header_btn_share_deep.png') }}"
+                                            class="normal"></button>
                                     <button class="btn_graylight_ghost btn_sm" type="button"
                                         onclick="location.href='{{ route('api.imagedownload', $result->rental_images->path) }}'">다운</button>
                                 @endif
 
-                                <div class="layer layer_share_wrap layer_share_top">
+                                <div class="layer layer_share_wrap layer_share_top share_rental">
                                     <div class="layer_title">
                                         <h5>공유하기</h5>
                                         <img src="{{ asset('assets/media/btn_md_close.png') }}"
-                                            class="md_btn_close btn_share">
+                                            class="md_btn_close btn_share" data-share="share_rental">
                                     </div>
                                     <div class="layer_share_con">
-                                        <a href="#">
+                                        <a>
                                             <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                             <p class="mt8">카카오톡</p>
                                         </a>
-                                        <a href="#">
+                                        <a>
                                             <img src="{{ asset('assets/media/share_ic_02.png') }}">
                                             <p class="mt8">링크복사</p>
                                         </a>
@@ -602,22 +607,25 @@
                             <span class="fs_16 gray_deep">기타서류</span>
                             <div class="relative">
                                 @if (isset($result->etc_images->path))
+                                    <button class="btn_graylight_ghost btn_sm btn_share" data-share="share_etc"><img
+                                            src="{{ asset('assets/media/header_btn_share_deep.png') }}"
+                                            class="normal"></button>
                                     <button class="btn_graylight_ghost btn_sm" type="button"
                                         onclick="location.href='{{ route('api.imagedownload', $result->etc_images->path) }}'">다운</button>
                                 @endif
 
-                                <div class="layer layer_share_wrap layer_share_top">
+                                <div class="layer layer_share_wrap layer_share_top share_etc">
                                     <div class="layer_title">
                                         <h5>공유하기</h5>
                                         <img src="{{ asset('assets/media/btn_md_close.png') }}"
-                                            class="md_btn_close btn_share">
+                                            class="md_btn_close btn_share" data-share="share_etc">
                                     </div>
                                     <div class="layer_share_con">
-                                        <a href="#">
+                                        <a>
                                             <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                             <p class="mt8">카카오톡</p>
                                         </a>
-                                        <a href="#">
+                                        <a>
                                             <img src="{{ asset('assets/media/share_ic_02.png') }}">
                                             <p class="mt8">링크복사</p>
                                         </a>
@@ -699,16 +707,38 @@
 
         // 내 자산 삭제
         var onMyAssetDelete = (id) => {
-            console.log('저의 아이디는 ' + id + ' 이네요?');
-
             var form = document.deleteForm;
             form.submit();
         }
 
         //공유하기 레이어
         $(".btn_share").click(function() {
-            $(".layer_share_wrap").stop().slideToggle(0);
-            return false;
+            var shareLayerClass = $(this).data("share");
+            $("." + shareLayerClass).stop().slideToggle(0);
+            return;
+        });
+
+        var imageUrl = '';
+        document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                $(".layer_share_wrap").stop().slideUp(0)
+                imageUrl = button.getAttribute('data-image-url');
+                console.log('카카오', imageUrl);
+            });
+
+            Kakao.Share.createDefaultButton({
+                container: button,
+                objectType: "feed",
+                content: {
+                    title: '',
+                    description: '',
+                    imageUrl: imageUrl,
+                    link: {
+                        mobileWebUrl: `{!! url()->full() !!}`,
+                        webUrl: `{!! url()->full() !!}`,
+                    },
+                }
+            });
         });
     </script>
 
