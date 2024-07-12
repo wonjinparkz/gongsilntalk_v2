@@ -718,15 +718,14 @@
             return;
         });
 
-        var imageUrl = '';
         document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
+            var imageUrl = button.getAttribute('data-image-url');
+
             button.addEventListener('click', function() {
-                $(".layer_share_wrap").stop().slideUp(0)
-                imageUrl = button.getAttribute('data-image-url');
+                $(".layer_share_wrap").stop().slideUp(0);
                 console.log('카카오', imageUrl);
 
-                Kakao.Share.createDefaultButton({
-                    container: button,
+                Kakao.Share.sendDefault({
                     objectType: "feed",
                     content: {
                         title: 'ㅂㅈㄷㄱ',
