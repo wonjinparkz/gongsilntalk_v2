@@ -395,7 +395,7 @@ class ProposalPcController extends Controller
             array_push($sameIdArray, $same->id);
         }
 
-        $tempList = Product::select()
+        $tempList = Product::select('product.id as product_id')
             ->leftjoin('product_price', 'product_price.product_id', 'product.id')
             ->where(function ($query) use ($request) {
                 foreach ($request->region_zone as $key => $region) {
@@ -411,7 +411,7 @@ class ProposalPcController extends Controller
         foreach ($tempList as $temp) {
             ProposalProduct::create([
                 'proposal_id' => $proposal->id,
-                'product_id' => $temp->id
+                'product_id' => $temp->product_id
             ]);
         }
 
