@@ -46,7 +46,7 @@
         integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous">
     </script>
     <script>
-        Kakao.init("{{ env('KAKAO_CLIENT_ID') }}"); // 사용하려는 앱의 JavaScript 키 입력
+        Kakao.init("{{ env('KAKAO_NATIVE_ID') }}"); // 사용하려는 앱의 JavaScript 키 입력
     </script>
 
 
