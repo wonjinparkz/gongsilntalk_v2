@@ -3,7 +3,7 @@
 
         <div class="m_header">
             <div class="left_area"><a href="javascript:history.go(-1)"><img
-                        src="http://localhost/assets/media/header_btn_close.png"></a></div>
+                        src="{{ asset('assets/media/header_btn_close.png') }}"></a></div>
             <div class="m_title"></div>
             <div class="right_area"></div>
         </div>
