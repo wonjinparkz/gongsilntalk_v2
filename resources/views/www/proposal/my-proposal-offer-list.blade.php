@@ -222,9 +222,9 @@
                                                             $product->product->priceInfo->payment_type == 2 ||
                                                             $product->product->priceInfo->payment_type == 4
                                                         ) {
-                                                            $monthPrice =
-                                                                ' / ' .
-                                                                priceChange($product->product->priceInfo->month_price);
+                                                            // $monthPrice =
+                                                            //     ' / ' .
+                                                            //     priceChange($product->product->priceInfo->month_price);
                                                             $priceArea =
                                                                 $product->product->priceInfo->month_price /
                                                                 $product->product->exclusive_area;
