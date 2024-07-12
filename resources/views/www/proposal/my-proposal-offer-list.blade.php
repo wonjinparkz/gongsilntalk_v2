@@ -210,25 +210,25 @@
                                                 </td>
                                                 <td>
                                                     @php
-                                                        $monthPrice = '';
-                                                        $priceArea = 0.0;
-                                                        if (
-                                                            $product->product->priceInfo->payment_type == 1 ||
-                                                            $product->product->priceInfo->payment_type == 2 ||
-                                                            $product->product->priceInfo->payment_type == 4
-                                                        ) {
-                                                            $monthPrice =
-                                                                ' / ' .
-                                                                priceChange($product->product->priceInfo->month_price);
-                                                            $priceArea =
-                                                                $product->product->priceInfo->month_price /
-                                                                $product->product->exclusive_area;
-                                                        } else {
-                                                            $monthPrice = '';
-                                                            $priceArea =
-                                                                $product->product->priceInfo->price /
-                                                                $product->product->exclusive_area;
-                                                        }
+                                                        // $monthPrice = '';
+                                                        // $priceArea = 0.0;
+                                                        // if (
+                                                        //     $product->product->priceInfo->payment_type == 1 ||
+                                                        //     $product->product->priceInfo->payment_type == 2 ||
+                                                        //     $product->product->priceInfo->payment_type == 4
+                                                        // ) {
+                                                        //     $monthPrice =
+                                                        //         ' / ' .
+                                                        //         priceChange($product->product->priceInfo->month_price);
+                                                        //     $priceArea =
+                                                        //         $product->product->priceInfo->month_price /
+                                                        //         $product->product->exclusive_area;
+                                                        // } else {
+                                                        //     $monthPrice = '';
+                                                        //     $priceArea =
+                                                        //         $product->product->priceInfo->price /
+                                                        //         $product->product->exclusive_area;
+                                                        // }
 
                                                     @endphp
                                                     <span>{{ Lang::get('commons.payment_type.' . $product->product->priceInfo->payment_type) }}
