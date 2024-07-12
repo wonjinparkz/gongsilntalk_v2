@@ -233,10 +233,10 @@
                                                                     $month_price / $product->product->exclusive_area;
                                                             }
                                                         } else {
-                                                            $monthPrice = '';
-                                                            if ($price > 0) {
-                                                                $priceArea = $price / $product->product->exclusive_area;
-                                                            }
+                                                            // $monthPrice = '';
+                                                            // if ($price > 0) {
+                                                            //     $priceArea = $price / $product->product->exclusive_area;
+                                                            // }
                                                         }
                                                     @endphp
                                                     <span>{{ Lang::get('commons.payment_type.' . $product->product->priceInfo->payment_type) }}
