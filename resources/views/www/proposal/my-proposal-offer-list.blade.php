@@ -5,7 +5,7 @@
         src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
     </script>
     @foreach ($proposal->products as $product)
-        {{ Log::info($product->product ?? $product . '엉?') }}
+        {{ Log::info($product->product->priceInfo ?? '엉?') }}
     @endforeach
     @php
         function priceChange($price)
@@ -218,23 +218,23 @@
                                                     @php
                                                         $monthPrice = '';
                                                         $priceArea = 0.0;
-                                                        // if (
-                                                        //     $product->product->priceInfo->payment_type == 1 ||
-                                                        //     $product->product->priceInfo->payment_type == 2 ||
-                                                        //     $product->product->priceInfo->payment_type == 4
-                                                        // ) {
-                                                        //     $monthPrice =
-                                                        //         ' / ' .
-                                                        //         priceChange($product->product->priceInfo->month_price);
-                                                        //     $priceArea =
-                                                        //         $product->product->priceInfo->month_price /
-                                                        //         $product->product->exclusive_area;
-                                                        // } else {
-                                                        //     $monthPrice = '';
-                                                        //     $priceArea =
-                                                        //         $product->product->priceInfo->price /
-                                                        //         $product->product->exclusive_area;
-                                                        // }
+                                                        if (
+                                                            $product->product->priceInfo->payment_type == 1 ||
+                                                            $product->product->priceInfo->payment_type == 2 ||
+                                                            $product->product->priceInfo->payment_type == 4
+                                                        ) {
+                                                            $monthPrice =
+                                                                ' / ' .
+                                                                priceChange($product->product->priceInfo->month_price);
+                                                            $priceArea =
+                                                                $product->product->priceInfo->month_price /
+                                                                $product->product->exclusive_area;
+                                                        } else {
+                                                            $monthPrice = '';
+                                                            $priceArea =
+                                                                $product->product->priceInfo->price /
+                                                                $product->product->exclusive_area;
+                                                        }
                                                     @endphp
                                                     <span>{{ Lang::get('commons.payment_type.' . $product->product->priceInfo->payment_type) }}
                                                         {{ priceChange($product->product->priceInfo->price) }}
