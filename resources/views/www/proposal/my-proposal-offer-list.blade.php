@@ -4,6 +4,9 @@
     <script type="text/javascript"
         src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
     </script>
+    @foreach ($proposal->products as $product)
+        {{ Log::info($product) }}
+    @endforeach
     @php
         function priceChange($price)
         {
@@ -34,10 +37,9 @@
             return $result;
         }
 
-        Log::info($proposal->products);
-
         $proposal->products = [];
     @endphp
+
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
@@ -233,7 +235,6 @@
                                                         //         $product->product->priceInfo->price /
                                                         //         $product->product->exclusive_area;
                                                         // }
-
                                                     @endphp
                                                     <span>{{ Lang::get('commons.payment_type.' . $product->product->priceInfo->payment_type) }}
                                                         {{ priceChange($product->product->priceInfo->price) }}
