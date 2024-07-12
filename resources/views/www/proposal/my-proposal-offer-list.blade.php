@@ -211,14 +211,12 @@
                                             <tr id="{{ $key + 1 }}_product_tr">
                                                 <td><span class="number_box">{{ $key + 1 }}</span></td>
                                                 <td>
-                                                    @if (count($product->product->images) > 0)
-                                                        <div class="frame_img_mid">
-                                                            <div class="img_box">
-                                                                <img
-                                                                    src="{{ Storage::url('image/' . $product->product->images[0]->path) }}">
-                                                            </div>
+                                                    <div class="frame_img_mid">
+                                                        <div class="img_box">
+                                                            {{-- <img
+                                                                src="{{ Storage::url('image/' . $product->product->images[0]->path) }}"> --}}
                                                         </div>
-                                                    @endif
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     @php
