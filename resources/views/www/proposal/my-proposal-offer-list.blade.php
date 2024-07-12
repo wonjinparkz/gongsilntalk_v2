@@ -34,6 +34,8 @@
             return $result;
         }
 
+        Log::info($proposal->products);
+
         $proposal->products = [];
     @endphp
     <!----------------------------- m::header bar : s ----------------------------->
