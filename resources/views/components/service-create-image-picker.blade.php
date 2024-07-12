@@ -7,7 +7,7 @@
     <li>
         <div class="document_area" id="{{ $id }}ImageName">
             <div class="document_img_reg">
-                <img src="{{ Storage::url('image/') . $result->path }}">
+                <img src="{{ Storage::url('image/') . $result->path }}" style="max-width:120px;">
             </div>
             <input type="hidden" name="{{ $id }}_image_ids[]" value="{{ $result->id }}" />
             <input type="hidden" name="{{ $id }}_image_paths[]"
