@@ -108,7 +108,7 @@
         <!-- 공유하기 : e -->
     </div>
 
-    <div class="scroll_wrap_1">
+    <div class="scroll_wrap_1" id="scrollContainer">
         <hr class="space">
         <div class="estate_link">
             <a href="{{ route('www.product.create.view') }}" class="flex_between">
@@ -146,7 +146,7 @@
         </div>
 
         <!-- tab : s -->
-        <div class="tab_type_2 type_side">
+        <div class="tab_type_2 type_side" id="tabList" onclick="scrollToTab(this)">
             <div style="width: 100%;">
                 <div class="swiper detail_tab">
                     <div class="swiper-wrapper menu toggle_menu">
@@ -165,7 +165,7 @@
         <div class="side_tab_wrap">
             <div class="sction_item active">
                 <!-- 거래내역 : s -->
-                <div class="side_section">
+                <div class="side_section min_height">
                     <h4>거래내역</h4>
                     <!-- 데이터 없을 경우 -->
                     <div class="sm_type mt10">
@@ -175,7 +175,7 @@
                 </div>
                 <!-- 거래내역 : e -->
             </div>
-            <div class="sction_item">
+            <div class="sction_item min_height">
                 <!-- 건물·토지정보 : s -->
                 <x-pc-buildingledger :BrTitleInfo="$BrTitleInfo" :BrRecapTitleInfo="$BrRecapTitleInfo" :BrFlrOulnInfo="$BrFlrOulnInfo" :BrExposInfo="$BrExposInfo"
                     :BrExposPubuseAreaInfo="$BrExposPubuseAreaInfo" :characteristics_json="$result->characteristics_json" :useWFS_json="$result->useWFS_json" />
@@ -183,7 +183,7 @@
             </div>
             <div class="sction_item">
                 <!-- 위치정보 : s -->
-                <div class="side_section">
+                <div class="side_section min_height">
                     <h4>위치 및 주변정보</h4>
                     <div class="container_map_wrap mt18">
                         <x-pc-around-map :address_lat="$result->address_lat" :address_lng="$result->address_lng" />
@@ -222,7 +222,7 @@
                 </div>
                 <!-- 위치정보 : s -->
             </div>
-            <div class="sction_item">
+            <div class="sction_item min_height">
                 <!-- 매물정보 : s -->
                 <x-pc-map-product-list :productList="$result->productList" />
                 <!-- 매물정보 : e -->
@@ -314,4 +314,14 @@
             $(".tab_sm_wrap > div").eq(list).show();
         });
     });
+
+    // 탭 상단 고정
+    function scrollToTab(tab) {
+        const scrollContainer = document.getElementById('scrollContainer');
+        const offsetTop = tab.offsetTop - 1;
+        scrollContainer.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+        });
+    }
 </script>

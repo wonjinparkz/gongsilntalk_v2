@@ -414,12 +414,13 @@
         });
     });
 
+    // 탭 상단 고정
     function scrollToTab(tab) {
-            const scrollContainer = document.getElementById('scrollContainer');
-            const offsetTop = tab.offsetTop - 1;
-            scrollContainer.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
-        }
+        const scrollContainer = document.getElementById('scrollContainer');
+        const offsetTop = tab.offsetTop - 1;
+        scrollContainer.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+        });
+    }
 </script>
