@@ -730,8 +730,8 @@
                 container: button,
                 objectType: "feed",
                 content: {
-                    title: '',
-                    description: '',
+                    title: 'ㅂㅈㄷㄱ',
+                    description: 'ㅂㅈㄷㅂㅈㄷ',
                     imageUrl: imageUrl,
                     link: {
                         mobileWebUrl: `{!! url()->full() !!}`,
