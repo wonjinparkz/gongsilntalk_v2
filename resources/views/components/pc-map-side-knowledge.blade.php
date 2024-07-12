@@ -110,9 +110,9 @@
                             <table class="table_type_1">
                                 <colgroup>
                                     <col width="50">
-                                    <col width="100">
-                                    <col width="100">
-                                    <col width="100">
+                                    <col width="120">
+                                    <col width="120">
+                                    <col width="120">
                                 </colgroup>
                                 <thead>
                                     <tr>
@@ -264,25 +264,31 @@
                 <!-- 현장설명 : s -->
                 <div class="side_section">
                     <h4>현장설명</h4>
-                </div>
-                <div>
-                    <div class="edu_wrap building_item_2">
+
+                    <div class="txt_lh_1 mt20">
                         {!! nl2br($result->site_contents) !!}
                     </div>
-                    <!-- 현장설명 : e -->
+
+                    <h4 class="mt40">교통정보</h4>
+                    <div class="txt_lh_1 mt20">
+                        {!! nl2br($result->traffic_info) !!}
+                    </div>
+                    
                 </div>
+                <!-- 현장설명 : e -->
+                
 
                 <hr class="space exp mt20">
 
                 <!-- 교통정보 : s -->
-                <div class="side_section">
+                <!-- <div class="side_section">
                     <h4>교통정보</h4>
                 </div>
                 <div>
-                    <div class="edu_wrap building_item_2">
+                    <div class="txt_lh_1">
                         {!! nl2br($result->traffic_info) !!}
                     </div>
-                </div>
+                </div> -->
                 <!-- 교통정보 : e -->
             </div>
 
