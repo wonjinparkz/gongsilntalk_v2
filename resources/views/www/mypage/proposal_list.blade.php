@@ -116,7 +116,7 @@
                                                 class="gray_basic">({{ $proposal->area }}평)</span></div>
                                         <div>예산</div>
                                         <div>
-                                            {{ $proposal->payment_type == 0 ? '매매 ' . priceChange($proposal->price) . '원' : '임대 ' . priceChange($proposal->price) . '원 / ' . priceChange($proposal->month_price) . '원' }}
+                                            {{ $proposal->payment_type == 0 ? '매매 ' . priceChange($proposal->price) . '원' : '월세 ' . priceChange($proposal->price) . '원 / ' . priceChange($proposal->month_price) . '원' }}
                                         </div>
                                         @if ($proposal->type == 0)
                                             <div>희망 상가 층</div>

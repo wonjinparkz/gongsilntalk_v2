@@ -47,20 +47,20 @@
 
 
     <div class="body">
-        <form method="get" action="{{ route('www.mypage.user.offer.second.create.view') }}" id="create_form"
-            name="create_form">
-            <!-- my_body : s -->
-            <div class="inner_mid_wrap m_inner_wrap mid_body">
-                <h1 class="t_center only_pc">매물 제안서 받기 <span class="step_number"><span
-                            class="txt_point">1</span>/3</span>
-                </h1>
+        <!-- my_body : s -->
+        <div class="inner_mid_wrap m_inner_wrap mid_body">
+            <h1 class="t_center only_pc">매물 제안서 받기 <span class="step_number"><span class="txt_point">1</span>/3</span>
+            </h1>
 
-                <div class="offer_step_wrap">
+            <div class="offer_step_wrap">
+                <form method="get" action="{{ route('www.mypage.user.offer.second.create.view') }}" id="create_form"
+                    name="create_form">
                     <div class="box_01 box_reg">
                         <h4>어디에 매물을 얻고 싶으신가요?</h4>
                         <div class="w_30">
                             <div class="search_wrap" onclick="onShowRegionList();">
-                                <input type="text" id="regionSearch" name="regionSearch" placeholder="시·군·구로 검색해주세요">
+                                <input type="text" id="regionSearch" name="regionSearch" placeholder="시·군·구로 검색해주세요"
+                                    autocomplete='off'>
                                 <button type="button"><img src="{{ asset('assets/media/btn_search.png') }}"
                                         alt="검색"></button>
                             </div>
@@ -98,10 +98,12 @@
                         <div>
                             <label class="input_label">희망 면적 <span>*</span></label>
                             <div class="input_pyeong_area w_30">
-                                <input type="text" id="area" name="area" placeholder="희망 면적"> <span
-                                    class="gray_deep">평 /</span>
-                                <input type="text" id="square" name="square" placeholder="평 입력시 자동"> <span
-                                    class="gray_deep">㎡</span>
+                                <input type="text" id="area" name="area"
+                                    placeholder="희망 면적"onkeyup="area_change('')">
+                                <span class="gray_deep">평 /</span>
+                                <input type="text" id="square" name="square"
+                                    onkeyup="imsi(this); square_change('');" placeholder="평 입력시 자동">
+                                <span class="gray_deep">㎡</span>
                             </div>
                         </div>
 
@@ -149,7 +151,9 @@
                                 <div class="reg_item w_30">
                                     <label class="input_label">사용 인원<span>*</span></label>
                                     <div class="flex_1 flex_between">
-                                        <input type="text" id="users_count" name="users_count"> <span>명</span>
+                                        <input type="text" id="users_count" name="users_count"
+                                            onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent(this)">
+                                        <span>명</span>
                                     </div>
                                     <p class="fs_13 gray_basic mt8">인원 당 2.5평을 추천해드립니다.</p>
                                 </div>
@@ -173,13 +177,13 @@
                                 <div class="self_day_item w_30">
                                     <div class="input_calendar_term">
                                         <div>
-                                            <label class="input_label">계약시작일</label>
+                                            <label class="input_label">입주 가능 기간</label>
                                             <input type="text" id="start_move_date"
                                                 name="start_move_date"placeholder="예) 20230101">
                                         </div>
                                         <span>~</span>
                                         <div>
-                                            <label class="input_label">계약종료일</label>
+                                            <label class="input_label">&nbsp;</label>
                                             <input type="text" id="ended_move_date" name="ended_move_date"
                                                 placeholder="예) 20230101">
                                         </div>
@@ -194,21 +198,25 @@
                     <input type="hidden" id="type" name="type" value="0">
                     <input type="hidden" id="business_type" name="business_type" value="">
 
-                    <div class="step_btn_wrap">
-                        <span></span>
-                        <!-- <button class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                        <button class="btn_full_basic btn_point" id="nextPageButton" type="button" disabled
-                            onclick="onFormSubmit();">다음</button>
-                    </div>
-
+                </form>
+                <div class="step_btn_wrap">
+                    <span></span>
+                    <!-- <button class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
+                    <button class="btn_full_basic btn_point" id="nextPageButton" type="button" disabled
+                        onclick="onFormSubmit();">다음</button>
                 </div>
+
             </div>
-            <!-- my_body : e -->
-        </form>
+        </div>
+        <!-- my_body : e -->
     </div>
 
     <script>
         function onFormSubmit() {
+            let value = $('#users_count').val();
+            value = value.replace(/,/g, '');
+            $('#users_count').val(value);
+
             $('#create_form').submit();
         }
 
@@ -307,13 +315,65 @@
                 });
         }
 
-        var area = document.getElementById('area');
-        area.addEventListener('keyup', function(e) {
-            if (e.target.value != '') {
-                $('#square').val((parseInt(e.target.value) * 3.3058).toFixed(2));
-            }
+        var prev = "";
+        var regexp = /^\d*(\.\d{0,2})?$/;
 
-        });
+        function imsi(obj) {
+            if (obj.value.search(regexp) == -1) {
+                obj.value = prev;
+            } else {
+                prev = obj.value;
+            }
+        }
+
+        // 평수 제곱 변환
+        function square_change(name) {
+            var area_name = name + 'area';
+            var square_name = name + 'square';
+
+            var square = $('#' + square_name).val();
+
+            if (square > 0) {
+                var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
+                $('#' + area_name).val(convertedArea);
+            } else {
+                $('#' + square_name).val('');
+                $('#' + area_name).val('');
+            }
+        }
+
+        // 평수 제곱 변환
+        function area_change(name) {
+
+            var area_name = name + 'area';
+            var square_name = name + 'square';
+
+            var area = $('#' + area_name).val();
+
+            if (area > 0) {
+                var convertedSquare = (area * 3.3058).toString();
+                var decimalIndex = convertedSquare.indexOf('.') + 3; // 소수점 이하 세 번째 자리까지
+                $('#' + square_name).val(convertedSquare.substr(0, decimalIndex));
+            } else {
+                $('#' + area_name).val('');
+                $('#' + square_name).val('');
+            }
+        }
+
+        function onlyNumbers(event) {
+            // 숫자 이외의 문자가 입력되면 이벤트를 취소합니다.
+            if (!/\d/.test(event.key) && event.key !== 'Backspace') {
+                event.preventDefault();
+            }
+        }
+
+        // 금액 콤마
+        function onTextChangeEvent(element) {
+            let value = element.value;
+            value = value.replace(/,/g, '');
+            value = Number(value).toLocaleString('en');
+            element.value = value;
+        }
 
         function debounce(func, timeout = 300) {
             let timer;

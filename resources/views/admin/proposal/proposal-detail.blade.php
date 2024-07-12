@@ -249,7 +249,7 @@
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">예산</label>
                         <div class="col-lg-8 fv-row">
                             <input type="text" disabled class="form-control form-control-solid" placeholder="예산"
-                                value="{{ $result->payment_type == 0 ? '매매 ' . Commons::get_priceTrans($result->price) : '임대 ' . Commons::get_priceTrans($result->price) . ' / ' . Commons::get_priceTrans($result->month_price) }}" />
+                                value="{{ $result->payment_type == 0 ? '매매 ' . Commons::get_priceTrans($result->price) : '월세 ' . Commons::get_priceTrans($result->price) . ' / ' . Commons::get_priceTrans($result->month_price) }}" />
                         </div>
                     </div>
 

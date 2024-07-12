@@ -90,7 +90,7 @@
                                 </div>
                                 <div>예산</div>
                                 <div>
-                                    {{ $proposal->payment_type == 0 ? '매매 ' . priceChange($proposal->price) . '원' : '임대 ' . priceChange($proposal->price) . '원 / ' . priceChange($proposal->month_price) . '원' }}
+                                    {{ $proposal->payment_type == 0 ? '매매 ' . priceChange($proposal->price) . '원' : '월세 ' . priceChange($proposal->price) . '원 / ' . priceChange($proposal->month_price) . '원' }}
                                 </div>
                                 @if ($proposal->type == 0)
                                     <div>희망 상가 층</div>
@@ -139,7 +139,7 @@
                                 </div>
                                 <!-- 공유하기 : e -->
                             </div>
-                            
+
 
                             <div class="mt18">
                                 {{-- <img src="{{ asset('assets/media/s_7.png') }}"
@@ -211,11 +211,13 @@
                                             <tr id="{{ $key + 1 }}_product_tr">
                                                 <td><span class="number_box">{{ $key + 1 }}</span></td>
                                                 <td>
-                                                    <div class="frame_img_mid">
-                                                        <div class="img_box"><img
-                                                                src="{{ Storage::url('image/' . $product->product->images[0]->path) }}">
+                                                    @if ($product->product->images)
+                                                        <div class="frame_img_mid">
+                                                            <div class="img_box"><img
+                                                                    src="{{ Storage::url('image/' . $product->product->images[0]->path) }}">
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    @endif
                                                 </td>
                                                 <td>
                                                     @php

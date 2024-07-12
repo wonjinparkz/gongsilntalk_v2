@@ -163,7 +163,7 @@
                                         {{-- 예산 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                {{ $proposal->payment_type == 0 ? '매매 ' . Commons::get_priceTrans($proposal->price) : '임대 ' . Commons::get_priceTrans($proposal->price) . '/' . Commons::get_priceTrans($proposal->month_price) }}
+                                                {{ $proposal->payment_type == 0 ? '매매 ' . Commons::get_priceTrans($proposal->price) : '월세 ' . Commons::get_priceTrans($proposal->price) . '/' . Commons::get_priceTrans($proposal->month_price) }}
                                             </span>
                                         </td>
 
