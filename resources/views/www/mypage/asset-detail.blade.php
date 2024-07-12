@@ -724,20 +724,20 @@
                 $(".layer_share_wrap").stop().slideUp(0)
                 imageUrl = button.getAttribute('data-image-url');
                 console.log('카카오', imageUrl);
-            });
 
-            Kakao.Share.createDefaultButton({
-                container: button,
-                objectType: "feed",
-                content: {
-                    title: 'ㅂㅈㄷㄱ',
-                    description: 'ㅂㅈㄷㅂㅈㄷ',
-                    imageUrl: imageUrl,
-                    link: {
-                        mobileWebUrl: `{!! url()->full() !!}`,
-                        webUrl: `{!! url()->full() !!}`,
-                    },
-                }
+                Kakao.Share.createDefaultButton({
+                    container: button,
+                    objectType: "feed",
+                    content: {
+                        title: 'ㅂㅈㄷㄱ',
+                        description: 'ㅂㅈㄷㅂㅈㄷ',
+                        imageUrl: imageUrl,
+                        link: {
+                            mobileWebUrl: `{!! url()->full() !!}`,
+                            webUrl: `{!! url()->full() !!}`,
+                        },
+                    }
+                });
             });
         });
     </script>
