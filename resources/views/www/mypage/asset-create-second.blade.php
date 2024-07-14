@@ -85,7 +85,7 @@
                                         </div>
                                     </div>
                                     <div class="reg_item">
-                                        <label class="input_label">부동산수수료</label>
+                                        <label class="input_label">중개보수</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="estate_price_0" name="estate_price_0"
                                                 onkeypress="onlyNumbers(event)"
@@ -163,7 +163,7 @@
 
                                 <div class="reg_mid_wrap">
                                     <div class="reg_item">
-                                        <label class="input_label">부동산수수료</label>
+                                        <label class="input_label">중개보수</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="estate_price_1" name="estate_price_1"
                                                 onkeypress="onlyNumbers(event)"
@@ -202,7 +202,7 @@
                             <div class="reg_item">
                                 <label class="input_label">대출기간 </label>
                                 <div class="flex_1 flex_between">
-                                    <input type="number" id="loan_period" name="loan_period"> <span>개월</span>
+                                    <input type="number" id="loan_period" name="loan_period" onkeypress="onlyNumbers(event)"> <span>개월</span>
                                 </div>
                             </div>
                             <div class="reg_item">

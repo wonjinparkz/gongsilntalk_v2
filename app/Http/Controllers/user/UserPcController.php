@@ -1189,15 +1189,15 @@ class UserPcController extends Controller
     {
         CalculatorRevenue::create([
             'users_id' => Auth::guard('web')->user()->id,
-            'sale_price' => $request->sale_price,
-            'acquisition_tax' => $request->acquisition_tax,
-            'tax_price' => $request->tax_price ?? 0,
-            'commission' => $request->commission ?? 0,
-            'etc_price' => $request->etc_price ?? 0,
-            'price' => $request->price ?? 0,
-            'month_price' => $request->month_price ?? 0,
-            'loan_ratio' => $request->loan_ratio ?? 0,
-            'loan_interest' => $request->loan_interest ?? 0,
+            'sale_price' => str_replace(',', '', $request->sale_price),
+            'acquisition_tax' => str_replace(',', '', $request->acquisition_tax),
+            'tax_price' => str_replace(',', '', $request->tax_price ?? 0),
+            'commission' => str_replace(',', '', $request->commission ?? 0),
+            'etc_price' => str_replace(',', '', $request->etc_price ?? 0),
+            'price' => str_replace(',', '', $request->price ?? 0),
+            'month_price' => str_replace(',', '', $request->month_price ?? 0),
+            'loan_ratio' => str_replace(',', '', $request->loan_ratio ?? 0),
+            'loan_interest' => str_replace(',', '', $request->loan_interest ?? 0),
         ]);
 
         return Redirect::route('www.mypage.calculator.revenue.list.view')->with('message', "수익률을 계산했습니다.");

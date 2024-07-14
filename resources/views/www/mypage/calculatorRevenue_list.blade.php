@@ -238,35 +238,40 @@
                             <li>
                                 <label>매매/분양가<span class="gray_basic">(부가세 제외) </span> <span>*</span></label>
                                 <div class="flex_1">
-                                    <input type="number" class="input_check" name="sale_price">
+                                    <input type="text" class="input_check" name="sale_price"
+                                        onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent(this)">
                                     <span>원</span>
                                 </div>
                             </li>
                             <li>
                                 <label>취득세율 <span>*</span></label>
                                 <div class="flex_1">
-                                    <input type="text" class="input_check" name="acquisition_tax">
+                                    <input type="text" class="input_check" name="acquisition_tax"
+                                        onkeyup="imsi(this)">
                                     <span>%</span>
                                 </div>
                             </li>
                             <li>
                                 <label>세무비용</label>
                                 <div class="flex_1">
-                                    <input type="number" class="" name="tax_price">
+                                    <input type="text" class="" name="tax_price"
+                                        onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent(this)">
                                     <span>원</span>
                                 </div>
                             </li>
                             <li>
-                                <label>부동산 수수료</label>
+                                <label>중개보수</label>
                                 <div class="flex_1">
-                                    <input type="number" class="" name="commission">
+                                    <input type="text" class="" name="commission"
+                                        onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent(this)">
                                     <span>원</span>
                                 </div>
                             </li>
                             <li>
                                 <label>기타비용</label>
                                 <div class="flex_1">
-                                    <input type="number" class="" name="etc_price">
+                                    <input type="text" class="" name="etc_price"
+                                        onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent(this)">
                                     <span>원</span>
                                 </div>
                             </li>
@@ -275,14 +280,16 @@
                                     <div>
                                         <label>보증금</label>
                                         <div class="flex_1">
-                                            <input type="number" class="" name="price">
+                                            <input type="text" class="" name="price"
+                                                onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent(this)">
                                             <span>/</span>
                                         </div>
                                     </div>
                                     <div>
                                         <label>월임대료</label>
                                         <div class="flex_1">
-                                            <input type="number" class="" name="month_price">
+                                            <input type="text" class="" name="month_price"
+                                                onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent(this)">
                                             <span>원</span>
                                         </div>
                                     </div>
@@ -291,8 +298,9 @@
                             <li>
                                 <label>대출비율<span class="gray_basic">(매매 또는 분양가 기준) </span></label>
                                 <div class="flex_1">
-                                    <input type="number" class="" placeholder="0 ~ 100 사이값 입력"
-                                        name="loan_ratio">
+                                    <input type="number" class="" max="100" placeholder="0 ~ 100 사이값 입력"
+                                        name="loan_ratio" min="0" max="100"
+                                        oninput="validateInput(event)">
                                     <span>%</span>
                                 </div>
                             </li>
@@ -349,4 +357,28 @@
             $('.confirm').attr("disabled", true);
         }
     });
+
+
+    function onlyNumbers(event) {
+        // 숫자 이외의 문자가 입력되면 이벤트를 취소합니다.
+        if (!/\d/.test(event.key) && event.key !== 'Backspace') {
+            event.preventDefault();
+        }
+    }
+
+    // 금액 콤마
+    function onTextChangeEvent(element) {
+        let value = element.value;
+        value = value.replace(/,/g, '');
+        value = Number(value).toLocaleString('en');
+        element.value = value;
+    }
+
+    // 100까지 입력값 받기
+    function validateInput(event) {
+        var input = event.target;
+        if (input.value > 100) {
+            input.value = 100;
+        }
+    }
 </script>
