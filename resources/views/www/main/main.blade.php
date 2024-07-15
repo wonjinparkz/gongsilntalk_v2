@@ -7,55 +7,59 @@
         @endphp
 
         <!-- popup new : s -->
-        <div class="popup_area">
+        <div class="only_pc">
+            <div class="popup_area">
 
-            <div class="popup_div">
-                <div class="popup_img">
-                    <div class="img_box"><img src="{{ asset('assets/media/s_2.png') }}"></div>
+                <div class="popup_div">
+                    <div class="popup_img">
+                        <div class="img_box"><img src="{{ asset('assets/media/s_2.png') }}"></div>
+                    </div>
+                    <div class="popup_bottom">
+                        <span class="today_close" onclick="todayClosePopup();">오늘 하루 보지 않기</span>
+                        <span class="close" onclick="closePopup();">닫기</span>
+                    </div>
                 </div>
-                <div class="popup_bottom">
-                    <span class="today_close" onclick="todayClosePopup();">오늘 하루 보지 않기</span>
-                    <span class="close" onclick="closePopup();">닫기</span>
+
+                <div class="popup_div">
+                    <div class="popup_img">
+                        <div class="img_box"><img src="{{ asset('assets/media/s_2.png') }}"></div>
+                    </div>
+                    <div class="popup_bottom">
+                        <span class="today_close" onclick="todayClosePopup();">오늘 하루 보지 않기</span>
+                        <span class="close" onclick="closePopup();">닫기</span>
+                    </div>
                 </div>
+
             </div>
-
-            <div class="popup_div">
-                <div class="popup_img">
-                    <div class="img_box"><img src="{{ asset('assets/media/s_2.png') }}"></div>
-                </div>
-                <div class="popup_bottom">
-                    <span class="today_close" onclick="todayClosePopup();">오늘 하루 보지 않기</span>
-                    <span class="close" onclick="closePopup();">닫기</span>
-                </div>
-            </div>
-
         </div>
         <!-- popup new : e -->
 
         <!-- popup : s -->
         @if (count($popups) > 0)
             @if ($notToday == 'N' || $notToday == null)
-                <div class="main_popup">
-                    <div class="popup_wrap">
-                        <div class="popup_bn_swiper">
-                            <div class="swiper-wrapper"
-                                style="text-align: center; transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
-                                @foreach ($popups as $item)
-                                    @if (isset($item->images))
-                                        <div class="swiper-slide swiper-slide-active">
-                                            <a href="{{ $item->url ?? route('www.main.main') }}">
-                                                <div class="img_box" style="text-align:center; height:90%; width:100%;">
-                                                    <img style="height:100%;"
-                                                        src="{{ Storage::url('image/' . $item->images[0]->path) }}"
-                                                        onerror="this.src='{{ asset('assets/media/s_2.png') }}';"
-                                                        alt="">
-                                                </div>
-                                            </a>
-                                        </div>
-                                    @endif
-                                @endforeach
+                <div class="only_m">
+                    <div class="main_popup">
+                        <div class="popup_wrap">
+                            <div class="popup_bn_swiper">
+                                <div class="swiper-wrapper"
+                                    style="text-align: center; transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
+                                    @foreach ($popups as $item)
+                                        @if (isset($item->images))
+                                            <div class="swiper-slide swiper-slide-active">
+                                                <a href="{{ $item->url ?? route('www.main.main') }}">
+                                                    <div class="img_box"
+                                                        style="text-align:center; height:90%; width:100%;">
+                                                        <img style="height:100%;"
+                                                            src="{{ Storage::url('image/' . $item->images[0]->path) }}"
+                                                            onerror="this.src='{{ asset('assets/media/s_2.png') }}';"
+                                                            alt="">
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        @endif
+                                    @endforeach
 
-                                {{-- <div class="swiper-slide swiper-slide-active">
+                                    {{-- <div class="swiper-slide swiper-slide-active">
                                     <a href="#">
                                         <div class="img_box" style="text-align:center; height:90%; width:100%;">
                                             <img style="height:100%;" src="{{ asset('assets/media/s_2.png') }}"
@@ -71,12 +75,13 @@
                                         </div>
                                     </a>
                                 </div> --}}
+                                </div>
+                                <div class="swiper-pagination"></div>
                             </div>
-                            <div class="swiper-pagination"></div>
-                        </div>
-                        <div class="popup_bottom">
-                            <span class="today_close" onclick="todayClosePopup();">오늘 하루 보지 않기</span>
-                            <span class="close" onclick="closePopup();">닫기</span>
+                            <div class="popup_bottom">
+                                <span class="today_close" onclick="todayClosePopup();">오늘 하루 보지 않기</span>
+                                <span class="close" onclick="closePopup();">닫기</span>
+                            </div>
                         </div>
                     </div>
                 </div>
