@@ -59,7 +59,7 @@
     <div class="md_slide_overlay md_slide_overlay_share" onclick="modal_close_slide('share')"></div>
     <!----------------------------- m::header bar : s ----------------------------->
 
-    <div class="body map_side" id="scrollContainer">
+    <div class="body map_side side_list_scroll" id="scrollContainer">
         <hr class="space">
         <div class="estate_link">
             <a href="{{ route('www.product.create.view') }}" class="flex_between">
@@ -80,7 +80,7 @@
 
         <!-- tab : s -->
         <div class="tab_type_2 type_side" id="tabList" onclick="scrollToTab(this)">
-            <div style="width: 100%;">
+            <div style="width:100%;">
                 <div class="swiper detail_tab">
                     <div class="swiper-wrapper menu toggle_menu">
                         <div class="swiper-slide active"><a>거래내역</a></div>
@@ -101,7 +101,7 @@
         <div class="side_tab_wrap">
             <div class="sction_item active">
                 <!-- 거래내역 : s -->
-                <div class="side_section">
+                <div class="side_section min_height">
                     <div class="flex_between">
                         <h4>거래내역</h4>
                         <p class="txt_sub_1"><span>* 부동산 매물정보 기준</span></p>
@@ -111,9 +111,9 @@
                             <table class="table_type_1">
                                 <colgroup>
                                     <col width="50">
-                                    <col width="120">
-                                    <col width="120">
-                                    <col width="120">
+                                    <col width="100">
+                                    <col width="100">
+                                    <col width="100">
                                 </colgroup>
                                 <thead>
                                     <tr>
@@ -149,7 +149,7 @@
 
             <div class="sction_item">
                 <!-- 조감도 : s -->
-                <div class="side_section">
+                <div class="side_section min_height">
                     <h4>조감도</h4>
                     <div class="side_info_wrap mt20">
                         @foreach ($result->birdSEyeView_files as $file)
@@ -160,7 +160,7 @@
                 <!-- 조감도 : e -->
             </div>
 
-            <div class="sction_item">
+            <div class="sction_item min_height">
                 <!-- 건물·토지정보 : s -->
                 @if (count($BrTitleInfo) > 0 || count($BrRecapTitleInfo) > 0)
                     <x-pc-buildingledger :BrTitleInfo="$BrTitleInfo" :BrRecapTitleInfo="$BrRecapTitleInfo" :BrFlrOulnInfo="$BrFlrOulnInfo" :BrExposInfo="$BrExposInfo"
@@ -261,7 +261,7 @@
                 <!-- 건물·토지정보 : e -->
             </div>
 
-            <div class="sction_item">
+            <div class="sction_item min_height">
                 <!-- 현장설명 : s -->
                 <div class="side_section">
                     <h4>현장설명</h4>
@@ -282,7 +282,7 @@
 
             <div class="sction_item">
                 <!-- 특장점 : s -->
-                <div class="side_section">
+                <div class="side_section min_height">
                     <h4>특장점</h4>
                 </div>
                 <div>
@@ -306,7 +306,7 @@
 
             </div>
 
-            <div class="sction_item">
+            <div class="sction_item min_height">
                 <!-- 층별도면 : s -->
                 <div class="side_section">
                     <h4>층별도면</h4>
@@ -333,18 +333,18 @@
 
             <div class="sction_item">
                 <!-- 위치정보 : s -->
-                <div class="side_section">
+                <div class="side_section min_height">
                     <h4>위치 및 주변정보</h4>
                     <div class="container_map_wrap mt18">
                         <x-pc-around-map :address_lat="$result->address_lat" :address_lng="$result->address_lng" />
                     </div>
                     <div class="map_detail_wrp">
-                        <ul class="tab_toggle_menu tab_type_4">
+                        <ul class="tab_sm_menu tab_type_4">
                             <li class="active"><a href="javascript:(0)">대중교통</a></li>
                             <li><a href="javascript:(0)">편의시설</a></li>
                             <li><a href="javascript:(0)">교육시설</a></li>
                         </ul>
-                        <div class="tab_area_wrap">
+                        <div class="tab_sm_wrap">
                             <div class="traffic_wrap">
                                 <div class="traffic_tit"><img src="{{ asset('assets/media/ic_subway.png') }}">지하철
                                 </div>
@@ -615,23 +615,23 @@
         // });
 
         // 탭메뉴 토글기능
-        $(document).ready(function() {
-            $(".tab_sm_wrap > div").hide();
-            $(".tab_sm_wrap > div").first().show();
-            $(".tab_sm_menu li").click(function() {
-                var list = $(this).index();
-                $(".tab_sm_menu li").removeClass("active");
-                $(this).addClass("active");
+    $(document).ready(function() {
+        $(".tab_sm_wrap > div").hide();
+        $(".tab_sm_wrap > div").first().show();
+        $(".tab_sm_menu li").click(function() {
+            var list = $(this).index();
+            $(".tab_sm_menu li").removeClass("active");
+            $(this).addClass("active");
 
-                $(".tab_sm_wrap > div").hide();
-                $(".tab_sm_wrap > div").eq(list).show();
-            });
+            $(".tab_sm_wrap > div").hide();
+            $(".tab_sm_wrap > div").eq(list).show();
         });
+    });
 
         // 탭 상단 고정
         function scrollToTab(tab) {
             const scrollContainer = document.getElementById('scrollContainer');
-            const offsetTop = tab.offsetTop - 1;
+            const offsetTop = tab.offsetTop - 50;
             scrollContainer.scrollTo({
                 top: offsetTop,
                 behavior: 'smooth'

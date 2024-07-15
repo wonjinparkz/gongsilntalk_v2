@@ -110,7 +110,7 @@
     <div class="md_slide_overlay md_slide_overlay_share" onclick="modal_close_slide('share')"></div>
     <!----------------------------- m::header bar : s ----------------------------->
 
-    <div class="body map_side" id="scrollContainer">
+    <div class="body map_side side_list_scroll" id="scrollContainer">
         <hr class="space">
         <div class="estate_link">
             <a href="{{ route('www.product.create.view') }}" class="flex_between">
@@ -491,7 +491,7 @@
         // 탭 상단 고정
         function scrollToTab(tab) {
             const scrollContainer = document.getElementById('scrollContainer');
-            const offsetTop = tab.offsetTop - 1;
+            const offsetTop = tab.offsetTop - 50;
             scrollContainer.scrollTo({
                 top: offsetTop,
                 behavior: 'smooth'

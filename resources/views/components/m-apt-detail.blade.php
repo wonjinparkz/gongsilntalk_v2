@@ -84,7 +84,7 @@
     <div class="md_slide_overlay md_slide_overlay_share" onclick="modal_close_slide('share')"></div>
     <!----------------------------- m::header bar : s ----------------------------->
 
-    <div class="body map_side">
+    <div class="body map_side side_list_scroll">
         <div class="side_fixed">
             <div class="top_wrap flex_between">
                 <ul class="tab_type_3 toggle_tab">
@@ -171,7 +171,7 @@
                     <div class="sction_item active">
                         <div id="saleContent" class="content_item">
                             <!-- 거래내역 : s -->
-                            <div class="side_section">
+                            <div class="side_section min_height">
                                 <h4>매매 거래내역</h4>
                                 <!-- 데이터 없을 경우 -->
                                 @if (count($result->groupedTransactions) <= 0)
@@ -355,7 +355,7 @@
 
                         <div id="rentContent" class="content_item">
                             <!-- 전월세 거래내역 : s -->
-                            <div class="side_section">
+                            <div class="side_section min_height">
                                 <h4>전월세 거래내역</h4>
                                 <!-- 데이터 없을 경우 -->
                                 @if (count($result->groupedTransactionsRent) <= 0)
@@ -544,18 +544,18 @@
                     </div>
                     <div class="sction_item">
                         <!-- 위치정보 : s -->
-                        <div class="side_section">
+                        <div class="side_section min_height">
                             <h4>위치 및 주변정보</h4>
                             <div class="container_map_wrap mt18">
                                 <x-pc-around-map :address_lat="$result->address_lat" :address_lng="$result->address_lng" />
                             </div>
                             <div class="map_detail_wrp">
-                                <ul class="tab_toggle_menu tab_type_4">
+                                <ul class="tab_sm_menu tab_type_4">
                                     <li class="active"><a href="javascript:(0)">대중교통</a></li>
                                     <li><a href="javascript:(0)">편의시설</a></li>
                                     <li><a href="javascript:(0)">교육시설</a></li>
                                 </ul>
-                                <div class="tab_area_wrap">
+                                <div class="tab_sm_wrap">
                                     <div class="traffic_wrap">
                                         <div class="traffic_tit"><img
                                                 src="{{ asset('assets/media/ic_subway.png') }}">지하철
@@ -585,7 +585,7 @@
                         </div>
                         <!-- 위치정보 : s -->
                     </div>
-                    <div class="sction_item">
+                    <div class="sction_item min_height">
                         <x-pc-map-product-list :productList="$result->productList" />
                     </div>
                 </div>
@@ -827,7 +827,7 @@
         // 탭 상단 고정
         function scrollToTab(tab) {
             const scrollContainer = document.getElementById('scrollContainer');
-            const offsetTop = tab.offsetTop - 1;
+            const offsetTop = tab.offsetTop - 50;
             scrollContainer.scrollTo({
                 top: offsetTop,
                 behavior: 'smooth'

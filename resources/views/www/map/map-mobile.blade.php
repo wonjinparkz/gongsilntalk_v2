@@ -158,7 +158,7 @@
 <!-- 실거래가 매물 : s -->
 <div class="modal modal_full modal_m_product_detail">
     <div class="modal_container_full">
-        <div class="side_list_scroll" id="product_detail">
+        <div class="" id="product_detail" style="border:1px solid #000">
 
         </div>
     </div>
