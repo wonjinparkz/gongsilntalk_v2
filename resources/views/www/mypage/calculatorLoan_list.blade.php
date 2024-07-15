@@ -1,5 +1,18 @@
 <x-layout>
 
+    @php
+
+        function calculate_mortgage_constant($interest_rate, $loan_month)
+        {
+            // 월 이자율 계산 (연 이자율을 12로 나눔)
+            $monthly_rate = $interest_rate / 12;
+            // 저당상수 계산
+            $mortgage_constant = $monthly_rate / (-1 * (1 - pow(1 + $monthly_rate, $loan_month)));
+            return $mortgage_constant;
+        }
+
+    @endphp
+
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
@@ -124,18 +137,7 @@
                                 </div>
 
                                 <div class="repayment_schedule_wrap">
-                                    @php
-                                        $balance = $loan->loan_price; // 잔금 계산
-                                        $loan_price = $loan->loan_price; // 잔금
-
-                                        $addPrice = ($loan->loan_price * ($loan->loan_rate / 100)) / 12; // 월 이자
-
-                                        if ($loan->holding_month != '') {
-                                            $month = $loan->loan_month - $loan->holding_month;
-                                        }
-                                    @endphp
-
-                                    @for ($i = 1; $i <= $loan->loan_month; $i++)
+                                    {{-- @for ($i = 1; $i <= $loan->loan_month; $i++)
                                         @php
 
                                             // 금리 변동 있을 시
@@ -188,7 +190,145 @@
                                                 </tr>
                                             </table>
                                         </div>
+                                    @endfor --}}
+                                    @php
+                                        $payment_price = 0;
+                                        $month_payment_price = 0;
+                                        $one_loan_price = 0;
+
+                                        $loan_price = $loan->loan_price; // 잔금
+                                        $balance = $loan->loan_price; // 잔금 계산
+                                        $loan_month = $loan->loan_month;
+                                        $loan_rate = $loan->loan_rate / 100;
+                                        $type = $loan->type;
+                                    @endphp
+                                    @for ($i = 1; $i <= $loan_month; $i++)
+                                        @php
+                                            if ($type == 0) {
+                                                if ($loan->holding_month != '') {
+                                                    if ($i <= $loan->holding_month) {
+                                                        $payment_price = 0;
+                                                    } else {
+                                                        // 거치 기간 없을 시 잔금 - 상환 금액
+                                                        $payment_price = round($loan_price / $loan_month, 1);
+                                                    }
+                                                } else {
+                                                    $payment_price = round($loan_price / $loan_month, 1);
+                                                }
+
+                                                foreach ($loan->prepayments as $key => $pre) {
+                                                    if ($pre->sequence == $i) {
+                                                        $payment_price += $pre->pay_price;
+                                                        $loan_price -= $pre->pay_price;
+                                                    }
+                                                }
+
+                                                $loan_month_price = round(
+                                                    (($loan_price - ($i - 1) * $payment_price) * $loan_rate) / 12,
+                                                    0,
+                                                );
+
+                                                // 금리 변동 있을 시
+                                                foreach ($loan->loan_rates as $key => $rate) {
+                                                    if ($rate->sequence == $i) {
+                                                        $loan_month_price =
+                                                            ($loan->loan_price * ($rate->interest_rate / 100)) / 12; // 월 이자
+                                                    }
+                                                }
+
+                                                $month_price = $payment_price + $loan_month_price;
+                                                $balance -= $payment_price;
+                                            } elseif ($type == 1) {
+                                                if ($loan->holding_month != '') {
+                                                    if ($i <= $loan->holding_month) {
+                                                        $payment_price = 0;
+                                                    } else {
+                                                        // 거치 기간 없을 시 잔금 - 상환 금액
+                                                        $payment_price = round($loan_price / $loan_month, 1);
+                                                    }
+                                                } else {
+                                                    $payment_price = round($loan_price / $loan_month, 1);
+                                                }
+
+                                                foreach ($loan->prepayments as $key => $pre) {
+                                                    if ($pre->sequence == $i) {
+                                                        $payment_price += $pre->pay_price;
+                                                        $loan_price -= $pre->pay_price;
+                                                    }
+                                                }
+
+                                                // 금리 변동 있을 시
+                                                foreach ($loan->loan_rates as $key => $rate) {
+                                                    if ($rate->sequence == $i) {
+                                                        $loan_month_price =
+                                                            ($loan->loan_price * ($rate->interest_rate / 100)) / 12; // 월 이자
+                                                    }
+                                                }
+
+                                                if ($i == 1) {
+                                                    $one_loan_price = round(
+                                                        $loan_price *
+                                                            calculate_mortgage_constant($loan_rate, $loan_month),
+                                                        0,
+                                                    );
+
+                                                    $payment_price = $one_loan_price;
+
+                                                    $loan_month_price = round(
+                                                        (($loan_price - ($i - 1) * $payment_price) * $loan_rate) / 12,
+                                                        0,
+                                                    );
+
+                                                    $month_price = $loan_month_price + $payment_price;
+                                                } else {
+                                                    $loan_month_price = round(($balance * $loan_rate) / 12, 0);
+                                                    $payment_price = $month_price - $loan_month_price;
+                                                }
+
+                                                $balance -= $payment_price;
+                                            } elseif ($type == 2) {
+
+                                                foreach ($loan->prepayments as $key => $pre) {
+                                                    if ($pre->sequence == $i) {
+                                                        $payment_price += $pre->pay_price;
+                                                        $loan_price -= $pre->pay_price;
+                                                    }
+                                                }
+
+                                                $loan_month_price = round(($loan_price * $loan_rate) / 12, 0);
+
+                                                // 금리 변동 있을 시
+                                                foreach ($loan->loan_rates as $key => $rate) {
+                                                    if ($rate->sequence == $i) {
+                                                        $loan_month_price =
+                                                            ($loan->loan_price * ($rate->interest_rate / 100)) / 12; // 월 이자
+                                                    }
+                                                }
+
+                                                $month_price = $loan_month_price + $payment_price;
+                                            }
+                                        @endphp
+
+                                        <div class="repayment_schedule_item">
+                                            <div class="schedule_tit_tiem">
+                                                <span>{{ $i }}회차</span>
+                                                <span>잔금 : {{ number_format($balance) }}</span>
+                                            </div>
+                                            <table class="repayment_table">
+                                                <tr>
+                                                    <th>월상환금</th>
+                                                    <th>납입원금</th>
+                                                    <th>이자액</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{ number_format($month_price) }}</td>
+                                                    <td>{{ number_format($payment_price) }}</td>
+                                                    <td>{{ number_format($loan_month_price) }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                     @endfor
+
                                 </div>
                             </div>
                             <!-- 계산서 : e -->
@@ -239,15 +379,16 @@
                                     <div>
                                         <label>대출원금</label>
                                         <div class="flex_1">
-                                            <input type="number" id="loan_price" name="loan_price">
+                                            <input type="text" id="loan_price" name="loan_price"
+                                                onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent(this)">
                                             <span>원</span>
                                         </div>
                                     </div>
                                     <div>
                                         <label>이자율</label>
                                         <div class="flex_1">
-                                            <input type="number" placeholder="소수점 두자리까지 입력" id="loan_rate"
-                                                name="loan_rate" step=0.01>
+                                            <input type="text" placeholder="소수점 두자리까지 입력" id="loan_rate"
+                                                name="loan_rate" onkeyup="imsi(this)">
                                             <span>%</span>
                                         </div>
                                     </div>
@@ -258,7 +399,8 @@
                                     <div>
                                         <label>대출기간</label>
                                         <div class="flex_1">
-                                            <input type="number" id="loan_month" name="loan_month">
+                                            <input type="number" id="loan_month" name="loan_month"
+                                                onkeypress="onlyNumbers(event)">
                                             <span>개월</span>
                                         </div>
                                     </div>
@@ -266,7 +408,8 @@
                                         <!-- 만기일시는 거치기간을 삭제해 주세요. -->
                                         <label>거치기간</label>
                                         <div class="flex_1">
-                                            <input type="number" id="holding_month" name="holding_month">
+                                            <input type="number" id="holding_month" name="holding_month"
+                                                onkeypress="onlyNumbers(event)">
                                             <span>개월</span>
                                         </div>
                                     </div>
@@ -364,7 +507,7 @@
                 <div>
                     <label class="input_label">상환 금액</label>
                     <div class="flex_1">
-                        <input type="number" name="prePay[]">
+                        <input type="text" name="prePay[]" onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent(this)">
                         <span>원</span>
                         <button type="button" class="btn_graylight_ghost btn_input txt_r deleteBtn_1">삭제</button>
                     </div>
@@ -402,7 +545,7 @@
                 <div>
                     <label class="input_label">변동 금리</label>
                     <div class="flex_1">
-                        <input type="number" name="interestRate[]" step=0.01>
+                        <input type="number" name="interestRate[]" onkeyup="imsi(this)" >
                         <span>%</span>
                         <button type="button" class="btn_graylight_ghost btn_input txt_r deleteBtn_2">삭제</button>
                     </div>
@@ -467,6 +610,41 @@
             link.href = uri;
             document.body.appendChild(link);
             link.click();
+        }
+
+
+        var prev = "";
+        var regexp = /^\d*(\.\d{0,2})?$/;
+
+        function imsi(obj) {
+            if (obj.value.search(regexp) == -1) {
+                obj.value = prev;
+            } else {
+                prev = obj.value;
+            }
+        }
+
+        function onlyNumbers(event) {
+            // 숫자 이외의 문자가 입력되면 이벤트를 취소합니다.
+            if (!/\d/.test(event.key) && event.key !== 'Backspace') {
+                event.preventDefault();
+            }
+        }
+
+        // 금액 콤마
+        function onTextChangeEvent(element) {
+            let value = element.value;
+            value = value.replace(/,/g, '');
+            value = Number(value).toLocaleString('en');
+            element.value = value;
+        }
+
+        // 100까지 입력값 받기
+        function validateInput(event) {
+            var input = event.target;
+            if (input.value > 100) {
+                input.value = 100;
+            }
         }
     </script>
 

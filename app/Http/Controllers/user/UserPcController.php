@@ -1004,9 +1004,9 @@ class UserPcController extends Controller
         $result = CalculatorLoan::create([
             'users_id' => Auth::guard('web')->user()->id,
             'type' => $request->type,
-            'loan_price' => $request->loan_price,
-            'loan_rate' => $request->loan_rate,
-            'loan_month' => $request->loan_month,
+            'loan_price' => str_replace(',', '', $request->loan_price ?? 0),
+            'loan_rate' => str_replace(',', '', $request->loan_rate ?? 0),
+            'loan_month' => str_replace(',', '', $request->loan_month ?? 0),
             'holding_month' => $request->holding_month,
         ]);
 
@@ -1015,7 +1015,7 @@ class UserPcController extends Controller
                 CalculatorLoanPayment::create([
                     'calculator_loan_id' => $result->id,
                     'sequence' => $request->prePayCount[$key],
-                    'pay_price' => $pay,
+                    'pay_price' => str_replace(',', '', $pay ?? 0),
                 ]);
             }
         }
