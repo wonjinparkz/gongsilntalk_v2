@@ -9,27 +9,26 @@
         <!-- popup new : s -->
         <div class="only_pc">
             <div class="popup_area">
-
-                <div class="popup_div">
-                    <div class="popup_img">
-                        <div class="img_box"><img src="{{ asset('assets/media/s_2.png') }}"></div>
-                    </div>
-                    <div class="popup_bottom">
-                        <span class="today_close" onclick="todayClosePopup();">오늘 하루 보지 않기</span>
-                        <span class="close" onclick="closePopup();">닫기</span>
-                    </div>
-                </div>
-
-                <div class="popup_div">
-                    <div class="popup_img">
-                        <div class="img_box"><img src="{{ asset('assets/media/s_2.png') }}"></div>
-                    </div>
-                    <div class="popup_bottom">
-                        <span class="today_close" onclick="todayClosePopup();">오늘 하루 보지 않기</span>
-                        <span class="close" onclick="closePopup();">닫기</span>
-                    </div>
-                </div>
-
+                @if (count($popups) > 0)
+                    @foreach ($popups as $item)
+                        @php
+                            $notTodayId = $_COOKIE['notToday_' . $item->id] ?? 'N';
+                        @endphp
+                        @if ($notTodayId == 'N' || $notTodayId == null)
+                            <div class="popup_div popup_div_{{ $item->id }}">
+                                <div class="popup_img">
+                                    <div class="img_box"><img src="{{ Storage::url('image/' . $item->images[0]->path) }}">
+                                    </div>
+                                </div>
+                                <div class="popup_bottom">
+                                    <span class="today_close" onclick="todayClosePopupEach({{ $item->id }});">오늘 하루 보지
+                                        않기</span>
+                                    <span class="close" onclick="closePopupEach({{ $item->id }});">닫기</span>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                @endif
             </div>
         </div>
         <!-- popup new : e -->
@@ -721,6 +720,21 @@
     // 그냥 닫기
     function closePopup(element) {
         $(".main_popup").css({
+            display: "none"
+        });
+    }
+
+    // pc 팝업 하루동안 닫기
+    function todayClosePopupEach(id) {
+        setCookie('notToday_' + id, 'Y', 1);
+
+        $(".popup_div_" + id).css({
+            display: "none"
+        });
+    }
+    // pc 팝업 닫기
+    function closePopupEach(id) {
+        $(".popup_div_" + id).css({
             display: "none"
         });
     }
