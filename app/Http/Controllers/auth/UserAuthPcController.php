@@ -419,9 +419,6 @@ class UserAuthPcController extends Controller
     }
 
 
-
-
-
     /**
      * 카카오 로그인
      */
@@ -441,7 +438,7 @@ class UserAuthPcController extends Controller
     /**
      * 카카오 로그인 결과 보기
      */
-    public function kakaoCallback()
+    public function kakaoCallback(Request $request)
     {
         try {
             $kakao = Socialite::driver('kakao')->user();
@@ -450,13 +447,9 @@ class UserAuthPcController extends Controller
 
             if ($user != null) { // 로그인 후 메인 화면으로 이동
                 if ($user->state == 1) {
-                    return redirect(route('www.login.login'))
-                        ->withErrors('관리자에 의해 사용 불가능한 회원입니다.')
-                        ->withInput();
+                    return "<script>window.opener.postMessage('fail', window.location.origin); window.close();</script>";
                 } else if ($user->state == 2) {
-                    return redirect(route('www.login.login'))
-                        ->withErrors('탈퇴한 회원입니다.')
-                        ->withInput();
+                    return "<script>window.opener.postMessage('fail', window.location.origin); window.close();</script>";
                 }
 
                 $fcm_key = Session::get('fcm_key');
@@ -486,13 +479,13 @@ class UserAuthPcController extends Controller
 
                 Auth::guard('web')->login($user);
 
-                return Redirect::route('www.main.main');
+                return "<script>window.opener.postMessage('success', window.location.origin); window.close();</script>";
             } else { // 회원 가입 화면으로 이동
                 return Redirect::route('www.register.type', ['provider' => 'K', 'token' => Crypt::encrypt($kakao->id)]);
             }
         } catch (Exception $e) {
             info($e . 'E');
-            return redirect(route('www.login.login'));
+            return "<script>window.opener.postMessage('fail', window.location.origin); window.close();</script>";
         }
     }
 
