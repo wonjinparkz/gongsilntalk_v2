@@ -102,7 +102,7 @@
                 <button class="toggle-btn" onclick="toggleSatelliteView()">위성뷰</button>
             </div>
             <button class="toggle-btn line_type" id="streetView"><span></span></button>
-            
+
         </div>
         <button type="button" class="map_view_btn map_view_btn_2" id="map_view_btn" onclick="mapTypeViewChage()">
             <span id="centerDongText">익선동</span>
@@ -139,21 +139,32 @@
 </x-layout>
 
 <script>
-const buttons = document.querySelectorAll('.toggle-btn');
+    const buttons = document.querySelectorAll('.toggle-btn');
 
-buttons.forEach(button => {
-  button.addEventListener('click', function() {
-    button.classList.toggle('clicked');
-  });
-});
-
-// 커리뷰 끄기
-$(document).ready(function(){
-    $('.btn_close').on('click', function(){
-        $('#panoArea').hide();
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            button.classList.toggle('clicked');
+        });
     });
-});
+
+    // 커리뷰 끄기
+    $(document).ready(function() {
+        $('.btn_close').on('click', function() {
+            $('#panoArea').hide();
+        });
+    });
 </script>
+
+<!-- 실거래가 매물 : s -->
+<div class="modal modal_full modal_m_product_detail">
+    <div class="modal_container_full">
+        <div class="side_list_scroll" id="product_detail">
+
+        </div>
+    </div>
+</div>
+</div>
+<!-- 실거래가 매물 : e -->
 
 <!-- 지도 내 매물 : s -->
 <div class="modal modal_full modal_m_property_list">
@@ -278,7 +289,6 @@ $(document).ready(function(){
 
     // 페이징
     function loadMoreData() {
-        console.log('매물리스트 정리');
         $.ajax({
                 url: "{{ route('www.map.property.list') }}",
                 data: {
@@ -297,6 +307,30 @@ $(document).ready(function(){
                 $("#agent_list").html(data.agent);
             })
             .fail(function(jqXHR, ajaxOptions, thrownError) {});
+    }
+
+
+    // 마커 클릭 사이드맵
+    function getProductSide(markerId, markerType, mapType) {
+        $.ajax({
+            type: "get", // 전송타입
+            url: "{{ route('www.map.mobile.product.detail') }}",
+            data: {
+                'id': markerId,
+                'type': markerType,
+                'mapType': mapType,
+            },
+            success: function(data, status, xhr) {
+                if (polygonMap) {
+                    polygonMap.setMap(null);
+                }
+                modal_open('m_product_detail');
+                $('#product_detail').html(data.html);
+            },
+            error: function(xhr, status, e) {
+                console.error("Error: ", e);
+            }
+        });
     }
 
     // 지도내매물 목록 삭제
@@ -322,7 +356,7 @@ $(document).ready(function(){
         loadMoreData();
     }
 </script>
-
+<script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.5/proj4.js"></script>
 <script type="text/javascript"
     src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
@@ -352,6 +386,8 @@ $(document).ready(function(){
         }
         location.href = "{{ route('www.map.mobile') }}" + "?search_input=" + search_input;
     }
+
+
 
     // 실거래가지도, 매물지도 타입
     function mapTypeChage(type) {
@@ -757,26 +793,8 @@ $(document).ready(function(){
             var markerElement = marker.getElement();
             var markerId = marker.id;
             var markerType = marker.type;
-            var mapSide = document.querySelector('.map_side_0');
-            var currentActiveMarkerElement = markerElement.querySelector('.activeMarker');
 
-            if (lastActiveMarkerElement === currentActiveMarkerElement) {
-                mapSide.classList.remove('active');
-                $(currentActiveMarkerElement).removeClass('active');
-                lastActiveMarkerElement = null;
-
-                if (polygonMap) {
-                    polygonMap.setMap(null);
-                }
-            } else {
-                getProductSide(markerId, markerType, 0);
-                $('.activeMarker').removeClass('active');
-                $(currentActiveMarkerElement).addClass('active');
-                if (!mapSide.classList.contains('active')) {
-                    mapSide.classList.add('active');
-                }
-                lastActiveMarkerElement = currentActiveMarkerElement;
-            }
+            getProductSide(markerId, markerType, 0);
         });
 
         markers.push(marker);

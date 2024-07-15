@@ -2,7 +2,7 @@
 
     <div class="body">
         <div class="map_wrap">
-            <div class="map_head_wrap">
+            <div class="map_head_wrap non_pano">
                 <div class="map_filter_wrap">
                     <div class="dropdown_box type_2">
                         <button class="dropdown_label" id="mapTypeText">실거래가지도</button>
@@ -24,7 +24,7 @@
                         초기화</button>
                 </div>
             </div>
-            <div class="map_search_wrap">
+            <div class="map_search_wrap non_pano">
                 <div class="flex_between" onclick="onShowRegionList();">
                     <input type="text" id="search_input" placeholder="단지명, 동이름, 지하철역으로 검색">
                     <img src="{{ asset('assets/media/btn_solid_delete.png') }}" alt="del" class="btn_del">
@@ -69,19 +69,19 @@
                     $('#regionList').addClass('active');
                 }
             </script>
-            <div class="map_body">
+            <div class="map_body ">
                 <!-- map side : s -->
-                 <div class="map_side map_side_0"></div> <!-- 실거래가 -->
-                 <div class="map_side property_type map_side_1">
+                <div class="map_side map_side_0 non_pano_side"></div> <!-- 실거래가 -->
+                <div class="map_side property_type map_side_1 non_pano_side">
                     <x-pc-map-side-product />
                 </div>
                 <!-- <div class="map_side transaction_type">
                 </div> -->
-                
+
                 <!-- map side : e -->
 
                 <div class="map_area">
-                    <div class="map_side_btn">
+                    <div class="map_side_btn non_pano">
                         <div>
                             <button id="current"><img src="{{ asset('assets/media/ic_map_activate1.png') }}"></button>
                             <div class="btn_zoom">
@@ -98,11 +98,13 @@
                         <button class="toggle-btn line_type" id="streetView"><span></span></button>
                         <!-- <button class="toggle-btn line_type" id="streetView"><img src="{{ asset('assets/media/ic_map_activate4.png') }}"></button> -->
                     </div>
-                    <button type="button" class="map_view_btn" onclick="mapTypeViewChage()">
-                        <span id="centerDongText">익선동</span>
-                        <span class="txt_point centerDongMapText">실거래가</span> 보기
-                    </button>
-                    <div class="map_bottom_btn">
+                    <div class="non_pano">
+                        <button type="button" class="map_view_btn" onclick="mapTypeViewChage()">
+                            <span id="centerDongText">익선동</span>
+                            <span class="txt_point centerDongMapText">실거래가</span> 보기
+                        </button>
+                    </div>
+                    <div class="map_bottom_btn non_pano">
                         <button onclick="location.href='{{ route('www.product.create.view') }}'"><img
                                 src="{{ asset('assets/media/ic_org_estate.png') }}">매물 내놓기</button>
                         <button onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'"><img
@@ -148,8 +150,11 @@
             // pano의 position이 relative가 아닌지 확인
             if ($('#pano').css('position') !== 'relative') {
                 $('.btn_pano_close').show();
+                $('.non_pano').hide();
             } else {
                 $('.btn_pano_close').hide();
+                $('.non_pano').show();
+                mapReset();
             }
         }
 
@@ -672,7 +677,11 @@
             naver.maps.Event.addListener(map, 'click', function(e) {
                 if (streetLayer.getMap()) {
                     $('.btn_pano_close').show();
-                    $('.map_side_btn').hide();
+                    $('.non_pano').hide();
+                    $('.non_pano_side').removeClass('active');
+                    if (polygonMap) {
+                        polygonMap.setMap(null);
+                    }
 
                     var latlng = e.coord;
 

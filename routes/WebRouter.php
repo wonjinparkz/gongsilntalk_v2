@@ -69,6 +69,8 @@ Route::controller(MapPcController::class)->group(function () {
     Route::post('/map/marker', 'getMapMarker')->name('www.map.marker');
 
     Route::get('/m/map', 'map')->name('m.map.map');
+
+    Route::get('/map/mobile/product/detail', 'mapMobileProductDetail')->name('www.map.mobile.product.detail');
 });
 
 /**

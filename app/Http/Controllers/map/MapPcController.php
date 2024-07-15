@@ -580,4 +580,65 @@ class MapPcController extends Controller
 
         return view('www.map.map-side', compact('result', 'markerType'));
     }
+
+    // 모바일 아파트 상세
+    public function mapMobileProductDetail(Request $request)
+    {
+        $mapType = $request->mapType;
+        $markerType = $request->type;
+
+        $result = '';
+
+        if ($markerType == 'knowledge') {
+            $result = KnowledgeCenter::where('id', $request->id)->first();
+        } else if ($markerType == 'apt') {
+            $result = DataApt::select('data_apt.*', 'data_apt.y as address_lat', 'data_apt.x as address_lng')->where('id', $request->id)->first();
+            if ($result) {
+                $result->transactions = $result->transactions()->get(); // 실제 데이터를 가져옵니다.
+                $result->transactionsRent = $result->transactionsRent()->get(); // 실제 데이터를 가져옵니다.
+
+                // 준공일
+                $transactionWithYear = $result->transactions->first(fn ($t) => !empty($t->constructionYear));
+                $transactionRentWithYear = $result->transactionsRent->first(fn ($t) => !empty($t->constructionYear));
+                $result->constructionYear = $transactionWithYear->constructionYear ?? $transactionRentWithYear->constructionYear ?? null;
+
+                // 매매 전월세 평수 종류
+                $result->exclusiveAreasSale = $result->transactions->pluck('exclusiveArea')
+                    ->unique()
+                    ->sort()
+                    ->values()
+                    ->all();
+
+                // 매매 거래 데이터 그룹화
+                $result->groupedTransactions = $result->transactions->groupBy('exclusiveArea')->sortKeys();
+
+                // 전월세 거래 데이터 그룹화
+                $result->groupedTransactionsRent = $result->transactionsRent->groupBy('exclusiveArea')->sortKeys();
+            }
+        } else if ($markerType == 'store') {
+            $result = DataStore::select('data_store.*', 'data_store.y as address_lat', 'data_store.x as address_lng')->where('id', $request->id)->first();
+        } else if ($markerType == 'building') {
+            $result = DataBuilding::select('data_building.*', 'data_building.y as address_lat', 'data_building.x as address_lng')->where('id', $request->id)->first();
+        }
+
+        $productList = Product::where('state', 1)
+            ->whereRaw(
+                "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
+                [$result->address_lat, $result->address_lng, $result->address_lat, 1]
+            )->limit(3)->get();
+
+        $result->productList = $productList;
+
+        $view = '';
+        if ($markerType == 'apt') {
+            $view = view('components.m-apt-detail', compact('result'))->render();
+        } else if ($markerType == 'knowledge') {
+            $view = view('components.m-knowledge-detail', compact('result'))->render();
+        } else if ($markerType == 'store') {
+            $view = view('components.m-store-detail', compact('result'))->render();
+        } else if ($markerType == 'building') {
+            $view = view('components.m-building-detail', compact('result'))->render();
+        }
+        return response()->json(['html' => $view]);
+    }
 }
