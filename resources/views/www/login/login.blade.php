@@ -38,13 +38,13 @@
                     </form>
 
                     <div class="ss_login">
-                        {{-- <a onclick="form_sns_login('{{ route('www.login.apple') }}', 1);">
+                        {{-- <a onclick="form_sns_login('{{ route('www.login.apple') }}');">
                             <img src="{{ asset('assets/media/btn_ss_1.png') }}" alt="애플로그인">
                         </a> --}}
-                        <a onclick="form_sns_login('{{ route('www.login.kakao') }}', 1);">
+                        <a onclick="openKakaoLogin('{{ route('www.login.kakao') }}');">
                             <img src="{{ asset('assets/media/btn_ss_2.png') }}" alt="카카오로그인">
                         </a>
-                        <a onclick="form_sns_login('{{ route('www.login.naver') }}', 0);">
+                        <a onclick="form_sns_login('{{ route('www.login.naver') }}');">
                             <img src="{{ asset('assets/media/btn_ss_3.png') }}" alt="네이버로그인">
                         </a>
                     </div>
@@ -185,19 +185,16 @@
 
     });
 
-    function form_sns_login(sns_url, type) {
-        if (type == 0) {
-            $('#sns_login').attr('action', sns_url).submit();
-        } else {
-            var iframe = document.createElement('iframe');
-            iframe.style.width = '100%';
-            iframe.style.height = '500px';
-            iframe.src = sns_url;
+    function form_sns_login(sns_url) {
+        $('#sns_login').attr('action', sns_url).submit();
+    }
 
-            $('.sns_login_container').html(iframe)
-            modal_open('sns_login');
-        }
-
+    function openKakaoLogin(sns_url) {
+        var width = 500;
+        var height = 600;
+        var left = (screen.width / 2) - (width / 2);
+        var top = (screen.height / 2) - (height / 2);
+        window.open(sns_url, '카카오로그인', 'width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
     }
 
     $('input[name="change_password"]').change(function() {
