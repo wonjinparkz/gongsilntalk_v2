@@ -38,13 +38,13 @@
                     </form>
 
                     <div class="ss_login">
-                        {{-- <a onclick="form_sns_login('{{ route('www.login.apple') }}');">
+                        {{-- <a onclick="form_sns_login('{{ route('www.login.apple') }}', 1);">
                             <img src="{{ asset('assets/media/btn_ss_1.png') }}" alt="애플로그인">
                         </a> --}}
-                        <a onclick="form_sns_login('{{ route('www.login.kakao') }}');">
+                        <a onclick="form_sns_login('{{ route('www.login.kakao') }}', 1);">
                             <img src="{{ asset('assets/media/btn_ss_2.png') }}" alt="카카오로그인">
                         </a>
-                        <a onclick="form_sns_login('{{ route('www.login.naver') }}');">
+                        <a onclick="form_sns_login('{{ route('www.login.naver') }}', 0);">
                             <img src="{{ asset('assets/media/btn_ss_3.png') }}" alt="네이버로그인">
                         </a>
                     </div>
@@ -59,6 +59,20 @@
 
         </div>
 
+        {{-- modal sns 로그인 --}}
+        <div class="modal modal_mid modal_sns_login">
+            <div class="modal_title">
+                <h5>SNS 로그인</h5>
+                <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close"
+                    onclick="modal_close('sns_login')">
+            </div>
+            <div class="modal_container sns_login_container">
+
+            </div>
+        </div>
+        <div class="md_overlay md_overlay_pw_change1" onclick="modal_close('modal_sns_login')"></div>
+        {{-- modal sns 로그인
+             --}}
 
         <!-- modal 비밀번호 재설정 : s-->
         <div class="modal modal_mid modal_pw_change1">
@@ -151,24 +165,39 @@
 </body>
 
 <script>
-    // 받아오기 성공 데이터 처리
-    function responseToken(fcm_key, device_type) {
-        if (fcm_key != '' && device_type != '') {
-            $('input[name="fcm_key"]').val(fcm_key);
-            $('input[name="device_type"]').val(device_type);
-        }
-    }
+    $(document).ready(function() {
 
-    if (isMobile.any()) {
-        if (isMobile.Android()) {
-            window.rocateer.requestToken();
-        } else if (isMobile.iOS()) {
-            webkit.messageHandlers.requestToken.postMessage();
+        // 받아오기 성공 데이터 처리
+        function responseToken(fcm_key, device_type) {
+            if (fcm_key != '' && device_type != '') {
+                $('input[name="fcm_key"]').val(fcm_key);
+                $('input[name="device_type"]').val(device_type);
+            }
         }
-    }
 
-    function form_sns_login(sns_url) {
-        $('#sns_login').attr('action', sns_url).submit();
+        if (isMobile.any()) {
+            if (isMobile.Android()) {
+                window.rocateer.requestToken();
+            } else if (isMobile.iOS()) {
+                webkit.messageHandlers.requestToken.postMessage();
+            }
+        }
+
+    });
+
+    function form_sns_login(sns_url, type) {
+        if (type == 0) {
+            $('#sns_login').attr('action', sns_url).submit();
+        } else {
+            var iframe = document.createElement('iframe');
+            iframe.style.width = '100%';
+            iframe.style.height = '500px';
+            iframe.src = sns_url;
+
+            $('.sns_login_container').html(iframe)
+            modal_open('sns_login');
+        }
+
     }
 
     $('input[name="change_password"]').change(function() {

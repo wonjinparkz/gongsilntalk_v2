@@ -7,7 +7,7 @@ $(document).ready(function () {
 function initTabSwipers() {
     $(".detail_tab").each(function (index) {
         const $container = $(this);
-        
+
         // 각 탭 스와이프 컨테이너에 클래스를 추가합니다.
         $container.addClass(`detail_tab_${index}`);
 
@@ -160,7 +160,7 @@ function menuScroll() {
                         }, 50);
                     }
                 });
-            }else{ // 맨 아래에 도달하면 마지막 메뉴 항목 활성화
+            } else { // 맨 아래에 도달하면 마지막 메뉴 항목 활성화
                 clearTimeout(scrollTimer);
                 scrollTimer = setTimeout(function () {
                     const lastInx = $menuList.length - 1
