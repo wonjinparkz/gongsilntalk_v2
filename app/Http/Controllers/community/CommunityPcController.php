@@ -456,7 +456,7 @@ class CommunityPcController extends Controller
 
         if ($users_id > 0) {
             $user = User::where('id', $users_id)->where('state', 0)->first();
-            Log::info($user);
+            Log::info($user->getAttribute('device_type') . '|' . $user->getAttribute('fcm_key'));
             if ($user->getAttribute('device_type') == "1") {
                 array_push($androidTokens, $user->getAttribute('fcm_key'));
             } else if ($user->getAttribute('device_type') == "2") {
