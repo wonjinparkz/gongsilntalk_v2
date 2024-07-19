@@ -53,6 +53,7 @@ class User extends BaseModel
     protected $hidden = [
         'password',
         'device_type',
+        'fcm_key',
         'unique_key',
     ];
 
