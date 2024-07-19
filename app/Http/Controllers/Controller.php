@@ -162,7 +162,7 @@ class Controller extends BaseController
     public function sendAlarm($iosFcmTokens, $androidFcmTokens, $data)
     {
         $messaging =  app('firebase.messaging');
-
+        Log::info($androidFcmTokens);
         // 안드로이드
         if (count($androidFcmTokens) > 0) {
             $androidMessage = CloudMessage::fromArray([
