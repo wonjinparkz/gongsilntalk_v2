@@ -400,9 +400,11 @@
                         </button>
                     </a>
 
-                    <button class="btn_point btn_basic">
-                        공간 컨설팅 신청하기
-                    </button>
+                    <a href="{{ route('www.interior.estimate.create.view') }}">
+                        <button class="btn_point btn_basic">
+                            공간 컨설팅 신청하기
+                        </button>
+                    </a>
                 </div>
 
             </section>

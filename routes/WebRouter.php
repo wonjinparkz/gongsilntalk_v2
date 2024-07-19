@@ -8,6 +8,7 @@ use App\Http\Controllers\commons\PopupOpenController;
 use App\Http\Controllers\commons\SiteProductAlarmPcController;
 use App\Http\Controllers\commons\VerificationController;
 use App\Http\Controllers\community\CommunityPcController;
+use App\Http\Controllers\interior\InteriorEstimatePcController;
 use App\Http\Controllers\main\MainPcController;
 use App\Http\Controllers\map\MapPcController;
 use App\Http\Controllers\product\ProductPcController;
@@ -255,6 +256,14 @@ Route::middleware('pc.auth')->controller(ProposalPcController::class)->group(fun
     Route::post('/mypage/proposal/delete', 'userProposalDelete')->name('www.mypage.user.offer.delete');
     Route::post('/mypage/proposal/tour/create', 'userProposalTourCreate')->name('www.mypage.user.tour.create');
     Route::get('/mypage/proposal/detail/{id}', 'userProposalDetailView')->name('www.mypage.proposal.offer.detail.view');
+});
+
+/**
+ * 인테리어 견적 신청
+ */
+Route::controller(InteriorEstimatePcController::class)->group(function () {
+    Route::get('/interior/estimate/create/view', 'interiorEstimateCreateView')->name('www.interior.estimate.create.view');
+    Route::get('/interior/estimate/create', 'interiorEstimateCreate')->name('www.interior.estimate.create');
 });
 
 /**
