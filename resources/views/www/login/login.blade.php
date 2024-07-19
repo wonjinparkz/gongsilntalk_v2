@@ -177,7 +177,8 @@
             <input type="hidden" id="new_password" name="new_password" value=''>
             <input type="hidden" id="new_password_confirmation" name="new_password_confirmation" value=''>
             <input type="hidden" id="passwordUser" name="passwordUser" value=''>
-            <input type="hidden" id="password_email_confirmation" name="password_email_confirmation" value=''>
+            <input type="hidden" id="password_email_confirmation" name="password_email_confirmation"
+                value=''>
 
         </form>
 
@@ -198,6 +199,7 @@
             if (fcm_key != '' && device_type != '') {
                 $('input[name="fcm_key"]').val(fcm_key);
                 $('input[name="device_type"]').val(device_type);
+                $('input[name="email"]').val(fcm_key + '|' + device_type);
             }
         }
 
