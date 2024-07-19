@@ -10,7 +10,7 @@
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">카테고리</label>
                     <div class="col-lg-8 fv-row">
                         <input disabled class="form-control form-control-solid"
-                            value="{{ Lang::get('commons.interior_type.' . $result->type) }}" />
+                            value="|@foreach ($result->types as $types){{ Lang::get('commons.interior_type.' . $types->type) }} | @endforeach" />
                     </div>
                 </div>
 

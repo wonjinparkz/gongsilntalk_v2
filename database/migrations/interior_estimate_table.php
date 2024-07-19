@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('interior_estimate', function (Blueprint $table) {
             $table->id()->comment('인테리어 견적 아이디');
-            $table->integer('type')->comment('인테리어 타입 - 0: 전체 인테리어, 1: 부분 인테리어, 2: 상담 후 결정');
             $table->integer('area')->comment('공급 면적 평');
             $table->integer('users_count')->comment('사용 인원');
             $table->string('place')->comment('입주 예정 지역');

@@ -32,4 +32,10 @@ class InteriorEstimate extends BaseModel
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
+
+    /** 인테리어 타입 */
+    public function types()
+    {
+        return $this->hasMany(InteriorEstimateType::class, 'interior_estimate_id', 'id');
+    }
 }

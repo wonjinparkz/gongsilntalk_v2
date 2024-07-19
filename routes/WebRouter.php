@@ -263,7 +263,7 @@ Route::middleware('pc.auth')->controller(ProposalPcController::class)->group(fun
  */
 Route::controller(InteriorEstimatePcController::class)->group(function () {
     Route::get('/interior/estimate/create/view', 'interiorEstimateCreateView')->name('www.interior.estimate.create.view');
-    Route::get('/interior/estimate/create', 'interiorEstimateCreate')->name('www.interior.estimate.create');
+    Route::post('/interior/estimate/create', 'interiorEstimateCreate')->name('www.interior.estimate.create');
 });
 
 /**

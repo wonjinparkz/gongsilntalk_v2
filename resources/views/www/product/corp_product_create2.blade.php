@@ -208,7 +208,7 @@
                 .remove();
         });
 
-        function confrim_check() {
+        function confirm_check() {
             var is_map = $('#is_map').is(':checked');
             var is_address_dong = $('#is_address_dong').is(':checked');
             var is_address_detail = $('#is_address_detail').is(':checked');
@@ -235,7 +235,7 @@
         }
 
         $('input').on("change click", function() {
-            confrim_check();
+            confirm_check();
         });
 
         function formSetting() {
@@ -373,7 +373,7 @@
             $('#roadName').html('<span>도로명</span>' + address + ' 999-99');
             $('#address').val(address + ' 999-99');
             $('#region_address').val(address);
-            confrim_check();
+            confirm_check();
         }
 
         $('#is_address_dong').click(function() {
@@ -599,7 +599,7 @@
 
         console.log('주소 검색 끝!');
 
-        confrim_check();
+        confirm_check();
 
     }
 

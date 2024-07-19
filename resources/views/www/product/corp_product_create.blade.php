@@ -581,7 +581,7 @@
             $('#approve_date').val($(this).val());
         });
 
-        function confrim_check() {
+        function confirm_check() {
             var confirm = 0;
             var type = $('#type').val();
             var payment_type = $('#payment_type').val();
@@ -642,7 +642,7 @@
             }
         }
         $('input').on("change click", function() {
-            confrim_check();
+            confirm_check();
         });
 
 
@@ -700,7 +700,7 @@
             });
 
             tabContents[index].classList.add('active');
-            confrim_check();
+            confirm_check();
         }
 
         function commercial_reset() {

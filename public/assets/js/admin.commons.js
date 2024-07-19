@@ -180,15 +180,15 @@ function get_coordinate_conversion1(rtentX, rtentY) {
 /**
  * 확인만 있는 알림창
  * @param {*} message
- * @param {*} confrimText
+ * @param {*} confirmText
  */
-function alert(message, confrimText) {
-    var confrimText = confrimText ?? "확인"
+function alert(message, confirmText) {
+    var confirmText = confirmText ?? "확인"
     Swal.fire({
         title: message,
         buttonsStyling: true,
         showCancelButton: false,
-        confirmButtonText: confrimText,
+        confirmButtonText: confirmText,
         confirmButtonColor: '#2D2E83',
         padding: 20,
         width: 400,

@@ -187,7 +187,7 @@
     </style>
     <script>
         $(document).ready(function() {
-            confrim_check();
+            confirm_check();
 
             // 모바일 / PC 각 div 에 mapOnlyMobile / mapOnlyPc 클래스 명 추가해주세요!
             if (document.body.offsetWidth > 767) {
@@ -208,14 +208,14 @@
 
         $('input[name="input_type"]').click(function() {
             $('#type').val($(this).val());
-            confrim_check();
+            confirm_check();
         });
 
         $('input[name="product_name"]').change(function() {
-            confrim_check();
+            confirm_check();
         });
 
-        function confrim_check() {
+        function confirm_check() {
             var type = $('input[name="input_type"]:checked').val();
             var address = $('#address').val();
             var product_name = $('#product_name').val();
@@ -399,7 +399,7 @@
             $('#address_detail').val('');
 
             $('#region_address').val(address);
-            confrim_check();
+            confirm_check();
         }
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -547,7 +547,7 @@
 
             console.log('주소 검색 끝!');
 
-            confrim_check();
+            confirm_check();
 
         }
 

@@ -108,8 +108,12 @@
 
                                         {{-- 인테리어 상담 --}}
                                         <td class="text-center">
-                                            <span
-                                                class="fw-bold fs-5">{{ Lang::get('commons.interior_type.' . $interior->type) }}</span>
+                                            <span class="fw-bold fs-5">
+                                                |
+                                                @foreach ($interior->types as $types)
+                                                    {{ Lang::get('commons.interior_type.' . $types->type) }} |
+                                                @endforeach
+                                            </span>
                                         </td>
 
                                         {{-- 회사명 --}}

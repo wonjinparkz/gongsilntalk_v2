@@ -244,7 +244,7 @@
 
     <script>
         $(document).ready(function() {
-            confrim_check();
+            confirm_check();
         });
 
         var prev = "";
@@ -259,18 +259,18 @@
         }
 
         $('input[type="checkbox"]').change(function() {
-            confrim_check();
+            confirm_check();
         });
 
         $('input[type="radio"]').change(function() {
-            confrim_check();
+            confirm_check();
         });
 
         $('input[type="number"]').change(function() {
-            confrim_check();
+            confirm_check();
         });
 
-        function confrim_check() {
+        function confirm_check() {
             var payment_type = $('input[name="payment_type"]').val();
             var price = $('input[name="price_' + payment_type + '"]').val();
             var month_price = $('input[name="month_price_4"]').val();
@@ -334,7 +334,7 @@
         //입력란 열고 닫기
         function paymentCheck(index) {
             $('#payment_type').val(index);
-            confrim_check();
+            confirm_check();
         }
 
         //입력란 열고 닫기

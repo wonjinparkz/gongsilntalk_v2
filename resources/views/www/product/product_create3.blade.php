@@ -124,7 +124,7 @@
             sessionStorage.clear();
         }
 
-        function confrim_check() {
+        function confirm_check() {
             var square = $('#exclusive_square').val();
             var area = $('#exclusive_area').val();
             var content = $('#content').val();
@@ -137,7 +137,7 @@
         }
 
         $('#content').keyup(function() {
-            confrim_check();
+            confirm_check();
         });
 
         $('#exclusive_square').keyup(function() {
@@ -146,7 +146,7 @@
                 var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
                 $('#exclusive_area').val(convertedArea);
             }
-            confrim_check();
+            confirm_check();
         });
         $('#exclusive_area').keyup(function() {
             var area = $(this).val();
@@ -155,7 +155,7 @@
                 var decimalIndex = convertedSquare.indexOf('.') + 3; // 소수점 이하 세 번째 자리까지
                 $('#exclusive_square').val(convertedSquare.substr(0, decimalIndex));
             }
-            confrim_check();
+            confirm_check();
         });
 
         //기본 토글 이벤트

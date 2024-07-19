@@ -14,7 +14,7 @@ class InteriorEstimateController extends Controller
      */
     public function interiorEstimateListView(Request $request): View
     {
-        $interiorList = InteriorEstimate::select();
+        $interiorList = InteriorEstimate::select()->with('types');
 
         // 회사명
         if(isset($request->company_name)){
