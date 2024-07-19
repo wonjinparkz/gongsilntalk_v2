@@ -25,6 +25,9 @@
                             <li>
                                 <input name="password" id="password" type="password" placeholder="비밀번호를 입력해주세요.">
                             </li>
+                            <li>
+                                <input name="fcm_test" id="fcm_test" type="text" placeholder="">
+                            </li>
                         </ul>
                         <div class="flex_between">
                             <div>
@@ -199,16 +202,14 @@
             if (fcm_key != '' && device_type != '') {
                 $('input[name="fcm_key"]').val(fcm_key);
                 $('input[name="device_type"]').val(device_type);
-                $('input[name="email"]').val(fcm_key + '|' + device_type);
+                $('#fcm_test').val(fcm_key + '|' + device_type);
             }
         }
 
-        if (isMobile.any()) {
-            if (isMobile.Android()) {
-                window.rocateer.requestToken();
-            } else if (isMobile.iOS()) {
-                webkit.messageHandlers.requestToken.postMessage();
-            }
+        if (isMobile.Android()) {
+            window.rocateer.requestToken();
+        } else if (isMobile.iOS()) {
+            webkit.messageHandlers.requestToken.postMessage();
         }
 
     });
