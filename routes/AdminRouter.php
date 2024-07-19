@@ -17,6 +17,7 @@ use App\Http\Controllers\building\DataBuildingController;
 use App\Http\Controllers\buildingledger\BuildingledgerController;
 use App\Http\Controllers\commons\PopupOpenController;
 use App\Http\Controllers\data\DataController;
+use App\Http\Controllers\interior\InteriorEstimateController;
 use App\Http\Controllers\store\DataStoreController;
 use App\Http\Controllers\knowledgecenter\KnowledgeCneter_Controller;
 use App\Http\Controllers\magazine\MagazineController;
@@ -332,6 +333,14 @@ Route::middleware('admin.auth')->controller(AdminController::class)->group(funct
 Route::middleware('admin.auth')->controller(AssetController::class)->group(function () {
     Route::get('/asset/list/view', 'assetListView')->name('admin.asset.list.view');
     Route::get('/asset/detail/{id}', 'assetDetailView')->name('admin.asset.detail.view');
+});
+
+/**
+ * 인테리어 견적 받기 관리
+ */
+Route::middleware('admin.auth')->controller(InteriorEstimateController::class)->group(function () {
+    Route::get('/interior/list/view', 'interiorListView')->name('admin.interior.list.view');
+    Route::get('/interior/detail/{id}', 'interiorDetailView')->name('admin.interior.detail.view');
 });
 
 

@@ -75,11 +75,13 @@ class PasswordResetController extends Controller
     {
         $confirm = 0;
 
+        Log::info($request->all());
+
         $result = User::where('email', $request->email)
             ->where('name', $request->name)->first();
 
 
-        if ($result->contains('phone', $request->phone)) {
+        if ($result && $result->phone == $request->phone) {
             $confirm = 1;
         } else {
             $confirm = 0;
@@ -96,7 +98,7 @@ class PasswordResetController extends Controller
         $validator = Validator::make($request->all(), [
             'phone' => 'required',
             'name' => 'required',
-            'email' => 'required',
+            'password_email_confirmation' => 'required',
             'new_password' => 'required|regex:/^(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8,15}$/',
             'new_password_confirmation' => 'required|same:new_password',
         ]);
@@ -108,9 +110,11 @@ class PasswordResetController extends Controller
         }
 
         if ($request->verification != 'N') {
+            Log::info($request->all());
             // 사용자 찾아서 비밀번호 변경
-            $user = User::select()->where('email', $request->email)->where('name', $request->name)->where('phone', $request->phone)->first();
-            if ($user) {
+            $user = User::select()->where('email', $request->password_email_confirmation)->where('name', $request->name)->first();
+            Log::info('user : ' . $user);
+            if ($user && $user->phone == $request->phone) {
                 $user->update([
                     'password' => Hash::make($request->new_password)
                 ]);
@@ -118,5 +122,6 @@ class PasswordResetController extends Controller
             }
             return Redirect::route('www.login.login')->with('message', '비밀번호 변경을 실패했습니다.');
         }
+        return Redirect::route('www.login.login')->with('message', '본인인증이 정상적으로 처리되지 못하였습니다.');
     }
 }

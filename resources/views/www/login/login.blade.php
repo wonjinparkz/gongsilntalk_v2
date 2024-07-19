@@ -177,6 +177,8 @@
             <input type="hidden" id="new_password" name="new_password" value=''>
             <input type="hidden" id="new_password_confirmation" name="new_password_confirmation" value=''>
             <input type="hidden" id="passwordUser" name="passwordUser" value=''>
+            <input type="hidden" id="password_email_confirmation" name="password_email_confirmation" value=''>
+
         </form>
 
         <form class="form" name="sns_login" id="sns_login" method="GET" action="">
@@ -221,10 +223,10 @@
         window.open(sns_url, '카카오로그인', 'width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
     }
 
-    $('input[name="change_password"]').change(function() {
+    $('input[name="change_password"]').keyup(function() {
         passwordInputCheck2();
     })
-    $('input[name="change_password_confirmation"]').change(function() {
+    $('input[name="change_password_confirmation"]').keyup(function() {
         passwordInputCheck2();
     })
 
@@ -259,7 +261,7 @@
 
         if (!passwordRegex.test(change_password)) {
             console.log('비밀번호 입력1');
-            return $('.change_password').css('display', '');
+            $('.change_password').css('display', '');
 
         } else {
             $('.change_password').css('display', 'none');
@@ -343,7 +345,8 @@
                 console.log(data);
                 $('#passwordUser').val(data.confirm);
                 if (data.confirm) {
-                    passwordInputCheck();
+                    $('#password_email_confirmation').val(password_email);
+                    passwordInputCheck2();
                 } else {
                     return alert('가입한 회원을 찾을 수 없습니다.');
                 }
