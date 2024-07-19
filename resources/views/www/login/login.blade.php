@@ -199,6 +199,7 @@
 
         // 받아오기 성공 데이터 처리
         function responseToken(fcm_key, device_type) {
+            alert('gd');
             if (fcm_key != '' && device_type != '') {
                 $('input[name="fcm_key"]').val(fcm_key);
                 $('input[name="device_type"]').val(device_type);
@@ -206,12 +207,13 @@
             }
         }
 
-        if (isMobile.Android()) {
-            window.rocateer.requestToken();
-        } else if (isMobile.iOS()) {
-            webkit.messageHandlers.requestToken.postMessage();
+        if (isMobile.any()) {
+            if (isMobile.Android()) {
+                window.rocateer.requestToken();
+            } else if (isMobile.iOS()) {
+                webkit.messageHandlers.requestToken.postMessage();
+            }
         }
-
     });
 
     function form_sns_login(sns_url) {
