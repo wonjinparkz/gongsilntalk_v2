@@ -2,7 +2,7 @@
     <x-layout>
 
         <div class="m_header">
-            <div class="left_area"><a href="javascript:history.go(-1)"><img
+            <div class="left_area"><a href="{{ route('www.main.main') }}"><img
                         src="{{ asset('assets/media/header_btn_close.png') }}"></a></div>
             <div class="m_title"></div>
             <div class="right_area"></div>
@@ -196,6 +196,7 @@
 
         // 받아오기 성공 데이터 처리
         function responseToken(fcm_key, device_type) {
+            alert('됐어?');
             if (fcm_key != '' && device_type != '') {
                 $('input[name="fcm_key"]').val(fcm_key);
                 $('input[name="device_type"]').val(device_type);
@@ -205,7 +206,6 @@
         if (isMobile.any()) {
             if (isMobile.Android()) {
                 window.rocateer.requestToken();
-                alert('됨?');
             } else if (isMobile.iOS()) {
                 webkit.messageHandlers.requestToken.postMessage();
             }
