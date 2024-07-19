@@ -461,7 +461,8 @@
                         @if (in_array('26', $permissions))
                             {{-- 인테리어 견적 받기 관리 메뉴 --}}
                             <div class="menu-item">
-                                <a class="menu-link" href="#">
+                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'interior') ? 'active' : '' }}"
+                                    href="{{ route('admin.interior.estimate.list.view') }}">
                                     <span class="menu-icon">
                                         <i class="fa-solid fa-file-invoice-dollar"></i>
                                     </span>

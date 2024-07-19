@@ -339,8 +339,8 @@ Route::middleware('admin.auth')->controller(AssetController::class)->group(funct
  * 인테리어 견적 받기 관리
  */
 Route::middleware('admin.auth')->controller(InteriorEstimateController::class)->group(function () {
-    Route::get('/interior/list/view', 'interiorListView')->name('admin.interior.list.view');
-    Route::get('/interior/detail/{id}', 'interiorDetailView')->name('admin.interior.detail.view');
+    Route::get('/interior/estimate/list/view', 'interiorEstimateListView')->name('admin.interior.estimate.list.view');
+    Route::get('/interior/estimate/detail/{id}', 'interiorEstimateDetailView')->name('admin.interior.estimate.detail.view');
 });
 
 

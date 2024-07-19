@@ -8,7 +8,7 @@
 
 
 <input class="form-control form-control-solid" placeholder="{{ $title }}"
-    id="daterangepicker_{{ $from_name }}" />
+    id="daterangepicker_{{ $from_name }}" autocomplete='off'/>
 {{-- 시작일 --}}
 <input type="hidden" id="{{ $from_name }}" name="{{ $from_name }}" value="{{ Request::get($from_name) ?? $from_date}}">
 {{-- 종료일 --}}

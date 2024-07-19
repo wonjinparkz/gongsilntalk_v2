@@ -9,6 +9,11 @@ class InteriorEstimate extends BaseModel
 {
     use HasFactory, Notifiable;
 
+    /**
+     * Table Name
+     */
+    protected $table = 'interior_estimate';
+
     protected $fillable = [
         'type',
         'area',
@@ -20,13 +25,11 @@ class InteriorEstimate extends BaseModel
         'user_name'
     ];
 
-    protected $hidden = [
-    ];
+    protected $hidden = [];
 
     protected $casts = [
         'company_phone' => 'encrypted',
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
-
 }
