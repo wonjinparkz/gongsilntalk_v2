@@ -251,66 +251,9 @@
                                                 <div class="chart_top">
                                                     <p>기간 : 전체</p>
                                                 </div>
-                                                <div id="container" style="height: 200px;"></div>
+                                                <div id="container_{{ $area }}" style="height: 200px;"></div>
                                             </div>
-                                            <script type="text/javascript">
-                                                Highcharts.chart('container', {
-                                                    colors: ['#F16341'],
-                                                    title: {
-                                                        text: ''
-                                                    },
-                                                    yAxis: {
-                                                        title: {
-                                                            text: ''
-                                                        }
-                                                    },
 
-                                                    xAxis: {
-                                                        categories: ['2021', '2022', '2023', '2024']
-                                                    },
-
-                                                    legend: {
-                                                        enabled: false
-                                                    },
-
-                                                    plotOptions: {
-                                                        series: {
-                                                            label: {
-                                                                connectorAllowed: false
-                                                            },
-                                                            marker: {
-                                                                fillColor: '#fff',
-                                                                lineWidth: 2,
-                                                                lineColor: '#F16341',
-                                                            },
-                                                            pointStart: 2021
-                                                        }
-                                                    },
-
-                                                    series: [{
-                                                        name: '2023년 2월, 2건<br>',
-                                                        data: [
-                                                            400000000, 380000000, 300000000, 350000000, 420000000
-                                                        ]
-                                                    }, ],
-
-                                                    responsive: {
-                                                        rules: [{
-                                                            condition: {
-                                                                maxWidth: 500
-                                                            },
-                                                            chartOptions: {
-                                                                legend: {
-                                                                    layout: 'horizontal',
-                                                                    align: 'center',
-                                                                    verticalAlign: 'bottom'
-                                                                }
-                                                            }
-                                                        }]
-                                                    }
-
-                                                });
-                                            </script>
 
                                             <div class="section_price_wrap mt20">
                                                 <div class="default_box showstep1">
@@ -328,6 +271,10 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+                                                            @php
+                                                                $transactionData = [];
+                                                                $years = [];
+                                                            @endphp
                                                             @foreach ($group as $transaction)
                                                                 @php
                                                                     $transactionPrice = (float) str_replace(
@@ -335,6 +282,13 @@
                                                                         '',
                                                                         $transaction->transactionPrice,
                                                                     );
+
+                                                                    $year = $transaction->year;
+                                                                    $month = $transaction->month;
+                                                                    $transactionData[$year][
+                                                                        $month
+                                                                    ][] = $transactionPrice;
+                                                                    $years[$year] = true;
                                                                 @endphp
                                                                 <tr>
                                                                     <td>{{ $transaction->year . '.' . $transaction->month }}
@@ -349,6 +303,111 @@
                                                 </div>
                                                 <div class="btn_more_open">더보기</div>
                                             </div>
+                                            <script type="text/javascript">
+                                                // Blade에서 수집한 PHP 데이터를 JSON으로 변환하여 JavaScript 변수로 전달
+                                                var transactionData = @json($transactionData);
+                                                var years = Object.keys(@json($years));
+
+                                                var categories = [];
+                                                var data = [];
+
+                                                if (years.length === 1) {
+                                                    // 연도가 하나인 경우, 월별로 표시
+                                                    var year = years[0];
+                                                    var monthlyData = transactionData[year];
+                                                    categories = Object.keys(monthlyData).map(function(month) {
+                                                        return year + '.' + month;
+                                                    });
+                                                    data = categories.map(function(category) {
+                                                        var [year, month] = category.split('.');
+                                                        var prices = transactionData[year][month];
+                                                        var total = prices.reduce(function(sum, value) {
+                                                            return sum + value;
+                                                        }, 0);
+                                                        var average = total / prices.length;
+                                                        return Math.round(average); // 소수점 제거
+                                                    });
+                                                } else {
+                                                    // 두 개 이상의 연도가 있는 경우, 연도별로 표시
+                                                    categories = years;
+                                                    data = years.map(function(year) {
+                                                        var yearlyData = transactionData[year];
+                                                        var allPrices = Object.values(yearlyData).flat();
+                                                        var total = allPrices.reduce(function(sum, value) {
+                                                            return sum + value;
+                                                        }, 0);
+                                                        var average = total / allPrices.length;
+                                                        return Math.round(average); // 소수점 제거
+                                                    });
+                                                }
+
+                                                Highcharts.chart('container_{{ $area }}', {
+                                                    colors: ['#F16341'],
+                                                    title: {
+                                                        text: years.length === 1 ? '월별 평균 거래 가격' : '년도별 평균 거래 가격'
+                                                    },
+                                                    yAxis: {
+                                                        title: {
+                                                            text: ''
+                                                        },
+                                                        labels: {
+                                                            formatter: function() {
+                                                                return Highcharts.numberFormat((this.value / 100), 0, '.', ',') + 'm'; // 3자리마다 쉼표
+                                                            }
+                                                        }
+                                                    },
+
+                                                    xAxis: {
+                                                        categories: categories
+                                                    },
+
+                                                    legend: {
+                                                        enabled: false
+                                                    },
+
+                                                    plotOptions: {
+                                                        series: {
+                                                            label: {
+                                                                connectorAllowed: false
+                                                            },
+                                                            marker: {
+                                                                fillColor: '#fff',
+                                                                lineWidth: 2,
+                                                                lineColor: '#F16341',
+                                                            },
+                                                            pointStart: 0
+                                                        }
+                                                    },
+
+                                                    tooltip: {
+                                                        pointFormatter: function() {
+                                                            return '<span style="color:' + this.color + '">\u25CF</span> ' + this.series.name +
+                                                                ': <b>' + Highcharts.numberFormat(this.y, 0, '.', ',') + '</b><br/>';
+                                                        }
+                                                    },
+
+                                                    series: [{
+                                                        name: '평균 거래 가격',
+                                                        data: data
+                                                    }],
+
+                                                    responsive: {
+                                                        rules: [{
+                                                            condition: {
+                                                                maxWidth: 500
+                                                            },
+                                                            chartOptions: {
+                                                                legend: {
+                                                                    layout: 'horizontal',
+                                                                    align: 'center',
+                                                                    verticalAlign: 'bottom'
+                                                                }
+                                                            }
+                                                        }]
+                                                    }
+                                                });
+                                            </script>
+
                                         </div>
                                     @endforeach
                                 </div>
@@ -432,66 +491,9 @@
                                                 <div class="chart_top">
                                                     <p>기간 : 전체</p>
                                                 </div>
-                                                <div id="container2" style="height: 200px;"></div>
+                                                <div id="container_rent_{{ $area }}" style="height: 200px;">
+                                                </div>
                                             </div>
-                                            <script type="text/javascript">
-                                                Highcharts.chart('container2', {
-                                                    colors: ['#F16341'],
-                                                    title: {
-                                                        text: ''
-                                                    },
-                                                    yAxis: {
-                                                        title: {
-                                                            text: ''
-                                                        }
-                                                    },
-
-                                                    xAxis: {
-                                                        categories: ['2021', '2022', '2023', '2024']
-                                                    },
-
-                                                    legend: {
-                                                        enabled: false
-                                                    },
-
-                                                    plotOptions: {
-                                                        series: {
-                                                            label: {
-                                                                connectorAllowed: false
-                                                            },
-                                                            marker: {
-                                                                fillColor: '#fff',
-                                                                lineWidth: 2,
-                                                                lineColor: '#F16341',
-                                                            },
-                                                            pointStart: 2021
-                                                        }
-                                                    },
-
-                                                    series: [{
-                                                        name: '2023년 2월, 2건<br>',
-                                                        data: [
-                                                            400000000, 380000000, 300000000, 350000000, 420000000
-                                                        ]
-                                                    }, ],
-
-                                                    responsive: {
-                                                        rules: [{
-                                                            condition: {
-                                                                maxWidth: 500
-                                                            },
-                                                            chartOptions: {
-                                                                legend: {
-                                                                    layout: 'horizontal',
-                                                                    align: 'center',
-                                                                    verticalAlign: 'bottom'
-                                                                }
-                                                            }
-                                                        }]
-                                                    }
-
-                                                });
-                                            </script>
 
                                             <div class="section_price_wrap mt20">
                                                 <div class="default_box showstep1">
@@ -509,6 +511,10 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+                                                            @php
+                                                                $transactionDataRent = [];
+                                                                $yearsRent = [];
+                                                            @endphp
                                                             @foreach ($group as $transaction)
                                                                 @php
                                                                     $transactionPrice = (float) str_replace(
@@ -516,6 +522,14 @@
                                                                         '',
                                                                         $transaction->transactionPrice,
                                                                     );
+                                                                    if ($transaction->transactionMonthPrice < 1) {
+                                                                        $year = $transaction->year;
+                                                                        $month = $transaction->month;
+                                                                        $transactionDataRent[$year][
+                                                                            $month
+                                                                        ][] = $transactionPrice;
+                                                                        $yearsRent[$year] = true;
+                                                                    }
                                                                 @endphp
                                                                 <tr>
                                                                     <td>{{ $transaction->year . '.' . $transaction->month }}
@@ -530,6 +544,111 @@
                                                 </div>
                                                 <div class="btn_more_open">더보기</div>
                                             </div>
+
+                                            <script type="text/javascript">
+                                                // Blade에서 수집한 PHP 데이터를 JSON으로 변환하여 JavaScript 변수로 전달
+                                                var transactionDataRent = @json($transactionDataRent);
+                                                var years = Object.keys(@json($yearsRent));
+
+                                                var categories = [];
+                                                var data = [];
+
+                                                if (years.length === 1) {
+                                                    // 연도가 하나인 경우, 월별로 표시
+                                                    var year = years[0];
+                                                    var monthlyData = transactionDataRent[year];
+                                                    categories = Object.keys(monthlyData).map(function(month) {
+                                                        return year + '.' + month;
+                                                    });
+                                                    data = categories.map(function(category) {
+                                                        var [year, month] = category.split('.');
+                                                        var prices = transactionDataRent[year][month];
+                                                        var total = prices.reduce(function(sum, value) {
+                                                            return sum + value;
+                                                        }, 0);
+                                                        var average = total / prices.length;
+                                                        return Math.round(average); // 소수점 제거
+                                                    });
+                                                } else {
+                                                    // 두 개 이상의 연도가 있는 경우, 연도별로 표시
+                                                    categories = years;
+                                                    data = years.map(function(year) {
+                                                        var yearlyData = transactionDataRent[year];
+                                                        var allPrices = Object.values(yearlyData).flat();
+                                                        var total = allPrices.reduce(function(sum, value) {
+                                                            return sum + value;
+                                                        }, 0);
+                                                        var average = total / allPrices.length;
+                                                        return Math.round(average); // 소수점 제거
+                                                    });
+                                                }
+
+                                                Highcharts.chart('container_rent_{{ $area }}', {
+                                                    colors: ['#F16341'],
+                                                    title: {
+                                                        text: years.length === 1 ? '월별 평균 거래 가격' : '년도별 평균 거래 가격'
+                                                    },
+                                                    yAxis: {
+                                                        title: {
+                                                            text: ''
+                                                        },
+                                                        labels: {
+                                                            formatter: function() {
+                                                                return Highcharts.numberFormat((this.value / 100), 0, '.', ',') + 'm'; // 3자리마다 쉼표
+                                                            }
+                                                        }
+                                                    },
+
+                                                    xAxis: {
+                                                        categories: categories
+                                                    },
+
+                                                    legend: {
+                                                        enabled: false
+                                                    },
+
+                                                    plotOptions: {
+                                                        series: {
+                                                            label: {
+                                                                connectorAllowed: false
+                                                            },
+                                                            marker: {
+                                                                fillColor: '#fff',
+                                                                lineWidth: 2,
+                                                                lineColor: '#F16341',
+                                                            },
+                                                            pointStart: 0
+                                                        }
+                                                    },
+
+                                                    tooltip: {
+                                                        pointFormatter: function() {
+                                                            return '<span style="color:' + this.color + '">\u25CF</span> ' + this.series.name +
+                                                                ': <b>' + Highcharts.numberFormat(this.y, 0, '.', ',') + '</b><br/>';
+                                                        }
+                                                    },
+
+                                                    series: [{
+                                                        name: '평균 거래 가격',
+                                                        data: data
+                                                    }],
+
+                                                    responsive: {
+                                                        rules: [{
+                                                            condition: {
+                                                                maxWidth: 500
+                                                            },
+                                                            chartOptions: {
+                                                                legend: {
+                                                                    layout: 'horizontal',
+                                                                    align: 'center',
+                                                                    verticalAlign: 'bottom'
+                                                                }
+                                                            }
+                                                        }]
+                                                    }
+                                                });
+                                            </script>
                                         </div>
                                     @endforeach
                                 </div>

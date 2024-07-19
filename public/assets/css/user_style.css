@@ -477,7 +477,7 @@
 .detail_info_container {background: #F5F5F5; padding: 28px; color:#63605F; line-height: 1.4; font-size: 16px;}
 .between_section{display:flex; justify-content: space-between; margin-top: 8px;}
 .section_chart_wrap{width:378px;}
-.section_price_wrap{width:328px !important;}
+.section_price_wrap{width:400px !important;}
 .btn_more_open{padding:8px; text-align: center; font-size: 13px; color:#63605F; margin-top: 14px; cursor: pointer; background:url('/assets/media/ic_select_arrow.png') calc(50% + 30px) center no-repeat; background-size: 10px auto;}
 .btn_more_open.close{background:url('/assets/media/ic_arrow_close.png') calc(50% + 26px) center no-repeat; background-size: 10px auto;}
 .showstep1{max-height:180px; overflow: hidden;}

@@ -289,7 +289,7 @@ class MapPcController extends Controller
                         )->get();
                 }
             } else {
-                $distance = 5;
+                $distance = 1.5;
 
                 // 아파트 데이터를 가져옴
                 if (!isset($request->sale_product_type) || $request->sale_product_type == 3) {
