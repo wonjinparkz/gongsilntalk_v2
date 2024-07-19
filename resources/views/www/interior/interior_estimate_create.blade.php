@@ -9,8 +9,10 @@
     </div>
     <!----------------------------- m::header bar : s ----------------------------->
 
-    <div class="body">
+    <form method="post" action="{{ route('www.interior.estimate.create') }}">
+        <div class="body">
 
-        <h1>인테리어</h1>
-    </div>
+            <h1>인테리어</h1>
+        </div>
+    </form>
 </x-layout>
