@@ -17,6 +17,7 @@
         "laravel/ui": "^4.2",
         "maatwebsite/excel": "~3.1.0",
         "opcodesio/log-viewer": "^2.3",
+        "socialiteproviders/apple": "^5.6",
         "socialiteproviders/kakao": "^4.2",
         "socialiteproviders/naver": "^4.1",
         "socialiteproviders/zoho": "^4.1"

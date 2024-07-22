@@ -583,9 +583,9 @@ class UserAuthPcController extends Controller
     public function appleCallback()
     {
         try {
-            $naver = Socialite::driver('naver')->user();
+            $apple = Socialite::driver('apple')->user();
 
-            $user = User::select()->where('token', $naver->id)->where('provider', 'A')->first();
+            $user = User::select()->where('token', $apple->id)->where('provider', 'A')->first();
 
             if ($user != null) { // 로그인 후 메인 화면으로 이동
                 if ($user->state == 1) {
@@ -626,7 +626,7 @@ class UserAuthPcController extends Controller
                 Auth::guard('web')->login($user);
                 return Redirect::route('www.main.main');
             } else { // 회원 가입 화면으로 이동
-                return Redirect::route('www.register.type', ['provider' => 'A', 'token' => Crypt::encrypt($naver->id)]);
+                return Redirect::route('www.register.type', ['provider' => 'A', 'token' => Crypt::encrypt($apple->id)]);
             }
         } catch (Exception $e) {
             return redirect(route('www.login.login'));
