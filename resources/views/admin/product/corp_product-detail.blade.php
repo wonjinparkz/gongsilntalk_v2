@@ -461,7 +461,7 @@
             <div class="card-body border-top p-9">
 
                 {{-- 방/욕실 수 --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input bathroom_count_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">방/욕실 수</label>
                     <div class="col-lg-10 fv-row row">
                         <label class="col-form-label fw-semibold fs-6">
@@ -472,67 +472,91 @@
                 </div>
 
                 {{-- 현 업종 --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input current_business_type_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">현 업종</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
-                            {{ Lang::get('commons.product_business_type.' . $result->productAddInfo->current_business_type) }}
+                            @if ($result->productAddInfo->current_business_type != '')
+                                {{ Lang::get('commons.product_business_type.' . $result->productAddInfo->current_business_type) }}
+                            @else
+                                선택안함
+                            @endif
                         </label>
                     </div>
                 </div>
 
                 {{-- 추천 업종 --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input recommend_business_type_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">추천 업종</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
-                            {{ Lang::get('commons.product_business_type.' . $result->productAddInfo->recommend_business_type) }}
+                            @if ($result->productAddInfo->recommend_business_type != '')
+                                {{ Lang::get('commons.product_business_type.' . $result->productAddInfo->recommend_business_type) }}
+                            @else
+                                선택안함
+                            @endif
                         </label>
                     </div>
                 </div>
 
                 {{-- 건물 방향 --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input direction_type_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">건물 방향</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
-                            {{ Lang::get('commons.direction_type.' . $result->productAddInfo->direction_type) }}
+                            @if ($result->productAddInfo->direction_type != '')
+                                {{ Lang::get('commons.direction_type.' . $result->productAddInfo->direction_type) }}
+                            @else
+                                선택안함
+                            @endif
                         </label>
                     </div>
                 </div>
 
                 {{-- 냉방 종류 --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input cooling_type_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">냉방 종류</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
-                            {{ Lang::get('commons.cooling_type.' . $result->productAddInfo->cooling_type) }}
+                            @if ($result->productAddInfo->cooling_type != '')
+                                {{ Lang::get('commons.cooling_type.' . $result->productAddInfo->cooling_type) }}
+                            @else
+                                선택안함
+                            @endif
                         </label>
                     </div>
                 </div>
 
                 {{-- 난방 종류 --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input heating_type_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">난방 종류</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
-                            {{ Lang::get('commons.heating_type.' . $result->productAddInfo->heating_type) }}
+                            @if ($result->productAddInfo->heating_type != '')
+                                {{ Lang::get('commons.heating_type.' . $result->productAddInfo->heating_type) }}
+                            @else
+                                선택안함
+                            @endif
                         </label>
                     </div>
                 </div>
 
                 {{-- 하중 (평당) --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input weight_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">하중 (평당)</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
-                            {{ $result->productAddInfo->weight }}톤
+                            @if ($result->productAddInfo->weight != '')
+                                {{ $result->productAddInfo->weight }}톤
+                            @else
+                                -
+                            @endif
                         </label>
                     </div>
                 </div>
 
                 {{-- 승강시설 --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input is_elevator_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">승강시설</label>
                     <div class="col-lg-10 fv-row">
                         <div class="col-lg-10 fv-row">
@@ -544,17 +568,21 @@
                 </div>
 
                 {{-- 화물용 승강시설 --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input is_goods_elevator_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">화물용 승강시설</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
-                            {{ $result->productAddInfo->is_goods_elevator == 0 ? '없음' : '있음' }}
+                            @if ($result->productAddInfo->is_goods_elevator != '')
+                                {{ $result->productAddInfo->is_goods_elevator == 0 ? '없음' : '있음' }}
+                            @else
+                                선택안함
+                            @endif
                         </label>
                     </div>
                 </div>
 
                 {{-- 구조 --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input structure_type_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">구조</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
@@ -570,7 +598,7 @@
                 </div>
 
                 {{-- 빌트인 --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input builtin_type_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">빌트인</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
@@ -586,7 +614,7 @@
                 </div>
 
                 {{-- 인테리어 여부 --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input interior_type_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">인테리어 여부</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
@@ -602,7 +630,7 @@
                 </div>
 
                 {{-- 전입신고 가능 여부 --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input declare_type_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">전입신고 가능 여부</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
@@ -618,7 +646,7 @@
                 </div>
 
                 {{-- 도크 --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input is_dock_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">도크</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
@@ -628,7 +656,7 @@
                 </div>
 
                 {{-- 호이스트 --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input is_hoist_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">호이스트</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
@@ -638,7 +666,7 @@
                 </div>
 
                 {{-- 층고 --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input floor_height_type_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">층고</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
@@ -648,7 +676,7 @@
                 </div>
 
                 {{-- 사용전력 --}}
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input wattage_type_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">사용전력</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
@@ -687,143 +715,151 @@
                     );
                 @endphp
 
-                <div class="row mb-6">
+                <div class="row mb-6 add_info_input is_option_input">
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">옵션 정보</label>
                     <div class="col-lg-10 fv-row">
-                        @if (!empty($facility_options))
-                            <div class="row">
-                                <label class="col-lg-1 col-form-label fw-semibold fs-6">시설</label>
-                                <label class="col-lg-11 col-form-label fw-semibold fs-6">
-                                    {{ implode(', ', array_map(fn($option) => Lang::get('commons.option_facility')[$option], $facility_options)) }}
-                                </label>
-                            </div>
-                        @endif
+                        @if ($result->is_option == 1)
+                            @if (!empty($facility_options))
+                                <div class="row">
+                                    <label class="col-lg-1 col-form-label fw-semibold fs-6">시설</label>
+                                    <label class="col-lg-11 col-form-label fw-semibold fs-6">
+                                        {{ implode(', ', array_map(fn($option) => Lang::get('commons.option_facility')[$option], $facility_options)) }}
+                                    </label>
+                                </div>
+                            @endif
 
-                        @if (!empty($security_options))
-                            <div class="row">
-                                <label class="col-lg-1 col-form-label fw-semibold fs-6">보안</label>
-                                <label class="col-lg-11 col-form-label fw-semibold fs-6">
-                                    {{ implode(', ', array_map(fn($option) => Lang::get('commons.option_security')[$option], $security_options)) }}
-                                </label>
-                            </div>
-                        @endif
+                            @if (!empty($security_options))
+                                <div class="row option_input option_security_input">
+                                    <label class="col-lg-1 col-form-label fw-semibold fs-6">보안</label>
+                                    <label class="col-lg-11 col-form-label fw-semibold fs-6">
+                                        {{ implode(', ', array_map(fn($option) => Lang::get('commons.option_security')[$option], $security_options)) }}
+                                    </label>
+                                </div>
+                            @endif
 
-                        @if (!empty($kitchen_options))
-                            <div class="row">
-                                <label class="col-lg-1 col-form-label fw-semibold fs-6">주방</label>
-                                <label class="col-lg-11 col-form-label fw-semibold fs-6">
-                                    {{ implode(', ', array_map(fn($option) => Lang::get('commons.option_kitchen')[$option], $kitchen_options)) }}
-                                </label>
-                            </div>
-                        @endif
+                            @if (!empty($kitchen_options))
+                                <div class="row option_input option_kitchen_input">
+                                    <label class="col-lg-1 col-form-label fw-semibold fs-6">주방</label>
+                                    <label class="col-lg-11 col-form-label fw-semibold fs-6">
+                                        {{ implode(', ', array_map(fn($option) => Lang::get('commons.option_kitchen')[$option], $kitchen_options)) }}
+                                    </label>
+                                </div>
+                            @endif
 
-                        @if (!empty($home_appliances_options))
-                            <div class="row">
-                                <label class="col-lg-1 col-form-label fw-semibold fs-6">가전</label>
-                                <label class="col-lg-11 col-form-label fw-semibold fs-6">
-                                    {{ implode(', ', array_map(fn($option) => Lang::get('commons.option_home_appliances')[$option], $home_appliances_options)) }}
-                                </label>
-                            </div>
-                        @endif
+                            @if (!empty($home_appliances_options))
+                                <div class="row option_input option_home_appliances_input">
+                                    <label class="col-lg-1 col-form-label fw-semibold fs-6">가전</label>
+                                    <label class="col-lg-11 col-form-label fw-semibold fs-6">
+                                        {{ implode(', ', array_map(fn($option) => Lang::get('commons.option_home_appliances')[$option], $home_appliances_options)) }}
+                                    </label>
+                                </div>
+                            @endif
 
-                        @if (!empty($furniture_options))
-                            <div class="row">
-                                <label class="col-lg-1 col-form-label fw-semibold fs-6">가구</label>
-                                <label class="col-lg-11 col-form-label fw-semibold fs-6">
-                                    {{ implode(', ', array_map(fn($option) => Lang::get('commons.option_furniture')[$option], $furniture_options)) }}
-                                </label>
-                            </div>
-                        @endif
+                            @if (!empty($furniture_options))
+                                <div class="row option_input option_furniture_input">
+                                    <label class="col-lg-1 col-form-label fw-semibold fs-6">가구</label>
+                                    <label class="col-lg-11 col-form-label fw-semibold fs-6">
+                                        {{ implode(', ', array_map(fn($option) => Lang::get('commons.option_furniture')[$option], $furniture_options)) }}
+                                    </label>
+                                </div>
+                            @endif
 
-                        @if (!empty($etc_options))
-                            <div class="row">
-                                <label class="col-lg-1 col-form-label fw-semibold fs-6">기타</label>
-                                <label class="col-lg-11 col-form-label fw-semibold fs-6">
-                                    {{ implode(', ', array_map(fn($option) => Lang::get('commons.option_etc')[$option], $etc_options)) }}
-                                </label>
-                            </div>
+                            @if (!empty($etc_options))
+                                <div class="row option_input option_etc_input">
+                                    <label class="col-lg-1 col-form-label fw-semibold fs-6">기타</label>
+                                    <label class="col-lg-11 col-form-label fw-semibold fs-6">
+                                        {{ implode(', ', array_map(fn($option) => Lang::get('commons.option_etc')[$option], $etc_options)) }}
+                                    </label>
+                                </div>
+                            @endif
+                        @else
+                            <label class="col-form-label fw-semibold fs-6">
+                                없음
+                            </label>
                         @endif
                     </div>
                 </div>
 
 
                 {{-- 국토이용 --}}
-                <div class="row mb-6">
-                    <label class="col-lg-2 col-form-label fw-semibold fs-6">국토이용</label>
-                    <div class="col-lg-10 fv-row">
-                        <label class="col-form-label fw-semibold fs-6">
-                            @if ($result->productAddInfo->land_use_type == 1)
-                                해당
-                            @elseif ($result->productAddInfo->land_use_type == 2)
-                                미해당
-                            @else
-                                선택안함
-                            @endif
-                        </label>
+                <div class="yes_forest add_info_input">
+                    <div class="row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">국토이용</label>
+                        <div class="col-lg-10 fv-row">
+                            <label class="col-form-label fw-semibold fs-6">
+                                @if ($result->productAddInfo->land_use_type == 1)
+                                    해당
+                                @elseif ($result->productAddInfo->land_use_type == 2)
+                                    미해당
+                                @else
+                                    선택안함
+                                @endif
+                            </label>
+                        </div>
                     </div>
-                </div>
 
-                {{-- 도시계획 --}}
-                <div class="row mb-6">
-                    <label class="col-lg-2 col-form-label fw-semibold fs-6">도시계획</label>
-                    <div class="col-lg-10 fv-row">
-                        <label class="col-form-label fw-semibold fs-6">
-                            @if ($result->productAddInfo->city_plan_type == 1)
-                                있음
-                            @elseif ($result->productAddInfo->city_plan_type == 2)
-                                없음
-                            @else
-                                선택안함
-                            @endif
-                        </label>
+                    {{-- 도시계획 --}}
+                    <div class="row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">도시계획</label>
+                        <div class="col-lg-10 fv-row">
+                            <label class="col-form-label fw-semibold fs-6">
+                                @if ($result->productAddInfo->city_plan_type == 1)
+                                    있음
+                                @elseif ($result->productAddInfo->city_plan_type == 2)
+                                    없음
+                                @else
+                                    선택안함
+                                @endif
+                            </label>
+                        </div>
                     </div>
-                </div>
 
-                {{-- 건축허가 --}}
-                <div class="row mb-6">
-                    <label class="col-lg-2 col-form-label fw-semibold fs-6">건축허가</label>
-                    <div class="col-lg-10 fv-row">
-                        <label class="col-form-label fw-semibold fs-6">
-                            @if ($result->productAddInfo->building_permit_type == 1)
-                                발급
-                            @elseif ($result->productAddInfo->building_permit_type == 2)
-                                미발급
-                            @else
-                                선택안함
-                            @endif
-                        </label>
+                    {{-- 건축허가 --}}
+                    <div class="row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">건축허가</label>
+                        <div class="col-lg-10 fv-row">
+                            <label class="col-form-label fw-semibold fs-6">
+                                @if ($result->productAddInfo->building_permit_type == 1)
+                                    발급
+                                @elseif ($result->productAddInfo->building_permit_type == 2)
+                                    미발급
+                                @else
+                                    선택안함
+                                @endif
+                            </label>
+                        </div>
                     </div>
-                </div>
 
-                {{-- 토지거래허가구역 --}}
-                <div class="row mb-6">
-                    <label class="col-lg-2 col-form-label fw-semibold fs-6">토지거래허가구역</label>
-                    <div class="col-lg-10 fv-row">
-                        <label class="col-form-label fw-semibold fs-6">
-                            @if ($result->productAddInfo->land_permit_type == 1)
-                                해당
-                            @elseif ($result->productAddInfo->land_permit_type == 2)
-                                미해당
-                            @else
-                                선택안함
-                            @endif
-                        </label>
+                    {{-- 토지거래허가구역 --}}
+                    <div class="row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">토지거래허가구역</label>
+                        <div class="col-lg-10 fv-row">
+                            <label class="col-form-label fw-semibold fs-6">
+                                @if ($result->productAddInfo->land_permit_type == 1)
+                                    해당
+                                @elseif ($result->productAddInfo->land_permit_type == 2)
+                                    미해당
+                                @else
+                                    선택안함
+                                @endif
+                            </label>
+                        </div>
                     </div>
-                </div>
 
-                {{-- 진입도로 --}}
-                <div class="row mb-6">
-                    <label class="col-lg-2 col-form-label fw-semibold fs-6">진입도로</label>
-                    <div class="col-lg-10 fv-row">
-                        <label class="col-form-label fw-semibold fs-6">
-                            @if ($result->productAddInfo->access_load_type == 1)
-                                있음
-                            @elseif ($result->productAddInfo->access_load_type == 2)
-                                없음
-                            @else
-                                선택안함
-                            @endif
-                        </label>
+                    {{-- 진입도로 --}}
+                    <div class="row mb-6">
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">진입도로</label>
+                        <div class="col-lg-10 fv-row">
+                            <label class="col-form-label fw-semibold fs-6">
+                                @if ($result->productAddInfo->access_load_type == 1)
+                                    있음
+                                @elseif ($result->productAddInfo->access_load_type == 2)
+                                    없음
+                                @else
+                                    선택안함
+                                @endif
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -998,6 +1034,170 @@
                 functionName: 'callJusoroMapApi',
                 params: [rtentX, rtentY]
             }, '*');
+        }
+
+        setting_addInfo({{ $type }})
+
+        // 추가 정보 매물 타입에 따라 세팅하기
+        function setting_addInfo(type) {
+
+            $('.add_info_input').css('display', 'none')
+            $('.option_input').css('display', 'none')
+            $('.option_type').closest('label').css('display', '');
+            $('.no_forest').css('display', '')
+
+
+
+            if ([6, 7].indexOf(parseInt(type)) !== -1) {
+                $('.approve_date_input').css('display', '');
+                $('.building_type_input').css('display', '');
+                $('.move_date_input').css('display', '');
+                $('.service_price_input').css('display', '');
+                $('.approve_date_input').css('display', '');
+                $('.parking_price_input').css('display', '');
+
+                if (type == 6) {
+                    $('.floor_input_1').css('display', 'none');
+                    $('.floor_input_2').css('display', 'none');
+                    $('.area_input_1').css('display', '');
+                    $('.area_input_2').css('display', 'none');
+                    $('.area_input_3').css('display', 'none');
+
+                    $('.no_forest').css('display', 'none');
+
+                } else {
+                    $('.floor_input_1').css('display', 'none');
+                    $('.floor_input_2').css('display', '');
+                    $('.area_input_1').css('display', '');
+                    $('.area_input_2').css('display', '');
+                    $('.area_input_3').css('display', '');
+                }
+            } else {
+                $('.floor_input_1').css('display', '');
+                $('.floor_input_2').css('display', 'none');
+
+                $('.area_text_1').text('공급면적');
+                $('.area_input_1').css('display', '');
+                $('.area_input_2').css('display', 'none');
+                $('.area_input_3').css('display', '');
+            }
+
+
+            if ([0, 1, 2, 4].indexOf(parseInt(type)) !== -1) {
+                // 지식산업센터/사무실/창고
+                $('.direction_type_input').css('display', '');
+                $('.cooling_type_input').css('display', '');
+                $('.heating_type_input').css('display', '');
+                $('.weight_input').css('display', '');
+                $('.is_elevator_input').css('display', '');
+                $('.is_goods_elevator_input').css('display', '');
+                $('.interior_type_input').css('display', '');
+                $('.floor_height_type_input').css('display', '');
+                $('.wattage_type_input').css('display', '');
+                $('.is_option_input').css('display', '');
+
+                // 옵션 구성
+                $('.option_facility_input').css('display', '');
+                $('.option_security_input').css('display', '');
+
+            } else if (type == 3) {
+                //상가
+                $('.current_business_type_input').css('display', '');
+                $('.recommend_business_type_input').css('display', '');
+                $('.direction_type_input').css('display', '');
+                $('.cooling_type_input').css('display', '');
+                $('.heating_type_input').css('display', '');
+                $('.is_elevator_input').css('display', '');
+                $('.is_option_input').css('display', '');
+
+                // 옵션 구성
+                $('.option_facility_input').css('display', '');
+                $('.option_security_input').css('display', '');
+
+            } else if (type == 5) {
+                // 건물
+                $('.direction_type_input').css('display', '');
+                $('.cooling_type_input').css('display', '');
+                $('.heating_type_input').css('display', '');
+                $('.is_elevator_input').css('display', '');
+                $('.is_option_input').css('display', '');
+
+                // 옵션 구성
+                $('.option_facility_input').css('display', '');
+                $('.option_security_input').css('display', '');
+
+            } else if (type == 6) {
+                // 토지/임야
+                $('.yes_forest').css('display', '');
+
+            } else if (type == 7) {
+                // 단독공장
+
+                $('.direction_type_input').css('display', '');
+                $('.cooling_type_input').css('display', '');
+                $('.heating_type_input').css('display', '');
+                $('.recommend_business_type_input').css('display', '');
+                $('.is_elevator_input').css('display', '');
+                $('.is_goods_elevator_input').css('display', '');
+                $('.is_dock_input').css('display', '');
+                $('.is_hoist_input').css('display', '');
+                $('.floor_height_type_input').css('display', '');
+                $('.wattage_type_input').css('display', '');
+                $('.is_option_input').css('display', '');
+
+            } else if ([8, 10, 11, 12, 13].indexOf(parseInt(type)) !== -1) {
+                // 주거용 - 오피스텔 제외
+                $('.bathroom_count_input').css('display', '');
+                $('.direction_type_input').css('display', '');
+                $('.cooling_type_input').css('display', '');
+                $('.heating_type_input').css('display', '');
+                $('.is_elevator_input').css('display', '');
+                $('.is_option_input').css('display', '');
+
+                // 옵션 구성
+                $('.option_kitchen_input').css('display', '');
+                $('.option_home_appliances_input').css('display', '');
+                $('.option_furniture_input').css('display', '');
+                $('.option_etc_input').css('display', '');
+                $('.option_security_input').css('display', '');
+
+            } else if (type == 9) {
+                // 오피스텔
+                $('.bathroom_count_input').css('display', '');
+                $('.direction_type_input').css('display', '');
+                $('.cooling_type_input').css('display', '');
+                $('.heating_type_input').css('display', '');
+                $('.structure_type_input').css('display', '');
+                $('.builtin_type_input').css('display', '');
+                $('.is_elevator_input').css('display', '');
+                $('.declare_type_input').css('display', '');
+                $('.is_option_input').css('display', '');
+
+                // 옵션 구성
+                $('.option_kitchen_input').css('display', '');
+                $('.option_home_appliances_input').css('display', '');
+                $('.option_furniture_input').css('display', '');
+                $('.option_etc_input').css('display', '');
+                $('.option_security_input').css('display', '');
+
+            } else if (type > 13) {
+                // 분양권
+                $('.direction_type_input').css('display', '');
+                $('.cooling_type_input').css('display', '');
+                $('.heating_type_input').css('display', '');
+                $('.weight_input').css('display', '');
+                $('.is_elevator_input').css('display', '');
+                $('.is_goods_elevator_input').css('display', '');
+                $('.interior_type_input').css('display', '');
+                $('.floor_height_type_input').css('display', '');
+                $('.wattage_type_input').css('display', '');
+                $('.is_option_input').css('display', '');
+
+                // 옵션 구성
+                $('.option_facility_input').css('display', '');
+                $('.option_security_input').css('display', '');
+
+            }
         }
     </script>
 
