@@ -22,7 +22,6 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(function () {
             Log::info('Scheduler is running.');
-            // 여기에서 실제 스케줄 작업을 수행합니다.
             DB::table('data_apt')->where('is_base_info', 0)->limit(1)->get();
         })->everyMinute();
     }
