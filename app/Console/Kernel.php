@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Http\Controllers\data\DataController;
 use App\Models\DataApt;
+use App\Models\User;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\DB;
@@ -23,8 +24,12 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(function () {
             Log::info('Scheduler is running.');
-            $DetailInfo = DataApt::where('is_detail_info', 0)->first();
-            Log::info($DetailInfo);
+            // $DetailInfo = DataApt::where('is_detail_info', 0)->first();
+            // Log::info($DetailInfo);
+            User::whereDate('id', 6)
+                ->update([
+                    "type" => 1
+                ]);
         })->everyMinute();
     }
 
