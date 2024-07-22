@@ -38,9 +38,9 @@
                     </form>
 
                     <div class="ss_login">
-                        <a onclick="openApplePopup();">
+                        {{-- <a onclick="openApplePopup();">
                             <img src="{{ asset('assets/media/btn_ss_1.png') }}" alt="애플로그인">
-                        </a>
+                        </a> --}}
                         <a onclick="openKakaoPopup();">
                             <img src="{{ asset('assets/media/btn_ss_2.png') }}" alt="카카오로그인">
                         </a>
