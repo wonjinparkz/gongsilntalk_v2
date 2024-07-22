@@ -24,8 +24,6 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(function () {
             Log::info('Scheduler is running.');
-            // $DetailInfo = DataApt::where('is_detail_info', 0)->first();
-            // Log::info($DetailInfo);
             User::whereDate('id', 6)
                 ->update([
                     "type" => 1
