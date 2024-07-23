@@ -36,20 +36,20 @@
         </div>
 
         <div class="search_open" id="search_open_layer">
-                <div class="search_recent">
-                    <div class="txt_point">최근 검색</div>
-                    <div class="side_search_list">
-                        <div class="side_search_no_row">최그 검색어가 없습니다.</div>
-                        <div class="side_search_list_row"><a href="#">서울시 구로구 구로동</a> <button><img src="{{ asset('assets/media/list_delete.png') }}"></button></div>
-                        <div class="side_search_list_row"><a href="#">서울시 구로구 구로동 735-26 (구로동교회)</a> <button><img src="{{ asset('assets/media/list_delete.png') }}"></button></div>
-                        <div class="side_search_list_row"><a href="#">서울시 구로구 구로동 735-26 (구로동교회)</a> <button><img src="{{ asset('assets/media/list_delete.png') }}"></button></div>
-                        <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 구로동 735-26 (구로동교회)</a></div>
-                        <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 궁동</a></div>
-                        <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 항동</a></div>
-                        <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 고척동</a></div>
-                    </div>
+            <div class="search_recent">
+                <div class="txt_point">최근 검색</div>
+                <div class="side_search_list">
+                    <div class="side_search_no_row">최그 검색어가 없습니다.</div>
+                    <div class="side_search_list_row"><a href="#">서울시 구로구 구로동</a> <button><img src="{{ asset('assets/media/list_delete.png') }}"></button></div>
+                    <div class="side_search_list_row"><a href="#">서울시 구로구 구로동 735-26 (구로동교회)</a> <button><img src="{{ asset('assets/media/list_delete.png') }}"></button></div>
+                    <div class="side_search_list_row"><a href="#">서울시 구로구 구로동 735-26 (구로동교회)</a> <button><img src="{{ asset('assets/media/list_delete.png') }}"></button></div>
+                    <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 구로동 735-26 (구로동교회)</a></div>
+                    <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 궁동</a></div>
+                    <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 항동</a></div>
+                    <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 고척동</a></div>
                 </div>
             </div>
+        </div>
 
         <!-- tab : s -->
         <div class="inner_wrap" id="filterType0">

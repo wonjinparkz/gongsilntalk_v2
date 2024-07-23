@@ -168,7 +168,7 @@
     }
     .min_height{min-height: calc(100vh - 110px);}
     .search_open{background:#fff; width:calc(100% - 32px); min-height:60px; max-height: 200px; border:1px solid #D2D1D0;top:42px; z-index:9; padding: 14px; border-radius: 0 0 5px 5px; left:50%; transform:translateX(-50%);}
-
+    .search_open.main_search_open{top:137px; border:1px solid #F16341;}
     /* map marker */
     .iw_inner p{color:#F16341; line-height: 1.2; font-size: 12px; text-align: left;}
     .iw_inner p span{color:#F16341; font-family: 'font-b'; font-size: 12px;}
