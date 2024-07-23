@@ -51,8 +51,11 @@
                     <div class="item_img">
                         <div class="img_box">
                             <iframe src="https://www.google.com/maps?q={{ $product->address }}&output=embed"
-                                width="428" height="250" style="border:0;" allowfullscreen="" loading="lazy"
+                                 style="border:0;" allowfullscreen="" loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <!-- <iframe src="https://www.google.com/maps?q={{ $product->address }}&output=embed"
+                                width="428" height="250" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe> -->
                         </div>
                     </div>
                 </div>
