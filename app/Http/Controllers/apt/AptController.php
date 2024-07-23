@@ -37,7 +37,13 @@ class AptController extends Controller
      */
     public function aptComplexListView(Request $request): View
     {
-        $aptList = DataApt::select();
+        $aptList = DataApt::with([
+            'BrTitleInfo',
+            'BrRecapTitleInfo',
+            'BrFlrOulnInfo',
+            'BrExposInfo',
+            'BrExposPubuseAreaInfo',
+        ]);
 
         // 검색어
         if (isset($request->kaptName)) {
@@ -66,6 +72,17 @@ class AptController extends Controller
             $apt->transactionsRent_count = $transactionsRent->count();
             $latestTransactionsRent = $transactionsRent->orderByRaw('year DESC, month DESC, day DESC')->first();
             $apt->latest_transactionsRentDate = $latestTransactionsRent ? $latestTransactionsRent->year . '.' . str_pad($latestTransactionsRent->month, 2, '0', STR_PAD_LEFT) . '.' . str_pad($latestTransactionsRent->day, 2, '0', STR_PAD_LEFT) : '-';
+
+
+            $latestInfo = collect([
+                optional($apt->BrTitleInfo)->first(),
+                optional($apt->BrRecapTitleInfo)->first(),
+                optional($apt->BrFlrOulnInfo)->first(),
+                optional($apt->BrExposInfo)->first(),
+                optional($apt->BrExposPubuseAreaInfo)->first(),
+            ])->filter()->sortByDesc('created_at')->first();
+
+            $apt->latestInfo = $latestInfo;
         }
 
         return view('admin.apt.apt-complex-list', compact('result'));

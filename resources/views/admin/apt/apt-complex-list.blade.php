@@ -1,4 +1,5 @@
 <x-admin-layout>
+    @inject('carbon', 'Carbon\Carbon')
 
     {{-- 기본 - 모양 --}}
     <div class="d-flex flex-column flex-column-fluid">
@@ -166,7 +167,11 @@
                                         {{-- 건축물대장 마지막 업데이트일 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                -
+                                                @if ($apt->latestInfo)
+                                                    {{ $carbon::parse($apt->latestInfo->created_at)->format('Y.m.d') }}
+                                                @else
+                                                    -
+                                                @endif
                                             </span>
                                         </td>
 
