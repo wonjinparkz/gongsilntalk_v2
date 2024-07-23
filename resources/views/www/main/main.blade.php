@@ -421,7 +421,7 @@
 
                 {{-- QA-64 디자인 변경 필요 --}}
                 <div class="con_box_wrap">
-                    <a href='https://xn--s39awro00dcgl.com/portfolio'>
+                    <a href='https://xn--s39awro00dcgl.com/portfolio' target="_blank">
                         <button class="btn_black_ghost btn_basic">
                             더 많은 사례 확인하기
                         </button>
