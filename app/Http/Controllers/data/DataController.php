@@ -557,6 +557,7 @@ class DataController extends Controller
 
                         $pnu = $AdmCd . $MtYn . $LnbrMnnm . $LnbrSlno;
 
+                        Log::info('pnu ' . $pnu);
 
                         // 데이터베이스 업데이트
                         $apt->update([
