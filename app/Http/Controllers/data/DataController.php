@@ -499,6 +499,8 @@ class DataController extends Controller
 
         $apt = DataApt::where('is_pnu', 0)->first();
 
+        Log::info('주소 재정의 pnu ' . $apt);
+
         if ($apt == '') {
             return;
         }
@@ -514,7 +516,6 @@ class DataController extends Controller
             'keyword' => $keyword,
         ];
 
-        Log::info('주소 재정의 pnu ', $apt);
 
         $promise = Http::async()->get($domain, $data)->then(
             function (Response $response) use ($apt, $keyword) {
@@ -556,6 +557,7 @@ class DataController extends Controller
 
                         $pnu = $AdmCd . $MtYn . $LnbrMnnm . $LnbrSlno;
 
+                        Log::info('pnu ' . $pnu);
 
                         // 데이터베이스 업데이트
                         $apt->update([
