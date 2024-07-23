@@ -514,7 +514,7 @@ class DataController extends Controller
             'keyword' => $keyword,
         ];
 
-        Log::info('주소 재정의 pnu ', $data);
+        Log::info('주소 재정의 pnu ', $apt);
 
         $promise = Http::async()->get($domain, $data)->then(
             function (Response $response) use ($apt, $keyword) {
