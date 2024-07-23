@@ -350,7 +350,13 @@
 .type_side .detail_tab .swiper-slide.active::after{background:#F16341;}
 .type_side.tab_type_2{height: 58px;}
 .type_side .detail_tab .swiper-slide{height: 58px;}
-
+.search_open{background:#fff; width:438px; min-height:60px; max-height: 200px; border:1px solid #D2D1D0; position:absolute; left:0; top:164px; z-index:9; padding: 14px; box-sizing: border-box; overflow-y: auto;}
+.search_recent{display: flex; flex-direction: column; gap:14px;}
+.side_search_list{display: flex; flex-direction: column; gap:14px; }
+.side_search_list_row{display: flex; justify-content: space-between;}
+.side_search_list_row img{width:14px; height: 14px;}
+.side_search_list_row span{color:#F16341;}
+.side_search_no_row{text-align: center; color:#9D9999}
 
 /* map marker */
 .iw_inner{border: 1px solid #F16341; border-radius:5px 5px 5px 0; background: #F16341; position: relative;}
