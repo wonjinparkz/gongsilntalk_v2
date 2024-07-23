@@ -199,7 +199,19 @@
                     });
                 </script>
 
+
             </div>
+            <div class="cs_bn">
+                <button>
+                    <img src="{{ asset('assets/media/quick_bn_3.png') }}">
+                    <p>상담문의</p>
+                </button>
+                <button onclick="location.href='tel:1600-5734' ">
+                        <img src="{{ asset('assets/media/ic_point_call.png') }}">
+                        <p>1600-5734</p>
+                </button>
+            </div>
+            
         </div>
         <!-- nav : s -->
         <x-nav-layout />
