@@ -51,11 +51,15 @@
     .m_main_bn_3 a p{color: var(--color-gray-2); font-size: 12px; margin-top: 14px;}
     .m_main_bn_3 img{width:12px; vertical-align: middle; margin-top: -5px;}
     .m_main_bn_3 .v_line{width:1px; height:40px; background:#D2D1D0; display: inline-block;}
-    .m_main_bn_4{margin-top: 28px; height: auto !important; margin-bottom:80px; padding-bottom: 30px !important; border-radius: 5px;}
+    .m_main_bn_4{margin-top: 28px; height: auto !important; margin-bottom:0px; padding-bottom: 30px !important; border-radius: 5px;}
     .m_main_bn_4 .swiper-wrapper{height: auto !important; border-radius: 5px;}
     .m_main_bn_4 img{width:100%; }
     .m_main_bn_4 .swiper-pagination-bullet-active{background:var(--main-color) !important;}
     .m_main_bn_4 .swiper-pagination-bullet{background: #D2D1D0; opacity: 1 !important;}
+    .cs_bn{background: #f6f6f6; display: flex; justify-content: space-between; margin-top: 20px; margin-bottom:60px;}
+    .cs_bn button{flex: 1; display: flex; gap: 10px; font-size: 14px; align-items: center; justify-content: center; padding:14px; box-sizing: border-box; position: relative;}
+    .cs_bn button:first-child::after{position: absolute; content: ''; width: 1px; height: 20px; background: #D2D1D0; right: 0;}
+    .cs_bn button img{height: 22px;}
 
     /* 분양현장 */
     .m_sales_filter_wrap{margin-top:66px; display:block;}
