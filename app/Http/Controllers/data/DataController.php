@@ -584,16 +584,18 @@ class DataController extends Controller
     public function getAptPolygon()
     {
 
-        $key = env('V_WORD_KEY'); // 검색API 승인키
+        $key = env('V_WORD_KEY'); // 검색API 승인
         $domain = env('APP_URL'); // 서버 도메인
 
         $Apidomain = "http://api.vworld.kr/ned/wfs/getCtnlgsSpceWFS"; //인터넷망
 
-        $apt = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->whereNull('polygon_coordinates')->first();
+        $apt = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->where('is_polygon_coordinates', 0)->first();
 
         if ($apt == '') {
             return;
         }
+
+        $apt->update(['is_polygon_coordinates' => 1]);
 
         Log::info('폴리곤 아파트 정보 :' . $apt);
 
@@ -673,11 +675,13 @@ class DataController extends Controller
 
         $Apidomain = "https://api.vworld.kr/ned/data/getLandCharacteristics"; //인터넷망
 
-        $apt = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->where('id', 75)->whereNull('characteristics_json')->first();
+        $apt = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->where('is_characteristics', 0)->first();
 
         if ($apt == '') {
             return;
         }
+
+        $apt->update(['is_characteristics' => 1]);
 
         Log::info('토지특성 아파트 정보 :' . $apt);
 
@@ -733,13 +737,15 @@ class DataController extends Controller
 
         $Apidomain = "https://api.vworld.kr/ned/wfs/getLandUseWFS"; //인터넷망
 
-        $apt = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->whereNull('useWFS_json')->first();
+        $apt = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->where('is_useWFS', 0)->first();
 
         if ($apt == null) {
             return;
         }
 
         Log::info('WFS 아파트 정보 :' . $apt);
+
+        $apt->update(['is_useWFS' => 1]);
 
         $data = [
             'maxFeatures' => '10',

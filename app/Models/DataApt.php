@@ -103,8 +103,13 @@ class DataApt extends BaseModel
 
         'is_building_ledger',
 
+        'is_polygon_coordinates',
         'polygon_coordinates',
+
+        'is_characteristics',
         'characteristics_json',
+
+        'is_useWFS',
         'useWFS_json',
     ];
 

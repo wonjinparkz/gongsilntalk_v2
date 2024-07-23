@@ -17,8 +17,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:get-building-ledger')->everyMinute();
         $schedule->command('app:send-siteProduct-alarm')->dailyAt('00:00');
 
-        $schedule->call(function () {
-        })->everyMinute();
+        // $schedule->call(function () {
+        // })->everyMinute();
     }
 
     /**

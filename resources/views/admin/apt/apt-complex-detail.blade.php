@@ -101,15 +101,6 @@
                         </div>
                     </div>
 
-                </div>
-                <!--내용 END-->
-            </x-screen-card>
-
-
-            <x-screen-card :title="'단지 기본 정보'">
-                {{-- 내용 START --}}
-                <div class="card-body border-top p-9">
-
                     {{-- 주변 지하철 정보 --}}
                     <div class="row mb-6">
                         <label class="col-lg-3 col-form-label fw-semibold fs-6">주변 지하철 정보</label>
