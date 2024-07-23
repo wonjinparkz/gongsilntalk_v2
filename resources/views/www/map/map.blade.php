@@ -26,13 +26,13 @@
             </div>
             <div class="map_search_wrap non_pano">
                 <div class="flex_between" onclick="onShowRegionList();">
-                    <input type="text" id="search_input" placeholder="단지명, 동이름, 지하철역으로 검색">
+                    <input type="text" id="search_input" class="map_search" placeholder="단지명, 동이름, 지하철역으로 검색">
                     <img src="{{ asset('assets/media/btn_solid_delete.png') }}" alt="del" class="btn_del">
                     <button><img src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button>
                 </div>
             </div>
 
-            <div class="search_open">
+            <div class="search_open" id="search_open_layer">
                 <div class="search_recent">
                     <div class="txt_point">최근 검색</div>
                     <div class="side_search_list">
@@ -47,6 +47,8 @@
                     </div>
                 </div>
             </div>
+
+            
 
             {{-- 검색어 리스트 나와야하는 부분 --}}
             {{-- <div class="flex_between dropdown_search" style="display:;" id="searchList">
