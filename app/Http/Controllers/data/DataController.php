@@ -791,13 +791,6 @@ class DataController extends Controller
 
         $apt = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')
             ->where('is_building_ledger', 0)
-            ->where(function ($query) {
-                $query->whereDoesntHave('BrTitleInfo')
-                    ->orWhereDoesntHave('BrRecapTitleInfo')
-                    ->orWhereDoesntHave('BrFlrOulnInfo')
-                    ->orWhereDoesntHave('BrExposInfo')
-                    ->orWhereDoesntHave('BrExposPubuseAreaInfo');
-            })
             ->first();
 
         if ($apt == '') {
