@@ -1,7 +1,7 @@
 <x-admin-layout>
     {{-- FORM START  --}}
     <div class="app-container container-xxl">
-        <form class="form" method="POST" action="{{ route('admin.apt.complex.update') }}">
+        <form class="form" id="update_form" method="POST" action="{{ route('admin.apt.complex.update') }}">
             @csrf
             <input type="hidden" name="id" value="{{ $result->id }}" />
             <input type="hidden" name="lasturl" value="{{ URL::previous() }}">
@@ -17,8 +17,9 @@
                     <div class="row mb-6">
                         <label class="col-lg-3 col-form-label fw-semibold fs-6">PNU</label>
                         <div class="col-lg-8 fv-row">
-                            <input type="text" disabled class="form-control form-control-solid" placeholder="PNU"
-                                value="{{ $result->pnu }}" />
+                            <input type="text" id="pnu" name="pnu" readonly
+                                class="form-control form-control-solid" placeholder="PNU"
+                                value="{{ old('pnu') ? old('pnu') : $result->pnu }}" />
                         </div>
                     </div>
 
@@ -96,9 +97,21 @@
                             <a onclick="getAddress()" class="btn btn-outline"
                                 style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; margin-bottom: 5px;">
                                 주소 검색 </a>
-                            <span class="fw-bolder">{{ $result->kaptAddr }}</span>
-                            <input type="hidden" name="address_lat" id="address_lat" value="{{ $result->y }}">
+                            <input type="text" name="kaptAddr" id="kaptAddr" class="form-control form-control-solid"
+                                placeholder="주소" value="{{ old('kaptAddr') ? old('kaptAddr') : $result->kaptAddr }}"
+                                readonly />
+                            <input type="hidden" name="address_lat" id="address_lat"
+                                value="{{ old('address_lat') ? old('address_lat') : $result->y }}">
                             <input type="hidden" name="address_lng" id="address_lng" value="{{ $result->x }}">
+                            <input type="hidden" name="polygon_coordinates" id="polygon_coordinates"
+                                class="form-control form-control-solid " readonly placeholder=""
+                                value="{{ old('polygon_coordinates') ? old('polygon_coordinates') : $result->polygon_coordinates }}" />
+                            <input type="hidden" name="characteristics_json" id="characteristics_json"
+                                class="form-control form-control-solid " readonly placeholder=""
+                                value="{{ old('characteristics_json') ? old('characteristics_json') : $result->characteristics_json }}" />
+                            <input type="hidden" name="useWFS_json" id="useWFS_json"
+                                class="form-control form-control-solid " readonly placeholder=""
+                                value="{{ old('useWFS_json') ? old('useWFS_json') : $result->useWFS_json }}" />
                             <div class="mb-6"
                                 style="border: 1px solid #D2D1D0; border-radius: 5px; display: flex; align-items: center; color:#D2D1D0; justify-content:center; text-align: center; line-height: 1.4; height: 500px; margin-top:18px; position: relative;">
                                 <div id="is_temporary_0"
@@ -120,7 +133,8 @@
                             <div class="col-lg-4">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon2">역 명</span>
-                                    <input type="text" name="subwayStation" class="form-control" placeholder="역 명"
+                                    <input type="text" name="subwayStation" class="form-control"
+                                        placeholder="역 명"
                                         value="{{ old('subwayStation') ? old('subwayStation') : $result->subwayStation }}" />
                                 </div>
                             </div>
@@ -229,7 +243,7 @@
 
         {{-- Footer Bottom START --}}
         <div class="card-footer d-flex justify-content-end py-6 px-9">
-            <button type="submit" class="btn btn-primary">수정</button>
+            <button type="button" class="btn btn-primary" onclick="$('#update_form').submit();">수정</button>
         </div>
         {{-- Footer END --}}
 
@@ -351,8 +365,12 @@
 
             $('input[name=address_lng]').val(wgs84Coords[0]);
             $('input[name=address_lat]').val(wgs84Coords[1]);
+            $('input[name="kaptAddr"]').val(rtJibunAddr);
 
-            callJusoroMapApiType1(rtentX, rtentY);
+            if (rtentX && rtentY) {
+                $('#is_temporary_0').show()
+                callJusoroMapApiType1(rtentX, rtentY);
+            }
 
             $('input[name=pnu]').val(pnu);
             setTimeout(function() {}, 1000);

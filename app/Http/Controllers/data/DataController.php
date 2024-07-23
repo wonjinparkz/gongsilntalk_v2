@@ -39,7 +39,7 @@ class DataController extends Controller
 
         $param = [
             'serviceKey' => env('ENCODING_API_DATE_KEY'),
-            'numOfRows' => '100000',
+            'numOfRows' => '300000',
             ''
         ];
 
@@ -73,6 +73,8 @@ class DataController extends Controller
             }
         );
         $promise->wait();
+
+        return back()->with('message', '아파트 단지를 불러왔습니다.');
     }
 
     public function getAptBaseInfo()

@@ -116,7 +116,18 @@ class AptController extends Controller
 
         $result = DataApt::where('id', $request->id)
             ->update([
+                'is_pnu' => $request->pnu > 0 ? 1 : 0,
+                'pnu' => $request->pnu,
+                'is_polygon_coordinates' => $request->polygon_coordinates != '' ? 1 : 0,
+                'polygon_coordinates' => $request->polygon_coordinates,
+                'is_characteristics' => $request->characteristics_json != '' ? 1 : 0,
+                'characteristics_json' => $request->characteristics_json,
+                'is_useWFS' => $request->useWFS_json != '' ? 1 : 0,
+                'useWFS_json' => $request->useWFS_json,
+                'x' => $request->address_lng,
+                'y' => $request->address_lat,
                 'kaptName' => $request->kaptName,
+                'kaptAddr' => $request->kaptAddr,
                 'subwayStation' => $request->subwayStation,
                 'subwayLine' => $request->subwayLine,
                 'kaptdWtimesub' => $request->kaptdWtimesub,
