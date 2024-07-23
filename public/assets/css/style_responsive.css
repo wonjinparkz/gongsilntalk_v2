@@ -57,7 +57,8 @@
     .m_main_bn_4 .swiper-pagination-bullet-active{background:var(--main-color) !important;}
     .m_main_bn_4 .swiper-pagination-bullet{background: #D2D1D0; opacity: 1 !important;}
     .cs_bn{background: #f6f6f6; display: flex; justify-content: space-between; margin-top: 20px; margin-bottom:60px;}
-    .cs_bn button{flex: 1; display: flex; gap: 10px; font-size: 14px; align-items: center; justify-content: center; padding:14px; box-sizing: border-box;}
+    .cs_bn button{flex: 1; display: flex; gap: 10px; font-size: 14px; align-items: center; justify-content: center; padding:14px; box-sizing: border-box; position: relative;}
+    .cs_bn button:first-child::after{position: absolute; content: ''; width: 1px; height: 20px; background: #D2D1D0; right: 0;}
     .cs_bn button img{height: 22px;}
 
     /* 분양현장 */
