@@ -367,41 +367,53 @@
                     </div>
                     <div class="con_box_wrap">
                         <div class="con_box">
-                            <p class="box_item_1">오피스 인테리어</p>
-                            <div class="box_item_2">기업의 규모와 관계 없이 무료 3D도면을 제공<br>드리며, 회사의 정체성을 담은 완성도 높고<br>책임감 있는 설계와
-                                공사를 진행합니다.</div>
-                            <div class="tag_area">
-                                <span class="txt_tag">#무료 3D도면 제공</span>
+                            <img src="{{ asset('assets/media/cst_img_1.png') }}" alt="">
+                            <div class="con_w_box">
+                                <p class="box_item_1">오피스 인테리어</p>
+                                <div class="box_item_2">기업의 규모와 관계 없이 무료 3D도면을 제공<br>드리며, 회사의 정체성을 담은 완성도 높고<br>책임감 있는 설계와
+                                    공사를 진행합니다.</div>
+                                <div class="tag_area">
+                                    <span class="txt_tag">#무료 3D도면 제공</span>
+                                </div>
+                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=66C5Dz078" target="_blank">
+                                    <button>자세히보기</button>
+                                </a>
                             </div>
-                            <a href="https://xn--s39awro00dcgl.com/portfolio?category=66C5Dz078" target="_blank">
-                                <button>자세히보기</button>
-                            </a>
+
+                            
                         </div>
 
                         <div class="con_box">
-                            <p class="box_item_1">퍼시스 가구</p>
-                            <div class="box_item_2">국내 사무가구 1위 브랜드, 퍼시스(FURSYS)<br>가구와 모든 서비스를 합리적인 단가로 제공<br>받으실 수
-                                있습니다.</div>
-                            <div class="tag_area">
-                                <span class="txt_tag">#퍼시스 가구</span>
-                                <span class="txt_tag">#합리적인 가격</span>
+                            <img src="{{ asset('assets/media/cst_img_2.png') }}" alt="">
+                            <div class="con_w_box">
+                                <p class="box_item_1">퍼시스 가구</p>
+                                <div class="box_item_2">국내 사무가구 1위 브랜드, 퍼시스(FURSYS)<br>가구와 모든 서비스를 합리적인 단가로 제공<br>받으실 수
+                                    있습니다.</div>
+                                <div class="tag_area">
+                                    <span class="txt_tag">#퍼시스 가구</span>
+                                    <span class="txt_tag">#합리적인 가격</span>
+                                </div>
+                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=54K087K540" target="_blank">
+                                    <button>자세히보기</button>
+                                </a>
                             </div>
-                            <a href="https://xn--s39awro00dcgl.com/portfolio?category=54K087K540" target="_blank">
-                                <button>자세히보기</button>
-                            </a>
                         </div>
 
                         <div class="con_box">
-                            <p class="box_item_1">데스커 가구</p>
-                            <div class="box_item_2">본질에 집중하고, 깔끔한 디자인의 데스커<br>(DESKER)입니다. 데스커 기업전용 서비스를<br>데스커 공식
-                                에이트에게 받으실 수 있습니다.</div>
-                            <div class="tag_area">
-                                <span class="txt_tag">#데스커 가구</span>
-                                <span class="txt_tag">#기업전용 서비스</span>
+                            <img src="{{ asset('assets/media/cst_img_3.png') }}" alt="">
+                            <div class="con_w_box">
+                                <p class="box_item_1">데스커 가구</p>
+                                <div class="box_item_2">본질에 집중하고, 깔끔한 디자인의 데스커<br>(DESKER)입니다. 데스커 기업전용 서비스를<br>데스커 공식
+                                    에이트에게 받으실 수 있습니다.</div>
+                                <div class="tag_area">
+                                    <span class="txt_tag">#데스커 가구</span>
+                                    <span class="txt_tag">#기업전용 서비스</span>
+                                </div>
+                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=726406uT5e" target="_blank">
+                                    <button>자세히보기</button>
+                                </a>
                             </div>
-                            <a href="https://xn--s39awro00dcgl.com/portfolio?category=726406uT5e" target="_blank">
-                                <button>자세히보기</button>
-                            </a>
+                            
                         </div>
                     </div>
                 </div>
