@@ -553,6 +553,11 @@ class DataController extends Controller
                                     $LnbrMnnm = str_pad((string)$jusoArray[1]['lnbrMnnm'], 4, '0', STR_PAD_LEFT);
                                     $LnbrSlno = str_pad((string)$jusoArray[1]['lnbrSlno'], 4, '0', STR_PAD_LEFT);
                                 }
+                        } else {
+                            $AdmCd = (string)$jusoArray[0]['admCd'];
+                            $MtYn = $jusoArray[0]['mtYn'] == '0' ? '1' : '2';
+                            $LnbrMnnm = str_pad((string)$jusoArray[0]['lnbrMnnm'], 4, '0', STR_PAD_LEFT);
+                            $LnbrSlno = str_pad((string)$jusoArray[0]['lnbrSlno'], 4, '0', STR_PAD_LEFT);
                         }
 
                         $pnu = $AdmCd . $MtYn . $LnbrMnnm . $LnbrSlno;
