@@ -208,6 +208,26 @@
 
         <!---------------------------------- only pc : s ---------------------------------->
         <div class="only_pc">
+            <div class="right_side_wrap">
+                <div class="right_side">
+                    <button class="quick_bn" onclick="location.href='{{ route('www.product.create.view') }}' ">
+                        <img src="{{ asset('assets/media/ic_org_estate.png') }}">
+                        <p>매물 내놓기</p>
+                    </button>
+                    <button class="quick_bn" onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}' ">
+                        <img src="{{ asset('assets/media/btn_point_search.png') }}">
+                        <p>매물 구하기</p>
+                    </button>
+                    <button class="quick_bn">
+                        <img src="{{ asset('assets/media/quick_bn_3.png') }}">
+                        <p>상담문의</p>
+                    </button>
+                    <button class="quick_bn" onclick="location.href='tel:1600-5734' ">
+                        <img src="{{ asset('assets/media/ic_point_call.png') }}">
+                        <p>1600-5734</p>
+                    </button>
+                </div>
+            </div>
             <!-- section 1 : s -->
             <section class="section_1">
                 <div class="swiper main_1">
