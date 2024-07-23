@@ -503,7 +503,7 @@
 
 
             <!-- section 6 : s -->
-            <section class="section_review">
+            <!-- <section class="section_review">
                 {{-- <p class="txt_item_1">기업이 인정하는 공실앤톡</p> --}}
                 <div class="swiper reviewSwiper" dir="ltr">
                     <div class="swiper-wrapper">
@@ -585,9 +585,8 @@
                         </div>
                         <div class="swiper-slide">Slide 8</div>
                     </div>
-                    <!-- <div class="swiper-pagination"></div> -->
                 </div>
-            </section>
+            </section> -->
             <script>
                 var reviewSwiper = new Swiper(".reviewSwiper", {
                     spaceBetween: 22,
