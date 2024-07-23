@@ -832,6 +832,7 @@ a.btn_like{background: url('../images/btn_like_off.png') no-repeat; background-s
 .type_1_page h3{font-size: 20px; background:#FAFAFA; border: 1px solid #EDEDED; margin-top:80px; text-align: center; padding: 14px;}
 .proposal_type_item .item_wrap{display: flex; justify-content: space-between; gap:28px; margin-top: 60px;}
 .proposal_type_item .item_wrap .item_img{width:428px; height: 293px; margin-top:14px;}
+.proposal_type_item .item_wrap .item_img iframe{width:428px; height: 293px;}
 .proposal_type_item .item_wrap h5{font-size: 18px;}
 .proposal_type_item .item_2_wrap{display: grid; grid-template-columns:repeat(2, 1fr); gap: 28px; margin-top: 60px;}
 .proposal_type_item .item_3_wrap{display: grid; grid-template-columns:repeat(2, 1fr); gap:28px; grid-row-gap:28px; width: 786px; margin:80px auto 0;}
