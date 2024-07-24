@@ -265,6 +265,46 @@
             {{-- FORM END --}}
         </x-screen-card>
 
+        <x-screen-card :title="'앱 다운로드'">
+            {{-- FORM START  --}}
+            <form class="form" method="POST" action="{{ route('admin.app.download.service.create') }}">
+                @csrf
+
+                {{-- 내용 START --}}
+                <div class="card-body border-top p-9">
+
+                    {{-- 이미지  --}}
+                    <x-admin-image-picker :title="'서비스 이미지'" id="app_download_service" cnt="1" required="required"
+                        :images="$app_download->images ?? []" />
+
+                    {{-- 노출여부 --}}
+                    <div class="row mb-6">
+                        <label class="required col-lg-4 col-form-label fw-semibold fs-6">노출여부</label>
+                        <div class="col-lg-2 d-flex align-items-center">
+                            @php
+                                $isBlind = old('app_download_is_blind') ? old('app_download_is_blind') : $app_download->is_blind ?? 0;
+                            @endphp
+                            <select name="app_download_is_blind" class="form-select form-select-solid" data-control="select2"
+                                data-hide-search="true">
+                                <option value="0" @if ($isBlind == 0) selected @endif>노출</option>
+                                <option value="1" @if ($isBlind == 1) selected @endif>미노출</option>
+                            </select>
+                        </div>
+                        <x-input-error class="mt-2 text-danger" :messages="$errors->get('app_download_is_blind')" />
+                    </div>
+
+                </div>
+
+                <!--내용 END-->
+                {{-- Footer Bottom START --}}
+                <div class="card-footer d-flex justify-content-end py-6 px-9">
+                    <button type="submit" class="btn btn-primary">저장</button>
+                </div>
+                {{-- Footer END --}}
+            </form>
+            {{-- FORM END --}}
+        </x-screen-card>
+
     </div>
 
     {{--

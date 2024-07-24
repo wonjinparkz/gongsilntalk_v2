@@ -89,8 +89,12 @@ class ServiceController extends Controller
             ->select()
             ->where('type', 4)
             ->first();
+        $app_download = Service::with('images')
+            ->select()
+            ->where('type', 5)
+            ->first();
 
-        return view('admin.service.service_extra-list', compact('recommend', 'property', 'asset', 'arithmometer'));
+        return view('admin.service.service_extra-list', compact('recommend', 'property', 'asset', 'arithmometer', 'app_download'));
     }
 
     /**
@@ -396,5 +400,42 @@ class ServiceController extends Controller
         $this->imageWithEdit($request->arithmometer_service_image_ids, Service::class, $result->id);
 
         return Redirect::route('admin.extra.service.list.view')->with('message', '수익률 계산기를 저장했습니다.');
+    }
+
+    /**
+     *
+     * 앱 다운로드 이미지 서비스 등록
+     */
+    public function appDownloadServiceCreate(Request $request): RedirectResponse
+    {
+        // 유효성 검사
+        $validator = Validator::make($request->all(), [
+            'app_download_service_image_ids' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $service = Service::where('type', 5)->first();
+        if ($service) {
+            $service->delete();
+        }
+
+        // DB 추가
+        $result = Service::create([
+            'admins_id' => Auth::guard('admin')->user()->id,
+            'type' => 5,
+            'name' => '앱 다운로드',
+            'title' => '앱 다운로드',
+            'content' => '앱 다운로드',
+            'is_blind' => $request->app_download_is_blind,
+        ]);
+
+        $this->imageWithEdit($request->app_download_service_image_ids, Service::class, $result->id);
+
+        return Redirect::route('admin.extra.service.list.view')->with('message', '앱 다운로드를 저장했습니다.');
     }
 }

@@ -278,6 +278,7 @@ Route::middleware('admin.auth')->controller(ServiceController::class)->group(fun
     Route::post('/property/service/create', 'propertyServiceCreate')->name('admin.property.service.create');
     Route::post('/asset/service/create', 'assetServiceCreate')->name('admin.asset.service.create');
     Route::post('/arithmometer/service/create', 'arithmometerServiceCreate')->name('admin.arithmometer.service.create');
+    Route::post('/app/download/service/create', 'appDownloadServiceCreate')->name('admin.app.download.service.create');
 
     // 메인서비스 이벤트
     Route::post('/service/extra/update', 'serviceUpdate')->name('admin.service.update');

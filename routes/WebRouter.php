@@ -8,6 +8,7 @@ use App\Http\Controllers\commons\PopupOpenController;
 use App\Http\Controllers\commons\SiteProductAlarmPcController;
 use App\Http\Controllers\commons\VerificationController;
 use App\Http\Controllers\community\CommunityPcController;
+use App\Http\Controllers\consulting\ConsultingPcController;
 use App\Http\Controllers\interior\InteriorEstimatePcController;
 use App\Http\Controllers\main\MainPcController;
 use App\Http\Controllers\map\MapPcController;
@@ -46,6 +47,14 @@ use Illuminate\Support\Facades\Route;
 Route::controller(MainPcController::class)->group(function () {
     Route::get('/', 'mainView')->name('www.main.main');
     // Route::get('/main/search', 'mainSearch')->name('www.main.search');
+});
+
+/**
+ * 상담 문의
+ */
+Route::controller(ConsultingPcController::class)->group(function () {
+    Route::get('/consulting/create/view', 'cosultingCreateView')->name('www.consulting.create.view');
+    Route::post('/consulting/create', 'cosultingCreate')->name('www.consulting.create');
 });
 
 /**

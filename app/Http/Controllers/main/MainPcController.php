@@ -29,12 +29,18 @@ class MainPcController extends Controller
         // type 서비스 타입 - 1: 추천 분양현장, 2:실시간 매물지도, 3: 내 자산관리, 4: 수익률 계산기
         $banner_extra_service = Service::with('images')->where('is_blind', 0)->whereIn('type', [1, 2, 3, 4])->orderBy('order')->get();
 
+        $app_download = Service::with('images')
+            ->select()
+            ->where('is_blind', 0)
+            ->where('type', 5)
+            ->first();
+
         // 시작팝업 이미지
         $popups = Popups::with('images')
             ->where('is_blind', 0)
             ->orderBy('order')
             ->get();
 
-        return view('www.main.main', compact('banner_main', 'banner_service', 'banner_text', 'banner_extra_service', 'popups'));
+        return view('www.main.main', compact('banner_main', 'banner_service', 'banner_text', 'banner_extra_service', 'popups', 'app_download'));
     }
 }

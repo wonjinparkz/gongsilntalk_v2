@@ -144,10 +144,16 @@
                         <div class="txt_point">최근 검색</div>
                         <div class="side_search_list">
                             <div class="side_search_no_row">최그 검색어가 없습니다.</div>
-                            <div class="side_search_list_row"><a href="#">서울시 구로구 구로동</a> <button><img src="{{ asset('assets/media/list_delete.png') }}"></button></div>
-                            <div class="side_search_list_row"><a href="#">서울시 구로구 구로동 735-26 (구로동교회)</a> <button><img src="{{ asset('assets/media/list_delete.png') }}"></button></div>
-                            <div class="side_search_list_row"><a href="#">서울시 구로구 구로동 735-26 (구로동교회)</a> <button><img src="{{ asset('assets/media/list_delete.png') }}"></button></div>
-                            <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 구로동 735-26 (구로동교회)</a></div>
+                            <div class="side_search_list_row"><a href="#">서울시 구로구 구로동</a> <button><img
+                                        src="{{ asset('assets/media/list_delete.png') }}"></button></div>
+                            <div class="side_search_list_row"><a href="#">서울시 구로구 구로동 735-26 (구로동교회)</a>
+                                <button><img src="{{ asset('assets/media/list_delete.png') }}"></button>
+                            </div>
+                            <div class="side_search_list_row"><a href="#">서울시 구로구 구로동 735-26 (구로동교회)</a>
+                                <button><img src="{{ asset('assets/media/list_delete.png') }}"></button>
+                            </div>
+                            <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 구로동 735-26
+                                    (구로동교회)</a></div>
                             <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 궁동</a></div>
                             <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 항동</a></div>
                             <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 고척동</a></div>
@@ -202,16 +208,18 @@
 
             </div>
             <div class="cs_bn">
-                <button>
-                    <img src="{{ asset('assets/media/quick_bn_3.png') }}">
-                    <p>상담문의</p>
-                </button>
+                <a href="{{ route('www.consulting.create.view') }}">
+                    <button>
+                        <img src="{{ asset('assets/media/quick_bn_3.png') }}">
+                        <p>상담문의</p>
+                    </button>
+                </a>
                 <button onclick="location.href='tel:1600-5734' ">
-                        <img src="{{ asset('assets/media/ic_point_call.png') }}">
-                        <p>1600-5734</p>
+                    <img src="{{ asset('assets/media/ic_point_call.png') }}">
+                    <p>1600-5734</p>
                 </button>
             </div>
-            
+
         </div>
         <!-- nav : s -->
         <x-nav-layout />
@@ -226,14 +234,17 @@
                         <img src="{{ asset('assets/media/ic_org_estate.png') }}">
                         <p>매물 내놓기</p>
                     </button>
-                    <button class="quick_bn" onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}' ">
+                    <button class="quick_bn"
+                        onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}' ">
                         <img src="{{ asset('assets/media/btn_point_search.png') }}">
                         <p>매물 구하기</p>
                     </button>
-                    <button class="quick_bn">
-                        <img src="{{ asset('assets/media/quick_bn_3.png') }}">
-                        <p>상담문의</p>
-                    </button>
+                    <a href="{{ route('www.consulting.create.view') }}">
+                        <button class="quick_bn">
+                            <img src="{{ asset('assets/media/quick_bn_3.png') }}">
+                            <p>상담문의</p>
+                        </button>
+                    </a>
                     <button class="quick_bn" onclick="location.href='tel:1600-5734' ">
                         <img src="{{ asset('assets/media/ic_point_call.png') }}">
                         <p>1600-5734</p>
@@ -402,7 +413,8 @@
                             <img src="{{ asset('assets/media/cst_img_1.png') }}" alt="">
                             <div class="con_w_box">
                                 <p class="box_item_1">오피스 인테리어</p>
-                                <div class="box_item_2">기업의 규모와 관계 없이 무료 3D도면을 제공<br>드리며, 회사의 정체성을 담은 완성도 높고<br>책임감 있는 설계와
+                                <div class="box_item_2">기업의 규모와 관계 없이 무료 3D도면을 제공<br>드리며, 회사의 정체성을 담은 완성도 높고<br>책임감 있는
+                                    설계와
                                     공사를 진행합니다.</div>
                                 <div class="tag_area">
                                     <span class="txt_tag">#무료 3D도면 제공</span>
@@ -412,7 +424,7 @@
                                 </a>
                             </div>
 
-                            
+
                         </div>
 
                         <div class="con_box">
@@ -445,7 +457,7 @@
                                     <button>자세히보기</button>
                                 </a>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -700,24 +712,27 @@
 
 
             <!-- section 8 : s -->
-            <section class="section_download">
-                <div class="inner_wrap">
-                    <div class="main_download_wrap">
-                        <div class="download_info_wrap">
-                            <p class="txt_item_1">더욱 편리하게<br>앱을 이용해보세요.</p>
-                            <p class="txt_item_2">언제 어디서나 공실앤톡을 이용해 보세요.</p>
-                            <div class="main_download_btn">
-                                <button class="btn_point btn_basic"><img
-                                        src="{{ asset('assets/media/ic_download_aos.png') }}">안드로이드</button>
-                                <button class="btn_point btn_basic"><img
-                                        src="{{ asset('assets/media/ic_download_ios.png') }}">아이폰</button>
+            @if ($app_download)
+                <section class="section_download">
+                    <div class="inner_wrap">
+                        <div class="main_download_wrap">
+                            <div class="download_info_wrap">
+                                <p class="txt_item_1">더욱 편리하게<br>앱을 이용해보세요.</p>
+                                <p class="txt_item_2">언제 어디서나 공실앤톡을 이용해 보세요.</p>
+                                <div class="main_download_btn">
+                                    <button class="btn_point btn_basic"><img
+                                            src="{{ asset('assets/media/ic_download_aos.png') }}">안드로이드</button>
+                                    <button class="btn_point btn_basic"><img
+                                            src="{{ asset('assets/media/ic_download_ios.png') }}">아이폰</button>
+                                </div>
+                            </div>
+                            <div><img src="{{ Storage::url('image/' . $app_download->images[0]->path) }}"
+                                    class="download_img">
                             </div>
                         </div>
-                        <div><img src="{{ asset('assets/media/section_img_download.png') }}" class="download_img">
-                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            @endif
             <!-- section 8 : e -->
 
 
