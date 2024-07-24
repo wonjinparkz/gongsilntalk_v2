@@ -49,90 +49,94 @@
 <!-- modal 추가정보 입력 : s-->
 @guest
 @else
-    <form class="form" id="form" name="form" method="POST" action="{{ route('www.sns.addinfo.create') }}">
-        @csrf
-        <div class="modal modal_mid modal_add_info">
-            <div class="modal_title">
-                <h5>회원 추가정보 입력</h5>
-                <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close"
-                    onclick="modal_close('add_info')">
+    @if (Auth::guard('web')->user()->phone == null)
+        <form class="form" id="form" name="form" method="POST" action="{{ route('www.sns.addinfo.create') }}">
+            @csrf
+            <div class="modal modal_mid modal_add_info">
+                <div class="modal_title">
+                    <h5>회원 추가정보 입력</h5>
+                    <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close"
+                        onclick="modal_close('add_info')">
+                </div>
+                <div class="modal_container">
+                    <div class="gray_basic txt_lh_1">
+                        <span class="txt_point">공실앤톡의 모든 기능을 사용하기 위해서는 <br>
+                            아래의 추가 정보가 필요합니다.</span>
+                    </div>
+                    <ul class="login_wrap reg_bascic mt20">
+                        <li>
+                            <label>닉네임<span class="txt_point">*</span></label>
+                            <input type="text" name="nickname" id="nickname" placeholder="2~8 특수문자를 제외한 글자">
+                            <input type="hidden" id="name" name="name" value='{{ old('name') ?? '' }}'>
+                            <input type="hidden" id="phone" name="phone" value='{{ old('phone') ?? '' }}'>
+                            <input type="hidden" id="birth" name="birth" value='{{ old('birth') ?? '' }}'>
+                            <input type="hidden" id="gender" name="gender" value='{{ old('gender') ?? '' }}'>
+                        </li>
+                    </ul>
+                    <div class="mt50">
+                        <label>본인인증<span class="txt_point">*</span></label>
+                        <button type="button" class="btn_black_ghost btn_full_basic" id="confirm"
+                            onclick="verificationstart()"><b>본인인증</b></button>
+                    </div>
+                    <div class="mt50">
+                        <button type="button" class="btn_point btn_full_basic" onclick="add_info()">
+                            <b>입력 완료</b>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="modal_container">
-                <div class="gray_basic txt_lh_1">
-                    <span class="txt_point">공실앤톡의 모든 기능을 사용하기 위해서는 <br>
-                        아래의 추가 정보가 필요합니다.</span>
-                </div>
-                <ul class="login_wrap reg_bascic mt20">
-                    <li>
-                        <label>닉네임<span class="txt_point">*</span></label>
-                        <input type="text" name="nickname" id="nickname" placeholder="2~8 특수문자를 제외한 글자">
-                        <input type="hidden" id="name" name="name" value='{{ old('name') ?? '' }}'>
-                        <input type="hidden" id="phone" name="phone" value='{{ old('phone') ?? '' }}'>
-                        <input type="hidden" id="birth" name="birth" value='{{ old('birth') ?? '' }}'>
-                        <input type="hidden" id="gender" name="gender" value='{{ old('gender') ?? '' }}'>
-                    </li>
-                </ul>
-                <div class="mt50">
-                    <label>본인인증<span class="txt_point">*</span></label>
-                    <button type="button" class="btn_black_ghost btn_full_basic" id="confirm"
-                        onclick="verificationstart()"><b>본인인증</b></button>
-                </div>
-                <div class="mt50">
-                    <button type="button" class="btn_point btn_full_basic" onclick="add_info()">
-                        <b>입력 완료</b>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="md_overlay md_overlay_add_info" onclick="modal_close('add_info')"></div>
-        <!-- modal 추가정보 입력 : e-->
-    </form>
-    <!-- header : e -->
+            <div class="md_overlay md_overlay_add_info" onclick="modal_close('add_info')"></div>
+            <!-- modal 추가정보 입력 : e-->
+        </form>
+        <!-- header : e -->
+    @endif
 @endguest
 
 <script>
     // 본인인증 모듈 실행
     @guest
     @else
-        function verificationstart() {
+        @if (Auth::guard('web')->user()->phone == null)
+            function verificationstart() {
 
-            IMP.init("{{ env('IMP_CODE') }}");
-            IMP.certification({ // param
-                // 주문 번호
-                // pg: 'PG사코드.{CPID}', //본인인증 설정이 2개이상 되어 있는 경우 필
-                merchant_uid: "MIIiasTest",
-                popup: true
-            }, function(rsp) { // callback
-                if (rsp.success) { // 인증 성공
-                    console.log(rsp);
-                    jQuery.ajax({
-                            url: "{{ route('www.verification.result') }}",
-                            method: "get",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            data: {
-                                imp_uid: rsp.imp_uid,
-                                success: rsp.success,
-                                merchant_uid: rsp.merchant_uid,
-                            }
-                        }).done(function(data) {
-                            // console.log(json_decode(data));
-                            // console.log();
-                            $("#verificat").html(data);
-                            $("#confirm").attr('onclick', '').unbind('click');
-                            button_active();
-                        })
-                        .fail(function(jqXHR, ajaxOptions, thrownError) {
-                            console.log(thrownError);
-                            alert('다시 시도해주세요.', "확인");
-                        });
+                IMP.init("{{ env('IMP_CODE') }}");
+                IMP.certification({ // param
+                    // 주문 번호
+                    // pg: 'PG사코드.{CPID}', //본인인증 설정이 2개이상 되어 있는 경우 필
+                    merchant_uid: "MIIiasTest",
+                    popup: true
+                }, function(rsp) { // callback
+                    if (rsp.success) { // 인증 성공
+                        console.log(rsp);
+                        jQuery.ajax({
+                                url: "{{ route('www.verification.result') }}",
+                                method: "get",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                data: {
+                                    imp_uid: rsp.imp_uid,
+                                    success: rsp.success,
+                                    merchant_uid: rsp.merchant_uid,
+                                }
+                            }).done(function(data) {
+                                // console.log(json_decode(data));
+                                // console.log();
+                                $("#verificat").html(data);
+                                $("#confirm").attr('onclick', '').unbind('click');
+                                button_active();
+                            })
+                            .fail(function(jqXHR, ajaxOptions, thrownError) {
+                                console.log(thrownError);
+                                alert('다시 시도해주세요.', "확인");
+                            });
 
-                } else { // 인증 실패
+                    } else { // 인증 실패
 
-                }
-            });
-        }
+                    }
+                });
+            }
+        @endif
     @endguest
 
     function add_info() {

@@ -1293,4 +1293,35 @@ class UserPcController extends Controller
 
         return $this->sendResponse(null, '닉네임 변경에 성공했습니다.');
     }
+
+    public function changeUserInfo(Request $request)
+    {
+        Log::info($request->all());
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'phone' => 'required',
+            'gender' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError("사용자 변경을 실패하였습니다.", $validator->errors()->all(), Response::HTTP_BAD_REQUEST);
+        }
+
+        // 전화 번호 중복 체크
+        $users = User::select('phone')->get();
+        if ($users->contains('phone', $request->phone)) {
+            return $this->sendError("이미 가입된 핸드폰 번호 입니다.", $validator->errors()->all(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $user = User::where('id', Auth::guard('web')->user()->id)->first();
+
+        $user->update([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+            'unique_key' => $request->unique_key,
+        ]);
+
+        return $this->sendResponse(null, '사용자 변경을 성공했습니다.');
+    }
 }

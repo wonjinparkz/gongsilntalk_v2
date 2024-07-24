@@ -239,6 +239,7 @@ Route::middleware('pc.auth')->controller(UserPcController::class)->group(functio
 
     Route::post('/changepw', 'changePw')->name('www.change.pw');
     Route::post('/change/nickname', 'changeNickname')->name('www.change.nickname');
+    Route::post('/change/user/info', 'changeUserInfo')->name('www.change.user.info');
 });
 
 Route::middleware('pc.auth')->controller(ProposalPcController::class)->group(function () {

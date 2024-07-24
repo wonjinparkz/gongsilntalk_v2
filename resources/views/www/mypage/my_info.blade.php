@@ -122,31 +122,31 @@
                         onclick="modal_close('info_modify')">
                 </div>
                 <div class="modal_container">
-
-                    <ul class="reg_bascic">
-                        <li>
-                            <label>이름</label>
-                            <input type="text" id="verification_name" name="verification_name" value=""
-                                onkeyup="onVerificationFieldInputCheck();">
-                        </li>
-                        <li>
-                            <label>휴대폰 번호</label>
-                            <div class="flex_1">
-                                <input type="number" id="verification_phone" name="verification_phone"
-                                    onkeyup="onVerificationFieldInputCheck();">
-                                <button class="btn_point" type="button" disabled id="verification_button"
-                                    name="verification_button">인증번호 전송</button>
-                            </div>
-                            <input type="text" id="verification_number" name="verification_number"
-                                placeholder="인증번호 입력" class="mt8" onkeyup="processChange();">
-                        </li>
-                    </ul>
-                    <div class="mt20">
-                        <button class="btn_point btn_full_basic mt28" onclick="modal_close('info_modify')"
-                            type="button" id="info_mod_btn" name="info_mod_btn" disabled>
-                            <b>수정</b>
-                        </button>
-                    </div>
+                    <form class="form" method="POST" action="{{ route('www.register.corp.create') }}">
+                        @csrf
+                        <ul class="reg_bascic">
+                            <li>
+                                <label>이름</label>
+                                <input type="text" id="name" name="name" value="" disabled>
+                            </li>
+                            <li>
+                                <label>전화번호</label>
+                                <input type="text" id="phone" name="phone" value="" disabled>
+                            </li>
+                            <input type="hidden" id="birth" name="birth" value=''>
+                            <input type="hidden" id="gender" name="gender" value=''>
+                            <input type="hidden" id="unique_key" name="unique_key" value=''>
+                        </ul>
+                        <div class="mt20">
+                            <button class="btn_point btn_full_basic mt28" type="button" id="verification_button"
+                                name="verification_button" onclick="verificationstart();">본인인증</button>
+                            <button class="btn_point btn_full_basic mt28" id="verification_confirm"
+                                name="verification_confirm" onclick="changeUserInfo();" type="button"
+                                id="info_mod_btn" name="info_mod_btn" disabled>
+                                <b>수정</b>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="md_overlay md_overlay_info_modify" onclick="modal_close('info_modify')"></div>
@@ -188,7 +188,7 @@
                     refreshFsLightbox();
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError) {
-                    console.log('실패했는디');
+                    console.log('이미지 업로드 실패');
                 });
         }
     });
@@ -260,6 +260,26 @@
             });
     }
 
+    function changeUserInfo() {
+
+        $.ajax({
+                url: '{{ route('www.change.user.info') }}',
+                type: "post",
+                data: {
+                    'name': $('#name').val(),
+                    'phone': $('#phone').val(),
+                    'gender': $('#gender').val() == 'male' ? 0 : 1,
+                    'unique_key': $('#unique_key').val(),
+                }
+            })
+            .done(function(data) {
+                location.reload();
+            })
+            .fail(function(jqXHR, ajaxOptions, thrownError) {
+                alert(jqXHR.responseJSON.message);
+            });
+    }
+
     function debounce(func, timeout = 300) {
         let timer;
         return (...args) => {
@@ -270,27 +290,45 @@
         };
     }
 
-    // 수정 버튼 disabled
-    function onFieldInputCheck() {
-        if ($('#verification_name').val() != '' && $('#verification_number').val() != '' && $('#verification_phone')
-            .val() != '') {
-            document.getElementById('info_mod_btn').disabled = false;
-        } else {
-            document.getElementById('info_mod_btn').disabled = true;
-        }
+
+    // 본인인증 모듈 실행
+    function verificationstart() {
+
+        IMP.init("{{ env('IMP_CODE') }}");
+        IMP.certification({ // param
+            // 주문 번호
+            // pg: 'PG사코드.{CPID}', //본인인증 설정이 2개이상 되어 있는 경우 필
+            merchant_uid: "MIIiasTest",
+            popup: true
+        }, function(rsp) { // callback
+            if (rsp.success) { // 인증 성공
+                console.log(rsp);
+                jQuery.ajax({
+                        url: "{{ route('www.verification.result') }}",
+                        method: "get",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        data: {
+                            imp_uid: rsp.imp_uid,
+                            success: rsp.success,
+                            merchant_uid: rsp.merchant_uid,
+                        }
+                    }).done(function(data) {
+                        $("#verificat").html(data);
+                        $("#verification_confirm").attr('disabled', false);
+                    })
+                    .fail(function(jqXHR, ajaxOptions, thrownError) {
+                        console.log(thrownError);
+                        alert('다시 시도해주세요.', "확인");
+                    });
+
+            } else { // 인증 실패
+
+            }
+        });
     }
-
-    const processChange = debounce(() => onFieldInputCheck());
-
-    // 인증번호 전송 버튼 disbled
-    function onVerificationFieldInputCheck() {
-        if ($('#verification_name').val() != '' && $('#verification_phone').val() != '') {
-            document.getElementById('verification_button').disabled = false;
-        } else {
-            document.getElementById('verification_button').disabled = true;
-        }
-        onFieldInputCheck();
-    }
-
-    const verificationChange = debounce(() => onVerificationFieldInputCheck());
 </script>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<div id="verificat">
+</div>
