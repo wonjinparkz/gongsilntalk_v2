@@ -10,6 +10,7 @@
     <!----------------------------- m::header bar : s ----------------------------->
 
     <form id="create" method="post" action="{{ route('www.interior.estimate.create') }}">
+        @csrf
         <div class="body">
 
             <!-- my_body : s -->

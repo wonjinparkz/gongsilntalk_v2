@@ -365,7 +365,7 @@ class ServiceController extends Controller
     }
     /**
      *
-     * 내 자산관리 서비스 등록
+     * 수익률 계산기 서비스 등록
      */
     public function arithmometerServiceCreate(Request $request): RedirectResponse
     {

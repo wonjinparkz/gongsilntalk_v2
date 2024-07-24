@@ -65,6 +65,20 @@ class InteriorEstimatePcController extends Controller
             }
         }
 
-        return Redirect::route('www.main.main')->with('message', '견적서를 등록했습니다.');
+        $area = $request->area;
+        $redirect_url = '';
+        if ($area >= 100) {
+            $redirect_url = 'https://xn--s39awro00dcgl.com/landing_100';
+        } else if ($area < 100 && $area >= 50) {
+            $redirect_url = 'https://xn--s39awro00dcgl.com/landing_50';
+        } else if ($area < 50 && $area >= 30) {
+            $redirect_url = 'https://xn--s39awro00dcgl.com/landing_30';
+        } else if ($area < 30 && $area >= 20) {
+            $redirect_url = 'https://xn--s39awro00dcgl.com/landing_20';
+        } else {
+            $redirect_url = 'https://xn--s39awro00dcgl.com/landing_10';
+        }
+
+        return Redirect::to($redirect_url)->with('message', '견적서를 등록했습니다.');
     }
 }
