@@ -127,7 +127,7 @@ $(function () {
         return false;
     });
 
-    // 검색창 검색어 삭제 기능 
+    // 검색창 검색어 삭제 기능
     $(document).ready(function () {
         $("#search_input").on("propertychange change keyup paste input", function () {
             if ($(this).val().length === 0) {
@@ -138,7 +138,8 @@ $(function () {
         });
 
         $('#search_input').click(function () {
-            if ($(this).val().length === 0) {
+            var display = $('.search_open').css('display');
+            if (display === 'none') {
                 $('.search_open').css('display', 'inline-block');
             } else {
                 $('.search_open').css('display', 'none');
@@ -146,13 +147,13 @@ $(function () {
             event.stopPropagation();
         });
 
-        $(document).click(function(event) {
+        $(document).click(function (event) {
             if (!$(event.target).closest('#search_open_layer, #search_input').length) {
                 $('#search_open_layer').css('display', 'none');
             }
         });
 
-        $('#search_open_layer').click(function(event) {
+        $('#search_open_layer').click(function (event) {
             event.stopPropagation(); // 이벤트 전파 방지
         });
 

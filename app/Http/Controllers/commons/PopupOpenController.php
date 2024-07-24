@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\commons;
 
 use App\Http\Controllers\Controller;
+use App\Models\RegionCoordinate;
 use App\Models\Subway;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -36,6 +37,13 @@ class PopupOpenController extends Controller
     {
         $subwayList = Subway::where('subway_name', 'like', "%{$request->search}%")->get();
 
-        return $this->sendResponse($subwayList, "주소 검색 결과값.");
+        $regionList = RegionCoordinate::where('dong', 'like', "%{$request->search}%")->get();
+
+        $responseData = [
+            'subwayList' => $subwayList,
+            'regionList' => $regionList
+        ];
+
+        return $this->sendResponse($responseData, "주소 검색 결과값.");
     }
 }

@@ -25,8 +25,9 @@
                 </div>
             </div>
             <div class="map_search_wrap non_pano">
-                <div class="flex_between" onclick="onShowRegionList();">
-                    <input type="text" id="search_input" class="map_search" placeholder="단지명, 동이름, 지하철역으로 검색">
+                <div class="flex_between">
+                    <input type="text" id="search_input" class="map_search" placeholder="단지명, 동이름, 지하철역으로 검색"
+                        autocomplete='off'>
                     <img src="{{ asset('assets/media/btn_solid_delete.png') }}" alt="del" class="btn_del">
                     <button><img src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button>
                 </div>
@@ -34,59 +35,78 @@
 
             <div class="search_open" id="search_open_layer">
                 <div class="search_recent">
-                    <div class="txt_point">최근 검색</div>
-                    <div class="side_search_list">
-                        <div class="side_search_no_row">최그 검색어가 없습니다.</div>
-                        <div class="side_search_list_row"><a href="#">서울시 구로구 구로동</a> <button><img src="{{ asset('assets/media/list_delete.png') }}"></button></div>
-                        <div class="side_search_list_row"><a href="#">서울시 구로구 구로동 735-26 (구로동교회)</a> <button><img src="{{ asset('assets/media/list_delete.png') }}"></button></div>
-                        <div class="side_search_list_row"><a href="#">서울시 구로구 구로동 735-26 (구로동교회)</a> <button><img src="{{ asset('assets/media/list_delete.png') }}"></button></div>
-                        <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 구로동 735-26 (구로동교회)</a></div>
+                    <div id="search_history">
+                        <div class="txt_point">최근 검색</div>
+                        <div class="side_search_list">
+                        </div>
+                    </div>
+                    <div class="side_search_list" id="search_list">
+                        {{-- <div class="side_search_no_row">최그 검색어가 없습니다.</div>
+                        <div class="side_search_list_row"><a href="#">서울시 구로구 구로동</a> <button><img
+                                    src="{{ asset('assets/media/list_delete.png') }}"></button></div>
+                        <div class="side_search_list_row"><a href="#">서울시 구로구 구로동 735-26 (구로동교회)</a> <button><img
+                                    src="{{ asset('assets/media/list_delete.png') }}"></button></div>
+                        <div class="side_search_list_row"><a href="#">서울시 구로구 구로동 735-26 (구로동교회)</a> <button><img
+                                    src="{{ asset('assets/media/list_delete.png') }}"></button></div>
+                        <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 구로동 735-26 (구로동교회)</a>
+                        </div>
                         <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 궁동</a></div>
                         <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 항동</a></div>
-                        <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 고척동</a></div>
+                        <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 고척동</a></div> --}}
                     </div>
                 </div>
             </div>
 
-            
-
-            {{-- 검색어 리스트 나와야하는 부분 --}}
-            {{-- <div class="flex_between dropdown_search" style="display:;" id="searchList">
-                <ul class="optionList" id="searchOptionList">
-                    <li class="optionItem" onclick="">
-                        123123
-                    </li>
-                    <li class="optionItem" onclick="">
-                        123123
-                    </li>
-                    <li class="optionItem" onclick="">
-                        123123
-                    </li>
-                    <li class="optionItem" onclick="">
-                        123123
-                    </li>
-                </ul>
-            </div> --}}
-
-            {{-- <div class="suggestion " style="display:;">
-                <div class="suggestion-block">
-                    <div class="title-group">
-                        <h3 class="title">최근 방문</h3>
-                    </div>
-                    <ul class="suggestion-list history-apt-list">
-                    </ul>
-                </div>
-                <div><a href="#" class="btn-remove-history" data-ga-event="search,removeHistory">최근 방문기록 삭제</a>
-                </div>
-            </div> --}}
-
-
             <script>
-                function onShowRegionList() {
-                    $('#regionList').show();
-                    $('#regionList').addClass('active');
+                $('#search_input').on('keyup', function() {
+                    $('#search_list').empty();
+
+                    var search = $(this).val();
+                    console.log('search_input', $(this).val());
+                    if (search == '') {
+                        return $('#search_history').show();
+                    }
+                    $('#search_history').hide();
+
+                    if (search != '') {
+                        $.ajax({
+                            url: "{{ route('api.search.address') }}",
+                            type: "post",
+                            data: {
+                                'search': search,
+                            },
+                            success: function(data, status, xhr) {
+                                var subwayList = data.result['subwayList'];
+                                var list_row = '';
+                                var name = '';
+                                subwayList.forEach(function(item, index) {
+                                    name = item.subway_name + ' ' + `[${item.line}]`;
+                                    list_row =
+                                        `<div class="side_search_list_row" onclick="search_center('${item.y}','${item.x}')">${name}</div>`
+                                    $('#search_list').append(list_row)
+                                });
+                                var regionList = data.result['regionList'];
+                                regionList.forEach(function(item, index) {
+                                    name = item.sido + ' ' + item.sigungu + ' ' + item.dong;
+                                    list_row =
+                                        `<div class="side_search_list_row" onclick="search_center('${item.address_lat}','${item.address_lng}')">${name}</div>`
+                                    $('#search_list').append(list_row)
+                                });
+                            },
+                            error: function(xhr, status, e) {}
+
+                        });
+                    }
+                });
+
+                function search_center(lat, lng, name) {
+                    var currentLocation = new naver.maps.LatLng(lat, lng);
+                    map.setZoom(18, true);
+                    map.setCenter(currentLocation);
                 }
             </script>
+
+
             <div class="map_body ">
                 <!-- map side : s -->
                 <div class="map_side map_side_0 non_pano_side"></div> <!-- 실거래가 -->
@@ -1163,22 +1183,4 @@
             });
         }
     }
-    $('#search_input').on('keyup', function() {
-        var search = $(this).val();
-        console.log('search_input', $(this).val());
-        if (search != '') {
-            $.ajax({
-                url: "{{ route('api.search.address') }}",
-                type: "post",
-                data: {
-                    'search': search,
-                },
-                success: function(data, status, xhr) {
-                    console.log('data', data);
-                },
-                error: function(xhr, status, e) {}
-
-            });
-        }
-    });
 </script>
