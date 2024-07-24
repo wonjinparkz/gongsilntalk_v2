@@ -276,6 +276,7 @@
                 location.reload();
             })
             .fail(function(jqXHR, ajaxOptions, thrownError) {
+                $("#verification_confirm").attr('disabled', true);
                 alert(jqXHR.responseJSON.message);
             });
     }
