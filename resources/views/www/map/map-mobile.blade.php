@@ -298,11 +298,12 @@
         </div>
 
         {{--  네이버 지도 --}}
-        <div id="map" style="width:100%; height:calc(100vh - 60px);"></div>
-
+        <div id="mapArea">
+            <div id="map" style="width:100%; height:calc(100vh - 60px);"></div>
+        </div>
         <div id="panoArea" class="pano_wrap">
-            <button class="btn_close"><img src="{{ asset('assets/media/btn_img_delete.png') }}"></button>
-            <div id="pano" style="width:100%; height:100%;"></div>
+            <button class="btn_pano_close"><img src="{{ asset('assets/media/btn_img_delete.png') }}"></button>
+            <div id="pano" style="width:100%; height:calc(100vh - 60px);"></div>
         </div>
     </div>
 
@@ -329,9 +330,26 @@
 
     // 커리뷰 끄기
     $(document).ready(function() {
-        $('.btn_close').on('click', function() {
-            $('#panoArea').hide();
+        // 초기 상태에서 버튼 숨기기
+        $('.btn_pano_close').hide();
+
+        // 버튼 클릭 시 pano의 스타일 변경
+        $('.btn_pano_close').on('click', function() {
+            $('#pano').css('position', 'relative');
+            checkPosition();
         });
+
+        function checkPosition() {
+            var panoElement = document.getElementById('pano');
+            if (panoElement.style.position !== 'relative') {
+                document.querySelector('.btn_pano_close').style.display = 'block';
+            } else {
+                document.querySelector('.btn_pano_close').style.display = 'none';
+                document.getElementById('panoArea').style.display = 'none';
+                document.getElementById('mapArea').style.display = 'block';
+                map.reset();
+            }
+        }
     });
 </script>
 
@@ -1139,11 +1157,19 @@
 
         bounds = new naver.maps.LatLngBounds();
 
+        var panoOptions = {
+            position: new naver.maps.LatLng({{ $lat }}, {{ $lng }}), // 초기 위치 설정
+            pov: {
+                pan: 0,
+                tilt: 0,
+                fov: 100 // 초기 줌 레벨 설정
+            }
+        };
+
+        pano = new naver.maps.Panorama('pano', panoOptions);
+
         // 지도 로드 완료 후 이벤트 리스너 추가
         naver.maps.Event.addListener(map, 'init', function() {
-
-            pano = new naver.maps.Panorama("pano");
-
 
             // 파노라마 위치가 갱신되었을 때 발생하는 이벤트를 받아 지도의 중심 위치를 갱신합니다.
             naver.maps.Event.addListener(pano, 'pano_changed', function() {
@@ -1169,14 +1195,26 @@
             // 지도를 클릭했을 때 발생하는 이벤트를 받아 파노라마 위치를 갱신합니다. 이때 거리뷰 레이어가 있을 때만 갱신하도록 합니다.
             naver.maps.Event.addListener(map, 'click', function(e) {
                 if (streetLayer.getMap()) {
+
+                    $('.non_pano').hide();
+                    $('.non_pano_side').removeClass('active');
+
+                    if (polygonMap) {
+                        polygonMap.setMap(null);
+                    }
+
                     var latlng = e.coord;
 
                     // 파노라마의 setPosition()은 해당 위치에서 가장 가까운 파노라마(검색 반경 300미터)를 자동으로 설정합니다.
                     pano.setPosition(latlng);
-
-                    document.getElementById('map').style.position = "relative";
-                    // document.getElementById('pano').style.position = "relative";
-                    document.getElementById('pano').style.position = "";
+                    pano.setPov({
+                        pan: 0,
+                        tilt: 0,
+                        fov: 100
+                    }); // 파노라마 위치 설정 시 줌 레벨 유지
+                    document.querySelector('.btn_pano_close').style.display = 'block';
+                    document.getElementById('panoArea').style.display = 'block';
+                    document.getElementById('mapArea').style.display = 'none';
                 }
             });
 
