@@ -508,7 +508,7 @@ class DataController extends Controller
         }
 
         // 키워드 구성
-        $keyword = $apt->doroJuso == null ? implode(' ', array_slice(explode(' ', $apt->kaptAddr), 2)) : $apt->doroJuso;
+        $keyword = $apt->doroJuso == null ? implode(' ', array_slice(explode(' ', $apt->kaptAddr), 0, -1)) : $apt->doroJuso;
 
         $data = [
             'resultType' => 'json',
