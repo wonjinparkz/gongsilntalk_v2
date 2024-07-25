@@ -518,6 +518,9 @@ class DataController extends Controller
             'keyword' => $keyword,
         ];
 
+        $apt->update([
+            'is_pnu' => 1
+        ]);
 
         $promise = Http::async()->get($domain, $data)->then(
             function (Response $response) use ($apt, $keyword) {
