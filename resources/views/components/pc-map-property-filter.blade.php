@@ -695,8 +695,6 @@
             var minValue = values[0];
             var maxValue = values[1];
 
-            console.log('min max : ', minValue + '|' + maxValue);
-
             if (minValue == slider.range.min && maxValue == slider.range.max) {
                 $(slider.valueId).val([slider.range.min, slider.range.max]);
                 itemTxt.innerHTML = "전체";

@@ -28,28 +28,192 @@
         <div class="m_inner_wrap">
             <div class="community_search_wrap flex_between">
                 <input type="text" id="search_input" name="search_input" placeholder="단지명, 동이름, 지하철역으로 검색"
-                    value="{{ $_GET['search_input'] ?? '' }}" onkeyup="if(window.event.keyCode==13){search_request();}">
+                    autocomplete='off'>
                 <img src="{{ asset('assets/media/btn_solid_delete.png') }}" alt="del" class="btn_del">
-                <button onclick="search_request()"><img src="{{ asset('assets/media/btn_search.png') }}"
-                        alt="검색"></button>
+                {{-- <button><img src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button> --}}
             </div>
         </div>
-
         <div class="search_open" id="search_open_layer">
             <div class="search_recent">
-                <div class="txt_point">최근 검색</div>
-                <div class="side_search_list">
-                    <div class="side_search_no_row">최그 검색어가 없습니다.</div>
-                    <div class="side_search_list_row"><a href="#">서울시 구로구 구로동</a> <button><img src="{{ asset('assets/media/list_delete.png') }}"></button></div>
-                    <div class="side_search_list_row"><a href="#">서울시 구로구 구로동 735-26 (구로동교회)</a> <button><img src="{{ asset('assets/media/list_delete.png') }}"></button></div>
-                    <div class="side_search_list_row"><a href="#">서울시 구로구 구로동 735-26 (구로동교회)</a> <button><img src="{{ asset('assets/media/list_delete.png') }}"></button></div>
-                    <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 구로동 735-26 (구로동교회)</a></div>
-                    <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 궁동</a></div>
-                    <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 항동</a></div>
-                    <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 고척동</a></div>
+                <div id="search_history">
+                    <div class="txt_point">최근 검색</div>
+                </div>
+                <div class="side_search_list" id="history_search_list">
+                </div>
+
+                <div class="side_search_list" id="search_list">
+                    {{-- <div class="side_search_no_row">최그 검색어가 없습니다.</div>
+                    <div class="side_search_list_row"><a href="#">서울시 구로구 구로동</a> <button><img
+                                src="{{ asset('assets/media/list_delete.png') }}"></button></div>
+                    <div class="side_search_list_row"><a href="#">서울시 구로구 구로동 735-26 (구로동교회)</a> <button><img
+                                src="{{ asset('assets/media/list_delete.png') }}"></button></div>
+                    <div class="side_search_list_row"><a href="#">서울시 구로구 구로동 735-26 (구로동교회)</a> <button><img
+                                src="{{ asset('assets/media/list_delete.png') }}"></button></div>
+                    <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 구로동 735-26 (구로동교회)</a>
+                    </div>
+                    {{-- <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 궁동</a></div> --}}
+                    {{-- <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 항동</a></div>
+                    <div class="side_search_list_row"><a href="#">서울시 <span>구로</span>구 고척동</a></div> --}}
                 </div>
             </div>
         </div>
+        <script>
+            $(document).ready(function() {
+                loadSearchTerms();
+            });
+
+            function loadSearchTerms() {
+                $('#history_search_list').empty();
+                const searchTerm = getCookie('mapSearchTerm');
+                if (searchTerm !== "") {
+                    const searchTerms = JSON.parse(searchTerm);
+                    if (searchTerms.length > 0) {
+                        $.each(searchTerms, function(index, value) {
+                            const term = JSON.parse(value);
+                            addSearchTermToList(term);
+                        });
+                    } else {
+                        $('#history_search_list').append('<div class="side_search_no_row">최근 검색어가 없습니다.</div>');
+                    }
+                } else {
+                    $('#history_search_list').append('<div class="side_search_no_row">최근 검색어가 없습니다.</div>');
+                }
+            }
+
+            // 검색어를 리스트에 추가하는 함수
+            function addSearchTermToList(term) {
+                const lat = term.lat;
+                const lng = term.lng;
+                const name = term.name;
+                var list = `
+    <div class="side_search_list_row">
+        <a onclick="search_click('${lat}', '${lng}', '${name}')">${name}</a>
+        <button class="deleteBtn">
+            <img src="{{ asset('assets/media/list_delete.png') }}">
+        </button>
+    </div>`;
+                $('#history_search_list').append(list);
+            }
+
+            // 삭제 버튼 클릭 시 해당 검색어 삭제
+            $('#history_search_list').on('click', '.deleteBtn', function() {
+                const termToRemove = $(this).closest('.side_search_list_row').find('a').text().trim();
+                removeSearchTermFromCookie(termToRemove);
+                $(this).closest('.side_search_list_row').remove();
+            });
+
+            // 쿠키에서 특정 검색어를 삭제하는 함수
+            function removeSearchTermFromCookie(term) {
+                let existingTerms = getCookie('mapSearchTerm');
+                if (existingTerms !== "") {
+                    let termsArray = JSON.parse(existingTerms);
+                    termsArray = termsArray.filter(item => JSON.parse(item).name !== term);
+                    setCookie('mapSearchTerm', JSON.stringify(termsArray), 365); // 365일 동안 쿠키 저장
+                }
+            }
+
+            $('#search_input').on('keyup', function() {
+                $('#search_list').empty();
+                var search = $(this).val();
+                if (search == '') {
+                    $('#search_history').show();
+                    $('#history_search_list').show();
+                    return;
+                }
+                $('#search_history').hide();
+                $('#history_search_list').hide();
+                if (search != '') {
+                    $.ajax({
+                        url: "{{ route('api.search.address') }}",
+                        type: "post",
+                        data: {
+                            'search': search
+                        },
+                        success: function(data, status, xhr) {
+                            var subwayList = data.result['subwayList'];
+                            var regionList = data.result['regionList'];
+                            subwayList.forEach(function(item, index) {
+                                var name = item.subway_name + ' ' + `[${item.line}]`;
+                                var Sname = getSearchContent(search, name);
+                                var list_row = `
+                    <div class="side_search_list_row" onclick="search_click('${item.y}', '${item.x}', '${name}')">
+                        <a>${Sname}</a>
+                    </div>`;
+                                $('#search_list').append(list_row);
+                            });
+                            regionList.forEach(function(item, index) {
+                                var name = item.sido + ' ' + item.sigungu + ' ' + item.dong;
+                                var Sname = getSearchContent(search, name);
+                                var list_row = `
+                    <div class="side_search_list_row" onclick="search_click('${item.address_lat}', '${item.address_lng}', '${name}')">
+                        <a>${Sname}</a>
+                    </div>`;
+                                $('#search_list').append(list_row);
+                            });
+                        },
+                        error: function(xhr, status, e) {}
+                    });
+                }
+            });
+
+            // 위치 조정
+            function search_click(lat, lng, name) {
+                $('#search_open_layer').css('display', 'none');
+                $('.btn_del').css('display', 'inline-block');
+                $('#search_input').val(name);
+
+                var currentLocation = new naver.maps.LatLng(lat, lng);
+                map.setZoom(18, true);
+                map.setCenter(currentLocation);
+
+                const searchInputValue = name;
+                if (searchInputValue !== "") {
+                    let existingTerms = getCookie('mapSearchTerm');
+                    let newTerm = JSON.stringify({
+                        name: searchInputValue,
+                        lat: lat,
+                        lng: lng
+                    });
+
+                    if (existingTerms !== "") {
+                        let termsArray = JSON.parse(existingTerms);
+                        if (!termsArray.some(term => JSON.parse(term).name === searchInputValue)) {
+                            termsArray.push(newTerm);
+                            setCookie('mapSearchTerm', JSON.stringify(termsArray), 365); // 365일 동안 쿠키 저장
+                        }
+                    } else {
+                        let termsArray = [newTerm];
+                        setCookie('mapSearchTerm', JSON.stringify(termsArray), 365); // 365일 동안 쿠키 저장
+                    }
+                }
+                loadSearchTerms();
+            }
+
+            function setCookie(cname, cvalue, exdays) {
+                const d = new Date();
+                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                let expires = "expires=" + d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
+
+            // 쿠키에서 불러오는 함수
+            function getCookie(cname) {
+                const name = cname + "=";
+                const decodedCookie = decodeURIComponent(document.cookie);
+                const ca = decodedCookie.split(';');
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            }
+        </script>
+
 
         <!-- tab : s -->
         <div class="inner_wrap" id="filterType0">
@@ -393,16 +557,6 @@
     var MarkerIdArray = []; // 클러스터링 매물,중개사 ids 임시 저장소
     var productIdArray = []; // 매물 ids 저장소
     var agentIdArray = []; // 중개사 ids 저장소
-
-    // 검색 추가
-    function search_request() {
-        var search_input = $("#search_input").val();
-        if (search_input == "") {
-            return;
-        }
-        location.href = "{{ route('www.map.mobile') }}" + "?search_input=" + search_input;
-    }
-
 
 
     // 실거래가지도, 매물지도 타입

@@ -138,12 +138,7 @@ $(function () {
         });
 
         $('#search_input').click(function () {
-            var display = $('.search_open').css('display');
-            if (display === 'none') {
-                $('.search_open').css('display', 'inline-block');
-            } else {
-                $('.search_open').css('display', 'none');
-            }
+            $('.search_open').css('display', 'inline-block');
             event.stopPropagation();
         });
 
@@ -161,6 +156,7 @@ $(function () {
         $('.btn_del').click(function () {
             $('#search_input').val('');
             $('#search_input').focus();
+            $('#search_input').trigger('keyup'); // keyup 이벤트 트리거
             $('.btn_del').css('display', 'none');
         });
     });
@@ -749,4 +745,27 @@ function get_priceTrans(number) {
 
     console.log(converted.trim() + '원');
     return converted.trim() + '원';
+}
+
+function getSearchContent(searchInput, content) {
+    let positions = [];
+    let offset = 0;
+
+    // 검색어가 content에 등장하는 모든 인덱스를 찾기
+    while ((pos = content.toLowerCase().indexOf(searchInput.toLowerCase(), offset)) !== -1) {
+        positions.push(pos);
+        offset = pos + searchInput.length;
+    }
+
+    // 발생 위치를 기준으로 강조된 HTML 생성
+    let highlightedContent = '';
+    let lastPos = 0;
+    positions.forEach(pos => {
+        highlightedContent += content.substring(lastPos, pos) + '<span>' + content.substring(pos, pos + searchInput.length) + '</span>';
+        lastPos = pos + searchInput.length;
+    });
+    highlightedContent += content.substring(lastPos);
+
+    // 결과 반환
+    return highlightedContent;
 }

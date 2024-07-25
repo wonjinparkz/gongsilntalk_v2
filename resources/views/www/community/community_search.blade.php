@@ -143,7 +143,7 @@
             if (index !== -1) {
                 termsArray.splice(index, 1);
                 const updatedTerms = termsArray.join(',');
-                setCookie('communitySearchTerm', updatedTerms, 30); // 30일 동안 쿠키 저장
+                setCookie('communitySearchTerm', updatedTerms, 365); // 30일 동안 쿠키 저장
             }
         }
     }
