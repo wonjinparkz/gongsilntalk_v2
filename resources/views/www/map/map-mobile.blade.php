@@ -304,7 +304,7 @@
             <div id="map" style="width:100%; height:calc(100vh - 60px);"></div>
         </div>
         <div id="panoArea" class="pano_wrap">
-            <button class="btn_pano_close"><img src="{{ asset('assets/media/btn_img_delete.png') }}"></button>
+            <button class="btn_pano_close_m"><img src="{{ asset('assets/media/btn_img_delete.png') }}"></button>
             <div id="pano" style="width:100%; height:calc(100vh - 60px);"></div>
         </div>
     </div>
@@ -333,10 +333,10 @@
     // 커리뷰 끄기
     $(document).ready(function() {
         // 초기 상태에서 버튼 숨기기
-        $('.btn_pano_close').hide();
+        $('.btn_pano_close_m').hide();
 
         // 버튼 클릭 시 pano의 스타일 변경
-        $('.btn_pano_close').on('click', function() {
+        $('.btn_pano_close_m').on('click', function() {
             $('#pano').css('position', 'relative');
             checkPosition();
         });
@@ -344,9 +344,9 @@
         function checkPosition() {
             var panoElement = document.getElementById('pano');
             if (panoElement.style.position !== 'relative') {
-                document.querySelector('.btn_pano_close').style.display = 'block';
+                document.querySelector('.btn_pano_close_m').style.display = 'block';
             } else {
-                document.querySelector('.btn_pano_close').style.display = 'none';
+                document.querySelector('.btn_pano_close_m').style.display = 'none';
                 document.getElementById('panoArea').style.display = 'none';
                 document.getElementById('mapArea').style.display = 'block';
                 $('.non_pano').show();
@@ -1219,7 +1219,7 @@
                         tilt: 0,
                         fov: 100
                     }); // 파노라마 위치 설정 시 줌 레벨 유지
-                    document.querySelector('.btn_pano_close').style.display = 'block';
+                    document.querySelector('.btn_pano_close_m').style.display = 'block';
                     document.getElementById('panoArea').style.display = 'block';
                     document.getElementById('mapArea').style.display = 'none';
                 }
