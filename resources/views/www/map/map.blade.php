@@ -796,7 +796,15 @@
         // 지도 로드 완료 후 이벤트 리스너 추가
         naver.maps.Event.addListener(map, 'init', function() {
 
-            pano = new naver.maps.Panorama("pano");
+            // pano = new naver.maps.Panorama("pano");
+            pano = new naver.maps.Panorama("pano", {
+            position: new naver.maps.LatLng(37.3599605, 127.1058814),
+            pov: {
+                pan: -135,
+                tilt: 29,
+                fov: 100
+            }
+        });
 
 
             // 파노라마 위치가 갱신되었을 때 발생하는 이벤트를 받아 지도의 중심 위치를 갱신합니다.

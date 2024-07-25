@@ -391,6 +391,8 @@
 .map_side_btn .btn_zoom button:first-child{border-bottom: 1px solid #EEEDED; border-radius: 6px 6px 0 0;}
 .map_side_btn .btn_view_type{display: flex; flex-direction: column; gap: 8px;}
 
+.pano_wrap{width: 100%; height: 100vh; position: relative; overflow: visible;}
+
 /* 중개사무소 */
 .agent_head{padding: 44px 0; background: #fff; border-bottom: 1px solid #EEEDED; display: flex; justify-content: center; align-items: center; gap: 28px;}
 .agent_img{width: 100px; height: 100px;}
