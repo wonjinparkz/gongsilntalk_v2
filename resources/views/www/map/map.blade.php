@@ -296,9 +296,11 @@
         function checkPosition() {
             // pano의 position이 relative가 아닌지 확인
             if ($('#pano').css('position') !== 'relative') {
-                $('.btn_pano_close').show();
-                $('.non_pano').hide();
+                document.querySelector('.btn_pano_close').style.display = 'block';
             } else {
+                document.querySelector('.btn_pano_close').style.display = 'none';
+                document.getElementById('panoArea').style.display = 'none';
+                document.getElementById('mapArea').style.display = 'block';
                 $('.btn_pano_close').hide();
                 $('.non_pano').show();
                 mapReset();
@@ -798,13 +800,12 @@
 
             // pano = new naver.maps.Panorama("pano");
             pano = new naver.maps.Panorama("pano", {
-            position: new naver.maps.LatLng(37.3599605, 127.1058814),
-            pov: {
-                pan: -135,
-                tilt: 29,
-                fov: 100
-            }
-        });
+                pov: {
+                    pan: 0,
+                    tilt: 0,
+                    fov: 100
+                }
+            });
 
 
             // 파노라마 위치가 갱신되었을 때 발생하는 이벤트를 받아 지도의 중심 위치를 갱신합니다.
@@ -843,10 +844,9 @@
                     // 파노라마의 setPosition()은 해당 위치에서 가장 가까운 파노라마(검색 반경 300미터)를 자동으로 설정합니다.
                     pano.setPosition(latlng);
 
-                    document.getElementById('map').style.position = "relative";
-                    // document.getElementById('pano').style.position = "relative";
-                    document.getElementById('pano').style.position = "";
-
+                    document.querySelector('.btn_pano_close').style.display = 'block';
+                    document.getElementById('panoArea').style.display = 'block';
+                    document.getElementById('mapArea').style.display = 'none';
 
                 }
             });
