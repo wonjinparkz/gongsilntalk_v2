@@ -273,7 +273,7 @@
     </div>
 
     <div class="body">
-        <div class="map_side_btn">
+        <div class="map_side_btn non_pano">
             <div>
                 <button id="current"><img src="{{ asset('assets/media/ic_map_activate1.png') }}"></button>
             </div>
@@ -282,13 +282,15 @@
                 <button class="toggle-btn" onclick="toggleSatelliteView()">위성뷰</button>
             </div>
             <button class="toggle-btn line_type" id="streetView"><span></span></button>
-
         </div>
-        <button type="button" class="map_view_btn map_view_btn_2" id="map_view_btn" onclick="mapTypeViewChage()">
-            <span id="centerDongText">익선동</span>
-            <span class="txt_point centerDongMapText">실거래가</span> 보기
-        </button>
-        <div class="map_bottom_area map_bottom_area_2" id="map_bottom_area">
+        <div class="non_pano">
+            <button type="button" class="map_view_btn map_view_btn_2" id="map_view_btn"
+                onclick="mapTypeViewChage()">
+                <span id="centerDongText">익선동</span>
+                <span class="txt_point centerDongMapText">실거래가</span> 보기
+            </button>
+        </div>
+        <div class="map_bottom_area map_bottom_area_2 non_pano" id="map_bottom_area">
             <div class="map_bottom_btn">
                 <button onclick="location.href='{{ route('www.product.create.view') }}'"><img
                         src="{{ asset('assets/media/ic_org_estate.png') }}">매물 내놓기</button>
@@ -347,7 +349,11 @@
                 document.querySelector('.btn_pano_close').style.display = 'none';
                 document.getElementById('panoArea').style.display = 'none';
                 document.getElementById('mapArea').style.display = 'block';
-                map.reset();
+                $('.non_pano').show();
+                if ($('#mapType').val() == 1) {
+                    $('#bottom_property').show();
+                }
+                mapReset();
             }
         }
     });
@@ -579,6 +585,7 @@
 
     // 실거래가지도, 매물지도 타입
     function mapTypeChage(type) {
+        document.getElementById('panoArea').style.display = 'none';
         // $('.map_side_0').removeClass('active');
         // $('.map_side_1').addClass('active');
 
@@ -1197,7 +1204,7 @@
                 if (streetLayer.getMap()) {
 
                     $('.non_pano').hide();
-                    $('.non_pano_side').removeClass('active');
+                    $('#bottom_property').hide();
 
                     if (polygonMap) {
                         polygonMap.setMap(null);
