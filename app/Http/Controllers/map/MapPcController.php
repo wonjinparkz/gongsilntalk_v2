@@ -32,8 +32,11 @@ class MapPcController extends Controller
     public function mapMobile(Request $request): View
     {
         $mapType = $request->mapType ?? 0;
+        $lat = $request->lat ?? 37.2109494;
+        $lng = $request->lng ?? 127.0922858;
+        $search_name = $request->search_name ?? '';
 
-        return view('www.map.map-mobile', compact('mapType'));
+        return view('www.map.map-mobile', compact('mapType', 'lat', 'lng', 'search_name'));
     }
 
     // 모바일 지도 내 매물목록

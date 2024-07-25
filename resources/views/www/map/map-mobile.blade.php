@@ -28,7 +28,7 @@
         <div class="m_inner_wrap">
             <div class="community_search_wrap flex_between">
                 <input type="text" id="search_input" name="search_input" placeholder="단지명, 동이름, 지하철역으로 검색"
-                    autocomplete='off'>
+                    autocomplete='off' value="{{ $search_name }}">
                 <img src="{{ asset('assets/media/btn_solid_delete.png') }}" alt="del" class="btn_del">
                 {{-- <button><img src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button> --}}
             </div>
@@ -1129,8 +1129,8 @@
 
     function initializeMap() {
         map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.2109494, 127.0922858),
-            zoom: 20,
+            center: new naver.maps.LatLng({{ $lat }}, {{ $lng }}),
+            zoom: 18,
             minZoom: 8,
             maxZoom: 21,
             size: new naver.maps.Size(window.innerWidth, window.innerHeight),
