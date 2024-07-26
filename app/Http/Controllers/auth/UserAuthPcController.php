@@ -388,7 +388,7 @@ class UserAuthPcController extends Controller
         $request->session()->forget(['companyInfo']);
 
 
-        $this->kakaoSend('115', $request->name, $request->phone);
+        // $this->kakaoSend('112', $request->name, $request->phone);
 
         return Redirect::route('www.register.complete.corp')->with('message', '회원가입이 완료되었습니다.');
     }

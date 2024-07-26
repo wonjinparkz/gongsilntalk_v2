@@ -214,6 +214,10 @@ class UserController extends Controller
 
         $text = $request->state == 1 ? '승인' : '반려';
 
+        if ($request->state == 1) {
+            $this->kakaoSend('115', $result->name, $result->phone);
+        }
+
         return redirect(route('admin.corp.detail.view', [$request->id]))->with('message', '중개사 회원을 ' . $text . '했습니다.');
     }
 

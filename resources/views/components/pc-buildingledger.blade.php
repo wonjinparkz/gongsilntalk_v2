@@ -65,6 +65,9 @@
                     @if (count($BrTitleInfo) > 0)
                         @foreach ($BrTitleInfo as $info)
                             @php
+                                if (is_array($info['dongNm']) && empty($info['dongNm'])) {
+                                    $info['dongNm'] = '';
+                                }
                                 $dongName[] = str_replace(' ', '', $info['dongNm']);
                             @endphp
                             <tr>
@@ -136,6 +139,11 @@
 
 @if (count($BrTitleInfo) > 0)
     @foreach ($BrTitleInfo as $info)
+        @php
+            if (is_array($info['dongNm']) && empty($info['dongNm'])) {
+                $info['dongNm'] = '';
+            }
+        @endphp
         <div class="{{ str_replace(' ', '', $info['dongNm']) }} dongInfo">
             <div class="default_box showstep1">
                 <div class="table_container2_sm mt10">
