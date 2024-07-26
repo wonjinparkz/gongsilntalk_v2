@@ -186,6 +186,8 @@ class UserAuthPcController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
 
+        $this->kakaoSend('112', $user->name, $user->phone);
+
         return redirect(route('www.main.main'));
     }
 
@@ -217,10 +219,12 @@ class UserAuthPcController extends Controller
             'is_marketing' => $request->is_marketing ?? 0,
         ]);
 
+        $this->kakaoSend('112', $request->name, $request->phone);
 
         // $request->authenticate();
         // $request->session()->regenerate();
         // return redirect()->route('www.main.main')->with('message', '회원가입이 완료 되었습니다.');
+
         return redirect(route('www.login.login'));
     }
 
@@ -298,6 +302,8 @@ class UserAuthPcController extends Controller
 
 
         $result = User::create($joinReg);
+
+        $this->kakaoSend('112', $request->name, $request->phone);
 
         return Redirect::route('www.login.login')->with('message', '회원가입이 완료되었습니다.');
     }
@@ -382,6 +388,9 @@ class UserAuthPcController extends Controller
 
         // 세션 데이터 삭제
         $request->session()->forget(['companyInfo']);
+
+
+        $this->kakaoSend('115', $request->name, $request->phone);
 
         return Redirect::route('www.register.complete.corp')->with('message', '회원가입이 완료되었습니다.');
     }

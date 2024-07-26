@@ -415,6 +415,10 @@ class ProposalPcController extends Controller
             ]);
         }
 
+        $user = User::select()->where('id', Auth::guard('web')->user()->id)->first();
+
+        $this->kakaoSend('118', $user->name, $user->phone);
+
         return Redirect::route('www.mypage.proposal.list.view')->with('message', '제안서가 등록 되었습니다.');
     }
 

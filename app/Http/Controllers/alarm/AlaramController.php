@@ -20,8 +20,9 @@ use Kreait\Laravel\Firebase\Facades\Firebase;
 |
 | - 알림 발송 보기
 | - 알림 발송
-|
+| - 알림톡 발송
 */
+
 class AlaramController extends Controller
 {
     /**
@@ -54,8 +55,8 @@ class AlaramController extends Controller
         $messaging =  app('firebase.messaging');
         $message = CloudMessage::fromArray([
             // 'notification' => ['title'=>"앱이름", 'body'=>$request->message.'notification'],
-            'data' => ['title'=>"앱이름", 'body'=>$request->message.'data', 'index'=>'1010'],
-            'badge'=>1
+            'data' => ['title' => "앱이름", 'body' => $request->message . 'data', 'index' => '1010'],
+            'badge' => 1
         ]);
 
         if (count($fcmKeys) > 0) {
@@ -66,13 +67,12 @@ class AlaramController extends Controller
             $unknownTokens = count($response->unknownTokens());
             $invalidTokens = count($response->invalidTokens());
 
-            Log::info('V:'.$validTokens.' - U:'.$unknownTokens.'- I:'.$invalidTokens);
+            Log::info('V:' . $validTokens . ' - U:' . $unknownTokens . '- I:' . $invalidTokens);
 
             return Redirect::route('admin.alarm.view')->with('message', '알림을 발송했습니다.');
         } else {
             return Redirect::route('admin.alarm.view')->with('message', '알림발송에 실패했습니다.');
         }
-
-
     }
+
 }

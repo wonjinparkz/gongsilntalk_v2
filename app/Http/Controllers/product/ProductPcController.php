@@ -8,6 +8,7 @@ use App\Models\ProductAddInfo;
 use App\Models\ProductOptions;
 use App\Models\ProductPrice;
 use App\Models\ProductServices;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -155,6 +156,11 @@ class ProductPcController extends Controller
         ]);
 
         $this->imageWithCreate($request->product_image_ids, Product::class, $result->id);
+
+
+        $user = User::select()->where('id', Auth::guard('web')->user()->id)->first();
+
+        $this->kakaoSend('127', $user->name, $user->phone);
 
         return Redirect::route('www.mypage.product.magagement.list.view')->with('message', '매물을 등록했습니다.');
     }
@@ -754,6 +760,10 @@ class ProductPcController extends Controller
         }
 
         $this->imageWithCreate($request->product_image_ids, Product::class, $result->id);
+
+        $user = User::select()->where('id', Auth::guard('web')->user()->id)->first();
+
+        $this->kakaoSend('127', $user->name, $user->phone);
 
         return Redirect::route('www.mypage.corp.product.magagement.list.view')->with('message', '매물을 등록했습니다.');
     }

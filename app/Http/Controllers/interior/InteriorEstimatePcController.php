@@ -23,7 +23,7 @@ class InteriorEstimatePcController extends Controller
     }
 
     /**
-     * 인테리어 견적
+     * 인테리어 견적 등록
      */
     public function interiorEstimateCreate(Request $request): RedirectResponse
     {
@@ -78,6 +78,8 @@ class InteriorEstimatePcController extends Controller
         } else {
             $redirect_url = 'https://xn--s39awro00dcgl.com/landing_10';
         }
+
+        $this->kakaoSend('121', $request->company_phone, $request->user_name);
 
         return Redirect::to($redirect_url)->with('message', '견적서를 등록했습니다.');
     }
