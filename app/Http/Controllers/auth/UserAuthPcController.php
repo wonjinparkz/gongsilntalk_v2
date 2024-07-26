@@ -186,9 +186,6 @@ class UserAuthPcController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
 
-        Log::info('알림톡 발송');
-        $this->kakaoSend('115', $user->name, $user->phone);
-
         return redirect(route('www.main.main'));
     }
 

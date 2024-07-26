@@ -262,10 +262,8 @@ class Controller extends BaseController
         //치환문자 미사용시 "{"mobile":"01000000001"} 번호만 입력 해주시기 바랍니다.
 
         $receiverData = [
-            "name" => "정준영",
-            "mobile" => "01065226468",
-            // "name" => $user_name,
-            // "mobile" => $user_phone,
+            "name" => $user_name,
+            "mobile" => $user_phone,
         ];
 
         $receiver = json_encode($receiverData);
