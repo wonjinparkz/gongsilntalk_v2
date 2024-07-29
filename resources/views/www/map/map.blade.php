@@ -734,7 +734,7 @@
     }) {
         is_sale = '';
         if (compareDate(completion_date)) {
-            is_sale = '<span class="bubble_info">분양</span>';
+            is_sale = '<span class="bubble_info">준공전</span>';
         }
         return `<div class="activeMarker iw_inner">
         <h3>${product_name || 'No name'}</h3>
