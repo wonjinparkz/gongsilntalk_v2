@@ -455,6 +455,7 @@
                                             class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.service_type.' . $i) }}</span>
                                     </label>
                                 @endfor
+                                <x-input-error class="mt-2 text-danger" :messages="$errors->get('service_type')" />
                             </div>
                         </div>
                     </div>
@@ -1355,7 +1356,7 @@
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="state" type="radio"
                                         value="{{ $i }}"
-                                        @if (old('state') ?? $result->state == "$i") checked @endif>
+                                        @if (old('state', $result->state) == $i) checked @endif>
                                     <span class="fw-semibold ps-2 fs-6">
                                         {{ Lang::get('commons.product_state.' . $i) }}
                                     </span>
