@@ -48,7 +48,7 @@
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('category')" />
                             </li>
                             <li>
-                                <input type="text" name="title" id="title" placeholder="제목을 입력해주세요." value="{{ old('title')}}">
+                                <input type="text" name="title" id="title" maxlength="50" placeholder="제목을 입력해주세요." value="{{ old('title')}}">
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('title')" />
                             </li>
                             <li>

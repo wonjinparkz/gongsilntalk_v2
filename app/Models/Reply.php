@@ -109,7 +109,7 @@ class Reply extends BaseModel
         $child = $this->hasMany(Reply::class, 'parent_id', 'id');
         $child->select(
             'reply.*',
-            'users.name AS author_name',
+            'users.nickname AS author_name',
         );
         $child->join('users', 'reply.author', '=', 'users.id')->where('reply.is_delete', 0);
         $child->orderBy('reply.created_at', 'asc')->orderBy('id', 'asc');
