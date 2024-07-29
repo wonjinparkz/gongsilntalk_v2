@@ -262,7 +262,7 @@
                                         $serviceTypes = [];
                                         foreach ($result->productServices as $productService) {
                                             $serviceTypes[] = Lang::get(
-                                                'commons.product_type.' . $productService->type,
+                                                'commons.service_type.' . $productService->type,
                                             );
                                         }
                                     @endphp
