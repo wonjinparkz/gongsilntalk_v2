@@ -668,7 +668,7 @@ class UserPcController extends Controller
         $knowledge = KnowledgeCenter::select()->where('address', $result->asset_address->address)->first();
 
         $industryCenterAvgPrice = 1;
-        $knowledge = KnowledgeCenter::select()->where('address', 'like', "%{$result->asset_address->address}%")->first();
+        $knowledge = KnowledgeCenter::select()->where('address', 'like', "%{$result->asset_address->address}%")->where('is_delete', '0')->first();
 
         if ($knowledge) {
             $industryCenterAvgPrice = $knowledge->sale_mid_price;
