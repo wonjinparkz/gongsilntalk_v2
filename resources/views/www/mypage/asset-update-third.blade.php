@@ -85,8 +85,8 @@
                                         <label class="input_label">보증금</label>
                                         <div class="flex_1">
                                             <input type="text" class="tenantClass" id="check_price_temp"
-                                                name="check_price_temp" disabled
-                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                name="check_price_temp" disabled onkeypress="onlyNumbers(event)"
+                                                value="{{ number_format($result->check_price) }}"
                                                 onkeyup="onTextChangeEvent('check_price');"><span>/</span>
                                         </div>
                                     </div>
@@ -94,8 +94,8 @@
                                         <label class="input_label">월임대료</label>
                                         <div class="flex_1">
                                             <input type="text" class="tenantClass" id="month_price_temp"
-                                                name="month_price_temp" disabled
-                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                name="month_price_temp" disabled onkeypress="onlyNumbers(event)"
+                                                value="{{ number_format($result->month_price) }}"
                                                 onkeyup="onTextChangeEvent('month_price');"><span>원</span>
                                         </div>
                                     </div>
@@ -110,8 +110,7 @@
                                     </button>
                                     <ul class="optionList">
                                         @for ($i = 1; $i < 31; $i++)
-                                            <li class="optionItem"
-                                                onclick="depositDayChange('{{ $i }}일');">
+                                            <li class="optionItem" onclick="depositDayChange('{{ $i }}일');">
                                                 {{ $i }}일</li>
                                         @endfor
                                         <li class="optionItem" onclick="depositDayChange('말일');">말일</li>
@@ -126,7 +125,7 @@
                                     <label class="input_label">계약시작일</label>
                                     <input type="text" id="started_at_temp" name="started_at_temp"
                                         class="tenantClass" placeholder="예) 20230101" disabled
-                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                        onkeypress="onlyDateCharacters(event)"
                                         onkeyup="onDateChangeEvent('started_at');">
                                 </div>
                                 <span>~</span>
@@ -134,7 +133,7 @@
                                     <label class="input_label">계약종료일</label>
                                     <input type="text" class="tenantClass" id="ended_at_temp"
                                         name="ended_at_temp" placeholder="예) 20230101" disabled
-                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                        onkeypress="onlyDateCharacters(event)"
                                         onkeyup="onDateChangeEvent('ended_at');">
                                 </div>
                             </div>
@@ -176,10 +175,8 @@
         window.onload = () => {
             $("#vacancy_{{ $result->is_vacancy + 1 }}").trigger('click');
 
-            $(`#check_price_temp`).val(numberToKorean(parseInt($(`#check_price`).val())));
-            $(`#month_price_temp`).val(numberToKorean(parseInt($(`#month_price`).val())));
-
-            $(`#started_at_temp`).val($(`#started_at`).val() != '' ? numberToDate(parseInt($(`#started_at`).val())) : '');
+            $(`#started_at_temp`).val($(`#started_at`).val() != '' ? numberToDate(parseInt($(`#started_at`).val())) :
+                '');
             $(`#ended_at_temp`).val($(`#ended_at`).val() != '' ? numberToDate(parseInt($(`#ended_at`).val())) : '');
         }
 
@@ -207,23 +204,49 @@
             $('#deposit_day').val(string);
         }
 
+        function onlyNumbers(event) {
+            // 숫자 이외의 문자가 입력되면 이벤트를 취소합니다.
+            if (!/\d/.test(event.key) && event.key !== 'Backspace') {
+                event.preventDefault();
+            }
+        }
+
         // 금액 한글 변환
         function onTextChangeEvent(name) {
-            $('#' + name).val($('#' + name + '_temp').val());
-            setTimeout(function() {
-                $('#' + name + '_temp').val(numberToKorean(parseInt($('#' + name).val())));
-            }, 3000);
+            let value = $('#' + name + '_temp').val()
+            value = value.replace(/,/g, '');
+            $('#' + name).val(value);
+            value = Number(value).toLocaleString('en');
+            $('#' + name + '_temp').val((value == 0 ? '' : value));
+        }
+
+        function onlyDateCharacters(event) {
+            const key = event.key;
+            if (!/[0-9]/.test(key)) {
+                event.preventDefault();
+            }
         }
 
         // 숫자 날짜 포맷
         function onDateChangeEvent(name) {
-            $('#' + name).val($('#' + name + '_temp').val());
-            setTimeout(function() {
-                if ($('#' + name + '_temp').val() != '') {
-                    $('#' + name + '_temp').val(numberToDate(parseInt($('#' + name).val())));
-                }
-            }, 4000);
+            let value = $('#' + name + '_temp').val();
+            value = value.replace(/\./g, '');
+            $('#' + name).val(value);
+            let formattedValue = '';
+            if (value.length > 4) {
+                formattedValue = value.substring(0, 4) + '.' + value.substring(4, 6);
+            } else if (value.length > 2) {
+                formattedValue = value.substring(0, 4) + (value.length > 4 ? '.' : '') + value.substring(4);
+            } else {
+                formattedValue = value;
+            }
+            if (value.length > 6) {
+                formattedValue += '.' + value.substring(6, 8);
+            }
+            $('#' + name + '_temp').val(formattedValue);
         }
+
+
 
         //기본 토글 이벤트
         $(".proposal_toggle_btn").click(function() {

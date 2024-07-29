@@ -538,14 +538,14 @@
                 <div>
                     <label class="input_label">회차</label>
                     <div class="flex_1">
-                        <input type="number" placeholder="1"  name="rateCount[]">
+                        <input type="number" placeholder="1" name="rateCount[]">
                         <span>/</span>
                     </div>
                 </div>
                 <div>
                     <label class="input_label">변동 금리</label>
                     <div class="flex_1">
-                        <input type="number" name="interestRate[]" onkeyup="imsi(this)" >
+                        <input type="number" name="interestRate[]" onkeyup="imsi1(this)" >
                         <span>%</span>
                         <button type="button" class="btn_graylight_ghost btn_input txt_r deleteBtn_2">삭제</button>
                     </div>
@@ -615,9 +615,17 @@
 
         var prev = "";
         var regexp = /^\d*(\.\d{0,2})?$/;
+        var regexp1 = /^\d*(\.\d{0,1})?$/;
 
         function imsi(obj) {
             if (obj.value.search(regexp) == -1) {
+                obj.value = prev;
+            } else {
+                prev = obj.value;
+            }
+        }
+        function imsi1(obj) {
+            if (obj.value.search(regexp1) == -1) {
                 obj.value = prev;
             } else {
                 prev = obj.value;

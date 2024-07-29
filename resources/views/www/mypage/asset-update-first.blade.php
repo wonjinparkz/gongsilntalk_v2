@@ -192,7 +192,7 @@
                                         </div>
                                         <div class="flex_1">
                                             <input type="text" id="address_detail_ho" name="address_detail_ho"
-                                                value="{{ $result->asset_address->is_temporary == 0 ? $result->address_detail : '' }}">
+                                                value="{{ $result->address_detail }}">
                                             <span>호</span>
                                         </div>
                                     </div>
@@ -206,7 +206,7 @@
                                 <div class="detail_address_2 mt18">
                                     <div>
                                         <input type="text" id="address_detail" name="address_detail"
-                                            value="{{ $result->asset_address->is_temporary == 1 ? $result->address_detail : '' }}"
+                                            value="{{ $result->address_detail }}"
                                             placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호">
                                     </div>
                                     <div class="mt8">

@@ -40,7 +40,7 @@
                                         <label class="input_label">매매가 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="price_0" name="price_0"
-                                                value="{{ $result->tran_type == 0 ? $result->price : '' }}"
+                                                value="{{ $result->tran_type == 0 ? number_format($result->price) : '' }}"
                                                 onkeypress="onlyNumbers(event)"
                                                 onkeyup="onTextChangeEvent('price', 0);">
                                             <span>원</span>
@@ -64,14 +64,15 @@
                                         <div class="flex_1 flex_between">
                                             <input type="number" id="acquisition_tax_rate_0" step=0.01
                                                 value="{{ $result->tran_type == 0 ? $result->acquisition_tax_rate : '' }}"
-                                                name="acquisition_tax_rate_0" placeholder="소수점 두자리까지 입력"> <span>%</span>
+                                                name="acquisition_tax_rate_0" onkeyup="imsi(this)"
+                                                placeholder="소수점 두자리까지 입력"> <span>%</span>
                                         </div>
                                     </div>
                                     <div class="reg_item">
                                         <label class="input_label">기타비용</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="etc_price_0" name="etc_price_0"
-                                                value="{{ $result->tran_type == 0 ? $result->etc_price : '' }}"
+                                                value="{{ $result->tran_type == 0 ? number_format($result->etc_price) : '' }}"
                                                 onkeypress="onlyNumbers(event)"
                                                 onkeyup="onTextChangeEvent('etc_price', 0);">
                                             <span>원</span>
@@ -84,7 +85,7 @@
                                         <label class="input_label">세무비용</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="tax_price_0" name="tax_price_0"
-                                                value="{{ $result->tran_type == 0 ? $result->tax_price : '' }}"
+                                                value="{{ $result->tran_type == 0 ? number_format($result->tax_price) : '' }}"
                                                 onkeypress="onlyNumbers(event)"
                                                 onkeyup="onTextChangeEvent('tax_price', 0);">
                                             <span>원</span>
@@ -94,7 +95,7 @@
                                         <label class="input_label">중개보수</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="estate_price_0" name="estate_price_0"
-                                                value="{{ $result->tran_type == 0 ? $result->estate_price : '' }}"
+                                                value="{{ $result->tran_type == 0 ? number_format($result->estate_price) : '' }}"
                                                 onkeypress="onlyNumbers(event)"
                                                 onkeyup="onTextChangeEvent('estate_price', 0);">
                                             <span>원</span>
@@ -142,7 +143,8 @@
                                         <label class="input_label">취득세율 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
                                             <input type="number" id="acquisition_tax_rate_1" step=0.01
-                                                name="acquisition_tax_rate_1" placeholder="소수점 두자리까지 입력">
+                                                onkeyup="imsi(this)" name="acquisition_tax_rate_1"
+                                                placeholder="소수점 두자리까지 입력">
                                             <span>%</span>
                                         </div>
                                     </div>
@@ -312,6 +314,9 @@
             $(`#contracted_at_{{ $result->tran_type }}`).val(numberToDate(parseInt($('#contracted_at').val())));
             $(`#registered_at_{{ $result->tran_type }}`).val($('#registered_at').val() != '' ? numberToDate(parseInt($(
                 '#registered_at').val())) : '');
+            // $(`#registered_at_{{ $result->tran_type }}`).val($('#registered_at').val() != '' ? numberToDate(parseInt($(
+            //     '#registered_at').val())) : '');
+
             $(`#loaned_at_0`).val(numberToDate(parseInt($('#loaned_at').val())));
 
             onFieldInputCheck();
@@ -331,12 +336,14 @@
             $('#estate_price_' + idx).val('');
             $('#contracted_at_' + idx).val('');
             $('#acquisition_tax_rate_' + idx).val('');
+            $('#registered_at_' + idx).val('');
 
             $('#price').val('');
             $('#etc_price').val('');
             $('#tax_price').val('');
             $('#estate_price').val('');
             $('#contracted_at').val('');
+            $('#registered_at').val('');
         }
 
         function debounce(func, timeout = 300) {
