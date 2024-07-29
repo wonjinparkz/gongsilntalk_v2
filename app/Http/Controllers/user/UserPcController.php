@@ -667,7 +667,7 @@ class UserPcController extends Controller
 
         $knowledge = KnowledgeCenter::select()->where('address', $result->asset_address->address)->first();
 
-        $industryCenterAvgPrice = 0;
+        $industryCenterAvgPrice = 1;
         $knowledge = KnowledgeCenter::select()->where('address', 'like', "%{$result->asset_address->address}%")->first();
 
         if ($knowledge) {
@@ -688,7 +688,6 @@ class UserPcController extends Controller
         //     })
         //     ->where('asset.type_detail', 0)->sum('area');
 
-        Log::info($result . ' | ' . $industryCenterAvgPrice);
 
         return view('www.mypage.asset-detail', compact('result', 'industryCenterAvgPrice'));
     }
