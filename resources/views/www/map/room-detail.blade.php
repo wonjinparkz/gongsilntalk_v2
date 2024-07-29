@@ -272,16 +272,18 @@
                             @endif
                         </div>
                         {{-- 기존 임대차 내용 없음으로 선택한 경우 노출하지 않음 --}}
-                        <div>융자금</div>
-                        <div class="item_col_3">
-                            @if ($result->loan_type == 1)
-                                30%미만 {{ number_format($result->loan_price) }}원
-                            @elseif($result->loan_type == 2)
-                                30%이상 {{ number_format($result->loan_price) }}원
-                            @else
-                                없음
-                            @endif
-                        </div>
+                        @if ($result->priceInfo->is_use == 1)
+                            <div>융자금</div>
+                            <div class="item_col_3">
+                                @if ($result->loan_type == 1)
+                                    30%미만 {{ number_format($result->loan_price) }}원
+                                @elseif($result->loan_type == 2)
+                                    30%이상 {{ number_format($result->loan_price) }}원
+                                @else
+                                    없음
+                                @endif
+                            </div>
+                        @endif
                         {{--
                             매매일 때
                             기존 임대차 내용 없음으로 선택한 경우 노출하지 않음
@@ -1104,7 +1106,7 @@
 
     {{-- 카카오톡 공유 --}}
 
-<script>
+    <script>
         var title = '공실앤톡';
         var imageUrl = "{{ asset('assets/media/default_gs.png') }}";
         var url = "http://localhost"

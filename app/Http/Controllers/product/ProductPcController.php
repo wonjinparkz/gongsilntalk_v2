@@ -585,7 +585,7 @@ class ProductPcController extends Controller
             'move_type' => $request->type != 6 ? $request->move_type : null,
             'move_date' => ($request->type != 6 && $request->move_type == 2) ? $request->move_date : null,
             'is_service' => $request->type != 6 ? $request->is_service ?? 0 : null,
-            'service_price' => ($request->type != 6 && $request->is_service != 1) ? $request->service_price : null,
+            'service_price' => ($request->type != 6 && $request->is_service != 1) ? $request->service_price / 10000 : null,
             'loan_type' => $request->loan_type,
             'loan_price' => $request->loan_type != 0 ? $request->loan_price : null,
             'parking_type' => $request->type != 6 ? $request->parking_type : null,
