@@ -163,6 +163,7 @@
                             @else
                                 없음
                             @endif
+
                         </li>
                     </ul>
                     <div class="detail_btn_wrap">
@@ -256,7 +257,7 @@
                         <div class="item_col_3">
                             @if ($result->is_service === 0)
                                 {{ $formatServicePrice }}
-                                <span class="gray_basic only_m">
+                                <span class="gray_basic">
                                     @php
                                         $serviceTypes = [];
                                         foreach ($result->productServices as $productService) {
