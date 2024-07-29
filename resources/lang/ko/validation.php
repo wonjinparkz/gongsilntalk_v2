@@ -247,6 +247,7 @@ return [
         'move_type' => '입주가능일 타입',
         'move_date' => '입주가능일',
         'service_price' => '관리비',
+        'service_type' => '관리비 항목',
         'loan_type' => '융자금 타입',
         'loan_price' => '융자금',
         'parking_type' => '주차 가능 여부',

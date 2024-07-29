@@ -16,8 +16,8 @@
 
         $formatPrice = Commons::get_priceTrans($price); // 매매가
         $formatMonthPrice = Commons::get_priceTrans($month_price); // 월세
-        $formatAveragePrice = Commons::get_priceTrans($price / $exclusive_square); // 평단가 = 가격 / 분양면적(공급면적)
-        $formatAveragePrice1 = Commons::get_priceTrans($price / $exclusive_area); // 평단가 = 가격 / 분양면적(공급면적)
+        $formatAveragePrice = Commons::get_priceTrans($price / $result->square); // 평단가 = 가격 / 분양면적(공급면적)
+        $formatAveragePrice1 = Commons::get_priceTrans($price / $result->area); // 평단가 = 가격 / 분양면적(공급면적)
         $formatServicePrice = Commons::get_priceTrans($service_price * 10000); // 관리비
         $formatCurrentPrice = Commons::get_priceTrans($current_price); // 현재 매물 보증금
         $formatCurrentMonthPrice = Commons::get_priceTrans($current_month_price); // 현재 매물 월임대료
@@ -31,6 +31,7 @@
     <div class="room_info_wrap">
         <div class="inner_wrap room_info_inner">
             <div>
+            {}
                 <span
                     class="txt_item_1">{{ $result->region_address }}·{{ Lang::get('commons.product_type.' . $result->type) }}</span>
                 <span class="txt_item_2 square">공급 {{ $result->square ?? '-' }}㎡ / 전용

@@ -275,8 +275,6 @@ class ProductController extends Controller
 
         ]);
 
-        Log::info($request);
-
         if ($validator->fails()) {
             return redirect(route('admin.product.detail.view', [$request->id]))
                 ->withErrors($validator)
