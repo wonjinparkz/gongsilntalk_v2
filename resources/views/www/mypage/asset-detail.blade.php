@@ -118,7 +118,7 @@
         $address_detail = isset($result->address_dong) ? $result->address_dong . '동 ' : '';
         $address_detail .= $result->address_detail . '호';
 
-        if ($result->type_detail == 0) {
+        if ($result->type_detail == 0 && $industryCenterAvgPrice > 0) {
             $avgPrice = $result->price / $result->area / 10000;
 
             if ($avgPrice > $industryCenterAvgPrice) {
@@ -285,7 +285,7 @@
                                     </li>
                                 </ul>
 
-                                @if ($result->type_detail == 0)
+                                @if ($result->type_detail == 0 && $industryCenterAvgPrice > 0)
                                     <div class="price_status_box">
                                         <div class="status_item">
                                             <p>평당</p>
@@ -322,7 +322,7 @@
                 </div>
                 <!---------------------- m:: 총 자산 현황 s ---------------------->
 
-                @if ($result->type_detail == 0)
+                @if ($result->type_detail == 0 && $industryCenterAvgPrice > 0)
                     <div class="price_status_box only_pc">
                         <div class="status_item">
                             <p>평당</p>

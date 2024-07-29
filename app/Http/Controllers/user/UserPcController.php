@@ -688,6 +688,8 @@ class UserPcController extends Controller
         //     })
         //     ->where('asset.type_detail', 0)->sum('area');
 
+        Log::info($result . ' | ' . $industryCenterAvgPrice);
+
         return view('www.mypage.asset-detail', compact('result', 'industryCenterAvgPrice'));
     }
 

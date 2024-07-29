@@ -79,7 +79,7 @@
                                     $loan_price = $sale_price * ($loan_ratio / 100);
 
                                     // 월 이자 상환액
-                                    $month_interest_price = ($loan_price * ($loan_interest / 100)) % 12;
+                                    $month_interest_price = ($loan_price * ($loan_interest / 100)) / 12;
 
                                     // 실투자금
                                     $investment_price =
@@ -300,7 +300,7 @@
                                 <div class="flex_1">
                                     <input type="number" class="" max="100" placeholder="0 ~ 100 사이값 입력"
                                         name="loan_ratio" min="0" max="100"
-                                        oninput="validateInput(event)">
+                                        oninput="validateInput(event)" onkeypress="onlyNumbers(event)">
                                     <span>%</span>
                                 </div>
                             </li>
