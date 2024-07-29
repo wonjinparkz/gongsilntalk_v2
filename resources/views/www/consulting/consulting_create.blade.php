@@ -3,12 +3,13 @@
 
     <form id="create" method="post" action="{{ route('www.consulting.create') }}">
         <!----------------------------- m::header bar : s ----------------------------->
-    <div class="m_header">
-        <div class="left_area"><a href="javascript:history.go(-1)"><img src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
-        <div class="m_title">상담문의</div>
-        <div class="right_area"></div>
-    </div>
-    <!----------------------------- m::header bar : s ----------------------------->
+        <div class="m_header">
+            <div class="left_area"><a href="javascript:history.go(-1)"><img
+                        src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
+            <div class="m_title">상담문의</div>
+            <div class="right_area"></div>
+        </div>
+        <!----------------------------- m::header bar : s ----------------------------->
 
         <div class="body cst_bg">
             <div class="cst_top">
@@ -21,19 +22,25 @@
                     <ul class="reg_bascic">
                         <li>
                             <label>이름 <span class="txt_point">*</span></label>
-                            <input type="text" placeholder="example@email.com">
+                            <input type="text" name="name" id="name" value="{{ old('name') }}">
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('name')" />
                         </li>
                         <li>
                             <label>휴대전화 번호 <span class="txt_point">*</span></label>
-                            <input type="number" placeholder="">
+                            <input type="number" name="phone" id="phone" value="{{ old('phone') }}"
+                                placeholder="01012345678">
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('phone')" />
                         </li>
                         <li>
                             <label>이메일 <span class="txt_point">*</span></label>
-                            <input type="text" placeholder="">
+                            <input type="text" name="email" id="email" value="{{ old('email') }}"
+                                placeholder="example@email.com">
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('email')" />
                         </li>
                         <li>
                             <label>상담 목적 <span class="txt_point">*</span></label>
-                            <textarea></textarea>
+                            <textarea name="content" id="content">{{ old('content') }}</textarea>
+                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('content')" />
                         </li>
                     </ul>
 
@@ -55,16 +62,42 @@
                             </li>
                         </ul>
                         <div class="mt40">
-                            <button class="btn_point btn_full_basic">무료 상담 받기</button>
+                            <button type="button" class="btn_point btn_full_basic" id="create_btn"
+                                onclick="$('#create').submit()" disabled>무료 상담
+                                받기</button>
                         </div>
-                
+
                     </div>
 
                 </div>
             </div>
 
-            
+
         </div>
     </form>
 
 </x-layout>
+
+<script>
+    confirm_check();
+    $('input, textarea').on('input change click', function() {
+        confirm_check();
+    });
+
+    function confirm_check() {
+        var name = $('#name').val();
+        var phone = $('#phone').val();
+        var email = $('#email').val();
+        var content = $('#content').val();
+        var terms = $('input[name="checkOne"]:checked').length
+
+        console.log('name : ' + name + '\n phone : ' + phone + '\n email : ' + email + '\n content : ' + content +
+            '\n terms : ' + terms);
+
+        if (name != '' && phone != '' && email != '' && content != '' && terms > 1) {
+            $('#create_btn').attr('disabled', false);
+        } else {
+            $('#create_btn').attr('disabled', true);
+        }
+    }
+</script>

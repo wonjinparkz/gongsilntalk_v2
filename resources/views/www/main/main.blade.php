@@ -908,7 +908,9 @@
                 <div class="item_box">
                     <h1>부동산 전속계약 및 제휴 문의</h1>
                     <p>공실앤톡과 업무 협약 및 제휴, 부동산 전속계약 체결을 원하는 업체는 아래로 신청해주세요.</p>
-                    <button class="btn_point btn_basic">제휴 및 전속계약 문의</button>
+                    <a href="{{ route('www.consulting.create.view') }}">
+                        <button class="btn_point btn_basic">제휴 및 전속계약 문의</button>
+                    </a>
                 </div>
             </section>
             <!-- section 9 : e -->
