@@ -31,7 +31,6 @@
     <div class="room_info_wrap">
         <div class="inner_wrap room_info_inner">
             <div>
-            {}
                 <span
                     class="txt_item_1">{{ $result->region_address }}·{{ Lang::get('commons.product_type.' . $result->type) }}</span>
                 <span class="txt_item_2 square">공급 {{ $result->square ?? '-' }}㎡ / 전용
