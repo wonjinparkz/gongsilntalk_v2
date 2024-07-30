@@ -38,7 +38,7 @@ class ConsultingPcController extends Controller
 
         $result = ConsultingQuestion::create([
             'name' => $request->name,
-            'phone' => Crypt::encryptString($request->phone),
+            'phone' => $request->phone,
             'email' => $request->email,
             'content' => $request->content,
             'state' => 0, // 등록 시에는 0
