@@ -577,7 +577,7 @@
                                 <div class="tag_area">
                                     <span class="txt_tag">#무료 3D도면 제공</span>
                                 </div>
-                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=66C5Dz078" onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
+                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=666C5Dz078" onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
                                     <button>자세히보기</button>
                                 </a>
                             </div>
@@ -586,7 +586,7 @@
                         </div>
 
                         <div class="con_box">
-                            <img src="{{ asset('assets/media/cst_img_2.png') }}" alt="">
+                            <img src="{{ asset('assets/media/cst_img_2.png') }}" alt
                             <div class="con_w_box">
                                 <p class="box_item_1">퍼시스 가구</p>
                                 <div class="box_item_2">국내 사무가구 1위 브랜드, 퍼시스(FURSYS)<br>가구와 모든 서비스를 합리적인 단가로 제공<br>받으실 수
@@ -595,7 +595,7 @@
                                     <span class="txt_tag">#퍼시스 가구</span>
                                     <span class="txt_tag">#합리적인 가격</span>
                                 </div>
-                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=54K087K540" target="_blank">
+                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=54K087K540" onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
                                     <button>자세히보기</button>
                                 </a>
                             </div>
@@ -611,7 +611,7 @@
                                     <span class="txt_tag">#데스커 가구</span>
                                     <span class="txt_tag">#기업전용 서비스</span>
                                 </div>
-                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=726406uT5e" target="_blank">
+                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=726406uT5e" onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
                                     <button>자세히보기</button>
                                 </a>
                             </div>
@@ -623,7 +623,7 @@
 
                 {{-- QA-64 디자인 변경 필요 --}}
                 <div class="con_box_wrap">
-                    <a href='https://xn--s39awro00dcgl.com/portfolio' target="_blank">
+                    <a href='https://xn--s39awro00dcgl.com/portfolio' onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
                         <button class="btn_black_ghost btn_basic">
                             더 많은 사례 확인하기
                         </button>

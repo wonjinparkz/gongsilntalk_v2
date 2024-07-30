@@ -123,7 +123,7 @@
                                     </div>
                                     <!----------------------- M::희망 업종 : s ----------------------->
                                     <div class="dropdown_box m_full only_m mt8">
-                                        <button class="dropdown_label" onclick="modal_open_slide('biz_type')">희망 업종
+                                        <button type="button" class="dropdown_label" onclick="modal_open_slide('biz_type')">희망 업종
                                             선택</button>
                                     </div>
                                     <div class="modal_slide modal_slide_biz_type">
@@ -267,7 +267,7 @@
 
             if (parseInt(count) < 3) {
 
-                var regionDiv = ` <div class="keyword_item">${region} <button onclick="keyword_item(this)">
+                var regionDiv = ` <div class="keyword_item">${region} <button type="button" onclick="keyword_item(this)">
                                 <img src="{{ asset('assets/media/btn_solid_delete.png') }}">
                             </button>
                             <input type="hidden" id="region_zone[]" name="region_zone[]" value="${region}">
