@@ -45,6 +45,8 @@ class ConsultingPcController extends Controller
             'is_delete' => 0, // 등록 시에는 0
         ]);
 
+        $this->kakaoSend('124', $request->phone, $request->name);
+
         return Redirect::route('www.main.main')->with('message', '상담문의를 등록했습니다.');
     }
 }
