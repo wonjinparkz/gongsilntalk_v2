@@ -2,6 +2,7 @@
 $(document).ready(function () {
     initTabSwipers(); // 클릭하면 탭 가운데 정렬 함수
     menuScroll(); // 메뉴 클릭 시 스크롤 이동 함수
+    $(window).on('scroll', scrollAct).scroll();
 });
 
 function initTabSwipers() {
@@ -173,9 +174,9 @@ function menuScroll() {
     }
 
     // 페이지 로드 시 초기화 작업
-    $(window).on('load', function () {
-        $(window).on('scroll', scrollAct).scroll();
-    });
+    // $(window).on('load', function () {
+    //     $(window).on('scroll', scrollAct).scroll();
+    // });
 
     // 창 크기 변경 이벤트 및 스크롤 이벤트 핸들러 등록
     $(window).on('resize', handleResize);
