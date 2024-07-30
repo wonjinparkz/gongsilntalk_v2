@@ -330,6 +330,18 @@
                                 </a>
                             </div>
                         @endif
+                        @if (in_array('33', $permissions))
+                            {{-- 공지사항 메뉴 --}}
+                            <div class="menu-item">
+                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'consulting') ? 'active' : '' }}"
+                                    href="{{ route('admin.consulting.list.view') }}">
+                                    <span class="menu-icon">
+                                        <i class="fa-solid fa-comments"></i>
+                                    </span>
+                                    <span class="menu-title">컨설팅 상담 관리</span>
+                                </a>
+                            </div>
+                        @endif
                     </div>
                 @endif
 

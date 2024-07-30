@@ -577,7 +577,7 @@
                                 <div class="tag_area">
                                     <span class="txt_tag">#무료 3D도면 제공</span>
                                 </div>
-                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=66C5Dz078" target="_blank">
+                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=66C5Dz078" onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
                                     <button>자세히보기</button>
                                 </a>
                             </div>

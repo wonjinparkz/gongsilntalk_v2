@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class ConsultingQuestion extends Model
+class ConsultingQuestion extends BaseModel
 {
     use HasFactory, Notifiable;
 
@@ -37,6 +37,7 @@ class ConsultingQuestion extends Model
      * 캐스팅
      */
     protected $casts = [
+        'phone' => 'encrypted',
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];

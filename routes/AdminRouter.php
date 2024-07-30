@@ -16,6 +16,7 @@ use App\Http\Controllers\banner\BannerController;
 use App\Http\Controllers\building\DataBuildingController;
 use App\Http\Controllers\buildingledger\BuildingledgerController;
 use App\Http\Controllers\commons\PopupOpenController;
+use App\Http\Controllers\consulting\ConsultingController;
 use App\Http\Controllers\data\DataController;
 use App\Http\Controllers\interior\InteriorEstimateController;
 use App\Http\Controllers\store\DataStoreController;
@@ -223,6 +224,16 @@ Route::middleware('admin.auth')->controller(NoticeController::class)->group(func
     Route::post('/notice/update', 'noticeUpdate')->name('admin.notice.update');
     Route::post('/notice/state/update/', 'noticeStateUpdate')->name('admin.notice.state.update');
     Route::post('/notice/delete', 'noticeDelete')->name('admin.notice.delete');
+});
+
+/**
+ * 관리자 컨설팅 문의
+ */
+Route::middleware('admin.auth')->controller(ConsultingController::class)->group(function () {
+    Route::get('/consulting/list/view', 'consultingListView')->name('admin.consulting.list.view');
+    Route::get('/consulting/detail/view/{id}', 'consultingDetailView')->name('admin.consulting.detail.view');
+    Route::post('/consulting/delete', 'consultingDelete')->name('admin.consulting.delete');
+    Route::post('/consulting/state/update', 'consultingStateUpdate')->name('admin.consulting.state.update');
 });
 
 /**
