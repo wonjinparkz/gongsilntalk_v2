@@ -717,10 +717,10 @@
 
 
             <!-- section 6 : s -->
-            <section class="section_review">
+            <!--  <section class="section_review">
                 <p class="txt_item_1">기업이 인정하는 공실앤톡</p>
                 <div class="swiper reviewSwiper" dir="ltr">
-                    {{-- <div class="swiper-wrapper">
+                    <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <h1>솔직히 반신반의 했는데, 이보다 더 좋은 부동산 서비스 찾기도 힘들어요.</h1>
                             <p>전담 매니저들이 건물 이슈, 사무 공간 관리까지 맡아 알아서 해주기 때문에 확실히 좋은 더
@@ -798,9 +798,9 @@
                             </div>
                         </div>
                         <div class="swiper-slide">Slide 8</div>
-                    </div> --}}
+                    </div>
                 </div>
-            </section>
+            </section>   -->
             <script>
                 var reviewSwiper = new Swiper(".reviewSwiper", {
                     spaceBetween: 22,
