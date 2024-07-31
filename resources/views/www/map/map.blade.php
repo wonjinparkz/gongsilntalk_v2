@@ -437,7 +437,7 @@
                 processDataArray(data.building, 'building', getContentStringForBuilding, 0, 50);
 
                 processProductArray(data.product, 'product', 0, 50);
-                processAgentArray(data.agent, 'agent', 50, 100);
+                processAgentArray(data.agent, 'agent', 0, 50);
 
 
                 if (data.centerDongName != null) {
@@ -1009,7 +1009,7 @@
         htmlMarker2 = { // 중개사 클러스터링 마커
             content: `<div class="marker_default detail_info_toggle"><span></span></div>`,
             size: N.Size(40, 40),
-            anchor: N.Point(50, 50)
+            anchor: N.Point(20, 20)
         },
         htmlMarker3 = { // 매물 클러스터링 마커
             content: `<div class="knowledge_cluster_marker active"></div>`,
