@@ -536,8 +536,8 @@
             } = item;
             createAgentMarker({
                 id: item.id,
-                lat: company_address_lat,
-                lng: company_address_lng,
+                lat: company_address_lat + 0.000010,
+                lng: company_address_lng + 0.000010,
                 type: type,
                 image: image,
                 anchorX: anchorX,
