@@ -529,7 +529,7 @@
         array.forEach(item => {
             var {
                 id,
-                company_address_lat = company_address_lat + 0.0002,
+                company_address_lat,
                 company_address_lng,
                 type,
                 image
