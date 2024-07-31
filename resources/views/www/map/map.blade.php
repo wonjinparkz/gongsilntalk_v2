@@ -529,15 +529,15 @@
         array.forEach(item => {
             var {
                 id,
-                company_address_lat,
+                company_address_lat = company_address_lat + 0.0002,
                 company_address_lng,
                 type,
                 image
             } = item;
             createAgentMarker({
                 id: item.id,
-                lat: company_address_lat + 0.10,
-                lng: company_address_lng + 0.10,
+                lat: company_address_lat,
+                lng: company_address_lng,
                 type: type,
                 image: image,
                 anchorX: anchorX,
