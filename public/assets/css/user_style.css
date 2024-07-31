@@ -156,7 +156,7 @@
 .mark_plans{background: #63605F; color:#fff; display: inline-block; padding:6px 10px; border-radius:6px;}
 .mark_complete{background: #63605F; color:#fff; display: inline-block; padding:6px 10px; border-radius:6px;}
 
-.sales_section_1 h3, .sales_section_2 h3, .sales_section_2-2 h3, .sales_section_3 h3, .sales_section_4 h3{font-size: 30px;}
+.sales_section_1 h3, .sales_section_2 h3, .sales_section_2-2 h3, .sales_section_3 h3, .sales_section_4 h3, .sales_section_5 h3{font-size: 30px;}
 .sales_bar_wrap{background:var(--gray-bg); position: fixed; top: 60px; left: 0; width: 100%; z-index: 10;}
 .sales_name_bar{display:flex; justify-content: space-between; align-items: center; height: 82px;}
 .sales_name_bar .txt_location{font-size: 16px; color:var(--color-gray-2); margin-bottom:4px;}
