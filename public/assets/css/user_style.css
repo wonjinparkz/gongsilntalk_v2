@@ -194,7 +194,7 @@
 .edu_document .swiper-button-next:after, .edu_document .swiper-button-prev:after{font-size:18px; }
 .edu_document .swiper-slide{text-align:center; height: auto !important;}
 .edu_document .swiper-wrapper{height: auto !important;}
-.edu_document .document_img{width:976px;}
+.edu_document .document_img{width:800px;}
 
 .features{padding-bottom:50px !important; margin-top: 30px;}
 .features .swiper-pagination-fraction{background: none !important;}
@@ -206,8 +206,10 @@
 .features .document_img{width:700px;}
 
 .sales_section_2-2{padding: 80px 0;}
-.floor_title{font-size: 50px; font-family: 'font-b'; margin-top: 60px;}
-.floor_info{font-size: 24px; color: var(--color-gray-2); margin-top: 8px; margin-bottom: 24px;}
+.floor_tit_wrap{display: flex; align-items: center; margin-top:30px; gap: 8px;}
+.floor_title{font-size:26px; font-family: 'font-b';}
+.floor_info{font-size: 20px; color: var(--color-gray-2); }
+img.floor_img{width: 80%;}
 .premium_wrap {display: grid; grid-template-columns: repeat(2, 1fr); grid-gap:70px 80px; width:1176px; overflow: hidden; margin-top:38px;}
 .premium_wrap .premium_cell {align-items:center; justify-content:left; border: 1px solid #D2D1D0; border-radius: 10px; padding: 38px;}
 .premium_wrap .premium_cell label{color: var(--main-color); font-size: 28px; font-family: 'font-b';}

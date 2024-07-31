@@ -257,10 +257,12 @@
                         $floorFirstInfo->is_dormitory ? array_push($typeArray, '기숙사,유치원') : '';
                         $floorFirstInfo->is_business_support ? array_push($typeArray, '업무지원시설') : '';
                     @endphp
-                    <div class="floor_title">{{ $floorFirstInfo->floor_name }}</div>
-                    <div class="floor_info">{{ implode('/', $typeArray) }}</div>
+                    <div class="floor_tit_wrap">
+                        <div class="floor_title">{{ $floorFirstInfo->floor_name }}</div>
+                        <div class="floor_info">{{ implode('/', $typeArray) }}</div>
+                    </div>
                     <div><img id="floorDetailImage"
-                            src="{{ Storage::url('image/' . $floorFirstInfo->images->path) }}" class="w_100">
+                            src="{{ Storage::url('image/' . $floorFirstInfo->images->path) }}" class="floor_img">
                     </div>
                 </div>
             </section>
