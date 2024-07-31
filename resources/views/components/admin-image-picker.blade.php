@@ -7,15 +7,20 @@
     'div_col' => '8',
     'images' => [],
 ])
-
+<style>
+    .top_tit{display:flex; justify-content: space-between; align-items: center;}
+</style>
 <div class="row mb-6">
     <label
         class="col-lg-{{ $label_col }} col-form-label fw-semibold fs-6 {{ $required }}">{{ $title }}</label>
     <div class="col-lg-{{ $div_col }}">
-        <p class="fw-light">최대 {{ $cnt }}장 업로드 가능
-            <span style="color: #F16341"
-                id="{{ $id }}_image_count">{{ count(old($id . '_image_ids', $images)) }}</span>/{{ $cnt }}
-        </p>
+        <div class="top_tit">
+            <p class="fw-light">최대 {{ $cnt }}장 업로드 가능
+                <span style="color: #F16341"
+                    id="{{ $id }}_image_count">{{ count(old($id . '_image_ids', $images)) }}</span>/{{ $cnt }}
+            </p>
+            <p>1080 x 800</p>
+        </div>
         <div class="dropzone " id="{{ $id }}_drop">
             <div class="dz-message needsclick">
                 <i class="bi bi-file-earmark-arrow-up text-primary fs-3x"></i>
