@@ -1009,7 +1009,7 @@
         htmlMarker2 = { // 중개사 클러스터링 마커
             content: `<div class="marker_default detail_info_toggle"><span></span></div>`,
             size: N.Size(40, 40),
-            anchor: N.Point(20, 20)
+            anchor: N.Point(50, 50)
         },
         htmlMarker3 = { // 매물 클러스터링 마커
             content: `<div class="knowledge_cluster_marker active"></div>`,
