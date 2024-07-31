@@ -437,7 +437,7 @@
                 processDataArray(data.building, 'building', getContentStringForBuilding, 0, 50);
 
                 processProductArray(data.product, 'product', 0, 50);
-                processAgentArray(data.agent, 'agent', 0, 50);
+                processAgentArray(data.agent, 'agent', 50, 100);
 
 
                 if (data.centerDongName != null) {
@@ -529,7 +529,7 @@
         array.forEach(item => {
             var {
                 id,
-                company_address_lat = company_address_lat + 0.0002,
+                company_address_lat,
                 company_address_lng,
                 type,
                 image
