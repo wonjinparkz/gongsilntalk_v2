@@ -437,7 +437,7 @@
                 processDataArray(data.building, 'building', getContentStringForBuilding, 0, 50);
 
                 processProductArray(data.product, 'product', 0, 50);
-                processAgentArray(data.agent, 'agent', 0, 50);
+                processAgentArray(data.agent, 'agent', 50, 100);
 
 
                 if (data.centerDongName != null) {
