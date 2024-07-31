@@ -6,9 +6,14 @@
     'label_col' => '4',
     'div_col' => '8',
     'images' => [],
+    'size' => '',
 ])
 <style>
-    .top_tit{display:flex; justify-content: space-between; align-items: center;}
+    .top_tit {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 </style>
 <div class="row mb-6">
     <label
@@ -19,7 +24,9 @@
                 <span style="color: #F16341"
                     id="{{ $id }}_image_count">{{ count(old($id . '_image_ids', $images)) }}</span>/{{ $cnt }}
             </p>
-            <p>1080 x 800</p>
+            @if ($size != '')
+                <p>{{ $size }}</p>
+            @endif
         </div>
         <div class="dropzone " id="{{ $id }}_drop">
             <div class="dz-message needsclick">

@@ -12,7 +12,7 @@
 
                     {{-- 이미지 --}}
                     <x-admin-image-picker :title="'배너 이미지'" :id="'banner'" cnt="1" required="required"
-                        :images="$result->images" />
+                        :images="$result->images" size="1080 x 800" />
 
                     {{-- 배너명 --}}
                     <div class="row mb-6">
@@ -57,7 +57,8 @@
                     <div class="row mb-6">
                         <label class="required col-lg-4 col-form-label fw-semibold fs-6">팝업 내용</label>
                         <div class="col-lg-8 fv-row">
-                            <textarea name="content" class="form-control form-control-solid mb-5" rows="5" placeholder="80자 이내로 배너에 대한 내용을 입력해주세요.">{{ old('content') ? old('content') : $result->content }}</textarea>
+                            <textarea name="content" class="form-control form-control-solid mb-5" rows="5"
+                                placeholder="80자 이내로 배너에 대한 내용을 입력해주세요.">{{ old('content') ? old('content') : $result->content }}</textarea>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('content')" />
                         </div>
                     </div>

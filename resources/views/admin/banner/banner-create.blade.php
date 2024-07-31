@@ -9,14 +9,14 @@
                 <div class="card-body border-top p-9">
 
                     {{-- 이미지  --}}
-                    <x-admin-image-picker :title="'배너 이미지'" id="banner" cnt="1" required="required" />
+                    <x-admin-image-picker :title="'배너 이미지'" id="banner" cnt="1" required="required"
+                        size="1080 x 800" />
 
                     {{-- 배너명 --}}
                     <div class="row mb-6">
                         <label class="required col-lg-4 col-form-label fw-semibold fs-6">배너명</label>
                         <div class="col-lg-8 fv-row">
-                            <textarea name="name" class="form-control form-control-solid mb-5" rows="5"
-                                placeholder="배너의 이름을 입력해주세요.">{{ old('name') }}</textarea>
+                            <textarea name="name" class="form-control form-control-solid mb-5" rows="5" placeholder="배너의 이름을 입력해주세요.">{{ old('name') }}</textarea>
                             {{-- <input type="text" name="name" class="form-control form-control-solid"
                                 placeholder="배너의 이름을 입력해주세요." value="{{ old('name') }}" /> --}}
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('name')" />
