@@ -107,28 +107,29 @@
                                     <button class="dropdown_label" type="button">업종 선택</button>
                                     <ul class="optionList">
                                         @foreach (Lang::get('commons.client_type') as $key => $client_type)
-                                            <li class="optionItem" onclick="onClientTypeChange('{{ $key }}');">
+                                            <li class="optionItem"
+                                                onclick="onClientTypeChange('{{ $key }}', '');">
                                                 {{ $client_type }}
                                             </li>
                                         @endforeach
                                     </ul>
                                 </div>
-                                <!----------------------- M::희망 업종 : s ----------------------->
+                                <!----------------------- M:: 업종 : s ----------------------->
                                 <div class="dropdown_box m_full only_m mt8">
-                                    <button class="dropdown_label" type="button"
-                                        onclick="modal_open_slide('biz_type')">희망
-                                        업종 선택</button>
+                                    <button class="dropdown_label" type="button" id="client_text"
+                                        onclick="modal_open_slide('biz_type')"> 업종 선택</button>
                                 </div>
                                 <div class="modal_slide modal_slide_biz_type">
                                     <div class="slide_title_wrap">
-                                        <span>희망 업종 선택</span>
+                                        <span>업종 선택</span>
                                         <img src="{{ asset('assets/media/btn_md_close.png') }}"
                                             onclick="modal_close_slide('biz_type')">
                                     </div>
                                     <ul class="slide_modal_menu">
                                         @foreach (Lang::get('commons.client_type') as $key => $client_type)
-                                            <li>
-                                                <a href="#" onclick="onClientTypeChange('{{ $key }}');">
+                                            <li class="optionItem">
+                                                <a href="#"
+                                                    onclick="onClientTypeChange('{{ $key }}', this);">
                                                     {{ $client_type }}
                                                 </a>
                                             </li>
@@ -137,7 +138,7 @@
                                 </div>
                                 <div class="md_slide_overlay md_slide_overlay_biz_type"
                                     onclick="modal_close_slide('biz_type')"></div>
-                                <!----------------------- M::희망 업종 : e ----------------------->
+                                <!----------------------- M:: 업종 : e ----------------------->
                             </div>
                         @endif
 
@@ -191,7 +192,11 @@
             $('#create_form').submit();
         }
 
-        function onClientTypeChange(index) {
+        function onClientTypeChange(index, e) {
+            if (e) {
+                modal_close_slide('biz_type')
+                $('#client_text').text(e.text);
+            }
             $('#client_type').val(index);
         }
 

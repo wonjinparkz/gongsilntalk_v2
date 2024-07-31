@@ -116,14 +116,15 @@
                                         <ul class="optionList">
                                             @foreach (Lang::get('commons.product_business_type') as $key => $business_type)
                                                 <li class="optionItem"
-                                                    onclick="onBusinessChange('{{ $key }}');">
+                                                    onclick="onBusinessChange('{{ $key }}', '');">
                                                     {{ $business_type }}</li>
                                             @endforeach
                                         </ul>
                                     </div>
                                     <!----------------------- M::희망 업종 : s ----------------------->
                                     <div class="dropdown_box m_full only_m mt8">
-                                        <button type="button" class="dropdown_label" onclick="modal_open_slide('biz_type')">희망 업종
+                                        <button type="button" class="dropdown_label" id="business_text"
+                                            onclick="modal_open_slide('biz_type')">희망 업종
                                             선택</button>
                                     </div>
                                     <div class="modal_slide modal_slide_biz_type">
@@ -134,8 +135,8 @@
                                         </div>
                                         <ul class="slide_modal_menu">
                                             @foreach (Lang::get('commons.product_business_type') as $key => $business_type)
-                                                <li><a href="#"
-                                                        onclick="onBusinessChange('{{ $key }}');">{{ $business_type }}</a>
+                                                <li class="optionItem"><a
+                                                        onclick="onBusinessChange('{{ $key }}', this);">{{ $business_type }}</a>
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -158,6 +159,7 @@
                                     <p class="fs_13 gray_basic mt8">인원 당 2.5평을 추천해드립니다.</p>
                                 </div>
                             </div>
+
                         </div>
 
                         <div>
@@ -220,7 +222,11 @@
             $('#create_form').submit();
         }
 
-        function onBusinessChange(index) {
+        function onBusinessChange(index, e) {
+            if (e) {
+                modal_close_slide('biz_type')
+                $('#business_text').text(e.text);
+            }
             $('#business_type').val(index);
             onFieldInputCheck();
         }

@@ -217,12 +217,20 @@
                         </div>
                     </div>
 
-                    {{-- 업종 --}}
+                    {{-- 희망 업종 --}}
                     <div class="col-lg-12 row mb-6">
-                        <label class="col-lg-2 col-form-label fw-semibold fs-6">업종</label>
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">{{ $result->type == 0 ? '희망' : '' }}
+                            업종</label>
                         <div class="col-lg-8 fv-row">
-                            <input type="text" disabled class="form-control form-control-solid" placeholder="업종"
-                                value="{{ Lang::get('commons.business_type.' . $result->business_type) }}" />
+                            @if ($result->type == 0)
+                                <input type="text" disabled class="form-control form-control-solid"
+                                    placeholder="희망 업종"
+                                    value="{{ $result->business_type != '' ? Lang::get('commons.product_business_type.' . $result->business_type) : '-' }}" />
+                            @else
+                                <input type="text" disabled class="form-control form-control-solid"
+                                    placeholder="업종"
+                                    value="{{ $result->business_type != '' ? Lang::get('commons.client_type.' . $result->business_type) : '-' }}" />
+                            @endif
                         </div>
                     </div>
 
