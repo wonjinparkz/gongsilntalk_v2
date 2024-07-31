@@ -502,7 +502,7 @@ class MapPcController extends Controller
 
             $product = $product->get();
 
-            $agent = User::select('users.id', 'company_address_lng',DB::raw('company_address_lat + 0.0002 as company_address_lat'))->with('image')->where('type', 1)->where('state', 0)->where('company_state', 1)
+            $agent = User::select('users.id', 'company_address_lng',DB::raw('company_address_lat + 0.00015 as company_address_lat'))->with('image')->where('type', 1)->where('state', 0)->where('company_state', 1)
                 ->whereRaw(
                     "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(company_address_lat)) * COS(RADIANS(company_address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(company_address_lat)))), 2) < ?",
                     [$address_lat, $address_lng, $address_lat, $distance]
