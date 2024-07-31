@@ -586,7 +586,7 @@
                         </div>
 
                         <div class="con_box">
-                            <img src="{{ asset('assets/media/cst_img_2.png') }}" alt
+                            <img src="{{ asset('assets/media/cst_img_2.png') }}" alt="">
                             <div class="con_w_box">
                                 <p class="box_item_1">퍼시스 가구</p>
                                 <div class="box_item_2">국내 사무가구 1위 브랜드, 퍼시스(FURSYS)<br>가구와 모든 서비스를 합리적인 단가로 제공<br>받으실 수
