@@ -786,6 +786,15 @@
                                     <th scope="row">도로명주소</th>
                                     <td id="addrPart1" style="font-size:15px; height:20px; line-height:20px;"></td>
                                 </tr>
+                                <tr style="display:none">
+                                    <th scope="row"><label for="inputPopAddress">상세주소입력</label></th>
+                                    <td>
+                                        <input type="text" name="rtAddrDetail" id="rtAddrDetail"
+                                            style="width: 100%; font-size: 13px;" onkeypress="addrDetailChk();"
+                                            onkeyup="addrDetailChk1(this);" title="상세주소" />
+                                        <div id="addrPart2" style="font-size: 13px; line-height: 2em;"></div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                         <div class="btns-submit">

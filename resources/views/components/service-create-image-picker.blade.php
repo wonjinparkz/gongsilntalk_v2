@@ -75,6 +75,12 @@
             $("#{{ $id }}ImageName").html(image);
 
             {{ $id }}imageDropzone.removeFile(file);
+        },
+        error: function(file, errorMessage) {
+            // 업로드 실패 시 알림창 띄우기
+            alert('이미지 업로드에 실패했습니다. 다시 시도해 주세요.');
+            // 실패한 파일 제거
+            onImageDeleteUpdate('{{ $id }}', '{{ $title }}')
         }
     });
 
