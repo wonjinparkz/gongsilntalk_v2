@@ -254,7 +254,7 @@
                             <li>
                                 <label>취득세율 <span>*</span></label>
                                 <div class="flex_1">
-                                    <input type="number" class="input_check" name="acquisition_tax"
+                                    <input type="text" class="input_check" name="acquisition_tax"
                                         onfocus="toggleInputTypeImsi(this)" onblur="toggleInputTypeImsi(this);"
                                         oninput="imsi(this)">
                                     <span>%</span>
@@ -312,7 +312,7 @@
                             <li>
                                 <label>대출비율<span class="gray_basic">(매매 또는 분양가 기준) </span></label>
                                 <div class="flex_1">
-                                    <input type="number" class="" max="100" placeholder="0 ~ 100 사이값 입력"
+                                    <input type="text" class="" max="100" placeholder="0 ~ 100 사이값 입력"
                                         name="loan_ratio" oninput="validateInput(this, 100); onlyNumbers(this)">
                                     <span>%</span>
                                 </div>
@@ -320,7 +320,7 @@
                             <li>
                                 <label>대출금리</label>
                                 <div class="flex_1">
-                                    <input type="number" class="" onfocus="toggleInputTypeImsi(this)"
+                                    <input type="text" class="" onfocus="toggleInputTypeImsi(this)"
                                         onblur="toggleInputTypeImsi(this);" oninput="imsi(this)"
                                         placeholder="소수점 두자리까지 입력" name="loan_interest">
                                     <span>%</span>
