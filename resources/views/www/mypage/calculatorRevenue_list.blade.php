@@ -91,11 +91,17 @@
                                     // 연 순수익
                                     $revenue_price = $month_revenue_price * 12;
 
+                                    // // 수익률
+                                    // $revenue_rate = ($revenue_price / $investment_price) * 100;
+
+                                    // // 실투자금 회수기간
+                                    // $payback_period = $investment_price / $revenue_price;
                                     // 수익률
-                                    $revenue_rate = ($revenue_price / $investment_price) * 100;
+                                    $revenue_rate =
+                                        $investment_price != 0 ? ($revenue_price / $investment_price) * 100 : 0;
 
                                     // 실투자금 회수기간
-                                    $payback_period = $investment_price / $revenue_price;
+                                    $payback_period = $revenue_price != 0 ? $investment_price / $revenue_price : 0;
                                 @endphp
                                 <div class="table_container columns_2 mt18">
                                     <div class="td">매매/분양가</div>
@@ -230,7 +236,8 @@
                         노후 시설 수리비, 감가상각비 등 관련사항을 충분히 고려하신 후 산정하시는 것을 권장합니다.
                     </div>
                 </div>
-                <form class="form" method="POST" action="{{ route('www.calculator.revenue.create') }}">
+                <form class="form" id="revenueForm" method="POST"
+                    action="{{ route('www.calculator.revenue.create') }}">
                     @csrf
                     <div class="md_inner_scroll">
 
@@ -239,31 +246,35 @@
                                 <label>매매/분양가<span class="gray_basic">(부가세 제외) </span> <span>*</span></label>
                                 <div class="flex_1">
                                     <input type="text" class="input_check" name="sale_price"
-                                        onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent(this)">
+                                        oninput="onlyNumbers(this)" onfocus="toggleInputType(this)"
+                                        onblur="toggleInputType(this);onTextChangeEvent(this);">
                                     <span>원</span>
                                 </div>
                             </li>
                             <li>
                                 <label>취득세율 <span>*</span></label>
                                 <div class="flex_1">
-                                    <input type="text" class="input_check" name="acquisition_tax"
-                                        onkeyup="imsi(this)">
+                                    <input type="number" class="input_check" name="acquisition_tax"
+                                        onfocus="toggleInputTypeImsi(this)" onblur="toggleInputTypeImsi(this);"
+                                        oninput="imsi(this)">
                                     <span>%</span>
                                 </div>
                             </li>
                             <li>
                                 <label>세무비용</label>
                                 <div class="flex_1">
-                                    <input type="text" class="" name="tax_price"
-                                        onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent(this)">
+                                    <input type="text" class="" name="tax_price" oninput="onlyNumbers(this)"
+                                        onfocus="toggleInputType(this)"
+                                        onblur="toggleInputType(this);onTextChangeEvent(this);">
                                     <span>원</span>
                                 </div>
                             </li>
                             <li>
                                 <label>중개보수</label>
                                 <div class="flex_1">
-                                    <input type="text" class="" name="commission"
-                                        onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent(this)">
+                                    <input type="text" class="" name="commission" oninput="onlyNumbers(this)"
+                                        onfocus="toggleInputType(this)"
+                                        onblur="toggleInputType(this);onTextChangeEvent(this);">
                                     <span>원</span>
                                 </div>
                             </li>
@@ -271,7 +282,8 @@
                                 <label>기타비용</label>
                                 <div class="flex_1">
                                     <input type="text" class="" name="etc_price"
-                                        onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent(this)">
+                                        oninput="onlyNumbers(this)" onfocus="toggleInputType(this)"
+                                        onblur="toggleInputType(this);onTextChangeEvent(this);">
                                     <span>원</span>
                                 </div>
                             </li>
@@ -281,7 +293,8 @@
                                         <label>보증금</label>
                                         <div class="flex_1">
                                             <input type="text" class="" name="price"
-                                                onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent(this)">
+                                                oninput="onlyNumbers(this)" onfocus="toggleInputType(this)"
+                                                onblur="toggleInputType(this);onTextChangeEvent(this);">
                                             <span>/</span>
                                         </div>
                                     </div>
@@ -289,7 +302,8 @@
                                         <label>월임대료</label>
                                         <div class="flex_1">
                                             <input type="text" class="" name="month_price"
-                                                onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent(this)">
+                                                oninput="onlyNumbers(this)" onfocus="toggleInputType(this)"
+                                                onblur="toggleInputType(this);onTextChangeEvent(this);">
                                             <span>원</span>
                                         </div>
                                     </div>
@@ -299,15 +313,15 @@
                                 <label>대출비율<span class="gray_basic">(매매 또는 분양가 기준) </span></label>
                                 <div class="flex_1">
                                     <input type="number" class="" max="100" placeholder="0 ~ 100 사이값 입력"
-                                        name="loan_ratio" min="0" max="100"
-                                        oninput="validateInput(event)" onkeypress="onlyNumbers(event)">
+                                        name="loan_ratio" oninput="validateInput(this, 100); onlyNumbers(this)">
                                     <span>%</span>
                                 </div>
                             </li>
                             <li>
                                 <label>대출금리</label>
                                 <div class="flex_1">
-                                    <input type="text" class="" onkeyup="imsi(this)"
+                                    <input type="number" class="" onfocus="toggleInputTypeImsi(this)"
+                                        onblur="toggleInputTypeImsi(this);" oninput="imsi(this)"
                                         placeholder="소수점 두자리까지 입력" name="loan_interest">
                                     <span>%</span>
                                 </div>
@@ -315,8 +329,10 @@
                         </ul>
                     </div>
                     <div class="modal_container">
-                        <button class="btn_point btn_full_basic confirm" disabled><b>수익률 계산하기</b></button>
+                        <button type="button" class="btn_point btn_full_basic confirm" onclick="submitForm()"
+                            disabled><b>수익률 계산하기</b></button>
                     </div>
+
                 </form>
 
             </div>
@@ -330,55 +346,23 @@
 </x-layout>
 
 <script>
-    var prev = "";
-    var regexp = /^\d*(\.\d{0,2})?$/;
-
-    function imsi(obj) {
-        if (obj.value.search(regexp) == -1) {
-            obj.value = prev;
-        } else {
-            prev = obj.value;
-        }
+    // 폼 제출 함수
+    function submitForm() {
+        document.getElementById('revenueForm').submit();
     }
 
     $('.input_check').on("keyup", function() {
         let allFilled = true;
-
         $('.input_check').each(function() {
             if ($(this).val().trim() === '') {
                 allFilled = false;
                 return false; // break out of the loop
             }
         });
-
         if (allFilled) {
             $('.confirm').attr("disabled", false);
         } else {
             $('.confirm').attr("disabled", true);
         }
     });
-
-
-    function onlyNumbers(event) {
-        // 숫자 이외의 문자가 입력되면 이벤트를 취소합니다.
-        if (!/\d/.test(event.key) && event.key !== 'Backspace') {
-            event.preventDefault();
-        }
-    }
-
-    // 금액 콤마
-    function onTextChangeEvent(element) {
-        let value = element.value;
-        value = value.replace(/,/g, '');
-        value = Number(value).toLocaleString('en');
-        element.value = value;
-    }
-
-    // 100까지 입력값 받기
-    function validateInput(event) {
-        var input = event.target;
-        if (input.value > 100) {
-            input.value = 100;
-        }
-    }
 </script>

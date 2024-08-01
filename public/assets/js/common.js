@@ -769,3 +769,76 @@ function getSearchContent(searchInput, content) {
     // 결과 반환
     return highlightedContent;
 }
+
+var prev = "";
+var regexp = /^\d*(\.\d{0,2})?$/;
+var regexp1 = /^\d*(\.\d{0,1})?$/;
+
+// 소수점 리미트
+function imsi(obj) {
+    if (obj.value.search(regexp) == -1) {
+        obj.value = prev;
+    } else {
+        prev = obj.value;
+    }
+}
+
+function imsi1(obj) {
+    if (obj.value.search(regexp1) == -1) {
+        obj.value = prev;
+    } else {
+        prev = obj.value;
+    }
+}
+// 숫자 입력칸 활성화
+function toggleInputTypeImsi(element) {
+    const input = element;
+    const type = input.type === 'text' ? 'number' : 'text';
+    input.type = type;
+}
+
+// 숫자 입력 최대값
+function validateInput(element, max) {
+    var value = element.value;
+    if (value > max) {
+        element.value = max;
+    }
+}
+
+// 숫자만 입력
+function onlyNumbers(element) {
+    let value = element.value;
+    element.value = '';
+    element.value = value.replace(/[^0-9]/g, '');
+}
+
+// 숫자 입력칸 활성화
+function toggleInputType(element) {
+    const input = element;
+    const type = input.type === 'text' ? 'number' : 'text';
+    if (type == 'number') {
+        input.value = input.value.replace(/[^0-9]/g, '');
+    }
+    input.type = type;
+}
+
+// 금액 콤마
+function onTextChangeEvent(element) {
+    let value = element.value;
+    console.log('value : ', value);
+    element.value = '';
+    value = value.replace(/[^0-9]/g, '');
+    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    element.value = value == 0 ? '' : value;
+}
+
+// 금액 콤마
+function onTextChangeEventIndex(name, index) {
+    let value = $('#' + name + '_' + index).val();
+    $('#' + name + '_' + index).val('');
+    value = value.replace(/[^0-9]/g, '');
+    $('#' + name).val(value);
+    value = Number(value).toLocaleString('en');
+    $('#' + name + '_' + index).val((value == 0 ? '' : value));
+
+}
