@@ -133,7 +133,7 @@
                         @endif
                     </div>
 
-                    <div class="community_content">
+                    <div class="community_contents">
                         @if ($result->url != '')
                             <div class="detail_img_wrap">
                                 <iframe width="100%" height="350" src="{{ $result->url }}" frameborder="0"
