@@ -12,7 +12,7 @@
 
                     {{-- 이미지 --}}
                     <x-admin-image-picker :title="'서비스 이미지'" :id="'service'" cnt="1" required="required"
-                        :images="$result->images" />
+                        :images="$result->images" size="445 x 667"/>
 
                     {{-- 서비스명 --}}
                     <div class="row mb-6">

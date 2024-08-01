@@ -12,7 +12,7 @@
 
                     {{-- 이미지 --}}
                     <x-admin-image-picker :title="'배너 이미지'" :id="'banner'" cnt="1" required="required"
-                        :images="$result->images" size="1080 x 800" />
+                        :images="$result->images" size="1920 x 800" />
 
                     {{-- 배너명 --}}
                     <div class="row mb-6">
