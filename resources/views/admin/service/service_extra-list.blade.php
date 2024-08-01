@@ -23,7 +23,7 @@
 
                     {{-- 이미지  --}}
                     <x-admin-image-picker :title="'서비스 이미지'" id="recommend_service" cnt="1" required="required"
-                        :images="$recommend->images ?? []" />
+                        :images="$recommend->images ?? []" size="1920 x 800" />
 
                     {{-- 노출여부 --}}
                     <div class="row mb-6">
@@ -87,7 +87,7 @@
 
                     {{-- 이미지  --}}
                     <x-admin-image-picker :title="'서비스 이미지'" id="property_service" cnt="1" required="required"
-                        :images="$property->images ?? []" />
+                        :images="$property->images ?? []" size="1920 x 800" />
 
                     {{-- 노출여부 --}}
                     <div class="row mb-6">
@@ -151,7 +151,7 @@
 
                     {{-- 이미지  --}}
                     <x-admin-image-picker :title="'서비스 이미지'" id="asset_service" cnt="1" required="required"
-                        :images="$asset->images ?? []" />
+                        :images="$asset->images ?? []" size="1920 x 800" />
 
                     {{-- 노출여부 --}}
                     <div class="row mb-6">
@@ -213,7 +213,7 @@
 
                     {{-- 이미지  --}}
                     <x-admin-image-picker :title="'서비스 이미지'" id="arithmometer_service" cnt="1" required="required"
-                        :images="$arithmometer->images ?? []" />
+                        :images="$arithmometer->images ?? []" size="1920 x 800" />
 
                     {{-- 노출여부 --}}
                     <div class="row mb-6">
@@ -275,7 +275,7 @@
 
                     {{-- 이미지  --}}
                     <x-admin-image-picker :title="'서비스 이미지'" id="app_download_service" cnt="1" required="required"
-                        :images="$app_download->images ?? []" />
+                        :images="$app_download->images ?? []" size="866 x 980" />
 
                     {{-- 노출여부 --}}
                     <div class="row mb-6">

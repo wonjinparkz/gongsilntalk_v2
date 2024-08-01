@@ -82,7 +82,7 @@
 
 .section_download{background:#F5F5F5; height: 980px;}
 .section_download .main_download_wrap{display: flex; align-items: center; gap: 40px;}
-.section_download .main_download_wrap .download_img{height: 980px;}
+.section_download .main_download_wrap .download_img{width: 866px; height: 980px;}
 .download_info_wrap{width:380px;}
 .download_info_wrap .txt_item_1{font-size:40px; font-family: 'font-b'; line-height: 1.2;}
 .download_info_wrap .txt_item_2{font-size:20px; color: var(--color-gray-2); line-height: 1.4; margin-top:18px;}

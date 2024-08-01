@@ -22,7 +22,7 @@
 .popup_bottom span{cursor: pointer; padding: 0 20px;}
 
 .right_side_wrap{z-index:40; width: 1180px; position:fixed; left:50%; transform:translateX(-50%);}
-.right_side_wrap .right_side{display: flex; flex-direction: column; gap: 8px; position: fixed; right: -70px; top:200px}
+.right_side_wrap .right_side{display: flex; flex-direction: column; gap: 8px; position: fixed; right: -90px; top:200px}
 .quick_bn{background: #fff; border-radius: 8px; width: 60px; height: 60px; display: flex; flex-direction: column; gap:4px; align-items: center; justify-content: center; border: 1px solid #eee;}
 .quick_bn img{height: 22px;}
 .quick_bn p{font-size: 11px; letter-spacing: -1px;}

@@ -11,7 +11,7 @@
                 <div class="card-body border-top p-9">
 
                     {{-- 이미지  --}}
-                    <x-admin-image-picker :title="'서비스 이미지'" id="service" cnt="1" required="required" />
+                    <x-admin-image-picker :title="'서비스 이미지'" id="service" cnt="1" required="required" size="445 x 667" />
 
                     {{-- 서비스명 --}}
                     <div class="row mb-6">
