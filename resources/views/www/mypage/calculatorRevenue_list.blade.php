@@ -313,6 +313,7 @@
                                 <label>대출비율<span class="gray_basic">(매매 또는 분양가 기준) </span></label>
                                 <div class="flex_1">
                                     <input type="text" class="" max="100" placeholder="0 ~ 100 사이값 입력"
+                                        onfocus="toggleInputTypeImsi(this)" onblur="toggleInputTypeImsi(this);"
                                         name="loan_ratio" oninput="validateInput(this, 100); onlyNumbers(this)">
                                     <span>%</span>
                                 </div>
