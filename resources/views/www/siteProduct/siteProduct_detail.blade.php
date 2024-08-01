@@ -202,9 +202,9 @@
         <!-- 기본정보 : s -->
 
         <!-- 층별정보  : s -->
-        <div class="inner_wrap sales_section_2-2" id="tab_area_2">
+        <div class="inner_wrap sales_section_2-2 page" id="tab_area_2">
             <h3>층별정보</h3>
-            <section class="page">
+            <section class="">
 
                 <ul class="tab_type_6 toggle_tab mt28">
                     @php
@@ -371,8 +371,8 @@
         <!-- 분양일정  : e -->
 
         <!-- 오시는길  : s -->
-        <div class="inner_wrap sales_section_5" id="tab_area_5">
-            <section class="page">
+        <div class="inner_wrap sales_section_5 page" id="tab_area_5">
+            <section class="">
                 <h3>오시는 길</h3>
 
                 <div class="sales_address_info">

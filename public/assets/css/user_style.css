@@ -215,7 +215,7 @@ img.floor_img{width: 80%;}
 .premium_wrap .premium_cell label{color: var(--main-color); font-size: 28px; font-family: 'font-b';}
 .premium_wrap .premium_cell p{margin-top: 38px; font-size: 24px;}
 .premium_wrap .premium_cell div{margin-top:14px; font-size: 18px; color: var(--color-gray-2); line-height: 1.6;}
-.sales_section_3, .sales_section_4, .sales_section_5{padding: 70px 0;}
+.sales_section_3, .sales_section_4, .sales_section_5{padding: 70px 0; box-sizing: border-box;}
 .sales_section_4 .txt_item_1{color: var(--color-gray-3); margin-top: 8px;}
 .sales_schedule_wrap{display: flex; align-items: top; margin-top: 38px;}
 .sales_schedule_wrap .item_year{font-size: 24px; font-family: 'font-b'; width: 100px; padding-top: 8px;}
