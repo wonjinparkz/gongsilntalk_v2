@@ -100,6 +100,7 @@
     .sales_floor_select{width:100%; margin-top: 28px;}
     .floor_title{font-size:24px; font-family: 'font-b'; margin-top:18px;}
     .floor_info{font-size:16px; color: var(--color-gray-2); margin-top: 8px; margin-bottom: 18px;}
+    img.floor_img{width:100%;}
     .premium_wrap {display: grid; grid-template-columns: repeat(1, 1fr); grid-gap:10px; width:100%; overflow: hidden; margin-top:38px;}
     .premium_wrap .premium_cell {align-items:center; justify-content:left; border: 1px solid #D2D1D0; border-radius: 10px; padding:22px;}
     .premium_wrap .premium_cell label{color: var(--main-color); font-size:18px; font-family: 'font-b';}

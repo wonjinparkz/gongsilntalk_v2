@@ -82,7 +82,7 @@ function menuScroll() {
     //const offsetMo = 50;  메뉴 상단 고정 위치 (모바일)
     //const offsetPC = 0;  메뉴 상단 고정 위치 (PC)
     const topMo = 80; // 스크롤 했을 때 컨텐츠 시작 위치 (모바일)
-    const topPc = 300; // 스크롤 했을 때 컨텐츠 시작 위치 (PC)
+    const topPc = 200; // 스크롤 했을 때 컨텐츠 시작 위치 (PC)
     const breakpoints = 767; // 모바일 사이즈 분기점
     let windowWidth = window.innerWidth;
     let isMobile = window.innerWidth < breakpoints;
