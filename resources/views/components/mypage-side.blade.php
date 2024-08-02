@@ -43,7 +43,7 @@
     <li class="{{ str_contains(Route::currentRouteName(), 'mypage.proposal') ? 'active' : '' }}">
         <a href="{{ route('www.mypage.proposal.list.view') }}">매물 제안서</a>
     </li>
-    <li class="{{ str_contains(Route::currentRouteName(), 'mypage.calculator.revenue') ? 'active' : '' }}">
+    <li class="{{ str_contains(Route::currentRouteName(), 'mypage.calculator') ? 'active' : '' }}">
         <a href="{{ route('www.mypage.calculator.revenue.list.view') }}">수익률 계산기</a>
     </li>
     @if ($result->type == 0)

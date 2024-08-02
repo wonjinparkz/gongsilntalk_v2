@@ -44,9 +44,14 @@
                                 <a href="javascript:void(0)" onclick="modal_open('terms_1')">[필수] 개인정보 수집 및 이용동의</a>
                             </li>
                             <li>
+                                <input type="checkbox" name="checkOne" id="checkOne_5" value="1">
+                                <label for="checkOne_5"><span></span></label>
+                                <a href="javascript:void(0)" onclick="modal_open('terms_3')">[필수] 위치기반 서비스 이용약관</a>
+                            </li>
+                            <li>
                                 <input type="checkbox" name="checkOne" id="checkOne_4" value="1">
                                 <label for="checkOne_4"><span></span></label>
-                                <a href="javascript:void(0)" onclick="modal_open('terms_2')">[선택] 마케팅 정보 수신에 대한 동의</a>
+                                [선택] 마케팅 정보 수신에 대한 동의
                             </li>
                         </ul>
                         <div class="mt40">
