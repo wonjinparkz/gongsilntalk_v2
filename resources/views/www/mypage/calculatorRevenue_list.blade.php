@@ -245,9 +245,9 @@
                             <li>
                                 <label>매매/분양가<span class="gray_basic">(부가세 제외) </span> <span>*</span></label>
                                 <div class="flex_1">
-                                    <input type="tel" class="input_check" name="sale_price"
-                                        oninput="onlyNumbers(this); onTextChangeEvent(this);" onfocus="toggleInputType(this)"
-                                        onblur="toggleInputType(this);">
+                                    <input type="text" class="input_check" name="sale_price" inputmode="numeric"
+                                        oninput="onlyNumbers(this); onTextChangeEvent(this);"
+                                        onfocus="toggleInputType(this)" onblur="toggleInputType(this);">
                                     <span>원</span>
                                 </div>
                             </li>
