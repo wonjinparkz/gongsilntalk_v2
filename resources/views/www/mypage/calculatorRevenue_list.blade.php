@@ -245,16 +245,16 @@
                             <li>
                                 <label>매매/분양가<span class="gray_basic">(부가세 제외) </span> <span>*</span></label>
                                 <div class="flex_1">
-                                    <input type="text" class="input_check" name="sale_price"
-                                        oninput="onlyNumbers(this)" onfocus="toggleInputType(this)"
-                                        onblur="toggleInputType(this);onTextChangeEvent(this);">
+                                    <input type="number" class="input_check" name="sale_price"
+                                        oninput="onlyNumbers(this); onTextChangeEvent(this);" onfocus="toggleInputType(this)"
+                                        onblur="toggleInputType(this);">
                                     <span>원</span>
                                 </div>
                             </li>
                             <li>
                                 <label>취득세율 <span>*</span></label>
                                 <div class="flex_1">
-                                    <input type="text" class="input_check" name="acquisition_tax"
+                                    <input type="number" class="input_check" name="acquisition_tax"
                                         onfocus="toggleInputTypeImsi(this)" onblur="toggleInputTypeImsi(this);"
                                         oninput="imsi(this)">
                                     <span>%</span>
@@ -263,7 +263,7 @@
                             <li>
                                 <label>세무비용</label>
                                 <div class="flex_1">
-                                    <input type="text" class="" name="tax_price" oninput="onlyNumbers(this)"
+                                    <input type="number" class="" name="tax_price" oninput="onlyNumbers(this)"
                                         onfocus="toggleInputType(this)"
                                         onblur="toggleInputType(this);onTextChangeEvent(this);">
                                     <span>원</span>
@@ -272,7 +272,7 @@
                             <li>
                                 <label>중개보수</label>
                                 <div class="flex_1">
-                                    <input type="text" class="" name="commission" oninput="onlyNumbers(this)"
+                                    <input type="number" class="" name="commission" oninput="onlyNumbers(this)"
                                         onfocus="toggleInputType(this)"
                                         onblur="toggleInputType(this);onTextChangeEvent(this);">
                                     <span>원</span>
@@ -281,7 +281,7 @@
                             <li>
                                 <label>기타비용</label>
                                 <div class="flex_1">
-                                    <input type="text" class="" name="etc_price"
+                                    <input type="number" class="" name="etc_price"
                                         oninput="onlyNumbers(this)" onfocus="toggleInputType(this)"
                                         onblur="toggleInputType(this);onTextChangeEvent(this);">
                                     <span>원</span>
@@ -292,7 +292,7 @@
                                     <div>
                                         <label>보증금</label>
                                         <div class="flex_1">
-                                            <input type="text" class="" name="price"
+                                            <input type="number" class="" name="price"
                                                 oninput="onlyNumbers(this)" onfocus="toggleInputType(this)"
                                                 onblur="toggleInputType(this);onTextChangeEvent(this);">
                                             <span>/</span>
@@ -301,7 +301,7 @@
                                     <div>
                                         <label>월임대료</label>
                                         <div class="flex_1">
-                                            <input type="text" class="" name="month_price"
+                                            <input type="number" class="" name="month_price"
                                                 oninput="onlyNumbers(this)" onfocus="toggleInputType(this)"
                                                 onblur="toggleInputType(this);onTextChangeEvent(this);">
                                             <span>원</span>
@@ -312,7 +312,7 @@
                             <li>
                                 <label>대출비율<span class="gray_basic">(매매 또는 분양가 기준) </span></label>
                                 <div class="flex_1">
-                                    <input type="text" class="" max="100" placeholder="0 ~ 100 사이값 입력"
+                                    <input type="number" class="" max="100" placeholder="0 ~ 100 사이값 입력"
                                         onfocus="toggleInputTypeImsi(this)" onblur="toggleInputTypeImsi(this);"
                                         name="loan_ratio" oninput="validateInput(this, 100); onlyNumbers(this)">
                                     <span>%</span>
@@ -321,7 +321,7 @@
                             <li>
                                 <label>대출금리</label>
                                 <div class="flex_1">
-                                    <input type="text" class="" onfocus="toggleInputTypeImsi(this)"
+                                    <input type="number" class="" onfocus="toggleInputTypeImsi(this)"
                                         onblur="toggleInputTypeImsi(this);" oninput="imsi(this)"
                                         placeholder="소수점 두자리까지 입력" name="loan_interest">
                                     <span>%</span>
@@ -365,5 +365,52 @@
         } else {
             $('.confirm').attr("disabled", true);
         }
+    });
+</script>
+
+<div>
+    <label for="amount1">금액 입력 1:</label>
+    <input type="text" id="amount1" inputmode="numeric" pattern="[0-9]*" placeholder="금액을 입력하세요">
+</div>
+<div>
+    <label for="amount2">금액 입력 2:</label>
+    <input type="text" id="amount2" inputmode="numeric" pattern="[0-9]*" placeholder="금액을 입력하세요">
+</div>
+<script>
+    $(document).ready(function() {
+        function setupCurrencyInputHandlers(selector) {
+            $(selector).on('input', function() {
+                let value = $(this).val().replace(/,/g, '');
+
+                if (isNaN(value)) {
+                    $(this).val('');
+                    return;
+                }
+
+                value = parseInt(value, 10).toLocaleString();
+                $(this).val(value);
+            });
+
+            $(selector).on('focus', function() {
+                $(this).attr('type', 'number');
+            });
+
+            $(selector).on('blur', function() {
+                $(this).attr('type', 'text');
+                let value = $(this).val().replace(/,/g, '');
+
+                if (isNaN(value)) {
+                    $(this).val('');
+                    return;
+                }
+
+                value = parseInt(value, 10).toLocaleString();
+                $(this).val(value);
+            });
+        }
+
+        // 원하는 입력란에 대해 함수를 호출합니다.
+        setupCurrencyInputHandlers('#amount1');
+        setupCurrencyInputHandlers('#amount2');
     });
 </script>
