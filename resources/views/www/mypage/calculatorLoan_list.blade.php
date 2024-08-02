@@ -34,7 +34,7 @@
 
                 <!-- my_body : s -->
                 <div class="my_body inner_wrap m_inner_wrap">
-                    <h1 class="t_center only_pc">수익률 계산기</h1>
+                    <h1 class="t_center only_pc">대출이자 계산기</h1>
                     <div class="my_tab_wrap">
                         <ul class="tab_type_5">
                             <li class=""
