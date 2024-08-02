@@ -315,7 +315,7 @@
                             <li>
                                 <label>대출금리</label>
                                 <div class="flex_1">
-                                    <input type="text" class="" oninput="imsi(this)"
+                                    <input type="text" class="" oninput="imsi(this)" inputmode="numeric"
                                         placeholder="소수점 두자리까지 입력" name="loan_interest">
                                     <span>%</span>
                                 </div>
@@ -358,52 +358,5 @@
         } else {
             $('.confirm').attr("disabled", true);
         }
-    });
-</script>
-
-<div>
-    <label for="amount1">금액 입력 1:</label>
-    <input type="text" id="amount1" inputmode="numeric" pattern="[0-9]*" placeholder="금액을 입력하세요">
-</div>
-<div>
-    <label for="amount2">금액 입력 2:</label>
-    <input type="text" id="amount2" inputmode="numeric" pattern="[0-9]*" placeholder="금액을 입력하세요">
-</div>
-<script>
-    $(document).ready(function() {
-        function setupCurrencyInputHandlers(selector) {
-            $(selector).on('input', function() {
-                let value = $(this).val().replace(/,/g, '');
-
-                if (isNaN(value)) {
-                    $(this).val('');
-                    return;
-                }
-
-                value = parseInt(value, 10).toLocaleString();
-                $(this).val(value);
-            });
-
-            $(selector).on('focus', function() {
-                $(this).attr('type', 'number');
-            });
-
-            $(selector).on('blur', function() {
-                $(this).attr('type', 'text');
-                let value = $(this).val().replace(/,/g, '');
-
-                if (isNaN(value)) {
-                    $(this).val('');
-                    return;
-                }
-
-                value = parseInt(value, 10).toLocaleString();
-                $(this).val(value);
-            });
-        }
-
-        // 원하는 입력란에 대해 함수를 호출합니다.
-        setupCurrencyInputHandlers('#amount1');
-        setupCurrencyInputHandlers('#amount2');
     });
 </script>

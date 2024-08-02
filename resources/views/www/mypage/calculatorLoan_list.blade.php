@@ -270,17 +270,15 @@
                                     <div>
                                         <label>대출원금</label>
                                         <div class="flex_1">
-                                            <input type="text" id="loan_price" name="loan_price"
-                                                onkeypress="onlyNumbers(this)" onfocus="toggleInputType(this)"
-                                                onblur="toggleInputType(this);onTextChangeEvent(this);"> <span>원</span>
+                                            <input type="text" id="loan_price" name="loan_price" inputmode="numeric"
+                                                oninput="onlyNumbers(this); onTextChangeEvent(this);"> <span>원</span>
                                         </div>
                                     </div>
                                     <div>
                                         <label>이자율</label>
                                         <div class="flex_1">
                                             <input type="text" placeholder="소수점 두자리까지 입력" id="loan_rate"
-                                                name="loan_rate" onfocus="toggleInputTypeImsi(this)"
-                                                onblur="toggleInputTypeImsi(this);" oninput="imsi(this)">
+                                                inputmode="numeric" name="loan_rate" oninput="imsi(this)">
                                             <span>%</span>
                                         </div>
                                     </div>
@@ -291,9 +289,8 @@
                                     <div>
                                         <label>대출기간</label>
                                         <div class="flex_1">
-                                            <input type="number" id="loan_month" name="loan_month"
-                                                onfocus="toggleInputTypeImsi(this)"
-                                                onblur="toggleInputTypeImsi(this);" oninput="onlyNumbers(this)">
+                                            <input type="text" id="loan_month" name="loan_month"
+                                                inputmode="numeric" oninput="onlyNumbers(this);">
                                             <span>개월</span>
                                         </div>
                                     </div>
@@ -301,9 +298,8 @@
                                         <!-- 만기일시는 거치기간을 삭제해 주세요. -->
                                         <label>거치기간</label>
                                         <div class="flex_1">
-                                            <input type="number" id="holding_month" name="holding_month"
-                                                oninput="onlyNumbers(this)" onfocus="toggleInputTypeImsi(this)"
-                                                onblur="toggleInputTypeImsi(this);">
+                                            <input type="text" id="holding_month" name="holding_month"
+                                                inputmode="numeric" oninput="onlyNumbers(this)">
                                             <span>개월</span>
                                         </div>
                                     </div>
