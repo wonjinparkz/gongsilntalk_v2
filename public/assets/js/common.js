@@ -790,11 +790,14 @@ function imsi1(obj) {
         prev = obj.value;
     }
 }
+
 // 숫자 입력칸 활성화
 function toggleInputTypeImsi(element) {
     const input = element;
-    const type = input.type === 'text' ? 'number' : 'text';
-    input.type = type;
+    if (document.body.offsetWidth < 768) {
+        const type = input.type === 'text' ? 'number' : 'text';
+        input.type = type;
+    }
 }
 
 // 숫자 입력 최대값
@@ -812,15 +815,32 @@ function onlyNumbers(element) {
     element.value = value.replace(/[^0-9]/g, '');
 }
 
+// 클릭시 number 타입으로하고 포커싱되면 text
 // 숫자 입력칸 활성화
 function toggleInputType(element) {
     const input = element;
-    const type = input.type === 'text' ? 'number' : 'text';
-    if (type == 'number') {
+    console.log('입력칸 ', input.type);
+    if (document.activeElement === input) {
         input.value = input.value.replace(/[^0-9]/g, '');
+        input.type = 'text';
+        onTextChangeEvent(element);
+    } else {
+        if (input.value == '') {
+            input.type = 'number';
+        }
     }
-    input.type = type;
 }
+
+// function toggleInputType(element) {
+//     const input = element;
+//     if (document.body.offsetWidth < 768) {
+//         const type = input.type === 'text' ? 'number' : 'text';
+//         if (type == 'number') {
+//             input.value = input.value.replace(/[^0-9]/g, '');
+//         }
+//         input.type = type;
+//     }
+// }
 
 // 금액 콤마
 function onTextChangeEvent(element) {
