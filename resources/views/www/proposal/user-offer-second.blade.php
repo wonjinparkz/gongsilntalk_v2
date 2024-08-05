@@ -57,8 +57,8 @@
                                 <div class="w_30">
                                     <label class="input_label">매매가 <span>*</span></label>
                                     <div class="flex_1 flex_between">
-                                        <input type="text" id="price_0" name="price_0"
-                                            onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent('price_0');">
+                                        <input type="text" id="price_0" name="price_0" inputmode="numeric"
+                                            oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                         <span>원</span>
                                     </div>
                                 </div>
@@ -67,16 +67,16 @@
                                 <div class="w_30">
                                     <label class="input_label">보증금 <span>*</span></label>
                                     <div class="flex_1 flex_between">
-                                        <input type="text" id="price_1" name="price_1"
-                                            onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent('price_1');">
+                                        <input type="text" id="price_1" name="price_1" inputmode="numeric"
+                                            oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                         <span>원</span>
                                     </div>
                                 </div>
                                 <div class="w_30 mt28">
                                     <label class="input_label">월 임대료 <span>*</span></label>
                                     <div class="flex_1 flex_between">
-                                        <input type="text" id="month_price" name="month_price"
-                                            onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent('month_price');">
+                                        <input type="text" id="month_price" name="month_price" inputmode="numeric"
+                                            oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                         <span>원</span>
                                     </div>
                                 </div>
@@ -163,32 +163,7 @@
     </div>
 
     <script>
-        function onlyNumbers(event) {
-            // 숫자 이외의 문자가 입력되면 이벤트를 취소합니다.
-            if (!/\d/.test(event.key) && event.key !== 'Backspace') {
-                event.preventDefault();
-            }
-        }
-
-        // 금액 콤마 변환
-        function onTextChangeEvent(name) {
-            let value = $('#' + name).val();
-            value = value.replace(/,/g, '');
-            value = Number(value).toLocaleString('en');
-            $('#' + name).val((value == 0 ? '' : value));
-        }
-
-        function removeCommas(name) {
-            let value = $('#' + name).val();
-            value = value.replace(/,/g, '');
-            $('#' + name).val(value);
-        }
-
         function onFormSubmit() {
-            removeCommas('price_0');
-            removeCommas('price_1');
-            removeCommas('month_price');
-
             $('#create_form').submit();
         }
 

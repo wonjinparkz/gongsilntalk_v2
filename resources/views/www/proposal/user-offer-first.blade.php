@@ -98,11 +98,12 @@
                         <div>
                             <label class="input_label">희망 면적 <span>*</span></label>
                             <div class="input_pyeong_area w_30">
-                                <input type="text" id="area" name="area"
-                                    placeholder="희망 면적"onkeyup="area_change('')">
+                                <input type="text" id="area" name="area" placeholder="희망 면적"
+                                    inputmode="numeric" oninput="onlyNumbers(this);area_change('');">
                                 <span class="gray_deep">평 /</span>
-                                <input type="text" id="square" name="square"
-                                    onkeyup="imsi(this); square_change('');" placeholder="평 입력시 자동">
+
+                                <input type="text" id="square" name="square" inputmode="numeric"
+                                    oninput="imsi(this); square_change('');" placeholder="평 입력시 자동">
                                 <span class="gray_deep">㎡</span>
                             </div>
                         </div>
@@ -321,17 +322,6 @@
                 });
         }
 
-        var prev = "";
-        var regexp = /^\d*(\.\d{0,2})?$/;
-
-        function imsi(obj) {
-            if (obj.value.search(regexp) == -1) {
-                obj.value = prev;
-            } else {
-                prev = obj.value;
-            }
-        }
-
         // 평수 제곱 변환
         function square_change(name) {
             var area_name = name + 'area';
@@ -366,20 +356,6 @@
             }
         }
 
-        function onlyNumbers(event) {
-            // 숫자 이외의 문자가 입력되면 이벤트를 취소합니다.
-            if (!/\d/.test(event.key) && event.key !== 'Backspace') {
-                event.preventDefault();
-            }
-        }
-
-        // 금액 콤마
-        function onTextChangeEvent(element) {
-            let value = element.value;
-            value = value.replace(/,/g, '');
-            value = Number(value).toLocaleString('en');
-            element.value = value;
-        }
 
         function debounce(func, timeout = 300) {
             let timer;
