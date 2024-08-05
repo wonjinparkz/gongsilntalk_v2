@@ -1,7 +1,7 @@
 <!-- header : s -->
 <header>
-    {{-- <a href="{{ route('www.main.main') }}"><img src="{{ asset('assets/media/header_logo.png') }}" class="header_logo"
-            alt="공실앤톡"></a> --}}
+    <a href="{{ route('www.main.main') }}"><img src="{{ asset('assets/media/header_logo.png') }}" class="header_logo"
+            alt="공실앤톡"></a>
     <ul class="gnb">
         <li><a href="{{ route('www.site.product.list.view') }}">실시간 분양현장</a></li>
         <li><a href="{{ route('www.map.map') }}">빅데이터/매물지도</a></li>
