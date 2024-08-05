@@ -1,4 +1,5 @@
 <x-layout>
+    @inject('carbon', 'Carbon\Carbon')
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
@@ -53,8 +54,8 @@
                                 <label class="input_label">임차인 연락처</label>
                                 <div class="flex_1 flex_between">
                                     <input type="number" placeholder="예) 01012345678" class="tenantClass"
-                                        id="tenant_phone" name="tenant_phone" value="{{ $result->tenant_phone }}"
-                                        disabled>
+                                        id="tenant_phone" name="tenant_phone" oninput="onlyNumbers(this)"
+                                        value="{{ $result->tenant_phone }}" disabled>
                                 </div>
                             </div>
                         </div>
@@ -84,19 +85,19 @@
                                     <div class="item">
                                         <label class="input_label">보증금</label>
                                         <div class="flex_1">
-                                            <input type="text" class="tenantClass" id="check_price_temp"
-                                                name="check_price_temp" disabled onkeypress="onlyNumbers(event)"
+                                            <input type="text" class="tenantClass" id="check_price_0"
+                                                name="check_price_0" inputmode="numeric" disabled
                                                 value="{{ number_format($result->check_price) }}"
-                                                onkeyup="onTextChangeEvent('check_price');"><span>/</span>
+                                                oninput="onlyNumbers(this); onTextChangeEventIndex('check_price', 0);"><span>/</span>
                                         </div>
                                     </div>
                                     <div class="item">
                                         <label class="input_label">월임대료</label>
                                         <div class="flex_1">
-                                            <input type="text" class="tenantClass" id="month_price_temp"
-                                                name="month_price_temp" disabled onkeypress="onlyNumbers(event)"
+                                            <input type="text" class="tenantClass" id="month_price_0"
+                                                name="month_price_0" inputmode="numeric" disabled
                                                 value="{{ number_format($result->month_price) }}"
-                                                onkeyup="onTextChangeEvent('month_price');"><span>원</span>
+                                                oninput="onlyNumbers(this); onTextChangeEventIndex('month_price', 0);"><span>원</span>
                                         </div>
                                     </div>
                                 </div>
@@ -110,7 +111,8 @@
                                     </button>
                                     <ul class="optionList">
                                         @for ($i = 1; $i < 31; $i++)
-                                            <li class="optionItem" onclick="depositDayChange('{{ $i }}일');">
+                                            <li class="optionItem"
+                                                onclick="depositDayChange('{{ $i }}일');">
                                                 {{ $i }}일</li>
                                         @endfor
                                         <li class="optionItem" onclick="depositDayChange('말일');">말일</li>
@@ -123,18 +125,18 @@
                             <div class="input_calendar_term">
                                 <div>
                                     <label class="input_label">계약시작일</label>
-                                    <input type="text" id="started_at_temp" name="started_at_temp"
-                                        class="tenantClass" placeholder="예) 20230101" disabled
-                                        onkeypress="onlyDateCharacters(event)"
-                                        onkeyup="onDateChangeEvent('started_at');">
+                                    <input type="text" id="started_at_0" name="started_at_0" class="tenantClass"
+                                        value="{{ $result->started_at != '' ? $carbon::parse($result->started_at)->format('Y.m.d') : '' }}"
+                                        placeholder="예) 20230101" disabled inputmode="numeric"
+                                        oninput="onlyNumbers(this); onDateChangeEvent('started_at', 0);">
                                 </div>
                                 <span>~</span>
                                 <div>
                                     <label class="input_label">계약종료일</label>
-                                    <input type="text" class="tenantClass" id="ended_at_temp"
-                                        name="ended_at_temp" placeholder="예) 20230101" disabled
-                                        onkeypress="onlyDateCharacters(event)"
-                                        onkeyup="onDateChangeEvent('ended_at');">
+                                    <input type="text" class="tenantClass" id="ended_at_0" name="ended_at_0"
+                                        value="{{ $result->ended_at != '' ? $carbon::parse($result->ended_at)->format('Y.m.d') : '' }}"
+                                        placeholder="예) 20230101" disabled inputmode="numeric"
+                                        oninput="onlyNumbers(this); onDateChangeEvent('ended_at', 0);">
                                 </div>
                             </div>
                         </div>
@@ -174,10 +176,6 @@
     <script>
         window.onload = () => {
             $("#vacancy_{{ $result->is_vacancy + 1 }}").trigger('click');
-
-            $(`#started_at_temp`).val($(`#started_at`).val() != '' ? numberToDate(parseInt($(`#started_at`).val())) :
-                '');
-            $(`#ended_at_temp`).val($(`#ended_at`).val() != '' ? numberToDate(parseInt($(`#ended_at`).val())) : '');
         }
 
 
@@ -204,50 +202,6 @@
             $('#deposit_day').val(string);
         }
 
-        function onlyNumbers(event) {
-            // 숫자 이외의 문자가 입력되면 이벤트를 취소합니다.
-            if (!/\d/.test(event.key) && event.key !== 'Backspace') {
-                event.preventDefault();
-            }
-        }
-
-        // 금액 한글 변환
-        function onTextChangeEvent(name) {
-            let value = $('#' + name + '_temp').val()
-            value = value.replace(/,/g, '');
-            $('#' + name).val(value);
-            value = Number(value).toLocaleString('en');
-            $('#' + name + '_temp').val((value == 0 ? '' : value));
-        }
-
-        function onlyDateCharacters(event) {
-            const key = event.key;
-            if (!/[0-9]/.test(key)) {
-                event.preventDefault();
-            }
-        }
-
-        // 숫자 날짜 포맷
-        function onDateChangeEvent(name) {
-            let value = $('#' + name + '_temp').val();
-            value = value.replace(/\./g, '');
-            $('#' + name).val(value);
-            let formattedValue = '';
-            if (value.length > 4) {
-                formattedValue = value.substring(0, 4) + '.' + value.substring(4, 6);
-            } else if (value.length > 2) {
-                formattedValue = value.substring(0, 4) + (value.length > 4 ? '.' : '') + value.substring(4);
-            } else {
-                formattedValue = value;
-            }
-            if (value.length > 6) {
-                formattedValue += '.' + value.substring(6, 8);
-            }
-            $('#' + name + '_temp').val(formattedValue);
-        }
-
-
-
         //기본 토글 이벤트
         $(".proposal_toggle_btn").click(function() {
             $(this).toggleClass("toggled");
@@ -260,48 +214,5 @@
             $(".proposal_table_wrap").stop().slideToggle(300);
             return false;
         });
-
-        // 숫자 => 한글로 변경
-        function numberToKorean(number) {
-            var inputNumber = number < 0 ? false : number;
-            var unitWords = ['', '만', '억', '조', '경'];
-            var splitUnit = 10000;
-            var splitCount = unitWords.length;
-            var resultArray = [];
-            var resultString = '';
-
-            for (var i = 0; i < splitCount; i++) {
-                var unitResult = (inputNumber % Math.pow(splitUnit, i + 1)) / Math.pow(splitUnit, i);
-                unitResult = Math.floor(unitResult);
-                if (unitResult > 0) {
-                    resultArray[i] = unitResult;
-                }
-            }
-
-            for (var i = 0; i < resultArray.length; i++) {
-                if (!resultArray[i]) continue;
-                resultString = String(resultArray[i]) + unitWords[i] + resultString;
-            }
-
-            return resultString;
-        }
-
-        // 숫자 => 날짜로 변경
-        function numberToDate(number) {
-            var inputNumber = (number < 0) ? false : number;
-            var resultString = '';
-
-            inputNumber = inputNumber + '';
-
-            var year = inputNumber.substr(0, 4);
-            var month = inputNumber.substr(4, 2);
-            var day = inputNumber.substr(6, 2);
-
-            resultString = year + "." + month + "." + day;
-
-            let date = new Date(year + "-" + month + "-" + day);
-
-            return resultString;
-        }
     </script>
 </x-layout>

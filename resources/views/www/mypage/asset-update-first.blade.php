@@ -239,13 +239,15 @@
                             <div class="reg_item">
                                 <label class="input_label">공급 면적 <span class="txt_point">*</span></label>
                                 <div class="input_pyeong_area">
-                                    <div><input type="text" id="area" name="area" placeholder="전용면적"
-                                            value="{{ $result->area }}" onkeyup="area_change('')">
+                                    <div><input type="text" id="area" name="area" placeholder="공급 면적"
+                                            inputmode="numeric" oninput="onlyNumbers(this);area_change('');"
+                                            value="{{ $result->area }}">
                                         <span class="gray_deep">평</span>
                                     </div>
                                     <span class="gray_deep">/</span>
-                                    <div><input type="text" id="square" name="square" placeholder="평 입력시 자동"
-                                            onkeyup="imsi(this); square_change('');" value="{{ $result->square }}">
+                                    <div><input type="text" id="square" name="square" inputmode="numeric"
+                                            oninput="imsi(this); square_change('');" placeholder="평 입력시 자동"
+                                            value="{{ $result->square }}">
                                         <span class="gray_deep">㎡</span>
                                     </div>
                                 </div>
@@ -254,13 +256,15 @@
                                 <label class="input_label">전용 면적 <span class="txt_point">*</span></label>
                                 <div class="input_pyeong_area">
                                     <div><input type="text" id="exclusive_area" name="exclusive_area"
-                                            onkeyup="area_change('exclusive_')" placeholder="전용면적"
-                                            value="{{ $result->exclusive_area }}"> <span class="gray_deep">평</span>
+                                            inputmode="numeric" oninput="onlyNumbers(this);area_change('exclusive_')"
+                                            placeholder="전용 면적" value="{{ $result->exclusive_area }}"> <span
+                                            class="gray_deep">평</span>
                                     </div>
                                     <span class="gray_deep">/</span>
                                     <div><input type="text" id="exclusive_square" name="exclusive_square"
-                                            onkeyup="imsi(this); square_change('exclusive_')" placeholder="평 입력시 자동"
-                                            value="{{ $result->exclusive_square }}"> <span class="gray_deep">㎡</span>
+                                            inputmode="numeric" oninput="imsi(this); square_change('exclusive_')"
+                                            placeholder="평 입력시 자동" value="{{ $result->exclusive_square }}"> <span
+                                            class="gray_deep">㎡</span>
                                     </div>
                                 </div>
                             </div>
@@ -385,17 +389,6 @@
 <script>
     onFieldInputCheck();
 
-    var prev = "";
-    var regexp = /^\d*(\.\d{0,2})?$/;
-
-    function imsi(obj) {
-        if (obj.value.search(regexp) == -1) {
-            obj.value = prev;
-        } else {
-            prev = obj.value;
-        }
-    }
-
     // 평수 제곱 변환
     function square_change(name) {
         var area_name = name + 'area';
@@ -458,9 +451,6 @@
         form.submit();
     }
 
-    function isStringValue(val) {
-        return !!val?.trim()
-    }
 
     function debounce(func, timeout = 300) {
         let timer;
@@ -542,6 +532,22 @@
         $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/common.css"]').remove();
         $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/map/addrlinkMap.css"]')
             .remove();
+
+        var address_lng = $('input[name=address_lng]').val();
+        var address_lat = $('input[name=address_lat]').val();
+
+        console.log('address_lng', address_lng);
+        console.log('address_lat', address_lat);
+
+        if (address_lng != '' && address_lat != '') {
+            var wgs84Coords = get_coordinate_conversion1(address_lng, address_lat)
+            setTimeout(function() {
+                callJusoroMapApiType1(wgs84Coords[0], wgs84Coords[1]);
+            }, 2000);
+        } else {
+            setTimeout(function() {}, 2000);
+        }
+
     });
 
     function formSetting() {

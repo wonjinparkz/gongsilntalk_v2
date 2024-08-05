@@ -729,6 +729,22 @@ function get_coordinate_conversion(rtentX, rtentY) {
     return wgs84Coords;
 }
 
+// 공공데이터 좌표값을 x y 좌표로 변경해주는 함수
+function get_coordinate_conversion1(rtentX, rtentY) {
+    // proj4에서 UTM 좌표계 정의
+    proj4.defs("EPSG:5179",
+        "+proj=tmerc +lat_0=38 +lon_0=127.5 +k=0.9996 +x_0=1000000 +y_0=2000000 +ellps=GRS80 +units=m +no_defs");
+
+    // proj4에서 WGS84 좌표계 정의
+    proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
+
+    // UTM 좌표를 WGS84로 변환
+    var wgs84Coords = proj4("EPSG:4326", "EPSG:5179", [parseFloat(rtentX), parseFloat(rtentY)]);
+
+    return wgs84Coords;
+}
+
+
 function get_priceTrans(number) {
 
     var unit = ["조", "억", "만", "천"];
@@ -791,15 +807,6 @@ function imsi1(obj) {
     }
 }
 
-// 숫자 입력칸 활성화
-function toggleInputTypeImsi(element) {
-    const input = element;
-    if (document.body.offsetWidth < 768) {
-        const type = input.type === 'text' ? 'number' : 'text';
-        input.type = type;
-    }
-}
-
 // 숫자 입력 최대값
 function validateInput(element, max) {
     var value = element.value;
@@ -815,37 +822,9 @@ function onlyNumbers(element) {
     element.value = value.replace(/[^0-9]/g, '');
 }
 
-// 클릭시 number 타입으로하고 포커싱되면 text
-// 숫자 입력칸 활성화
-function toggleInputType(element) {
-    const input = element;
-    console.log('입력칸 ', input.type);
-    if (document.activeElement === input) {
-        input.value = input.value.replace(/[^0-9]/g, '');
-        input.type = 'text';
-        onTextChangeEvent(element);
-    } else {
-        if (input.value == '') {
-            input.type = 'number';
-        }
-    }
-}
-
-// function toggleInputType(element) {
-//     const input = element;
-//     if (document.body.offsetWidth < 768) {
-//         const type = input.type === 'text' ? 'number' : 'text';
-//         if (type == 'number') {
-//             input.value = input.value.replace(/[^0-9]/g, '');
-//         }
-//         input.type = type;
-//     }
-// }
-
 // 금액 콤마
 function onTextChangeEvent(element) {
     let value = element.value;
-    console.log('value : ', value);
     element.value = '';
     value = value.replace(/[^0-9]/g, '');
     value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -858,7 +837,35 @@ function onTextChangeEventIndex(name, index) {
     $('#' + name + '_' + index).val('');
     value = value.replace(/[^0-9]/g, '');
     $('#' + name).val(value);
-    value = Number(value).toLocaleString('en');
+    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     $('#' + name + '_' + index).val((value == 0 ? '' : value));
-
 }
+
+
+// 날짜
+function onlyDateCharacters(event) {
+    const key = event.key;
+    if (!/[0-9]/.test(key)) {
+        event.preventDefault();
+    }
+}
+
+// 날짜 포맷
+function onDateChangeEvent(name, index) {
+    let value = $('#' + name + '_' + index).val();
+    value = value.replace(/[^0-9]/g, '');
+    $('#' + name).val(value);
+    let formattedValue = '';
+    if (value.length > 4) {
+        formattedValue = value.substring(0, 4) + '.' + value.substring(4, 6);
+    } else if (value.length > 2) {
+        formattedValue = value.substring(0, 4) + (value.length > 4 ? '.' : '') + value.substring(4);
+    } else {
+        formattedValue = value;
+    }
+    if (value.length > 6) {
+        formattedValue += '.' + value.substring(6, 8);
+    }
+    $('#' + name + '_' + index).val(formattedValue);
+}
+

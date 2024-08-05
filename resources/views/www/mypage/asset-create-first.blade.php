@@ -196,13 +196,13 @@
                             <div class="reg_item">
                                 <label class="input_label">공급 면적 <span class="txt_point">*</span></label>
                                 <div class="input_pyeong_area">
-                                    <div><input type="text" id="area" name="area" placeholder="전용면적"
-                                            onkeyup="area_change('')">
+                                    <div><input type="text" id="area" name="area" placeholder="공급 면적"
+                                            inputmode="numeric" oninput="onlyNumbers(this);area_change('');">
                                         <span class="gray_deep">평</span>
                                     </div>
                                     <span class="gray_deep">/</span>
-                                    <div><input type="text" id="square" name="square"
-                                            onkeyup="imsi(this); square_change('');" placeholder="평 입력시 자동">
+                                    <div><input type="text" id="square" name="square" inputmode="numeric"
+                                            oninput="imsi(this); square_change('');" placeholder="평 입력시 자동">
                                         <span class="gray_deep">㎡</span>
                                     </div>
                                 </div>
@@ -211,12 +211,13 @@
                                 <label class="input_label">전용 면적 <span class="txt_point">*</span></label>
                                 <div class="input_pyeong_area">
                                     <div><input type="text" id="exclusive_area" name="exclusive_area"
-                                            onkeyup="area_change('exclusive_')" placeholder="전용면적"> <span
-                                            class="gray_deep">평</span>
+                                            inputmode="numeric" oninput="onlyNumbers(this);area_change('exclusive_')"
+                                            placeholder="전용 면적"> <span class="gray_deep">평</span>
                                     </div>
                                     <span class="gray_deep">/</span>
                                     <div><input type="text" id="exclusive_square" name="exclusive_square"
-                                            onkeyup="imsi(this); square_change('exclusive_')" placeholder="평 입력시 자동">
+                                            inputmode="numeric" oninput="imsi(this); square_change('exclusive_')"
+                                            placeholder="평 입력시 자동">
                                         <span class="gray_deep">㎡</span>
                                     </div>
                                 </div>
@@ -334,17 +335,6 @@
 </x-layout>
 
 <script>
-    var prev = "";
-    var regexp = /^\d*(\.\d{0,2})?$/;
-
-    function imsi(obj) {
-        if (obj.value.search(regexp) == -1) {
-            obj.value = prev;
-        } else {
-            prev = obj.value;
-        }
-    }
-
     // 평수 제곱 변환
     function square_change(name) {
         var area_name = name + 'area';

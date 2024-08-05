@@ -160,8 +160,8 @@
         <div class="right_area"><span class="btn_dot_menu"><img
                     src="{{ asset('assets/media/header_btn_dot.png') }}"></span></div>
         <div class="layer_menu">
-            <a href="community_modify.html">수정</a>
-            <a>삭제</a>
+            <a href="{{ route('www.mypage.service.update.first.view', [$result->id]) }}">수정</a>
+            <a onclick="modal_open('asset_delete');">삭제</a>
         </div>
     </div>
     <!----------------------------- m::header bar : s ----------------------------->
