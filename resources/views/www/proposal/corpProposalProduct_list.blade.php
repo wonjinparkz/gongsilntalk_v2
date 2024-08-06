@@ -1,36 +1,7 @@
 <x-layout>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
-    @php
-        function priceChange($price)
-        {
-            if ($price < 0 || empty($price)) {
-                $price = 0;
-            }
 
-            $priceUnit = ['원', '만', '억', '조', '경'];
-            $expUnit = 10000;
-            $resultArray = [];
-            $result = '';
-
-            foreach ($priceUnit as $k => $v) {
-                $unitResult = ($price % pow($expUnit, $k + 1)) / pow($expUnit, $k);
-                $unitResult = floor($unitResult);
-
-                if ($unitResult > 0) {
-                    $resultArray[$k] = $unitResult;
-                }
-            }
-
-            if (count($resultArray) > 0) {
-                foreach ($resultArray as $k => $v) {
-                    $result = $v . $priceUnit[$k] . ' ' . $result;
-                }
-            }
-
-            return $result;
-        }
-    @endphp
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
@@ -114,10 +85,10 @@
 
                                                     <td>{{ Lang::get('commons.payment_type.' . $product->price->payment_type) }}
                                                         @if ($product->price->payment_type == 4)
-                                                            {{ priceChange($product->price->price) }} /
-                                                            {{ priceChange($product->price->month_price) }}원
+                                                            {{ Commons::get_priceTrans($product->price->price) }} /
+                                                            {{ Commons::get_priceTrans($product->price->month_price) }}
                                                         @else
-                                                            {{ priceChange($product->price->price) }}원
+                                                            {{ Commons::get_priceTrans($product->price->price) }}
                                                         @endif
                                                     </td>
                                                     <td>{{ $product->floor_number }}층/{{ $product->total_floor_number }}층
@@ -189,10 +160,11 @@
                                                         <div class="list_detail_item">거래정보 <span
                                                                 class="txt_point">{{ Lang::get('commons.payment_type.' . $product->price->payment_type) }}
                                                                 @if ($product->price->payment_type == 4)
-                                                                    {{ priceChange($product->price->price) }} /
-                                                                    {{ priceChange($product->price->month_price) }}원
+                                                                    {{ Commons::get_priceTrans($product->price->price) }}
+                                                                    /
+                                                                    {{ Commons::get_priceTrans($product->price->month_price) }}
                                                                 @else
-                                                                    {{ priceChange($product->price->price) }}원
+                                                                    {{ Commons::get_priceTrans($product->price->price) }}
                                                                 @endif
                                                             </span>
                                                         </div>

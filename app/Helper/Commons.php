@@ -4,23 +4,35 @@ namespace App\Helper;
 
 class Commons
 {
-    public static function get_priceTrans($number)
+    public static function get_priceTrans($price)
     {
+        if ($price < 0 || empty($price)) {
+            $price = 0;
+        }
 
-        $unit = array("조", "억", "만", "천");
-        $divisor = array(1000000000000, 100000000, 10000, 1000);
+        $priceUnit = ['', '만', '억', '조', '경'];
+        $expUnit = 10000;
+        $resultArray = [];
+        $result = '';
 
-        $converted = '';
-        for ($i = 0; $i < count($unit); $i++) {
-            $quotient = floor($number / $divisor[$i]);
-            if ($quotient > 0) {
-                $converted .= $quotient . $unit[$i] . ' ';
-                $number %= $divisor[$i];
+        foreach ($priceUnit as $k => $v) {
+            $unitResult = ($price % pow($expUnit, $k + 1)) / pow($expUnit, $k);
+            $unitResult = floor($unitResult);
+
+            if ($unitResult > 0) {
+                $resultArray[$k] = $unitResult;
             }
         }
 
-        return trim($converted) . '원';
+        if (count($resultArray) > 0) {
+            foreach ($resultArray as $k => $v) {
+                $result = number_format($v) . $priceUnit[$k] . $result;
+            }
+        }
+
+        return $result . '원';
     }
+
 
     public static function get_moveType($moveType, $startDate, $endDate)
     {

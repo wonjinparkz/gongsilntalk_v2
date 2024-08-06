@@ -2,35 +2,6 @@
 
     @php
 
-        function priceChange($price)
-        {
-            if ($price < 0 || empty($price)) {
-                $price = 0;
-            }
-
-            $priceUnit = ['', '만', '억', '조', '경'];
-            $expUnit = 10000;
-            $resultArray = [];
-            $result = '';
-
-            foreach ($priceUnit as $k => $v) {
-                $unitResult = ($price % pow($expUnit, $k + 1)) / pow($expUnit, $k);
-                $unitResult = floor($unitResult);
-
-                if ($unitResult > 0) {
-                    $resultArray[$k] = $unitResult;
-                }
-            }
-
-            if (count($resultArray) > 0) {
-                foreach ($resultArray as $k => $v) {
-                    $result = number_format($v) . $priceUnit[$k] . $result;
-                }
-            }
-
-            return $result;
-        }
-
         function onDateChange($created_date)
         {
             $to = new DateTime();

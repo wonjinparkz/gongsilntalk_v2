@@ -1,35 +1,4 @@
 <x-layout>
-    @php
-        function priceChange($price)
-        {
-            if ($price < 0 || empty($price)) {
-                $price = 0;
-            }
-
-            $priceUnit = ['원', '만', '억', '조', '경'];
-            $expUnit = 10000;
-            $resultArray = [];
-            $result = '';
-
-            foreach ($priceUnit as $k => $v) {
-                $unitResult = ($price % pow($expUnit, $k + 1)) / pow($expUnit, $k);
-                $unitResult = floor($unitResult);
-
-                if ($unitResult > 0) {
-                    $resultArray[$k] = $unitResult;
-                }
-            }
-
-            if (count($resultArray) > 0) {
-                foreach ($resultArray as $k => $v) {
-                    $result = number_format($v) . $priceUnit[$k] . $result;
-                }
-            }
-
-            return $result;
-        }
-    @endphp
-
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
@@ -116,7 +85,7 @@
                                                 class="gray_basic">({{ $proposal->area }}평)</span></div>
                                         <div>예산</div>
                                         <div>
-                                            {{ $proposal->payment_type == 0 ? '매매 ' . priceChange($proposal->price) . '원' : '월세 ' . priceChange($proposal->price) . '원 / ' . priceChange($proposal->month_price) . '원' }}
+                                            {{ $proposal->payment_type == 0 ? '매매 ' . Commons::get_priceTrans($proposal->price) : '월세 ' . Commons::get_priceTrans($proposal->price) . ' / ' . Commons::get_priceTrans($proposal->month_price) }}
                                         </div>
                                         @if ($proposal->type == 0)
                                             <div>희망 상가 층</div>

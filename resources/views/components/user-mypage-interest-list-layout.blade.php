@@ -68,8 +68,8 @@
                             <div class="sales_list_con">
                                 <p class="txt_item_1">
                                     {{ Lang::get('commons.payment_type.' . $product->priceInfo->payment_type) }}
-                                    {{ $product->priceInfo->price > 999 ? mb_substr(Commons::get_priceTrans($product->priceInfo->price), 0, -1) : $product->priceInfo->price }}
-                                    {{ in_array($product->priceInfo->payment_type, [1, 2, 4]) ? ' / ' . ($product->priceInfo->month_price > 999 ? mb_substr(Commons::get_priceTrans($product->priceInfo->month_price), 0, -1) : $product->priceInfo->month_price) : '' }}
+                                    {{ $product->priceInfo->price > 0 ? mb_substr(Commons::get_priceTrans($product->priceInfo->price), 0, -1) : $product->priceInfo->price }}
+                                    {{ in_array($product->priceInfo->payment_type, [1, 2, 4]) ? ' / ' . ($product->priceInfo->month_price > 0 ? mb_substr(Commons::get_priceTrans($product->priceInfo->month_price), 0, -1) : $product->priceInfo->month_price) : '' }}
                                 </p>
                                 <p class="txt_item_4">
                                     {{ $product->region_address }}

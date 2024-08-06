@@ -7,37 +7,7 @@
     @foreach ($proposal->products as $product)
         {{ Log::info($product->product->priceInfo ?? '엉?') }}
     @endforeach
-    @php
-        function priceChange($price)
-        {
-            if ($price < 0 || empty($price)) {
-                $price = 0;
-            }
 
-            $priceUnit = ['원', '만', '억', '조', '경'];
-            $expUnit = 10000;
-            $resultArray = [];
-            $result = '';
-
-            foreach ($priceUnit as $k => $v) {
-                $unitResult = ($price % pow($expUnit, $k + 1)) / pow($expUnit, $k);
-                $unitResult = floor($unitResult);
-
-                if ($unitResult > 0) {
-                    $resultArray[$k] = $unitResult;
-                }
-            }
-
-            if (count($resultArray) > 0) {
-                foreach ($resultArray as $k => $v) {
-                    $result = number_format($v) . $priceUnit[$k] . $result;
-                }
-            }
-
-            return $result;
-        }
-
-    @endphp
 
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
@@ -95,7 +65,7 @@
                                 </div>
                                 <div>예산</div>
                                 <div>
-                                    {{ $proposal->payment_type == 0 ? '매매 ' . priceChange($proposal->price) . '원' : '월세 ' . priceChange($proposal->price) . '원 / ' . priceChange($proposal->month_price) . '원' }}
+                                    {{ $proposal->payment_type == 0 ? '매매 ' . Commons::get_priceTrans($proposal->price) : '월세 ' . Commons::get_priceTrans($proposal->price) . ' / ' . Commons::get_priceTrans($proposal->month_price) }}
                                 </div>
                                 @if ($proposal->type == 0)
                                     <div>희망 상가 층</div>
@@ -229,7 +199,9 @@
                                                             if ($month_price > 0) {
                                                                 $monthPrice =
                                                                     ' / ' .
-                                                                    ($month_price > 0 ? priceChange($month_price) : 0);
+                                                                    ($month_price > 0
+                                                                        ? Commons::get_priceTrans($month_price)
+                                                                        : 0);
                                                                 if ($exclusive_area > 0) {
                                                                     $priceArea =
                                                                         $month_price /
@@ -244,10 +216,10 @@
                                                         }
                                                     @endphp
                                                     <span>{{ Lang::get('commons.payment_type.' . $product->product->priceInfo->payment_type) }}
-                                                        {{ $price > 0 ? priceChange($price) : 0 }}
+                                                        {{ $price > 0 ? Commons::get_priceTrans($price) : 0 }}
                                                         {{ $monthPrice }}
                                                     </span><br>
-                                                    <span class="area">({{ priceChange($priceArea) }}/평)</span>
+                                                    <span class="area">({{ number_format($priceArea) }}/평)</span>
                                                 </td>
                                                 <td>{{ $product->product->address }} </td>
                                                 <td>전용 {{ $product->product->exclusive_square }}㎡</td>
@@ -348,7 +320,7 @@
                                                                     $monthPrice =
                                                                         ' / ' .
                                                                         ($month_price > 0
-                                                                            ? priceChange($month_price)
+                                                                            ? Commons::get_priceTrans($month_price)
                                                                             : 0);
                                                                     if ($exclusive_area > 0) {
                                                                         $priceArea =
@@ -365,9 +337,9 @@
                                                             }
                                                         @endphp
                                                         {{ Lang::get('commons.payment_type.' . $product->product->priceInfo->payment_type) }}
-                                                        {{ $price > 0 ? priceChange($price) : 0 }}
+                                                        {{ $price > 0 ? Commons::get_priceTrans($price) : 0 }}
                                                         {{ $monthPrice }}
-                                                        <span>({{ priceChange($priceArea) }}/평)</span>
+                                                        <span>({{ number_format($priceArea) }}/평)</span>
                                                     </p>
                                                     <p class="txt_item_2">전용
                                                         {{ $product->product->exclusive_area }}평·{{ $product->product->floor_number }}층
