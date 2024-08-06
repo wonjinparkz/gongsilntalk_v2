@@ -1,6 +1,6 @@
 
 // var V_WORD_KEY = "E2C5234B-AE55-3D0D-91C0-6A61FFE0A48B";
-// var APP_URL = "http://localhost";
+// var APP_URL = "https://localhost";
 
 
 //토지이용계획WFS조회 api
@@ -21,7 +21,7 @@ function gte_useWFS(pnu) {
         type: "get",
         dataType: "jsonp",
         jsonpCallback: "parseResponse",
-        url: "http://api.vworld.kr/ned/wfs/getLandUseWFS",
+        url: "https://api.vworld.kr/ned/wfs/getLandUseWFS",
         data: data,
         async: true,
         success: function (data) {
@@ -55,7 +55,7 @@ function get_coordinates(pnu) {
         type: "get",
         dataType: "jsonp",
         jsonpCallback: "parseResponse",
-        url: "http://api.vworld.kr/ned/wfs/getCtnlgsSpceWFS",
+        url: "https://api.vworld.kr/ned/wfs/getCtnlgsSpceWFS",
         data: data,
         async: true,
         success: function (response) {
@@ -103,7 +103,7 @@ function get_characteristics(pnu) {
     $.ajax({
         type: "get",
         dataType: "jsonp",
-        url: "http://api.vworld.kr/ned/data/getLandCharacteristics",
+        url: "https://api.vworld.kr/ned/data/getLandCharacteristics",
         data: data,
         async: true,
         success: function (data) {

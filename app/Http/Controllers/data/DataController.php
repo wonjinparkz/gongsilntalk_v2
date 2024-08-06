@@ -35,7 +35,7 @@ class DataController extends Controller
     public function getApt()
     {
         // API 연동
-        $url = "http://apis.data.go.kr/1613000/AptListService2/getTotalAptList";
+        $url = "https://apis.data.go.kr/1613000/AptListService2/getTotalAptList";
 
         $param = [
             'serviceKey' => env('ENCODING_API_DATE_KEY'),
@@ -88,7 +88,7 @@ class DataController extends Controller
 
         Log::info('베이스 정보 아파트 정보 :' . $baseInfo);
 
-        $url = "http://apis.data.go.kr/1613000/AptBasisInfoService1/getAphusBassInfo";
+        $url = "https://apis.data.go.kr/1613000/AptBasisInfoService1/getAphusBassInfo";
         $serviceKey = env('ENCODING_API_DATE_KEY');
 
         $param = [
@@ -133,7 +133,7 @@ class DataController extends Controller
 
         Log::info('상세 정보 아파트 정보 :' . $DetailInfo);
 
-        $url = "http://apis.data.go.kr/1613000/AptBasisInfoService1/getAphusDtlInfo";
+        $url = "https://apis.data.go.kr/1613000/AptBasisInfoService1/getAphusDtlInfo";
         $serviceKey = env('ENCODING_API_DATE_KEY');
 
         $param = [
@@ -254,7 +254,7 @@ class DataController extends Controller
             ]);
         }
 
-        $url = "http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev";
+        $url = "https://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev";
 
         $param = [
             'serviceKey' => env('ENCODING_API_DATE_KEY'),
@@ -379,7 +379,7 @@ class DataController extends Controller
             ]);
         }
 
-        $url = "http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptRent";
+        $url = "https://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptRent";
 
         $param = [
             'serviceKey' => env('ENCODING_API_DATE_KEY'),
@@ -497,7 +497,7 @@ class DataController extends Controller
     {
 
         $confmKey = env('CONFM_KEY'); // 검색API 승인키
-        $domain = "http://www.juso.go.kr/addrlink/addrLinkApiJsonp.do"; //인터넷망
+        $domain = "https://www.juso.go.kr/addrlink/addrLinkApiJsonp.do"; //인터넷망
 
         $apt = DataApt::where('is_pnu', 0)->first();
 
@@ -599,7 +599,7 @@ class DataController extends Controller
         $key = env('V_WORD_KEY'); // 검색API 승인
         $domain = env('APP_URL'); // 서버 도메인
 
-        $Apidomain = "http://api.vworld.kr/ned/wfs/getCtnlgsSpceWFS"; //인터넷망
+        $Apidomain = "https://api.vworld.kr/ned/wfs/getCtnlgsSpceWFS"; //인터넷망
 
         $apt = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')->where('is_polygon_coordinates', 0)->first();
 
@@ -846,7 +846,7 @@ class DataController extends Controller
 
         if (count($get_types) > 0) {
             foreach ($get_types as $type) {
-                $url = 'http://apis.data.go.kr/1613000/BldRgstService_v2/get' . $type;
+                $url = 'https://apis.data.go.kr/1613000/BldRgstService_v2/get' . $type;
                 $data = [
                     'serviceKey' => env('ENCODING_API_DATE_KEY'), // 서비스 키가 URL 인코딩된 상태로 설정되어 있는지 확인
                     'sigunguCd' => $sigunguCd,

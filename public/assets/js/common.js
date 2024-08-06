@@ -447,7 +447,7 @@ function btn_like(element) {
 
 // 사업자정보확인
 function licenseCheck() {
-    var url = "http://www.ftc.go.kr/bizCommPop.do?wrkr_no=" + form_license.license_no.value;
+    var url = "https://www.ftc.go.kr/bizCommPop.do?wrkr_no=" + form_license.license_no.value;
     window.open(url, "bizCommPop", "width=750, height=700;");
 }
 
