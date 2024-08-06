@@ -46,6 +46,7 @@ class User extends BaseModel
         'refuse_at',
         'brokerage_number',
         'opening_date',
+        'remember_token',
         'memo',
         'last_used_at',
     ];

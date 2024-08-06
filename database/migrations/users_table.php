@@ -62,6 +62,8 @@ return new class extends Migration
             $table->string('brokerage_number')->nullable()->comment('중개등록번호');
             $table->string('opening_date')->nullable()->comment('개업일');
 
+            // 자동로그인 토큰
+            $table->string('remember_token')->nullable()->comment('자동로그인 토큰');
             // 관리자 입력 정보
             $table->longText('memo')->nullable()->comment('메모');
 
