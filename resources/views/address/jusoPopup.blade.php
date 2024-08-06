@@ -11,7 +11,7 @@
     <script language="javascript">
         var confmKey = "{{ env('CONFM_KEY') }}"; // 검색API 승인키
         var coordinateKEY = "{{ env('COORDINATE_KEY') }}"; // 검색API 승인키
-        var domain = "http://www.juso.go.kr"; // 인터넷망
+        var domain = "https://www.juso.go.kr"; // 인터넷망
 
         //특수문자, 특정문자열(sql예약어) 제거
         function checkSearchedWord(obj) {
