@@ -14,6 +14,7 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
@@ -132,7 +133,7 @@ class UserAuthPcController extends Controller
 
         if (!$user || !Hash::check($credentials['password'], $user->password)) {
             return redirect(route('www.login.login'))
-                ->withErrors('이메일이나 비밀번호가 일치하지 않습니다.')
+                ->withErrors('가입한 회원정보가 없습니다.')
                 ->withInput();
         }
 
@@ -242,10 +243,22 @@ class UserAuthPcController extends Controller
      */
     public function logout(Request $request)
     {
-        Auth::guard('web')->logout();
+        // Auth::guard('web')->logout();
 
+        // $request->session()->invalidate();
+
+        $user = Auth::user();
+        if ($user) {
+            $user->setRememberToken(null);
+            $user->save();
+        }
+
+        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
+        $cookieName = 'remember_web_' . sha1(config('app.key'));
+        Cookie::queue(Cookie::forget($cookieName));
 
         return Redirect('login')->with('message', '로그아웃 되었습니다.');
     }
