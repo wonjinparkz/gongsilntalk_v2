@@ -41,21 +41,22 @@ class UserAuthPcController extends Controller
     {
         return view('www.findpw.findpw');
     }
-    public function joinView(): View
+    public function joinView()
     {
         return redirect(route('www.login.login'))
             ->withErrors('시스템 점검 중입니다.')
             ->withInput();
+
         $termsList = Terms::select()->where('type', '0')->get();
 
-        return view('www.register.register_reg', compact('termsList'));
+        // return view('www.register.register_reg', compact('termsList'));
     }
-    public function corpJoinView(): View
+    public function corpJoinView()
     {
         return redirect(route('www.login.login'))
             ->withErrors('시스템 점검 중입니다.')
             ->withInput();
-        return view('www.register.corp_register');
+        // return view('www.register.corp_register');
     }
 
     public function corpJoinCheck(Request $request): RedirectResponse
