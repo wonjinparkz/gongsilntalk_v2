@@ -30,6 +30,7 @@ class UserAuthPcController extends Controller
 
     public function loginView(): View
     {
+
         return view('www.login.login');
     }
 
@@ -118,79 +119,83 @@ class UserAuthPcController extends Controller
             'password' => 'required',
         ]);
 
-
         if ($validator->fails()) {
             return redirect(route('www.login.login'))
                 ->withErrors($validator)
                 ->withInput();
         }
 
-        $user = User::where('email', '=', $request->email)->first();
+        $credentials = $request->only('email', 'password');
+        $auto_login = $request->has('auto_login');
 
-        if (isset($user)) {
-            if (Hash::check($request->password, $user->password)) {
-            } else {
-                return redirect(route('www.login.login'))
-                    ->withErrors('비밀번호가 일치 하지 않습니다.')
-                    ->withInput();
-            }
-        } else {
-            if (!Auth::attempt($request->only('email', 'password'))) {
-                return redirect(route('www.login.login'))
-                    ->withErrors('가입한 회원정보가 없습니다.')
-                    ->withInput();
-            }
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
+            return redirect(route('www.login.login'))
+                ->withErrors('이메일이나 비밀번호가 일치하지 않습니다.')
+                ->withInput();
         }
+
+        Auth::login($user, $auto_login);
 
         if ($user->state == 1) {
             return redirect(route('www.login.login'))
-                ->withErrors('관리자에 의해 사용불가능한 상태입니다.관리자에 문의해주세요.')
+                ->withErrors('관리자에 의해 사용 불가능한 상태입니다. 관리자에 문의해주세요.')
                 ->withInput();
-        } else if ($user->state == 2) {
+        } elseif ($user->state == 2) {
             return redirect(route('www.login.login'))
-                ->withErrors('탈퇴한 사용자 입니다.')
+                ->withErrors('탈퇴한 사용자입니다.')
                 ->withInput();
-        } else if ($user->state == 3) {
+        } elseif ($user->state == 3) {
             return redirect(route('www.login.login'))
-                ->withErrors('계약을 해지한 중개사 입니다.')
+                ->withErrors('계약을 해지한 중개사입니다.')
                 ->withInput();
         }
 
         if ($user->type == 1) {
             if ($user->company_state == 0) {
                 return redirect(route('www.login.login'))
-                    ->withErrors('회원가입 승인요청 상태입니다.관리자에 문의해주세요.')
+                    ->withErrors('회원가입 승인 요청 상태입니다. 관리자에 문의해주세요.')
                     ->withInput();
-            } else if ($user->company_state == 2) {
+            } elseif ($user->company_state == 2) {
                 return redirect(route('www.login.login'))
-                    ->withErrors('관리자에 의해 승인거절 상태입니다.관리자에 문의해주세요.')
+                    ->withErrors('관리자에 의해 승인 거절 상태입니다. 관리자에 문의해주세요.')
                     ->withInput();
             }
         }
 
         // 업데이트할 데이터 배열 초기화
-        $updateArray = [];
+        $updateArray = [
+            'last_used_at' => Carbon::now()
+        ];
 
         // device_type이 전달된 경우
-        if ($request->device_type != '') {
+        if ($request->device_type) {
             $updateArray['device_type'] = $request->device_type;
         }
 
         // fcm_key가 전달된 경우
-        if ($request->fcm_key != '') {
+        if ($request->fcm_key) {
             $updateArray['fcm_key'] = $request->fcm_key;
         }
-
-        Log::info($updateArray);
-
-        // 항상 업데이트할 필드
-        $updateArray['last_used_at'] = Carbon::now();
 
         // 사용자 정보 업데이트
         $user->update($updateArray);
 
-        $request->authenticate();
         $request->session()->regenerate();
+
+        if ($auto_login) {
+            $rememberToken = $user->getRememberToken();
+            Log::info('token ' . $rememberToken); // token 로그에 기록
+            $cookieName = 'remember_web_' . sha1(config('app.key'));
+
+            // setcookie 사용하여 쿠키 설정
+            setcookie($cookieName, $rememberToken, time() + (30 * 24 * 60 * 60), "/", null, false, true);
+
+            // 쿠키에서 remember_token 읽어오기
+            $rememberTokenFromCookie = $request->cookie($cookieName);
+            Log::info('Remember Token from Cookie: ' . ($rememberTokenFromCookie ?: 'No Token')); // Remember Token from Cookie 로그에 기록
+        }
 
         return redirect(route('www.main.main'));
     }
@@ -238,7 +243,9 @@ class UserAuthPcController extends Controller
     public function logout(Request $request)
     {
         Auth::guard('web')->logout();
+
         $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return Redirect('login')->with('message', '로그아웃 되었습니다.');
     }
