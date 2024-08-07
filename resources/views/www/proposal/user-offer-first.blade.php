@@ -154,7 +154,7 @@
                                     <label class="input_label">사용 인원<span>*</span></label>
                                     <div class="flex_1 flex_between">
                                         <input type="text" id="users_count" name="users_count"
-                                            oninput="onlyNumbers(this); onTextChangeEvent(this)">
+                                            inputmode="numeric" oninput="onlyNumbers(this); onTextChangeEvent(this)">
                                         <span>명</span>
                                     </div>
                                     <p class="fs_13 gray_basic mt8">인원 당 2.5평을 추천해드립니다.</p>
@@ -181,14 +181,16 @@
                                     <div class="input_calendar_term">
                                         <div>
                                             <label class="input_label">입주 가능 기간</label>
-                                            <input type="text" id="start_move_date"
-                                                name="start_move_date"placeholder="예) 20230101">
+                                            <input type="text" id="start_move_date_0" name="start_move_date_0"
+                                                placeholder="예) 20230101" inputmode="numeric"
+                                                oninput="onlyNumbers(this); onDateChangeEvent('start_move_date', 0);">
                                         </div>
                                         <span>~</span>
                                         <div>
                                             <label class="input_label">&nbsp;</label>
-                                            <input type="text" id="ended_move_date" name="ended_move_date"
-                                                placeholder="예) 20230101">
+                                            <input type="text" id="ended_move_date_0" name="ended_move_date_0"
+                                                placeholder="예) 20230101" inputmode="numeric"
+                                                oninput="onlyNumbers(this); onDateChangeEvent('ended_move_date', 0);">
                                         </div>
                                     </div>
                                 </div>
@@ -200,6 +202,8 @@
 
                     <input type="hidden" id="type" name="type" value="0">
                     <input type="hidden" id="business_type" name="business_type" value="">
+                    <input hidden name="start_move_date" id="start_move_date">
+                    <input hidden name="ended_move_date" id="ended_move_date">
 
                 </form>
                 <div class="step_btn_wrap">

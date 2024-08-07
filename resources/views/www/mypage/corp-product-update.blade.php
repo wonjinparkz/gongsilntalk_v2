@@ -1,4 +1,5 @@
 <x-layout>
+    @inject('carbon', 'Carbon\Carbon')
 
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
@@ -22,20 +23,14 @@
                     <div class="box_01 box_reg">
                         <h4>매물 유형 <span class="txt_point">*</span></h4>
                         @php
-                            $type = 0;
-                            switch ($product->type) {
-                                case $product->type < 8:
-                                    $type = 0;
-                                    break;
-                                case $product->type > 7 && $product->type < 14:
-                                    $type = 1;
-                                    break;
-                                case $product->type > 13:
-                                    $type = 2;
-                                    break;
-                                default:
-                                    $type = 0;
-                                    break;
+                            if ($product->type < 8) {
+                                $type = 0;
+                            } elseif ($product->type > 7 && $product->type < 14) {
+                                $type = 1;
+                            } elseif ($product->type > 13) {
+                                $type = 2;
+                            } else {
+                                $type = 0;
                             }
                         @endphp
                         <div class="estate_type_txt">{{ Lang::get('commons.management_product_type.' . $type) }} >
@@ -76,9 +71,11 @@
                                                     <div>
                                                         <label class="input_label">매매가</label>
                                                         <div class="input_area_1">
-                                                            <input type="number" id="price_0" name="price_0"
-                                                                value="{{ $product->priceInfo->price }}"> <span
-                                                                class="gray_deep">원</span>
+                                                            <input type="text" id="price_0" name="price_0"
+                                                                inputmode="numeric"
+                                                                oninput="onlyNumbers(this); onTextChangeEvent(this)"
+                                                                value="{{ number_format($product->priceInfo->price) }}">
+                                                            <span class="gray_deep">원</span>
                                                             <input type="checkbox" name="is_price_discussion"
                                                                 id="is_price_discussion_0" value="1"
                                                                 {{ $product->priceInfo->is_price_discussion == 1 ? 'checked' : '' }}>
@@ -99,18 +96,22 @@
                                                             <div class="item">
                                                                 <label class="input_label">현 보증금</label>
                                                                 <div class="flex_1">
-                                                                    <input type="number" id="price_1" name="price_1"
-                                                                        value="{{ $product->priceInfo->price }}"
-                                                                        class="w_input_150"><span>/</span>
+                                                                    <input type="text" id="price_1" name="price_1"
+                                                                        class="w_input_150" inputmode="numeric"
+                                                                        oninput="onlyNumbers(this); onTextChangeEvent(this)"
+                                                                        value="{{ number_format($product->priceInfo->price) }}">
+                                                                    <span>/</span>
                                                                 </div>
                                                             </div>
                                                             <div class="item">
                                                                 <label class="input_label">현 월임대료</label>
                                                                 <div class="flex_1">
-                                                                    <input type="number" id="month_price"
-                                                                        value="{{ $product->priceInfo->month_price }}"
-                                                                        name="month_price"
-                                                                        class="w_input_150"><span>원</span>
+                                                                    <input type="text" id="month_price"
+                                                                        name="month_price" class="w_input_150"
+                                                                        inputmode="numeric"
+                                                                        oninput="onlyNumbers(this); onTextChangeEvent(this)"
+                                                                        value="{{ number_format($product->priceInfo->month_price) }}">
+                                                                    <span>원</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -147,19 +148,23 @@
                                                     <div class="item">
                                                         <label class="input_label">현 보증금</label>
                                                         <div class="flex_1">
-                                                            <input type="number" id="current_price"
-                                                                name="current_price"
-                                                                value="{{ $product->priceInfo->current_price }}"
-                                                                class="w_input_150"><span>/</span>
+                                                            <input type="text" id="current_price"
+                                                                name="current_price" class="w_input_150"
+                                                                value="{{ number_format($product->priceInfo->current_price) }}"
+                                                                inputmode="numeric"
+                                                                oninput="onlyNumbers(this); onTextChangeEvent(this)">
+                                                            <span>/</span>
                                                         </div>
                                                     </div>
                                                     <div class="item">
                                                         <label class="input_label">현 월임대료</label>
                                                         <div class="flex_1">
-                                                            <input type="number" id="current_month_price"
-                                                                name="current_month_price"
-                                                                value="{{ $product->priceInfo->current_month_price }}"
-                                                                class="w_input_150"><span>원</span>
+                                                            <input type="text" id="current_month_price"
+                                                                name="current_month_price" class="w_input_150"
+                                                                value="{{ number_format($product->priceInfo->current_month_price) }}"
+                                                                inputmode="numeric"
+                                                                oninput="onlyNumbers(this); onTextChangeEvent(this)">
+                                                            <span>원</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -191,8 +196,10 @@
                                                 <div
                                                     class="keymoney_item open_key {{ $product->priceInfo->is_premium == 1 ? 'active' : '' }}">
                                                     <div class="flex_1 flex_between">
-                                                        <input type="number" id="premium_price" name="premium_price"
-                                                            value="{{ $product->priceInfo->premium_price }}">
+                                                        <input type="text" id="premium_price" name="premium_price"
+                                                            inputmode="numeric"
+                                                            oninput="onlyNumbers(this); onTextChangeEvent(this)"
+                                                            value="{{ number_format($product->priceInfo->premium_price) }}">
                                                         <span>원</span>
                                                     </div>
                                                 </div>
@@ -240,8 +247,10 @@
                                                 <div>
                                                     <label class="input_label">매매가</label>
                                                     <div class="input_area_1">
-                                                        <input type="number" class="" id="price_0"
-                                                            name="price_0" value="{{ $product->priceInfo->price }}">
+                                                        <input type="text" id="price_0" name="price_0"
+                                                            inputmode="numeric"
+                                                            oninput="onlyNumbers(this); onTextChangeEvent(this)"
+                                                            value="{{ number_format($product->priceInfo->price) }}">
                                                         <span class="gray_deep">원</span>
                                                         <input type="checkbox" name="is_price_discussion"
                                                             id="is_price_discussion_0" value="1"
@@ -258,8 +267,10 @@
                                                 <div>
                                                     <label class="input_label">전세가</label>
                                                     <div class="input_area_1">
-                                                        <input type="number" class="" id="price_3"
-                                                            name="price_3" value="{{ $product->priceInfo->price }}">
+                                                        <input type="text" id="price_3" name="price_3"
+                                                            inputmode="numeric"
+                                                            oninput="onlyNumbers(this); onTextChangeEvent(this)"
+                                                            value="{{ number_format($product->priceInfo->price) }}">
                                                         <span class="gray_deep">원</span>
                                                         <input type="checkbox" name="is_price_discussion"
                                                             id="is_price_discussion_3" value="1"
@@ -278,17 +289,20 @@
                                                         <div class="item">
                                                             <label class="input_label">보증금</label>
                                                             <div class="flex_1">
-                                                                <input type="number" id="price_4" name="price_4"
-                                                                    value="{{ $product->priceInfo->price }}"
+                                                                <input type="text" id="price_4" name="price_4"
+                                                                    inputmode="numeric"
+                                                                    oninput="onlyNumbers(this); onTextChangeEvent(this)"
+                                                                    value="{{ number_format($product->priceInfo->price) }}"
                                                                     class="w_input_150"><span>/</span>
                                                             </div>
                                                         </div>
                                                         <div class="item">
                                                             <label class="input_label">월임대료</label>
                                                             <div class="flex_1">
-                                                                <input type="number" id="month_price"
-                                                                    name="month_price"
-                                                                    value="{{ $product->priceInfo->month_price }}"
+                                                                <input type="text" id="month_price"
+                                                                    name="month_price" inputmode="numeric"
+                                                                    oninput="onlyNumbers(this); onTextChangeEvent(this)"
+                                                                    value="{{ number_format($product->priceInfo->month_price) }}"
                                                                     class="w_input_150"><span>원</span>
                                                             </div>
                                                         </div>
@@ -324,18 +338,20 @@
                                                     <div class="item">
                                                         <label class="input_label">현 보증금</label>
                                                         <div class="flex_1">
-                                                            <input type="number" id="current_price"
-                                                                name="current_price"
-                                                                value="{{ $product->priceInfo->current_price }}"
+                                                            <input type="text" id="current_price"
+                                                                name="current_price" inputmode="numeric"
+                                                                oninput="onlyNumbers(this); onTextChangeEvent(this)"
+                                                                value="{{ number_format($product->priceInfo->current_price) }}"
                                                                 class="w_input_150"><span>/</span>
                                                         </div>
                                                     </div>
                                                     <div class="item">
                                                         <label class="input_label">현 월임대료</label>
                                                         <div class="flex_1">
-                                                            <input type="number" id="current_month_price"
-                                                                name="current_month_price"
-                                                                value="{{ $product->priceInfo->current_month_price }}"
+                                                            <input type="text" id="current_month_price"
+                                                                name="current_month_price" inputmode="numeric"
+                                                                oninput="onlyNumbers(this); onTextChangeEvent(this)"
+                                                                value="{{ number_format($product->priceInfo->current_month_price) }}"
                                                                 class="w_input_150"><span>원</span>
                                                         </div>
                                                     </div>
@@ -373,8 +389,10 @@
                                                 <div>
                                                     <label class="input_label">전매가</label>
                                                     <div class="input_area_1">
-                                                        <input type="number" id="price_5" name="price_5"
-                                                            value="{{ $product->priceInfo->price }}" class="">
+                                                        <input type="text" id="price_5" name="price_5"
+                                                            inputmode="numeric"
+                                                            oninput="onlyNumbers(this); onTextChangeEvent(this)"
+                                                            value="{{ number_format($product->priceInfo->price) }}">
                                                         <span class="gray_deep">원</span>
                                                         <input type="checkbox" name="is_price_discussion"
                                                             id="is_price_discussion_5" value="1"
@@ -389,9 +407,10 @@
                                                 <div class="mt20">
                                                     <label class="input_label">프리미엄</label>
                                                     <div class="input_area_1">
-                                                        <input type="number" id="premium_price" name="premium_price"
-                                                            value="{{ $product->priceInfo->premium_price }}">
-
+                                                        <input type="text" id="premium_price" name="premium_price"
+                                                            inputmode="numeric"
+                                                            oninput="onlyNumbers(this); onTextChangeEvent(this)"
+                                                            value="{{ number_format($product->priceInfo->premium_price) }}">
                                                         <span class="gray_deep">원</span>
                                                     </div>
                                                 </div>
@@ -405,18 +424,22 @@
                                                         <div class="item">
                                                             <label class="input_label">보증금</label>
                                                             <div class="flex_1">
-                                                                <input type="number" id="price_4" name="price_4"
-                                                                    value="{{ $product->priceInfo->price }}"
-                                                                    class="w_input_150"><span>/</span>
+                                                                <input type="text" id="price_4" name="price_4"
+                                                                    class="w_input_150" inputmode="numeric"
+                                                                    oninput="onlyNumbers(this); onTextChangeEvent(this)"
+                                                                    value="{{ number_format($product->priceInfo->price) }}">
+                                                                <span>/</span>
                                                             </div>
                                                         </div>
                                                         <div class="item">
                                                             <label class="input_label">월임대료</label>
                                                             <div class="flex_1">
-                                                                <input type="number" id="month_price"
-                                                                    name="month_price"
-                                                                    value="{{ $product->priceInfo->month_price }}"
-                                                                    class="w_input_150"><span>원</span>
+                                                                <input type="text" id="month_price"
+                                                                    name="month_price" class="w_input_150"
+                                                                    inputmode="numeric"
+                                                                    oninput="onlyNumbers(this); onTextChangeEvent(this)"
+                                                                    value="{{ number_format($product->priceInfo->month_price) }}">
+                                                                <span>원</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -437,8 +460,10 @@
                                         <div>
                                             <label class="input_label">준공예정일</label>
                                             <div class="w_30">
-                                                <input type="number" id="approve_date" name="approve_date"
-                                                    value="{{ $product->approve_date }}" placeholder="예) 20230101">
+                                                <input type="text" id="approve_date_0" name="approve_date_0"
+                                                    value="{{ $carbon::parse($product->approve_date)->format('Y.m.d') }}"
+                                                    placeholder="예) 20230101" inputmode="numeric"
+                                                    oninput="onlyNumbers(this); onDateChangeEvent('approve_date', 0);">
                                             </div>
                                         </div>
 
@@ -488,8 +513,8 @@
                                 <div class="inner_item inner_map only_m mapOnlyMobile">
                                     <div id="mapWrap" class="mapWrap"
                                         style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
-                                    {{-- 주소 검색 시,<br>해당 위치가 지도에 표시됩니다. --}}
                                 </div>
+                                {{-- 주소 검색 시,<br>해당 위치가 지도에 표시됩니다. --}}
                                 <!----------------- M:: map : e ----------------->
                                 <div class="inner_address">
                                     <div class="address_row" id="roadName">
@@ -576,13 +601,17 @@
                                 <div class="reg_item">
                                     <label class="input_label">대지면적 <span class="txt_point">*</span></label>
                                     <div class="input_pyeong_area">
-                                        <div><input type="text" id="area" name="area"
-                                                value="{{ $product->area }}" placeholder="대지면적"> <span
-                                                class="gray_deep">평</span> </div>
+                                        <div><input type="text" id="area" name="area" inputmode="numeric"
+                                                value="{{ $product->area }}" placeholder="대지면적"
+                                                oninput="onlyNumbers(this);area_change('');">
+                                            <span class="gray_deep">평</span>
+                                        </div>
                                         <span class="gray_deep">/</span>
                                         <div><input type="text" id="square" name="square"
-                                                value="{{ $product->square }}" placeholder="평 입력시 자동"> <span
-                                                class="gray_deep">㎡</span></div>
+                                                value="{{ $product->square }}" inputmode="numeric"
+                                                oninput="imsi(this); square_change('');" placeholder="평 입력시 자동">
+                                            <span class="gray_deep">㎡</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -614,14 +643,20 @@
                                     <div class="reg_item">
                                         <label class="input_label">연면적 <span class="txt_point">*</span></label>
                                         <div class="input_pyeong_area">
-                                            <div><input type="text" id="total_floor_area" name="total_floor_area"
-                                                    value="{{ $product->total_floor_area }}" placeholder="연면적"> <span
-                                                    class="gray_deep">평</span> </div>
+                                            <div>
+                                                <input type="text" id="total_floor_area" name="total_floor_area"
+                                                    value="{{ $product->total_floor_area }}" placeholder="연면적"
+                                                    inputmode="numeric"
+                                                    oninput="onlyNumbers(this);area_change('total_floor_');">
+                                                <span class="gray_deep">평</span>
+                                            </div>
                                             <span class="gray_deep">/</span>
-                                            <div><input type="text" id="total_floor_square"
+                                            <div>
+                                                <input type="text" id="total_floor_square"
                                                     name="total_floor_square"
-                                                    value="{{ $product->total_floor_square }}"
-                                                    placeholder="평 입력시 자동">
+                                                    value="{{ $product->total_floor_square }}" placeholder="평 입력시 자동"
+                                                    inputmode="numeric"
+                                                    oninput="imsi(this); square_change('total_floor_');">
                                                 <span class="gray_deep">㎡</span>
                                             </div>
                                         </div>
@@ -630,14 +665,17 @@
                                     <div class="reg_item">
                                         <label class="input_label">공급 면적 <span class="txt_point">*</span></label>
                                         <div class="input_pyeong_area">
-                                            <div><input type="text" id="area" name="area"
-                                                    value="{{ $product->area }}" placeholder="전용면적"> <span
-                                                    class="gray_deep">평</span>
+                                            <div>
+                                                <input type="text" id="area" name="area"
+                                                    value="{{ $product->area }}" placeholder="공급면적"
+                                                    inputmode="numeric" oninput="onlyNumbers(this);area_change('');">
+                                                <span class="gray_deep">평</span>
                                             </div>
                                             <span class="gray_deep">/</span>
                                             <div><input type="text"id="square" name="square"
-                                                    value="{{ $product->square }}" placeholder="평 입력시 자동"> <span
-                                                    class="gray_deep">㎡</span>
+                                                    value="{{ $product->square }}" placeholder="평 입력시 자동"
+                                                    inputmode="numeric" oninput="imsi(this); square_change('');">
+                                                <span class="gray_deep">㎡</span>
                                             </div>
                                         </div>
                                     </div>
@@ -646,12 +684,15 @@
                                     <label class="input_label">전용 면적 <span class="txt_point">*</span></label>
                                     <div class="input_pyeong_area">
                                         <div><input type="text" id="exclusive_area" name="exclusive_area"
-                                                value="{{ $product->exclusive_area }}" placeholder="전용면적"> <span
-                                                class="gray_deep">평</span>
+                                                value="{{ $product->exclusive_area }}" placeholder="전용면적"
+                                                inputmode="numeric"
+                                                oninput="onlyNumbers(this);area_change('exclusive_');">
+                                            <span class="gray_deep">평</span>
                                         </div>
                                         <span class="gray_deep">/</span>
                                         <div><input type="text" id="exclusive_square" name="exclusive_square"
-                                                value="{{ $product->exclusive_square }}" placeholder="평 입력시 자동">
+                                                value="{{ $product->exclusive_square }}" placeholder="평 입력시 자동"
+                                                nputmode="numeric" oninput="imsi(this); square_change('exclusive_');">
                                             <span class="gray_deep">㎡</span>
                                         </div>
                                     </div>
@@ -664,8 +705,10 @@
                             @if ($product->type != 6)
                                 <div class="reg_item">
                                     <label class="input_label">사용승인일 <span class="txt_point">*</span></label>
-                                    <input type="text" id="approve_date" name="approve_date"
-                                        value="{{ $product->approve_date }}" placeholder="예) 20230101">
+                                    <input type="text" id="approve_date_1" name="approve_date_1"
+                                        value="{{ $carbon::parse($product->approve_date)->format('Y.m.d') }}"
+                                        placeholder="예) 20230101" inputmode="numeric"
+                                        oninput="onlyNumbers(this); onDateChangeEvent('approve_date', 1);">
                                 </div>
                             @endif
 
@@ -733,9 +776,10 @@
                                         <div class="m_day_item open_key"></div>
                                         <div
                                             class="m_day_item open_key {{ $product->move_type == 2 ? 'active' : '' }}">
-                                            <input type="text" id="move_date" name="move_date"
+                                            <input type="text" id="move_date_0" name="move_date_0"
                                                 value="{{ $product->move_date }}" placeholder="예) 20230101"
-                                                class="">
+                                                inputmode="numeric"
+                                                oninput="onlyNumbers(this); onDateChangeEvent('move_date', 0);">
                                         </div>
                                     </div>
                                 </div>
@@ -746,8 +790,10 @@
                                 <div class="reg_item">
                                     <label class="input_label">월 관리비 <span class="txt_point">*</span></label>
                                     <div class="input_area_1">
-                                        <input type="number" id="service_price" name="service_price"
-                                            value="{{ $product->service_price }}"> <span class="gray_deep">원</span>
+                                        <input type="text" id="service_price" name="service_price"
+                                            value="{{ $product->service_price }}" inputmode="numeric"
+                                            oninput="onlyNumbers(this); onTextChangeEvent(this)">
+                                        <span class="gray_deep">원</span>
 
                                         @if ($type == 1 || $type == 2 || $product->type == 4)
                                             <input type="checkbox" name="is_service" id="is_service_4"
@@ -800,9 +846,11 @@
                                     <label for="loan_type_3">30%이상</label>
                                 </div>
                                 <div class="flex_1 mt10">
-                                    <input type="number" id="loan_price" name="loan_price" class="w_input_150"
+                                    <input type="text" id="loan_price" name="loan_price" class="w_input_150"
                                         value="{{ $product->loan_price }}"
-                                        {{ $product->loan_type == 0 ? 'disabled' : '' }}><span>원</span>
+                                        {{ $product->loan_type == 0 ? 'disabled' : '' }} inputmode="numeric"
+                                        oninput="onlyNumbers(this); onTextChangeEvent(this)">
+                                    <span>원</span>
                                 </div>
                             </div>
                             <div class="reg_item only_pc"></div>
@@ -826,10 +874,12 @@
                                         <label for="parking_type_3">불가능</label>
                                     </div>
                                     <div class="flex_1 mt10">
-                                        <input type="number" id="parking_price" name="parking_price"
+                                        <input type="text" id="parking_price" name="parking_price"
                                             class="w_input_150"
                                             value="{{ $product->parking_type == 1 ? ($product->parking_price == '' ? '무료주차' : $product->parking_price) : '' }}"
-                                            {{ $product->parking_type == 0 ? 'disabled' : '' }}><span>원</span>
+                                            {{ $product->parking_type == 0 ? 'disabled' : '' }} inputmode="numeric"
+                                            oninput="onlyNumbers(this); onTextChangeEvent(this)">
+                                        <span>원</span>
                                     </div>
                                 </div>
                                 <div class="reg_item only_pc"></div>
@@ -886,12 +936,14 @@
                                         <label class="input_label">방/욕실 수 <span class="txt_point">*</span></label>
                                         <div class="input_pyeong_area">
                                             <div><input type="text" name="room_count" placeholder="방 수"
-                                                    value="{{ $product->productAddInfo->room_count }}">
+                                                    value="{{ $product->productAddInfo->room_count }}"
+                                                    inputmode="numeric" oninput="onlyNumbers(this);">
                                                 <span class="gray_deep">개</span>
                                             </div>
                                             <span class="gray_deep">/</span>
                                             <div><input type="text" name="bathroom_count" placeholder="욕실 수"
-                                                    value="{{ $product->productAddInfo->bathroom_count }}">
+                                                    value="{{ $product->productAddInfo->bathroom_count }}"
+                                                    inputmode="numeric" oninput="onlyNumbers(this);">
                                                 <span class="gray_deep">개</span>
                                             </div>
                                         </div>
@@ -948,8 +1000,8 @@
                                         <label class="input_label">하중(평당)</label>
                                         <div class="flex_1 mt10">
                                             <input type="number" id="weight" name="weight"
-                                                value="{{ $product->productAddInfo->weight }}" class="w_input_150"
-                                                disabled><span></span>
+                                                value="{{ $product->productAddInfo->weight }}"
+                                                class="w_input_150"><span></span>
                                         </div>
                                     </div>
                                 @endif
@@ -1193,11 +1245,12 @@
                                 <div class="reg_item">
                                     <label class="input_label">옵션 여부</label>
                                     <div class="btn_radioType">
-                                        <input type="radio" name="option_info" id="option_info_1" value="Y"
-                                            checked="">
+                                        <input type="radio" name="option_info" id="option_info_1"
+                                            value="Y" checked="">
                                         <label for="option_info_1" onclick="showDiv('option_info', 0)">있음</label>
 
-                                        <input type="radio" name="option_info" id="option_info_2" value="Y">
+                                        <input type="radio" name="option_info" id="option_info_2"
+                                            value="Y">
                                         <label for="option_info_2" onclick="showDiv('option_info', 1)">없음</label>
                                     </div>
 
@@ -1216,7 +1269,8 @@
 
                                                         @for ($i = 0; $i < count(Lang::get('commons.option_facility')); $i++)
                                                             <input class="option_facility" type="checkbox"
-                                                                name="option_type[]" id="option_{{ $option_count }}"
+                                                                name="option_type[]"
+                                                                id="option_{{ $option_count }}"
                                                                 value="{{ $option_count }}"
                                                                 {{ in_array($option_count, $optionArray) ? 'checked' : '' }}>
                                                             <label for="option_{{ $option_count }}">
@@ -1230,7 +1284,8 @@
                                                     <div class="checkbox_btn">
                                                         @for ($i = 0; $i < count(Lang::get('commons.option_security')); $i++)
                                                             <input class="option_security" type="checkbox"
-                                                                name="option_type[]" id="option_{{ $option_count }}"
+                                                                name="option_type[]"
+                                                                id="option_{{ $option_count }}"
                                                                 value="{{ $option_count }}"
                                                                 {{ in_array($option_count, $optionArray) ? 'checked' : '' }}>
                                                             <label for="option_{{ $option_count }}">
@@ -1261,8 +1316,8 @@
                                                         <div class="option_tit">가전</div>
                                                         <div class="checkbox_btn">
                                                             @for ($i = 0; $i < count(Lang::get('commons.option_home_appliances')); $i++)
-                                                                <input class="option_home_appliances" type="checkbox"
-                                                                    name="option_type[]"
+                                                                <input class="option_home_appliances"
+                                                                    type="checkbox" name="option_type[]"
                                                                     id="option_{{ $option_count }}"
                                                                     value="{{ $option_count }}"
                                                                     {{ in_array($option_count, $optionArray) ? 'checked' : '' }}>
@@ -1425,13 +1480,15 @@
                             <div class="reg_mid_wrap mt10">
                                 <div class="reg_item">
                                     <label class="input_label">중개보수(부가세별도) <span class="txt_point">*</span></label>
-                                    <input type="number" id="commission" name="commission"
-                                        value="{{ $product->commission }}" placeholder="중개보수를 입력해 주세요.">
+                                    <input type="text" id="commission" name="commission"
+                                        value="{{ $product->commission }}" placeholder="중개보수를 입력해 주세요."
+                                        inputmode="numeric" oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                 </div>
                                 <div class="reg_item">
                                     <label class="input_label">상한요율 <span class="txt_point">*</span></label>
-                                    <input type="number" id="commission_rate" name="commission_rate"
-                                        value="{{ $product->commission_rate }}"
+                                    <input type="text" id="commission_rate" name="commission_rate"
+                                        value="{{ $product->commission_rate }}" placeholder="상한요율을 % 단위로 입력해 주세요."
+                                        inputmode="numeric" oninput="imsi1(this);"
                                         placeholder="상한요율을 % 단위로 입력해 주세요.">
                                 </div>
                             </div>
@@ -1499,9 +1556,49 @@
 
 </x-layout>
 
+<input hidden name="approve_date" id="approve_date">
+<input hidden name="move_date" id="move_date">
+
 
 
 <script>
+    // 평수 제곱 변환
+    function square_change(name) {
+        var area_name = name + 'area';
+        var square_name = name + 'square';
+
+        var square = $('#' + square_name).val();
+
+        if (square > 0) {
+            var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
+            $('#' + area_name).val(convertedArea);
+        } else {
+            $('#' + square_name).val('');
+            $('#' + area_name).val('');
+        }
+    }
+
+    // 평수 제곱 변환
+    function area_change(name) {
+        var area_name = name + 'area';
+        var square_name = name + 'square';
+
+        console.log('name : ', area_name);
+        var area = $('#' + area_name).val();
+
+        console.log('area', area);
+
+        if (area > 0) {
+            var convertedSquare = (area * 3.3058).toString();
+            var decimalIndex = convertedSquare.indexOf('.') + 3; // 소수점 이하 세 번째 자리까지
+            $('#' + square_name).val(convertedSquare.substr(0, decimalIndex));
+        } else {
+            $('#' + area_name).val('');
+            $('#' + square_name).val('');
+        }
+    }
+
+
     function plusClickEvent() {
         var imageCount = parseInt($('#imageCount').text());
 
@@ -1511,28 +1608,6 @@
             alert('최대 8장 등록 가능합니다.');
         }
     }
-    @if ($product->type != 6)
-        // 전용 면적 평수 변환
-        var exclusive_area = document.getElementById('exclusive_area');
-        exclusive_area.addEventListener('keyup', function(e) {
-            $('#exclusive_square').val((parseInt(e.target.value) * 3.3058).toFixed(2));
-        });
-    @endif
-
-    // 공급 면적 평수 변환
-    var area = document.getElementById('area');
-    area.addEventListener('keyup', function(e) {
-        $('#square').val((parseInt(e.target.value) * 3.3058).toFixed(2));
-    });
-
-
-    @if ($product->type == 7)
-        // 공급 면적 평수 변환
-        var area = document.getElementById('total_floor_area');
-        area.addEventListener('keyup', function(e) {
-            $('#total_floor_square').val((parseInt(e.target.value) * 3.3058).toFixed(2));
-        });
-    @endif
 
     var profileimageDropzone = new Dropzone("#profile_drop", {
         url: "{{ route('api.imageupload') }}", // URL
@@ -1967,7 +2042,7 @@
         ($('#total_floor_number').val() != '') ? true: minusVal++;
         ($('#comments').val() != '') ? true: minusVal++;
         ($('#address').val() != '') ? true: minusVal++;
-        ($('#price_'+$("input[name='payment_type']:checked").val()).val() != '') ? true: minusVal++;
+        ($('#price_' + $("input[name='payment_type']:checked").val()).val() != '') ? true: minusVal++;
 
         if (minusVal == 0) {
             document.getElementById('nextPageButton').disabled = false;
