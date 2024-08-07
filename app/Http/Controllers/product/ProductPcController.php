@@ -136,7 +136,7 @@ class ProductPcController extends Controller
             'contents' => $request->content,
             'image_link' => $request->image_link,
             'update_user_type' => $request->update_user_type,
-            'commission' => $request->commission,
+            'commission' => str_replace(',', '', $request->commission),
             'commission_rate' => $request->commission_rate,
             'is_blind' => 0,
             'is_delete' => 0,
@@ -344,10 +344,10 @@ class ProductPcController extends Controller
         ]);
 
         if ($validator->fails()) {
+            Log::info($validator->errors());
             return redirect(route('www.corp.product.create3.view'))->withErrors($validator)
                 ->withInput();
         }
-
 
         $result['type'] = $request->type;
         $result['payment_type'] = $request->payment_type;
@@ -593,7 +593,7 @@ class ProductPcController extends Controller
             'comments' => $request->comments,
             'contents' => $request->contents,
             'image_link' => $request->image_link,
-            'commission' => $request->commission,
+            'commission' => str_replace(',', '', $request->commission),
             'commission_rate' => $request->commission_rate,
             'is_blind' => 0,
             'is_delete' => 0,

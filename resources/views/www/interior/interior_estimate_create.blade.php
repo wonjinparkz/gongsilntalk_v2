@@ -93,7 +93,7 @@
                                 <label class="input_label">연락처</label>
                                 <div class="flex_1 flex_between">
                                     <input type="text" max="11" name="company_phone" id="company_phone"
-                                        onkeypress="onlyNumbers(event)" placeholder="ex) 01012345678">
+                                        oninput="onlyNumbers(this)" placeholder="ex) 01012345678">
                                 </div>
                             </div>
                             <div class="reg_item">
@@ -122,13 +122,6 @@
     <script>
         function createButton() {
             $('#create').submit();
-        }
-
-        function onlyNumbers(event) {
-            // 숫자 이외의 문자가 입력되면 이벤트를 취소합니다.
-            if (!/\d/.test(event.key) && event.key !== 'Backspace') {
-                event.preventDefault();
-            }
         }
 
         $('input[type="checkbox"]').on('click', function() {

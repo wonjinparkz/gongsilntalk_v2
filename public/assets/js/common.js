@@ -853,8 +853,9 @@ function onlyDateCharacters(event) {
 // 날짜 포맷
 function onDateChangeEvent(name, index) {
     let value = $('#' + name + '_' + index).val();
+    $('#' + name + '_' + index).val('');
     value = value.replace(/[^0-9]/g, '');
-    $('#' + name).val(value);
+    $('#' + name).val(value.substring(0, 8));
     let formattedValue = '';
     if (value.length > 4) {
         formattedValue = value.substring(0, 4) + '.' + value.substring(4, 6);

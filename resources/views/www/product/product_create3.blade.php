@@ -48,10 +48,16 @@
                         <div>
                             <label class="input_label">전용면적 <span>*</span></label>
                             <div class="input_pyeong_area">
-                                <div><input type="number" name="exclusive_area" id="exclusive_area"
-                                        placeholder="전용면적"> <span class="gray_deep">평</span> </div>
+                                <div>
+                                    <input type="text" name="exclusive_area" id="exclusive_area"
+                                        placeholder="전용면적" inputmode="numeric"
+                                        oninput="onlyNumbers(this);area_change('');">
+                                    <span class="gray_deep">평</span>
+                                </div>
                                 <span class="gray_deep">/</span>
-                                <div><input type="text" name="exclusive_square" id="exclusive_square"
+                                <div>
+                                    <input type="text" name="exclusive_square" id="exclusive_square"
+                                        inputmode="numeric" oninput="imsi(this); square_change('');"
                                         placeholder="평 입력시 자동">
                                     <span class="gray_deep">㎡</span>
                                 </div>

@@ -178,7 +178,7 @@
         var ji = pnu.substring(15, 20);
 
         var xhr = new XMLHttpRequest();
-        var url = 'http://apis.data.go.kr/1613000/BldRgstService_v2/get' + get_type; // URL
+        var url = 'https://apis.data.go.kr/1613000/BldRgstService_v2/get' + get_type; // URL
         var queryParams = '?' + encodeURIComponent('serviceKey') + '=' + '{{ env('API_DATE_KEY') }}';
         queryParams += '&' + encodeURIComponent('sigunguCd') + '=' + encodeURIComponent(sigunguCd);
         queryParams += '&' + encodeURIComponent('bjdongCd') + '=' + encodeURIComponent(bjdongCd);

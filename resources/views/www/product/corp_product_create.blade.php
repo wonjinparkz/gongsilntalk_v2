@@ -102,8 +102,10 @@
                                             <div>
                                                 <label class="input_label">매매가</label>
                                                 <div class="input_area_1">
-                                                    <input type="number" name="input_price" id="price_1"> <span
-                                                        class="gray_deep">원</span>
+                                                    <input type="text" name="input_price" id="price_1"
+                                                        inputmode="numeric"
+                                                        oninput="onlyNumbers(this); onTextChangeEvent(this);">
+                                                    <span class="gray_deep">원</span>
                                                     <input type="checkbox" name="input_is_price_discussion"
                                                         id="is_price_discussion_1" value="Y">
                                                     <label for="is_price_discussion_1" class="gray_deep"><span></span>
@@ -124,14 +126,18 @@
                                                     <div class="item">
                                                         <label class="input_label">보증금</label>
                                                         <div class="flex_1">
-                                                            <input type="number" class="w_input_150"
+                                                            <input type="text" class="w_input_150"
+                                                                inputmode="numeric"
+                                                                oninput="onlyNumbers(this); onTextChangeEvent(this);"
                                                                 name="input_price" id="price_2"><span>/</span>
                                                         </div>
                                                     </div>
                                                     <div class="item">
                                                         <label class="input_label">월임대료</label>
                                                         <div class="flex_1">
-                                                            <input type="number" class="w_input_150"
+                                                            <input type="text" class="w_input_150"
+                                                                inputmode="numeric"
+                                                                oninput="onlyNumbers(this); onTextChangeEvent(this);"
                                                                 name="input_month_price"
                                                                 id="month_price_1"><span>원</span>
                                                         </div>
@@ -172,15 +178,17 @@
                                             <div class="item">
                                                 <label class="input_label">현 보증금</label>
                                                 <div class="flex_1">
-                                                    <input type="number" class="w_input_150"
+                                                    <input type="text" class="w_input_150" inputmode="numeric"
+                                                        oninput="onlyNumbers(this); onTextChangeEvent(this);"
                                                         name="input_current_price" id="current_price_1"><span>/</span>
                                                 </div>
                                             </div>
                                             <div class="item">
                                                 <label class="input_label">현 월임대료</label>
                                                 <div class="flex_1">
-                                                    <input type="number" class="w_input_150"
-                                                        name="input_current_month_price"
+                                                    <input type="text" class="w_input_150"
+                                                        name="input_current_month_price" inputmode="numeric"
+                                                        oninput="onlyNumbers(this); onTextChangeEvent(this);"
                                                         id="current_month_price_1"><span>원</span>
                                                 </div>
                                             </div>
@@ -208,7 +216,8 @@
                                 <div class="keymoney_wrap w_30">
                                     <div class="keymoney_item open_key">
                                         <div class="flex_1 flex_between">
-                                            <input type="text" name="input_premium_price"
+                                            <input type="text" name="input_premium_price" inputmode="numeric"
+                                                oninput="onlyNumbers(this); onTextChangeEvent(this);"
                                                 id="input_premium_price">
                                             <span>원</span>
                                         </div>
@@ -248,8 +257,9 @@
                                         <div>
                                             <label class="input_label">매매가</label>
                                             <div class="input_area_1">
-                                                <input type="number" name="input_price" id="price_3"
-                                                    class="">
+                                                <input type="text" name="input_price" id="price_3"
+                                                    inputmode="numeric"
+                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                 <span class="gray_deep">원</span>
                                                 <input type="checkbox" name="input_is_price_discussion"
                                                     id="is_price_discussion_3" value="Y">
@@ -266,8 +276,10 @@
                                         <div>
                                             <label class="input_label">전세가</label>
                                             <div class="input_area_1">
-                                                <input type="number" class="" name="input_price"
-                                                    id="price_4"> <span class="gray_deep">원</span>
+                                                <input type="text" name="input_price" id="price_4"
+                                                    inputmode="numeric"
+                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);"> <span
+                                                    class="gray_deep">원</span>
                                                 <input type="checkbox" name="input_is_price_discussion"
                                                     id="is_price_discussion_4" value="Y">
                                                 <label for="is_price_discussion_4" class="gray_deep"><span></span>
@@ -285,15 +297,18 @@
                                                 <div class="item">
                                                     <label class="input_label">보증금</label>
                                                     <div class="flex_1">
-                                                        <input type="number" name="input_price" id="price_5"
-                                                            class="w_input_150"><span>/</span>
+                                                        <input type="text" name="input_price" id="price_5"
+                                                            class="w_input_150" inputmode="numeric"
+                                                            oninput="onlyNumbers(this); onTextChangeEvent(this);"><span>/</span>
                                                     </div>
                                                 </div>
                                                 <div class="item">
                                                     <label class="input_label">월임대료</label>
                                                     <div class="flex_1">
-                                                        <input type="number" name="input_month_price"
-                                                            id="month_price_2" class="w_input_150"><span>원</span>
+                                                        <input type="text" name="input_month_price"
+                                                            id="month_price_2" class="w_input_150"
+                                                            inputmode="numeric"
+                                                            oninput="onlyNumbers(this); onTextChangeEvent(this);"><span>원</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -331,16 +346,19 @@
                                             <div class="item">
                                                 <label class="input_label">현 보증금</label>
                                                 <div class="flex_1">
-                                                    <input type="number" class="w_input_150"
-                                                        name="input_current_price" id="current_price_1"><span>/</span>
+                                                    <input type="text" class="w_input_150"
+                                                        name="input_current_price" id="current_price_1"
+                                                        inputmode="numeric"
+                                                        oninput="onlyNumbers(this); onTextChangeEvent(this);"><span>/</span>
                                                 </div>
                                             </div>
                                             <div class="item">
                                                 <label class="input_label">현 월임대료</label>
                                                 <div class="flex_1 ">
-                                                    <input type="number" class="w_input_150"
-                                                        name="input_current_month_price"
-                                                        id="current_month_price_1"><span>원</span>
+                                                    <input type="text" class="w_input_150"
+                                                        name="input_current_month_price" id="current_month_price_1"
+                                                        inputmode="numeric"
+                                                        oninput="onlyNumbers(this); onTextChangeEvent(this);"><span>원</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -378,8 +396,10 @@
                                         <div>
                                             <label class="input_label">전매가</label>
                                             <div class="input_area_1">
-                                                <input type="number" class="" name="input_price"
-                                                    id="price_6"> <span class="gray_deep">원</span>
+                                                <input type="text" name="input_price" id="price_6"
+                                                    inputmode="numeric"
+                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);"> <span
+                                                    class="gray_deep">원</span>
                                                 <input type="checkbox" name="input_is_price_discussion"
                                                     id="is_price_discussion_6" value="Y">
                                                 <label for="is_price_discussion_6" class="gray_deep"><span></span>
@@ -395,8 +415,10 @@
                                         <div>
                                             <label class="input_label">전세가</label>
                                             <div class="input_area_1">
-                                                <input type="number" class="" name="input_price"
-                                                    id="price_7"> <span class="gray_deep">원</span>
+                                                <input type="text" name="input_price" id="price_7"
+                                                    inputmode="numeric"
+                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);"> <span
+                                                    class="gray_deep">원</span>
                                                 <input type="checkbox" name="input_is_price_discussion"
                                                     id="is_price_discussion_7" value="Y">
                                                 <label for="is_price_discussion_7" class="gray_deep"><span></span>
@@ -415,15 +437,18 @@
                                                 <div class="item">
                                                     <label class="input_label">보증금</label>
                                                     <div class="flex_1">
-                                                        <input type="number" class="w_input_150" name="input_price"
-                                                            id="price_8"><span>/</span>
+                                                        <input type="text" class="w_input_150" name="input_price"
+                                                            id="price_8" inputmode="numeric"
+                                                            oninput="onlyNumbers(this); onTextChangeEvent(this);"><span>/</span>
                                                     </div>
                                                 </div>
                                                 <div class="item">
                                                     <label class="input_label">월임대료</label>
                                                     <div class="flex_1">
-                                                        <input type="number" name="input_month_price"
-                                                            id="month_price_3" class="w_input_150"><span>원</span>
+                                                        <input type="text" name="input_month_price"
+                                                            id="month_price_3" class="w_input_150"
+                                                            inputmode="numeric"
+                                                            oninput="onlyNumbers(this); onTextChangeEvent(this);"><span>원</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -443,13 +468,7 @@
 
                                 </div>
 
-                                <div>
-                                    <label class="input_label">준공예정일</label>
-                                    <div class="w_30">
-                                        <input type="number" id="input_approve_date" name="input_approve_date"
-                                            placeholder="예) 20230101">
-                                    </div>
-                                </div>
+
 
 
                             </div>
@@ -470,7 +489,6 @@
     </div>
 
     <script>
-
         function formSetting() {
             var is_use = $('#is_use').val();
             var is_premium = $('#is_premium').val();
@@ -528,14 +546,12 @@
 
         // 매매가 & 보증금
         $('input[name="input_price"]').keyup(function() {
-            $('#price').val($(this).val());
-            $('span[name="price_conversion"]').html(get_priceTrans($(this).val()));
+            $('#price').val($(this).val().replace(/[^0-9]/g, ''));
         });
 
         // 월임대료
         $('input[name="input_month_price"]').keyup(function() {
-            $('#month_price').val($(this).val());
-            $('span[name="month_price_conversion"]').html(get_priceTrans($(this).val()));
+            $('#month_price').val($(this).val().replace(/[^0-9]/g, ''));
         });
 
         // 가격 협의가능 여부
@@ -555,14 +571,12 @@
 
         // 기존 임대차 선택시 보증금
         $('input[name="input_current_price"]').keyup(function() {
-            $('#current_price').val($(this).val());
-            $('span[name="current_price_conversion"]').html(get_priceTrans($(this).val()));
+            $('#current_price').val($(this).val().replace(/[^0-9]/g, ''));
         });
 
         // 기존 임대차 선택시 월 임대료
         $('input[name="input_current_month_price"]').keyup(function() {
-            $('#current_month_price').val($(this).val());
-            $('span[name="current_month_price_conversion"]').html(get_priceTrans($(this).val()));
+            $('#current_month_price').val($(this).val().replace(/[^0-9]/g, ''));
         });
 
         // 상가 - 권리금 선택
@@ -572,14 +586,9 @@
 
         // 상가 - 권리금 금액
         $('input[name="input_premium_price"]').keyup(function() {
-            $('#premium_price').val($(this).val());
-            $('span[name="premium_price_conversion"]').html(get_priceTrans($(this).val()));
+            $('#premium_price').val($(this).val().replace(/[^0-9]/g, ''));
         });
 
-        // 분양권 - 준공예정일
-        $('input[name="input_approve_date"]').keyup(function() {
-            $('#approve_date').val($(this).val());
-        });
 
         function confirm_check() {
             var confirm = 0;
@@ -641,7 +650,8 @@
                 $('.confirm').attr("disabled", true);
             }
         }
-        $('input').on("change click", function() {
+
+        $('input').on("change click keydown", function() {
             confirm_check();
         });
 
@@ -659,7 +669,7 @@
                 $('#is_price_discussion').val(0);
                 $('input[type="checkbox"]').prop('checked', false);
 
-                $('input[type="number"]').val('');
+                $('input[type="text"]').val('');
             }
 
             var input_type = $('input[name="input_type"]:checked').val();

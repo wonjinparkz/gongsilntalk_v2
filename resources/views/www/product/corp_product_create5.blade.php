@@ -116,13 +116,14 @@
                             <div class="reg_mid_wrap mt10">
                                 <div class="reg_item">
                                     <label class="input_label">중개보수(부가세별도) <span class="txt_point">*</span></label>
-                                    <input type="text" name="commission" class="form-control"
+                                    <input type="text" name="commission" class="form-control" inputmode="numeric"
+                                        oninput="onlyNumbers(this); onTextChangeEvent(this);"
                                         placeholder="중개보수를 입력해 주세요.">
                                 </div>
                                 <div class="reg_item">
                                     <label class="input_label">상한요율 <span class="txt_point">*</span></label>
                                     <input type="text" name="commission_rate" class="form-control"
-                                        placeholder="상한요율을 % 단위로 입력해 주세요.">
+                                        inputmode="numeric" oninput="imsi1(this);" placeholder="상한요율을 % 단위로 입력해 주세요.">
                                 </div>
                             </div>
                         </div>
@@ -131,8 +132,8 @@
                     </div>
 
                     <div class="step_btn_wrap">
-                        <button class="btn_full_basic btn_graylight_ghost"
-                            onclick="javascript:history.go(-1)">이전</button>
+                        <button type="button" class="btn_full_basic btn_graylight_ghost"
+                            onclick="location.href='javascript:history.go(-1)'">이전</button>
                         <button class="btn_full_basic btn_point confirm" onclick="createButton()" disabled>등록</button>
                     </div>
 

@@ -87,11 +87,13 @@
                                 <div class="reg_item">
                                     <label class="input_label">방/욕실 수 <span class="txt_point">*</span></label>
                                     <div class="input_pyeong_area">
-                                        <div><input type="text" name="room_count" placeholder="방 수">
+                                        <div><input type="text" name="room_count" placeholder="방 수"
+                                                inputmode="numeric" oninput="onlyNumbers(this);">
                                             <span class="gray_deep">개</span>
                                         </div>
                                         <span class="gray_deep">/</span>
-                                        <div><input type="text" name="bathroom_count" placeholder="욕실 수">
+                                        <div><input type="text" name="bathroom_count" placeholder="욕실 수"
+                                                inputmode="numeric" oninput="onlyNumbers(this);">
                                             <span class="gray_deep">개</span>
                                         </div>
                                     </div>
@@ -206,7 +208,7 @@
                                 <div class="reg_item">
                                     <label class="input_label">하중(평당)</label>
                                     <div class="flex_1 mt10">
-                                        <input type="text" name="weight" placeholder="예) 0.8"
+                                        <input type="number" name="weight" placeholder="예) 0.8"
                                             class="w_input_150">
                                         <span>톤</span>
                                     </div>
@@ -599,7 +601,7 @@
 
                     <div class="step_btn_wrap">
                         <button type="button" class="btn_full_basic btn_graylight_ghost"
-                            onclick="location.href='realtor_estate_reg_3.html'">이전</button>
+                            onclick="location.href='javascript:history.go(-1)'">이전</button>
                         <!-- <button type="button" class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
                         <button type="submit" class="btn_full_basic btn_point confirm" disabled>다음</button>
                     </div>

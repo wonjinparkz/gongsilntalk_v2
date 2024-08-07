@@ -154,7 +154,7 @@
                                     <label class="input_label">사용 인원<span>*</span></label>
                                     <div class="flex_1 flex_between">
                                         <input type="text" id="users_count" name="users_count"
-                                            onkeypress="onlyNumbers(event)" oninput="onTextChangeEvent(this)">
+                                            oninput="onlyNumbers(this); onTextChangeEvent(this)">
                                         <span>명</span>
                                     </div>
                                     <p class="fs_13 gray_basic mt8">인원 당 2.5평을 추천해드립니다.</p>

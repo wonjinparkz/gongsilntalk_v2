@@ -13,6 +13,10 @@
         <input type="hidden" name="is_premium" id="is_premium" value="{{ $result['is_premium'] ?? '' }}">
         <input type="hidden" name="premium_price" id="premium_price" value="{{ $result['premium_price'] ?? '' }}">
         <input type="hidden" name="approve_date" id="approve_date" value="{{ $result['approve_date'] ?? '' }}">
+        <input type="hidden" name="move_date" id="move_date" value="{{ old('move_date') ?? '' }}">
+        <input type="hidden" name="service_price" id="service_price" value="{{ old('service_price') ?? '' }}">
+        <input type="hidden" name="loan_price" id="loan_price" value="{{ old('loan_price') ?? '' }}">
+        <input type="hidden" name="parking_price" id="parking_price" value="{{ old('parking_price') ?? '' }}">
 
         <input type="hidden" name="is_map" id="is_map" value="{{ $result['is_map'] ?? '' }}">
         <input type="hidden" name="address_lng" id="address_lng" value="{{ $result['address_lng'] ?? '' }}">
@@ -38,7 +42,8 @@
 
             <!-- my_body : s -->
             <div class="inner_mid_wrap m_inner_wrap mid_body">
-                <h1 class="t_center only_pc">매물 등록하기 <span class="step_number"><span class="txt_point">3</span>/5</span>
+                <h1 class="t_center only_pc">매물 등록하기 <span class="step_number"><span
+                            class="txt_point">3</span>/5</span>
                 </h1>
 
                 <div class="offer_step_wrap">
@@ -78,12 +83,12 @@
                                     <label class="input_label">대지면적 <span class="txt_point">*</span></label>
                                     <div class="input_pyeong_area">
                                         <div><input type="text" name="area" id="area" placeholder="대지면적"
-                                                onkeyup="area_change('')">
+                                                inputmode="numeric" oninput="onlyNumbers(this);area_change('');">
                                             <span class="gray_deep">평</span>
                                         </div>
                                         <span class="gray_deep">/</span>
-                                        <div><input type="text" name="square" id="square"
-                                                placeholder="평 입력시 자동" onkeyup="imsi(this); square_change('')">
+                                        <div><input type="text" name="square" id="square" inputmode="numeric"
+                                                placeholder="평 입력시 자동" oninput="imsi(this); square_change('')">
                                             <span class="gray_deep">㎡</span>
                                         </div>
                                     </div>
@@ -99,13 +104,13 @@
                                     <div class="input_pyeong_area">
                                         <div>
                                             <input type="text" name="area" id="area" placeholder="전용면적"
-                                                onkeyup="area_change('')">
+                                                inputmode="numeric" oninput="onlyNumbers(this);area_change('');">
                                             <span class="gray_deep">평</span>
                                         </div>
                                         <span class="gray_deep">/</span>
                                         <div>
-                                            <input type="text" name="square" id="square"
-                                                placeholder="평 입력시 자동" onkeyup="imsi(this); square_change('')">
+                                            <input type="text" name="square" id="square" inputmode="numeric"
+                                                placeholder="평 입력시 자동" oninput="imsi(this); square_change('')">
                                             <span class="gray_deep">㎡</span>
                                         </div>
                                     </div>
@@ -119,14 +124,15 @@
                                     <div class="input_pyeong_area">
                                         <div>
                                             <input type="text" name="total_floor_area" id="total_floor_area"
-                                                placeholder="연면적" onkeyup="area_change('total_floor_')">
+                                                placeholder="연면적" inputmode="numeric"
+                                                oninput="onlyNumbers(this);area_change('total_floor_');">
                                             <span class="gray_deep">평</span>
                                         </div>
                                         <span class="gray_deep">/</span>
                                         <div>
                                             <input type="text" name="total_floor_square" id="total_floor_square"
-                                                placeholder="평 입력시 자동"
-                                                onkeyup="simsi(this); quare_change('total_floor_')">
+                                                placeholder="평 입력시 자동" inputmode="numeric"
+                                                oninput="imsi(this); square_change('total_floor_')">
                                             <span class="gray_deep">㎡</span>
                                         </div>
                                     </div>
@@ -140,14 +146,15 @@
                                     <div class="input_pyeong_area">
                                         <div>
                                             <input type="text" name="exclusive_area" id="exclusive_area"
-                                                placeholder="전용면적" onkeyup="area_change('exclusive_')">
+                                                placeholder="전용면적" inputmode="numeric"
+                                                oninput="onlyNumbers(this);area_change('exclusive_');">
                                             <span class="gray_deep">평</span>
                                         </div>
                                         <span class="gray_deep">/</span>
                                         <div>
                                             <input type="text" name="exclusive_square" id="exclusive_square"
-                                                placeholder="평 입력시 자동"
-                                                onkeyup="imsi(this); square_change('exclusive_')">
+                                                placeholder="평 입력시 자동" inputmode="numeric"
+                                                oninput="imsi(this); square_change('exclusive_')">
                                             <span class="gray_deep">㎡</span>
                                         </div>
                                     </div>
@@ -159,12 +166,16 @@
                             @if ($result['type'] < 14)
                                 <div class="reg_item no_forest">
                                     <label class="input_label">사용승인일 <span class="txt_point">*</span></label>
-                                    <input type="text" name="approve_date" placeholder="예) 20230101">
+                                    <input type="text" id="approve_date_0" name="approve_date_0"
+                                        inputmode="numeric" placeholder="예) 20230101"
+                                        oninput="onlyNumbers(this); onDateChangeEvent('approve_date', 0);">
                                 </div>
                             @else
                                 <div class="reg_item no_forest">
                                     <label class="input_label">준공예정일 <span class="txt_point">*</span></label>
-                                    <input type="text" name="approve_date" placeholder="예) 20230101">
+                                    <input type="text" id="approve_date_0" name="approve_date_0"
+                                        inputmode="numeric" placeholder="예) 20230101"
+                                        oninput="onlyNumbers(this); onDateChangeEvent('approve_date', 0);">
                                 </div>
                             @endif
 
@@ -220,8 +231,9 @@
                                     <div class="move_type_wrap mt8">
                                         <div class="move_type_item open_key"></div>
                                         <div class="move_type_item open_key">
-                                            <input type="text" name="move_date" placeholder="예) 20230101"
-                                                class="">
+                                            <input type="text" name="move_date_0" id="move_date_0"
+                                                inputmode="numeric" placeholder="예) 20230101"
+                                                oninput="onlyNumbers(this); onDateChangeEvent('move_date', 0);">
                                         </div>
                                     </div>
                                 </div>
@@ -234,18 +246,18 @@
                                 <div class="reg_item">
                                     <label class="input_label">월 관리비 <span class="txt_point">*</span></label>
                                     <div class="input_area_1">
-                                        <input type="number" name="service_price"> <span class="gray_deep">원</span>
+                                        <input type="text" name="service_price_0" id="service_price_0"
+                                            inputmode="numeric"
+                                            oninput="onlyNumbers(this); onTextChangeEventIndex('service_price', 0);">
+                                        <span class="gray_deep">원</span>
                                         <input type="checkbox" name="is_service" id="is_service_1" value="1">
                                         <label for="is_service_1" class="gray_deep"><span></span> 관리비 없음</label>
                                     </div>
                                 </div>
                             </div>
-                        @endif
 
-
-                        @if ($result['type'] != 6)
                             <div class="no_forest">
-                                <label class="input_label">관리비 항목</label>
+                                <label class="input_label">관리비 항목 <span class="txt_point">*</span></label>
                                 <div class="checkbox_btn">
                                     @foreach (Lang::get('commons.service_type') as $index => $service_type)
                                         <input type="checkbox" name="service_type[]"
@@ -256,6 +268,8 @@
                                     @endforeach
                                 </div>
                             </div>
+                        @else
+                            <input hidden name="is_service" value="1">
                         @endif
 
                         <div class="reg_mid_wrap">
@@ -273,8 +287,9 @@
                                     <label for="loan_type_2">30%이상</label>
                                 </div>
                                 <div class="flex_1 mt10">
-                                    <input type="number" name="loan_price" id="loan_price" class="w_input_150"
-                                        disabled><span>원</span>
+                                    <input type="text" name="loan_price_0" id="loan_price_0" class="w_input_150"
+                                        disabled
+                                        oninput="onlyNumbers(this); onTextChangeEventIndex('loan_price', 0);"><span>원</span>
                                 </div>
                             </div>
                             <div class="reg_item only_pc"></div>
@@ -296,8 +311,9 @@
                                         <label for="parking_type_2">불가능</label>
                                     </div>
                                     <div class="flex_1 mt10">
-                                        <input type="number" name="parking_price" class="w_input_150"
-                                            disabled><span>원</span>
+                                        <input type="text" name="parking_price_0" id="parking_price_0"
+                                            class="w_input_150" disabled inputmode="numeric"
+                                            oninput="onlyNumbers(this); onTextChangeEventIndex('parking_price', 0);"><span>원</span>
                                     </div>
                                 </div>
                                 <div class="reg_item only_pc"></div>
@@ -368,7 +384,7 @@
             var exclusive_square = $('input[name="exclusive_square"]').val();
             var building_type = $('input[name="building_type"]').val();
             var move_type = $('input[name="move_type"]:checked').val();
-            var move_date = $('input[name="move_date"]').val();
+            var move_date = $('input[name="move_date"]').val().length;
             var is_service = $('input[name="is_service"]').is(":checked");
             var service_price = $('input[name="service_price"]').val();
             var service_type = $('input[name="service_type[]"]:checked').length;
@@ -376,7 +392,7 @@
             var loan_price = $('input[name="loan_price"]').val();
             var parking_type = $('input[name="parking_type"]:checked').val();
             var parking_price = $('input[name="parking_price"]').val();
-
+            var approve_date = $('input[name="approve_date"]').val().length;
 
             var checkConfirm = false;
 
@@ -388,8 +404,8 @@
                     checkConfirm = false;
                 }
             } else {
-                if (area != '' && square != '' && approve_date != '' && building_type != '' &&
-                    (move_type != 2 || (move_type == 2 && move_date != '')) &&
+                if (area != '' && square != '' && approve_date == 8 && building_type != '' &&
+                    (move_type != 2 || (move_type == 2 && move_date == 8)) &&
                     (is_service || is_service == false && service_price != '' && service_type > 0) &&
                     (loan_type == 0 || (loan_type != 0 && loan_price != '')) &&
                     (parking_type != 1 || (parking_type == 1 && parking_price != ''))) {
@@ -408,6 +424,8 @@
                 }
             }
 
+            console.log('type : ', type);
+
             if (checkConfirm) {
                 $('.confirm').attr("disabled", false);
             } else {
@@ -415,16 +433,6 @@
             }
         }
 
-        var prev = "";
-        var regexp = /^\d*(\.\d{0,2})?$/;
-
-        function imsi(obj) {
-            if (obj.value.search(regexp) == -1) {
-                obj.value = prev;
-            } else {
-                prev = obj.value;
-            }
-        }
 
         // 평수 제곱 변환
         function square_change(name) {
@@ -504,10 +512,11 @@
 
         function loanType(element) {
             $('#loan_price').val('');
+            $('#loan_price_0').val('');
             if (element == 0) {
-                $('input[name="loan_price"]').attr('disabled', true);
+                $('input[name="loan_price_0"]').attr('disabled', true);
             } else {
-                $('input[name="loan_price"]').attr('disabled', false);
+                $('input[name="loan_price_0"]').attr('disabled', false);
             }
             inputCheck();
         }
@@ -519,10 +528,11 @@
 
         function parkingType(element) {
             $('input[name="parking_price"]').val('');
+            $('input[name="parking_price_0"]').val('');
             if (element != 1) {
-                $('input[name="parking_price"]').attr('disabled', true);
+                $('input[name="parking_price_0"]').attr('disabled', true);
             } else {
-                $('input[name="parking_price"]').attr('disabled', false);
+                $('input[name="parking_price_0"]').attr('disabled', false);
             }
         }
     </script>

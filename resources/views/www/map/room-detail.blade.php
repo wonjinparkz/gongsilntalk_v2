@@ -1110,7 +1110,7 @@
     <script>
         var title = '공실앤톡';
         var imageUrl = "{{ asset('assets/media/default_gs.png') }}";
-        var url = "http://localhost"
+        var url = "{{ env('APP_URL') }}"
         var detailUrl = "{{ route('www.map.room.detail', [$result->id]) }}"
         Kakao.Share.createDefaultButton({
             container: '.kakaotalk-sharing-btn',

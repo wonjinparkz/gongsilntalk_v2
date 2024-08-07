@@ -160,6 +160,12 @@
                         <label for="mobile_checkOne_{{ $product->id }}"><span></span></label>
                         <span class="gray_deep">매물번호 {{ $product->product_number }}</span>
                     </div>
+                    @if ($product->state < 4)
+                        <button class="btn_gray_ghost btn_sm"
+                            onclick="location.href='{{ route('www.mypage.corp.product.magagement.update.view', [$product->id]) }}'">수정</button>
+                    @else
+                        <button class="btn_gray_ghost btn_sm">재등록</button>
+                    @endif
                     <button class="btn_gray_ghost btn_sm">삭제</button>
                 </div>
                 <div class="list_m_cnt">
