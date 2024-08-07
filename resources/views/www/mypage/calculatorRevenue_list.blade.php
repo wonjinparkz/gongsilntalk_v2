@@ -126,7 +126,13 @@
                                     </div>
                                     <div class="td">
                                         {{ number_format($loan_price) }}원
-                                        <span class="txt_point">({{ $loan_interest }}%)</span>
+                                        <span class="txt_point">({{ $loan_ratio }}%)</span>
+                                    </div>
+                                    <div class="td">
+                                        대출금리
+                                    </div>
+                                    <div class="td">
+                                        {{ number_format($loan_interest, 2) }}%
                                     </div>
                                     <div class="td">
                                         월 이자 상환액
