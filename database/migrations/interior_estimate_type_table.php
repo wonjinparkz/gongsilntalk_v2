@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('interior_estimate_type', function (Blueprint $table) {
             $table->id()->comment('인테리어 견적 타입 아이디');
-            $table->integer('interior_estimate_id')->comment('인테리어 견적 아이디');
+            $table->bigInteger('interior_estimate_id')->comment('인테리어 견적 아이디');
             $table->integer('type')->comment('인테리어 타입 - 0: 전체 인테리어, 1: 부분 인테리어, 2: 상담 후 결정');
             $table->timestamps();
         });

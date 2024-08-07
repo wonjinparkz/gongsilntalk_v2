@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id()->comment('중도 상환 아이디');
             $table->integer('calculator_loan_id')->comment('대출 이자 계산 아이디');
             $table->integer('sequence')->nullable()->comment('회차');
-            $table->integer('pay_price')->nullable()->comment('상환 금액');
+            $table->bigInteger('pay_price')->nullable()->comment('상환 금액');
             $table->timestamps();
         });
     }

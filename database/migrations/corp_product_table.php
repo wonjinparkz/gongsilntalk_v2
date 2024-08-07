@@ -31,7 +31,7 @@ return new class extends Migration
             $table->integer('move_type')->comment('입주 타입 - 0: 선택 안함, 1: 즉시입주, 2: 날짜 협의, 3: 직접입력');
             $table->string('move_date')->nullable()->comment('입주 가능일 - null일 경우 즉시 입주');
             $table->integer('is_service')->comment('관리비 없음 여부 - 0: 관리비 있음, 1: 관리비 없음');
-            $table->integer('service_price')->nullable()->comment('관리비 가격');
+            $table->bigInteger('service_price')->nullable()->comment('관리비 가격');
             $table->integer('heating_type')->nullable()->comment('난방 종류 - 0: 개별난방, 1: 중앙난방, 2: 지역난방');
             $table->integer('parking_count')->nullable()->comment('주차 가능 대수');
             $table->longText('product_content')->nullable()->comment('건물 특장점');

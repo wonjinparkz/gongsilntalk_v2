@@ -14,14 +14,14 @@ return new class extends Migration
         // 수익률 계산기
         Schema::create('calculator_revenue', function (Blueprint $table) {
             $table->id()->comment('수익률 계산기 아이디');
-            $table->integer('users_id')->comment('유저 아이디');
-            $table->integer('sale_price')->nullable()->comment('매매/분양가');
+            $table->bigInteger('users_id')->comment('유저 아이디');
+            $table->bigInteger('sale_price')->nullable()->comment('매매/분양가');
             $table->double('acquisition_tax', 10, 2)->nullable()->comment('취득세율 소수점 2자리까지');
-            $table->integer('tax_price')->nullable()->comment('세무비용');
-            $table->integer('commission')->nullable()->comment('중개 보수 (부가세 별도)');
-            $table->integer('etc_price')->nullable()->comment('기타비용');
-            $table->integer('price')->nullable()->comment('보증금');
-            $table->integer('month_price')->nullable()->comment('월 임대료');
+            $table->bigInteger('tax_price')->nullable()->comment('세무비용');
+            $table->bigInteger('commission')->nullable()->comment('중개 보수 (부가세 별도)');
+            $table->bigInteger('etc_price')->nullable()->comment('기타비용');
+            $table->bigInteger('price')->nullable()->comment('보증금');
+            $table->bigInteger('month_price')->nullable()->comment('월 임대료');
             $table->integer('loan_ratio')->nullable()->comment('대출 비율');
             $table->double('loan_interest', 10, 2)->nullable()->comment('대출 금리 소수점 2자리까지');
             $table->timestamps();

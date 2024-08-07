@@ -51,19 +51,19 @@ return new class extends Migration
             $table->text('move_date')->nullable()->comment('입주 가능일 - 직접입력');
 
             $table->integer('is_service')->nullable()->comment('관리비 없음 여부 - 0: 관리비 있음, 1: 관리비 없음');
-            $table->integer('service_price')->nullable()->comment('관리비 가격');
+            $table->bigInteger('service_price')->nullable()->comment('관리비 가격');
 
             $table->integer('loan_type')->nullable()->comment('융자금 타입 - 0: 없음, 1: 30%미만, 2: 30%이상');
-            $table->text('loan_price')->nullable()->comment('융자금 가격');
+            $table->bigInteger('loan_price')->nullable()->comment('융자금 가격');
 
             $table->integer('parking_type')->nullable()->comment('주차 가능 여부 - 0: 선택안함, 1: 가능, 2: 불가능');
-            $table->integer('parking_price')->nullable()->comment('주차비 (주차 가능일 경우 null값이면 무료주차)');
+            $table->bigInteger('parking_price')->nullable()->comment('주차비 (주차 가능일 경우 null값이면 무료주차)');
 
             $table->string('comments')->nullable()->comment('한줄 소개');
             $table->longText('contents')->nullable()->comment('성세 설명');
             $table->string('image_link')->nullable()->comment('3D 이미지 링크');
             $table->integer('update_user_type')->nullable()->comment('최종 수정자 - 0: 일반회원, 1: 관리자');
-            $table->integer('commission')->nullable()->comment('중개 보수 (부가세 별도)');
+            $table->bigInteger('commission')->nullable()->comment('중개 보수 (부가세 별도)');
             $table->double('commission_rate', 10, 1)->nullable()->comment('상환요율 (%)');
 
             $table->longtext('non_memo')->nullable()->comment('비공개 메모');
