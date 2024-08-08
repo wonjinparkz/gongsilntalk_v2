@@ -249,8 +249,8 @@
                             @if (in_array($result->priceInfo->payment_type, [2, 4]))
                                 / {{ $formatMonthPrice }}
                             @endif
-                            @if (in_array($paymentType, [0, 5]))
-                                <span class="gray_basic">({{ $formatAveragePrice }}/㎡)</span>
+                            @if ($paymentType == 0)
+                                <span class="gray_basic">({{ $formatAveragePrice }}/㎡)</span> &nbsp;
                             @endif
                         </div>
                         <div>관리비</div>
@@ -289,7 +289,7 @@
                             매매일 때
                             기존 임대차 내용 없음으로 선택한 경우 노출하지 않음
                             --}}
-                        @if ($result->priceInfo->payment_type == 0 && $result->priceInfo->is_use == 1)
+                        @if ($result->priceInfo->is_use == 1)
                             <div>기존 임대차 내용</div>
                             <div class="item_col_3">보증금 {{ $formatCurrentPrice }} / 월세 {{ $formatCurrentMonthPrice }}
                             </div>
