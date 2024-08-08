@@ -655,7 +655,7 @@
                                                 <input class="form-check-input is-alarm" name="is_alarm[]"
                                                     type="checkbox" value="1"
                                                     @if (($is_alarm[$index] ?? 0) == 1) checked @endif>
-                                                <span class="fw-semibold ps-2 fs-6">알람</span>
+                                                <span class="fw-semibold ps-2 fs-6">알림</span>
                                             </label>
                                         </div>
                                     </div>
@@ -702,7 +702,7 @@
                                         <label class="form-check form-check-custom form-check-inline">
                                             <input class="form-check-input is-alarm" name="is_alarm[]"
                                                 type="checkbox" value="1">
-                                            <span class="fw-semibold ps-2 fs-6">알람</span>
+                                            <span class="fw-semibold ps-2 fs-6">알림</span>
                                         </label>
                                     </div>
                                 </div>
@@ -884,7 +884,7 @@
                                         <label class="form-check form-check-custom form-check-inline">
                                             <input class="form-check-input is-alarm" name="is_alarm[]"
                                                 type="checkbox" value="1">
-                                            <span class="fw-semibold ps-2 fs-6">알람</span>
+                                            <span class="fw-semibold ps-2 fs-6">알림</span>
                                         </label>
                                     </div>
                                 </div>

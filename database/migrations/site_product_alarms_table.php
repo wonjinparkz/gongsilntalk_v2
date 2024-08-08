@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::statement("ALTER TABLE alarms COMMENT='분양매물 알람'");
+        DB::statement("ALTER TABLE alarms COMMENT='분양매물 알림'");
     }
 
     /**
