@@ -23,7 +23,8 @@ class SiteProductSchedule extends BaseModel
         'title',
         'start_date',
         'ended_date',
-        'is_ended'
+        'is_ended',
+        'is_alarm'
     ];
 
     /**

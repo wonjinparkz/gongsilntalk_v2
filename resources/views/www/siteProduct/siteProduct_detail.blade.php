@@ -119,10 +119,10 @@
         </div>
         <!-- tab : e -->
 
-        
+
         <!-- 기본정보 : s -->
         <div class="page" id="tab_area_1">
-            <div class="inner_wrap sales_section_1" >
+            <div class="inner_wrap sales_section_1">
                 <section>
                     <div class="flex_between">
                         <h3>기본정보</h3>
@@ -159,7 +159,7 @@
                         <div>연면적</div>
                         <div id="totalFloorArea">{{ number_format($result->total_floor_square, 2) }}㎡</div>
                         <div>건폐율/용적률</div>
-                        <div>{{ $result->builging_ratio }}% /  {{ $result->floor_area_ratio }}%</div>
+                        <div>{{ $result->builging_ratio }}% / {{ $result->floor_area_ratio }}%</div>
                         <div>준공일</div>
                         <div>{{ $carbon::parse($result->completion_date)->format('Y.m.d') }}</div>
                         <div>입주예정</div>
@@ -191,8 +191,10 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div class="swiper-button-next"><img src="{{ asset('assets/media/arrow_w_next.png') }}"></div>
-                        <div class="swiper-button-prev"><img src="{{ asset('assets/media/arrow_w_prev.png') }}"></div>
+                        <div class="swiper-button-next"><img src="{{ asset('assets/media/arrow_w_next.png') }}">
+                        </div>
+                        <div class="swiper-button-prev"><img src="{{ asset('assets/media/arrow_w_prev.png') }}">
+                        </div>
                         <div class="swiper-pagination"></div>
                     </div>
 
@@ -351,9 +353,9 @@
                                     <div class="schedule_item_1">{{ date('Y.m.d', strtotime($schedule->start_date)) }}
                                     </div>
                                     <div class="schedule_item_2">{{ $schedule->title }}
-                                        @if (date('Y.m.d', strtotime($schedule->start_date)) == date('Y.m.d'))
+                                        @if (date('Y.m.d', strtotime($schedule->start_date)) == date('Y.m.d') && $schedule->is_alarm)
                                             <span class="schedule_item_3">D-DAY</span>
-                                        @elseif (date('Y.m.d', strtotime($schedule->start_date)) > date('Y.m.d'))
+                                        @elseif (date('Y.m.d', strtotime($schedule->start_date)) > date('Y.m.d') && $schedule->is_alarm)
                                             <span
                                                 class="schedule_item_3">D-{{ floor((strtotime(date($schedule->start_date)) - strtotime(date('Y-m-d', time()))) / 86400) }}</span>
                                         @else

@@ -51,7 +51,7 @@ class SiteProductAlarmPcController extends Controller
     {
 
         $today = Carbon::today()->toDateString();
-        $todayAlarmList = SiteProductSchedule::whereDate('start_date', $today)->get();
+        $todayAlarmList = SiteProductSchedule::whereDate('start_date', $today)->where('is_alarm', 1)->get();
         // $todayAlarmList = SiteProductSchedule::get();
 
         if (isset($todayAlarmList)) {
@@ -108,7 +108,7 @@ class SiteProductAlarmPcController extends Controller
     public function sendSiteProductAlramOneday()
     {
         $today = Carbon::today()->toDateString();
-        $todayAlarmList = SiteProductSchedule::whereDate('start_date', $today)->get();
+        $todayAlarmList = SiteProductSchedule::whereDate('start_date', $today)->where('is_alarm', 1)->get();
 
         if (isset($todayAlarmList)) {
             $siteProductIds = $todayAlarmList->pluck('site_product_id')->toArray();
@@ -157,12 +157,12 @@ class SiteProductAlarmPcController extends Controller
     }
 
     /**
-     * 전날 알림 보내기
+     * 일주일전 알림 보내기
      */
     public function sendSiteProductAlramWeek()
     {
         $today = Carbon::today()->subWeek()->toDateString();
-        $todayAlarmList = SiteProductSchedule::whereDate('start_date', $today)->get();
+        $todayAlarmList = SiteProductSchedule::whereDate('start_date', $today)->where('is_alarm', 1)->get();
 
         if (isset($todayAlarmList)) {
             $siteProductIds = $todayAlarmList->pluck('site_product_id')->toArray();

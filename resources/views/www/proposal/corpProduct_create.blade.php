@@ -491,7 +491,7 @@
             //주소검색을 수행할 팝업 페이지를 호출합니다.
             //호출된 페이지(jusoPopup.jsp)에서 실제 주소검색URL(https://business.juso.go.kr/addrlink/addrLinkUrlJsonp.do)를 호출하게 됩니다.
             var pop = window.open("{{ route('api.popupOpen.getAddress') }}", "pop",
-                "width=500,height=420, scrollbars=yes, resizable=yes");
+                "width=450,height=420, scrollbars=yes, resizable=yes");
         }
 
 

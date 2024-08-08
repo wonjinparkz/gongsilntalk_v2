@@ -223,6 +223,7 @@ class SiteProductController extends Controller
                     'start_date' => $request->start_date[$index],
                     'ended_date' => $request->ended_date[$index] ?? null,
                     'is_ended' => $request->is_ended[$index],
+                    'is_alarm' => $request->is_alarm[$index],
                 ]);
             }
         }
@@ -381,6 +382,7 @@ class SiteProductController extends Controller
                     'start_date' => $request->start_date[$index],
                     'ended_date' => $request->ended_date[$index] ?? null,
                     'is_ended' => $request->is_ended[$index],
+                    'is_alarm' => $request->is_alarm[$index],
                 ]);
             }
         }

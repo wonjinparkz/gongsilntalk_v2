@@ -27,9 +27,9 @@ class SiteProductAlarms extends Command
     public function handle()
     {
         $siteAlarm = new SiteProductAlarmPcController;
-        $siteAlarm->sendSiteProductAlramDday();
-        $siteAlarm->sendSiteProductAlramOneday();
-        $siteAlarm->sendSiteProductAlramWeek();
+        $siteAlarm->sendSiteProductAlramDday(); // 당일
+        $siteAlarm->sendSiteProductAlramOneday(); // 하루전
+        $siteAlarm->sendSiteProductAlramWeek(); // 일주일 전
 
         $this->info('분양현장 알림을 보냈습니다.');
     }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('start_date')->comment("일정 시작일");
             $table->date('ended_date')->nullable()->comment("일정 종료일");
             $table->integer('is_ended')->comment('일정 종료일 여부 - 0: 종료일 없음, 1: 종료일 있음');
+            $table->integer('is_alarm')->comment('일정 알림 여부 - 0: 없음, 1: 있음 (알림이 있을 경우 d-day 표시)');
             $table->timestamps();
         });
         DB::statement("ALTER TABLE site_product_schedule COMMENT='분양현장 매물 분양 일정'");

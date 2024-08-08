@@ -647,18 +647,19 @@
                             $start_date = old('start_date') ?? [];
                             $ended_date = old('ended_date') ?? [];
                             $is_ended = old('is_ended') ?? [];
+                            $is_alarm = old('is_alarm') ?? [];
                         @endphp
 
                         @if (count($schedule_title) > 0)
                             @foreach ($schedule_title as $index => $schedule)
                                 {{-- 일정 정보 START --}}
                                 <div class="row">
-                                    <label class="col-lg-2 col-form-label fw-semibold fs-6">일정 정보</label>
+                                    <label class="col-lg-1 col-form-label fw-semibold fs-6">일정 정보</label>
                                     <div class="col-lg-3 fv-row">
                                         <input type="text" name="schedule_title[]" class="form-control mb-1"
                                             placeholder="일정 제목" value="{{ $schedule }}" />
                                     </div>
-                                    <div class="col-lg-6 fv-row row">
+                                    <div class="col-lg-7 fv-row row">
                                         <div class="col-lg-4">
                                             <div class="input-group">
                                                 <span class="input-group-text" id="basic-addon1">시작일</span>
@@ -677,12 +678,20 @@
                                                     value="{{ $ended_date[$index] }}" />
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 d-flex align-items-center">
+                                        <div class="col-lg-2 d-flex align-items-center">
                                             <label class="form-check form-check-custom form-check-inline">
                                                 <input class="form-check-input is-ended" name="is_ended[]"
                                                     type="checkbox" value="1"
                                                     @if (($is_ended[$index] ?? ($ended_date[$index] ?? 0)) == 1) checked @endif>
                                                 <span class="fw-semibold ps-2 fs-6">마감일</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-2 d-flex align-items-center">
+                                            <label class="form-check form-check-custom form-check-inline">
+                                                <input class="form-check-input is-alarm" name="is_alarm[]"
+                                                    type="checkbox" value="1"
+                                                    @if (($is_alarm[$index] ?? 0) == 1) checked @endif>
+                                                <span class="fw-semibold ps-2 fs-6">알람</span>
                                             </label>
                                         </div>
                                     </div>
@@ -698,12 +707,12 @@
                             @foreach ($result->scheduleInfo as $index => $schedule)
                                 {{-- 일정 정보 START --}}
                                 <div class="row">
-                                    <label class="col-lg-2 col-form-label fw-semibold fs-6">일정 정보</label>
+                                    <label class="col-lg-1 col-form-label fw-semibold fs-6">일정 정보</label>
                                     <div class="col-lg-3 fv-row">
                                         <input type="text" name="schedule_title[]" class="form-control mb-1"
                                             placeholder="일정 제목" value="{{ $schedule->title }}" />
                                     </div>
-                                    <div class="col-lg-6 fv-row row">
+                                    <div class="col-lg-7 fv-row row">
                                         <div class="col-lg-4">
                                             <div class="input-group">
                                                 <span class="input-group-text" id="basic-addon1">시작일</span>
@@ -722,12 +731,20 @@
                                                     value="{{ $schedule->ended_date }}" />
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 d-flex align-items-center">
+                                        <div class="col-lg-2 d-flex align-items-center">
                                             <label class="form-check form-check-custom form-check-inline">
                                                 <input class="form-check-input is-ended" name="is_ended[]"
                                                     type="checkbox" value="1"
                                                     @if (($schedule->is_ended ?? ($schedule->ended_date ?? 0)) == 1) checked @endif>
                                                 <span class="fw-semibold ps-2 fs-6">마감일</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-2 d-flex align-items-center">
+                                            <label class="form-check form-check-custom form-check-inline">
+                                                <input class="form-check-input is-alarm" name="is_alarm[]"
+                                                    type="checkbox" value="1"
+                                                    @if (($schedule->is_alarm ?? 0) == 1) checked @endif>
+                                                <span class="fw-semibold ps-2 fs-6">알람</span>
                                             </label>
                                         </div>
                                     </div>
@@ -819,6 +836,15 @@
         function formSubmit() {
             $('input:disabled').prop('disabled', false);
 
+            $('.is-alarm').each(function(index, item) {
+                if ($(this).is(":checked")) {
+                    $(this).val('1');
+                } else {
+                    $(this).val('0');
+                }
+                $(this).prop("checked", true);
+            });
+
             $('.is-ended').each(function(index, item) {
                 if ($(this).is(":checked")) {
                     $(this).val('1');
@@ -870,12 +896,12 @@
 
         function schedule_add() {
             var schedule = `<div class="row">
-                                <label class="col-lg-2 col-form-label fw-semibold fs-6">일정 정보</label>
+                                <label class="col-lg-1 col-form-label fw-semibold fs-6">일정 정보</label>
                                 <div class="col-lg-3 fv-row">
                                     <input type="text" name="schedule_title[]" class="form-control mb-1"
                                         placeholder="일정 제목" value="" />
                                 </div>
-                                <div class="col-lg-6 fv-row row">
+                                <div class="col-lg-7 fv-row row">
                                     <div class="col-lg-4">
                                         <div class="input-group">
                                             <span class="input-group-text" id="basic-addon1">시작일</span>
@@ -892,11 +918,18 @@
                                                 placeholder="" value="" />
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 d-flex align-items-center">
+                                    <div class="col-lg-2 d-flex align-items-center">
                                         <label class="form-check form-check-custom form-check-inline">
                                             <input class="form-check-input is-ended" name="is_ended[]"
                                                 type="checkbox" value="1">
                                             <span class="fw-semibold ps-2 fs-6">마감일</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-2 d-flex align-items-center">
+                                        <label class="form-check form-check-custom form-check-inline">
+                                            <input class="form-check-input is-alarm" name="is_alarm[]"
+                                                type="checkbox" value="1">
+                                            <span class="fw-semibold ps-2 fs-6">알람</span>
                                         </label>
                                     </div>
                                 </div>
