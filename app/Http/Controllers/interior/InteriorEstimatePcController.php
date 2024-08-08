@@ -5,6 +5,7 @@ namespace App\Http\Controllers\interior;
 use App\Http\Controllers\Controller;
 use App\Models\InteriorEstimate;
 use App\Models\InteriorEstimateType;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -25,7 +26,7 @@ class InteriorEstimatePcController extends Controller
     /**
      * 인테리어 견적 등록
      */
-    public function interiorEstimateCreate(Request $request): RedirectResponse
+    public function interiorEstimateCreate(Request $request): JsonResponse
     {
         // 유효성 검사
         $validator = Validator::make($request->all(), [
@@ -40,9 +41,7 @@ class InteriorEstimatePcController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()
-                ->withErrors($validator)
-                ->withInput();
+            return response()->json(['errors' => $validator->errors()], 422);
         }
 
         // DB 추가
@@ -81,6 +80,6 @@ class InteriorEstimatePcController extends Controller
 
         $this->kakaoSend('121', $request->company_phone, $request->user_name);
 
-        return Redirect::to($redirect_url)->with('message', '견적서를 등록했습니다.');
+        return response()->json(['redirect_url' => $redirect_url, 'message' => '견적서를 등록했습니다.']);
     }
 }

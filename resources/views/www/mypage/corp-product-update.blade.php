@@ -1506,6 +1506,8 @@
                 </div>
             </div>
             <!-- my_body : e -->
+            <input hidden name="approve_date" id="approve_date">
+            <input hidden name="move_date" id="move_date">
         </form>
     </div>
 
@@ -1555,10 +1557,6 @@
     <!-- modal 가(임시)주소 검색 : e-->
 
 </x-layout>
-
-<input hidden name="approve_date" id="approve_date">
-<input hidden name="move_date" id="move_date">
-
 
 
 <script>

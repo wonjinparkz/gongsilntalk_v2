@@ -234,7 +234,7 @@
             $('.confirm').attr("disabled", false);
         }
 
-        $('input').on("change click", function() {
+        $('input').on("change click keydown", function() {
             confirm_check();
         });
 

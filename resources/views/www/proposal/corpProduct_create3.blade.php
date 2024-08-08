@@ -1,7 +1,7 @@
 <x-layout>
 
     <form class="find_form" method="POST" action="{{ route('www.corp.proposal.name.create') }}" name="create_check">
-
+        <input type="hidden" name="move_date" id="move_date" value="">
         @php
             $data = $request->all();
 
@@ -34,13 +34,15 @@
                             <div class="reg_item">
                                 <label class="input_label">전용면적 <span>*</span></label>
                                 <div class="input_pyeong_area">
-                                    <div><input type="number" name="exclusive_area" id="exclusive_area"
-                                            placeholder="전용면적">
+                                    <div><input type="text" name="exclusive_area" id="exclusive_area"
+                                            placeholder="전용면적" nputmode="numeric"
+                                            oninput="onlyNumbers(this); area_change('exclusive_');">
                                         <span class="gray_deep">평</span>
                                     </div>
                                     <span class="gray_deep">/</span>
                                     <div><input type="text" name="exclusive_square" id="exclusive_square"
-                                            placeholder="평 입력시 자동">
+                                            placeholder="평 입력시 자동" nputmode="numeric"
+                                            oninput="imsi(this); square_change('exclusive_');">
                                         <span class="gray_deep">㎡</span>
                                     </div>
                                 </div>
@@ -49,7 +51,7 @@
                                 <div>
                                     <label class="input_label">해당층/전체층 <span>*</span></label>
                                     <div class="input_pyeong_area">
-                                        <div><input type="number" name="floor_number" id="floor_number"
+                                        <div><input type="text" name="floor_number" id="floor_number"
                                                 placeholder="해당층">
                                             <span class="gray_deep">층</span>
                                         </div>
@@ -67,7 +69,9 @@
                             <div class="reg_item">
                                 <label class="input_label">월 관리비 <span class="txt_point">*</span></label>
                                 <div class="input_area_1">
-                                    <input type="number" name="service_price"> <span class="gray_deep">원</span>
+                                    <input type="text" name="service_price" inputmode="numeric"
+                                        oninput="onlyNumbers(this); onTextChangeEvent(this);"> <span
+                                        class="gray_deep">원</span>
                                     <input type="checkbox" name="is_service" id="is_service_1" value="1">
                                     <label for="is_service_1" class="gray_deep"><span></span> 관리비 없음</label>
                                 </div>
@@ -91,7 +95,9 @@
                                 <div class="move_type_wrap mt8">
                                     <div class="move_type_item open_key"></div>
                                     <div class="move_type_item open_key">
-                                        <input type="text" name="move_date" placeholder="예) 20230101" class="">
+                                        <input type="text" id="move_date_0" name="move_date_0"
+                                            placeholder="예) 20230101" inputmode="numeric"
+                                            oninput="onlyNumbers(this); onDateChangeEvent('move_date', 0);">
                                     </div>
                                 </div>
                             </div>
@@ -155,19 +161,23 @@
                         </div>
 
                         <div class="offer_textarea_wrap" style="margin-bottom:-35px;">
-                            <label class="input_label">건물 외관 사진 <span class="gray_basic">(1장)</span> <span class="txt_point">*</span></label>
+                            <label class="input_label">건물 외관 사진 <span class="gray_basic">(1장)</span> <span
+                                    class="txt_point">*</span></label>
                         </div>
 
                         <div class="img_add_wrap reg_step_type draggable-zone product_img_add_wrap">
-                            <x-pc-proposal-image-picker :title="'건물 외관 사진(1장)'" id="product" cnt="1" required="required" />
+                            <x-pc-proposal-image-picker :title="'건물 외관 사진(1장)'" id="product" cnt="1"
+                                required="required" />
                         </div>
 
                         <div class="offer_textarea_wrap" style="margin-bottom:-35px;">
-                            <label class="input_label">건물 내부 사진 <span class="gray_basic">(최대 4장)</span> <span class="txt_point">*</span></label>
+                            <label class="input_label">건물 내부 사진 <span class="gray_basic">(최대 4장)</span> <span
+                                    class="txt_point">*</span></label>
                         </div>
 
                         <div class="img_add_wrap reg_step_type draggable-zone product_detail_img_add_wrap">
-                            <x-pc-proposal-image-picker :title="'건물 내부 사진(최대 4장)'" id="product_detail" cnt="4" required="required" />
+                            <x-pc-proposal-image-picker :title="'건물 내부 사진(최대 4장)'" id="product_detail" cnt="4"
+                                required="required" />
                         </div>
 
                         <div class="offer_textarea_wrap">
@@ -204,72 +214,95 @@
             confirm_check();
         });
 
-        $('input[type="checkbox"]').change(function() {
+        $('input[type="checkbox"]').on('click chage keyup', function() {
             confirm_check();
         });
 
-        $('input[type="radio"]').change(function() {
+        $('input[type="radio"]').on('click chage keyup', function() {
             confirm_check();
         });
 
-        $('input[type="number"]').change(function() {
+        $('input[type="number"]').on('chage keyup', function() {
             confirm_check();
         });
 
-        $('#exclusive_area').keyup(function() {
-            var area = $(this).val();
+        $('input[type="text"]').on('chage keyup', function() {
+            confirm_check();
+        });
+
+        $('textarea').on('change keyup', function() {
+            confirm_check();
+        });
+
+        // 평수 제곱 변환
+        function square_change(name) {
+            var area_name = name + 'area';
+            var square_name = name + 'square';
+
+            var square = $('#' + square_name).val();
+
+            if (square > 0) {
+                var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
+                $('#' + area_name).val(convertedArea);
+            } else {
+                $('#' + square_name).val('');
+                $('#' + area_name).val('');
+            }
+        }
+
+        // 평수 제곱 변환
+        function area_change(name) {
+
+            var area_name = name + 'area';
+            var square_name = name + 'square';
+
+            var area = $('#' + area_name).val();
+
             if (area > 0) {
                 var convertedSquare = (area * 3.3058).toString();
                 var decimalIndex = convertedSquare.indexOf('.') + 3; // 소수점 이하 세 번째 자리까지
-                $('#exclusive_square').val(convertedSquare.substr(0, decimalIndex));
+                $('#' + square_name).val(convertedSquare.substr(0, decimalIndex));
+            } else {
+                $('#' + area_name).val('');
+                $('#' + square_name).val('');
             }
-            confirm_check();
-        });
+        }
+
 
         function confirm_check() {
-            var payment_type = $('input[name="payment_type"]').val();
-            var price = $('input[name="price_' + payment_type + '"]').val();
-            var month_price = $('input[name="month_price_4"]').val();
-            var acquisition_tax = $('input[name="acquisition_tax"]').val();
-            var loan_rate_one = $('input[name="loan_rate_one"]').val();
-            var loan_rate_two = $('input[name="loan_rate_two"]').val();
-            var invest_price = $('input[name="invest_price"]').val();
-            var invest_month_price = $('input[name="invest_month_price"]').val();
-            var is_invest = $('input[name="is_invest"]:checked').val();
+            var exclusive_area = $('input[name="exclusive_area"]').val();
+            var exclusive_square = $('input[name="exclusive_square"]').val();
+            var floor_number = $('input[name="floor_number"]').val();
+            var total_floor_number = $('input[name="total_floor_number"]').val();
+            var is_service = $('input[name="is_service"]').is(":checked");
+            var service_price = $('input[name="service_price"]').val();
+            var move_type = $('input[name="move_type"]:checked').val();
+            var move_date = $('input[name="move_date"]').val().length;
+            var imageCount0 = document.querySelectorAll('input[name="product_image_paths[]"]').length
+            var imageCount1 = document.querySelectorAll('input[name="product_detail_image_paths[]"]').length
+            var product_content = $('#product_content').val();
 
+            console.log('gd');
             var confirm = false;
 
-            console.log('is_invest : ', is_invest);
-            // console.log(payment_type,
-            //     price,
-            //     month_price,
-            //     acquisition_tax,
-            //     loan_rate_one,
-            //     loan_rate_two,
-            //     invest_price,
-            //     invest_month_price,
-            //     is_invest,
-            //     confirm);
 
-            if (is_invest == 1 && invest_price != '') {
-                console.log('gd');
+            if (exclusive_area > 0 && exclusive_square > 0 && floor_number != '' && total_floor_number != '' && (
+                    is_service || is_service == false && service_price != '') && (move_type != 2 || (
+                    move_type == 2 && move_date == 8)) && imageCount0 > 0 && imageCount1 > 0 && product_content != '') {
+                confirm = true;
             }
-
-            if (payment_type == 0) {
-                if (price != '' && acquisition_tax != '' && loan_rate_one != '' && loan_rate_two != '') {
-                    confirm = true;
-                }
-            } else if (payment_type == 3) {
-                if (price != '') {
-                    confirm = true;
-                }
-            } else if (payment_type == 4) {
-                if (price != '' && month_price != '') {
-                    confirm = true;
-                }
-            } else {
-                confirm = false;
-            }
+            console.log(exclusive_area, '|',
+                exclusive_square, '|',
+                floor_number, '|',
+                total_floor_number, '|',
+                is_service, '|',
+                service_price, '|',
+                move_type, '|',
+                move_date, '|',
+                imageCount0, '|',
+                imageCount1, '|',
+                product_content, '|',
+                confirm);
 
             if (confirm) {
                 return $('.confirm').attr("disabled", false);
@@ -297,6 +330,29 @@
 
         function selectType(name, index) {
             $('#' + name).val(index);
+            confirm_check();
+        }
+
+        //입력란 열고 닫기
+        function showDiv(className, index) {
+            var tabContents = document.querySelectorAll('.' + className + '_wrap .' + className + '_item');
+            tabContents.forEach(function(content) {
+                content.classList.remove('active');
+            });
+            tabContents[index].classList.add('active');
+        }
+
+        $('input[name="is_service"]').change(function() {
+            isService($(this).is(':checked'));
+        });
+
+        function isService(element) {
+            $('input[name="service_price"]').val('');
+            if (element) {
+                $('input[name="service_price"]').attr('disabled', true);
+            } else {
+                $('input[name="service_price"]').attr('disabled', false);
+            }
         }
     </script>
 

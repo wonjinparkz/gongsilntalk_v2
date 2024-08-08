@@ -286,19 +286,19 @@ class UserPcController extends Controller
             'exclusive_square' => $request->type != 6 ? $request->exclusive_square : null,
             'total_floor_area' => $request->type == 7 ? $request->total_floor_area : null,
             'total_floor_square' => $request->type == 7 ? $request->total_floor_square : null,
-            'approve_date' => $request->type != 6 ? str_replace('.', '', $request->approve_date) : null,
+            'approve_date' => $request->type != 6 ? (str_replace('.', '', $request->approve_date) ?: null) : null,
             'building_type' => $request->building_type,
             'move_type' => $request->type != 6 ? $request->move_type : null,
-            'move_date' => ($request->type != 6 && $request->move_type == 2) ? str_replace('.', '', $request->move_date) : null,
+            'move_date' => ($request->type != 6 && $request->move_type == 2) ? (str_replace('.', '', $request->move_date) ?: null) : null,
             'is_service' => $request->type != 6 ? $request->is_service ?? 0 : null,
-            'service_price' => ($request->type != 6 && $request->is_service != 1) ? str_replace(',', '', $request->service_price) : null,
+            'service_price' => ($request->type != 6 && $request->is_service != 1) ? (str_replace(',', '', $request->service_price) ?: null) : null,
             'loan_type' => $request->loan_type,
-            'loan_price' => $request->loan_type != 0 ? str_replace(',', '', $request->loan_price) : null,
+            'loan_price' => $request->loan_type != 0 ? (str_replace(',', '', $request->loan_price) ?: null) : null,
             'parking_type' => $request->type != 6 ? $request->parking_type : null,
-            'parking_price' => $request->type != 6 && ($request->parking_type == 1 && $request->is_parking != 1) ? str_replace(',', '', $request->parking_price) : null,
+            'parking_price' => $request->type != 6 && ($request->parking_type == 1 && $request->is_parking != 1) ? (str_replace(',', '', $request->parking_price) ?: null) : null,
             'comments' => $request->comments,
             'contents' => $request->contents,
-            'commission' => str_replace(',', '', $request->commission),
+            'commission' => str_replace(',', '', $request->commission) ?: null,
             'non_memo' => $request->non_memo,
             'commission_rate' => $request->commission_rate
         ];
@@ -326,7 +326,7 @@ class UserPcController extends Controller
 
 
         // 가격정보
-        $premium_price = str_replace(',', '', $request->premium_price ?? 0);
+        $premium_price = str_replace(',', '', $request->premium_price) ?: null;
 
         if ($request->type == 3) {
             $premium_price = $request->is_premium == 1 ? $premium_price : null;
@@ -337,12 +337,12 @@ class UserPcController extends Controller
         ProductPrice::create([
             'product_id' => $request->id,
             'payment_type' => $request->payment_type,
-            'price' => str_replace(',', '', $request->{'price_' . $request->payment_type}),
-            'month_price' => in_array($request->payment_type, [1, 2, 4]) ? str_replace(',', '', $request->month_price) : null,
+            'price' => str_replace(',', '', $request->{'price_' . $request->payment_type}) ?: null,
+            'month_price' => in_array($request->payment_type, [1, 2, 4]) ? (str_replace(',', '', $request->month_price) ?: null) : null,
             'is_price_discussion' => $request->is_price_discussion ?? 0,
             'is_use' => $request->type >= 14 ? NULL : $request->is_use ?? 0,
-            'current_price' =>  $request->type < 14 && $request->is_use == 1 ? str_replace(',', '', $request->current_price) : null,
-            'current_month_price' =>  $request->type < 14 && $request->is_use == 1 ? str_replace(',', '', $request->current_month_price) : null,
+            'current_price' =>  $request->type < 14 && $request->is_use == 1 ? (str_replace(',', '', $request->current_price) ?: null) : null,
+            'current_month_price' =>  $request->type < 14 && $request->is_use == 1 ? (str_replace(',', '', $request->current_month_price) ?: null) : null,
             'is_premium' => $request->type == 3 ? $request->is_premium : null,
             'premium_price' => $premium_price,
         ]);
@@ -1005,9 +1005,9 @@ class UserPcController extends Controller
         $result = CalculatorLoan::create([
             'users_id' => Auth::guard('web')->user()->id,
             'type' => $request->type,
-            'loan_price' => str_replace(',', '', $request->loan_price ?? 0),
-            'loan_rate' => str_replace(',', '', $request->loan_rate ?? 0),
-            'loan_month' => str_replace(',', '', $request->loan_month ?? 0),
+            'loan_price' => str_replace(',', '', $request->loan_price) ?: null,
+            'loan_rate' => str_replace(',', '', $request->loan_rate) ?: null,
+            'loan_month' => str_replace(',', '', $request->loan_month) ?: null,
             'holding_month' => $request->holding_month,
         ]);
 
@@ -1016,7 +1016,7 @@ class UserPcController extends Controller
                 CalculatorLoanPayment::create([
                     'calculator_loan_id' => $result->id,
                     'sequence' => $request->prePayCount[$key],
-                    'pay_price' => str_replace(',', '', $pay ?? 0),
+                    'pay_price' => str_replace(',', '', $pay) ?: null,
                 ]);
             }
         }
@@ -1192,13 +1192,13 @@ class UserPcController extends Controller
             'users_id' => Auth::guard('web')->user()->id,
             'sale_price' => str_replace(',', '', $request->sale_price),
             'acquisition_tax' => str_replace(',', '', $request->acquisition_tax),
-            'tax_price' => str_replace(',', '', $request->tax_price ?? 0),
-            'commission' => str_replace(',', '', $request->commission ?? 0),
-            'etc_price' => str_replace(',', '', $request->etc_price ?? 0),
-            'price' => str_replace(',', '', $request->price ?? 0),
-            'month_price' => str_replace(',', '', $request->month_price ?? 0),
-            'loan_ratio' => str_replace(',', '', $request->loan_ratio ?? 0),
-            'loan_interest' => str_replace(',', '', $request->loan_interest ?? 0),
+            'tax_price' => str_replace(',', '', $request->tax_price) ?: null,
+            'commission' => str_replace(',', '', $request->commission) ?: null,
+            'etc_price' => str_replace(',', '', $request->etc_price) ?: null,
+            'price' => str_replace(',', '', $request->price) ?: null,
+            'month_price' => str_replace(',', '', $request->month_price) ?: null,
+            'loan_ratio' => str_replace(',', '', $request->loan_ratio) ?: null,
+            'loan_interest' => str_replace(',', '', $request->loan_interest) ?: null,
         ]);
 
         return Redirect::route('www.mypage.calculator.revenue.list.view')->with('message', "수익률을 계산했습니다.");

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('address_detail')->comment('상세 주소');
             $table->string('product_name')->comment('건물명');
             $table->integer('exclusive_area')->comment('전용 면적 (평)');
-            $table->double('exclusive_square', 10, 1)->comment('전용 면적 (제곱미터)');
+            $table->double('exclusive_square', 10, 2)->comment('전용 면적 (제곱미터)');
             $table->integer('floor_number')->comment('해당 층');
             $table->integer('total_floor_number')->comment('전체 층');
             $table->integer('move_type')->comment('입주 타입 - 0: 선택 안함, 1: 즉시입주, 2: 날짜 협의, 3: 직접입력');

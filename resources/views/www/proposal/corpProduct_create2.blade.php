@@ -48,16 +48,18 @@
                                             <label class="input_label">매매(전매)가 <span class="txt_point">*</span>
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="number" name="price_0" placeholder="매매(전매)가"
-                                                    class="w_input_150">
+                                                <input type="text" name="price_0" placeholder="매매(전매)가"
+                                                    class="w_input_150" inputmode="numeric"
+                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                 <span>원</span>
                                             </div>
                                         </div>
                                         <div class="reg_item">
                                             <label class="input_label">프리미엄</label>
                                             <div class="flex_1 mt10">
-                                                <input type="number" name="premium_price" placeholder="프리미엄"
-                                                    class="w_input_150">
+                                                <input type="text" name="premium_price" placeholder="프리미엄"
+                                                    class="w_input_150" inputmode="numeric"
+                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                 <span>원</span>
                                             </div>
                                         </div>
@@ -68,8 +70,8 @@
                                             <label class="input_label">취득세율 <span class="txt_point">*</span>
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="number" name="acquisition_tax" placeholder="소수점 두자리까지만 입력"
-                                                    step=0.01 class="w_input_150" onkeyup="imsi(this)">
+                                                <input type="text" name="acquisition_tax" placeholder="소수점 두자리까지만 입력"
+                                                    class="w_input_150" inputmode="numeric" oninput="imsi(this);">
                                                 <span>%</span>
                                             </div>
                                         </div>
@@ -78,8 +80,9 @@
                                                 지원금액<span class="gray_basic">(인테리어 등)</span>
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="number" name="support_price" placeholder="지원금액"
-                                                    class="w_input_150">
+                                                <input type="text" name="support_price" placeholder="지원금액"
+                                                    class="w_input_150" inputmode="numeric"
+                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                 <span>원</span>
                                             </div>
                                         </div>
@@ -90,8 +93,9 @@
                                                 기타비용<span class="gray_basic">(세무비용,부동산수수료,기타비용)</span>
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="number" name="etc_price" placeholder="기타비용"
-                                                    class="w_input_150">
+                                                <input type="text" name="etc_price" placeholder="기타비용"
+                                                    class="w_input_150" inputmode="numeric"
+                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                 <span>원</span>
                                             </div>
                                         </div>
@@ -105,8 +109,9 @@
                                                 대출 가능률1 <span class="txt_point">*</span>
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="number" name="loan_rate_one" placeholder="예) 80"
-                                                    class="w_input_150">
+                                                <input type="text" name="loan_rate_one" placeholder="예) 80"
+                                                    class="w_input_150" inputmode="numeric"
+                                                    oninput="validateInput(this, 100); onlyNumbers(this)">
                                                 <span>%</span>
                                             </div>
                                         </div>
@@ -116,7 +121,8 @@
                                             </label>
                                             <div class="flex_1 mt10">
                                                 <input type="number" name="loan_rate_two" placeholder="예) 80"
-                                                    class="w_input_150">
+                                                    class="w_input_150" inputmode="numeric"
+                                                    oninput="validateInput(this, 100); onlyNumbers(this)">
                                                 <span>%</span>
                                             </div>
                                         </div>
@@ -128,9 +134,9 @@
                                                 대출금리
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="number" name="loan_interest"
-                                                    placeholder="소수점 두자리까지만 입력" class="w_input_150" step=0.01
-                                                    onkeyup="imsi(this)">
+                                                <input type="text" name="loan_interest"
+                                                    placeholder="소수점 두자리까지만 입력" class="w_input_150"
+                                                    oninput="imsi(this)" inputmode="numeric">
                                                 <span>%</span>
                                             </div>
                                         </div>
@@ -165,15 +171,18 @@
                                                     <div>
                                                         <label class="input_label">
                                                             보증금
-                                                        </label><input type="number" name="invest_price"
-                                                            placeholder="보증금"> <span class="gray_deep"></span>
+                                                        </label><input type="text" name="invest_price"
+                                                            placeholder="보증금" inputmode="numeric"
+                                                            oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                         <span class="gray_deep">/</span>
                                                     </div>
                                                     <div>
                                                         <label class="input_label">
                                                             월임대료
-                                                        </label><input type="number" name="invest_month_price"
-                                                            placeholder="월임대료"> <span class="gray_deep">원</span>
+                                                        </label><input type="text" name="invest_month_price"
+                                                            placeholder="월임대료" inputmode="numeric"
+                                                            oninput="onlyNumbers(this); onTextChangeEvent(this);">
+                                                        <span class="gray_deep">원</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -192,8 +201,9 @@
                                             <label class="input_label">전세보증금 <span class="txt_point">*</span>
                                             </label>
                                             <div class="flex_1 mt10">
-                                                <input type="number" name="price_3" placeholder="전세보증금"
-                                                    class="w_input_150">
+                                                <input type="text" name="price_3" placeholder="전세보증금"
+                                                    class="w_input_150" inputmode="numeric"
+                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                 <span>원</span>
                                             </div>
                                         </div>
@@ -210,14 +220,17 @@
                                             <div>
                                                 <label class="input_label">
                                                     보증금 <span class="txt_point">*</span>
-                                                </label><input type="number" placeholder="보증금" name="price_4">
+                                                </label><input type="text" placeholder="보증금" name="price_4"
+                                                    inputmode="numeric"
+                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);">>
                                                 <span class="gray_deep">/</span>
                                             </div>
                                             <div>
                                                 <label class="input_label">
                                                     월임대료 <span class="txt_point">*</span>
-                                                </label><input type="number" placeholder="월임대료"
-                                                    name="month_price_4">
+                                                </label><input type="text" placeholder="월임대료" name="month_price_4"
+                                                    inputmode="numeric"
+                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);">>
                                                 <span class="gray_deep">원</span>
                                             </div>
                                         </div>

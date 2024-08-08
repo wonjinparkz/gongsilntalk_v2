@@ -79,9 +79,9 @@
                                                     <td>{{ $product->address }}</td>
 
                                                     <td class="square_{{ $address->id }}">
-                                                        {{ $product->exclusive_area }}㎡</td>
+                                                        {{ $product->exclusive_square }}㎡</td>
                                                     <td class="area_{{ $address->id }}" style="display:none;">
-                                                        {{ $product->exclusive_square }}평</td>
+                                                        {{ $product->exclusive_area }}평</td>
 
                                                     <td>{{ Lang::get('commons.payment_type.' . $product->price->payment_type) }}
                                                         @if ($product->price->payment_type == 4)
@@ -94,7 +94,7 @@
                                                     <td>{{ $product->floor_number }}층/{{ $product->total_floor_number }}층
                                                     </td>
                                                     <td>
-                                                        <button class="btn_gray_ghost btn_sm">수정</button>
+                                                        {{-- <button class="btn_gray_ghost btn_sm">수정</button> --}}
                                                         <button class="btn_gray_ghost btn_sm" type="button"
                                                             onclick="modal_open('delete_{{ $product->id }}')">삭제</button>
                                                     </td>
@@ -155,7 +155,7 @@
                                                                 class="gray_deep">{{ $product->floor_number }}층/{{ $product->total_floor_number }}층</span>
                                                         </div>
                                                         <div class="list_detail_item">전용면적 <span
-                                                                class="gray_deep">{{ $product->exclusive_square }}평</span>
+                                                                class="gray_deep">{{ $product->exclusive_square }}㎡</span>
                                                         </div>
                                                         <div class="list_detail_item">거래정보 <span
                                                                 class="txt_point">{{ Lang::get('commons.payment_type.' . $product->price->payment_type) }}
@@ -169,8 +169,8 @@
                                                             </span>
                                                         </div>
                                                         <div class="gap_8">
-                                                            <button class="btn_graylight_ghost btn_sm_full mt10"
-                                                                onclick="location.href='#'">수정</button>
+                                                            {{-- <button class="btn_graylight_ghost btn_sm_full mt10"
+                                                                onclick="">수정</button> --}}
                                                             <button class="btn_graylight_ghost btn_sm_full mt10"
                                                                 type="button"
                                                                 onclick="modal_open('delete_{{ $product->id }}')">삭제</button>

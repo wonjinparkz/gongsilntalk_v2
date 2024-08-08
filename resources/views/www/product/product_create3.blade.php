@@ -51,13 +51,13 @@
                                 <div>
                                     <input type="text" name="exclusive_area" id="exclusive_area"
                                         placeholder="전용면적" inputmode="numeric"
-                                        oninput="onlyNumbers(this);area_change('');">
+                                        oninput="onlyNumbers(this);area_change('exclusive_');">
                                     <span class="gray_deep">평</span>
                                 </div>
                                 <span class="gray_deep">/</span>
                                 <div>
                                     <input type="text" name="exclusive_square" id="exclusive_square"
-                                        inputmode="numeric" oninput="imsi(this); square_change('');"
+                                        inputmode="numeric" oninput="imsi(this); square_change('exclusive_');"
                                         placeholder="평 입력시 자동">
                                     <span class="gray_deep">㎡</span>
                                 </div>
@@ -146,23 +146,27 @@
             confirm_check();
         });
 
-        $('#exclusive_square').keyup(function() {
-            var square = $(this).val();
-            if (square > 0) {
-                var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
-                $('#exclusive_area').val(convertedArea);
-            }
+        $('input').on("change click keydown", function() {
             confirm_check();
         });
-        $('#exclusive_area').keyup(function() {
-            var area = $(this).val();
-            if (area > 0) {
-                var convertedSquare = (area * 3.3058).toString();
-                var decimalIndex = convertedSquare.indexOf('.') + 3; // 소수점 이하 세 번째 자리까지
-                $('#exclusive_square').val(convertedSquare.substr(0, decimalIndex));
-            }
-            confirm_check();
-        });
+
+        // $('#exclusive_square').keyup(function() {
+        //     var square = $(this).val();
+        //     if (square > 0) {
+        //         var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
+        //         $('#exclusive_area').val(convertedArea);
+        //     }
+        //     confirm_check();
+        // });
+        // $('#exclusive_area').keyup(function() {
+        //     var area = $(this).val();
+        //     if (area > 0) {
+        //         var convertedSquare = (area * 3.3058).toString();
+        //         var decimalIndex = convertedSquare.indexOf('.') + 3; // 소수점 이하 세 번째 자리까지
+        //         $('#exclusive_square').val(convertedSquare.substr(0, decimalIndex));
+        //     }
+        //     confirm_check();
+        // });
 
         //기본 토글 이벤트
         $(".proposal_toggle_btn").click(function() {

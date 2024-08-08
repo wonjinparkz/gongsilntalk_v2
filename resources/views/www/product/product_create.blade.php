@@ -660,10 +660,9 @@
             }
         }
 
-        $('input').on("change click", function() {
+        $('input').on("change click keydown", function() {
             confirm_check();
         });
-
 
         //입력란 열고 닫기
         function showDiv(className, index) {

@@ -208,7 +208,7 @@ class ProposalPcController extends Controller
             'move_type' => $request->move_type,
             'move_date' => $request->move_date,
             'is_service' => isset($request->is_service) ? $request->is_service : 0,
-            'service_price' => $request->service_price,
+            'service_price' => str_replace(',', '', $request->service_price) ?: null,
             'heating_type' => $request->heating_type,
             'parking_count' => $request->parking_count,
             'product_content' => $request->product_content,
@@ -228,18 +228,18 @@ class ProposalPcController extends Controller
         CorpProductPrice::create([
             'corp_product_id' => $result->id,
             'payment_type' => $request->payment_type,
-            'price' => $request->{'price_' . $request->payment_type},
-            'month_price' => $request->{'month_price_' . $request->payment_type},
-            'premium_price' => $request->premium_price,
+            'price' => str_replace(',', '', $request->{'price_' . $request->payment_type}) ?: null,
+            'month_price' => str_replace(',', '', $request->{'month_price_' . $request->payment_type}) ?: null,
+            'premium_price' => str_replace(',', '', $request->premium_price) ?: null,
             'acquisition_tax' => $request->acquisition_tax,
-            'support_price' => $request->support_price,
-            'etc_price' => $request->etc_price,
+            'support_price' => str_replace(',', '', $request->support_price) ?: null,
+            'etc_price' => str_replace(',', '', $request->etc_price) ?: null,
             'loan_rate_one' => $request->loan_rate_one,
             'loan_rate_two' => $request->loan_rate_two,
             'loan_interest' => $request->loan_interest,
             'is_invest' => isset($request->is_invest) ? $request->is_invest : 0,
-            'invest_price' => $request->invest_price,
-            'invest_month_price' => $request->invest_month_price
+            'invest_price' => str_replace(',', '', $request->invest_price) ?: null,
+            'invest_month_price' => str_replace(',', '', $request->invest_month_price) ?: null
         ]);
 
         $this->imageTypeWithCreate($request->product_image_ids, CorpProduct::class, $result->id, 0);
