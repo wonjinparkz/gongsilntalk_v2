@@ -102,7 +102,7 @@
                                                 <div class="input_area_1">
                                                     <input type="text" name="input_price" id="price_1"
                                                         inputmode="numeric"
-                                                        oninput="onlyNumbers(this); onTextChangeEventIndex(this);">
+                                                        oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                     <span class="gray_deep">원</span>
                                                     <input type="checkbox" name="input_is_price_discussion"
                                                         id="is_price_discussion_1" value="Y">
