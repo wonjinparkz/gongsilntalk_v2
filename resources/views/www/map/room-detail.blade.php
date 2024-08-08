@@ -33,10 +33,15 @@
             <div>
                 <span
                     class="txt_item_1">{{ $result->region_address }}·{{ Lang::get('commons.product_type.' . $result->type) }}</span>
-                <span class="txt_item_2 square">공급 {{ $result->square ?? '-' }}㎡ / 전용
-                    {{ $result->exclusive_square ?? '-' }}㎡</span>
-                <span class="txt_item_2 area" style="display: none">공급 {{ $result->area ?? '-' }}평 / 전용
-                    {{ $result->exclusive_area ?? '-' }}평</span>
+                @if ($result->type != 6)
+                    <span class="txt_item_2 square">공급 {{ $result->square ?? '-' }}㎡ / 전용
+                        {{ $result->exclusive_square ?? '-' }}㎡</span>
+                    <span class="txt_item_2 area" style="display: none">공급 {{ $result->area ?? '-' }}평 / 전용
+                        {{ $result->exclusive_area ?? '-' }}평</span>
+                @else
+                    <span class="txt_item_2 square">{{ $result->square ?? '-' }}㎡ </span>
+                    <span class="txt_item_2 area" style="display: none">{{ $result->area ?? '-' }}평 </span>
+                @endif
             </div>
             <div class="txt_item_3">
                 {{ Lang::get('commons.payment_type.' . $result->priceInfo->payment_type) }}
@@ -136,10 +141,17 @@
                     {{-- <div class="txt_item_4">강남역 도보 3분</div> --}}
                     <div class="txt_item_4"></div>
                     <div class="txt_item_5">
-                        <span>전용</span>
-                        <spann class="square">{{ $result->exclusive_square ?? '-' }}㎡</spann> &nbsp;
-                        <spann class="area" style="display: none">{{ $result->exclusive_area ?? '-' }}평</spann>
+                        @if ($result->type != 6)
+                            <span>전용</span>
+                            <spann class="square">{{ $result->exclusive_square ?? '-' }}㎡</spann> &nbsp;
+                            <spann class="area" style="display: none">{{ $result->exclusive_area ?? '-' }}평</spann>
+                        @else
+                            <span>대지</span>
+                            <spann class="square">{{ $result->square ?? '-' }}㎡</spann> &nbsp;
+                            <spann class="area" style="display: none">{{ $result->area ?? '-' }}평</spann>
+                        @endif
                         &nbsp;
+
                         @if ($result->priceInfo->payment_type == 0)
                             <span>단가</span>
                             <spann class="square">{{ $formatAveragePrice }}</spann> &nbsp;
@@ -147,25 +159,27 @@
                         @endif
                     </div>
                     {{-- 매물 요약 정보 - 하단 --}}
-                    <ul class="txt_item_6">
-                        <li>
-                            {{ $result->floor_number ?? '-' }}층/{{ $result->total_floor_number ?? '-' }}층<p>해당/전체층</p>
-                            <i>|</i>
-                        </li>
-                        <li>
-                            {{ $displayDate }}년 <span>사용승인</span>
-                            <p>사용승인연도</p><i>|</i>
-                        </li>
-                        <li>
-                            <span>관리비</span>
-                            @if ($result->is_service === 0)
-                                {{ $formatServicePrice }}<p>관리비</p>
-                            @else
-                                없음
-                            @endif
-
-                        </li>
-                    </ul>
+                    @if ($result->type != 6)
+                        <ul class="txt_item_6">
+                            <li>
+                                {{ $result->floor_number ?? '-' }}층/{{ $result->total_floor_number ?? '-' }}층<p>해당/전체층
+                                </p>
+                                <i>|</i>
+                            </li>
+                            <li>
+                                {{ $displayDate }}년 <span>사용승인</span>
+                                <p>사용승인연도</p><i>|</i>
+                            </li>
+                            <li>
+                                <span>관리비</span>
+                                @if ($result->is_service === 0)
+                                    {{ $formatServicePrice }}<p>관리비</p>
+                                @else
+                                    없음
+                                @endif
+                            </li>
+                        </ul>
+                    @endif
                     <div class="detail_btn_wrap">
                         <span class="btn_room_wish {{ $result->like_id > 0 ? 'on' : '' }}" onclick="btn_wish(this)">관심
                             매물 등록</span>
@@ -489,15 +503,57 @@
                                 <div>소재지</div>
                                 <div class="item_col_3">{{ $result->address }}</div>
                                 <div>대지면적</div>
-                                <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                                <div class="area_chage">{{ $result->square ?? '-' }}㎡</div>
+                                <div>국토이용</div>
+                                <div>
+                                    @if ($result->productAddInfo->land_use_type == 1)
+                                        해당
+                                    @elseif ($result->productAddInfo->land_use_type == 2)
+                                        미해당
+                                    @else
+                                        선택안함
+                                    @endif
+                                </div>
                                 <div>도시계획</div>
-                                <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                                <div>
+                                    @if ($result->productAddInfo->city_plan_type == 1)
+                                        있음
+                                    @elseif ($result->productAddInfo->city_plan_type == 2)
+                                        없음
+                                    @else
+                                        선택안함
+                                    @endif
+                                </div>
                                 <div>건축허가</div>
-                                <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                                <div>
+                                    @if ($result->productAddInfo->building_permit_type == 1)
+                                        발급
+                                    @elseif ($result->productAddInfo->building_permit_type == 2)
+                                        미발급
+                                    @else
+                                        선택안함
+                                    @endif
+                                </div>
                                 <div>토지거래허가</div>
-                                <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                                <div>
+                                    @if ($result->productAddInfo->land_permit_type == 1)
+                                        해당
+                                    @elseif ($result->productAddInfo->land_permit_type == 2)
+                                        미해당
+                                    @else
+                                        선택안함
+                                    @endif
+                                </div>
                                 <div>진입도로</div>
-                                <div>{{ Lang::get('commons.building_type.' . $result->building_type) }}</div>
+                                <div>
+                                    @if ($result->productAddInfo->access_load_type == 1)
+                                        있음
+                                    @elseif ($result->productAddInfo->access_load_type == 2)
+                                        없음
+                                    @else
+                                        선택안함
+                                    @endif
+                                </div>
                             @endif
                         </div>
                     </section>

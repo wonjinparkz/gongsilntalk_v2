@@ -11,7 +11,7 @@
         <div class="m_header">
             <div class="left_area"><a href="javascript:history.go(-1)"><img
                         src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
-            <div class="m_title">매물 등록 <span class="gray_basic"><span class="txt_point">2</span>/5</span></div>
+            <div class="m_title">매물 등록 <span class="gray_basic"><span class="txt_point">2</span>/3</span></div>
             <div class="right_area"></div>
         </div>
         <!----------------------------- m::header bar : s ----------------------------->
@@ -543,7 +543,7 @@
         //주소검색을 수행할 팝업 페이지를 호출합니다.
         //호출된 페이지(jusoPopup.jsp)에서 실제 주소검색URL(https://business.juso.go.kr/addrlink/addrLinkUrlJsonp.do)를 호출하게 됩니다.
         var pop = window.open("{{ route('api.popupOpen.getAddress') }}", "pop",
-            "width=570,height=420, scrollbars=yes, resizable=yes");
+            "width=500,height=420, scrollbars=yes, resizable=yes");
     }
 
 
