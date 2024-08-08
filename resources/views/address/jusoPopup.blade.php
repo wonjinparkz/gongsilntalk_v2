@@ -747,7 +747,7 @@
         <input type="hidden" name="rtentX" id="rtentX" />
         <input type="hidden" name="rtentY" id="rtentY" />
 
-        <div class="pop-address-search" style="width: 600px;">
+        <div class="pop-address-search" style="width: 100%;">
             <div class="pop-address-search-inner" style="border: 0px;">
                 <div style="height: 365px;" id="searchContentBox">
                     <fieldset>
