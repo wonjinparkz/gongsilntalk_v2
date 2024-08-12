@@ -179,4 +179,5 @@ Route::get('/imagedownload/{path}', [FileUploadController::class, 'imageDownload
 Route::controller(PopupOpenController::class)->group(function () {
     Route::any('/popupOpen/getAddress', 'getAddress')->name('api.popupOpen.getAddress');
     Route::post('/search/address', 'searchAddress')->name('api.search.address');
+    Route::post('/get/search/address/info', 'getSearcgAddressInfo')->name('api.get.search.address.info');
 });
