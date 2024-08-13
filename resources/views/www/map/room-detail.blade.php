@@ -1169,7 +1169,7 @@
                 container: button,
                 objectType: "feed",
                 content: {
-                    title: '{{ $result->title }}',
+                    title: '{{ $result->region_address }}·{{ Lang::get('commons.product_type.' . $result->type) }}',
                     description: '{{ $result->comments }}',
                     imageUrl: "{{ $result->images ? asset('storage/image/' . $result->images[0]->path) : asset('assets/media/default_gs.png') }}",
                     link: {
