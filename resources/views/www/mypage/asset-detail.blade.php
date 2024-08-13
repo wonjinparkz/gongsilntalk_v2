@@ -737,10 +737,9 @@
                 Kakao.Share.sendDefault({
                     objectType: "feed",
                     content: {
-                        title: imageTitle,
-                        description: {{ $result->asset_address->address }}.
-                        ' '
-                        .{{ $result->is_temporary == 0 ? $address_detail : $result->address_detail }},
+                        title: 'imageTitle',
+                        description: '{{ $result->asset_address->address }}' +
+                            '{{ $result->is_temporary == 0 ? $address_detail : $result->address_detail }}',
                         imageUrl: imageUrl,
                         link: {
                             mobileWebUrl: imageUrl,
