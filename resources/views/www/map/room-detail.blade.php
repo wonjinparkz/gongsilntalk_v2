@@ -1181,7 +1181,7 @@
         });
 
         function urlCopy() {
-            navigator.clipboard.writeText(detailUrl).then(res => {
+            navigator.clipboard.writeText('{!! url()->full() !!}').then(res => {
                 alert("링크복사 되었습니다.");
             })
         }
