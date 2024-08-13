@@ -51,12 +51,12 @@
         maxFiles: 1, // 파일 갯수
         maxFilesize: 1000, // MB
         timeout: 300000, // 타임아웃 30초 기본 설정
+        previewTemplate: '<div></div>',
         acceptedFiles: '.jpeg,.jpg,.png,.JPEG,.JPG,.PNG', // 이미지 파일 포맷만 허
         accept: function(file, done) {
             done();
         },
         success: function(file, responseText) {
-
             var imagePath = '{{ Storage::url('image/') }}' + responseText.result.path;
 
             var image =

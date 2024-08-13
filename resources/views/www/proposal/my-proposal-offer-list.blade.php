@@ -8,7 +8,6 @@
         {{ Log::info($product->product->priceInfo ?? '엉?') }}
     @endforeach
 
-
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
@@ -106,7 +105,7 @@
                                             <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                             <p class="mt8">카카오톡</p>
                                         </a>
-                                        <a href="#">
+                                        <a onclick="textCopy('{!! url()->full() !!}');$('.md_btn_close').click();">
                                             <img src="{{ asset('assets/media/share_ic_02.png') }}">
                                             <p class="mt8">링크복사</p>
                                         </a>
@@ -379,6 +378,13 @@
     </div>
 
     <script>
+        // 주소 복사
+        var textCopy = (url) => {
+            window.navigator.clipboard.writeText(url).then(() => {
+                alert("링크가 복사 되었습니다.");
+            });
+        };
+
         //공유하기 레이어
         $(".btn_share").click(function() {
             $(".layer_share_wrap").stop().slideToggle(0);
@@ -397,14 +403,13 @@
             $shortened_content = mb_strlen($cleaned_content) > 50 ? mb_substr($cleaned_content, 0, 50) . '...' : $cleaned_content;
         @endphp
 
-        {{ $proposal->images }}
         document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
             Kakao.Share.createDefaultButton({
                 container: button,
                 objectType: "feed",
                 content: {
                     title: '{{ $proposal->title }}',
-                    description: '고정 메시지 정해주세요.',
+                    description: '{{ $shortened_content }}',
                     imageUrl: "",
                     link: {
                         mobileWebUrl: `{{ env('APP_URL') }}/share/proposal/detail?id={{ $proposal->id }}`,

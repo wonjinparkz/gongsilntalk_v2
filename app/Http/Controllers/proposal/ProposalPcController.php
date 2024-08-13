@@ -349,7 +349,7 @@ class ProposalPcController extends Controller
             'ended_move_date' => $request->ended_move_date,
             'payment_type' => $request->budget_type,
             'price' => str_replace(',', '', $request->{'price_' . $request->budget_type}),
-            'month_price' => str_replace(',', '', $request->month_price),
+            'month_price' => str_replace(',', '', $request->month_price) ?: null,
             'client_name' => $request->type == 0 ? $request->client_name_0 : $request->client_name_1,
             'client_type' => $request->client_type,
             'floor_type' => $request->floor,
@@ -382,8 +382,8 @@ class ProposalPcController extends Controller
             })
             ->where('product.exclusive_area', '>', ($request->area - 5))
             ->where('product.exclusive_area', '<', ($request->area + 15))
-            ->where('product_price.price', '>', ($request->{'price_' . $request->budget_type} * 0.5))
-            ->where('product_price.price', '<', $request->{'price_' . $request->budget_type} + ($request->{'price_' . $request->budget_type}  * 0.5))
+            ->where('product_price.price', '>', str_replace(',', '', $request->{'price_' . $request->budget_type}))
+            ->where('product_price.price', '<', str_replace(',', '', $request->{'price_' . $request->budget_type}) + str_replace(',', '', $request->{'price_' . $request->budget_type}))
             ->get();
 
         foreach ($sameList as $same) {
