@@ -1164,42 +1164,20 @@
     {{-- 카카오톡 공유 --}}
 
     <script>
-        var title = '공실앤톡';
-        var imageUrl = "{{ asset('assets/media/default_gs.png') }}";
-        var url = "{{ env('APP_URL') }}"
-        var detailUrl = "{{ route('www.map.room.detail', [$result->id]) }}"
-        Kakao.Share.createDefaultButton({
-            container: '.kakaotalk-sharing-btn',
-            objectType: 'feed',
-            content: {
-                title: title,
-                imageUrl: imageUrl,
-                link: {
-                    // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
-                    mobileWebUrl: url,
-                    webUrl: url,
-                },
-            },
-            // social: {
-            //     likeCount: 286,
-            //     commentCount: 45,
-            //     sharedCount: 845,
-            // },
-            buttons: [{
-                    title: '웹으로 보기',
+        document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
+            Kakao.Share.createDefaultButton({
+                container: button,
+                objectType: "feed",
+                content: {
+                    title: '{{ $result->title }}',
+                    description: '{{ $result->comments }}',
+                    imageUrl: "{{ $result->images ? asset('storage/image/' . $result->images[0]->path) : asset('assets/media/default_gs.png') }}",
                     link: {
-                        mobileWebUrl: detailUrl,
-                        webUrl: detailUrl,
+                        mobileWebUrl: `{!! url()->full() !!}`,
+                        webUrl: `{!! url()->full() !!}`,
                     },
-                },
-                // {
-                //     title: '앱으로 보기',
-                //     link: {
-                //         mobileWebUrl: detailUrl,
-                //         webUrl: detailUrl,
-                //     },
-                // },
-            ],
+                }
+            });
         });
 
         function urlCopy() {
