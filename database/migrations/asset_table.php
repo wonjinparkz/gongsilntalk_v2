@@ -29,6 +29,7 @@ return new class extends Migration
             $table->double('total_floor_square', 10, 2)->nullable()->comment('연면적 타입이 4일 경우에만 사용 (단위 제곱미터)');
 
             $table->integer('name_type')->comment('명의구분 0-단독명의, 1-공동명의');
+            $table->integer('ownership_share')->comment('부동산 공동명의 지분율');
             $table->integer('business_type')->comment('사업자 구분 0-개인사업자, 1-법인사업자, 2-개인');
 
             $table->integer('tran_type')->nullable()->comment('거래 타입 0-매매, 1-분양권');

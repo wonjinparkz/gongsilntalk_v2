@@ -147,7 +147,7 @@
                                     <div class="reg_mid_wrap">
                                         <div class="reg_item">
                                             <label class="input_label">
-                                                대출금리
+                                                실입주/투자여부
                                             </label>
                                             <div class="btn_radioType">
                                                 <input type="radio" name="is_invest" id="is_invest_2"
@@ -222,7 +222,7 @@
                                                     보증금 <span class="txt_point">*</span>
                                                 </label><input type="text" placeholder="보증금" name="price_4"
                                                     inputmode="numeric"
-                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);">>
+                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                 <span class="gray_deep">/</span>
                                             </div>
                                             <div>
@@ -230,7 +230,7 @@
                                                     월임대료 <span class="txt_point">*</span>
                                                 </label><input type="text" placeholder="월임대료" name="month_price_4"
                                                     inputmode="numeric"
-                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);">>
+                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                 <span class="gray_deep">원</span>
                                             </div>
                                         </div>

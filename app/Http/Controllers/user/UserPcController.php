@@ -781,6 +781,7 @@ class UserPcController extends Controller
             'exclusive_area' => $request->exclusive_area,
             'exclusive_square' => $request->exclusive_square,
             'name_type' => $request->name_type,
+            'ownership_share' => $request->name_type == 1 ? $request->ownership_share : null,
             'business_type' => $request->business_type,
 
             'tran_type' => $request->secoundType,
@@ -901,6 +902,7 @@ class UserPcController extends Controller
             'exclusive_area' => $request->exclusive_area,
             'exclusive_square' => $request->exclusive_square,
             'name_type' => $request->name_type,
+            'ownership_share' => $request->name_type == 1 ? $request->ownership_share : null,
             'business_type' => $request->business_type,
 
             'tran_type' => $request->secoundType,

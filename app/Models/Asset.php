@@ -32,6 +32,7 @@ class Asset extends BaseModel
         'total_floor_area',
         'total_floor_square',
         'name_type',
+        'ownership_share',
         'business_type',
         'tran_type',
         'price',

@@ -229,10 +229,10 @@
                                 <label class="input_label">명의구분 <span class="txt_point">*</span></label>
                                 <div class="btn_radioType">
                                     <input type="radio" name="name_type" id="name_type_1" value="0" checked>
-                                    <label for="name_type_1">단독명의</label>
+                                    <label for="name_type_1" onclick="showDiv('share', 0)">단독명의</label>
 
                                     <input type="radio" name="name_type" id="name_type_2" value="1">
-                                    <label for="name_type_2">공동명의</label>
+                                    <label for="name_type_2" onclick="showDiv('share', 1)">공동명의</label>
                                 </div>
                             </div>
                             <div class="reg_item">
@@ -247,6 +247,26 @@
 
                                     <input type="radio" name="business_type" id="business_type_3" value="2">
                                     <label for="business_type_3">개인</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reg_mid_wrap">
+                            <div class="share_wrap mt8">
+                                <div class="share_item open_key active"></div>
+                                <div class="share_item open_key">
+                                    <div class="reg_item">
+                                        <div class="input_pyeong_area">
+                                            <div>
+                                                <label class="input_label">
+                                                    지분율
+                                                </label>
+                                                <input type="text" name="ownership_share" placeholder="예)70"
+                                                    inputmode="numeric"
+                                                    oninput="onlyNumbers(this); validateInput(this, 100);">
+                                                <span class="gray_deep">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -334,7 +354,22 @@
 
 </x-layout>
 
+<style>
+    .zoomIcon {
+        padding: 0px !important;
+    }
+</style>
+
 <script>
+    //입력란 열고 닫기
+    function showDiv(className, index) {
+        var tabContents = document.querySelectorAll('.' + className + '_wrap .' + className + '_item');
+        tabContents.forEach(function(content) {
+            content.classList.remove('active');
+        });
+        tabContents[index].classList.add('active');
+    }
+
     // 평수 제곱 변환
     function square_change(name) {
         var area_name = name + 'area';

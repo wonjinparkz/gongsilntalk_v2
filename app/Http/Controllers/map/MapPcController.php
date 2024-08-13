@@ -370,14 +370,14 @@ class MapPcController extends Controller
             if ($zoomLv <= 11) {
                 $distance = 1000;
             } elseif ($zoomLv >= 11 && $zoomLv <= 13) {
-                $distance = 50;
+                $distance = 20;
             } elseif ($zoomLv >= 14 && $zoomLv <= 15) {
                 $distance = 10;
             } else {
                 $distance = 5;
             }
 
-            $product = Product::select()->where('state', 1)
+            $product = Product::select('*', DB::raw('address_lat + 0.0002 as address_lat'))->where('state', 1)
                 ->whereRaw(
                     "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
                     [$address_lat, $address_lng, $address_lat, $distance]

@@ -367,7 +367,11 @@
                     </div>
                     <div class="tr_row">
                         <div>명의구분</div>
-                        <div>{{ Lang::get('commons.asset_name_type.' . $result->name_type) }}</div>
+                        <div>{{ Lang::get('commons.asset_name_type.' . $result->name_type) }}
+                            <span class="txt_point">
+                                {{ $result->name_type == 1 ? '(' . $result->ownership_share . '%)' : '' }}
+                            </span>
+                        </div>
                         <div>사업자구분</div>
                         <div>{{ Lang::get('commons.asset_business_type.' . $result->business_type) }}</div>
                     </div>
@@ -734,7 +738,9 @@
                     objectType: "feed",
                     content: {
                         title: imageTitle,
-                        description: {{ $result->asset_address->address }} . ' ' . {{ $result->is_temporary == 0 ? $address_detail : $result->address_detail }},
+                        description: {{ $result->asset_address->address }}.
+                        ' '
+                        .{{ $result->is_temporary == 0 ? $address_detail : $result->address_detail }},
                         imageUrl: imageUrl,
                         link: {
                             mobileWebUrl: imageUrl,
