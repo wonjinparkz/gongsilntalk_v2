@@ -112,49 +112,8 @@
         </div>
     </form>
 
-    <!-- modal 가(임시)주소 검색 : s-->
-    <div class="modal modal_mid modal_address_search">
-        <div class="modal_title">
-            <h5>가(임시) 주소 검색</h5>
-            <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close"
-                onclick="modal_close('address_search')">
-        </div>
-        <div class="modal_container">
-            <ul class="adress_select tab_toggle_menu">
-                <li class="active"><span id="region_input_1">시/도</span></li>
-                <li style="display:none"><span id="region_input_2">시/군/구</span></li>
-                <li style="display:none"><span id="region_input_3">읍/면/동</span></li>
-                <li style="display:none"><span id="region_input_4">리</span></li>
-            </ul>
-            <div class="tab_area_wrap adress_select_wrap  mt20">
-                <div>
-                    <div class="point_sm_filter cell_4" id="region_code_1">
+    <x-user-temporary-address />
 
-                    </div>
-                </div>
-                <div>
-                    <div class="point_sm_filter cell_4" id="region_code_2">
-
-                    </div>
-                </div>
-                <div>
-                    <div class="point_sm_filter cell_4"id="region_code_3">
-
-                    </div>
-                </div>
-                <div>
-                    <div class="point_sm_filter cell_4" id="region_code_4">
-
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button class="btn_full_basic btn_point mt20" id="seach_address" onclick="seach_address()"
-                    disabled>검색</button>
-            </div>
-        </div>
-    </div>
-    <div class="md_overlay md_overlay_address_search" onclick="modal_close('address_search')"></div>
     <!-- modal 가(임시)주소 검색 : e-->
     <script type="text/javascript"
         src="https://business.juso.go.kr/juso_support_center/js/addrlink/map/jusoro_map_api.min.js?confmKey={{ env('CONFM_MAP_KEY') }}&skinType=1">
@@ -202,18 +161,10 @@
             var address_dong = $('#address_dong').val();
             var address_number = $('#address_number').val();
 
-            if (is_map) {
-                if (region_code == '' || address == '' || address_number == '' || (!is_address_no_1 && address_dong ==
-                        '')) {
-                    return $('.confirm').attr("disabled", true);
-                }
-            } else {
-                if (region_code == '' || address == '' || (!is_address_no_2 && address_detail ==
-                        '')) {
-                    return $('.confirm').attr("disabled", true);
-                }
+            if (region_code == '' || address == '' || (!is_address_no_2 && address_detail ==
+                    '')) {
+                return $('.confirm').attr("disabled", true);
             }
-
             $('.confirm').attr("disabled", false);
         }
 
@@ -223,16 +174,9 @@
 
         function formSetting() {
 
-            var is_map = $('#is_map');
+            var is_map = $('#is_map').is(':checked');
             var is_address_no_1 = $('#address_no_1').is(':checked');
             var is_address_no_2 = $('#address_no_2').is(':checked');
-
-            if (is_map.is(':checked')) {
-                $('#address_detail').val('')
-            } else {
-                $('#address_dong').val('')
-                $('#address_number').val('')
-            }
 
             var address_lng = $('#address_lng').val();
             var address_lat = $('#address_lat').val();
@@ -243,7 +187,7 @@
             var address_dong = $('#address_dong').val();
             var address_number = $('#address_number').val();
 
-            sessionStorage.setItem("is_mapSession", is_map.is(':checked') ? '1' : '0');
+            sessionStorage.setItem("is_mapSession", is_map ? '1' : '0');
             sessionStorage.setItem("address_lngSession", address_lng);
             sessionStorage.setItem("address_latSession", address_lat);
             sessionStorage.setItem("region_codeSession", region_code);
@@ -256,128 +200,6 @@
 
             // $('.find_form').submit();
             console.log('is_map : ' + is_map);
-        }
-
-
-        // 지역 가져오는 api
-        function get_region(regcode, region) {
-            var gatewayUrl =
-                "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + regcode +
-                "&is_ignore_zero=true";
-
-            $.ajax({
-                url: gatewayUrl,
-                method: "GET",
-                dataType: "json",
-                success: function(response) {
-                    // Check if 'regcodes' property exists and is an array
-                    if (response.regcodes && Array.isArray(response.regcodes)) {
-                        var div = $("#region_code_" + region);
-                        div.empty();
-
-                        // Iterate over the 'regcodes' array
-                        if (region == 1) {
-                            response.regcodes.forEach(function(regcodeObj, index) {
-                                // Assuming 'code' is the property you want to use for the option value
-                                var regcode = regcodeObj.code;
-                                // Assuming 'name' is the property you want to use for the option text
-                                var name = regcodeObj.name;
-                                div.append(`<div class="cell">` +
-                                    `<input type="radio" name="region_` + region +
-                                    `" id="region_` + region + `_` + (
-                                        index + 1) + `" value="` +
-                                    regcode.substring(0, 2) + `">` +
-                                    `<label class="label" for="region_` + region + `_` + (
-                                        index + 1) +
-                                    `">` +
-                                    name +
-                                    `</label>` +
-                                    `</div>`);
-                            });
-                        } else if (region != 1) {
-                            var options = [];
-                            for (var i = 0; i < response.regcodes.length; i++) {
-                                var regcodeObj = response.regcodes[i];
-                                var regcode = regcodeObj.code;
-                                var nameParts = regcodeObj.name.split(' ');
-                                if (region == 2) {
-                                    regcode = regcode.substring(4, 5) > 0 ? regcode.substring(0, 5) : regcode
-                                        .substring(0, 4)
-                                    var name = nameParts.length > 1 ? nameParts.slice(1).join(' ') : regcodeObj
-                                        .name;
-                                } else if (region == 3) {
-                                    regcode = regcode.substring(0, 8)
-                                    var name = nameParts.length > 2 ? nameParts.slice(2).join(' ') : regcodeObj
-                                        .name;
-                                } else if (region == 4) {
-                                    regcode = regcode
-                                    var name = nameParts.length > 3 ? nameParts.slice(3).join(' ') : regcodeObj
-                                        .name;
-                                }
-                                options.push({
-                                    name: name,
-                                    value: regcode
-                                });
-                            }
-
-                            // Sort options based on the 'name' property
-                            options.sort(function(a, b) {
-                                return a.name.localeCompare(b.name);
-                            });
-
-                            // Append sorted options to the select element
-                            for (var i = 0; i < options.length; i++) {
-                                div.append(`<div class="cell">` +
-                                    `<input type="radio" name="region_` + region +
-                                    `" id="region_` + region + `_` + (
-                                        i + 1) + `" value="` +
-                                    options[i].value + `">` +
-                                    `<label class="label" for="region_` + region + `_` + (
-                                        i + 1) +
-                                    `">` +
-                                    options[i].name +
-                                    `</label>` +
-                                    `</div>`);
-                            }
-                        }
-
-                        // 하위 선택할 수 있게 보여줌
-                        $('#region_input_' + region).parents('li').css('display', '')
-                        $('#region_input_' + region).click();
-
-                        $('#seach_address').attr("disabled", true);
-
-                    } else {
-                        console.error("Invalid response format. 'regcodes' array not found.", region);
-                        if (region == 4) {
-                            var span = document.getElementById('region_input_4');
-                            span.parentElement.style.display = 'none';
-                            $('#seach_address').attr("disabled", false);
-                        }
-                    }
-                },
-                error: function(error) {
-                    console.error("Error fetching regcodes:", error);
-                }
-            });
-        }
-
-        function seach_address() {
-            var sidoName = $('input[name="region_1"]:checked').next('label').text();
-            var sigunguName = $('input[name="region_2"]:checked').next('label').text();
-            var dongName = $('input[name="region_3"]:checked').next('label').text();
-            var riName = $('input[name="region_4"]:checked').next('label').text();
-
-            var address = sidoName + ' ' + sigunguName + ' ' + dongName + ' ' + riName;
-
-            $('#region_code').val();
-
-            modal_close('address_search')
-
-            $('#roadName').html('<span>도로명</span>' + address + ' 999-99');
-            $('#address').val(address + ' 999-99');
-            $('#region_address').val(address);
-            confirm_check();
         }
 
         $('#address_no_1').click(function() {
@@ -395,136 +217,6 @@
                 $('#address_detail').attr('disabled', true);
             } else {
                 $('#address_detail').attr('disabled', false);
-            }
-        });
-
-
-        //가(임시)주소 클릭 이벤트
-        document.getElementById("is_map").addEventListener("change", function() {
-            var address_1 = document.querySelector(".detail_address_1");
-            var address_2 = document.querySelector(".detail_address_2");
-            var search_1 = document.querySelector(".search_address_1");
-            var search_2 = document.querySelector(".search_address_2");
-            var is_map_0 = document.querySelector("#mapWrap");
-            var is_map_1 = document.querySelector(".is_map_1");
-
-            $('#address').val('');
-            $('#roadName').empty();
-            $('#jibunName').empty();
-            $('#address_detail').val('');
-            $('#address_dong').val('');
-            $('#address_number').val('');
-
-            if (this.checked) {
-                address_1.style.display = "none";
-                address_2.classList.add("active");
-                search_1.style.display = "none";
-                search_2.classList.add("active");
-                is_map_0.style.display = "none";
-                is_map_1.style.display = "block";
-            } else {
-                address_1.style.display = "block";
-                address_2.classList.remove("active");
-                search_1.style.display = "block";
-                search_2.classList.remove("active");
-                is_map_0.style.display = "block";
-                is_map_1.style.display = "none";
-            }
-        });
-
-        // //가(임시)주소 선택하기
-        // document.addEventListener("DOMContentLoaded", function() {
-        //     document.querySelectorAll('.label').forEach(function(label) {
-        //         label.addEventListener("click", function() {
-        //             var index = label.getAttribute("for").split("_")[1]; // 인덱스 추출
-        //             var regionInputId = "region_input_" + index;
-        //             var span = document.getElementById(regionInputId);
-        //             span.textContent = label.textContent; // 클릭된 라벨의 텍스트를 span에 입력
-        //         });
-        //     });
-        // });
-
-        // DOMContentLoaded 이벤트가 먼저 실행되므로,
-        // 이벤트 리스너를 사용하여 동적으로 생성된 요소에 대한 처리를 추가합니다.
-        // document.addEventListener("DOMContentLoaded", function() {
-        //     // 모든 라벨에 대한 클릭 이벤트 처리
-        //     document.addEventListener("click", function(event) {
-        //         var clickedElement = event.target; // 클릭된 요소를 가져옴
-
-        //         // 클릭된 요소가 라벨인 경우
-        //         if (clickedElement.classList.contains('label')) {
-        //             var forAttr = clickedElement.getAttribute("for"); // for 속성 값 가져오기
-        //             var index = forAttr.split("_")[1]; // 인덱스 추출
-        //             var regionInputId = "region_input_" + index;
-        //             var span = document.getElementById(regionInputId);
-        //             span.textContent = clickedElement.textContent; // 클릭된 라벨의 텍스트를 span에 입력
-        //         }
-        //     });
-        // });
-
-        document.addEventListener("DOMContentLoaded", function() {
-
-            // 초기 텍스트 배열
-            var initialTexts = ["시/도", "시/군/구", "읍/면/동", "리"];
-
-            // 모든 라벨에 대한 클릭 이벤트 처리
-            document.addEventListener("click", function(event) {
-                var clickedElement = event.target; // 클릭된 요소를 가져옴
-
-                // 클릭된 요소가 라벨인 경우
-                if (clickedElement.classList.contains('label')) {
-                    var forAttr = clickedElement.getAttribute("for"); // for 속성 값 가져오기
-                    var index = forAttr.split("_")[1]; // 인덱스 추출
-                    var regionInputId = "region_input_" + index;
-                    var span = document.getElementById(regionInputId);
-
-                    // 현재 클릭된 라벨의 인덱스
-                    var currentIndex = parseInt(index) + 1;
-
-                    // 현재 클릭된 라벨의 상위 항목을 초기화
-                    resetUpperRegions(currentIndex);
-
-
-
-                    // 해당 라벨의 텍스트 설정
-                    span.textContent = clickedElement.textContent; // 클릭된 라벨의 텍스트를 span에 입력
-
-                    var region_code = '';
-                    // 주소 가져오기
-                    if (currentIndex < 5) {
-                        check_code = $('#' + forAttr).val();
-                        if (currentIndex == 2) {
-                            region_code = check_code + '*00000'
-                        } else if (currentIndex == 3) {
-                            region_code = check_code + '*00'
-                        } else if (currentIndex == 4) {
-                            region_code = check_code + '*'
-                        }
-                        get_region(region_code, currentIndex);
-                    } else {
-                        $('#seach_address').attr("disabled", false);
-                    }
-
-                    $('#region_code').val(check_code);
-
-                }
-            });
-
-            // 상위 지역을 초기화하는 함수
-            function resetUpperRegions(currentIndex) {
-                for (var i = currentIndex; i <= 4; i++) {
-                    var regionInputId = "region_input_" + i;
-                    var span = document.getElementById(regionInputId);
-                    if (span) {
-                        span.textContent = initialTexts[i - 1]; // 초기화 텍스트 설정
-                        span.parentElement.style.display = 'none';
-                        // 라디오 버튼 해제
-                        var radioButtons = document.querySelectorAll('[name="region_' + (i) + '"]');
-                        radioButtons.forEach(function(radioButton) {
-                            radioButton.checked = false;
-                        });
-                    }
-                }
             }
         });
     </script>

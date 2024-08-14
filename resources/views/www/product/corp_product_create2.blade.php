@@ -173,16 +173,9 @@
             var address_dong = $('#address_dong').val();
             var address_number = $('#address_number').val();
 
-            if (is_map) {
-                if (region_code == '' || address == '' || address_number == '' || (!is_address_dong && address_dong ==
-                        '')) {
-                    return $('.confirm').attr("disabled", true);
-                }
-            } else {
-                if (region_code == '' || address == '' || (!is_address_detail && address_detail ==
-                        '')) {
-                    return $('.confirm').attr("disabled", true);
-                }
+            if (region_code == '' || address == '' || (!is_address_detail && address_detail ==
+                    '')) {
+                return $('.confirm').attr("disabled", true);
             }
 
             $('.confirm').attr("disabled", false);
@@ -223,40 +216,6 @@
                 $('#address_detail').attr('disabled', true);
             } else {
                 $('#address_detail').attr('disabled', false);
-            }
-        });
-
-
-        //가(임시)주소 클릭 이벤트
-        document.getElementById("is_map").addEventListener("change", function() {
-            var address_1 = document.querySelector(".detail_address_1");
-            var address_2 = document.querySelector(".detail_address_2");
-            var search_1 = document.querySelector(".search_address_1");
-            var search_2 = document.querySelector(".search_address_2");
-            var is_map_0 = document.querySelector("#mapWrap");
-            var is_map_1 = document.querySelector(".is_map_1");
-
-            $('#address').val('');
-            $('#roadName').empty();
-            $('#jibunName').empty();
-            $('#address_detail').val('');
-            $('#address_dong').val('');
-            $('#address_number').val('');
-
-            if (this.checked) {
-                address_1.style.display = "none";
-                address_2.classList.add("active");
-                search_1.style.display = "none";
-                search_2.classList.add("active");
-                // is_map_0.style.display = "none";
-                // is_map_1.style.display = "block";
-            } else {
-                address_1.style.display = "block";
-                address_2.classList.remove("active");
-                search_1.style.display = "block";
-                search_2.classList.remove("active");
-                is_map_0.style.display = "block";
-                is_map_1.style.display = "none";
             }
         });
     </script>
