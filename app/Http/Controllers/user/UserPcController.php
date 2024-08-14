@@ -48,8 +48,8 @@ class UserPcController extends Controller
             ->first();
 
         $countList = Product::select(
-            DB::RAW('(select count(*) from product where users_id = ' . Auth::guard('web')->user()->id . ' and state < 1) as request_count'),
-            DB::RAW('(select count(*) from product where users_id = ' . Auth::guard('web')->user()->id . ' and state > 0) as transactions_count')
+            DB::RAW('(select count(*) from product where product.is_delete = 0 and users_id = ' . Auth::guard('web')->user()->id . ' and state < 1) as request_count'),
+            DB::RAW('(select count(*) from product where product.is_delete = 0 and users_id = ' . Auth::guard('web')->user()->id . ' and state > 0) as transactions_count')
         )->where('users_id', Auth::guard('web')->user()->id)->first();
 
         if ($request->ajax()) {
@@ -59,6 +59,7 @@ class UserPcController extends Controller
             $productList->leftjoin('product_price', 'product_price.product_id', 'product.id');
 
             $productList->where('product.users_id', Auth::guard('web')->user()->id);
+            $productList->where('product.is_delete', 0);
 
             if ($request->type != 1) {
                 $productList->where('product.state', '<', 1);
@@ -195,10 +196,10 @@ class UserPcController extends Controller
             ->first();
 
         $countList = Product::select(
-            DB::RAW('(select count(*) from product where users_id = ' . Auth::guard('web')->user()->id . ' and user_type = 1) as all_count'),
-            DB::RAW('(select count(*) from product where users_id = ' . Auth::guard('web')->user()->id . ' and state = 1 and user_type = 1) as req_count'),
-            DB::RAW('(select count(*) from product where users_id = ' . Auth::guard('web')->user()->id . ' and state = 2 and user_type = 1) as done_count'),
-            DB::RAW('(select count(*) from product where users_id = ' . Auth::guard('web')->user()->id . ' and state > 2 and user_type = 1) as non_count')
+            DB::RAW('(select count(*) from product where product.is_delete = 0 and users_id = ' . Auth::guard('web')->user()->id . ' and user_type = 1) as all_count'),
+            DB::RAW('(select count(*) from product where product.is_delete = 0 and users_id = ' . Auth::guard('web')->user()->id . ' and state = 1 and user_type = 1) as req_count'),
+            DB::RAW('(select count(*) from product where product.is_delete = 0 and users_id = ' . Auth::guard('web')->user()->id . ' and state = 2 and user_type = 1) as done_count'),
+            DB::RAW('(select count(*) from product where product.is_delete = 0 and users_id = ' . Auth::guard('web')->user()->id . ' and state > 2 and user_type = 1) as non_count')
         )->where('users_id', Auth::guard('web')->user()->id)->first();
 
         if ($request->ajax()) {
@@ -208,6 +209,7 @@ class UserPcController extends Controller
             $productList->leftjoin('product_price', 'product_price.product_id', 'product.id');
 
             $productList->where('product.users_id', Auth::guard('web')->user()->id);
+            $productList->where('product.is_delete', 0);
 
             if ($request->type == 1) {
                 $productList->where('product.state', 1);
