@@ -139,7 +139,7 @@
                                     <div id="mapWrap" class="mapWrap"
                                         style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
                                 </div>
-                                <div id="is_temporary_1" style="display: {{ $is_map == 0 ? 'none' : '' }}">
+                                <div id="is_temporary_1">
                                     가(임시)주소 선택시,<br>지도 노출이 불가능합니다.
                                 </div>
                             </div>
@@ -148,10 +148,9 @@
                                 $is_address_detail =
                                     old('is_addresss_detail') ??
                                     (old('address_detail') ?? ($result->address_detail ?? 1));
-                                $is_address_dong =
-                                    old('is_addresss_dong') ?? (old('address_dong') ?? ($result->address_dong ?? 1));
                             @endphp
-                            <div class="detail_address_1" style="display: {{ $is_map == 0 ? '' : 'none' }};">
+
+                            <div class="detail_address_1">
                                 <span class="fs-6">상세주소</span>
                                 <input type="text" name="address_detail" id="address_detail" class="form-control"
                                     placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호"
@@ -166,36 +165,6 @@
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('address_detail')" />
                             </div>
 
-                            <div class="detail_address_2 row" style="display: {{ $is_map == 0 ? 'none' : '' }};">
-                                <span class="fs-6">상세주소</span>
-
-                                <div class="col-lg-5 fv-row">
-                                    <div class="input-group">
-                                        <input type="text" name="address_dong" id="address_dong"
-                                            class="form-control"
-                                            value="{{ old('address_dong') ?? $result->address_dong }}"
-                                            {{ $is_address_dong == 1 ? 'disabled' : '' }} />
-                                        <span class="input-group-text" id="basic-addon2">동</span>
-                                    </div>
-                                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('address_dong')" />
-                                </div>
-
-                                <div class="col-lg-5 fv-row">
-                                    <div class="input-group">
-                                        <input type="text" name="address_number" id="address_number"
-                                            class="form-control"
-                                            value="{{ old('address_number') ? old('address_number') : $result->address_number }}" />
-                                        <span class="input-group-text" id="basic-addon2">호</span>
-                                    </div>
-                                    <x-input-error class="mt-2 text-danger" :messages="$errors->get('address_number')" />
-                                </div>
-                                <label class="form-check form-check-custom form-check-inline p-1 col-lg-2 ">
-                                    &nbsp;
-                                    <input class="form-check-input" name="is_address_dong" id="is_address_dong"
-                                        type="checkbox" value="1" {{ $is_address_dong == 1 ? 'checked' : '' }}>
-                                    <span class="fw-semibold ps-2 fs-6">동 없음</span>
-                                </label>
-                            </div>
 
                             <input type="hidden" name="region_code" id="region_code"
                                 value="{{ old('region_code') ? old('region_code') : $result->region_code }}">
@@ -1380,8 +1349,7 @@
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">중개보수(부가세별도)</label>
                         <div class="col-lg-10 fv-row">
                             <input type="text" name="commission" class="form-control"
-                                placeholder="중개보수(부가세별도)"
-                                value="{{ old('commission') ?? $result->commission }}" />
+                                placeholder="중개보수(부가세별도)" value="{{ old('commission') ?? $result->commission }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('commission')" />
                         </div>
                     </div>
@@ -1489,15 +1457,9 @@
             var wgs84Coords = get_coordinate_conversion1($('input[name=address_lng]').val(), $(
                 'input[name=address_lat]').val())
 
-            if ({{ $is_map ?? 0 }} == 0) {
-                setTimeout(function() {
-                    callJusoroMapApiType1(wgs84Coords[0], wgs84Coords[1]);
-                }, 2000);
-            } else {
-                setTimeout(function() {
-                    $('#is_temporary_0').hide()
-                }, 2000);
-            }
+            setTimeout(function() {
+                callJusoroMapApiType1(wgs84Coords[0], wgs84Coords[1]);
+            }, 2000);
 
             if ({{ $result->productAddInfo->is_option ?? 0 }} == 0) {
                 $('.option_type').attr('disabled', true);
