@@ -210,17 +210,7 @@ class ProductController extends Controller
             'region_address' => 'required',
             'address_lat' => 'required_if:is_map,1',
             'address_lng' => 'required_if:is_map,1',
-            'address_detail' =>  [
-                Rule::requiredIf(function () use ($request) {
-                    return $request->input('is_map') == 0 && $request->input('is_address_detail') != 1;
-                }),
-            ],
-            'address_dong' =>  [
-                Rule::requiredIf(function () use ($request) {
-                    return $request->input('is_map') == 1 && $request->input('is_address_dong') != 1;
-                }),
-            ],
-            'address_number' => 'required_if:is_map,1',
+            'address_detail' =>  'required_if:is_address_detail,1',
             'floor_number' => [
                 Rule::requiredIf(function () use ($request) {
                     return $request->input('type') != 6 && $request->input('type') != 7;
@@ -283,17 +273,14 @@ class ProductController extends Controller
 
         $productDate = [
             'type' => $request->type,
-            'is_map' => $request->is_map,
             'state' => $request->state,
             'is_map' => $request->is_map ?? 0,
             'region_code' => $request->region_code,
             'region_address' => $request->region_address,
             'address' => $request->address,
-            'address_lat' => $request->is_map != 1 ? $request->address_lat : null,
-            'address_lng' => $request->is_map != 1 ? $request->address_lng : null,
-            'address_detail' => $request->is_map != 1 ? $request->address_detail : null,
-            'address_dong' => $request->is_map == 1 ? $request->address_dong : null,
-            'address_number' => $request->is_map == 1 ? $request->address_number : null,
+            'address_lat' => $request->address_lat,
+            'address_lng' => $request->address_lng,
+            'address_detail' => $request->address_detail,
             'floor_number' => in_array($request->type, ['6', '7']) ? null : $request->floor_number,
             'total_floor_number' => in_array($request->type, ['6', '7']) ? null : $request->total_floor_number,
             'lowest_floor_number' => $request->type == 7 ? $request->lowest_floor_number : null,
@@ -309,7 +296,7 @@ class ProductController extends Controller
             'move_type' => $request->type != 6 ? $request->move_type : null,
             'move_date' => ($request->type != 6 && $request->move_type == 2) ? $request->move_date : null,
             'is_service' => $request->type != 6 ? $request->is_service ?? 0 : null,
-            'service_price' => ($request->type != 6 && $request->is_service != 1) ? $request->service_price : null,
+            'service_price' => ($request->type != 6 && $request->is_service != 1) ? $request->service_price * 10000 : null,
             'loan_type' => $request->loan_type,
             'loan_price' => $request->loan_type != 0 ? $request->loan_price : null,
             'parking_type' => $request->type != 6 ? $request->parking_type : null,
