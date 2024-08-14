@@ -55,7 +55,7 @@
                                 </td>
                                 <td>{{ Lang::get('commons.product_type.' . $product->type) }}</td>
                                 <td>
-                                    {{ $product->address . ' ' . ($product->is_map == 1 ? $product->address_dong . '동 ' . $product->address_number . '호' : $product->address_detail) }}
+                                    {{ $product->address . ' ' . $product->address_detail }}
                                 </td>
                                 <td class="square">
                                     {{ in_array($product->type, [6, 7]) ? '대지' : '공급' }}
@@ -145,7 +145,7 @@
                             <div class="list_view">
                                 <p class="tit">{{ Lang::get('commons.product_type.' . $product->type) }}</p>
                                 <p class="summary">
-                                    {{ $product->address . ' ' . ($product->is_map == 1 ? $product->address_dong . '동 ' . $product->address_number . '호' : $product->address_detail) }}
+                                    {{ $product->address . ' ' . $product->address_detail }}
                                 </p>
                                 <p class="txt_item_1">{{ in_array($product->type, [6, 7]) ? '대지' : '공급' }}
                                     {{ $product->square }}㎡ /
@@ -221,7 +221,7 @@
                                 </td>
                                 <td>{{ Lang::get('commons.product_type.' . $product->type) }}</td>
                                 <td>
-                                    {{ $product->address . ' ' . ($product->is_map == 1 ? $product->address_dong . '동 ' . $product->address_number . '호' : $product->address_detail) }}
+                                    {{ $product->address . ' ' . $product->address_detail }}
                                 </td>
                                 <td class="square">
                                     {{ in_array($product->type, [6, 7]) ? '대지' : '공급' }}
@@ -308,7 +308,7 @@
                             <div class="list_view">
                                 <p class="tit">{{ Lang::get('commons.product_type.' . $product->type) }}</p>
                                 <p class="summary">
-                                    {{ $product->address . ' ' . ($product->is_map == 1 ? $product->address_dong . '동 ' . $product->address_number . '호' : $product->address_detail) }}
+                                    {{ $product->address . ' ' . $product->address_detail }}
                                 </p>
                                 <p class="txt_item_1">{{ in_array($product->type, [6, 7]) ? '대지' : '공급' }}
                                     {{ $product->square }}㎡ /

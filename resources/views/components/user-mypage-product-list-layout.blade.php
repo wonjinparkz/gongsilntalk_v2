@@ -49,13 +49,15 @@
                                 <td>
                                     <div class="list_thumb_1">
                                         <div class="img_box">
-                                            <img src="{{ Storage::url('image/' . $product->images[0]->path) }}">
+                                            @if (count($product->images) > 0)
+                                                <img src="{{ Storage::url('image/' . $product->images[0]->path) }}">
+                                            @endif
                                         </div>
                                     </div>
                                 </td>
                                 <td>{{ Lang::get('commons.product_type.' . $product->type) }}</td>
                                 <td>
-                                    {{ $product->address . ' ' . ($product->is_map == 1 ? $product->address_dong . '동 ' . $product->address_number . '호' : $product->address_detail) }}
+                                    {{ $product->address . ' ' . $product->address_detail }}
                                 </td>
                                 <td class="square">
                                     {{ in_array($product->type, [6, 7]) ? '대지' : '공급' }}
@@ -170,7 +172,7 @@
                                 </td>
                                 <td>{{ Lang::get('commons.product_type.' . $product->type) }}</td>
                                 <td>
-                                    {{ $product->address . ' ' . ($product->is_map == 1 ? $product->address_dong . '동 ' . $product->address_number . '호' : $product->address_detail) }}
+                                    {{ $product->address . ' ' . $product->address_detail }}
                                 </td>
                                 <td class="square">
                                     {{ in_array($product->type, [6, 7]) ? '대지' : '공급' }}
