@@ -75,7 +75,8 @@ class PopupOpenController extends Controller
                 $addressInfo = $addresses[0];
 
                 $results = [
-                    'address' => $addressInfo['roadAddress'] ?? $addressInfo['jibunAddress'],
+                    'roadAddress' => $addressInfo['roadAddress'] ?? '',
+                    'jibunAddress' => $addressInfo['roadAddress'] ?? '',
                     'latitude' => $addressInfo['y'],
                     'longitude' => $addressInfo['x']
                 ];
