@@ -263,7 +263,7 @@
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
                             @inject('carbon', 'Carbon\Carbon')
-                            {{ $carbon::parse($result->approve_date)->format('Y.m.d') }}
+                            {{ $result->approve_date != '' ? $carbon::parse($result->approve_date)->format('Y.m.d') : '' }}
                         </label>
                     </div>
                 </div>
