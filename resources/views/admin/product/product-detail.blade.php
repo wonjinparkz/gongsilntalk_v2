@@ -394,7 +394,7 @@
                                 <div class="input-group">
                                     <input type="number" name="service_price" id="service_price"
                                         class="form-control" placeholder="예) 10"
-                                        value="{{ old('service_price') ?? $result->service_price }}" />
+                                        value="{{ old('service_price') ?? $result->service_price / 10000 }}" />
                                     <span class="input-group-text" id="basic-addon2">만원</span>
                                 </div>
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('service_price')" />
