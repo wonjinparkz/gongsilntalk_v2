@@ -301,9 +301,9 @@
                         </div>
                     </div>
 
-                    {{-- 준공일 --}}
+                    {{-- 준공예정일 --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">준공일</label>
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">준공예정일</label>
                         <div class="col-lg-3 fv-row">
                             <input type="text" name="completion_date" class="form-control" maxlength="8"
                                 placeholder="예) 20230204"
@@ -313,7 +313,7 @@
                     </div>
 
                     {{-- 입주예정 --}}
-                    <div class="row mb-6">
+                    {{-- <div class="row mb-6">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">입주예정</label>
                         <div class="col-lg-3 fv-row">
                             <input type="text" name="expected_move_date" class="form-control" maxlength="6"
@@ -321,7 +321,7 @@
                                 value="{{ old('expected_move_date') ?? $result->expected_move_date }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('expected_move_date')" />
                         </div>
-                    </div>
+                    </div> --}}
 
                     {{-- 시행사 --}}
                     <div class="row mb-6">

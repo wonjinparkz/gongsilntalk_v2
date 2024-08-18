@@ -160,10 +160,12 @@
                         <div id="totalFloorArea">{{ number_format($result->total_floor_square, 2) }}㎡</div>
                         <div>건폐율/용적률</div>
                         <div>{{ $result->builging_ratio }}% / {{ $result->floor_area_ratio }}%</div>
-                        <div>준공일</div>
-                        <div>{{ $carbon::parse($result->completion_date)->format('Y.m.d') }}</div>
-                        <div>입주예정</div>
-                        <div>{{ $carbon::parse($result->expected_move_date)->format('Y.m.d') }}</div>
+                        <div>준공예정일</div>
+                        <div>
+                            {{ $result->completion_date != '' ? $carbon::parse($result->completion_date)->format('Y.m.d') : '-' }}
+                        </div>
+                        {{-- <div>입주예정</div>
+                        <div>{{ $carbon::parse($result->expected_move_date)->format('Y.m.d') }}</div> --}}
                         <div>시행사</div>
                         <div>{{ $result->developer ?? '-' }}</div>
                         <div>시공사</div>
