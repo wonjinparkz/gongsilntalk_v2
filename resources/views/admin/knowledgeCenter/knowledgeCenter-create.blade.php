@@ -138,12 +138,12 @@
 
                     {{-- 조감도 --}}
                     <x-admin-file-picker :title="'조감도'" required="required" cnt='1' id="birdSEyeView"
-                        label_col='3' div_col='9' acceptedFiles=".jpg,.png"/>
+                        label_col='3' div_col='9' acceptedFiles=".jpg,.png" />
                     <x-input-error class="mt-2 text-danger" :messages="$errors->get('birdSEyeView_file_ids')" />
 
                     {{-- 특장점 --}}
                     <x-admin-file-picker :title="'특장점'" required="" cnt='5' id="features"
-                        label_col='3' div_col='9' acceptedFiles=".jpg,.png"/>
+                        label_col='3' div_col='9' acceptedFiles=".jpg,.png" />
                     <x-input-error class="mt-2 text-danger" :messages="$errors->get('features_file_ids')" />
 
                     {{-- 층별도면 --}}
@@ -291,7 +291,7 @@
                     </div>
 
                     {{-- 총 세대수 --}}
-                    <div class="row mb-6">
+                    {{-- <div class="row mb-6">
                         <label class="required col-lg-3 col-form-label fw-semibold fs-6">총 세대수</label>
                         <div class="col-lg-3 d-flex align-items-center">
                             <div class="input-group mb-5">
@@ -301,7 +301,8 @@
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('generation_count')" />
                         </div>
-                    </div>
+                    </div> --}}
+                    <input type="hidden" name="generation_count" value="0" />
 
                     {{-- 시행사 --}}
                     <div class="row mb-6">

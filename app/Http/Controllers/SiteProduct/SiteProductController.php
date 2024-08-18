@@ -110,7 +110,6 @@ class SiteProductController extends Controller
             'floor_area_ratio' => 'required',
             'builging_ratio' => 'required',
             'completion_date' => 'required',
-            'expected_move_date' => 'required',
             'title_1' => 'required',
             'contents_1' => 'required',
             'title_2' => 'required',
@@ -262,7 +261,6 @@ class SiteProductController extends Controller
             'floor_area_ratio' => 'required',
             'builging_ratio' => 'required',
             'completion_date' => 'required',
-            'expected_move_date' => 'required',
             'title_1' => 'required',
             'contents_1' => 'required',
             'title_2' => 'required',
@@ -281,6 +279,7 @@ class SiteProductController extends Controller
         ]);
 
         if ($validator->fails()) {
+            Log::error('Validation failed:', $validator->errors()->toArray());
             return redirect(route('admin.site.product.detail.view', [$request->id]))
                 ->withErrors($validator)
                 ->withInput();

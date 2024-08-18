@@ -43,7 +43,7 @@ return new class extends Migration
             $table->string('min_floor')->comment('규모 최저 층');
             $table->string('max_floor')->comment('규모 최고 층');
             $table->string('parking_count')->comment('규모 총 주차대수');
-            $table->string('generation_count')->comment('규모 총 세대 수');
+            $table->string('generation_count')->nullable()->comment('규모 총 세대 수');
             $table->string('developer')->nullable()->comment('시행사');
             $table->string('comstruction_company')->nullable()->comment('시공사');
             $table->longText('traffic_info')->nullable()->comment('교통정보');

@@ -118,6 +118,7 @@
     .sales_schedule_wrap .sales_schedule_list::before{width:1px; height:calc(100% - 58px); background:#9D9999; position: absolute; left:7px; top:5px; content: '';}
     .sales_schedule_wrap .sales_schedule_list li{background: none; border-radius: 5px; margin-bottom:10px; display:block; height:auto; padding: 0 0 0 24px; width:100%; box-sizing: border-box;}
     .sales_schedule_wrap .sales_schedule_list li .schedule_item_1{width: 100px; color: var(--color-gray-2); position: relative;}
+    .sales_schedule_wrap .sales_schedule_list li .schedule_item_3{width: 190px; color: var(--color-gray-2); position: relative;}
     .sales_schedule_wrap .sales_schedule_list li .schedule_item_1::before{width:7px; height:7px; background:#9D9999; border-radius: 6px; position: absolute; left:-20px; top:4px; content: '';}
     .sales_schedule_wrap .sales_schedule_list li .schedule_item_2{width:100%; background:#FAFAFA; padding: 0 14px; height: 44px; line-height: 44px; border-radius: 5px; margin-top: 6px; box-sizing: border-box;}
     .txt_sales_address{font-size:16px;}

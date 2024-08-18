@@ -221,7 +221,8 @@ img.floor_img{width: 80%;}
 .sales_schedule_wrap .item_year{font-size: 24px; font-family: 'font-b'; width: 100px; padding-top: 8px;}
 .sales_schedule_wrap .sales_schedule_list{flex: 1;}
 .sales_schedule_wrap .sales_schedule_list li{background:#FAFAFA; border-radius: 5px; margin-bottom:10px; display: flex; height: 44px; align-items: center; padding: 0 14px; box-sizing: border-box;}
-.sales_schedule_wrap .sales_schedule_list li .schedule_item_1{width: 100px; color: var(--color-gray-2);}
+.sales_schedule_wrap .sales_schedule_list li .schedule_item_1{width: 100px; color: var(--color-gray-2); position: relative;}
+    .sales_schedule_wrap .sales_schedule_list li .schedule_item_3{width: 190px; color: var(--color-gray-2); position: relative;}
 .sales_schedule_wrap .sales_schedule_list li .schedule_item_2{width:calc(100% - 100px);}
 .sales_schedule_wrap .sales_schedule_list li .schedule_item_2 span{color: var(--color-gray-3); float: right;}
 .sales_address_info{display: flex; justify-content: space-between; align-items: center; margin-top: 38px; margin-bottom: 8px;}

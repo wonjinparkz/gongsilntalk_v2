@@ -307,7 +307,7 @@
                     </div>
 
                     {{-- 총 세대수 --}}
-                    <div class="row mb-6">
+                    {{-- <div class="row mb-6">
                         <label class="required col-lg-4 col-form-label fw-semibold fs-6">총 세대수</label>
                         <div class="col-lg-3 d-flex align-items-center">
                             <div class="input-group mb-5">
@@ -318,7 +318,8 @@
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('generation_count')" />
                         </div>
-                    </div>
+                    </div> --}}
+                    <input type="hidden" name="generation_count" value="0" />
 
                     {{-- 시행사 --}}
                     <div class="row mb-6">
