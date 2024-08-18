@@ -149,12 +149,12 @@
                                 <div
                                     class="search_address_2 {{ $result->asset_address->is_temporary == 0 ? '' : 'active' }}">
                                     <button class="btn_graylight_ghost btn_full_thin txt_r" type="button"
-                                        onclick="modal_open('address_search')">가(임시)주소 검색</button>
+                                        onclick="modal_open('address_search')">(구)주소 검색</button>
                                 </div>
                                 <div class="mt8 gap_14">
                                     <input type="checkbox" name="is_map" id="is_map" value="Y"
                                         {{ $result->asset_address->is_temporary == 0 ? '' : 'checked' }}>
-                                    <label for="is_map" class="gray_deep"><span></span> 가(임시)주소</label>
+                                    <label for="is_map" class="gray_deep"><span></span> (구)주소</label>
                                 </div>
                                 <!----------------- M:: map : s ----------------->
                                 <div class="inner_item inner_map only_m mapOnlyMobile">
@@ -201,7 +201,7 @@
                                 {{-- <div id="mapWrap" class="mapWrap"
                                     style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div> --}}
                                 <div id="is_temporary_1" style="display: none">
-                                    가(임시)주소 선택시,<br>지도 노출이 불가능합니다.
+                                    (구)주소 선택시,<br>지도 노출이 불가능합니다.
                                 </div>
                             </div>
                         </div>

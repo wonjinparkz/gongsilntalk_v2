@@ -42,7 +42,7 @@
                 <div>
                     <h5>위치 : {{ $product->address }}</h5>
                     <div class="item_img">
-                        <iframe src="https://www.google.com/maps?q={{$product->address}}&output=embed" width="428"
+                        <iframe src="https://www.google.com/maps?q={{ $product->address }}&output=embed" width="428"
                             height="293" style="border:0;" allowfullscreen="" loading="lazy"
                             referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
@@ -260,7 +260,9 @@
                                     <th>13</th>
                                     <th>실투자금 회수 기간<p class="txt_item_1">실투자금/월순수익</p>
                                     </th>
-                                    <td>{{ round($realInvestPrice / $monthMyPrice, 2) }}년</td>
+                                    <td>
+                                        {{ $monthMyPrice > 0 ? round($realInvestPrice / $monthMyPrice, 2) : '-' }}년
+                                    </td>
                                 </tr>
                             @endif
                         </table>
@@ -347,7 +349,7 @@
                                 </tr>
                                 <tr>
                                     <th>11</th>
-                                    <th>연수익률 <p class="txt_item_1">월수익×12</p>
+                                    <th>연수익 <p class="txt_item_1">월수익×12</p>
                                     </th>
                                     <td><span class="txt_item_2">{{ number_format($monthMyPrice * 12) }}원</span></td>
                                 </tr>
@@ -361,7 +363,8 @@
                                     <th>13</th>
                                     <th>실투자금 회수 기간<p class="txt_item_1">실투자금/월순수익</p>
                                     </th>
-                                    <td>{{ round($realInvestPrice / $monthMyPrice, 2) }}년</td>
+                                    <td>{{ $monthMyPrice > 0 ? round($realInvestPrice / $monthMyPrice, 2) : '-' }}년
+                                    </td>
                                 </tr>
                             @endif
                         </table>

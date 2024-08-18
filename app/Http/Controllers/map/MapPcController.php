@@ -43,7 +43,7 @@ class MapPcController extends Controller
     public function mapPropertyList(Request $request)
     {
         // 목록 기준
-        // 가(임시)주소인 경우 지도/목록에 노출하지 않는다.
+        // (구)주소인 경우 지도/목록에 노출하지 않는다.
         // 사용자가 등록 후 관리자의 의해 수정이 완료되어 등록된 매물 과 중개인이 등록한 매물을 노출한다.
         // 지도 영역 내 매물 전부 노출  지도에 검색 된 모든 매물 수의 합합
         // 매물 목록 노출 범위 기준: 줌인/아웃 레벨에 따라(ex. 전국이면 전국 매물 목록)

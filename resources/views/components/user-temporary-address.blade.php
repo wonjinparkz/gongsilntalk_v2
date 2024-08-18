@@ -1,4 +1,4 @@
-<!-- modal 가(임시)주소 검색 : s-->
+<!-- modal (구)주소 검색 : s-->
 <div class="modal modal_mid modal_address_search">
     <div class="modal_title">
         <h5>가(임시) 주소 검색</h5>
@@ -77,7 +77,7 @@
     </div>
 </div>
 <div class="md_overlay md_overlay_address_search" onclick="modal_close('address_search')"></div>
-<!-- modal 가(임시)주소 검색 : e-->
+<!-- modal (구)주소 검색 : e-->
 
 <script>
     $(document).ready(function() {
@@ -93,7 +93,7 @@
 
     });
 
-    //가(임시)주소 클릭 이벤트
+    //(구)주소 클릭 이벤트
     document.getElementById("is_map").addEventListener("change", function() {
         var address_1 = document.querySelector(".detail_address_1");
         var search_1 = document.querySelector(".search_address_1");

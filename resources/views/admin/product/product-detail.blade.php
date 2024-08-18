@@ -120,12 +120,12 @@
                                 data-bs-target="#modal_address_search"
                                 style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; margin-bottom: 5px;
                                 display:{{ $is_map == 0 ? 'none' : '' }};">
-                                가(임시)주소 검색 </a>
+                                (구)주소 검색 </a>
 
                             <label class="form-check form-check-custom form-check-inline p-1">
                                 <input class="form-check-input" name="is_map" id="is_map_1" type="checkbox"
                                     value="{{ $is_map }}" {{ $is_map == 0 ? '' : 'checked' }}>
-                                <span class="fw-semibold ps-2 fs-6">가(임시)주소</span>
+                                <span class="fw-semibold ps-2 fs-6">(구)주소</span>
                             </label>
 
                             <input type="text" name="address" id="address" class="form-control " readonly
@@ -140,7 +140,7 @@
                                         style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
                                 </div>
                                 <div id="is_temporary_1">
-                                    가(임시)주소 선택시,<br>지도 노출이 불가능합니다.
+                                    (구)주소 선택시,<br>지도 노출이 불가능합니다.
                                 </div>
                             </div>
 
@@ -1378,7 +1378,7 @@
     </form>
     {{-- FORM END --}}
 
-    <!-- modal 가(임시)주소 검색 : s-->
+    <!-- modal (구)주소 검색 : s-->
     <div class="modal fade" tabindex="-1" id="modal_address_search">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -1423,7 +1423,7 @@
             </div>
         </div>
     </div>
-    <!-- modal 가(임시)주소 검색 : e-->
+    <!-- modal (구)주소 검색 : e-->
 
     {{-- 지도 맵 api js --}}
     <script type="text/javascript"
@@ -2026,7 +2026,7 @@
             }
         });
 
-        //가(임시)주소 클릭 이벤트
+        //(구)주소 클릭 이벤트
         document.getElementById("is_map_1").addEventListener("change", function() {
 
 

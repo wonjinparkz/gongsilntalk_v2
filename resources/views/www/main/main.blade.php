@@ -388,10 +388,17 @@
         <div class="only_pc">
             <div class="right_side_wrap">
                 <div class="right_side">
-                    <button class="quick_bn" onclick="location.href='{{ route('www.product.create.view') }}' ">
-                        <img src="{{ asset('assets/media/ic_org_estate.png') }}">
-                        <p>매물 내놓기</p>
-                    </button>
+                    @if (Auth::guard('web')->user()->type ?? 0 == 1)
+                        <button class="quick_bn" onclick="location.href='{{ route('www.corp.product.create.view') }}' ">
+                            <img src="{{ asset('assets/media/ic_org_estate.png') }}">
+                            <p>매물 내놓기</p>
+                        </button>
+                    @else
+                        <button class="quick_bn" onclick="location.href='{{ route('www.product.create.view') }}' ">
+                            <img src="{{ asset('assets/media/ic_org_estate.png') }}">
+                            <p>매물 내놓기</p>
+                        </button>
+                    @endif
                     <button class="quick_bn"
                         onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}' ">
                         <img src="{{ asset('assets/media/btn_point_search.png') }}">
@@ -577,7 +584,8 @@
                                 <div class="tag_area">
                                     <span class="txt_tag">#무료 3D도면 제공</span>
                                 </div>
-                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=666C5Dz078" onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
+                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=666C5Dz078"
+                                    onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
                                     <button>자세히보기</button>
                                 </a>
                             </div>
@@ -595,7 +603,8 @@
                                     <span class="txt_tag">#퍼시스 가구</span>
                                     <span class="txt_tag">#합리적인 가격</span>
                                 </div>
-                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=54K087K540" onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
+                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=54K087K540"
+                                    onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
                                     <button>자세히보기</button>
                                 </a>
                             </div>
@@ -611,7 +620,8 @@
                                     <span class="txt_tag">#데스커 가구</span>
                                     <span class="txt_tag">#기업전용 서비스</span>
                                 </div>
-                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=726406uT5e" onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
+                                <a href="https://xn--s39awro00dcgl.com/portfolio?category=726406uT5e"
+                                    onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
                                     <button>자세히보기</button>
                                 </a>
                             </div>
@@ -623,7 +633,8 @@
 
                 {{-- QA-64 디자인 변경 필요 --}}
                 <div class="con_box_wrap">
-                    <a href='https://xn--s39awro00dcgl.com/portfolio' onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
+                    <a href='https://xn--s39awro00dcgl.com/portfolio'
+                        onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
                         <button class="btn_black_ghost btn_basic">
                             더 많은 사례 확인하기
                         </button>

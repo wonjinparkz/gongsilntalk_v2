@@ -159,7 +159,7 @@
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">주소</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
-                            {{ $result->is_map == 0 ? '가(임시)주소 ' : '' }}<span
+                            {{ $result->is_map == 0 ? '(구)주소 ' : '' }}<span
                                 class="fw-bolder">{{ $result->address }}</span>
                         </label>
 
@@ -171,7 +171,7 @@
                                     style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
                             </div>
                             <div id="is_temporary_1" style="display: ">
-                                가(임시)주소 선택시,<br>지도 노출이 불가능합니다.
+                                (구)주소 선택시,<br>지도 노출이 불가능합니다.
                             </div>
                         </div>
 
