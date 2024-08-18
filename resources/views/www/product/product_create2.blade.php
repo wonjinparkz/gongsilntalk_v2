@@ -41,10 +41,6 @@
                                 <div class="mt8 gap_14">
                                     <input type="checkbox" name="is_map" id="is_map" value="0">
                                     <label for="is_map" class="gray_deep"><span></span> 가(임시)주소</label>
-                                    <div id="is_unregistered" style="display: none">
-                                        <input type="checkbox" name="unregistered" id="unregistered" value="Y">
-                                        <label for="unregistered" class="gray_deep"><span></span> 미등기</label>
-                                    </div>
                                 </div>
                                 <!----------------- M:: map : s ----------------->
                                 <div class="inner_item inner_map only_m mapOnlyMobile">
@@ -65,6 +61,7 @@
                                 <div class="detail_address_1 mt18 active">
                                     <div>
                                         <input type="text" name="address_detail" id="address_detail"
+                                            value="{{ old('address_detail') }}"
                                             placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호">
                                     </div>
                                     <div class="mt8">
@@ -72,24 +69,6 @@
                                         <label for="address_no_2" class="gray_deep"><span></span> 상세주소 없음</label>
                                     </div>
                                 </div>
-
-                                <div class="detail_address_2 mt18">
-                                    <div class="flex_2">
-                                        <div class="flex_1">
-                                            <input type="text" name="address_dong" id="address_dong">
-                                            <span>동</span>
-                                        </div>
-                                        <div class="flex_1">
-                                            <input type="text" name="address_number" id="address_number">
-                                            <span>호</span>
-                                        </div>
-                                    </div>
-                                    <div class="mt8">
-                                        <input type="checkbox" name="address_no" id="address_no_1" value="Y">
-                                        <label for="address_no_1" class="gray_deep"><span></span> 동정보 없음</label>
-                                    </div>
-                                </div>
-
                             </div>
 
                             <div class="inner_item inner_map only_pc mapOnlyPc">
@@ -136,14 +115,6 @@
             }
 
             var type = sessionStorage.getItem("typeSession");
-
-            // 매물 타입이 분양권일 경우 활성화
-            if (type > 13) {
-                $('#is_unregistered').css('display', '');
-            };
-
-            // 지역구 가져오기
-            get_region('*00000000', '1');
 
             $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/common.css"]').remove();
             $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/map/addrlinkMap.css"]')
@@ -201,15 +172,6 @@
             // $('.find_form').submit();
             console.log('is_map : ' + is_map);
         }
-
-        $('#address_no_1').click(function() {
-            if ($(this).is(':checked')) {
-                $('#address_dong').val('');
-                $('#address_dong').attr('disabled', true);
-            } else {
-                $('#address_dong').attr('disabled', false);
-            }
-        });
 
         $('#address_no_2').click(function() {
             if ($(this).is(':checked')) {

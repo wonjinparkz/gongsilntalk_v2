@@ -177,13 +177,8 @@
                                             <tr class="cursor_pointer"
                                                 onclick="location.href='{{ route('www.mypage.service.detail.view', [$asset->id]) }}'">
                                                 <td>{{ $key + 1 }}</td>
-                                                @php
-                                                    $address_detail = isset($asset->address_dong)
-                                                        ? $asset->address_dong . '동 '
-                                                        : '';
-                                                    $address_detail .= $asset->address_detail . '호';
-                                                @endphp
-                                                <td>{{ $asset->is_temporary == 0 ? $address_detail : $asset->address_detail }}
+
+                                                <td>{{ $asset->address_detail ?? '-' }}
                                                 </td>
                                                 <td>{{ Lang::get('commons.product_type.' . $asset->type_detail) }}</td>
                                                 <td class="square_{{ $address->id }}">{{ $asset->exclusive_square }}㎡
@@ -247,7 +242,7 @@
                                     @endphp
                                     <li class="accordion">
                                         <p class="trigger">
-                                            {{ $asset->address_dong }} {{ $asset->address_detail }}
+                                            {{ $asset->address_detail ?? '-' }}
                                             <img src="{{ asset('assets/media/dropdown_arrow.png') }}"
                                                 class="dropdown_arrow">
                                         </p>

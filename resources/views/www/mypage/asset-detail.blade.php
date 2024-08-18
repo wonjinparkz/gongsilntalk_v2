@@ -156,7 +156,7 @@
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
                     src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
-        <div class="m_title">{{ $result->is_temporary == 0 ? $address_detail : $result->address_detail }}</div>
+        <div class="m_title">{{ $result->address_detail }}</div>
         <div class="right_area"><span class="btn_dot_menu"><img
                     src="{{ asset('assets/media/header_btn_dot.png') }}"></span></div>
         <div class="layer_menu">
@@ -173,7 +173,7 @@
 
                 <div class="asset_detail_tit only_pc">
 
-                    <h1>{{ $result->is_temporary == 0 ? $address_detail : $result->address_detail }}
+                    <h1>{{ $result->address_detail }}
                     </h1>
                     <div class="gap_8">
                         <button class="btn_point btn_sm" type="button"

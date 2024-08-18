@@ -84,7 +84,7 @@
                                     </h4>
                                     <div class="btn_area">
                                         <button type="button" class="btn_graylight_ghost btn_sm"
-                                            onclick="PrintDiv($('#loanItem{{ $loan->id }}'), '{{ $title }}_계산서_{{ $key + 1 }}')">저장</button>
+                                            onclick="PrintDiv($('#loanItem{{ $loan->id }}'), '{{ $title }}_계산서_{{ $key + 1 }}')">공유</button>
                                         <button type="button" onclick="onDataDelete('{{ $loan->id }}');"
                                             class="btn_graylight_ghost btn_sm">삭제</button>
                                     </div>
