@@ -851,22 +851,62 @@ function onlyDateCharacters(event) {
 }
 
 // 날짜 포맷
+// function onDateChangeEvent(name, index) {
+//     let value = $('#' + name + '_' + index).val();
+//     $('#' + name + '_' + index).val('');
+//     value = value.replace(/[^0-9]/g, '');
+//     $('#' + name).val(value.substring(0, 8));
+//     let formattedValue = '';
+//     if (value.length > 4) {
+//         formattedValue = value.substring(0, 4) + '.' + value.substring(4, 6);
+//     } else if (value.length > 2) {
+//         formattedValue = value.substring(0, 4) + (value.length > 4 ? '.' : '') + value.substring(4);
+//     } else {
+//         formattedValue = value;
+//     }
+//     if (value.length > 6) {
+//         formattedValue += '.' + value.substring(6, 8);
+//     }
+//     $('#' + name + '_' + index).val(formattedValue);
+// }
 function onDateChangeEvent(name, index) {
-    let value = $('#' + name + '_' + index).val();
-    $('#' + name + '_' + index).val('');
-    value = value.replace(/[^0-9]/g, '');
-    $('#' + name).val(value.substring(0, 8));
-    let formattedValue = '';
-    if (value.length > 4) {
-        formattedValue = value.substring(0, 4) + '.' + value.substring(4, 6);
-    } else if (value.length > 2) {
-        formattedValue = value.substring(0, 4) + (value.length > 4 ? '.' : '') + value.substring(4);
-    } else {
-        formattedValue = value;
-    }
-    if (value.length > 6) {
-        formattedValue += '.' + value.substring(6, 8);
-    }
-    $('#' + name + '_' + index).val(formattedValue);
-}
+    let inputElement = $('#' + name + '_' + index);
+    let value = inputElement.val();
 
+    // 숫자만 남기고 나머지는 제거
+    value = value.replace(/[^0-9]/g, '');
+
+    // 년, 월, 일 파싱
+    let year = value.substring(0, 4);
+    let month = value.substring(4, 6);
+    let day = value.substring(6, 8);
+
+    // 년도 최소값 체크
+    if (year.length === 4) {
+        year = Math.max(1700, parseInt(year, 10)).toString();
+    }
+
+    // 월 최대/최소값 체크
+    if (month.length === 2) {
+        month = Math.max(1, Math.min(12, parseInt(month, 10))).toString().padStart(2, '0');
+    }
+
+    // 일 최대/최소값 체크
+    if (day.length === 2) {
+        day = Math.max(1, Math.min(31, parseInt(day, 10))).toString().padStart(2, '0');
+    }
+
+    // 날짜를 포맷팅하여 재조립
+    let formattedValue = year;
+    if (month) {
+        formattedValue += '.' + month;
+    }
+    if (day) {
+        formattedValue += '.' + day;
+    }
+
+    $('#' + name).val(value.substring(0, 8));
+
+    // 입력값 업데이트
+    inputElement.val(formattedValue);
+}
