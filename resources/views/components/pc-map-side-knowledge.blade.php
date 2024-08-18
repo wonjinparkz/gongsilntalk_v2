@@ -348,12 +348,12 @@
                                 <div class="traffic_tit"><img src="{{ asset('assets/media/ic_subway.png') }}">지하철
                                 </div>
                                 <p class="traffic_row">{{ $result->subway_name }} {{ $result->subway_distance }}
-                                    <span>{{ $result->subway_time }}</span>
+                                    {{ $result->subway_time }}
                                 </p>
 
-                                <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스
+                                <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스 정류장
                                 </div>
-                                <p class="traffic_row">정류장 <span>{{ $result->bus_stop_contents }}</span></p>
+                                <p class="traffic_row"><span>{!! nl2br($result->bus_stop_contents) !!}</span></p>
 
                             </div>
                             <div>
