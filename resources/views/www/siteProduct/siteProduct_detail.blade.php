@@ -352,8 +352,15 @@
 
                             @foreach ($dateJson[$year] as $schedule)
                                 <li>
-                                    <div class="schedule_item_1">{{ date('Y.m.d', strtotime($schedule->start_date)) }}
-                                    </div>
+                                    @if ($schedule->ended_date == '')
+                                        <div class="schedule_item_1">
+                                            {{ date('Y.m.d', strtotime($schedule->start_date)) }}
+                                        </div>
+                                    @else
+                                        <div class="schedule_item_3">
+                                            {{ date('Y.m.d', strtotime($schedule->start_date)) . ' ~ ' . date('Y.m.d', strtotime($schedule->ended_date)) }}
+                                        </div>
+                                    @endif
                                     <div class="schedule_item_2">{{ $schedule->title }}
                                         @if (date('Y.m.d', strtotime($schedule->start_date)) == date('Y.m.d') && $schedule->is_alarm)
                                             <span class="schedule_item_3">D-DAY</span>
