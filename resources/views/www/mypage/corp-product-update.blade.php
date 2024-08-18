@@ -768,11 +768,11 @@
                                     <label class="input_label">월 관리비 <span class="txt_point">*</span></label>
                                     <div class="input_area_1">
                                         <input type="text" id="service_price" name="service_price"
-                                            value="{{ $product->service_price }}" inputmode="numeric"
-                                            oninput="onlyNumbers(this); onTextChangeEvent(this)">
+                                            value="{{ $product->service_price > 0 ? number_format($product->service_price) : '' }}"
+                                            inputmode="numeric" oninput="onlyNumbers(this); onTextChangeEvent(this)">
                                         <span class="gray_deep">원</span>
 
-                                        @if ($type == 1 || $type == 2 || $product->type == 4)
+                                        @if ($type != 6)
                                             <input type="checkbox" name="is_service" id="is_service_4"
                                                 value="1" {{ $product->is_service == 1 ? 'checked' : '' }}>
                                             <label for="is_service_4" class="gray_deep"><span></span> 관리비 없음</label>
@@ -824,7 +824,7 @@
                                 </div>
                                 <div class="flex_1 mt10">
                                     <input type="text" id="loan_price" name="loan_price" class="w_input_150"
-                                        value="{{ $product->loan_price }}"
+                                        value="{{ $product->loan_price > 0 ? number_format($product->loan_price) : '' }}"
                                         {{ $product->loan_type == 0 ? 'disabled' : '' }} inputmode="numeric"
                                         oninput="onlyNumbers(this); onTextChangeEvent(this)">
                                     <span>원</span>
@@ -851,12 +851,12 @@
                                         <label for="parking_type_3">불가능</label>
                                     </div>
                                     <div class="flex_1 mt10">
-                                        <input type="text" id="parking_price" name="parking_price"
+                                        {{-- <input type="text" id="parking_price" name="parking_price"
                                             class="w_input_150"
                                             value="{{ $product->parking_type == 1 ? ($product->parking_price == '' ? '무료주차' : $product->parking_price) : '' }}"
                                             {{ $product->parking_type == 0 ? 'disabled' : '' }} inputmode="numeric"
                                             oninput="onlyNumbers(this); onTextChangeEvent(this)">
-                                        <span>원</span>
+                                        <span>원</span> --}}
                                     </div>
                                 </div>
                                 <div class="reg_item only_pc"></div>
@@ -1456,7 +1456,7 @@
                                 <div class="reg_item">
                                     <label class="input_label">중개보수(부가세별도) <span class="txt_point">*</span></label>
                                     <input type="text" id="commission" name="commission"
-                                        value="{{ $product->commission }}" placeholder="중개보수를 입력해 주세요."
+                                        value="{{ $product->commission > 0 ? number_format($product->commission) : '' }}" placeholder="중개보수를 입력해 주세요."
                                         inputmode="numeric" oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                 </div>
                                 <div class="reg_item">
@@ -1756,4 +1756,36 @@
     addEventListener("checkbox", (event) => {
         processChange();
     });
+
+    //관리비 없음 체크여부
+    $('input[name="is_service"]').change(function() {
+        isService($(this).is(':checked'));
+    });
+
+    function isService(element) {
+        $('input[name="service_price"]').val('');
+        $('input[name="service_type[]"]').prop("checked", false)
+        if (element) {
+            $('input[name="service_type[]"]').attr('disabled', true);
+            $('input[name="service_price"]').attr('disabled', true);
+        } else {
+            $('input[name="service_price"]').attr('disabled', false);
+            $('input[name="service_type[]"]').attr('disabled', false);
+        }
+    }
+
+    // 융자금 타입 선택시
+    $('input[name="loan_type"]').change(function() {
+        console.log('체크');
+        loanType($(this).val());
+    });
+
+    function loanType(element) {
+        $('#loan_price').val('');
+        if (element == 0) {
+            $('input[name="loan_price"]').attr('disabled', true);
+        } else {
+            $('input[name="loan_price"]').attr('disabled', false);
+        }
+    }
 </script>

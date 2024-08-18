@@ -94,6 +94,8 @@
                                     </div>
                                 </div>
                             @endif
+                            <span class="gray_basic">※ 지하의 경우 B1으로 표시</span>
+
                         </div>
                         <!-- 단독공장 해당 : e -->
 
@@ -311,9 +313,9 @@
                                         <label for="parking_type_2">불가능</label>
                                     </div>
                                     <div class="flex_1 mt10">
-                                        <input type="text" name="parking_price_0" id="parking_price_0"
+                                        {{-- <input type="text" name="parking_price_0" id="parking_price_0"
                                             class="w_input_150" disabled inputmode="numeric"
-                                            oninput="onlyNumbers(this); onTextChangeEventIndex('parking_price', 0);"><span>원</span>
+                                            oninput="onlyNumbers(this); onTextChangeEventIndex('parking_price', 0);"><span>원</span> --}}
                                     </div>
                                 </div>
                                 <div class="reg_item only_pc"></div>
@@ -424,8 +426,6 @@
                 }
             }
 
-            console.log('type : ', type);
-
             if (checkConfirm) {
                 $('.confirm').attr("disabled", false);
             } else {
@@ -494,11 +494,14 @@
 
         function isService(element) {
             $('input[name="service_price"]').val('');
+            $('input[name="service_price_0"]').val('');
             $('input[name="service_type[]"]').prop("checked", false)
             if (element) {
                 $('input[name="service_type[]"]').attr('disabled', true);
                 $('input[name="service_price"]').attr('disabled', true);
+                $('input[name="service_price_0"]').attr('disabled', true);
             } else {
+                $('input[name="service_price_0"]').attr('disabled', false);
                 $('input[name="service_price"]').attr('disabled', false);
                 $('input[name="service_type[]"]').attr('disabled', false);
             }

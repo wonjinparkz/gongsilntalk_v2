@@ -336,11 +336,11 @@ class ProductPcController extends Controller
             'loan_type' => 'required',
             'loan_price' => 'required_unless:loan_type,0',
             'parking_type' => 'required_unless:type,6',
-            'parking_price' => [
-                Rule::requiredIf(function () use ($request) {
-                    return $request->input('type') != 6 && $request->input('parking_type') == 1 && $request->input('is_parking') != 1;
-                }),
-            ],
+            // 'parking_price' => [
+            //     Rule::requiredIf(function () use ($request) {
+            //         return $request->input('type') != 6 && $request->input('parking_type') == 1 && $request->input('is_parking') != 1;
+            //     }),
+            // ],
         ]);
 
         if ($validator->fails()) {
@@ -516,11 +516,11 @@ class ProductPcController extends Controller
             'loan_type' => 'required',
             'loan_price' => 'required_unless:loan_type,0',
             'parking_type' => 'required_unless:type,6',
-            'parking_price' => [
-                Rule::requiredIf(function () use ($request) {
-                    return $request->input('type') != 6 && $request->input('parking_type') == 1 && $request->input('is_parking') != 1;
-                }),
-            ],
+            // 'parking_price' => [
+            //     Rule::requiredIf(function () use ($request) {
+            //         return $request->input('type') != 6 && $request->input('parking_type') == 1 && $request->input('is_parking') != 1;
+            //     }),
+            // ],
             'payment_type' => 'required',
             'price' => 'required',
             'month_price' => 'required_if:payment_type,1,2,4',

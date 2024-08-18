@@ -147,7 +147,7 @@
                             <div class="reg_mid_wrap">
                                 <div class="reg_item">
                                     <input type="hidden" name="direction_type" value="">
-                                    <label class="input_label">건물 방향{{ $type == 5 ? '(주 출입구 기준)' : '' }}</label>
+                                    <label class="input_label">건물 방향 (주 출입구 기준)</label>
                                     <div class="dropdown_box">
                                         <button type="button" class="dropdown_label">건물 방향 선택</button>
                                         <ul class="optionList">
@@ -208,8 +208,8 @@
                                 <div class="reg_item">
                                     <label class="input_label">하중(평당)</label>
                                     <div class="flex_1 mt10">
-                                        <input type="number" name="weight" placeholder="예) 0.8"
-                                            class="w_input_150">
+                                        <input type="text" name="weight" placeholder="예) 0.8"
+                                            inputmode="numeric" oninput="imsi1(this);" class="w_input_150">
                                         <span>톤</span>
                                     </div>
                                 </div>
