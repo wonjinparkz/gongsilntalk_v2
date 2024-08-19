@@ -409,8 +409,7 @@
                 if (area != '' && square != '' && approve_date == 8 && building_type != '' &&
                     (move_type != 2 || (move_type == 2 && move_date == 8)) &&
                     (is_service || is_service == false && service_price != '' && service_type > 0) &&
-                    (loan_type == 0 || (loan_type != 0 && loan_price != '')) &&
-                    (parking_type != 1 || (parking_type == 1 && parking_price != ''))) {
+                    (loan_type == 0 || (loan_type != 0 && loan_price != ''))) {
 
                     checkConfirm = true;
                     if (type == 7) {

@@ -81,7 +81,7 @@
                                             onclick="modal_open('address_search')">(구)주소 검색</button>
                                     </div>
                                     <div class="mt8 gap_14">
-                                        <input type="checkbox" name="is_map" id="is_map" value="0">
+                                        <input type="checkbox" name="is_map" id="is_map" value="1">
                                         <label for="is_map" class="gray_deep"><span></span> (구)주소</label>
                                     </div>
                                     <!----------------- M:: map : s ----------------->

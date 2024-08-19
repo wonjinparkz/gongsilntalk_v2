@@ -241,7 +241,6 @@
                                         <input type="radio" name="is_goods_elevator" id="is_goods_elevator_2"
                                             value="0">
                                         <label for="is_goods_elevator_2">없음</label>
-
                                     </div>
                                 </div>
                             @endif

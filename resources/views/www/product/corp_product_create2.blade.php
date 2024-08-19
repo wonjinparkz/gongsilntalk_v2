@@ -56,7 +56,7 @@
                                         onclick="modal_open('address_search')">(구)주소 검색</button>
                                 </div>
                                 <div class="mt8 gap_14">
-                                    <input type="checkbox" name="is_map" id="is_map" value="0">
+                                    <input type="checkbox" name="is_map" id="is_map" value="1">
                                     <label for="is_map" class="gray_deep"><span></span> (구)주소</label>
                                     <div id="is_unregistered" style="display: none">
                                         <input type="checkbox" name="unregistered" id="unregistered" value="1">
@@ -191,24 +191,8 @@
             var is_address_dong = $('#is_address_dong').is(':checked');
             var is_address_detail = $('#is_address_detail').is(':checked');
 
-            if (is_map) {
-                $('#address_detail').val('')
-            } else {
-                $('#address_dong').val('')
-                $('#address_number').val('')
-            }
-
             $('.find_form').submit();
         }
-
-        $('#is_address_dong').click(function() {
-            if ($(this).is(':checked')) {
-                $('#address_dong').val('');
-                $('#address_dong').attr('disabled', true);
-            } else {
-                $('#address_dong').attr('disabled', false);
-            }
-        });
 
         $('#is_address_detail').click(function() {
             if ($(this).is(':checked')) {
