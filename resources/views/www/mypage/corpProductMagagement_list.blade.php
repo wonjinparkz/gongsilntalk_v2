@@ -293,8 +293,14 @@
             });
         }
 
-        function stateChange(id, state) {
+        function stateChangeModal(id, state) {
+            $("#state_update_" + id).val(state);
+            console.log('state : ', $("#state_update_" + id).val());
+            modal_open("state_update_" + id);
+        }
 
+        function stateChange(id) {
+            let state = $("#state_update_" + id).val();
             $.ajax({
                     url: '{{ route('www.mypage.product.state.change') }}',
                     type: "post",

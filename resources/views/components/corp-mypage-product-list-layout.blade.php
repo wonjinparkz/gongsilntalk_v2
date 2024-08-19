@@ -55,9 +55,12 @@
                                 <button
                                     class="dropdown_label">{{ Lang::get('commons.product_state.' . $product->state) }}</button>
                                 <ul class="optionList">
-                                    <li class="optionItem" onclick="stateChange('{{ $product->id }}', 1);">거래중</li>
-                                    <li class="optionItem" onclick="stateChange('{{ $product->id }}', 2);">거래완료</li>
-                                    <li class="optionItem" onclick="stateChange('{{ $product->id }}', 3);">비공개</li>
+                                    <li class="optionItem" onclick="stateChangeModal('{{ $product->id }}', 1);">거래중
+                                    </li>
+                                    <li class="optionItem" onclick="stateChangeModal('{{ $product->id }}', 2);">거래완료
+                                    </li>
+                                    <li class="optionItem" onclick="stateChangeModal('{{ $product->id }}', 3);">비공개
+                                    </li>
                                 </ul>
                             </div>
                         @elseif ($product->state == 2)
@@ -139,6 +142,33 @@
                 <div class="md_overlay md_overlay_asset_delete_{{ $product->id }}"
                     onclick="modal_close('asset_delete_{{ $product->id }}')"></div>
                 <!-- modal 삭제 : e -->
+
+                <!-- modal 상태수정 : s -->
+                <div class="modal modal_state_update_{{ $product->id }}">
+                    <div class="modal_container">
+                        <div class="modal_mss_wrap">
+                            <p class="txt_item_1 txt_point"> {{ $product->address }} <br>
+                                {{ Lang::get('commons.product_type.' . $product->type) }}
+                                {{ Lang::get('commons.payment_type.' . $product->priceInfo->payment_type) }}
+                                {{ mb_substr(Commons::get_priceTrans($product->priceInfo->price), 0, -1) }}
+                                {{ in_array($product->priceInfo->payment_type, [1, 2, 4]) ? ' / ' . mb_substr(Commons::get_priceTrans($product->priceInfo->month_price), 0, -1) : '' }}
+                            </p>
+                            <p class="txt_item_1">매물 상태를 수정하시겠습니까?</p>
+                        </div>
+
+                        <div class="modal_btn_wrap">
+                            <button class="btn_gray btn_full_thin"
+                                onclick="modal_close('state_update_{{ $product->id }}')">취소</button>
+                            <button class="btn_point btn_full_thin"
+                                onclick="stateChange('{{ $product->id }}');modal_close('state_update_{{ $product->id }}');">수정</button>
+                            <input hidden id="state_update_{{ $product->id }}" value="">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="md_overlay md_overlay_state_update_{{ $product->id }}"
+                    onclick="modal_close('state_update_{{ $product->id }}')"></div>
+                <!-- modal 상태수정 : e -->
             @endforeach
         </tbody>
     </table>
