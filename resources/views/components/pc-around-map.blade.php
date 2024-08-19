@@ -11,7 +11,10 @@
         // 지도
         var aroundMap = new naver.maps.Map('aroundMap', {
             center: new naver.maps.LatLng('{{ $address_lat }}', '{{ $address_lng }}'),
-            zoom: 15
+            zoom: 15,
+            mapDataControl: false,
+            scaleControl: false,
+            mapTypeControl: false
         });
 
         marker = new naver.maps.Marker({

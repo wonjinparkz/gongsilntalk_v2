@@ -119,7 +119,12 @@
         $address_detail .= $result->address_detail . '호';
 
         if ($result->type_detail == 0) {
-            $avgPrice = $result->price / $result->area / 10000;
+            $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
+
+            // 지분율로 계산된 가격을 원래 가격으로 복원
+            $price = $ownership_share > 0 ? $result->price / $ownership_share : $result->price;
+
+            $avgPrice = $price / $result->area / 10000;
 
             if ($avgPrice > $industryCenterAvgPrice) {
                 $avgRate = $avgPrice / $industryCenterAvgPrice;
@@ -135,7 +140,7 @@
 
             $APrice =
                 $industryCenterAvgPrice * 10000 * $result->area -
-                $result->price -
+                $price -
                 $acquisition_tax_price -
                 $etc_price -
                 $avgRealPrice * 0.1;

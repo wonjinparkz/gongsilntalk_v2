@@ -152,7 +152,7 @@
                                         onclick="modal_open('address_search')">(구)주소 검색</button>
                                 </div>
                                 <div class="mt8 gap_14">
-                                    <input type="checkbox" name="is_map" id="is_map" value="Y"
+                                    <input type="checkbox" name="is_map" id="is_map" value="1"
                                         {{ $result->asset_address->is_temporary == 0 ? '' : 'checked' }}>
                                     <label for="is_map" class="gray_deep"><span></span> (구)주소</label>
                                 </div>
@@ -291,6 +291,10 @@
                                                 <span class="gray_deep">%</span>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="mt10">
+                                        <span class="gray_basic">※ 부동산 거래정보, 대출정보, 임대차계약 정보 등록시 지분율에 따라 자동
+                                            계산됩니다.</span>
                                     </div>
                                 </div>
                             </div>
@@ -485,8 +489,6 @@
         var is_address_no_1 = $('#address_no_1').is(':checked');
         var is_address_no_2 = $('#address_no_2').is(':checked');
 
-        $('#address_detail').val('')
-
         var address_lng = $('#address_lng').val();
         var address_lat = $('#address_lat').val();
         var region_code = $('#region_code').val();
@@ -552,7 +554,7 @@
         console.log('주소 검색 끝!');
 
         confirm_check();
-        usersAddressList($('#region_code').val());
+        usersAddressList($('#old_address').val(), 0);
     }
 
     // type1.좌표정보(GRS80, EPSG:5179)
@@ -563,13 +565,14 @@
         }, '*');
     }
 
-    function usersAddressList(code) {
+    function usersAddressList(address, is_map) {
 
         $.ajax({
             type: "GET",
             url: "{{ route('www.my.address.list') }}",
             data: {
-                'region_code': code
+                'old_address': address,
+                'is_map': is_map ?? 0
             },
             success: function(result) {
                 if (result.result == null) {

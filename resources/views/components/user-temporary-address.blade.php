@@ -1,3 +1,4 @@
+@props(['usersAddressList' => 'false'])
 <!-- modal (구)주소 검색 : s-->
 <div class="modal modal_mid modal_address_search">
     <div class="modal_title">
@@ -226,6 +227,11 @@
 
         naverAdddress();
         confirm_check();
+
+        @if ($usersAddressList)
+            $('#old_address').val(address + ' ' + jiBun);
+            usersAddressList(address + ' ' + jiBun, 1);
+        @endif
     }
 
     function naverAdddress() {

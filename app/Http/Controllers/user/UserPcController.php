@@ -703,9 +703,14 @@ class UserPcController extends Controller
     public function addressList(Request $request)
     {
         $addressList = AssetAddress::select();
-
+        info($request->old_address);
         $addressList->where('users_id', Auth::guard('web')->user()->id);
-        $addressList->where('old_address', $request->old_address);
+
+        if ($request->is_map != 1) {
+            $addressList->where('old_address', $request->old_address);
+        } else {
+            $addressList->where('address', $request->old_address);
+        }
 
         $result = $addressList->first();
 
@@ -753,8 +758,6 @@ class UserPcController extends Controller
     public function serviceCreate(Request $request): RedirectResponse
     {
 
-
-
         $asset_address_id = 0;
 
         if ($request->asset_address_id == 'N') {
@@ -775,6 +778,9 @@ class UserPcController extends Controller
             $asset_address_id = $request->asset_address_id;
         }
 
+        $ownership_share = $request->name_type == 1 ? ($request->ownership_share / 100) : 0;
+
+
         $result = Asset::create([
             'asset_address_id' => $asset_address_id,
             'type' => $request->type,
@@ -790,14 +796,14 @@ class UserPcController extends Controller
             'business_type' => $request->business_type,
 
             'tran_type' => $request->secoundType,
-            'price' => $request->price,
+            'price' => $ownership_share > 0 ? ($request->price * $ownership_share) : $request->price,
             'contracted_at' => isset($request->contracted_at) ? $this->integerToDate($request->contracted_at) : null,
             'registered_at' => isset($request->registered_at) ? $this->integerToDate($request->registered_at) : null,
             'acquisition_tax_rate' => $request->secoundType == 0 ? $request->acquisition_tax_rate_0 : $request->acquisition_tax_rate_1,
-            'etc_price' => $request->etc_price,
-            'tax_price' => $request->tax_price,
-            'estate_price' => $request->estate_price,
-            'loan_price' => $request->loan_price,
+            'etc_price' => $ownership_share > 0 ? ($request->etc_price * $ownership_share) : $request->etc_price,
+            'tax_price' => $ownership_share > 0 ? ($request->tax_price * $ownership_share) : $request->tax_price,
+            'estate_price' => $ownership_share > 0 ? ($request->estate_price * $ownership_share) : $request->estate_price,
+            'loan_price' => $ownership_share > 0 ? ($request->loan_price * $ownership_share) : $request->loan_price,
             'loan_rate' => $request->loan_rate,
             'loan_period' => $request->loan_period,
             'loaned_at' => isset($request->loaned_at) ? $this->integerToDate($request->loaned_at) : null,
@@ -807,8 +813,8 @@ class UserPcController extends Controller
             'tenant_name' => $request->tenant_name,
             'tenant_phone' => $request->tenant_phone,
             'pay_type' => $request->pay_type,
-            'check_price' => $request->check_price,
-            'month_price' => $request->month_price,
+            'check_price' => $ownership_share > 0 ? ($request->check_price * $ownership_share) : $request->check_price,
+            'month_price' => $ownership_share > 0 ? ($request->month_price * $ownership_share) : $request->month_price,
             'deposit_day' => $request->deposit_day,
             'started_at' => isset($request->started_at) ? $this->integerToDate($request->started_at) : null,
             'ended_at' => isset($request->ended_at) ? $this->integerToDate($request->ended_at) : null
@@ -874,9 +880,6 @@ class UserPcController extends Controller
      */
     public function serviceUpdate(Request $request): RedirectResponse
     {
-
-        info('수정 해보자');
-
 
         if ($request->asset_address_id == 'N') {
             $assetAddress = AssetAddress::create([
