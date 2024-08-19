@@ -48,6 +48,7 @@
                                 <li class="optionItem" onclick="onSaleChange('');">전체</li>
                                 <li class="optionItem" onclick="onSaleChange('0');">분양예정</li>
                                 <li class="optionItem" onclick="onSaleChange('1');">분양중</li>
+                                <li class="optionItem" onclick="onSaleChange('2');">분양완료</li>
                             </ul>
                         </div>
                     </div>
