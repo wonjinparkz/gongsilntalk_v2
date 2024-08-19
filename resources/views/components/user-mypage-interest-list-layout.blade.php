@@ -29,9 +29,12 @@
             </div>
         </div> --}}
 
-        <div class="txt_search_total">총 <span class="txt_point">{{ $result->total() }}개</span>의
-            관심
-            매물</div>
+        <div class="txt_search_total">
+            <span class="gray_basic">※ 거래완료일 경우 확인되지 않습니다.</span>
+            <div class="mt8">
+                총 <span class="txt_point">{{ $result->total() }}개</span>의 관심 매물
+            </div>
+        </div>
 
         @if ($result->total() < 1)
             <!-- 데이터가 없을 경우 : s -->
@@ -100,7 +103,9 @@
 @else
     <!--  분양매물 : s -->
     <div>
-        <div class="txt_search_total">총 <span class="txt_point">{{ $result->total() }}개</span>의 관심 매물</div>
+        <div class="txt_search_total">
+            총 <span class="txt_point">{{ $result->total() }}개</span>의 관심 매물
+        </div>
         @if ($result->total() < 1)
             <!-- 데이터가 없을 경우 : s -->
             <div class="empty_wrap">
@@ -121,15 +126,31 @@
                             <div class="sales_card_img">
                                 <div class="img_box"><img
                                         src="{{ Storage::url('image/' . $product->images[0]->path) }}"
-                                        style="max-height:186px;">
+                                        style="max-height:186px; filter:{{ $product->is_sale == 2 ? 'grayscale(100%)' : '' }}">
                                 </div>
                             </div>
                             <div class="sales_list_con">
-                                @if ($product->is_sale == 0)
-                                    <span class="mark_plans">분양예정</span>
-                                @else
-                                    <span class="mark_proceeding">분양중</span>
-                                @endif
+                                @php
+                                    $mark_proceeding = '';
+                                    $sale_type = '';
+                                    switch ($product->is_sale) {
+                                        case 0:
+                                            $mark_proceeding = 'mark_plans';
+                                            $sale_type = '분양예정';
+                                            break;
+                                        case 1:
+                                            $mark_proceeding = 'mark_proceeding';
+                                            $sale_type = '분양중';
+                                            break;
+                                        case 2:
+                                            $mark_proceeding = 'mark_complete';
+                                            $sale_type = '분양완료';
+                                            break;
+                                    }
+                                @endphp
+                                <span class="{{ $mark_proceeding }}">
+                                    {{ $sale_type }}
+                                </span>
                                 <p class="txt_item_1">{{ $product->product_name }}</p>
                                 <p class="txt_item_2">{{ $product->address }}</p>
                                 <p class="txt_item_3">{{ $product->comments }}</p>

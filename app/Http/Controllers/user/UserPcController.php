@@ -494,6 +494,7 @@ class UserPcController extends Controller
                 $productList->like('product', Auth::guard('web')->user()->id ?? "");
                 $productList->where('like.id', '!=', null);
 
+                $productList->where('product.state', 1);
                 // 매물 종류
                 if (isset($request->product_type)) {
                     $productList->where('product.type', $request->product_type);
@@ -545,6 +546,7 @@ class UserPcController extends Controller
                 $productList->recentProduct('product', Auth::guard('web')->user()->id ?? "");
                 $productList->where('recent_product.id', '!=', null);
 
+                $productList->where('product.state', 1);
                 // 매물 종류
                 if (isset($request->product_type)) {
                     $productList->where('product.type', $request->product_type);
