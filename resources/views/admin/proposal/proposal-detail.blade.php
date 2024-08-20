@@ -165,7 +165,7 @@
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">등록매물</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="등록매물" value="{{ count($result->products) }}개" />
+                                    placeholder="등록매물" value="{{ $productCount ?? 0 }}개" />
                             </div>
                         </div>
 
@@ -174,7 +174,7 @@
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">작성 제안서 개수</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="작성 제안서 개수" value="123개" />
+                                    placeholder="작성 제안서 개수" value="{{ $proposalCount ?? 0 }}개" />
                             </div>
                         </div>
 
@@ -198,13 +198,21 @@
         <x-screen-card :title="'제안서 요청 정보'">
             <div class="card-body border-top p-9">
                 <div class="row">
-
+                    @php
+                        $regionValue = '';
+                        foreach ($result->regions as $key => $region) {
+                            if ($key != 0) {
+                                $regionValue .= ', ';
+                            }
+                            $regionValue .= $region->city_name . ' ' . $region->region_name;
+                        }
+                    @endphp
                     {{-- 희망 지역 --}}
                     <div class="col-lg-12 row mb-6">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">희망 지역</label>
                         <div class="col-lg-8 fv-row">
                             <input type="text" disabled class="form-control form-control-solid"
-                                placeholder="희망 지역" value="서울특별시 서초구, 서웉특별시 동대문구, 서울특별시 영등포구" />
+                                placeholder="희망 지역" value="{{ $regionValue }}" />
                         </div>
                     </div>
 

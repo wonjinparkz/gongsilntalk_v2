@@ -52,9 +52,9 @@
             <h1 class="t_center only_pc">매물 제안서 받기 <span class="step_number"><span class="txt_point">1</span>/3</span>
             </h1>
 
-            <div class="offer_step_wrap">
-                <form method="get" action="{{ route('www.mypage.user.offer.second.create.view') }}" id="create_form"
-                    name="create_form">
+            <form method="get" action="{{ route('www.mypage.user.offer.second.create.view') }}" id="create_form"
+                name="create_form">
+                <div class="offer_step_wrap">
                     <div class="box_01 box_reg">
                         <h4>어디에 매물을 얻고 싶으신가요?</h4>
                         <div class="w_30">
@@ -73,7 +73,6 @@
                                     @endforeach
                                 </ul>
                             </div>
-                            <p class="mt4 gray_basic fs_13">서울특별시, 경기도권 지역만 검색 가능합니다.</p>
                         </div>
                         <div>
                             <p class="txt_max_count">중복선택가능 <span id="regionBoxCount">0</span> / 3</p>
@@ -205,15 +204,15 @@
                     <input hidden name="start_move_date" id="start_move_date">
                     <input hidden name="ended_move_date" id="ended_move_date">
 
-                </form>
-                <div class="step_btn_wrap">
-                    <span></span>
-                    <!-- <button class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                    <button class="btn_full_basic btn_point" id="nextPageButton" type="button" disabled
-                        onclick="onFormSubmit();">다음</button>
-                </div>
+                    <div class="step_btn_wrap">
+                        <span></span>
+                        <!-- <button class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
+                        <button class="btn_full_basic btn_point" id="nextPageButton" type="button" disabled
+                            onclick="onFormSubmit();">다음</button>
+                    </div>
 
-            </div>
+                </div>
+            </form>
         </div>
         <!-- my_body : e -->
     </div>

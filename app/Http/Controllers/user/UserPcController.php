@@ -810,14 +810,14 @@ class UserPcController extends Controller
             'loan_type' => $request->loan_type,
 
             'is_vacancy' => $request->vacancy,
-            'tenant_name' => $request->tenant_name,
-            'tenant_phone' => $request->tenant_phone,
+            'tenant_name' => $request->vacancy == 1 ? $request->tenant_name : null,
+            'tenant_phone' => $request->vacancy == 1 ? $request->tenant_phone : null,
             'pay_type' => $request->pay_type,
-            'check_price' => $ownership_share > 0 ? ($request->check_price * $ownership_share) : $request->check_price,
-            'month_price' => $ownership_share > 0 ? ($request->month_price * $ownership_share) : $request->month_price,
-            'deposit_day' => $request->deposit_day,
-            'started_at' => isset($request->started_at) ? $this->integerToDate($request->started_at) : null,
-            'ended_at' => isset($request->ended_at) ? $this->integerToDate($request->ended_at) : null
+            'check_price' => $request->vacancy == 1 ? ($ownership_share > 0 ? ($request->check_price * $ownership_share) : $request->check_price) : null,
+            'month_price' =>  $request->vacancy == 1 ? ($ownership_share > 0 ? ($request->month_price * $ownership_share) : $request->month_price) : null,
+            'deposit_day' => $request->vacancy == 1 ? $request->deposit_day : null,
+            'started_at' => $request->vacancy == 1 ? (isset($request->started_at) ? $this->integerToDate($request->started_at) : null) : null,
+            'ended_at' => $request->vacancy == 1 ? (isset($request->ended_at) ? $this->integerToDate($request->ended_at) : null) : null
         ]);
 
         $this->imageTypeWithCreate($request->sale_image_ids, Asset::class, $result->id, 0);
@@ -899,6 +899,8 @@ class UserPcController extends Controller
             $asset_address_id = $request->asset_address_id;
         }
 
+        $ownership_share = $request->name_type == 1 ? ($request->ownership_share / 100) : 0;
+
         $result = Asset::where('id', $request->id)->update([
             'asset_address_id' => $asset_address_id,
             'type' => $request->type,
@@ -914,14 +916,14 @@ class UserPcController extends Controller
             'business_type' => $request->business_type,
 
             'tran_type' => $request->secoundType,
-            'price' => $request->price,
+            'price' => $ownership_share > 0 ? ($request->price * $ownership_share) : $request->price,
             'contracted_at' => isset($request->contracted_at) ? $this->integerToDate($request->contracted_at) : null,
             'registered_at' => isset($request->registered_at) ? $this->integerToDate($request->registered_at) : null,
             'acquisition_tax_rate' => $request->secoundType == 0 ? $request->acquisition_tax_rate_0 : $request->acquisition_tax_rate_1,
-            'etc_price' => $request->etc_price,
-            'tax_price' => $request->tax_price,
-            'estate_price' => $request->estate_price,
-            'loan_price' => $request->loan_price,
+            'etc_price' => $ownership_share > 0 ? ($request->etc_price * $ownership_share) : $request->etc_price,
+            'tax_price' => $ownership_share > 0 ? ($request->tax_price * $ownership_share) : $request->tax_price,
+            'estate_price' => $ownership_share > 0 ? ($request->estate_price * $ownership_share) : $request->estate_price,
+            'loan_price' => $ownership_share > 0 ? ($request->loan_price * $ownership_share) : $request->loan_price,
             'loan_rate' => $request->loan_rate,
             'loan_period' => $request->loan_period,
             'loaned_at' => isset($request->loaned_at) ? $this->integerToDate($request->loaned_at) : null,
@@ -931,8 +933,8 @@ class UserPcController extends Controller
             'tenant_name' => $request->vacancy == 1 ? $request->tenant_name : null,
             'tenant_phone' => $request->vacancy == 1 ? $request->tenant_phone : null,
             'pay_type' => $request->pay_type,
-            'check_price' =>  $request->vacancy == 1 ? $request->check_price : null,
-            'month_price' =>  $request->vacancy == 1 ? $request->month_price : null,
+            'check_price' =>  $request->vacancy == 1 ? ($ownership_share > 0 ? ($request->check_price * $ownership_share) : $request->check_price) : null,
+            'month_price' =>  $request->vacancy == 1 ? ($ownership_share > 0 ? ($request->month_price * $ownership_share) : $request->month_price) : null,
             'deposit_day' => $request->vacancy == 1 ? $request->deposit_day : null,
             'started_at' => $request->vacancy == 1 ? (isset($request->started_at) ? $this->integerToDate($request->started_at) : null) : null,
             'ended_at' => $request->vacancy == 1 ? (isset($request->ended_at) ? $this->integerToDate($request->ended_at) : null) : null

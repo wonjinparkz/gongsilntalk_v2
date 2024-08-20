@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('proposal_id')->comment('매물 제안서 아이디');
             $table->string('region_code')->comment('지역 코드');
             $table->string('city_name')->comment('시 이름');
-            $table->string('region_name')->comment('구 이름');
+            $table->string('region_name')->nullable()->comment('구 이름');
             $table->timestamps();
         });
         DB::statement("ALTER TABLE proposal_region COMMENT='매물 제안서'");

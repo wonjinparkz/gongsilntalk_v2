@@ -364,7 +364,7 @@ class ProposalPcController extends Controller
                 'proposal_id' => $proposal->id,
                 'region_code' => $request->region_code[$key],
                 'city_name' => $regionArr[0],
-                'region_name' => $regionArr[1],
+                'region_name' => $regionArr[1] . (isset($regionArr[2]) ? ' ' . $regionArr[2] : ''),
             ]);
         }
 

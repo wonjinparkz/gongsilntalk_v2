@@ -6,6 +6,7 @@ use App\Exports\CorpProposalExport;
 use App\Exports\ProposalExport;
 use App\Http\Controllers\Controller;
 use App\Models\CorpProposal;
+use App\Models\Product;
 use App\Models\Proposal;
 use App\Models\Reply;
 use Carbon\Carbon;
@@ -70,7 +71,10 @@ class ProposalController extends Controller
     {
         $result = Proposal::where('id', $id)->first();
 
-        return view('admin.proposal.proposal-detail', compact('result'));
+        $proposalCount = Proposal::where('users_id', $result->users->id)->count();
+        $productCount = Product::where('users_id', $result->users->id)->count();
+
+        return view('admin.proposal.proposal-detail', compact('result', 'proposalCount', 'productCount'));
     }
 
     /**
