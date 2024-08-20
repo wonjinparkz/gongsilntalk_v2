@@ -258,6 +258,9 @@ Route::middleware('pc.auth')->controller(ProposalPcController::class)->group(fun
     Route::post('/corp/proposal/product/create/price/check', 'corpProposalProductCreatePriceCheck')->name('www.corp.proposal.product.create.price.check');
     Route::post('/corp/proposal/product/delete', 'corpProposalDelete')->name('www.corp.proposal.product.delete');
 
+    Route::get('/corp/proposal/product/update/{id}', 'corpProposalProductUpdateView')->name('www.corp.proposal.product.update.view');
+    Route::post('/corp/proposal/product/update', 'corpProposalProductUpdate')->name('www.corp.proposal.product.update');
+
     // 사용자 매물 제안서
     Route::get('/mypage/proposal/offer-first', 'userProposalCreateFirst')->name('www.mypage.user.offer.first.create.view');
     Route::get('/mypage/proposal/offer-second', 'userProposalCreateSecond')->name('www.mypage.user.offer.second.create.view');
