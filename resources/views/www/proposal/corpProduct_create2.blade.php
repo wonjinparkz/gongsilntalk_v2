@@ -282,6 +282,9 @@
         $('input[type="number"]').change(function() {
             confirm_check();
         });
+        $('input[type="text"]').change(function() {
+            confirm_check();
+        });
 
         function confirm_check() {
             var payment_type = $('input[name="payment_type"]').val();
