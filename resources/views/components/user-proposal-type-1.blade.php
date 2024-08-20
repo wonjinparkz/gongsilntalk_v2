@@ -29,7 +29,7 @@
 
     @foreach ($products as $key => $product)
         <section class="type_1_page type_1_2">
-            <h2>01 건물소개</h2>
+            <h2>01 매물세부내용</h2>
             <h3>{{ $product->product_name }}</h3>
             <div class="item_wrap">
                 <div>
@@ -51,7 +51,7 @@
         </section>
 
         <section class="type_1_page type_1_3">
-            <h2>01 건물소개</h2>
+            <h2>01 매물세부내용</h2>
             <h3>{{ $product->product_name }}</h3>
             <div class="item_2_wrap">
                 <table class="proposal_section_table">

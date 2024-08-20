@@ -36,7 +36,7 @@
     @foreach ($products as $key => $product)
         <section class="type_page">
             <div class="header">
-                <h2>01 건물소개</h2>
+                <h2>01 매물세부내용</h2>
                 <p>COMPANY RELOCATION PROPOSAL</p>
             </div>
             <h3>{{ $product->product_name }}</h3>
@@ -65,7 +65,7 @@
 
         <section class="type_page">
             <div class="header">
-                <h2>01 건물소개</h2>
+                <h2>01 매물세부내용</h2>
                 <p>COMPANY RELOCATION PROPOSAL</p>
             </div>
             <h3>{{ $product->product_name }}</h3>
