@@ -24,7 +24,7 @@
 @endphp
 @if ($oldIds != null)
     @for ($i = 0; $i < count($oldIds); $i++)
-        <div class="cell draggable">
+        <div class="cell">
             <input type="hidden" name="{{ $id }}_image_ids[]" value="{{ $oldIds[$i] }}" />
             <input type="hidden" name="{{ $id }}_image_paths[]" value="{{ $oldPaths[$i] }}" />
             <!-- <img src="{{ asset('assets/media/mark_rep.png') }}" class="add_img_mark"> -->
@@ -35,7 +35,7 @@
     @endfor
 @else
     @foreach ($images as $image)
-        <div class="cell draggable">
+        <div class="cell ">
             <input type="hidden" name="{{ $id }}_image_ids[]" value="{{ $image->id }}" />
             <input type="hidden" name="{{ $id }}_image_paths[]"
                 value="{{ Storage::url('image/' . $image->path) }}" />

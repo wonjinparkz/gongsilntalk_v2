@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('type')->comment('매물종류 - 0: 지식산업센터, 1: 사무실, 2: 창고, 3: 상가, 4: 건물, 5: 토지/임야, 6: 단독공장');
             $table->string('address_lat')->comment('위도');
             $table->string('address_lng')->comment('경도');
+            $table->integer('is_map')->comment('(구)주소 여부 - 0: 선택안함, 1: 선택함');
             $table->string('address')->comment('주소');
             $table->string('address_detail')->comment('상세 주소');
             $table->string('product_name')->comment('건물명');
@@ -32,6 +33,7 @@ return new class extends Migration
             $table->string('move_date')->nullable()->comment('입주 가능일 - null일 경우 즉시 입주');
             $table->integer('is_service')->comment('관리비 없음 여부 - 0: 관리비 있음, 1: 관리비 없음');
             $table->bigInteger('service_price')->nullable()->comment('관리비 가격');
+            $table->integer('cooling_type')->nullable()->comment('냉방 종류 - 0: 개별냉방, 1: 중앙냉방, 2: 지역냉방');
             $table->integer('heating_type')->nullable()->comment('난방 종류 - 0: 개별난방, 1: 중앙난방, 2: 지역난방');
             $table->integer('parking_count')->nullable()->comment('주차 가능 대수');
             $table->longText('product_content')->nullable()->comment('건물 특장점');

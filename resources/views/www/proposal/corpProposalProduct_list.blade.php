@@ -94,7 +94,10 @@
                                                     <td>{{ $product->floor_number }}층/{{ $product->total_floor_number }}층
                                                     </td>
                                                     <td>
-                                                        {{-- <button class="btn_gray_ghost btn_sm">수정</button> --}}
+                                                        <button class="btn_gray_ghost btn_sm" type="button"
+                                                            onclick="location.href='{{ route('www.corp.proposal.product.update.view', $product->id) }}'">
+                                                            수정
+                                                        </button>
                                                         <button class="btn_gray_ghost btn_sm" type="button"
                                                             onclick="modal_open('delete_{{ $product->id }}')">삭제</button>
                                                     </td>
@@ -169,8 +172,8 @@
                                                             </span>
                                                         </div>
                                                         <div class="gap_8">
-                                                            {{-- <button class="btn_graylight_ghost btn_sm_full mt10"
-                                                                onclick="">수정</button> --}}
+                                                            <button class="btn_graylight_ghost btn_sm_full mt10"
+                                                                onclick="location.href='{{ route('www.corp.proposal.product.update.view', $product->id) }}'">수정</button>
                                                             <button class="btn_graylight_ghost btn_sm_full mt10"
                                                                 type="button"
                                                                 onclick="modal_open('delete_{{ $product->id }}')">삭제</button>

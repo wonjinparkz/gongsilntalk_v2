@@ -90,6 +90,13 @@ $(function () {
         $(this).parents('.tab_toggle_menu').siblings('.tab_area_wrap').find('>div').eq(list).show();
     });
 
+    // 탭 li 문제 있을 경우 삭제
+    $(".tab_area_wrap > div").hide();
+    $(".tab_toggle_menu li.active").each(function () {
+        var list = $(this).index();
+        $(this).parents('.tab_toggle_menu').siblings('.tab_area_wrap').find('>div').eq(list).show();
+    });
+
 
 
     // swiper 탭메뉴 토글기능

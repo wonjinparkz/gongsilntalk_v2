@@ -956,6 +956,9 @@
                                         <button type="button"
                                             class="dropdown_label">{{ $product->productAddInfo->cooling_type != '' ? Lang::get('commons.cooling_type.' . $product->productAddInfo->cooling_type) : '냉방 종류 선택' }}</button>
                                         <ul class="optionList">
+                                            <li class="optionItem" onclick="selectType('cooling_type','')">
+                                                냉방 종류 선택
+                                            </li>
                                             @foreach (Lang::get('commons.cooling_type') as $index => $cooling_type)
                                                 <li class="optionItem"
                                                     onclick="selectType('cooling_type','{{ $index }}')">
@@ -974,6 +977,9 @@
                                         <button type="button"
                                             class="dropdown_label">{{ $product->productAddInfo->heating_type != '' ? Lang::get('commons.heating_type.' . $product->productAddInfo->heating_type) : '난방 종류 선택' }}</button>
                                         <ul class="optionList">
+                                            <li class="optionItem" onclick="selectType('heating_type','')">
+                                                난방 종류 선택
+                                            </li>
                                             @foreach (Lang::get('commons.heating_type') as $index => $heating_type)
                                                 <li class="optionItem"
                                                     onclick="selectType('heating_type','{{ $index }}')">

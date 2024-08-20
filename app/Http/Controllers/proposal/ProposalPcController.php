@@ -198,6 +198,7 @@ class ProposalPcController extends Controller
             'type' => $request->type,
             'address_lat' => isset($request->address_lat) ? $request->address_lat : 0,
             'address_lng' => isset($request->address_lng) ? $request->address_lng : 0,
+            'is_map' => $request->is_map,
             'address' => $request->address,
             'address_detail' => isset($request->address_detail) ? $request->address_detail :  $request->product_name,
             'product_name' => $request->product_name,
@@ -209,6 +210,7 @@ class ProposalPcController extends Controller
             'move_date' => $request->move_date,
             'is_service' => isset($request->is_service) ? $request->is_service : 0,
             'service_price' => str_replace(',', '', $request->service_price) ?: null,
+            'cooling_type' => $request->heating_type,
             'heating_type' => $request->heating_type,
             'parking_count' => $request->parking_count,
             'product_content' => $request->product_content,
@@ -284,6 +286,117 @@ class ProposalPcController extends Controller
         $result->delete();
 
         return Redirect::back();
+    }
+
+    // 기업 이전 제안서 매물 수정
+    public function corpProposalProductUpdateView($id): View
+    {
+        // 회원 정보
+        $user = User::select()
+            ->where('users.id', Auth::guard('web')->user()->id)
+            ->first();
+
+        $product = CorpProduct::select()->where('id', $id)->first();
+
+        return view('www.proposal.corpProduct_update', compact('user', 'product'));
+    }
+
+    /**
+     * 기업 이전 제안서 등록
+     */
+    public function corpProposalProductUpdate(Request $request)
+    {
+        $validator = Validator::make($request->all(), []);
+
+        if ($validator->fails()) {
+            return redirect(route('www.corp.proposal.product.update.view', $request->id))
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $address_id = 0;
+
+        $address_city = explode(' ', $request->address);
+        $address_city = $address_city[0] . ' ' . $address_city[1];
+
+        $addressList = CorpProductAddress::select()
+            ->where('city', $address_city)
+            ->where('users_id',  Auth::guard('web')->user()->id)
+            ->where('corp_proposal_id', $request->corp_proposal_id)->first();
+
+        if (!isset($addressList)) {
+            $address = CorpProductAddress::create([
+                'users_id' =>  Auth::guard('web')->user()->id,
+                'corp_proposal_id' =>  $request->corp_proposal_id,
+                'city' => $address_city
+            ]);
+
+            $address_id = $address->id;
+        } else {
+            $address_id = $addressList->id;
+        }
+
+        // DB 추가
+        $productDate = [
+            'corp_proposal_id' => $request->corp_proposal_id,
+            'corp_product_address_id' => $address_id,
+            'product_type' => $request->product_type,
+            'type' => $request->type,
+            'address_lat' => isset($request->address_lat) ? $request->address_lat : 0,
+            'address_lng' => isset($request->address_lng) ? $request->address_lng : 0,
+            'address' => $request->address,
+            'address_detail' => isset($request->address_detail) ? $request->address_detail :  $request->product_name,
+            'product_name' => $request->product_name,
+            'exclusive_area' => $request->exclusive_area,
+            'exclusive_square' => $request->exclusive_square,
+            'floor_number' => $request->floor_number,
+            'total_floor_number' => $request->total_floor_number,
+            'move_type' => $request->move_type,
+            'move_date' => $request->move_date,
+            'is_service' => isset($request->is_service) ? $request->is_service : 0,
+            'service_price' => str_replace(',', '', $request->service_price) ?: null,
+            'cooling_type' => $request->cooling_type,
+            'heating_type' => $request->heating_type,
+            'parking_count' => $request->parking_count,
+            'product_content' => $request->product_content,
+            'content' => $request->content,
+            'is_delete' => 0
+        ];
+        $result = CorpProduct::where('id', $request->id)->update($productDate);
+
+        CorpProductFacility::where('corp_product_id', $request->id)->delete();
+        CorpProductPrice::where('corp_product_id', $request->id)->delete();
+
+        if (count($request->option) > 0) {
+            foreach ($request->option as $option) {
+                CorpProductFacility::create([
+                    'corp_product_id' => $request->id,
+                    'type' => $option
+                ]);
+            }
+        }
+
+        CorpProductPrice::create([
+            'corp_product_id' => $request->id,
+            'payment_type' => $request->payment_type,
+            'price' => str_replace(',', '', $request->{'price_' . $request->payment_type}) ?: null,
+            'month_price' => str_replace(',', '', $request->{'month_price_' . $request->payment_type}) ?: null,
+            'premium_price' => str_replace(',', '', $request->premium_price) ?: null,
+            'acquisition_tax' => $request->acquisition_tax,
+            'support_price' => str_replace(',', '', $request->support_price) ?: null,
+            'etc_price' => str_replace(',', '', $request->etc_price) ?: null,
+            'loan_rate_one' => $request->loan_rate_one,
+            'loan_rate_two' => $request->loan_rate_two,
+            'loan_interest' => $request->loan_interest,
+            'is_invest' => isset($request->is_invest) ? $request->is_invest : 0,
+            'invest_price' => str_replace(',', '', $request->invest_price) ?: null,
+            'invest_month_price' => str_replace(',', '', $request->invest_month_price) ?: null
+        ]);
+
+        $this->imageTypeWithEdit($request->product_image_ids, CorpProduct::class, $request->id, 0);
+        $this->imageTypeWithEdit($request->product_detail_image_ids, CorpProduct::class, $request->id, 1);
+
+        return Redirect::route('www.mypage.corp.proposalproduct.list.view', [$request->corp_proposal_id])->with('message', "건물이 수정 되었습니다.");
     }
 
 
