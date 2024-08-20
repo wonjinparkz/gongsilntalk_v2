@@ -12,106 +12,112 @@
 <ul class="comment_list">
     @foreach ($replys as $reply)
         @if ($reply->block_id == '')
-            <li>
-                <div class="txt_user">
-                    <p>{{ $reply->author_name }}</p>
-                    <div class="more_menu_wrap">
-                        <button class="more_button"><img src="{{ asset('assets/media/btn_dot.png') }}"
-                                class="menu_more"></button>
-                        <div class="more_menu">
-                            @if ($nowUser == $reply->author)
-                                <a href="javascript:(0)">수정</a>
-                                <a href="{{ route('www.reply.delete', ['id' => $reply->id]) }}">삭제</a>
-                            @else
-                                <a
-                                    onclick="reportReplyIdSetting('{{ $reply->id }}');modal_open('reply_report')">신고</a>
-                                <a href="{{ route('www.reply.block', ['block_reply_id' => $reply->id]) }}">차단</a>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                <div class="comment_con">
-                    @php
-                        echo $reply->content;
-                    @endphp
-                </div>
-                <div class="mt8">
-                    <span class="txt_date">{{ $carbon::parse($reply->created_at)->format('Y.m.d H:i') }}</span>
-                    <button class="btn_re"
-                        onclick="replyInfoSetting('{{ $reply->author_name }}', '{{ $reply->id }}');reg_reply(0)">답글
-                        쓰기</button>
-                </div>
-            </li>
-        @endif
-
-        {{-- 밑에는 대댓! --}}
-        @foreach ($reply->rereplies as $rereply)
-            <li>
-                <div class="txt_user">
-                    <p>{{ $rereply->author_name }}</p>
-                    <div class="more_menu_wrap">
-                        <button class="more_button"><img src="{{ asset('assets/media/btn_dot.png') }}"
-                                class="menu_more"></button>
-                        <div class="more_menu">
-                            @if ($nowUser == $rereply->author)
-                                <a href="javascript:(0)">수정</a>
-                                <a href="{{ route('www.reply.delete', ['id' => $rereply->id]) }}">삭제</a>
-                            @else
-                                <a
-                                    onclick="reportReplyIdSetting('{{ $rereply->id }}');modal_open('reply_report')">신고</a>
-                                <a href="{{ route('www.reply.block', ['block_reply_id' => $rereply->id]) }}">차단</a>
-                            @endif
-
-                        </div>
-                    </div>
-                </div>
-                <div class="comment_con">
-                    <span class="txt_user_tag">@ {{ $reply->author_name }}</span>
-                    @php
-                        echo $rereply->content;
-                    @endphp
-                </div>
-                <div class="mt8">
-                    <span class="txt_date">{{ $carbon::parse($rereply->created_at)->format('Y.m.d H:i') }} </span>
-                    <button class="btn_re"
-                        onclick="replyInfoSetting('{{ $rereply->author_name }}', '{{ $rereply->id }}');reg_reply(0)">답글
-                        쓰기</button>
-                </div>
-            </li>
-            @foreach ($rereply->rereplies as $rerereply)
+            @if ($reply->is_delete == 0)
                 <li>
                     <div class="txt_user">
-                        <p>{{ $rerereply->author_name }}</p>
+                        <p>{{ $reply->author_name }}</p>
                         <div class="more_menu_wrap">
                             <button class="more_button"><img src="{{ asset('assets/media/btn_dot.png') }}"
                                     class="menu_more"></button>
                             <div class="more_menu">
-                                @if ($nowUser == $rerereply->author)
+                                @if ($nowUser == $reply->author)
                                     <a href="javascript:(0)">수정</a>
-                                    <a href="{{ route('www.reply.delete', ['id' => $rerereply->id]) }}">삭제</a>
+                                    <a href="{{ route('www.reply.delete', ['id' => $reply->id]) }}">삭제</a>
                                 @else
                                     <a
-                                        onclick="reportReplyIdSetting('{{ $rerereply->id }}');modal_open('reply_report')">신고</a>
-                                    <a
-                                        href="{{ route('www.reply.block', ['block_reply_id' => $rerereply->id]) }}">차단</a>
+                                        onclick="reportReplyIdSetting('{{ $reply->id }}');modal_open('reply_report')">신고</a>
+                                    <a href="{{ route('www.reply.block', ['block_reply_id' => $reply->id]) }}">차단</a>
                                 @endif
                             </div>
                         </div>
                     </div>
                     <div class="comment_con">
-                        <span class="txt_user_tag">@ {{ $rereply->author_name }}</span>
                         @php
-                            echo $rerereply->content;
+                            echo $reply->content;
                         @endphp
                     </div>
                     <div class="mt8">
-                        <span class="txt_date">{{ $carbon::parse($rerereply->created_at)->format('Y.m.d H:i') }}
-                        </span>
+                        <span class="txt_date">{{ $carbon::parse($reply->created_at)->format('Y.m.d H:i') }}</span>
                         <button class="btn_re"
-                            onclick="replyInfoSetting('{{ $rerereply->author_name }}', '{{ $rerereply->id }}');reg_reply(0)">답글
+                            onclick="replyInfoSetting('{{ $reply->author_name }}', '{{ $reply->id }}');reg_reply(0)">답글
                             쓰기</button>
                     </div>
                 </li>
+            @endif
+        @endif
+
+        {{-- 밑에는 대댓! --}}
+        @foreach ($reply->rereplies as $rereply)
+            @if ($rereply->is_delete == 0)
+                <li>
+                    <div class="txt_user">
+                        <p>{{ $rereply->author_name }}</p>
+                        <div class="more_menu_wrap">
+                            <button class="more_button"><img src="{{ asset('assets/media/btn_dot.png') }}"
+                                    class="menu_more"></button>
+                            <div class="more_menu">
+                                @if ($nowUser == $rereply->author)
+                                    <a href="javascript:(0)">수정</a>
+                                    <a href="{{ route('www.reply.delete', ['id' => $rereply->id]) }}">삭제</a>
+                                @else
+                                    <a
+                                        onclick="reportReplyIdSetting('{{ $rereply->id }}');modal_open('reply_report')">신고</a>
+                                    <a href="{{ route('www.reply.block', ['block_reply_id' => $rereply->id]) }}">차단</a>
+                                @endif
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment_con">
+                        <span class="txt_user_tag">@ {{ $reply->author_name }}</span>
+                        @php
+                            echo $rereply->content;
+                        @endphp
+                    </div>
+                    <div class="mt8">
+                        <span class="txt_date">{{ $carbon::parse($rereply->created_at)->format('Y.m.d H:i') }} </span>
+                        <button class="btn_re"
+                            onclick="replyInfoSetting('{{ $rereply->author_name }}', '{{ $rereply->id }}');reg_reply(0)">답글
+                            쓰기</button>
+                    </div>
+                </li>
+            @endif
+            @foreach ($rereply->rereplies as $rerereply)
+                @if ($rerereply->is_delete == 0)
+                    <li>
+                        <div class="txt_user">
+                            <p>{{ $rerereply->author_name }}</p>
+                            <div class="more_menu_wrap">
+                                <button class="more_button"><img src="{{ asset('assets/media/btn_dot.png') }}"
+                                        class="menu_more"></button>
+                                <div class="more_menu">
+                                    @if ($nowUser == $rerereply->author)
+                                        <a href="javascript:(0)">수정</a>
+                                        <a href="{{ route('www.reply.delete', ['id' => $rerereply->id]) }}">삭제</a>
+                                    @else
+                                        <a
+                                            onclick="reportReplyIdSetting('{{ $rerereply->id }}');modal_open('reply_report')">신고</a>
+                                        <a
+                                            href="{{ route('www.reply.block', ['block_reply_id' => $rerereply->id]) }}">차단</a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment_con">
+                            <span class="txt_user_tag">@ {{ $rereply->author_name }}</span>
+                            @php
+                                echo $rerereply->content;
+                            @endphp
+                        </div>
+                        <div class="mt8">
+                            <span class="txt_date">{{ $carbon::parse($rerereply->created_at)->format('Y.m.d H:i') }}
+                            </span>
+                            <button class="btn_re"
+                                onclick="replyInfoSetting('{{ $rerereply->author_name }}', '{{ $rerereply->id }}');reg_reply(0)">답글
+                                쓰기</button>
+                        </div>
+                    </li>
+                @endif
             @endforeach
         @endforeach
     @endforeach

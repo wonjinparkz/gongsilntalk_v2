@@ -144,7 +144,7 @@ class CommunityPcController extends Controller
 
         // 해당 댓글만
         $ReplyList->where('reply.target_id', '=', $request->id);
-        $ReplyList->where('reply.is_delete', '=', 0);
+        // $ReplyList->where('reply.is_delete', '=', 0);
         $ReplyList->where('reply.is_blind', '=', 0);
 
         if ($is_community == 0) {
