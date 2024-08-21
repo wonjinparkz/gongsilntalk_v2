@@ -28,25 +28,29 @@
                         <div class="swiper proposal_type_tab">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide btn_radioType active">
-                                    <input type="radio" name="proposal_type" id="proposal_type_1" value="Y"
-                                        checked>
-                                    <label for="proposal_type_1" onclick="showType(0)">스타일1</label>
+                                    <input type="radio" name="proposal_type" id="proposal_type_1" value="0"
+                                        onclick="showType(this)" checked>
+                                    <label for="proposal_type_1">스타일1</label>
                                 </div>
                                 <div class="swiper-slide btn_radioType">
-                                    <input type="radio" name="proposal_type" id="proposal_type_2" value="Y">
-                                    <label for="proposal_type_2" onclick="showType(1)">스타일2</label>
+                                    <input type="radio" name="proposal_type" id="proposal_type_2" value="1"
+                                        onclick="showType(this)">
+                                    <label for="proposal_type_2">스타일2</label>
                                 </div>
                                 <div class="swiper-slide btn_radioType">
-                                    <input type="radio" name="proposal_type" id="proposal_type_3" value="Y">
-                                    <label for="proposal_type_3" onclick="showType(2)">스타일3</label>
+                                    <input type="radio" name="proposal_type" id="proposal_type_3" value="2"
+                                        onclick="showType(this)">
+                                    <label for="proposal_type_3">스타일3</label>
                                 </div>
                                 <div class="swiper-slide btn_radioType">
-                                    <input type="radio" name="proposal_type" id="proposal_type_4" value="Y">
-                                    <label for="proposal_type_4" onclick="showType(3)">스타일4</label>
+                                    <input type="radio" name="proposal_type" id="proposal_type_4" value="3"
+                                        onclick="showType(this)">
+                                    <label for="proposal_type_4">스타일4</label>
                                 </div>
                                 <div class="swiper-slide btn_radioType">
-                                    <input type="radio" name="proposal_type" id="proposal_type_5" value="Y">
-                                    <label for="proposal_type_5" onclick="showType(4)">스타일5</label>
+                                    <input type="radio" name="proposal_type" id="proposal_type_5" value="4"
+                                        onclick="showType(this)">
+                                    <label for="proposal_type_5">스타일5</label>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +58,7 @@
 
                         <div id="type_preview" class="type_view_wrap">
                             <!-- type_1 : s -->
-                            <x-user-proposal-type-1 :corpInfo="$corpInfo" :address="$address" :products="$products"/>
+                            <x-user-proposal-type-1 :corpInfo="$corpInfo" :address="$address" :products="$products" />
                             <!-- type_1 : e -->
 
                             <!-- type_2 : s -->
@@ -88,12 +92,17 @@
 
     <script>
         //탭 보기
-        function showType(index) {
-            var type_preview = document.querySelectorAll('.type_view_wrap .proposal_type_item');
-            type_preview.forEach(function(content) {
-                content.classList.remove('active');
-            });
-            type_preview[index].classList.add('active');
+        function showType(element) {
+            var is_checked = element.checked;
+            console.log('elment', is_checked);
+            if (is_checked) {
+                var index = element.value;
+                var type_preview = document.querySelectorAll('.type_view_wrap .proposal_type_item');
+                type_preview.forEach(function(content) {
+                    content.classList.remove('active');
+                });
+                type_preview[index].classList.add('active');
+            }
         }
 
         //탭 스와이프

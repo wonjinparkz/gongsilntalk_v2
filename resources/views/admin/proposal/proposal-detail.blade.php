@@ -21,7 +21,7 @@
 
                     <div class="row-lg-12 mb-10">
                         <div class="symbol symbol-150px symbol-circle mb-5">
-                            @if ($result->users->images != null)
+                            @if (count($result->users->images) > 0)
                                 @foreach ($result->users->images as $image)
                                     <img src="{{ Storage::url('image/' . $image->path) }}" />
                                 @endforeach
@@ -174,7 +174,7 @@
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">작성 제안서 개수</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="작성 제안서 개수" value="{{ $proposalCount ?? 0 }}개" />
+                                    placeholder="작성 제안서 개수" value="{{$proposalCount ?? 0}}개" />
                             </div>
                         </div>
 

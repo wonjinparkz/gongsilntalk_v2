@@ -72,7 +72,7 @@
                     <div class="row mb-6">
                         <label class="required col-lg-3 col-form-label fw-semibold fs-6">준공일</label>
                         <div class="col-lg-9 fv-row">
-                            <input type="text" name="completion_date" class="form-control form-control-solid"
+                            <input type="number" name="completion_date" class="form-control form-control-solid"
                                 placeholder="예) 20230204" value="{{ old('completion_date') }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('completion_date')" />
                         </div>

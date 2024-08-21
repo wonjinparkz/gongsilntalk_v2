@@ -5,6 +5,7 @@ namespace App\Http\Controllers\proposal;
 use App\Exports\CorpProposalExport;
 use App\Exports\ProposalExport;
 use App\Http\Controllers\Controller;
+use App\Models\CorpProductAddress;
 use App\Models\CorpProposal;
 use App\Models\Product;
 use App\Models\Proposal;
@@ -127,7 +128,11 @@ class ProposalController extends Controller
     {
         $result = CorpProposal::where('id', $id)->first();
 
-        return view('admin.proposal.corp-proposal-detail', compact('result'));
+        $proposal = CorpProductAddress::select()->where('corp_proposal_id', $id)->get();
+
+        $CorpProposalCount = CorpProposal::where('users_id', $result->users->id)->count();
+        $productCount = Product::where('users_id', $result->users->id)->count();
+        return view('admin.proposal.corp-proposal-detail', compact('result', 'proposal', 'CorpProposalCount', 'productCount'));
     }
 
     /**

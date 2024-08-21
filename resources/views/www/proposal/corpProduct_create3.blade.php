@@ -101,7 +101,17 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="reg_item">
+                                <label class="input_label">주차 가능 대수 <span class="txt_point">*</span></label>
+                                <div class="flex_1 mt10">
+                                    <input type="text" name="parking_count" placeholder="예) 10"
+                                        class="w_input_150" inputmode="numeric"
+                                        oninput="onlyNumbers(this); onTextChangeEvent(this);">
+                                    <span>대</span>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="reg_mid_wrap">
                             <div class="reg_item">
                                 <input type="hidden" name="cooling_type" id="cooling_type" value="">
@@ -278,6 +288,7 @@
             var service_price = $('input[name="service_price"]').val();
             var move_type = $('input[name="move_type"]:checked').val();
             var move_date = $('input[name="move_date"]').val().length;
+            var parking_count = $('input[name="parking_count"]').val();
             var imageCount0 = document.querySelectorAll('input[name="product_image_paths[]"]').length
             var imageCount1 = document.querySelectorAll('input[name="product_detail_image_paths[]"]').length
             var product_content = $('#product_content').val();
@@ -288,33 +299,19 @@
 
             if (exclusive_area > 0 && exclusive_square > 0 && floor_number != '' && total_floor_number != '' && (
                     is_service || is_service == false && service_price != '') && (move_type != 2 || (
-                    move_type == 2 && move_date == 8)) && imageCount0 > 0 && imageCount1 > 0 && product_content != '') {
+                    move_type == 2 && move_date == 8)) && parking_count != '' && imageCount0 > 0 && imageCount1 > 0 &&
+                product_content != '') {
                 confirm = true;
             }
-            console.log(exclusive_area, '|',
-                exclusive_square, '|',
-                floor_number, '|',
-                total_floor_number, '|',
-                is_service, '|',
-                service_price, '|',
-                move_type, '|',
-                move_date, '|',
-                imageCount0, '|',
-                imageCount1, '|',
-                product_content, '|',
-                confirm);
 
             if (confirm) {
                 return $('.confirm').attr("disabled", false);
             } else {
                 return $('.confirm').attr("disabled", true);
             }
-            console.log('is_invest : ', is_invest);
         }
 
         function formSetting() {
-            var is_map = $('#is_map').is(":checked");
-
             var corp_proposal_id = $('#corp_proposal_id').val();
             var product_type = $('#product_type').val();
             var type = $('#type').val();
