@@ -3,7 +3,11 @@
     'address' => [],
     'products' => [],
 ])
-
+<style>
+    .page-break {
+        page-break-before: always;
+    }
+</style>
 <!-- type_1 : s -->
 <div class="proposal_type_item proposal_type_1 active">
     <section class="type_1_1">
@@ -28,6 +32,8 @@
     </section>
 
     @foreach ($products as $key => $product)
+        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
+
         <section class="type_1_page type_1_2">
             <h2>01 매물세부내용</h2>
             <h3>{{ $product->product_name }}</h3>
@@ -49,6 +55,8 @@
                 </div>
             </div>
         </section>
+
+        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
 
         <section class="type_1_page type_1_3">
             <h2>01 매물세부내용</h2>
@@ -142,6 +150,8 @@
             </div>
         </section>
 
+        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
+
         <section class="type_1_page type_1_3">
             <h2>02 도면 및 사진</h2>
             <div class="item_3_wrap">
@@ -155,6 +165,8 @@
                 @endforeach
             </div>
         </section>
+
+        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
 
         @if ($product->price->payment_type == 0)
             <section class="type_1_page type_1_4">
@@ -373,6 +385,8 @@
             </section>
         @endif
     @endforeach
+
+    <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
 
     <section class="type_1_page type_1_5">
         <div class="txt_item_end">Thank You</div>
