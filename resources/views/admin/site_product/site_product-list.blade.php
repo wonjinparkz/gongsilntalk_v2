@@ -191,22 +191,23 @@
                                                         @csrf
                                                         <input type="hidden" name="id"
                                                             value="{{ $siteProduct->id }}" />
-                                                        <input type="hidden" name="is_sale" id="is_sale"
+                                                        <input type="hidden" name="is_sale"
+                                                            id="is_sale_{{ $siteProduct->id }}"
                                                             value="{{ $siteProduct->is_sale }}" />
                                                         @if ($siteProduct->is_sale != 0)
-                                                            <a onclick="$('#is_sale').val(0);parentNode.submit();"
+                                                            <a onclick="$('#is_sale_{{ $siteProduct->id }}').val(0);parentNode.submit();"
                                                                 class="menu-link px-3">
                                                                 분양예정
                                                             </a>
                                                         @endif
                                                         @if ($siteProduct->is_sale != 1)
-                                                            <a onclick="$('#is_sale').val(1);parentNode.submit();"
+                                                            <a onclick="$('#is_sale_{{ $siteProduct->id }}').val(1);parentNode.submit();"
                                                                 class="menu-link px-3">
                                                                 분양중
                                                             </a>
                                                         @endif
                                                         @if ($siteProduct->is_sale != 2)
-                                                            <a onclick="$('#is_sale').val(2);parentNode.submit();"
+                                                            <a onclick="$('#is_sale_{{ $siteProduct->id }}').val(2);parentNode.submit();"
                                                                 class="menu-link px-3">
                                                                 분양완료
                                                             </a>
