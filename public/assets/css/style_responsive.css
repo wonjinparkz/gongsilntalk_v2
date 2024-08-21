@@ -191,6 +191,7 @@
     .agent_head{padding: 44px 0; background: #fff; border-bottom: 1px solid #EEEDED; display: flex; justify-content: center; align-items: center; gap: 20px; padding: 0 16px; box-sizing: border-box; padding-top: 70px;}
     .agent_head .agent_img{width:60px; height:60px;}
     .agent_head .agent_img .img_box{border-radius: 99.9%; border: 1px solid #F0F0F0;}
+    .agent_img .img_box img{width:60px; height:60px;}
     .agent_head .agent_detail_info{width:calc(100% - 80px);}
     .agent_head .agent_detail_info h3{margin-bottom:22px; display: none;}
     .agent_head .agent_detail_info .info_row{display: flex; gap: 8px; font-size:14px; margin-bottom: 8px; line-height: 1.4;}

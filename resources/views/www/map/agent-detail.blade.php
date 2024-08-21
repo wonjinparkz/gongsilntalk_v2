@@ -35,7 +35,7 @@
     <div class="body">
         <div class="agent_head">
             <div class="agent_img">
-                <div class="img_box" style="height:100px; width:100px;">
+                <div class="img_box">
                     @if ($result->image != null)
                         <img src="{{ Storage::url('image/' . $result->image->path) }}">
                     @else
@@ -51,6 +51,58 @@
                 <div class="info_row"><span>휴대전화</span>{{ $result->phone ?? '-' }}</div>
             </div>
         </div>
+
+        <div class="room_bottom_wrap">
+            <button class="btn_point btn_full_floting" onclick="modal_open('agent_qa')">문의하기</button>
+        </div>
+
+        <!-- modal 문의하기 : s-->
+    <div class="modal modal_mid modal_agent_qa">
+        <div class="modal_title">
+            <h5>문의하기</h5>
+            <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close"
+                onclick="modal_close('agent_qa')">
+        </div>
+        <div class="modal_container">
+            <div class="agent_popup_info">
+                <div class="agent_box_info">
+                    <div class="agent_box_img">
+                        <div class="img_box">
+                           
+                                
+                          
+                                <img src="{{ asset('assets/media/default_img.png') }}">
+                           
+                        </div>
+                    </div>
+                    <h4><a href="#">로캣티어
+                            <img src="{{ asset('assets/media/ic_list_arrow.png') }}"></a>
+                    </h4>
+                    <p class="gray_deep">대표중개사 홍길동</p>
+                </div>
+                <div class="agent_popup_detail">
+                    <p><span>주소</span>
+                        여기주소
+                    </p>
+                    <p><span>중개등록번호</span> 1234</p>
+                    <p><span>대표번호</span> 5678</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="agent_contact_wrap">
+            <a href="tel:010256">
+                <div class="agent_popup_call"><img src="{{ asset('assets/media/ic_point_call.png') }}">
+                    0102564
+                </div>
+            </a>
+            <div class="agent_popup_num">매물번호 1234</div>
+            <div class="agent_popup_noti">중개사무소에 연락하여 문의해보세요.<br>공실앤톡에서 보고 문의드린다 말씀하시면,<br>빠른 예약이 가능합니다.</div>
+        </div>
+
+    </div>
+    <div class="md_overlay md_overlay_agent_qa" onclick="modal_close('agent_qa')"></div>
+    <!-- modal 문의하기 : e-->
 
 
         <div class="inner_wrap bottom_space">

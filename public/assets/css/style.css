@@ -316,7 +316,7 @@
 .traffic_row{margin-top:10px;}
 .traffic_row span{margin-left:6px; color: var(--color-gray-3);}
 .facility_wrap, .edu_wrap{min-height: 80px; padding: 20px 4px; line-height: 1.4;}
-.property_sm_list{border-bottom: 1px solid var(--gray-line); display: flex; padding:14px 16px; gap:14px;}
+.property_sm_list{border-bottom: 1px solid var(--gray-line); display: flex; padding:20px 16px; gap:14px;}
 .property_sm_list .frame_img_mid{position: relative;}
 .property_sm_list a{width: calc(100% - 94px); display: inline-block;}
 .property_sm_info{width: calc(100% - 2px);}
@@ -399,6 +399,7 @@
 .agent_head{padding: 44px 0; background: #fff; border-bottom: 1px solid #EEEDED; display: flex; justify-content: center; align-items: center; gap: 28px;}
 .agent_img{width: 100px; height: 100px;}
 .agent_img .img_box{border-radius: 99.9%; border: 1px solid #F0F0F0;}
+.agent_img .img_box img{width: 100px; height: 100px;}
 .agent_head .agent_detail_info h3{margin-bottom:22px;}
 .agent_head .agent_detail_info .info_row{display: flex; gap: 8px; font-size: 16px; margin-bottom: 8px;}
 .agent_head .agent_detail_info .info_row span{font-size: 16px; color: var(--color-gray-2);}
@@ -464,10 +465,12 @@
 .layer_share_con a{margin:  0 8px; color: var(--color-gray-2);}
 .layer_share_con img{width:40px; height: 40px !important;}
 .room_section_wrap{position:relative; display: flex; justify-content: space-between; margin-top: 100px;}
+.room_section_wrap .page{padding-top: 50px;}
+.room_section_wrap .page:first-child{padding-top:20px;}
 .btn_floting_wrap{position:fixed; z-index:3; display:scroll; width:1175px; height:0px; bottom:0; left:50%; transform:translateX(-50%);}
 .btn_floting{text-align:right; width:764px; margin-top: -100px; display: none;}
 .btn_floting img{width:40px; margin-bottom:6px; z-index: 5; margin-right: 10px;}
-.room_section_wrap section{padding-bottom: 100px; width:764px}
+.room_section_wrap section{padding-bottom:50px !important; width:764px}
 .room_section_wrap section h3, .sales_section_wrap section h3{margin-bottom: 22px;}
 .room_option_wrap .swiper-wrapper{height:110px;}
 .room_option_wrap .swiper-slide{text-align:center; margin-right:18px; width: auto !important; }
