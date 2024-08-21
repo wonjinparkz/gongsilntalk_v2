@@ -97,7 +97,6 @@
                 <div class="room_detail_img">
                     <div class="swiper room_img">
                         <div class="swiper-wrapper">
-
                             @if (count($result->images) > 0)
                                 @foreach ($result->images as $item)
                                     <div class="swiper-slide">
@@ -108,16 +107,11 @@
                                     </div>
                                 @endforeach
                             @endif
-
-                            {{-- <div class="swiper-slide">
-                                <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="img_box"><img src="{{ asset('assets/media/s_2.png') }}"></div>
-                            </div> --}}
                         </div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"><img src="{{ asset('assets/media/arrow_w_next.png') }}">
+                        </div>
+                        <div class="swiper-button-prev"><img src="{{ asset('assets/media/arrow_w_prev.png') }}">
+                        </div>
                         <span class="swiper-pagination"></span>
                     </div>
                 </div>

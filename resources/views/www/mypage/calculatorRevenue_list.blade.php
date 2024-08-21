@@ -156,13 +156,13 @@
                                         실투자금
                                     </div>
                                     <div class="td">
-                                        {{ number_format($investment_price) }}원
+                                        <span class="txt_point">{{ number_format($investment_price) }}원</span>
                                     </div>
                                     <div class="td">
                                         월순수익
                                     </div>
                                     <div class="td">
-                                        {{ number_format($month_revenue_price) }}원
+                                        <span class="txt_point">{{ number_format($month_revenue_price) }}원</span>
                                     </div>
                                     <div class="td">
                                         연순수익
@@ -174,13 +174,13 @@
                                         수익률
                                     </div>
                                     <div class="td">
-                                        {{ number_format($revenue_rate, 2) }}%
+                                        <span class="txt_point">{{ number_format($revenue_rate, 2) }}%</span>
                                     </div>
                                     <div class="td">
                                         실투자금 회수기간
                                     </div>
                                     <div class="td">
-                                        {{ number_format($payback_period, 1) }}년
+                                        {{ $payback_period > 0 ? number_format($payback_period, 1) : '-' }}년
                                     </div>
                                 </div>
                             </div>
