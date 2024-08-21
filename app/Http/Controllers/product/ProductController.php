@@ -412,7 +412,6 @@ class ProductController extends Controller
                 'is_option' => $request->is_option,
             ];
         } else if ($request->type == 9) {
-            Log::info('오피스텔');
             $product_add_info = [
                 'product_id' => $request->id,
                 'room_count' => $request->room_count,

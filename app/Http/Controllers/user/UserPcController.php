@@ -868,8 +868,6 @@ class UserPcController extends Controller
     public function serviceFourthUpdateView(Request $request): View
     {
         $result = Asset::with('asset_address', 'sale_images', 'entre_images', 'rental_images', 'etc_images')->select()->where('id', $request->id)->first();
-        info('수정 해보자');
-
 
         return view('www.mypage.asset-update-fourth', compact('request', 'result'));
     }

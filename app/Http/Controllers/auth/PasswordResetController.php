@@ -113,7 +113,6 @@ class PasswordResetController extends Controller
             Log::info($request->all());
             // 사용자 찾아서 비밀번호 변경
             $user = User::select()->where('email', $request->password_email_confirmation)->where('name', $request->name)->first();
-            Log::info('user : ' . $user);
             if ($user && $user->phone == $request->phone) {
                 $user->update([
                     'password' => Hash::make($request->new_password)

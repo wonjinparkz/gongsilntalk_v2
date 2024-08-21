@@ -188,7 +188,7 @@ class UserAuthPcController extends Controller
 
         if ($auto_login) {
             $rememberToken = $user->getRememberToken();
-            Log::info('token ' . $rememberToken); // token 로그에 기록
+
             $cookieName = 'remember_web_' . sha1(config('app.key'));
 
             // setcookie 사용하여 쿠키 설정
@@ -196,7 +196,6 @@ class UserAuthPcController extends Controller
 
             // 쿠키에서 remember_token 읽어오기
             $rememberTokenFromCookie = $request->cookie($cookieName);
-            Log::info('Remember Token from Cookie: ' . ($rememberTokenFromCookie ?: 'No Token')); // Remember Token from Cookie 로그에 기록
         }
 
         return redirect(route('www.main.main'));

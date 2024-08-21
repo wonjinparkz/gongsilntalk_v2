@@ -18,6 +18,6 @@ class SharePcController extends Controller
             ->where('users.id',  $proposal->users_id)
             ->first();
 
-        return view('www.sharePage.share_page', compact('proposal','user'));
+        return view('www.sharePage.proposal_share_page', compact('proposal','user'));
     }
 }
