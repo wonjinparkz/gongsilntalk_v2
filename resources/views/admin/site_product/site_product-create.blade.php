@@ -270,7 +270,7 @@
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">준공예정일</label>
                         <div class="col-lg-3 fv-row">
                             <input type="text" name="completion_date" class="form-control"
-                                placeholder="예) 20230204" value="{{ old('completion_date') }}" />
+                                placeholder="예) 2023년 02월" value="{{ old('completion_date') }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('completion_date')" />
                         </div>
                     </div>
