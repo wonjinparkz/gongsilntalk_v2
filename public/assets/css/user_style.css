@@ -153,7 +153,7 @@
 .sales_list_con .txt_item_3{color:#9D9999; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.6;}
 .sales_list_con .txt_item_4{font-size: 16px; color:#2A2828; line-height: 1.6;}
 .mark_proceeding{background: var(--main-color); color:#fff; display: inline-block; padding:6px 10px; border-radius:6px;}
-.mark_plans{background: #63605F; color:#2774E8; display: inline-block; padding:6px 10px; border-radius:6px;}
+.mark_plans{background: #2774E8; color:#fff; display: inline-block; padding:6px 10px; border-radius:6px;}
 .mark_complete{background: #63605F; color:#fff; display: inline-block; padding:6px 10px; border-radius:6px;}
 
 .sales_section_1 h3, .sales_section_2 h3, .sales_section_2-2 h3, .sales_section_3 h3, .sales_section_4 h3, .sales_section_5 h3{font-size: 30px;}
