@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('address_lng')->comment('경도');
             $table->integer('is_map')->comment('(구)주소 여부 - 0: 선택안함, 1: 선택함');
             $table->string('address')->comment('주소');
-            $table->string('address_detail')->comment('상세 주소');
+            $table->string('address_detail')->nullable()->comment('상세 주소');
             $table->string('product_name')->comment('건물명');
             $table->integer('exclusive_area')->comment('전용 면적 (평)');
             $table->double('exclusive_square', 10, 2)->comment('전용 면적 (제곱미터)');

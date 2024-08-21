@@ -27,8 +27,8 @@ use Illuminate\Support\Facades\Validator;
 | 관리자 - 매물 제안서
 |--------------------------------------------------------------------------
 |
-| - 매물 제안서 목록 보기 (ㅁ)
-| - 매물 제안서 상세 화면 보기 (ㅁ)
+| - 매물 제안서 목록 보기 (ㅇ)
+| - 매물 제안서 상세 화면 보기 (ㅇ)
 |
 */
 
@@ -200,7 +200,7 @@ class ProposalPcController extends Controller
             'address_lng' => isset($request->address_lng) ? $request->address_lng : 0,
             'is_map' => $request->is_map,
             'address' => $request->address,
-            'address_detail' => isset($request->address_detail) ? $request->address_detail :  $request->product_name,
+            'address_detail' => $request->address_detail,
             'product_name' => $request->product_name,
             'exclusive_area' => $request->exclusive_area,
             'exclusive_square' => $request->exclusive_square,
@@ -345,7 +345,7 @@ class ProposalPcController extends Controller
             'address_lat' => isset($request->address_lat) ? $request->address_lat : 0,
             'address_lng' => isset($request->address_lng) ? $request->address_lng : 0,
             'address' => $request->address,
-            'address_detail' => isset($request->address_detail) ? $request->address_detail :  $request->product_name,
+            'address_detail' => $request->address_detail,
             'product_name' => $request->product_name,
             'exclusive_area' => $request->exclusive_area,
             'exclusive_square' => $request->exclusive_square,

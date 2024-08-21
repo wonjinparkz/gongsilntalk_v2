@@ -14,7 +14,7 @@
         <div class="m_header">
             <div class="left_area"><a href="javascript:history.go(-1)"><img
                         src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
-            <div class="m_title">신규 건물 <span class="gray_basic"><span class="txt_point">3</span>/3</span></div>
+            <div class="m_title">신규 건물 등록 <span class="gray_basic"><span class="txt_point">3</span>/3</span></div>
             <div class="right_area"></div>
         </div>
         <!----------------------------- m::header bar : s ----------------------------->
@@ -23,7 +23,7 @@
 
             <!-- my_body : s -->
             <div class="inner_mid_wrap m_inner_wrap mid_body">
-                <h1 class="t_center only_pc">신규 건물 하기 <span class="step_number"><span
+                <h1 class="t_center only_pc">신규 건물 등록 <span class="step_number"><span
                             class="txt_point">3</span>/3</span>
                 </h1>
 

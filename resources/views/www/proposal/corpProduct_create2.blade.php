@@ -18,7 +18,7 @@
         <div class="m_header">
             <div class="left_area"><a href="javascript:history.go(-1)"><img
                         src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
-            <div class="m_title">신규 건물 <span class="gray_basic"><span class="txt_point">2</span>/3</span></div>
+            <div class="m_title">신규 건물 등록 <span class="gray_basic"><span class="txt_point">2</span>/3</span></div>
             <div class="right_area"></div>
         </div>
         <!----------------------------- m::header bar : s ----------------------------->
@@ -27,7 +27,7 @@
 
             <!-- my_body : s -->
             <div class="inner_mid_wrap m_inner_wrap mid_body">
-                <h1 class="t_center only_pc">신규 건물 하기 <span class="step_number"><span
+                <h1 class="t_center only_pc">신규 건물 등록 <span class="step_number"><span
                             class="txt_point">2</span>/3</span>
                 </h1>
 
@@ -243,7 +243,8 @@
                     </div>
 
                     <div class="step_btn_wrap">
-                        <span></span>
+                        <button type="button" class="btn_full_basic btn_graylight_ghost"
+                            onclick="javascript:history.go(-1)">이전</button>
                         <button class="btn_full_basic btn_point confirm" disabled onclick="formSetting();">다음</button>
                     </div>
                 </div>
@@ -271,20 +272,22 @@
             }
         }
 
-        $('input[type="checkbox"]').change(function() {
+        $('input[type="checkbox"]').on('click chage keyup', function() {
             confirm_check();
         });
 
-        $('input[type="radio"]').change(function() {
+        $('input[type="radio"]').on('click chage keyup', function() {
             confirm_check();
         });
 
-        $('input[type="number"]').change(function() {
+        $('input[type="number"]').on('chage keyup', function() {
             confirm_check();
         });
-        $('input[type="text"]').change(function() {
+
+        $('input[type="text"]').on('chage keyup', function() {
             confirm_check();
         });
+
 
         function confirm_check() {
             var payment_type = $('input[name="payment_type"]').val();

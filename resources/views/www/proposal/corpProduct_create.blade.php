@@ -10,7 +10,6 @@
         <input type="hidden" name="region_code" id="region_code" value="{{ old('region_code') ?? '' }}">
         <input type="hidden" name="region_address" id="region_address" value="{{ old('region_address') ?? '' }}">
         <input type="hidden" name="address" id="address" value="{{ old('address') ?? '' }}">
-        <input type="hidden" name="address_detail" id="address_detail" value="{{ old('address_detail') ?? '' }}">
 
         <!----------------------------- m::header bar : s ----------------------------->
         <div class="m_header">
@@ -25,7 +24,7 @@
 
             <!-- my_body : s -->
             <div class="inner_mid_wrap m_inner_wrap mid_body">
-                <h1 class="t_center only_pc">신규 건물 하기 <span class="step_number"><span
+                <h1 class="t_center only_pc">신규 건물 등록 <span class="step_number"><span
                             class="txt_point">1</span>/3</span>
                 </h1>
 
@@ -101,10 +100,23 @@
                                     </div>
 
                                     <div class="detail_address_1 mt18 active">
-                                        <div>
-                                            <label class="gray_deep">건물명 <span class="txt_point">*</span></label>
-                                            <input type="text" name="product_name" id="product_name"
-                                                placeholder="건물명을 입력해주세요">
+                                        <div class="flex_2">
+                                            <div class="col-lg-5 fv-row">
+                                                <label class="gray_deep">상세주소 <span class="txt_point">*</span></label>
+                                                <input type="text" class="mt8" name="address_detail"
+                                                    id="address_detail" placeholder="상세주소 입력 예) 1동 101호">
+                                            </div>
+                                            <div class="col-lg-5 fv-row">
+                                                <label class="gray_deep">건물명 <span class="txt_point">*</span></label>
+                                                <input type="text" class="mt8" name="product_name"
+                                                    id="product_name" placeholder="건물명을 입력해주세요">
+                                            </div>
+                                        </div>
+                                        <div class="mt8">
+                                            <input type="checkbox" name="is_address_detail" id="is_address_detail"
+                                                value="1">
+                                            <label for="is_address_detail" class="gray_deep"><span></span> 상세주소
+                                                없음</label>
                                         </div>
                                     </div>
                                 </div>
@@ -152,29 +164,36 @@
                 }
             }
 
-            // 지역구 가져오기
-            get_region('*00000000', '1');
-
             $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/common.css"]').remove();
             $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/map/addrlinkMap.css"]')
                 .remove();
         });
 
-        $('input[name="input_type"]').click(function() {
-            $('#type').val($(this).val());
+        $('input[type="checkbox"]').on('click chage keyup', function() {
             confirm_check();
         });
 
-        $('input[name="product_name"]').change(function() {
+        $('input[type="radio"]').on('click chage keyup', function() {
+            confirm_check();
+        });
+
+        $('input[type="number"]').on('chage keyup', function() {
+            confirm_check();
+        });
+
+        $('input[type="text"]').on('chage keyup', function() {
             confirm_check();
         });
 
         function confirm_check() {
             var type = $('input[name="input_type"]:checked').val();
             var address = $('#address').val();
+            var address_detail = $('#address_detail').val();
+            var is_address_detail = $('#is_address_detail').is(':checked');
             var product_name = $('#product_name').val();
 
-            if (type != '' && address != '' && product_name != '') {
+            if (type != '' && address != '' && product_name != '' && (is_address_detail || (!
+                    is_address_detail && address_detail != ''))) {
                 return $('.confirm').attr("disabled", false);
             } else {
                 return $('.confirm').attr("disabled", true);
@@ -218,6 +237,32 @@
                 $('#type_6').click();
             }
         }
+
+        function is_address() {
+            if ($('#is_address_detail').is(':checked')) {
+                $('#address_detail').val('');
+                $('#address_detail').attr('disabled', true);
+            } else {
+                $('#address_detail').attr('disabled', false);
+            }
+        }
+        $('#is_address_detail').click(function() {
+            if ($(this).is(':checked')) {
+                $('#address_detail').val('');
+                $('#address_detail').attr('disabled', true);
+            } else {
+                $('#address_detail').attr('disabled', false);
+            }
+        });
+
+        // $('#is_product_name').click(function() {
+        //     if ($(this).is(':checked')) {
+        //         $('#product_name').val('');
+        //         $('#product_name').attr('disabled', true);
+        //     } else {
+        //         $('#product_name').attr('disabled', false);
+        //     }
+        // });
     </script>
 
     <script language="javascript">

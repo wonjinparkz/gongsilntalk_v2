@@ -86,23 +86,17 @@
                                     <div class="flex_2">
                                         <div class="col-lg-5 fv-row">
                                             <label class="gray_deep">상세주소 <span class="txt_point">*</span></label>
-                                        </div>
-                                        <div class="col-lg-5 fv-row">
-                                            <label class="gray_deep">건물명 <span class="txt_point">*</span></label>
-                                        </div>
-                                    </div>
-                                    <div class="flex_2">
-                                        <div class="col-lg-5 fv-row">
                                             <input type="text" id="address_detail" name="address_detail"
                                                 value="{{ $product->address_detail }}"
                                                 {{ $product->address_detail == '' ? 'disabled' : '' }}
-                                                placeholder="건물명">
+                                                placeholder="상세주소 입력 예) 1동 101호">
                                         </div>
                                         <div class="col-lg-5 fv-row">
+                                            <label class="gray_deep">건물명 <span class="txt_point">*</span></label>
                                             <input type="text" id="product_name" name="product_name"
                                                 value="{{ $product->product_name }}"
                                                 {{ $product->product_name == '' ? 'disabled' : '' }}
-                                                placeholder="상세주소 입력 예) 1동 101호">
+                                                placeholder="건물명을 입력해주세요">
                                         </div>
                                     </div>
                                     <div class="mt8">
