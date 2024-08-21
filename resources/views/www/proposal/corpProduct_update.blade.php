@@ -429,6 +429,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="reg_item">
+                                <label class="input_label">주차 가능 대수 <span class="txt_point">*</span></label>
+                                <div class="flex_1 mt10">
+                                    <input type="text" name="parking_count" placeholder="예) 10"
+                                        class="w_input_150" inputmode="numeric"
+                                        value="{{ $product->parking_count }}"
+                                        oninput="onlyNumbers(this); onTextChangeEvent(this);">
+                                    <span>대</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="reg_mid_wrap">
                             <div class="reg_item">
@@ -725,6 +735,7 @@
         var service_price = $('input[name="service_price"]').val();
         var move_type = $('input[name="move_type"]:checked').val();
         var move_date = $('input[name="move_date"]').val().length;
+        var parking_count = $('input[name="parking_count"]').val();
         // var imageCount0 = document.querySelectorAll('input[name="product_image_paths[]"]').length
         // var imageCount1 = document.querySelectorAll('input[name="product_detail_image_paths[]"]').length
         var imageCount0 = 1
@@ -736,7 +747,8 @@
 
         if (exclusive_area > 0 && exclusive_square > 0 && floor_number != '' && total_floor_number != '' && (
                 is_service || is_service == false && service_price != '') && (move_type != 2 || (
-                move_type == 2 && move_date == 8)) && imageCount0 > 0 && imageCount1 > 0 && product_content != '') {
+                move_type == 2 && move_date == 8)) && parking_count != '' && imageCount0 > 0 && imageCount1 > 0 &&
+            product_content != '') {
             confirm_1 = true;
         }
 
