@@ -35,7 +35,7 @@
 
                 {{-- 준공일 --}}
                 <td>
-                    {{ $carbon::parse($siteProduct->completion_date)->format('Y.m.d') }}
+                    {{ $siteProduct->completion_date }}
                 </td>
 
                 {{-- 등록일 --}}

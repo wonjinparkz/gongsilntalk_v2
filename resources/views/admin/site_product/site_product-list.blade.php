@@ -163,8 +163,7 @@
                                         {{-- 준공일 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
-                                                @inject('carbon', 'Carbon\Carbon')
-                                                {{ $carbon::parse($siteProduct->completion_date)->format('Y.m.d') }}
+                                                {{ $siteProduct->completion_date }}
                                             </span>
                                         </td>
 
