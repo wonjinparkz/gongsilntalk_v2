@@ -162,7 +162,7 @@
                         <div>{{ $result->builging_ratio }}% / {{ $result->floor_area_ratio }}%</div>
                         <div>준공예정일</div>
                         <div>
-                            {{ $result->completion_date != '' ? $carbon::parse($result->completion_date)->format('Y.m.d') : '-' }}
+                            {{ $result->completion_date }}
                         </div>
                         {{-- <div>입주예정</div>
                         <div>{{ $carbon::parse($result->expected_move_date)->format('Y.m.d') }}</div> --}}
