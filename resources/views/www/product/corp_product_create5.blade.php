@@ -111,7 +111,7 @@
                                 <label class="input_label">상세 설명 <span class="txt_point">*</span></label>
                                 <input type="text" name="comments" id="comments"
                                     placeholder="매물 한줄요약. 예) 역에서 5분거리, 인프라 좋은 매물">
-                                <textarea name="content" class="mt10" placeholder="매물에 대해 추가로 어필하고 싶은 내용을 자세히 작성해 주세요."></textarea>
+                                <textarea name="contents" id="contents" class="mt10" placeholder="매물에 대해 추가로 어필하고 싶은 내용을 자세히 작성해 주세요."></textarea>
                             </div>
                             <div class="reg_mid_wrap mt10">
                                 <div class="reg_item">
