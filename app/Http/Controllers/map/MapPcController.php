@@ -348,7 +348,30 @@ class MapPcController extends Controller
                         ->whereRaw(
                             "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
                             [$address_lat, $address_lng, $address_lat, $distance]
-                        )->get();
+                        );
+                    if ($request->useDate > 0) {
+                        $currentYear = Carbon::now()->year;
+                        if ($request->useDate == 1) {
+                            $lastYear = $currentYear - 1;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 2) {
+                            $lastYear = $currentYear - 2;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 3) {
+                            $lastYear = $currentYear - 5;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 4) {
+                            $lastYear = $currentYear - 10;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 5) {
+                            $lastYear = $currentYear - 15;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 6) {
+                            $lastYear = $currentYear - 15;
+                            $knowledges->whereRaw('YEAR(completion_date) < ?', [$lastYear]);
+                        }
+                    }
+                    $knowledges->get();
                 }
                 if (!isset($request->sale_product_type) || $request->sale_product_type == 1) {
                     // 상가 데이터를 가져옴
@@ -385,7 +408,12 @@ class MapPcController extends Controller
                 );
 
             if (isset($request->product_type)) {
-                $product->where('product.type', $request->product_type);
+                if ($request->product_type == '0,1,2') {
+                    $productTypes = explode(',', $request->product_type);
+                    $product->whereIn('product.type', $productTypes);
+                } else {
+                    $product->where('product.type', $request->product_type);
+                }
             }
 
             $product->whereHas('priceInfo', function ($query) use ($request) {
