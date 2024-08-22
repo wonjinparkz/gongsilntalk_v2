@@ -509,7 +509,8 @@
                                                 <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                                 <p class="mt8">카카오톡</p>
                                             </a>
-                                            <a>
+                                            <a
+                                                onclick="textCopy('{{ asset('storage/image/') . '/' . $result->sale_images->path }}');$('.layer_share_wrap').stop().slideUp(0);">
                                                 <img src="{{ asset('assets/media/share_ic_02.png') }}">
                                                 <p class="mt8">링크복사</p>
                                             </a>
@@ -552,7 +553,8 @@
                                                 <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                                 <p class="mt8">카카오톡</p>
                                             </a>
-                                            <a>
+                                            <a
+                                                onclick="textCopy('{{ asset('storage/image/') . '/' . $result->entre_images->path }}');$('.layer_share_wrap').stop().slideUp(0);">
                                                 <img src="{{ asset('assets/media/share_ic_02.png') }}">
                                                 <p class="mt8">링크복사</p>
                                             </a>
@@ -595,7 +597,8 @@
                                                 <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                                 <p class="mt8">카카오톡</p>
                                             </a>
-                                            <a>
+                                            <a
+                                                onclick="textCopy('{{ asset('storage/image/') . '/' . $result->rental_images->path }}');$('.layer_share_wrap').stop().slideUp(0);">
                                                 <img src="{{ asset('assets/media/share_ic_02.png') }}">
                                                 <p class="mt8">링크복사</p>
                                             </a>
@@ -637,7 +640,8 @@
                                                 <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                                 <p class="mt8">카카오톡</p>
                                             </a>
-                                            <a>
+                                            <a
+                                                onclick="textCopy('{{ asset('storage/image/') . '/' . $result->etc_images->path }}');$('.layer_share_wrap').stop().slideUp(0);">
                                                 <img src="{{ asset('assets/media/share_ic_02.png') }}">
                                                 <p class="mt8">링크복사</p>
                                             </a>
@@ -723,6 +727,13 @@
             var form = document.deleteForm;
             form.submit();
         }
+
+        // 주소 복사
+        var textCopy = (url) => {
+            window.navigator.clipboard.writeText(url).then(() => {
+                alert("링크가 복사 되었습니다.");
+            });
+        };
 
         //공유하기 레이어
         $(".btn_share").click(function() {
