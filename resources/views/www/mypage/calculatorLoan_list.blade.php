@@ -83,8 +83,27 @@
                                         계산서 {{ $key + 1 }}
                                     </h4>
                                     <div class="btn_area">
-                                        <button type="button" class="btn_graylight_ghost btn_sm"
-                                            onclick="PrintDiv($('#loanItem{{ $loan->id }}'), '{{ $title }}_계산서_{{ $key + 1 }}')">공유</button>
+                                        <button class="btn_graylight_ghost btn_sm btn_share"
+                                            data-share="loan_{{ $key }}">공유</button>
+                                        <div class="layer layer_share_wrap layer_share_top loan_{{ $key }}">
+                                            <div class="layer_title">
+                                                <h5>공유하기</h5>
+                                                <img src="{{ asset('assets/media/btn_md_close.png') }}"
+                                                    class="md_btn_close btn_share"
+                                                    data-share="loan_{{ $key }}">
+                                            </div>
+                                            <div class="layer_share_con">
+                                                <a class="kakaotalk-sharing-btn" data-id="{{ $loan->id }}">
+                                                    <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                                                    <p class="mt8">카카오톡</p>
+                                                </a>
+                                                <a
+                                                    onclick="textCopy('{{ env('APP_URL') }}/share/calculator/loan/detail/{{ $loan->id }}');$('.layer_share_wrap').stop().slideUp(0);">
+                                                    <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                                                    <p class="mt8">링크복사</p>
+                                                </a>
+                                            </div>
+                                        </div>
                                         <button type="button" onclick="onDataDelete('{{ $loan->id }}');"
                                             class="btn_graylight_ghost btn_sm">삭제</button>
                                     </div>
@@ -270,7 +289,8 @@
                                     <div>
                                         <label>대출원금</label>
                                         <div class="flex_1">
-                                            <input type="text" id="loan_price" name="loan_price" inputmode="numeric"
+                                            <input type="text" id="loan_price" name="loan_price"
+                                                inputmode="numeric"
                                                 oninput="onlyNumbers(this); onTextChangeEvent(this);"> <span>원</span>
                                         </div>
                                     </div>
@@ -486,22 +506,41 @@
             $("#deleteForm" + id).submit();
         }
 
-        //이미지(png)로 다운로드
-        function PrintDiv(div, title) {
-            div = div[0]
-            html2canvas(div).then(function(canvas) {
-                var myImage = canvas.toDataURL();
-                downloadURI(myImage, title + ".png")
+        // 주소 복사
+        var textCopy = (url) => {
+            window.navigator.clipboard.writeText(url).then(() => {
+                alert("링크가 복사 되었습니다.");
             });
-        }
+        };
 
-        function downloadURI(uri, name) {
-            var link = document.createElement("a")
-            link.download = name;
-            link.href = uri;
-            document.body.appendChild(link);
-            link.click();
-        }
+        //공유하기 레이어
+        $(".btn_share").click(function() {
+            var shareLayerClass = $(this).data("share");
+            $("." + shareLayerClass).stop().slideToggle(0);
+            return;
+        });
+
+        document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
+            var loan_id = button.getAttribute('data-id');
+
+            button.addEventListener('click', function() {
+                $(".layer_share_wrap").stop().slideUp(0);
+
+                Kakao.Share.sendDefault({
+                    objectType: "feed",
+                    content: {
+                        title: '공실앤톡 대출이자 계산기를 공유드립니다.',
+                        description: '',
+                        link: {
+                            mobileWebUrl: '{{ env('APP_URL') }}/share/calculator/loan/detail/' +
+                                loan_id,
+                            webUrl: '{{ env('APP_URL') }}/share/calculator/loan/detail/' +
+                                loan_id,
+                        },
+                    }
+                });
+            });
+        });
     </script>
 
 </x-layout>

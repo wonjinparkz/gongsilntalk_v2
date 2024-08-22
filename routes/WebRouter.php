@@ -64,6 +64,7 @@ Route::controller(SharePcController::class)->group(function () {
     Route::get('/share/proposal/detail', 'shareProposalDetail')->name('share.proposal.detail.view'); // 공유된 매물 제안서
     Route::get('/share/corp/proposal/detail', 'shareCorpProposalDetail')->name('share.corp.proposal.detail.view'); // 공유된 기업 이전 제안서
     Route::get('/share/calculator/revenue/detail/{id}', 'shareCalculatorRevenueDetail')->name('share.calculator.revenue.detail.view'); // 공유된 수익률 계산기F
+    Route::get('/share/calculator/loan/detail/{id}', 'shareCalculatorLoanDetail')->name('share.calculator.loan.detail.view'); // 공유된 수익률 계산기F
 });
 
 /**

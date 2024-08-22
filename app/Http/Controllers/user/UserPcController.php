@@ -1002,8 +1002,6 @@ class UserPcController extends Controller
 
         $loanList = CalculatorLoan::with('prepayments', 'loan_rates')->select()->where('users_id', Auth::guard('web')->user()->id)->orderBy('created_at', 'asc')->get();
 
-        info($loanList);
-
         return view('www.mypage.calculatorLoan_list', compact('user', 'loanList'));
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\share;
 
 use App\Http\Controllers\Controller;
+use App\Models\CalculatorLoan;
 use App\Models\CalculatorRevenue;
 use App\Models\CorpProduct;
 use App\Models\CorpProductAddress;
@@ -42,5 +43,13 @@ class SharePcController extends Controller
         $calculator = CalculatorRevenue::select()->where('id', $id)->first();
 
         return view('www.sharePage.calculator_revenue_share_page', compact('calculator'));
+    }
+
+    public function shareCalculatorLoanDetail($id): View
+    {
+
+        $loan = CalculatorLoan::with('prepayments', 'loan_rates')->select()->where('id', $id)->first();
+
+        return view('www.sharePage.calculator_loan_share_page', compact('loan'));
     }
 }
