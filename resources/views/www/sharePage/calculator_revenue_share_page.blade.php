@@ -58,8 +58,8 @@
             공실앤톡 수익률 계산서
         </div>
 
-        <div class="share_section">
-            <div class="calculator_container">
+        <div class="">
+            <div class="share_calculator_container">
                 <div class="revenue_item">
                     @php
 

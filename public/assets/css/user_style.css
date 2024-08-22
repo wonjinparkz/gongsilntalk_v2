@@ -708,6 +708,10 @@ a.btn_like{background: url('/assets/media/btn_like_off.png') no-repeat; backgrou
 .calculator_container{display:grid; gap:30px; grid-template-columns: repeat(2, 1fr); margin-top: 60px;}
 .calculator_container .revenue_item{border: 1px solid #D2D1D0; border-radius: 10px; padding: 28px; background: url('/assets/media/img_watermark.png') 250px center  no-repeat; background-size:100px auto;}
 .calculator_container .loan_item{border: 1px solid #D2D1D0; border-radius: 10px; padding: 28px;}
+
+.share_calculator_container{display:block; margin-top: 20px;}
+.share_calculator_container .revenue_item{border: 1px solid #D2D1D0; border-radius: 10px; padding: 28px; background: url('/assets/media/img_watermark.png') 250px center  no-repeat; background-size:100px auto;}
+
 .item_tit_wrap{display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;}
 .item_tit_wrap .btn_area{gap:8px; display: flex;}
 .item_tit_wrap h4 span{color: var(--main-color); font-size: 18px;}
