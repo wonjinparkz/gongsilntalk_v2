@@ -259,9 +259,14 @@ img.floor_img{width: 80%;}
 .side_header .right_area a{margin-left:14px; display: inline-block; vertical-align: middle;}
 .side_header img{height:20px;}
 .side_header .layer_share_wrap.layer_share_top{margin-top:170px !important; left: 100px; z-index:10; position: fixed;}
+/* .layer_share_wrap.share_entre{position:absolute; right:110px; top:25px; z-index:2; margin-top:170px !important; left:0px; z-index:10; position: fixed;} */
 .side_fixed{background: #fff; position:fixed; top:215px; left:0; width:439px; z-index:9; box-sizing: border-box; border-top: 1px solid #EEEDED;}
 .side_fixed .top_wrap{ padding: 10px 16px;}
 .estate_link a{height:50px; align-items: center; padding:16px 16px; box-sizing: border-box;}
+
+.proposal_share_btn{position:absolute; right:110px; top:25px; z-index:2}
+.share_entre{position:absolute; right:105px; top:15px; z-index:2; z-index:10; position: fixed;}
+
 .map_side .scroll_wrap_1{height:calc(100vh - 214px); overflow-y:auto; position: relative;}
 .map_side.transaction_type .scroll_wrap_1{height:calc(100vh - 271px); overflow-y:auto; position: relative;}
 .map_side .side_info_wrap{padding: 16px;}

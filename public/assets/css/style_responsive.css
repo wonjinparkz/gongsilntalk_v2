@@ -420,6 +420,9 @@
 
     .proposal_type_tab .swiper-wrapper{display: flex; justify-content:flex-start;}
 
+    .proposal_share_btn{position:absolute; right:20px; top:-25px; z-index:100}
+    .share_entre{position:absolute; right:20px; top:5px; z-index:2; z-index:10; position: fixed;}
+
     /* 제안서 템플릿 */
     .type_view_wrap section{width:100%; height:294px; margin: 0 auto; box-sizing: border-box; }
     .type_view_wrap section.type_1_1{padding: 16px; background: url('/assets/media/type1_img_1.png') no-repeat; background-size:100% 100%;}
