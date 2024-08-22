@@ -748,7 +748,6 @@
 
             button.addEventListener('click', function() {
                 $(".layer_share_wrap").stop().slideUp(0);
-                console.log('카카오', imageUrl);
 
                 Kakao.Share.sendDefault({
                     objectType: "feed",

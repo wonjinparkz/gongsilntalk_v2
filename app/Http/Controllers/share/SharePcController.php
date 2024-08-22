@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\share;
 
 use App\Http\Controllers\Controller;
+use App\Models\CalculatorRevenue;
 use App\Models\CorpProduct;
 use App\Models\CorpProductAddress;
 use App\Models\CorpProposal;
@@ -34,5 +35,12 @@ class SharePcController extends Controller
         $is_type = $request->is_type ?? 0;
 
         return view('www.sharePage.corp_proposal_share_page', compact('address', 'corpInfo', 'products', 'proposal_type', 'is_type'));
+    }
+
+    public function shareCalculatorRevenueDetail($id): View
+    {
+        $calculator = CalculatorRevenue::select()->where('id', $id)->first();
+
+        return view('www.sharePage.calculator_revenue_share_page', compact('calculator'));
     }
 }
