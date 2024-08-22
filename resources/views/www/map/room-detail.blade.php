@@ -970,7 +970,7 @@
                 </div>
                 <div class="agent_popup_detail">
                     <p><span>주소</span>
-                        {{ implode(', ', array_filter([$result->users->company_address ?? '', $result->users->company_address_detail ?? '-'])) }}
+                        {{ implode(', ', array_filter([$result->users->company_address ?? '', $result->users->company_address_detail ?? ''])) }}
                     </p>
                     <p><span>중개등록번호</span> {{ $result->users->company_number ?? '-' }}</p>
                     <p><span>대표번호</span> {{ $result->users->company_phone ?? '-' }}</p>
