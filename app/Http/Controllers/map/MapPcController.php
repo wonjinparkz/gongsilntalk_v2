@@ -258,7 +258,31 @@ class MapPcController extends Controller
                         ->whereRaw(
                             "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
                             [$address_lat, $address_lng, $address_lat, $distance]
-                        )->get();
+                        );
+
+                    if ($request->useDate > 0) {
+                        $currentYear = Carbon::now()->year;
+                        if ($request->useDate == 1) {
+                            $lastYear = $currentYear - 1;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 2) {
+                            $lastYear = $currentYear - 2;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 3) {
+                            $lastYear = $currentYear - 5;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 4) {
+                            $lastYear = $currentYear - 10;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 5) {
+                            $lastYear = $currentYear - 15;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 6) {
+                            $lastYear = $currentYear - 15;
+                            $knowledges->whereRaw('YEAR(completion_date) < ?', [$lastYear]);
+                        }
+                    }
+                    $knowledges = $knowledges->get();
                 }
             } elseif ($zoomLv >= 14 && $zoomLv <= 15) {
                 $distance = 10;
@@ -290,7 +314,31 @@ class MapPcController extends Controller
                         ->whereRaw(
                             "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
                             [$address_lat, $address_lng, $address_lat, $distance]
-                        )->get();
+                        );
+
+                    if ($request->useDate > 0) {
+                        $currentYear = Carbon::now()->year;
+                        if ($request->useDate == 1) {
+                            $lastYear = $currentYear - 1;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 2) {
+                            $lastYear = $currentYear - 2;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 3) {
+                            $lastYear = $currentYear - 5;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 4) {
+                            $lastYear = $currentYear - 10;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 5) {
+                            $lastYear = $currentYear - 15;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 6) {
+                            $lastYear = $currentYear - 15;
+                            $knowledges->whereRaw('YEAR(completion_date) < ?', [$lastYear]);
+                        }
+                    }
+                    $knowledges = $knowledges->get();
                 }
             } else {
                 $distance = 1.5;
