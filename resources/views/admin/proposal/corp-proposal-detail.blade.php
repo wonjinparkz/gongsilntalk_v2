@@ -222,7 +222,7 @@
                         <div class="col-lg-10 fv-row">
                             <button class="btn btn-sm btn-secondary btn-active-light-primary"
                                 {{ count($proposal) > 0 ? '' : 'disabled' }}
-                                onclick="window.open('{{ route('www.mypage.corp.proposal.type.detail.view', [$result->id]) }}', '_blank')">
+                                onclick="window.open('{{ route('share.corp.proposal.detail.view', ['id' => $result->id, 'proposal_type' => 0, 'is_type' => 1]) }}', '_blank','width=1200,height=800,scrollbars=yes,resizable=yes')">
                                 제안서 상세보기
                             </button>
                         </div>

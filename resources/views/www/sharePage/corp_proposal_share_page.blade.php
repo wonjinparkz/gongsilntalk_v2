@@ -59,7 +59,7 @@
 
     <div class="proposal_type_wrap">
         <!-- tab : s -->
-        <div class="swiper proposal_type_tab">
+        <div class="swiper proposal_type_tab" style="display: {{ $is_type == 1 ? '' : 'none' }}">
             <div class="swiper-wrapper">
                 <div class="swiper-slide btn_radioType active">
                     <input type="radio" name="proposal_type" id="proposal_type_1" value="0"

@@ -31,7 +31,8 @@ class SharePcController extends Controller
         $products = CorpProduct::select()->where('corp_proposal_id', $request->id)->orderBy('corp_product_address_id', 'asc')->get();
 
         $proposal_type = $request->proposal_type ?? 0;
+        $is_type = $request->is_type ?? 0;
 
-        return view('www.sharePage.corp_proposal_share_page', compact('address', 'corpInfo', 'products', 'proposal_type'));
+        return view('www.sharePage.corp_proposal_share_page', compact('address', 'corpInfo', 'products', 'proposal_type', 'is_type'));
     }
 }
