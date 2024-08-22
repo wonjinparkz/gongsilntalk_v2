@@ -61,7 +61,8 @@ Route::controller(ConsultingPcController::class)->group(function () {
  * 공유되는 페이지
  */
 Route::controller(SharePcController::class)->group(function () {
-    Route::get('/share/proposal/detail', 'shareProposalDetail')->name('share.detail.view'); // 공유된 매물 제안서
+    Route::get('/share/proposal/detail', 'shareProposalDetail')->name('share.proposal.detail.view'); // 공유된 매물 제안서
+    Route::get('/share/corp/proposal/detail', 'shareCorpProposalDetail')->name('share.corp.proposal.detail.view'); // 공유된 매물 제안서
 });
 
 /**
