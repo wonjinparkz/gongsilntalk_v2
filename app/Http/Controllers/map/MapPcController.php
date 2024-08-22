@@ -349,6 +349,7 @@ class MapPcController extends Controller
                             "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
                             [$address_lat, $address_lng, $address_lat, $distance]
                         );
+
                     if ($request->useDate > 0) {
                         $currentYear = Carbon::now()->year;
                         if ($request->useDate == 1) {
@@ -371,7 +372,8 @@ class MapPcController extends Controller
                             $knowledges->whereRaw('YEAR(completion_date) < ?', [$lastYear]);
                         }
                     }
-                    $knowledges->get();
+
+                    $knowledges = $knowledges->get();
                 }
                 if (!isset($request->sale_product_type) || $request->sale_product_type == 1) {
                     // 상가 데이터를 가져옴
