@@ -26,7 +26,8 @@
                         <div class="symbol symbol-150px symbol-circle mb-5">
                             @if (count($result->users->images) > 0)
                                 @foreach ($result->users->images as $image)
-                                    <img src="{{ Storage::url('image/' . $images->path) }}" />
+                                    {{ $image }}
+                                    {{-- <img src="{{ Storage::url('image/' . $images->path) }}" /> --}}
                                 @endforeach
                             @else
                                 <img src="{{ asset('assets/media/default_user.png') }}" />
