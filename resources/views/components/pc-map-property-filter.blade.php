@@ -39,9 +39,12 @@
             <div class="tab_area_wrap">
                 <div>
                     <div class="btn_radioType">
-                        @for ($i = 0; $i < 8; $i++)
+                        <input type="radio" name="product_type" id="product_type_0" value="0,1,2" checked>
+                        <label
+                            for="product_type_0">{{ Lang::get('commons.product_type.' . 0) }}/{{ Lang::get('commons.product_type.' . 1) }}/{{ Lang::get('commons.product_type.' . 2) }}</label>
+                        @for ($i = 3; $i < 8; $i++)
                             <input type="radio" name="product_type" id="product_type_{{ $i }}"
-                                value="{{ $i }}" {{ $i == 0 ? 'checked' : '' }}>
+                                value="{{ $i }}">
                             <label
                                 for="product_type_{{ $i }}">{{ Lang::get('commons.product_type.' . $i) }}</label>
                         @endfor
