@@ -51,7 +51,7 @@
             <a href="{{ route('www.mypage.my.info') }}">내 정보 수정</a>
         </li>
     @elseif($result->type == 1)
-        <li class="{{ str_contains(Route::currentRouteName(), 'mypage.comapny.my.info') ? 'active' : '' }}">
+        <li class="{{ str_contains(Route::currentRouteName(), 'mypage.company.info') ? 'active' : '' }}">
             <a href="{{ route('www.mypage.company.info') }}">내 정보 수정</a>
         </li>
     @endif

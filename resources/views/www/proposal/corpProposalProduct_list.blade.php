@@ -193,8 +193,11 @@
 
 
                     <div class="bottom_btn_wrap">
-                        <button class="btn_basic btn_point_ghost" type="button" onclick="downloadPDF();">제안서
-                            다운</button>
+                        {{-- <button class="btn_basic btn_point_ghost" type="button" onclick="downloadPDF();">제안서
+                            다운</button> --}}
+                        <button class="btn_gray_ghost btn_sm" type="button"
+                            onclick="location.href='{{ route('www.mypage.corp.proposal.type.detail.view', [$corpInfo->id]) }}'"
+                            {{ count($proposal) > 0 ? '' : 'disabled' }}>제안서 미리보기</button>
                         <button class="btn_basic btn_point"
                             onclick="location.href='{{ route('www.corp.proposal.product.create.view', $corpInfo->id) }}'">
                             신규 건물 추가
@@ -239,20 +242,20 @@
             $('#deleteForm_' + id).submit();
         }
 
-        function downloadPDF() {
-            const element = document.getElementById(
-                'proposalList');
-            html2canvas(element).then((canvas) => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jspdf.jsPDF();
-                const imgProps = pdf.getImageProperties(imgData);
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        // function downloadPDF() {
+        //     const element = document.getElementById(
+        //         'proposalList');
+        //     html2canvas(element).then((canvas) => {
+        //         const imgData = canvas.toDataURL('image/png');
+        //         const pdf = new jspdf.jsPDF();
+        //         const imgProps = pdf.getImageProperties(imgData);
+        //         const pdfWidth = pdf.internal.pageSize.getWidth();
+        //         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save("기업_이전_제안서.pdf");
-            });
-        }
+        //         pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        //         pdf.save("기업_이전_제안서.pdf");
+        //     });
+        // }
 
 
         function onNameChange() {

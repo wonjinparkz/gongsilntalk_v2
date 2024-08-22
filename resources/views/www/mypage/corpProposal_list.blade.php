@@ -45,7 +45,7 @@
                                         <div class="gap_8">
                                             <button class="btn_gray_ghost btn_sm" type="button"
                                                 onclick="location.href='{{ route('www.mypage.corp.proposal.type.detail.view', [$proposal->id]) }}'"
-                                                {{ count($proposal->products) < 1 ? 'disabled' : '' }}>제안서 미리보기</button>
+                                                {{ count($proposal->products) > 0 ? '' : 'disabled' }}>제안서 미리보기</button>
                                             <button class="btn_gray_ghost btn_sm" type="button"
                                                 onclick="modal_open('delete_{{ $proposal->id }}')">삭제</button>
                                         </div>
