@@ -618,34 +618,70 @@
         mapReset();
     }
 
-
     function filter_reset(Name) {
-
         var text = '';
         text = $('#' + Name + '_title').text();
 
-        if (Name == 'payment_type') {
+        if (Name == 'payment_type_txt') {
+            // 거래유형 체크박스 초기화
+            $('input[name="payment_type_txt"]').prop('checked', false);
+            $('#payment_type').val('');
             $('#price').val('');
             $('#month_price').val('');
+
+            resetPaymentType();
+            // 거래유형에 따른 슬라이더 상태 초기화
+
         } else if (Name == 'area') {
+            // 면적 초기화
             $('#square').val('');
+            $('#area').val('');
+
         } else if (Name == 'etc') {
-            $('floor_height_type').val('');
-            $('wattage_type').val('');
+            // 기타 옵션 초기화
+            $('input[name="floor_height_type"][type="radio"]').eq(0).prop('checked', true);
+            $('input[name="wattage_type"][type="radio"]').eq(0).prop('checked', true);
+
+            $('#floor_height_type').val('');
+            $('#wattage_type').val('');
+
+        } else if (Name == 'service_price') {
+            // 관리비 초기화
+            $('#service_price').val('');
+
+        } else if (Name == 'approve_date') {
+            // 사용승인연도 초기화
+            $('#approve_date').val('');
+            $('#temp_approve_date').val('');
+
+        } else if (Name == 'premium_price') {
+            // 권리금 초기화
+            $('#premium_price').val('');
+
+        } else if (Name == 'loan_type') {
+            // 융자금 초기화
+            $('input[name="loan_type"]').prop('checked', false);
+            $('#loan_type').val('');
+        } else if (Name == 'business_type') {
+            // 업종 초기화
+            $('input[name="business_type"]').prop('checked', false);
+            $('#business_type').val('');
+            $('#businessTypeAll').prop('checked', false);
         }
 
-
+        // 라디오 버튼 초기화 (필요 시)
         $('input[type="radio"][name="' + Name + '"][value="0"]').prop('checked', true);
+        // 필터 텍스트 초기화
         $('#filter_text_' + Name).text(text);
+        // 숨겨진 input 값 초기화
         $('#' + Name).val('');
+
         mapReset();
     }
 
     function filter_apply(Name, filertType) {
         var textArray = [];
         var valueArray = [];
-
-        console.log('Name : ', Name);
 
         $('input[name="' + Name + '"]:checked').each(function() {
             textArray.push($(this).next('label').text());
@@ -658,9 +694,25 @@
         var min, max;
 
         if (filertType == 1) {
-            if (Name == 'payment_type') {
+            if (Name == 'payment_type_txt') {
+                $('#payment_type').val(value ?? '');
+                text = value == '' ? '전체' : text;
+
                 $('#price').val($('#temp_price').val());
-                $('#month_price').val($('#temp_month_price').val());
+                [min, max] = $('#temp_price').val().split(',').map(Number);
+                if (min == 0 && max == 200) {} else {
+                    text = text + (min > 0 ? min + '억' : '') + ' ~ ' + (max < 200 ? max + '억' : '');
+                }
+                console.log('valueArray : ', valueArray);
+                if (valueArray.includes('2') || valueArray.includes('4') || valueArray.length == 0) {
+                    $('#month_price').val($('#temp_month_price').val());
+                    [min, max] = $('#temp_month_price').val().split(',').map(Number);
+                    if (min == 0 && max == 1000) {} else {
+                        text = text + ' 월 ' + (min > 0 ? min + '만' : '') + ' ~ ' + (max < 1000 ? max + '만' : '');
+                    }
+                } else {
+                    $('#month_price').val('');
+                }
             } else if (Name == 'area') {
                 var arayTypeText = $.trim($('.areaChage .active').text());
                 if (arayTypeText == '평') {
@@ -685,9 +737,7 @@
             } else {
                 unit = '';
                 $('#' + Name).val($('#temp_' + Name).val());
-                console.log('servie : ', $('#temp_' + Name).val());
                 [min, max] = $('#temp_' + Name).val().split(',').map(Number);
-                console.log('max : min', min + '|' + max);
                 switch (Name) {
                     case 'service_price':
                         if (min == 0 && max == 50) {
@@ -738,7 +788,6 @@
 
         mapReset();
     }
-
 
     // 실거래가지도, 매물지도 타입
     function mapTypeViewChage() {

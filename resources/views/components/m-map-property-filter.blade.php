@@ -100,27 +100,27 @@
     <div class="slide_modal_body">
         <div class="input_type_wrap">
             <div class="product_payment0">
-                <input type="checkbox" name="payment_type" id="payment_type_0" value="0">
+                <input type="checkbox" name="payment_type_txt" id="payment_type_0" value="0">
                 <label for="payment_type_0"><span></span>매매</label>
             </div>
             <div class="product_payment0">
-                <input type="checkbox" name="payment_type" id="payment_type_1" value="1">
+                <input type="checkbox" name="payment_type_txt" id="payment_type_1" value="1">
                 <label for="payment_type_1"><span></span>임대</label>
             </div>
             <div class="product_payment1">
-                <input type="checkbox" name="payment_type" id="payment_type_5" value="5">
+                <input type="checkbox" name="payment_type_txt" id="payment_type_5" value="5">
                 <label for="payment_type_5"><span></span>전매</label>
             </div>
             <div class="product_payment0">
-                <input type="checkbox" name="payment_type" id="payment_type_3" value="3">
+                <input type="checkbox" name="payment_type_txt" id="payment_type_3" value="3">
                 <label for="payment_type_3"><span></span>전세</label>
             </div>
             <div class="">
-                <input type="checkbox" name="payment_type" id="payment_type_4" value="4">
+                <input type="checkbox" name="payment_type_txt" id="payment_type_4" value="4">
                 <label for="payment_type_4"><span></span>월세</label>
             </div>
             <div class="product_payment0">
-                <input type="checkbox" name="payment_type" id="payment_type_2" value="2">
+                <input type="checkbox" name="payment_type_txt" id="payment_type_2" value="2">
                 <label for="payment_type_2"><span></span>단기임대</label>
             </div>
         </div>
@@ -165,17 +165,23 @@
     </div>
     <div class="filter_panel_bottom">
         <button type="button" class="btn_graylight_ghost btn_md_full"
-            onclick="modal_close_slide('filter_4'); filter_reset('payment_type')"><img
+            onclick="modal_close_slide('filter_4'); filter_reset('payment_type_txt')"><img
                 src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
         <button type="button" class="btn_point btn_md_full"
-            onclick="modal_close_slide('filter_4'); filter_apply('payment_type', 1)">적용하기</button>
+            onclick="modal_close_slide('filter_4'); filter_apply('payment_type_txt', 1)">적용하기</button>
     </div>
 </div>
 <div class="md_slide_overlay md_slide_overlay_filter_4" onclick="modal_close_slide('filter_4')"></div>
 <script>
-    $('input[name="product_type"]').on('change', function() {
+    function resetPaymentType() {
+        $('#price_label').text('매매가/전세가/보증금'); // 기본 라벨 텍스트 설정
+        $('#rangeMonthPrice').closest('.range_wrap').show(); // 월세 슬라이더 표시
+        $('.product_payment0').show(); // 기본 거래 유형 표시 설정
+        $('.product_payment1').hide(); // 추가적인 거래 유형 숨김
+    }
+    $('input[name="payment_type_txt"]').on('change', function() {
         // 선택된 product_type 값을 가져옵니다.
-        var productTypeValue = $('input[name="product_type"]:checked').val();
+        var productTypeValue = $('input[name="payment_type_txt"]:checked').val();
 
         // product_payment0과 product_payment1의 표시 여부를 결정합니다.
         if (productTypeValue > 13) {
@@ -188,11 +194,17 @@
 
     });
     // payment_type이 변경될 때마다 슬라이더 라벨 업데이트
-    $('input[name="payment_type"]').on('change', function() {
+    $('input[name="payment_type_txt"]').on('change', function() {
         // 선택된 payment_type 값을 가져옵니다.
-        var paymentTypeValues = $('input[name="payment_type"]:checked').map(function() {
+        var paymentTypeValues = $('input[name="payment_type_txt"]:checked').map(function() {
             return parseInt($(this).val());
         }).get();
+
+        // 체크박스가 모두 해제된 경우 초기 상태로 되돌림
+        if (paymentTypeValues.length === 0) {
+            resetPaymentType();
+            return; // 이후 로직을 실행하지 않도록 종료
+        }
 
         // 라벨 텍스트 설정
         var priceLabelText = '';
@@ -672,6 +684,8 @@
         var valueMin = document.querySelector(slider.minId);
         var valueMax = document.querySelector(slider.maxId);
         var itemTxt = document.querySelector(slider.txtId);
+
+        console.log('valueMin: ', valueMin);
 
         if (!sliderElement) {
             console.error('Slider element not found: ' + sliderId);

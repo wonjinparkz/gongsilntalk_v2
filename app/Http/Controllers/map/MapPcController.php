@@ -99,8 +99,6 @@ class MapPcController extends Controller
             $agentList = collect();
         }
 
-        info($agentList);
-
         if ($request->ajax()) {
             $property = view('components.m-property-layout', compact('propertyList'))->render();
             $agent = view('components.m-agent-layout', compact('agentList'))->render();
@@ -177,8 +175,6 @@ class MapPcController extends Controller
 
     public function getMapMarker(Request $request)
     {
-        // 요청 받은 모든 데이터 로그에 기록
-        info($request->all());
 
         // 위도와 경도를 요청에서 가져오거나 기본값 설정
         $address_lat = $request->lat ?? 37.4874462;
@@ -471,6 +467,7 @@ class MapPcController extends Controller
                 $paymentTypes = explode(',', $request->payment_type);
 
                 info($request->payment_type);
+
                 if (isset($request->payment_type)) {
                     $query->whereIn('product_price.payment_type', $paymentTypes);
                 }
@@ -532,14 +529,21 @@ class MapPcController extends Controller
                 }
             }
 
+            info('service_price : ' . $request->service_price);
+
             // 관리비
             if (isset($request->service_price)) {
                 $servicePriceArray = explode(',', $request->service_price);
                 if ($servicePriceArray[0] > 0) {
-                    $product->where('product.service_price', '>=', $servicePriceArray[0]);
+                    $product->where('product.service_price', '>=', $servicePriceArray[0] * 10000);
                 }
-                if ($servicePriceArray[1] < 1000) {
-                    $product->where('product.service_price', '<=', $servicePriceArray[1]);
+                if ($servicePriceArray[1] < 50 && $servicePriceArray[0] > 0) {
+                    $product->where('product.service_price', '<=', $servicePriceArray[1] * 10000);
+                } else if ($servicePriceArray[1] < 50 && $servicePriceArray[0] == 0) {
+                    $product->where(function ($query) use ($servicePriceArray) {
+                        $query->where('product.service_price', '<=', $servicePriceArray[1] * 10000)
+                            ->orWhereNull('product.service_price');
+                    });
                 }
             }
 
@@ -552,21 +556,25 @@ class MapPcController extends Controller
                 // 현재 날짜
                 $currentDate = Carbon::now();
 
-                // 시작 날짜 (최소 연도만큼 전)
-                $startDate = $currentDate->copy()->subYears($maxYears)->startOfYear();
+                // 종료 날짜 (최소 연도만큼 전)
+                $endDate = $currentDate->copy()->subYears($minYears)->endOfYear()->format('Ymd');
 
-                // 종료 날짜 (최대 연도만큼 전)
-                $endDate = $currentDate->copy()->subYears($minYears)->endOfYear();
+                // 쿼리 빌더 조건 추가
+                $product->where(function ($query) use ($endDate, $maxYears) {
+                    // 종료 날짜까지의 데이터를 검색 (최대값이 10이면 시작 날짜 제한 없음)
+                    if ($maxYears == 10) {
+                        $query->where('product.approve_date', '<=', $endDate);
+                    } else {
+                        $startDate = Carbon::now()->copy()->subYears($maxYears)->startOfYear()->format('Ymd');
+                        $query->whereBetween('product.approve_date', [$startDate, $endDate]);
+                    }
+                });
 
-                // 조건에 따라 쿼리 빌더에 조건 추가
-                if ($approveDateArray[0] > 0) {
-                    $product->whereDate('product.approve_date', '>=', $startDate->format('Y-m-d'));
-                }
-                if ($approveDateArray[1] < 10) {
-                    $product->whereDate('product.approve_date', '<=', $endDate->format('Y-m-d'));
+                // 최소 연도가 0인 경우, 승인 연도가 없는 경우도 포함
+                if ($minYears == 0) {
+                    $product->orWhereNull('product.approve_date');
                 }
             }
-
             // 융자금
             if (isset($request->loan_type)) {
                 $product->where('product.loan_type', $request->loan_type);
@@ -578,6 +586,15 @@ class MapPcController extends Controller
                     $businessTypes = explode(',', $request->business_type);
                     $query->whereIn('product_add_info.recommend_business_type', $businessTypes);
                 }
+                // 기타 층고
+                if (isset($request->floor_height_type)) {
+                    $query->where('product_add_info.floor_height_type', $request->floor_height_type);
+                }
+                // 기타 사용전력
+                if (isset($request->wattage_type)) {
+                    $query->where('product_add_info.wattage_type', $request->wattage_type);
+                }
+
             });
 
 
@@ -616,7 +633,6 @@ class MapPcController extends Controller
 
     public function mapSideView(Request $request): View
     {
-        Log::info($request);
         $mapType = $request->mapType;
         $markerType = $request->type;
 

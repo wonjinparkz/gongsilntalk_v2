@@ -90,35 +90,35 @@
 
 <!-- filter 거래유형/가격 : s -->
 <div class="filter_btn_wrap">
-    <button class="filter_btn_trigger" id="filter_text_payment_type">거래유형/가격</button>
+    <button class="filter_btn_trigger" id="filter_text_payment_type_txt">거래유형/가격</button>
     <div class="filter_panel panel_item_2">
         <div class="filter_panel_body">
-            <h6 style="display:none" id="payment_type_title">거래유형/가격</h6>
+            <h6 style="display:none" id="payment_type_txt_title">거래유형/가격</h6>
             <h6>거래 유형 <span>중복 선택 가능</span></h6>
             <div class="input_type_wrap">
                 <div class="input_type_wrap">
                     <div class="product_payment0">
-                        <input type="checkbox" name="payment_type" id="payment_type_0" value="0">
+                        <input type="checkbox" name="payment_type_txt" id="payment_type_0" value="0">
                         <label for="payment_type_0"><span></span>매매</label>
                     </div>
                     <div class="product_payment0">
-                        <input type="checkbox" name="payment_type" id="payment_type_1" value="1">
+                        <input type="checkbox" name="payment_type_txt" id="payment_type_1" value="1">
                         <label for="payment_type_1"><span></span>임대</label>
                     </div>
                     <div class="product_payment1">
-                        <input type="checkbox" name="payment_type" id="payment_type_5" value="5">
+                        <input type="checkbox" name="payment_type_txt" id="payment_type_5" value="5">
                         <label for="payment_type_5"><span></span>전매</label>
                     </div>
                     <div class="product_payment0">
-                        <input type="checkbox" name="payment_type" id="payment_type_3" value="3">
+                        <input type="checkbox" name="payment_type_txt" id="payment_type_3" value="3">
                         <label for="payment_type_3"><span></span>전세</label>
                     </div>
                     <div class="">
-                        <input type="checkbox" name="payment_type" id="payment_type_4" value="4">
+                        <input type="checkbox" name="payment_type_txt" id="payment_type_4" value="4">
                         <label for="payment_type_4"><span></span>월세</label>
                     </div>
                     <div class="product_payment0">
-                        <input type="checkbox" name="payment_type" id="payment_type_2" value="2">
+                        <input type="checkbox" name="payment_type_txt" id="payment_type_2" value="2">
                         <label for="payment_type_2"><span></span>단기임대</label>
                     </div>
                 </div>
@@ -165,9 +165,15 @@
             <!-- slider : e -->
         </div>
         <script>
-            $('input[name="product_type"]').on('change', function() {
+            function resetPaymentType() {
+                $('#price_label').text('매매가/전세가/보증금'); // 기본 라벨 텍스트 설정
+                $('#rangeMonthPrice').closest('.range_wrap').show(); // 월세 슬라이더 표시
+                $('.product_payment0').show(); // 기본 거래 유형 표시 설정
+                $('.product_payment1').hide(); // 추가적인 거래 유형 숨김
+            }
+            $('input[name="payment_type_txt"]').on('change', function() {
                 // 선택된 product_type 값을 가져옵니다.
-                var productTypeValue = $('input[name="product_type"]:checked').val();
+                var productTypeValue = $('input[name="payment_type_txt"]:checked').val();
 
                 // product_payment0과 product_payment1의 표시 여부를 결정합니다.
                 if (productTypeValue > 13) {
@@ -180,11 +186,17 @@
 
             });
             // payment_type이 변경될 때마다 슬라이더 라벨 업데이트
-            $('input[name="payment_type"]').on('change', function() {
+            $('input[name="payment_type_txt"]').on('change', function() {
                 // 선택된 payment_type 값을 가져옵니다.
-                var paymentTypeValues = $('input[name="payment_type"]:checked').map(function() {
+                var paymentTypeValues = $('input[name="payment_type_txt"]:checked').map(function() {
                     return parseInt($(this).val());
                 }).get();
+
+                // 체크박스가 모두 해제된 경우 초기 상태로 되돌림
+                if (paymentTypeValues.length === 0) {
+                    resetPaymentType();
+                    return; // 이후 로직을 실행하지 않도록 종료
+                }
 
                 // 라벨 텍스트 설정
                 var priceLabelText = '';
@@ -244,10 +256,10 @@
 
         <div class="filter_panel_bottom">
             <button type="button" class="btn_graylight_ghost btn_md_full"
-                onclick="filter_reset('payment_type')"><img
+                onclick="filter_reset('payment_type_txt')"><img
                     src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
             <button type="button" class="btn_point btn_md_full"
-                onclick="filter_apply('payment_type', 1)">적용하기</button>
+                onclick="filter_apply('payment_type_txt', 1)">적용하기</button>
         </div>
     </div>
 </div>
@@ -477,8 +489,8 @@
             <div class="flex_between">
                 <h6 id="business_type_title">업종</h6>
                 <div class="checkbox_sm_btn">
-                    <input type="checkbox" name="checkAll" id="checkAll">
-                    <label for="checkAll"><span></span>전체</label>
+                    <input type="checkbox" name="businessTypeAll" id="businessTypeAll">
+                    <label for="businessTypeAll"><span></span>전체</label>
                 </div>
             </div>
 
@@ -542,6 +554,19 @@
 <!-- filter 기타 : s -->
 
 <script>
+    $('#businessTypeAll').on('change', function() {
+        // 전체 체크박스의 상태에 따라 모든 개별 체크박스의 상태를 변경
+        $('input[name="business_type"]').prop('checked', this.checked);
+    });
+
+    // 개별 체크박스 클릭 시
+    $('input[name="business_type"]').on('change', function() {
+        // 모든 개별 체크박스가 체크되어 있는지 확인
+        var allChecked = $('input[name="business_type"]').length === $('input[name="business_type"]:checked')
+            .length;
+        // 전체 선택 체크박스의 상태를 모든 체크박스가 체크되어 있는지 여부에 따라 설정
+        $('#businessTypeAll').prop('checked', allChecked);
+    });
     // 필터 열기
     const filterBtns = document.querySelectorAll('.filter_btn_trigger');
     filterBtns.forEach(btn => {

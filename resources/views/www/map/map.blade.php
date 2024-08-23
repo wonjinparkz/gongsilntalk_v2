@@ -20,7 +20,8 @@
                     </div>
                 </div>
                 <div>
-                    <button class="btn_graylight_ghost btn_sm"><img src="{{ asset('assets/media/ic_reset.png') }}">전체
+                    <button type="button" id="resetAllFilters" class="btn_graylight_ghost btn_sm"><img
+                            src="{{ asset('assets/media/ic_reset.png') }}">전체
                         초기화</button>
                 </div>
             </div>
@@ -1123,6 +1124,7 @@
             $('.map_side_1').addClass('active');
         }
 
+        console.log('gd? ');
         $('.filter_panel').css('display', 'none');
 
         var center = map.getCenter();
@@ -1130,25 +1132,85 @@
         markerUpdate(center.lat(), center.lng(), zoom);
     }
 
-    function filter_reset(Name) {
+    // function filter_reset(Name) {
 
+    //     var text = '';
+    //     text = $('#' + Name + '_title').text();
+
+    //     if (Name == 'payment_type_txt') {
+    //         $('#price').val('');
+    //         $('#month_price').val('');
+    //     } else if (Name == 'area') {
+    //         $('#square').val('');
+    //     } else if (Name == 'etc') {
+    //         $('floor_height_type').val('');
+    //         $('wattage_type').val('');
+    //     }
+
+
+    //     $('input[type="radio"][name="' + Name + '"][value="0"]').prop('checked', true);
+    //     $('#filter_text_' + Name).text(text);
+    //     $('#' + Name).val('');
+    //     mapReset();
+    // }
+    function filter_reset(Name) {
         var text = '';
         text = $('#' + Name + '_title').text();
 
-        if (Name == 'payment_type') {
+        if (Name == 'payment_type_txt') {
+            // 거래유형 체크박스 초기화
+            $('input[name="payment_type_txt"]').prop('checked', false);
+            $('#payment_type').val('');
             $('#price').val('');
             $('#month_price').val('');
+
+            resetPaymentType();
+            // 거래유형에 따른 슬라이더 상태 초기화
+
         } else if (Name == 'area') {
+            // 면적 초기화
             $('#square').val('');
+            $('#area').val('');
+
         } else if (Name == 'etc') {
-            $('floor_height_type').val('');
-            $('wattage_type').val('');
+            // 기타 옵션 초기화
+            $('input[name="floor_height_type"][type="radio"]').eq(0).prop('checked', true);
+            $('input[name="wattage_type"][type="radio"]').eq(0).prop('checked', true);
+
+            $('#floor_height_type').val('');
+            $('#wattage_type').val('');
+
+        } else if (Name == 'service_price') {
+            // 관리비 초기화
+            $('#service_price').val('');
+
+        } else if (Name == 'approve_date') {
+            // 사용승인연도 초기화
+            $('#approve_date').val('');
+            $('#temp_approve_date').val('');
+
+        } else if (Name == 'premium_price') {
+            // 권리금 초기화
+            $('#premium_price').val('');
+
+        } else if (Name == 'loan_type') {
+            // 융자금 초기화
+            $('input[name="loan_type"]').prop('checked', false);
+            $('#loan_type').val('');
+        } else if (Name == 'business_type') {
+            // 업종 초기화
+            $('input[name="business_type"]').prop('checked', false);
+            $('#business_type').val('');
+            $('#businessTypeAll').prop('checked', false);
         }
 
-
+        // 라디오 버튼 초기화 (필요 시)
         $('input[type="radio"][name="' + Name + '"][value="0"]').prop('checked', true);
+        // 필터 텍스트 초기화
         $('#filter_text_' + Name).text(text);
+        // 숨겨진 input 값 초기화
         $('#' + Name).val('');
+
         mapReset();
     }
 
@@ -1167,9 +1229,25 @@
         var min, max;
 
         if (filertType == 1) {
-            if (Name == 'payment_type') {
+            if (Name == 'payment_type_txt') {
+                $('#payment_type').val(value ?? '');
+                text = value == '' ? '전체' : text;
+
                 $('#price').val($('#temp_price').val());
-                $('#month_price').val($('#temp_month_price').val());
+                [min, max] = $('#temp_price').val().split(',').map(Number);
+                if (min == 0 && max == 200) {} else {
+                    text = text + (min > 0 ? min + '억' : '') + ' ~ ' + (max < 200 ? max + '억' : '');
+                }
+                console.log('valueArray : ', valueArray);
+                if (valueArray.includes('2') || valueArray.includes('4') || valueArray.length == 0) {
+                    $('#month_price').val($('#temp_month_price').val());
+                    [min, max] = $('#temp_month_price').val().split(',').map(Number);
+                    if (min == 0 && max == 1000) {} else {
+                        text = text + ' 월 ' + (min > 0 ? min + '만' : '') + ' ~ ' + (max < 1000 ? max + '만' : '');
+                    }
+                } else {
+                    $('#month_price').val('');
+                }
             } else if (Name == 'area') {
                 var arayTypeText = $.trim($('.areaChage .active').text());
                 if (arayTypeText == '평') {
@@ -1300,4 +1378,64 @@
             });
         }
     }
+
+    // 전체 초기화 버튼 클릭 시 처리
+    $('#resetAllFilters').on('click', function() {
+        // 거래유형 체크박스 초기화
+        $('input[name="payment_type_txt"]').prop('checked', false);
+        $('#payment_type').val('');
+        $('#price').val('');
+        $('#month_price').val('');
+        resetPaymentType(); // 이 함수가 거래 유형에 따른 슬라이더 초기화를 처리해야 함
+
+        // 슬라이더 값 초기화 (슬라이더 다시 생성 없이)
+        $('#rangePrice')[0].noUiSlider.set([0, 100]); // 예시: 최소 0, 최대 100으로 설정
+        $('#rangeMonthPrice')[0].noUiSlider.set([0, 1000]); // 예시: 최소 0, 최대 1000으로 설정
+
+        // 면적 초기화
+        $('#square').val('');
+        $('#area').val('');
+
+        // 슬라이더 값 초기화
+        $('#rangeSquare')[0].noUiSlider.set([0, 3205]); // 예시: 최소 0, 최대 3205로 설정
+        $('#rangeArea')[0].noUiSlider.set([0, 1000]); // 예시: 최소 0, 최대 1000으로 설정
+
+        // 기타 옵션 초기화
+        $('input[name="floor_height_type"][type="radio"]').first().prop('checked', true);
+        $('input[name="wattage_type"][type="radio"]').first().prop('checked', true);
+        $('#floor_height_type').val($('input[name="floor_height_type"][type="radio"]').first().val());
+        $('#wattage_type').val($('input[name="wattage_type"][type="radio"]').first().val());
+
+        // 관리비 초기화
+        $('#service_price').val('');
+        $('#rangeServicePrice')[0].noUiSlider.set([0, 50]); // 예시: 최소 0, 최대 50으로 설정
+
+        // 사용승인연도 초기화
+        $('#approve_date').val('');
+        $('#rangeApproveDate')[0].noUiSlider.set([0, 10]); // 예시: 최소 0, 최대 10으로 설정
+
+        // 권리금 초기화
+        $('#premium_price').val('');
+        $('#rangePremiumPrice')[0].noUiSlider.set([0, 10000]); // 예시: 최소 0, 최대 10000으로 설정
+
+        // 융자금 초기화
+        $('input[name="loan_type"]').prop('checked', false);
+        $('#loan_type').val('');
+
+        // 업종 초기화
+        $('input[name="business_type"]').prop('checked', false);
+        $('#business_type').val('');
+        $('#businessTypeAll').prop('checked', false);
+
+        // 모든 필터 텍스트 초기화
+        $('.filter_btn_trigger').each(function() {
+            var filterName = $(this).attr('id').replace('filter_text_', '');
+            var text = $('#' + filterName + '_title').text();
+            $('#filter_text_' + filterName).text(text);
+            $('#' + filterName).val('');
+        });
+
+        // 맵 초기화
+        mapReset();
+    });
 </script>
