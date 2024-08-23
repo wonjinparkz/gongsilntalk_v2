@@ -394,16 +394,16 @@
         </div>
         <div class="end_company_wrap">
             <div>
-                <p class="txt_item_1">{{ Auth::guard('web')->user()->company_name }}</p>
+                <p class="txt_item_1">{{ $corpInfo->company_name }}</p>
                 <p class="txt_item_2">{{ $corpInfo->position }}
-                    {{ Auth::guard('web')->user()->name }}</p>
+                    {{ $corpInfo->name }}</p>
             </div>
             <div>
-                <p class="txt_item_1">{{ Auth::guard('web')->user()->phone }}</p>
-                <p class="txt_item_1">{{ Auth::guard('web')->user()->email }}</p>
+                <p class="txt_item_1">{{ $corpInfo->phone }}</p>
+                <p class="txt_item_1">{{ $corpInfo->email }}</p>
             </div>
-            <p class="txt_item_3">{{ Auth::guard('web')->user()->company_address }}
-                {{ Auth::guard('web')->user()->company_address_detail }}</p>
+            <p class="txt_item_3">{{ $corpInfo->company_address }}
+                {{ $corpInfo->company_address_detail }}</p>
         </div>
     </section>
 
