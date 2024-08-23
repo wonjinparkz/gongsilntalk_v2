@@ -469,6 +469,8 @@ class MapPcController extends Controller
             $product->whereHas('priceInfo', function ($query) use ($request) {
                 // 거래유형
                 $paymentTypes = explode(',', $request->payment_type);
+
+                info($request->payment_type);
                 if (isset($request->payment_type)) {
                     $query->whereIn('product_price.payment_type', $paymentTypes);
                 }
