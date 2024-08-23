@@ -11,8 +11,8 @@
             <h1>{{ $corpInfo->corp_name }}<br>기업이전제안서</h1>
             <div>
                 <p class="txt_item_2">{{ $corpInfo->position }}
-                    {{ Auth::guard('web')->user()->name }}</p>
-                <p class="txt_item_3">{{ Auth::guard('web')->user()->company_name }}</p>
+                    {{ $corpInfo->name }}</p>
+                <p class="txt_item_3">{{ $corpInfo->company_name }}</p>
             </div>
         </div>
     </section>
