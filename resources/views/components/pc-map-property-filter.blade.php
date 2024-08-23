@@ -98,27 +98,27 @@
             <div class="input_type_wrap">
                 <div class="input_type_wrap">
                     <div class="product_payment0">
-                        <input type="checkbox" name="payment_type[]" id="payment_type_0" value="0">
+                        <input type="checkbox" name="payment_type" id="payment_type_0" value="0">
                         <label for="payment_type_0"><span></span>매매</label>
                     </div>
                     <div class="product_payment0">
-                        <input type="checkbox" name="payment_type[]" id="payment_type_1" value="1">
+                        <input type="checkbox" name="payment_type" id="payment_type_1" value="1">
                         <label for="payment_type_1"><span></span>임대</label>
                     </div>
                     <div class="product_payment1">
-                        <input type="checkbox" name="payment_type[]" id="payment_type_5" value="5">
+                        <input type="checkbox" name="payment_type" id="payment_type_5" value="5">
                         <label for="payment_type_5"><span></span>전매</label>
                     </div>
                     <div class="product_payment0">
-                        <input type="checkbox" name="payment_type[]" id="payment_type_3" value="3">
+                        <input type="checkbox" name="payment_type" id="payment_type_3" value="3">
                         <label for="payment_type_3"><span></span>전세</label>
                     </div>
                     <div class="">
-                        <input type="checkbox" name="payment_type[]" id="payment_type_4" value="4">
+                        <input type="checkbox" name="payment_type" id="payment_type_4" value="4">
                         <label for="payment_type_4"><span></span>월세</label>
                     </div>
                     <div class="product_payment0">
-                        <input type="checkbox" name="payment_type[]" id="payment_type_2" value="2">
+                        <input type="checkbox" name="payment_type" id="payment_type_2" value="2">
                         <label for="payment_type_2"><span></span>단기임대</label>
                     </div>
                 </div>
