@@ -479,7 +479,7 @@
                                     value="2"@if ($result->parking_type == 2) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">불가능</span>
                             </label>
-                            <div class="input-group">
+                            {{-- <div class="input-group">
                                 <span class="input-group-text">월</span>
                                 <input type="number" name="parking_price" id="parking_price" class="form-control"
                                     placeholder="예) 10" value="{{ old('parking_price') ?? $result->parking_price }}"
@@ -493,7 +493,7 @@
                                         {{ $result->parking_type != 1 ? 'disabled' : old('parking_price') ?? ($result->parking_price ?? 'checked') }}>
                                     <span class="fw-semibold ps-2 fs-6">무료주차</span>
                                 </label>
-                            </div>
+                            </div> --}}
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('parking_price')" />
                         </div>
                     </div>

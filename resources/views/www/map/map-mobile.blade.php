@@ -292,8 +292,13 @@
         </div>
         <div class="map_bottom_area map_bottom_area_2 non_pano" id="map_bottom_area">
             <div class="map_bottom_btn">
-                <button onclick="location.href='{{ route('www.product.create.view') }}'"><img
-                        src="{{ asset('assets/media/ic_org_estate.png') }}">매물 내놓기</button>
+                @if (Auth::guard('web')->user()->type ?? 0 == 1)
+                    <button onclick="location.href='{{ route('www.corp.product.create.view') }}'"><img
+                            src="{{ asset('assets/media/ic_org_estate.png') }}">매물 내놓기</button>
+                @else
+                    <button onclick="location.href='{{ route('www.product.create.view') }}'"><img
+                            src="{{ asset('assets/media/ic_org_estate.png') }}">매물 내놓기</button>
+                @endif
                 <button onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'"><img
                         src="{{ asset('assets/media/btn_point_search.png') }}">매물 구하기</button>
             </div>

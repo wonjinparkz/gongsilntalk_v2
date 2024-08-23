@@ -305,7 +305,7 @@
                                 @if ($result->is_service != 0)
                                     관리비 없음
                                 @else
-                                    {{ number_format($result->parking_price / 10000) . '만원' }}
+                                    {{ number_format($result->service_price / 10000) . '만원' }}
                                 @endif
                             </label>
                         </div>
@@ -351,7 +351,7 @@
                         <label class="col-form-label fw-semibold fs-6">
                             @if ($result->parking_type == 1)
                                 가능&nbsp;&nbsp;
-                                {{ $result->parking_price > 0 ? '주차비 월' . number_format($result->parking_price) . '원' : '무료주차' }}
+                                {{ $result->parking_price > 0 ? '주차비 월' . number_format($result->parking_price) . '원' : '' }}
                             @elseif($result->parking_type == 2)
                                 불가능
                             @else

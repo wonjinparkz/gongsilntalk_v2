@@ -76,6 +76,7 @@
                                         <div><input type="text" name="top_floor_number" placeholder="최고"> <span
                                                 class="gray_deep">층</span></div>
                                     </div>
+                                    <span class="gray_basic">※ 지하의 경우 B1으로 표시</span>
                                 </div>
                             @endif
                             @if (in_array($result['type'], [6, 7]))
@@ -94,7 +95,6 @@
                                     </div>
                                 </div>
                             @endif
-                            <span class="gray_basic">※ 지하의 경우 B1으로 표시</span>
 
                         </div>
                         <!-- 단독공장 해당 : e -->
@@ -142,26 +142,24 @@
                             @endif
                             <!-- 단독공장 해당 : e -->
 
-                            @if ($result['type'] != 7)
-                                <div class="reg_item no_forest">
-                                    <label class="input_label">전용 면적 <span class="txt_point">*</span></label>
-                                    <div class="input_pyeong_area">
-                                        <div>
-                                            <input type="text" name="exclusive_area" id="exclusive_area"
-                                                placeholder="전용면적" inputmode="numeric"
-                                                oninput="onlyNumbers(this);area_change('exclusive_');">
-                                            <span class="gray_deep">평</span>
-                                        </div>
-                                        <span class="gray_deep">/</span>
-                                        <div>
-                                            <input type="text" name="exclusive_square" id="exclusive_square"
-                                                placeholder="평 입력시 자동" inputmode="numeric"
-                                                oninput="imsi(this); square_change('exclusive_')">
-                                            <span class="gray_deep">㎡</span>
-                                        </div>
+                            <div class="reg_item no_forest">
+                                <label class="input_label">전용 면적 <span class="txt_point">*</span></label>
+                                <div class="input_pyeong_area">
+                                    <div>
+                                        <input type="text" name="exclusive_area" id="exclusive_area"
+                                            placeholder="전용면적" inputmode="numeric"
+                                            oninput="onlyNumbers(this);area_change('exclusive_');">
+                                        <span class="gray_deep">평</span>
+                                    </div>
+                                    <span class="gray_deep">/</span>
+                                    <div>
+                                        <input type="text" name="exclusive_square" id="exclusive_square"
+                                            placeholder="평 입력시 자동" inputmode="numeric"
+                                            oninput="imsi(this); square_change('exclusive_')">
+                                        <span class="gray_deep">㎡</span>
                                     </div>
                                 </div>
-                            @endif
+                            </div>
                         </div>
 
                         <div class="reg_mid_wrap">
