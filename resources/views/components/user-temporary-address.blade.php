@@ -2,7 +2,7 @@
 <!-- modal (구)주소 검색 : s-->
 <div class="modal modal_mid modal_address_search">
     <div class="modal_title">
-        <h5>가(임시) 주소 검색</h5>
+        <h5>(구) 주소 검색</h5>
         <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close"
             onclick="modal_close('address_search')">
     </div>

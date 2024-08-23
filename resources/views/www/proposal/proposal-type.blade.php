@@ -22,16 +22,16 @@
                     <div class="inner_wrap m_inner_wrap">
                         <h1 class="t_center only_pc">제안서 미리보기</h1>
                     </div>
-                    
+
 
                     <div class="proposal_type_wrap relative">
                         <!-- tab : s -->
-                         <!-- 공유하기 : s -->
-                    <div class="proposal_share_btn">
-                        <button class="btn_graylight_ghost btn_sm btn_share" data-share="share_entre"><img
-                                src="{{ asset('assets/media/header_btn_share_deep.png') }}" class="normal"></button>
-                    </div>
-                    <div class="layer layer_share_wrap share_entre">
+                        <!-- 공유하기 : s -->
+                        <div class="proposal_share_btn">
+                            <button class="btn_graylight_ghost btn_sm btn_share" data-share="share_entre"><img
+                                    src="{{ asset('assets/media/header_btn_share_deep.png') }}" class="normal"></button>
+                        </div>
+                        <div class="layer layer_share_wrap share_entre">
                             <div class="layer_title">
                                 <h5>공유하기</h5>
                                 <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close btn_share"
@@ -49,7 +49,7 @@
                                 </a>
                             </div>
                         </div>
-                    <!-- 공유하기 : e -->
+                        <!-- 공유하기 : e -->
                         <div class="swiper proposal_type_tab">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide btn_radioType active">

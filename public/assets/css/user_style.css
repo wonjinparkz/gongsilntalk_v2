@@ -870,7 +870,7 @@ a.btn_like{background: url('/assets/media/btn_like_off.png') no-repeat; backgrou
 .proposal_type_item .item_4_wrap h4{font-size: 18px; border: 1px solid #EDEDED; padding: 14px; text-align: center; margin-bottom: 10px;}
 .proposal_type_item .item_4_wrap .item_div{flex: 1;}
 .proposal_section_table, .proposal_section_table th, .proposal_section_table td{border: 1px solid #EDEDED; background: #fff;}
-.proposal_section_table th, .proposal_section_table td{padding:12px; vertical-align: top;}
+.proposal_section_table th, .proposal_section_table td{padding:12px;}
 .proposal_section_table th{background:#FAFAFA; text-align: left; color:#63605F; vertical-align: middle;}
 .proposal_section_table_2 tr{border-bottom: 1px solid #EDEDED;}
 .proposal_section_table_2 th{color:#63605F; padding:6px 7px; text-align: left;}
@@ -994,7 +994,7 @@ a.btn_like{background: url('/assets/media/btn_like_off.png') no-repeat; backgrou
 .proposal_type_5 h5{color:#fff}
 .proposal_type_5 .txt_info{margin-top:14px; color:#fff;}
 .proposal_type_5 .proposal_section_table, .proposal_section_table th, .proposal_section_table td{border: 1px solid #EDEDED; background: #fff;}
-.proposal_type_5 .proposal_section_table th, .proposal_section_table td{padding:12px; vertical-align: top; color: #2A2828;}
+.proposal_type_5 .proposal_section_table th, .proposal_section_table td{padding:12px; color: #2A2828;}
 .proposal_type_5 .proposal_section_table th{background:#FAFAFA; text-align: left; color:#63605F; vertical-align: middle;}
 .proposal_type_5 .item_div{background: #fff; border-radius: 10px; overflow: hidden;}
 .proposal_type_5 .item_div h4{color:#2A2828; border: none; margin-bottom: 0;}

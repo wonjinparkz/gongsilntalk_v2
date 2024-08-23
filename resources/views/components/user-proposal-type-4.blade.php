@@ -3,6 +3,9 @@
     'address' => [],
     'products' => [],
 ])
+
+@inject('carbon', 'Carbon\Carbon')
+
 <div class="proposal_type_item proposal_type_4">
     <section class="type_4_1">
         <div class="ghost_box">
@@ -77,31 +80,36 @@
                         <col width="*">
                     </colgroup>
                     <tr>
-                        <th rowspan="5">기본정보</th>
-                        <th>전용면적</th>
-                        <td>{{ $product->exclusive_square }}㎡ <span
-                                class="gray_basic">({{ $product->exclusive_area }}평)</span></td>
+                        <th rowspan="6">기본정보</th>
+                        <th>상세주소</th>
+                        <td>{{ $product->address_detail ?? '-' }}</td>
                     </tr>
                     <tr>
-                        <th>해당층</th>
-                        <td>{{ $product->floor_number }}층/{{ $product->total_floor_number }}층</td>
+                        <th>매물유형</th>
+                        <td>{{ Lang::get('commons.corp_product_type.' . $product->product_type) }}</td>
+                    </tr>
+                    <tr>
+                        <th>관리비</th>
+                        <td>
+                            {{ $product->service_price > 0 ? number_format($product->service_price / 10000) . '만원' : '관리비 없음' }}
+                        </td>
                     </tr>
                     <tr>
                         <th>입주가능일</th>
-                        <td>{{ $product->move_type != 3 ? Lang::get('commons.mova_date_type.' . $product->move_type) : $product->move_date }}
+                        <td>{{ $product->move_type != 2 ? Lang::get('commons.mova_date_type.' . $product->move_type) : $carbon::parse($product->move_date)->format('Y년 m월 d일') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>냉난방 종류</th>
+                        <td>
+                            {{ $product->cooling_type != '' ? Lang::get('commons.cooling_type.' . $product->cooling_type) : '냉방 선택안함' }}
+                            -
+                            {{ $product->heating_type != '' ? Lang::get('commons.heating_type.' . $product->heating_type) : '난방 선택안함' }}
                         </td>
                     </tr>
                     <tr>
                         <th>주차 가능 대수</th>
                         <td>{{ number_format($product->parking_count) }}대</td>
-                    </tr>
-                    <tr>
-                        <th>시설정보</th>
-                        <td>
-                            @foreach ($product->facility as $key => $facility)
-                                {{ $key != 0 ? ', ' . Lang::get('commons.corp_product_option_type.' . $facility->type) : Lang::get('commons.corp_product_option_type.' . $facility->type) }}
-                            @endforeach
-                        </td>
                     </tr>
                 </table>
 
@@ -126,19 +134,33 @@
                         <col width="30%">
                         <col width="*">
                     </colgroup>
-                    <tr>
-                        <th rowspan="3">가격정보</th>
-                        <th>매매가</th>
-                        <td>{{ number_format($product->price->price) }}원</td>
-                    </tr>
-                    <tr>
-                        <th>프리미엄</th>
-                        <td>{{ number_format($product->price->premium_price) }}원</td>
-                    </tr>
-                    <tr>
-                        <th>지원금액(인테리어 등)</th>
-                        <td>{{ number_format($product->price->support_price) }}원</td>
-                    </tr>
+                    @if ($product->price->payment_type == 0)
+                        <tr>
+                            <th rowspan="3">가격정보</th>
+                            <th>매매가</th>
+                            <td>{{ number_format($product->price->price) }}원</td>
+                        </tr>
+                        <tr>
+                            <th>프리미엄</th>
+                            <td>{{ number_format($product->price->premium_price) }}원</td>
+                        </tr>
+                        <tr>
+                            <th>지원금액(인테리어 등)</th>
+                            <td>{{ number_format($product->price->support_price) }}원</td>
+                        </tr>
+                    @else
+                        <tr>
+                            <th rowspan="2">가격정보</th>
+                            <th>{{ $product->price->payment_type == 3 ? '전세가' : '보증금' }}</th>
+                            <td>{{ number_format($product->price->price) }}원</td>
+                        </tr>
+                        @if ($product->price->payment_type == 4)
+                            <tr>
+                                <th>월세</th>
+                                <td>{{ number_format($product->price->month_price) }}원</td>
+                            </tr>
+                        @endif
+                    @endif
                 </table>
 
                 <table class="proposal_section_table">
@@ -147,11 +169,23 @@
                         <col width="*">
                     </colgroup>
                     <tr>
-                        <th>요청사항</th>
+                        <th>시설정보</th>
                         <td>
                             @php
-                                echo nl2br($product->content);
+                                $optionArray = [];
+                                foreach ($product->facility as $key => $option) {
+                                    array_push($optionArray, $option->type);
+                                }
                             @endphp
+                            <div class="checkbox_btn">
+                                @foreach (Lang::get('commons.corp_product_option_type') as $index => $optionType)
+                                    @if (in_array($index, $optionArray) ? 'checked' : '')
+                                        <input type="checkbox" name="option[]" id="option_{{ $index }}"
+                                            value="{{ $index }}" checked disabled>
+                                        <label for="option_{{ $index }}">{{ $optionType }}</label>
+                                    @endif
+                                @endforeach
+                            </div>
                         </td>
                     </tr>
                 </table>

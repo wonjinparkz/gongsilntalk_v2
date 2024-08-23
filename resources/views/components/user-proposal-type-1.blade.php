@@ -104,14 +104,6 @@
                         <td>{{ number_format($product->parking_count) }}대</td>
                     </tr>
                 </table>
-                {{-- <tr>
-                    <th>시설정보</th>
-                    <td>
-                        @foreach ($product->facility as $key => $facility)
-                            {{ $key != 0 ? ', ' . Lang::get('commons.corp_product_option_type.' . $facility->type) : Lang::get('commons.corp_product_option_type.' . $facility->type) }}
-                        @endforeach
-                    </td>
-                </tr> --}}
 
                 <table class="proposal_section_table">
                     <colgroup>
@@ -179,10 +171,11 @@
                             @endphp
                             <div class="checkbox_btn">
                                 @foreach (Lang::get('commons.corp_product_option_type') as $index => $optionType)
-                                    <input type="checkbox" name="option[]" id="option_{{ $index }}"
-                                        value="{{ $index }}" disabled
-                                        {{ in_array($index, $optionArray) ? 'checked' : '' }}>
-                                    <label for="option_{{ $index }}">{{ $optionType }}</label>
+                                    @if (in_array($index, $optionArray) ? 'checked' : '')
+                                        <input type="checkbox" name="option[]" id="option_{{ $index }}"
+                                            value="{{ $index }}" checked disabled>
+                                        <label for="option_{{ $index }}">{{ $optionType }}</label>
+                                    @endif
                                 @endforeach
                             </div>
                         </td>

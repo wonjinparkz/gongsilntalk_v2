@@ -49,8 +49,6 @@
     </script>
 </head>
 
-@inject('carbon', 'Carbon\Carbon')
-
 <body style="margin: 0;">
 
     <div class="share_tit">

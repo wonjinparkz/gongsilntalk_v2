@@ -449,7 +449,7 @@
     .proposal_type_item .item_wrap h5{font-size:10px; height: 20px;}
     .proposal_type_item .item_2_wrap{display: grid; grid-template-columns:repeat(2, 1fr); gap:10px; margin-top:14px;}
     .proposal_section_table, .proposal_section_table th, .proposal_section_table td{border: 1px solid #EDEDED;}
-    .proposal_section_table th, .proposal_section_table td{padding:3px; vertical-align: top; font-size: 7px;}
+    .proposal_section_table th, .proposal_section_table td{padding:3px; font-size: 7px;}
     .proposal_section_table th{background:#FAFAFA; text-align: left; color:#63605F; font-size: 7px;}
     .proposal_section_table td span{font-size: 7px;}
     .proposal_type_item .item_3_wrap{display: grid; grid-template-columns:repeat(2, 1fr); gap:10px; grid-row-gap:10px; width:100%; margin:30px auto 0;}
@@ -576,7 +576,7 @@
     .proposal_type_5 .txt_info{margin-top:8px; color:#fff; font-size: 8px;}
     .proposal_type_5 .item_wrap h5{color:#fff; height: auto;}
     .proposal_type_5 .proposal_section_table, .proposal_section_table th, .proposal_section_table td{border: 1px solid #EDEDED; background: #fff;}
-    .proposal_type_5 .proposal_section_table th, .proposal_section_table td{padding:3px; vertical-align: top; color: #2A2828;}
+    .proposal_type_5 .proposal_section_table th, .proposal_section_table td{padding:3px; color: #2A2828;}
     .proposal_type_5 .proposal_section_table th{background:#FAFAFA; text-align: left; color:#63605F; vertical-align: middle;}
     .type_5_end{display: flex; align-items: center; justify-content: center;}
     .type_5_end .ghost_end_box{width:100%; height: 50%; display: flex; align-items: center; padding: 38px; box-sizing: border-box;}
