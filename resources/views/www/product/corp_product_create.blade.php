@@ -13,7 +13,6 @@
             value="{{ old('current_month_price') ?? '' }}">
         <input type="hidden" name="is_premium" id="is_premium" value="{{ old('is_premium') ?? '' }}">
         <input type="hidden" name="premium_price" id="premium_price" value="{{ old('premium_price') ?? '' }}">
-        <input type="hidden" name="approve_date" id="approve_date" value="{{ old('approve_date') ?? '' }}">
     </form>
 
     <!----------------------------- m::header bar : s ----------------------------->
@@ -517,7 +516,6 @@
             var current_month_price = $('#current_month_price').val();
             var is_premium = $('#is_premium').val();
             var premium_price = $('#premium_price').val();
-            var approve_date = $('#approve_date').val();
 
             sessionStorage.setItem("typeSession", type);
             sessionStorage.setItem("payment_typeSession", payment_type);
@@ -529,8 +527,6 @@
             sessionStorage.setItem("current_month_priceSession", current_month_price);
             sessionStorage.setItem("is_premiumSession", is_premium);
             sessionStorage.setItem("premium_priceSession", premium_price);
-            sessionStorage.setItem("approve_dateSession", approve_date);
-
 
             $('.find_form').submit();
         }
@@ -602,7 +598,6 @@
             var current_month_price = $('#current_month_price').val();
             var is_premium = $('#is_premium').val();
             var premium_price = $('#premium_price').val();
-            var approve_date = $('#approve_date').val();
 
             if (type != '' && payment_type != '' && price != '') {
                 if ($.inArray(payment_type, ['1', '2', '4']) !== -1) {
@@ -634,11 +629,7 @@
                         confirm = 1;
                     }
                 } else {
-                    if (approve_date != '') {
-                        confirm = 1;
-                    } else {
-                        return $('.confirm').attr("disabled", true);
-                    }
+                    confirm = 1;
                 }
             } else {
                 return $('.confirm').attr("disabled", true);

@@ -16,7 +16,6 @@
             value="{{ $result['current_month_price'] ?? '' }}">
         <input type="hidden" name="is_premium" id="is_premium" value="{{ $result['is_premium'] ?? '' }}">
         <input type="hidden" name="premium_price" id="premium_price" value="{{ $result['premium_price'] ?? '' }}">
-        <input type="hidden" name="approve_date" id="approve_date" value="{{ $result['approve_date'] ?? '' }}">
 
         <input type="hidden" name="address_lng" id="address_lng" value="">
         <input type="hidden" name="address_lat" id="address_lat" value="">
