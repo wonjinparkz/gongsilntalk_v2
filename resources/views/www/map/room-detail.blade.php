@@ -794,8 +794,9 @@
                 {{-- 위치정보 --}}
                 <section class="page" id="tab_area_4">
                     <h3>위치정보</h3>
-                    <div class="container_map_wrap">
-                        <x-pc-around-map :address_lat="$result->address_lat" :address_lng="$result->address_lng" />
+                    <div class="sales_map_wrap">
+                        <div id="map" class="map_size">
+                        </div>
                     </div>
                 </section>
 
@@ -1156,6 +1157,27 @@
                     '{{ asset('assets/media/header_btn_share_w.png') }}');
             }
         })
+
+        var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng('{{ $result->address_lat }}', '{{ $result->address_lng }}'),
+            zoom: 15,
+            mapDataControl: false,
+            scaleControl: false,
+            mapTypeControl: false
+        });
+
+        marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng('{{ $result->address_lat }}', '{{ $result->address_lng }}'),
+            map: map,
+            icon: {
+                url: "{{ asset('assets/media/map_marker_default.png') }}",
+
+                size: new naver.maps.Size(100, 100), //아이콘 크기
+                scaledSize: new naver.maps.Size(30, 43), //아이콘 크기
+                origin: new naver.maps.Point(0, 0),
+                anchor: new naver.maps.Point(11, 35)
+            }
+        });
     </script>
 
     {{-- 카카오톡 공유 --}}

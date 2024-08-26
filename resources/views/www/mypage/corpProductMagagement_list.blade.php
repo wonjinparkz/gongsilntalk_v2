@@ -39,81 +39,44 @@
                         </ul>
                     </div>
 
-                    <div class="my_search_wrap only_pc">
+                    <div class="my_search_wrap optionSelectBox">
                         <div class="sort_wrap">
-                            <div class="dropdown_box">
-                                <button class="dropdown_label">거래 유형</button>
-                                <ul class="optionList">
-                                    <li class="optionItem" onclick="onPaymentTypeChange('');">전체</li>
-                                    @foreach (Lang::get('commons.payment_type') as $key => $payment_type)
-                                        <li class="optionItem" onclick="onPaymentTypeChange('{{ $key }}');">
-                                            {{ $payment_type }}</li>
-                                    @endforeach
-                                </ul>
+                            <div class="dropdown_container">
+                                <label class="dropdown_label_text">거래 유형</label>
+                                <div class="dropdown_box">
+                                    <button class="dropdown_label">거래 유형</button>
+                                    <ul class="optionList">
+                                        <li class="optionItem" onclick="onPaymentTypeChange('');">전체</li>
+                                        @foreach (Lang::get('commons.payment_type') as $key => $payment_type)
+                                            <li class="optionItem"
+                                                onclick="onPaymentTypeChange('{{ $key }}');">
+                                                {{ $payment_type }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="dropdown_box">
-                                <button class="dropdown_label">매물 종류</button>
-                                <ul class="optionList">
-                                    <li class="optionItem" onclick="onProductTypeChange('');">전체</li>
-                                    @foreach (Lang::get('commons.product_type') as $key => $product_type)
-                                        <li class="optionItem" onclick="onProductTypeChange('{{ $key }}');">
-                                            {{ $product_type }}</li>
-                                    @endforeach
-                                </ul>
+                            <div class="dropdown_container">
+                                <label class="dropdown_label_text">매물 종류</label>
+                                <div class="dropdown_box">
+                                    <button class="dropdown_label">매물 종류</button>
+                                    <ul class="optionList">
+                                        <li class="optionItem" onclick="onProductTypeChange('');">전체</li>
+                                        @foreach (Lang::get('commons.product_type') as $key => $product_type)
+                                            <li class="optionItem"
+                                                onclick="onProductTypeChange('{{ $key }}');">
+                                                {{ $product_type }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="search_wrap">
+                        <div class="search_wrap only_pc">
                             <input type="text" id="searchText" name="searchText" placeholder="매물번호/주소/비공개 메모로 검색">
                             <button type="button" onclick="onSearchTextChange();"><img
                                     src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button>
                         </div>
                     </div>
-
-                    <!-- M::filter : s -->
-                    <div class="mt18 only_m">
-                        <div class="m_dropdown_double_wrap">
-                            <button class="btn_dropdown" onclick="modal_open_slide('transaction_type')">거래 유형</button>
-                            <button class="btn_dropdown" onclick="modal_open_slide('estate_kind')">매물 종류</button>
-                        </div>
-                    </div>
-
-                    <div class="modal_slide modal_slide_transaction_type">
-                        <div class="slide_title_wrap">
-                            <span>거래 유형</span>
-                            <img src="{{ asset('assets/media/btn_md_close.png') }}"
-                                onclick="modal_close_slide('transaction_type')">
-                        </div>
-                        <ul class="slide_modal_menu">
-                            <li onclick="onPaymentTypeChange('');"><a href="#">전체</a></li>
-                            @foreach (Lang::get('commons.payment_type') as $key => $payment_type)
-                                <li onclick="onPaymentTypeChange('{{ $key }}');">
-                                    <a href="#">{{ $payment_type }}</a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    <div class="md_slide_overlay md_slide_overlay_transaction_type"
-                        onclick="modal_close_slide('transaction_type')"></div>
-
-                    <div class="modal_slide modal_slide_estate_kind">
-                        <div class="slide_title_wrap">
-                            <span>매물 종류</span>
-                            <img src="{{ asset('assets/media/btn_md_close.png') }}"
-                                onclick="modal_close_slide('estate_kind')">
-                        </div>
-                        <ul class="slide_modal_menu">
-                            <li class="optionItem" onclick="onProductTypeChange('');"><a href="#">전체</a></li>
-                            @foreach (Lang::get('commons.product_type') as $key => $product_type)
-                                <li class="optionItem" onclick="onProductTypeChange('{{ $key }}');">
-                                    <a href="#">{{ $product_type }}</a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    <div class="md_slide_overlay md_slide_overlay_estate_kind"
-                        onclick="modal_close_slide('estate_kind')"></div>
-                    <!-- M::filter : e -->
 
                     <div class="border_top">
                         <div>

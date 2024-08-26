@@ -123,7 +123,7 @@
                                 (구)주소 검색 </a>
 
                             <label class="form-check form-check-custom form-check-inline p-1">
-                                <input class="form-check-input" name="is_map" id="is_map_1" type="checkbox"
+                                <input class="form-check-input" name="is_map" id="is_map" type="checkbox"
                                     value="{{ $is_map }}" {{ $is_map == 0 ? '' : 'checked' }}>
                                 <span class="fw-semibold ps-2 fs-6">(구)주소</span>
                             </label>
@@ -1264,7 +1264,7 @@
                 <div class="card-body border-top p-9">
 
                     {{-- 이미지 --}}
-                    <x-admin-image-picker :title="'사진등록'" :id="'product'" required="required" cnt="8"
+                    <x-admin-image-picker :title="'사진등록'" :id="'product'" required="required" cnt="8" label_col='2'
                         :images="$result->images" />
 
                     {{-- 한줄요약 --}}
@@ -1291,8 +1291,7 @@
                     <div class="row mb-6">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">3D 이미지 링크</label>
                         <div class="col-lg-10 fv-row">
-                            <input type="text" name="image_link" class="form-control"
-                                placeholder="링크를 입력해 주세요."
+                            <input type="text" name="image_link" class="form-control" placeholder="링크를 입력해 주세요."
                                 value="{{ old('image_link') ?? $result->image_link }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('image_link')" />
                         </div>
@@ -1378,52 +1377,7 @@
     </form>
     {{-- FORM END --}}
 
-    <!-- modal (구)주소 검색 : s-->
-    <div class="modal fade" tabindex="-1" id="modal_address_search">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">가(임시) 주소 검색</h5>
-                    <!--begin::Close-->
-                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 modal_address_search_close"
-                        data-bs-dismiss="modal" aria-label="Close">
-                        <i class="ki-duotone ki-cross fs-1"><span class="path1">X</span><span
-                                class="path2"></span></i>
-                        <!--end::Close-->
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <ul class="adress_select tab_toggle_menu">
-                        <select name="region_code_1" id="region_code_1" class="form-select mb-6 region_code"
-                            data-control="select2" data-hide-search="true">
-                            <option value="">시/도</option>
-                        </select>
-                        <select name="region_code_2" id="region_code_2" class="form-select mb-6 region_code"
-                            data-control="select2" data-hide-search="true">
-                            <option value="">시/군/구</option>
-                        </select>
-                        <select name="region_code_3" id="region_code_3" class="form-select mb-6 region_code"
-                            data-control="select2" data-hide-search="true">
-                            <option value="">읍/면/동</option>
-                        </select>
-                        <select name="region_code_4" id="region_code_4" class="form-select mb-6 region_code"
-                            data-control="select2" data-hide-search="true">
-                            <option value="">리</option>
-                        </select>
-                    </ul>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">닫기</button>
-                        <button type="button" class="btn btn-primary" id="seach_address"
-                            onclick="seach_address()" disabled>
-                            검색
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- modal (구)주소 검색 : e-->
+    <x-admin-temporary-address />
 
     {{-- 지도 맵 api js --}}
     <script type="text/javascript"
@@ -1448,7 +1402,6 @@
         $(document).ready(function() {
 
             select2OptionHidden();
-
 
             $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/common.css"]').remove();
             $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/map/addrlinkMap.css"]')
@@ -1977,37 +1930,6 @@
             }
         });
 
-
-
-        // 가임시주소 검색
-        function seach_address() {
-            var sidoName = $('#region_code_1 option:selected').text();
-            var sigunguName = $('#region_code_2 option:selected').text();
-            var dongName = $('#region_code_3 option:selected').text();
-            var riName = $('#region_code_4 option:selected').text();
-            var region_code = '';
-            var address = sidoName + ' ' + sigunguName + ' ' + dongName + ' ' + (riName == '리' ? '' : riName);
-
-            if (riName == '리') {
-                region_code = $('#region_code_3 option:selected').val();
-            } else {
-                region_code = $('#region_code_3 option:selected').val();
-            }
-
-            $('.modal_address_search_close').click();
-
-            $('#address').val(address + ' 999-99');
-            $('#region_code').val(region_code)
-            $('#region_address').val(address)
-            $('#address_detail').val('');
-            $('#address_dong').val('');
-            $('#address_number').val('');
-        }
-
-
-        // 지역구 가져오기
-        get_region('*00000000', '1');
-
         $('#is_address_detail').click(function() {
             if ($(this).is(':checked')) {
                 $('#address_detail').val('');
@@ -2015,176 +1937,6 @@
             } else {
                 $('#address_detail').attr('disabled', false);
             }
-        });
-
-        $('#is_address_dong').click(function() {
-            if ($(this).is(':checked')) {
-                $('#address_dong').val('');
-                $('#address_dong').attr('disabled', true);
-            } else {
-                $('#address_dong').attr('disabled', false);
-            }
-        });
-
-        //(구)주소 클릭 이벤트
-        document.getElementById("is_map_1").addEventListener("change", function() {
-
-
-            var address_1 = document.querySelector(".detail_address_1");
-            var address_2 = document.querySelector(".detail_address_2");
-            var search_1 = document.querySelector(".search_address_1");
-            var search_2 = document.querySelector(".search_address_2");
-            var is_temporary_0 = document.querySelector("#is_temporary_0");
-            var is_temporary_1 = document.querySelector("#is_temporary_1");
-
-            $('#address').val('');
-            $('#region_code').val('');
-            $('#address_lat').val('');
-            $('#address_lng').val('');
-            $('#address_detail').val('');
-            $('#address_dong').val('');
-            $('#address_number').val('');
-
-            if (this.checked) {
-                address_1.style.display = "none";
-                address_2.style.display = "";
-                search_1.style.display = "none";
-                search_2.style.display = "";
-                is_temporary_0.style.display = "none";
-                is_temporary_1.style.display = "";
-                this.value = 1;
-            } else {
-                address_1.style.display = "";
-                address_2.style.display = "none";
-                search_1.style.display = "";
-                search_2.style.display = "none";
-                is_temporary_0.style.display = "";
-                is_temporary_1.style.display = "none";
-                this.value = 0;
-            }
-        });
-
-        // 지역 가져오는 api
-        function get_region(regcode, region) {
-            var gatewayUrl =
-                "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + regcode +
-                "&is_ignore_zero=true";
-
-            $.ajax({
-                url: gatewayUrl,
-                method: "GET",
-                dataType: "json",
-                success: function(response) {
-                    // Check if 'regcodes' property exists and is an array
-                    if (response.regcodes && Array.isArray(response.regcodes)) {
-                        var select = $("#region_code_" + region);
-                        select.empty();
-
-                        // Iterate over the 'regcodes' array
-                        if (region == 1) {
-                            select.append($("<option>").text('시/도').val(''));
-                            response.regcodes.forEach(function(regcodeObj, index) {
-                                // Assuming 'code' is the property you want to use for the option value
-                                var regcode = regcodeObj.code;
-                                // Assuming 'name' is the property you want to use for the option text
-                                var name = regcodeObj.name;
-                                select.append($("<option>").text(name).val(regcode.substring(0, 2)));
-                            });
-                        } else if (region != 1) {
-                            if (region == 2) {
-                                $('#region_code_2').append($("<option>").text('시/군/구').val(''));
-                            } else if (region == 3) {
-                                $('#region_code_3').append($("<option>").text('읍/면/동').val(''));
-                            } else if (region == 4) {
-                                $('#region_code_4').append($("<option>").text('리').val(''));
-                            }
-                            var options = [];
-                            for (var i = 0; i < response.regcodes.length; i++) {
-                                var regcodeObj = response.regcodes[i];
-                                var regcode = regcodeObj.code;
-                                var nameParts = regcodeObj.name.split(' ');
-                                if (region == 2) {
-                                    regcode = regcode.substring(4, 5) > 0 ? regcode.substring(0, 5) : regcode
-                                        .substring(0, 4)
-                                    var name = nameParts.length > 1 ? nameParts.slice(1).join(' ') : regcodeObj
-                                        .name;
-                                } else if (region == 3) {
-                                    regcode = regcode.substring(0, 8)
-                                    var name = nameParts.length > 2 ? nameParts.slice(2).join(' ') : regcodeObj
-                                        .name;
-                                } else if (region == 4) {
-                                    regcode = regcode
-                                    var name = nameParts.length > 3 ? nameParts.slice(3).join(' ') : regcodeObj
-                                        .name;
-                                }
-                                options.push({
-                                    name: name,
-                                    value: regcode
-                                });
-                            }
-
-                            // Sort options based on the 'name' property
-                            options.sort(function(a, b) {
-                                return a.name.localeCompare(b.name);
-                            });
-
-                            // Append sorted options to the select element
-                            for (var i = 0; i < options.length; i++) {
-                                select.append($("<option>").text(options[i].name).val(options[i].value));
-                            }
-                        }
-
-                        $('#seach_address').attr("disabled", true);
-
-                    } else {
-                        console.error("Invalid response format. 'regcodes' array not found.", region);
-                        if (region == 4) {
-                            $('#seach_address').attr("disabled", false);
-                        }
-                    }
-                },
-                error: function(error) {
-                    console.error("Error fetching regcodes:", error);
-                }
-            });
-        }
-
-        var initialTexts = ["시/도", "시/군/구", "읍/면/동", "리"];
-
-        // 모든 라벨에 대한 클릭 이벤트 처리
-        $('.region_code').on("change", function(event) {
-            var clickedElement = event.target.id; // 클릭된 요소를 가져옴
-
-            // 클릭된 요소가 라벨인 경우
-            var index = clickedElement.split("_")[2]; // 인덱스 추출
-
-            // 현재 클릭된 라벨의 인덱스
-            var currentIndex = parseInt(index) + 1;
-
-            // 상위 select가 변경될 때마다 현재 select보다 높은 인덱스를 가진 하위 select를 모두 초기화
-            for (var i = currentIndex + 1; i <= 4; i++) {
-                $('#region_code_' + i).empty(); // 하위 select를 초기화
-                $('#region_code_' + i).append($("<option>").text(initialTexts[i - 1]).val('')); // 하위 select를 초기화
-            }
-
-            var region_code = '';
-            // 주소 가져오기
-            if (currentIndex < 5) {
-                check_code = $('#' + clickedElement).val();
-                if (currentIndex == 2) {
-                    region_code = check_code + '*00000'
-                } else if (currentIndex == 3) {
-                    region_code = check_code + '*00'
-                } else if (currentIndex == 4) {
-                    region_code = check_code + '*'
-                }
-                get_region(region_code, currentIndex);
-            } else {
-                $('#seach_address').attr("disabled", false);
-            }
-
-            $('#region_code').val(check_code);
-
         });
 
         var prev = "";

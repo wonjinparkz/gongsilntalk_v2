@@ -573,6 +573,7 @@
                                                     value="{{ $product->top_floor_number }}" placeholder="최고"> <span
                                                     class="gray_deep">층</span></div>
                                         </div>
+                                        <span class="gray_basic">※ 지하의 경우 B1으로 표시</span>
                                     </div>
                                 @endif
                                 <div class="reg_item">
@@ -608,6 +609,7 @@
                                                 class="gray_deep">층</span>
                                         </div>
                                     </div>
+                                    <span class="gray_basic">※ 지하의 경우 B1으로 표시</span>
                                 </div>
                             </div>
                         @endif
@@ -932,12 +934,15 @@
                                 <div class="reg_item">
                                     <input type="hidden" name="direction_type"
                                         value="{{ $product->productAddInfo->direction_type }}">
-                                    <label class="input_label">건물
-                                        방향{{ $product->type == 5 ? ' (주 출입구 기준)' : '' }}</label>
+                                    <label class="input_label">건물 방향 (주 출입구 기준) <span
+                                            class="txt_point">*</span></label>
                                     <div class="dropdown_box">
                                         <button type="button" class="dropdown_label">
                                             {{ $product->productAddInfo->direction_type != '' ? Lang::get('commons.direction_type.' . $product->productAddInfo->direction_type) : '건물 방향 선택' }}</button>
                                         <ul class="optionList">
+                                            <li class="optionItem" onclick="selectType('direction_type','')">
+                                                건물 방향 선택
+                                            </li>
                                             @foreach (Lang::get('commons.direction_type') as $index => $directionType)
                                                 <li class="optionItem"
                                                     onclick="selectType('direction_type','{{ $index }}')">
@@ -1016,7 +1021,7 @@
                                     </div>
                                 </div>
                                 <div class="reg_item">
-                                    <label class="input_label">승강시설 <span class="txt_point">*</span></label>
+                                    <label class="input_label">화물용 승강시설 <span class="txt_point">*</span></label>
                                     <div class="btn_radioType mt18">
                                         @if (in_array($product->type, [0, 1, 2, 7]) || $product->type > 13)
                                             <input type="radio" name="is_goods_elevator" id="is_goods_elevator_1"
@@ -1710,6 +1715,7 @@
 
     function selectType(name, index) {
         $('input[name="' + name + '"]').val(index);
+        confirm_check();
     }
 
     // 용도 선택
@@ -1830,10 +1836,23 @@
         ($('#floor_number').val() != '') ? true: minusVal++;
         ($('#total_floor_number').val() != '') ? true: minusVal++;
         ($('#comments').val() != '') ? true: minusVal++;
+        ($('#comments').val() != '') ? true: minusVal++;
         ($('#address').val() != '') ? true: minusVal++;
         ($('#price_' + $("input[name='payment_type']:checked").val()).val() != '') ? true: minusVal++;
 
-        if (minusVal == 0) {
+        var direction_type = $('input[name="direction_type"]');
+
+        var checkConfirm = false;
+
+        if (direction_type.length > 0) {
+            if (direction_type.val() != '') {
+                checkConfirm = true;
+            } else {
+                checkConfirm = false;
+            }
+        }
+
+        if (minusVal == 0 && checkConfirm) {
             document.getElementById('nextPageButton').disabled = false;
         } else {
             document.getElementById('nextPageButton').disabled = true;

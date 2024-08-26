@@ -147,7 +147,7 @@
                             <div class="reg_mid_wrap">
                                 <div class="reg_item">
                                     <input type="hidden" name="direction_type" value="">
-                                    <label class="input_label">건물 방향 (주 출입구 기준)</label>
+                                    <label class="input_label">건물 방향 (주 출입구 기준) <span class="txt_point">*</span></label>
                                     <div class="dropdown_box">
                                         <button type="button" class="dropdown_label">건물 방향 선택</button>
                                         <ul class="optionList">
@@ -640,6 +640,7 @@
             var bathroom_count = $('input[name="bathroom_count"]');
             var is_option = $('input[name="is_option"]:checked').val();
             var options_checked = $('input[name="option_type[]"]:checked').length;
+            var direction_type = $('input[name="direction_type"]');
 
             var checkConfirm = false;
 
@@ -653,6 +654,14 @@
                 }
             } else {
                 checkConfirm = true;
+            }
+
+            if (direction_type.length > 0 && checkConfirm) {
+                if (direction_type.val() != '') {
+                    checkConfirm = true;
+                } else {
+                    checkConfirm = false;
+                }
             }
 
             console.log('checkConfirm : ', checkConfirm);
@@ -753,7 +762,7 @@
         function selectType(name, index) {
             $('input[name="' + name + '"]').val(index);
 
-            console.log($('input[name="' + name + '"]').val());
+            inputCheck();
         }
     </script>
 

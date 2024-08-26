@@ -209,66 +209,68 @@
         <div class="inner_wrap sales_section_2-2 page" id="tab_area_2">
             <h3>층별정보</h3>
             <section class="">
-
-                <ul class="tab_type_6 toggle_tab mt28">
-                    @php
-                        $floorFirstArr = [];
-                        $floorFirstInfo = [];
-                    @endphp
-
-
-                    @foreach ($result->dongInfo as $key => $dongInfo)
+                @if (count($result->dongInfo) > 0)
+                    <ul class="tab_type_6 toggle_tab mt28">
                         @php
-                            if ($key == 0) {
-                                $floorFirstArr = $dongInfo->floorInfo;
-                            }
-                        @endphp
-                        <li {{ $key == 0 ? 'class=active' : '' }} onclick="onFloorListGet('{{ $dongInfo->id }}');">
-                            {{ $dongInfo->dong_name }}</li>
-                    @endforeach
-                </ul>
-
-                <div class="black_filter only_pc mt28" id="floorListPc">
-                    @foreach ($floorFirstArr as $key => $floorInfo)
-                        @php
-                            if ($key == 0) {
-                                $floorFirstInfo = $floorInfo;
-                            }
+                            $floorFirstArr = [];
+                            $floorFirstInfo = [];
                         @endphp
 
-                        <div class="cell">
-                            <input type="radio" name="floor" id="floor_{{ $floorInfo->id }}"
-                                {{ $key == 0 ? 'checked' : '' }} value="{{ $floorInfo->id }}"
-                                onclick="onFloorDetailListGet('{{ $floorInfo->id }}');">
-                            <label for="floor_{{ $floorInfo->id }}">{{ $floorInfo->floor_name }}</label>
+
+                        @foreach ($result->dongInfo as $key => $dongInfo)
+                            @php
+                                if ($key == 0) {
+                                    $floorFirstArr = $dongInfo->floorInfo;
+                                }
+                            @endphp
+                            <li {{ $key == 0 ? 'class=active' : '' }}
+                                onclick="onFloorListGet('{{ $dongInfo->id }}');">
+                                {{ $dongInfo->dong_name }}</li>
+                        @endforeach
+                    </ul>
+
+                    <div class="black_filter only_pc mt28" id="floorListPc">
+                        @foreach ($floorFirstArr as $key => $floorInfo)
+                            @php
+                                if ($key == 0) {
+                                    $floorFirstInfo = $floorInfo;
+                                }
+                            @endphp
+
+                            <div class="cell">
+                                <input type="radio" name="floor" id="floor_{{ $floorInfo->id }}"
+                                    {{ $key == 0 ? 'checked' : '' }} value="{{ $floorInfo->id }}"
+                                    onclick="onFloorDetailListGet('{{ $floorInfo->id }}');">
+                                <label for="floor_{{ $floorInfo->id }}">{{ $floorInfo->floor_name }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <select class="sales_floor_select only_m" id="floorListMobile" name="floorListMobile"
+                        onchange="onFloorDetailChange();">
+                        @foreach ($floorFirstArr as $floorInfo)
+                            <option value="{{ $floorInfo->id }}">{{ $floorInfo->floor_name }}</option>
+                        @endforeach
+                    </select>
+
+                    <div>
+                        @php
+                            $typeArray = [];
+                            $floorFirstInfo->is_neighborhood_life ? array_push($typeArray, '근린지원시설') : '';
+                            $floorFirstInfo->is_industry_center ? array_push($typeArray, '지식산업센터') : '';
+                            $floorFirstInfo->is_warehouse ? array_push($typeArray, '공동창고') : '';
+                            $floorFirstInfo->is_dormitory ? array_push($typeArray, '기숙사,유치원') : '';
+                            $floorFirstInfo->is_business_support ? array_push($typeArray, '업무지원시설') : '';
+                        @endphp
+                        <div class="floor_tit_wrap">
+                            <div class="floor_title">{{ $floorFirstInfo->floor_name }}</div>
+                            <div class="floor_info">{{ implode('/', $typeArray) }}</div>
                         </div>
-                    @endforeach
-                </div>
-
-                <select class="sales_floor_select only_m" id="floorListMobile" name="floorListMobile"
-                    onchange="onFloorDetailChange();">
-                    @foreach ($floorFirstArr as $floorInfo)
-                        <option value="{{ $floorInfo->id }}">{{ $floorInfo->floor_name }}</option>
-                    @endforeach
-                </select>
-
-                <div>
-                    @php
-                        $typeArray = [];
-                        $floorFirstInfo->is_neighborhood_life ? array_push($typeArray, '근린지원시설') : '';
-                        $floorFirstInfo->is_industry_center ? array_push($typeArray, '지식산업센터') : '';
-                        $floorFirstInfo->is_warehouse ? array_push($typeArray, '공동창고') : '';
-                        $floorFirstInfo->is_dormitory ? array_push($typeArray, '기숙사,유치원') : '';
-                        $floorFirstInfo->is_business_support ? array_push($typeArray, '업무지원시설') : '';
-                    @endphp
-                    <div class="floor_tit_wrap">
-                        <div class="floor_title">{{ $floorFirstInfo->floor_name }}</div>
-                        <div class="floor_info">{{ implode('/', $typeArray) }}</div>
+                        <div><img id="floorDetailImage"
+                                src="{{ Storage::url('image/' . $floorFirstInfo->images->path) }}" class="floor_img">
+                        </div>
                     </div>
-                    <div><img id="floorDetailImage"
-                            src="{{ Storage::url('image/' . $floorFirstInfo->images->path) }}" class="floor_img">
-                    </div>
-                </div>
+                @endif
             </section>
         </div>
         <!-- 층별정보  : e -->
@@ -508,7 +510,10 @@
         // 지도
         var map = new naver.maps.Map('map', {
             center: new naver.maps.LatLng('{{ $result->address_lat }}', '{{ $result->address_lng }}'),
-            zoom: 15
+            zoom: 15,
+            mapDataControl: false,
+            scaleControl: false,
+            mapTypeControl: false
         });
 
         marker = new naver.maps.Marker({
