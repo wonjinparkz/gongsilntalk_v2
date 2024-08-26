@@ -42,7 +42,7 @@
                         <div class="my_search_wrap">
                             <div class="sort_wrap">
                                 <div class="dropdown_box">
-                                    <button class="dropdown_label">거래 유형</button>
+                                    <button class="dropdown_label" data-initial-title="거래 유형">거래 유형</button>
                                     <ul class="optionList">
                                         <li class="optionItem" onclick="onPaymentTypeChange('');">전체</li>
                                         @foreach (Lang::get('commons.payment_type') as $key => $payment_type)
@@ -53,7 +53,7 @@
                                     </ul>
                                 </div>
                                 <div class="dropdown_box">
-                                    <button class="dropdown_label">매물 종류</button>
+                                    <button class="dropdown_label" data-initial-title="매물 종류">매물 종류</button>
                                     <ul class="optionList">
                                         <li class="optionItem" onclick="onProductTypeChange('');">전체</li>
                                         @foreach (Lang::get('commons.product_type') as $key => $product_type)

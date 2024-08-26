@@ -45,7 +45,7 @@
                         <div class="sort_wrap">
                             <div class="dropdown_box">
                                 <button
-                                    class="dropdown_label">{{ Request::get('payment_type') != '' ? Lang::get('commons.payment_type.' . Request::get('payment_type')) : '거래 유형' }}</button>
+                                    class="dropdown_label" data-initial-title="거래 유형">{{ Request::get('payment_type') != '' ? Lang::get('commons.payment_type.' . Request::get('payment_type')) : '거래 유형' }}</button>
                                 <ul class="optionList">
                                     <li class="optionItem" onclick="onPaymentTypeChange('');">전체</li>
                                     @foreach (Lang::get('commons.payment_type') as $key => $payment_type)
@@ -56,7 +56,7 @@
                             </div>
                             <div class="dropdown_box">
                                 <button
-                                    class="dropdown_label">{{ Request::get('product_type') != '' ? Lang::get('commons.product_type.' . Request::get('product_type')) : '매물 종류' }}</button>
+                                    class="dropdown_label" data-initial-title="매물 종류">{{ Request::get('product_type') != '' ? Lang::get('commons.product_type.' . Request::get('product_type')) : '매물 종류' }}</button>
                                 <ul class="optionList">
                                     <li class="optionItem" onclick="onProductTypeChange('');">전체</li>
                                     @foreach (Lang::get('commons.product_type') as $key => $product_type)

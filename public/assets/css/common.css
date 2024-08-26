@@ -509,8 +509,8 @@ td.td_center{text-align: center;}
 .frame_img_sm{width:60px; height: 60px;}
 .frame_img_sm .img_box{width:60px; height: 60px;}
 
-.frame_img_mid{width:80px; height: 80px;}
-.frame_img_mid .img_box{width:80px; height: 80px;}
+.frame_img_mid{width:100px; height: 100px;}
+.frame_img_mid .img_box{width:100px; height: 100px;}
 
 .btn_wish_sm.on{background: url('/assets/media/btn_like_on.png') no-repeat; background-size:16px auto;}
 .btn_wish_sm{background: url('/assets/media/btn_like_w.png') no-repeat; background-size:16px auto; cursor: pointer; width:16px; height:14px; position: absolute; right:6px; top:6px;}

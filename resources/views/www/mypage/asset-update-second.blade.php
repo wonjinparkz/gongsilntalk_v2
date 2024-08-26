@@ -18,6 +18,24 @@
                 }
             @endphp
 
+            @php
+                // Calculate ownership share as a fraction
+                $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
+
+                // Helper function to calculate adjusted price
+                function calculateAdjustedPrice($price, $ownership_share)
+                {
+                    return $ownership_share > 0 ? $price / $ownership_share : $price;
+                }
+
+                // Calculate prices based on ownership share
+                $price = calculateAdjustedPrice($result->price, $ownership_share);
+                $etc_price = calculateAdjustedPrice($result->etc_price, $ownership_share);
+                $tax_price = calculateAdjustedPrice($result->tax_price, $ownership_share);
+                $estate_price = calculateAdjustedPrice($result->estate_price, $ownership_share);
+                $loan_price = calculateAdjustedPrice($result->loan_price, $ownership_share);
+            @endphp
+
             <!-- my_body : s -->
             <div class="inner_mid_wrap m_inner_wrap mid_body">
                 <h1 class="t_center only_pc">자산 수정하기 <span class="step_number"><span class="txt_point">2</span>/4</span>
@@ -40,7 +58,7 @@
                                         <label class="input_label">매매가 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="price_0" name="price_0" inputmode="numeric"
-                                                value="{{ $result->tran_type == 0 ? number_format($result->price) : '' }}"
+                                                value="{{ $result->tran_type == 0 ? number_format($price) : '' }}"
                                                 oninput="onlyNumbers(this); onTextChangeEventIndex('price', 0);">
                                             <span>원</span>
                                         </div>
@@ -70,7 +88,7 @@
                                         <label class="input_label">기타비용</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="etc_price_0" name="etc_price_0"
-                                                value="{{ $result->tran_type == 0 ? number_format($result->etc_price) : '' }}"
+                                                value="{{ $result->tran_type == 0 ? number_format($etc_price) : '' }}"
                                                 inputmode="numeric"
                                                 oninput="onlyNumbers(this); onTextChangeEventIndex('etc_price', 0);">
                                             <span>원</span>
@@ -83,7 +101,7 @@
                                         <label class="input_label">세무비용</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="tax_price_0" name="tax_price_0"
-                                                value="{{ $result->tran_type == 0 ? number_format($result->tax_price) : '' }}"
+                                                value="{{ $result->tran_type == 0 ? number_format($tax_price) : '' }}"
                                                 inputmode="numeric"
                                                 oninput="onlyNumbers(this); onTextChangeEventIndex('tax_price', 0);">
                                             <span>원</span>
@@ -93,7 +111,7 @@
                                         <label class="input_label">중개보수</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="estate_price_0" name="estate_price_0"
-                                                value="{{ $result->tran_type == 0 ? number_format($result->estate_price) : '' }}"
+                                                value="{{ $result->tran_type == 0 ? number_format($estate_price) : '' }}"
                                                 inputmode="numeric"
                                                 oninput="onlyNumbers(this); onTextChangeEventIndex('estate_price', 0);">
                                             <span>원</span>
@@ -109,7 +127,7 @@
                                         <label class="input_label">분양가 <span class="txt_point">*</span></label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="price_1" name="price_1"
-                                                value="{{ $result->tran_type == 1 ? number_format($result->price) : '' }}"
+                                                value="{{ $result->tran_type == 1 ? number_format($price) : '' }}"
                                                 inputmode="numeric"
                                                 oninput="onlyNumbers(this); onTextChangeEventIndex('price', 1);">
                                             <span>원</span>
@@ -156,7 +174,7 @@
                                         <label class="input_label">기타비용</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="etc_price_1" name="etc_price_1"
-                                                value="{{ $result->tran_type == 1 ? number_format($result->etc_price) : '' }}"
+                                                value="{{ $result->tran_type == 1 ? number_format($etc_price) : '' }}"
                                                 inputmode="numeric"
                                                 oninput="onlyNumbers(this); onTextChangeEventIndex('etc_price', 1);">
                                             <span>원</span>
@@ -166,7 +184,7 @@
                                         <label class="input_label">세무비용</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="tax_price_1" name="tax_price_1"
-                                                value="{{ $result->tran_type == 1 ? number_format($result->tax_price) : '' }}"
+                                                value="{{ $result->tran_type == 1 ? number_format($tax_price) : '' }}"
                                                 inputmode="numeric"
                                                 oninput="onlyNumbers(this); onTextChangeEventIndex('tax_price', 1);">
                                             <span>원</span>
@@ -179,7 +197,7 @@
                                         <label class="input_label">중개보수</label>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="estate_price_1" name="estate_price_1"
-                                                value="{{ $result->tran_type == 1 ? number_format($result->estate_price) : '' }}"
+                                                value="{{ $result->tran_type == 1 ? number_format($estate_price) : '' }}"
                                                 inputmode="numeric"
                                                 oninput="onlyNumbers(this); onTextChangeEventIndex('estate_price', 1);">
                                             <span>원</span>
@@ -199,7 +217,7 @@
                                 <label class="input_label">대출금액</label>
                                 <div class="flex_1 flex_between">
                                     <input type="text" id="loan_price_0" name="loan_price_0"
-                                        value="{{ $result->loan_price > 0 ? number_format($result->loan_price) : '' }}"
+                                        value="{{ $result->loan_price > 0 ? number_format($loan_price) : '' }}"
                                         inputmode="numeric"
                                         oninput="onlyNumbers(this); onTextChangeEventIndex('loan_price', 0);">
                                     <span>원</span>
@@ -209,7 +227,7 @@
                                 <label class="input_label">대출금리</label>
                                 <div class="flex_1 flex_between">
                                     <input type="text" id="loan_rate" name="loan_rate"
-                                        value="{{ $result->loan_rate > 0 ? number_format($result->loan_rate) : '' }}"
+                                        value="{{ $result->loan_rate > 0 ? $result->loan_rate : '' }}"
                                         inputmode="numeric" oninput="imsi(this)" placeholder="소수점 두자리까지 입력">
                                     <span>%</span>
                                 </div>
@@ -284,14 +302,14 @@
                 $loaned_at = $result->loaned_at != '' ? $carbon::parse($result->loaned_at)->format('Ymd') : '';
             @endphp
 
-            <input type="hidden" id="price" name="price" value="{{ $result->price }}">
-            <input type="hidden" id="etc_price" name="etc_price" value="{{ $result->etc_price }}">
-            <input type="hidden" id="tax_price" name="tax_price" value="{{ $result->tax_price }}">
-            <input type="hidden" id="estate_price" name="estate_price" value="{{ $result->estate_price }}">
+            <input type="hidden" id="price" name="price" value="{{ $price }}">
+            <input type="hidden" id="etc_price" name="etc_price" value="{{ $etc_price }}">
+            <input type="hidden" id="tax_price" name="tax_price" value="{{ $tax_price }}">
+            <input type="hidden" id="estate_price" name="estate_price" value="{{ $estate_price }}">
             <input type="hidden" id="contracted_at" name="contracted_at" value="{{ $contracted_at }}">
             <input type="hidden" id="registered_at" name="registered_at" value="{{ $registered_at }}">
 
-            <input type="hidden" id="loan_price" name="loan_price" value="{{ $result->loan_price }}">
+            <input type="hidden" id="loan_price" name="loan_price" value="{{ $loan_price }}">
             <input type="hidden" id="loaned_at" name="loaned_at" value="{{ $loaned_at }}">
 
             <input type="hidden" id="secoundType" name="secoundType" value="{{ $result->tran_type }}">
@@ -300,36 +318,6 @@
 
     <script>
         window.onload = () => {
-
-            if ('{{ $result->tran_type }}' == 1) {
-                $("#tran_type_1_btn").trigger('click');
-
-                $('#price').val("{{ $result->price }}");
-                $('#etc_price').val("{{ $result->etc_price }}");
-                $('#tax_price').val("{{ $result->tax_price }}");
-                $('#estate_price').val("{{ $result->estate_price }}");
-                $('#contracted_at').val("{{ $contracted_at }}");
-
-                $('#acquisition_tax_rate_1').val('{{ $result->acquisition_tax_rate }}');
-            }
-
-            // let priceArray = ['price', 'etc_price', 'tax_price', 'estate_price'];
-
-            // priceArray.forEach(element => {
-            //     $(`#${element}_{{ $result->tran_type }}`).val(onTextChangeEventFirst(parseInt($(
-            //         `#${element}`).val())));
-            // });
-
-            // $(`#loan_price_0`).val(onTextChangeEventFirst(parseInt($(`#loan_price`).val())));
-
-            // $(`#contracted_at_{{ $result->tran_type }}`).val(numberToDate(parseInt($('#contracted_at').val())));
-            // $(`#registered_at_{{ $result->tran_type }}`).val($('#registered_at').val() != '' ? numberToDate(parseInt($(
-            //     '#registered_at').val())) : '');
-            // // $(`#registered_at_{{ $result->tran_type }}`).val($('#registered_at').val() != '' ? numberToDate(parseInt($(
-            // //     '#registered_at').val())) : '');
-
-            // $(`#loaned_at_0`).val(numberToDate(parseInt($('#loaned_at').val())));
-
             onFieldInputCheck();
         }
 

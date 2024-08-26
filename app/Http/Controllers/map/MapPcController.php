@@ -438,13 +438,13 @@ class MapPcController extends Controller
             }
         } else if ($request->mapType == 1) {
             if ($zoomLv <= 11) {
-                $distance = 1000;
+                $distance = 500;
             } elseif ($zoomLv >= 11 && $zoomLv <= 13) {
-                $distance = 20;
+                $distance = 30;
             } elseif ($zoomLv >= 14 && $zoomLv <= 15) {
                 $distance = 10;
             } else {
-                $distance = 5;
+                $distance = 1.5;
             }
 
             $product = Product::select('*', DB::raw('address_lat + 0.0002 as address_lat'))->where('state', 1)

@@ -18,6 +18,22 @@
                     echo '<input type="hidden" id="' . $key . '" name="' . $key . '" value="' . $value . '">';
                 }
             @endphp
+
+            @php
+                // Calculate ownership share as a fraction
+                $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
+
+                // Helper function to calculate adjusted price
+                function calculateAdjustedPrice($price, $ownership_share)
+                {
+                    return $ownership_share > 0 ? $price / $ownership_share : $price;
+                }
+
+                // Calculate prices based on ownership share
+                $check_price = calculateAdjustedPrice($result->check_price, $ownership_share);
+                $month_price = calculateAdjustedPrice($result->month_price, $ownership_share);
+
+            @endphp
             <!-- my_body : s -->
             <div class="inner_mid_wrap m_inner_wrap mid_body">
                 <h1 class="t_center only_pc">자산 수정하기 <span class="step_number"><span class="txt_point">3</span>/4</span>
@@ -87,7 +103,7 @@
                                         <div class="flex_1">
                                             <input type="text" class="tenantClass" id="check_price_0"
                                                 name="check_price_0" inputmode="numeric" disabled
-                                                value="{{ number_format($result->check_price) }}"
+                                                value="{{ $check_price > 0 ? number_format($check_price) : '' }}"
                                                 oninput="onlyNumbers(this); onTextChangeEventIndex('check_price', 0);"><span>/</span>
                                         </div>
                                     </div>
@@ -96,7 +112,7 @@
                                         <div class="flex_1">
                                             <input type="text" class="tenantClass" id="month_price_0"
                                                 name="month_price_0" inputmode="numeric" disabled
-                                                value="{{ number_format($result->month_price) }}"
+                                                value="{{ $month_price > 0 ? number_format($month_price) : '' }}"
                                                 oninput="onlyNumbers(this); onTextChangeEventIndex('month_price', 0);"><span>원</span>
                                         </div>
                                     </div>
@@ -165,8 +181,8 @@
 
 
             <input type="hidden" id="is_vacancy" name="is_vacancy" value="{{ $result->is_vacancy }}">
-            <input type="hidden" id="month_price" name="month_price" value="{{ $result->month_price }}">
-            <input type="hidden" id="check_price" name="check_price" value="{{ $result->check_price }}">
+            <input type="hidden" id="month_price" name="month_price" value="{{ $month_price }}">
+            <input type="hidden" id="check_price" name="check_price" value="{{ $check_price }}">
             <input type="hidden" id="started_at" name="started_at" value="{{ $started_at }}">
             <input type="hidden" id="ended_at" name="ended_at" value="{{ $ended_at }}">
             <input type="hidden" id="deposit_day" name="deposit_day" value="{{ $result->deposit_day }}">

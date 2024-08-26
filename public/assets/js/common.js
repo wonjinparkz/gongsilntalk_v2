@@ -52,7 +52,15 @@ const handleSelectWrapper = (lb, opt) => {
 }
 
 const handleSelect = (label, item) => {
-    label.innerHTML = item.textContent;
+    const selectedText = item.textContent.trim();
+
+    if (selectedText === '전체') {
+        // Reset to the initial title if "전체" is selected
+        label.textContent = label.getAttribute('data-initial-title');
+    } else {
+        label.textContent = selectedText;
+    }
+
     label.parentNode.classList.remove('active');
 }
 
