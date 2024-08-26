@@ -61,6 +61,7 @@
                                         <div><input type="text" name="total_floor_number" placeholder="전체층"> <span
                                                 class="gray_deep">층</span></div>
                                     </div>
+                                    <span class="gray_basic">※ 지하의 경우 B1으로 표시</span>
                                 </div>
                             </div>
                         @endif
