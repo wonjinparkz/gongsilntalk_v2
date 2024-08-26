@@ -353,7 +353,7 @@
 
                                 <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스 정류장
                                 </div>
-                                <p class="traffic_row"><span>{!! nl2br($result->bus_stop_contents) !!}</span></p>
+                                <div class="facility_wrap">{!! nl2br($result->bus_stop_contents) !!}<
 
                             </div>
                             <div>
