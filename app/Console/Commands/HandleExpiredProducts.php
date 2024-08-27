@@ -32,7 +32,7 @@ class HandleExpiredProducts extends Command
         // Assuming you have a 'expires_at' column on your 'products' table
         $expiredProducts = Product::where('user_type', 1)->where('created_at', '<', $date30DaysAgo)->first();
 
-        info('$expiredProducts : ', $expiredProducts);
+        $this->info('$expiredProducts : ', $expiredProducts);
         // foreach ($expiredProducts as $product) {
             $expiredProducts->update(['status' => '4']); // Example action
         // }
