@@ -30,14 +30,10 @@ class HandleExpiredProducts extends Command
         $date30DaysAgo = Carbon::now()->subDays(30)->startOfDay();
 
         // Assuming you have a 'expires_at' column on your 'products' table
-        $expiredProducts = Product::where('user_type', 1)->where('created_at', '<', $date30DaysAgo)->first();
+        $expiredProducts = Product::where('user_type', 1)->where('created_at', '<', $date30DaysAgo)->get();
 
-        $this->info('$date30DaysAgo : '. $date30DaysAgo);
-        $this->info('$expiredProducts : '. $expiredProducts);
-        if (isset($expiredProducts)) {
-            // foreach ($expiredProducts as $product) {
-            $expiredProducts->update(['state' => '4']); // Example action
-            // }
+        foreach ($expiredProducts as $product) {
+            $product->update(['state' => '4']); // Example action
         }
 
         $this->info('중개사 매물 30일 초과 등록만료 처리.');
