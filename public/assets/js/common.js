@@ -17,9 +17,12 @@ function initializeDropdowns(context = document) {
         // 새로운 이벤트 리스너 추가
         lb.addEventListener('click', handleLabelClick);
     });
+
+    document.addEventListener('click', handleDocumentClick);
 }
 
 function handleLabelClick(event) {
+    event.stopPropagation();
     const lb = event.target;
     if (!lb.classList.contains('disabled')) {
         let optionList = lb.nextElementSibling;
@@ -40,6 +43,8 @@ const clickLabel = (lb, optionItems) => {
             opt.removeEventListener('click', handleSelectWrapper(lb, opt));
         });
     } else {
+        closeAllDropdowns();
+
         lb.parentNode.classList.add('active');
         optionItems.forEach((opt) => {
             opt.addEventListener('click', handleSelectWrapper(lb, opt));
@@ -63,6 +68,26 @@ const handleSelect = (label, item) => {
 
     label.parentNode.classList.remove('active');
 }
+
+function handleDocumentClick(event) {
+    const dropdowns = document.querySelectorAll('.dropdown_box.active');
+    dropdowns.forEach((dropdown) => {
+        if (!dropdown.contains(event.target)) {
+            dropdown.classList.remove('active');
+        }
+    });
+}
+
+function closeAllDropdowns() {
+    const dropdowns = document.querySelectorAll('.dropdown_box.active');
+    dropdowns.forEach((dropdown) => {
+        dropdown.classList.remove('active');
+    });
+}
+
+initializeDropdowns();
+
+
 
 // 초기 이벤트 리스너 설정
 
