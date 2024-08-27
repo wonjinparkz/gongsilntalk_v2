@@ -534,10 +534,10 @@
                             <textarea name="product_content" id="product_content" placeholder="건물의 특징이나 장점을 설명해주세요.">{{ $product->product_content }}</textarea>
                         </div>
 
-                        <div class="offer_textarea_wrap">
+                        {{-- <div class="offer_textarea_wrap">
                             <label class="input_label">요청사항 </label>
                             <textarea name="content" id="content" placeholder="별도의 요청사항이 있다면 작성해주세요.">{{ $product->content }}</textarea>
-                        </div>
+                        </div> --}}
 
                     </div>
 
