@@ -636,7 +636,7 @@ class MapPcController extends Controller
         $result = '';
 
         if ($markerType == 'knowledge') {
-            $result = KnowledgeCenter::where('id', $request->id)->first();
+            $result = KnowledgeCenter::with('BrTitleInfo', 'BrRecapTitleInfo', 'BrFlrOulnInfo', 'BrExposInfo', 'BrExposPubuseAreaInfo')->where('id', $request->id)->first();
         } else if ($markerType == 'apt') {
             $result = DataApt::select('data_apt.*', 'data_apt.y as address_lat', 'data_apt.x as address_lng')->where('id', $request->id)->first();
             if ($result) {
