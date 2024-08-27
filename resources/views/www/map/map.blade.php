@@ -1236,7 +1236,7 @@
         if (filertType == 1) {
             if (Name == 'payment_type_txt') {
                 $('#payment_type').val(value ?? '');
-                text = value == '' ? '전체' : text;
+                text = value == '' ? "전체" : text;
 
                 $('#price').val($('#temp_price').val());
                 [min, max] = $('#temp_price').val().split(',').map(Number);

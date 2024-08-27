@@ -108,55 +108,25 @@
 
         <div class="inner_wrap bottom_space">
             <!-- PC::filter : s -->
-            <div class="mt28 only_pc">
-                <div class="dropdown_box w_10">
-                    <button class="dropdown_label">거래유형</button>
-                    <ul class="optionList">
-                        <li class="optionItem" onclick="typeChange('')">전체</li>
-                        @for ($i = 0; $i < count(Lang::get('commons.payment_type')); $i++)
-                            @if ($i == 3 || $i == 4)
-                                @continue
-                            @endif
-                            <li class="optionItem" onclick="typeChange({{ $i }})">
-                                {{ Lang::get('commons.payment_type.' . $i) }}</li>
-                        @endfor
-                    </ul>
+            <div class="my_search_wrap optionSelectBox">
+                <div class="mt28 sort_wrap">
+                    <div class="dropdown_box">
+                        <button class="dropdown_label" data-initial-title="거래유형">거래유형</button>
+                        <ul class="optionList">
+                            <li class="optionItem" onclick="typeChange('')">전체</li>
+                            @for ($i = 0; $i < count(Lang::get('commons.payment_type')); $i++)
+                                @if ($i == 3 || $i == 4)
+                                    @continue
+                                @endif
+                                <li class="optionItem" onclick="typeChange({{ $i }})">
+                                    {{ Lang::get('commons.payment_type.' . $i) }}</li>
+                            @endfor
+                        </ul>
+                    </div>
                 </div>
             </div>
             <!-- PC::filter : e -->
 
-            <!-- M::filter : s -->
-            <div class="m_sales_filter_wrap agent_filter_wrap">
-                <div class="m_dropdown_double_wrap">
-                    <button class="btn_dropdown" onclick="modal_open_slide('transaction_type')">거래유형</button>
-                </div>
-            </div>
-            <div class="modal_slide modal_slide_transaction_type">
-                <div class="slide_title_wrap">
-                    <span>거래유형 선택</span>
-                    <img src="{{ asset('assets/media/btn_md_close.png') }}"
-                        onclick="modal_close_slide('transaction_type')">
-                </div>
-                <ul class="slide_modal_menu">
-                    <li><a href="javascript:;" onclick="typeChange('')">전체</a></li>
-                    @for ($i = 0; $i < count(Lang::get('commons.payment_type')); $i++)
-                        @if ($i == 3 || $i == 4)
-                            @continue
-                        @endif
-                        <li><a href="javascript:;"
-                                onclick="typeChange({{ $i }})">{{ Lang::get('commons.payment_type.' . $i) }}</a>
-                        </li>
-                    @endfor
-                    {{-- <li><a href="javascript:;">전체</a></li>
-                    <li><a href="javascript:;">매매</a></li>
-                    <li><a href="javascript:;">임대</a></li>
-                    <li><a href="javascript:;">단기임대</a></li>
-                    <li><a href="javascript:;">전매</a></li> --}}
-                </ul>
-            </div>
-            <div class="md_slide_overlay md_slide_overlay_transaction_type"
-                onclick="modal_close_slide('transaction_type')"></div>
-            <!-- M::filter : e -->
 
             <div class="flex_between agent_sort_wrap">
                 <div class="txt_search_total">분양목록 총 <span class="txt_point">0건</span></div>
