@@ -281,7 +281,7 @@
                                     <td>{{ $info['exposPubuseGbCdNm'] }}</td>
                                     <td>{{ isset($info['dongNm']) && $info['dongNm'] !== '' ? '' : $info['dongNm'] }}
                                     </td>
-                                    <td>{{ $info['mainPurpsCdNm'] }}</td>
+                                    <td>{{ is_array($info['mainPurpsCdNm']) ? implode(', ', $info['mainPurpsCdNm']) : ($info['mainPurpsCdNm'] ?? '') }}</td>
                                     <td>{{ $info['mainAtchGbCdNm'] }}</td>
                                     <td>{{ number_format($info['area']) }}㎡</td>
                                 </tr>
