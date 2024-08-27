@@ -82,7 +82,7 @@
                                     {{ $info['regstrGbCdNm'] != '' ? '(' . $info['regstrGbCdNm'] . ')' : '' }}
                                 </td>
                                 <td class="txt_sm">{{ $info['dongNm'] ?? '-' }}</td>
-                                <td class="txt_sm">{{ $info['mainPurpsCdNm'] ?? '-' }}</td>
+                                <td class="txt_sm">{{ Commons::formatValue($info['mainPurpsCdNm']) }}</td>
                                 <td class="txt_sm">
                                     {{ $info['archArea'] != '' ? number_format($info['archArea'], 2) . '㎡' : '-' }}
                                 </td>
@@ -123,7 +123,7 @@
                     <div class="td">주구조</div>
                     <div class="td">{{ $info['strctCdNm'] ?? '-' }}</div>
                     <div class="td">지붕구조</div>
-                    <div class="td">{{ is_null($info['etcRoof'] ?? null) || $info['etcRoof'] === '' || $info['etcRoof'] === [] ? '-' : (is_array($info['etcRoof']) ? implode(', ', $info['etcRoof']) : $info['etcRoof']) }}</div>
+                    <div class="td">{{ Commons::formatValue($info['etcRoof']) }}</div>
                     <div class="td">엘리베이터</div>
                     <div class="td">{{ $info['rideUseElvtCnt'] ?? '-' }}</div>
                     <div class="td">용적률</div>
@@ -166,7 +166,7 @@
                     <div class="td">주구조</div>
                     <div class="td">{{ $info['strctCdNm'] ?? '-' }}</div>
                     <div class="td">지붕구조</div>
-                    <div class="td">{{ $info['etcRoof'] ?? '-' }}</div>
+                    <div class="td">{{ Commons::formatValue($info['etcRoof']) }}</div>
                     <div class="td">엘리베이터</div>
                     <div class="td">{{ $info['rideUseElvtCnt'] > 0 ? '총 ' . $info['rideUseElvtCnt'] . '대' : '-' }}
                     </div>
@@ -281,7 +281,7 @@
                                     <td>{{ $info['exposPubuseGbCdNm'] }}</td>
                                     <td>{{ isset($info['dongNm']) && $info['dongNm'] !== '' ? '' : $info['dongNm'] }}
                                     </td>
-                                    <td>{{ is_array($info['mainPurpsCdNm']) ? implode(', ', $info['mainPurpsCdNm']) : ($info['mainPurpsCdNm'] ?? '') }}</td>
+                                    <td>{{ Commons::formatValue($info['mainPurpsCdNm']) }}</td>
                                     <td>{{ $info['mainAtchGbCdNm'] }}</td>
                                     <td>{{ number_format($info['area']) }}㎡</td>
                                 </tr>

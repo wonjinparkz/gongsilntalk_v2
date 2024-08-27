@@ -212,4 +212,21 @@ class Commons
             return '';
         }
     }
+
+    // 데이터 타입이 동일하지 않은 값 처리
+    public static function formatValue($value, $default = '-', $separator = ', ')
+    {
+        // Handle null, empty string, and empty array cases
+        if (is_null($value) || $value === '' || $value === []) {
+            return $default;
+        }
+
+        // Handle array case
+        if (is_array($value)) {
+            return implode($separator, $value);
+        }
+
+        // Handle single value case
+        return (string) $value;
+    }
 }
