@@ -206,7 +206,7 @@
                                 @if ($name == $info['dongNm'])
                                     <tr>
                                         <td>{{ $info['flrNoNm'] }}</td>
-                                        <td>{{ $info['mainPurpsCdNm'] }}</td>
+                                        <td>{{ is_array($info['mainPurpsCdNm']) ? implode(', ', $info['mainPurpsCdNm']) : ($info['mainPurpsCdNm'] ?? '-') }}</td>
                                         <td>{{ number_format($info['area'], 2) }}㎡</td>
                                     </tr>
                                 @endif
