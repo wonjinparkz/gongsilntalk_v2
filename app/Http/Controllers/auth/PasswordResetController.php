@@ -75,8 +75,6 @@ class PasswordResetController extends Controller
     {
         $confirm = 0;
 
-        Log::info($request->all());
-
         $result = User::where('email', $request->email)
             ->where('name', $request->name)->first();
 
@@ -110,7 +108,6 @@ class PasswordResetController extends Controller
         }
 
         if ($request->verification != 'N') {
-            Log::info($request->all());
             // 사용자 찾아서 비밀번호 변경
             $user = User::select()->where('email', $request->password_email_confirmation)->where('name', $request->name)->first();
             if ($user && $user->phone == $request->phone) {

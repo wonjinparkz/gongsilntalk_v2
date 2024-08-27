@@ -703,7 +703,6 @@ class UserPcController extends Controller
     public function addressList(Request $request)
     {
         $addressList = AssetAddress::select();
-        info($request->old_address);
         $addressList->where('users_id', Auth::guard('web')->user()->id);
 
         if ($request->is_map != 1) {
@@ -1305,7 +1304,6 @@ class UserPcController extends Controller
 
     public function changeUserInfo(Request $request)
     {
-        Log::info($request->all());
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'phone' => 'required',

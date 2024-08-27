@@ -13,7 +13,6 @@
             @php
                 $region = Request::get('region') ?? [];
                 $m_region = Request::get('m_region') ?? [];
-                Log::info($region);
             @endphp
             <input type="hidden" id="is_sale" name="is_sale" value="">
             <!-- PC::filter : s -->

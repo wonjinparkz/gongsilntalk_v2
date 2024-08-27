@@ -37,8 +37,6 @@ class VerificationController extends Controller
         $merchant_uid = $request->merchant_uid;
         $success = $request->success;
 
-        Log::info($request);
-
         if ($success == 'false') {
             return view('commons.verification-error');
         }

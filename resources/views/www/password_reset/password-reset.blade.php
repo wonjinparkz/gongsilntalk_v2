@@ -14,10 +14,6 @@
                         <div class="col-lg-8 fv-row">
                             <input type="password" name="new_password" class="form-control form-control-solid"
                                 placeholder="비밀번호" value="{{ old('new_password') }}" />
-
-                            @php
-                                Log::info('$errors = ' . json_encode($errors->get('new_password')));
-                            @endphp
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('new_password')" />
                         </div>
                     </div>

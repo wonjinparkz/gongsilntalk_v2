@@ -113,9 +113,6 @@ class UserAuthPcController extends Controller
      */
     public function login(PcLoginRequest $request): RedirectResponse
     {
-        Log::info($request->device_type);
-        Log::info($request->fcm_key);
-
         $validator = Validator::make($request->all(), [
             'email' => "required|email",
             'password' => 'required',
@@ -282,8 +279,6 @@ class UserAuthPcController extends Controller
             'birth' => 'required_if:verification,Y',
         ]);
 
-        Log::info($request);
-
         if ($validator->fails()) {
             return redirect(route('www.register.register.view'))
                 ->withErrors($validator)
@@ -349,8 +344,6 @@ class UserAuthPcController extends Controller
             'phone' => 'required_if:verification,Y',
             'birth' => 'required_if:verification,Y',
         ]);
-
-        Log::info($request);
 
         if ($validator->fails()) {
             return redirect(route('www.register.corp.register2.view'))
@@ -517,7 +510,6 @@ class UserAuthPcController extends Controller
                 return Redirect::route('www.register.type', ['provider' => 'K', 'token' => Crypt::encrypt($kakao->id)]);
             }
         } catch (Exception $e) {
-            info($e . 'E');
             return "<script>window.opener.postMessage('fail', window.location.origin); window.close();</script>";
         }
     }

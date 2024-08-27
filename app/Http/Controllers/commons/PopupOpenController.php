@@ -28,7 +28,6 @@ class PopupOpenController extends Controller
      */
     public function getAddressRedirect(Request $request): View
     {
-        Log::info($request);
         $result = $request;
         return view('address.jusoPopupRedirect', compact('result'));
     }
@@ -80,8 +79,6 @@ class PopupOpenController extends Controller
                     'latitude' => $addressInfo['y'],
                     'longitude' => $addressInfo['x']
                 ];
-
-                Log::info($results);
 
                 return response()->json(['AddressList' => $results, 'message' => '주소 검색 결과값']);
             } else {

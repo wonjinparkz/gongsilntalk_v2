@@ -36,8 +36,6 @@ class BuildingledgerController extends Controller
      */
     public function BrTitleInfoUpdate(Request $request): RedirectResponse
     {
-        Log::info($request->BrTitleInfo);
-
         if ($request->BrTitleInfo) {
             // 기존 데이터 초기화 하고 이미지 업데이트
             BrTitleInfo::where('target_id', '=', $request->id)

@@ -111,8 +111,6 @@ class ProposalPcController extends Controller
      */
     public function corpProposalProductCreate2View(Request $request): View
     {
-
-        info($request);
         return view('www.proposal.corpProduct_create2', compact('request'));
     }
 
@@ -165,8 +163,6 @@ class ProposalPcController extends Controller
             return redirect(route('www.corp.proposal.product.create3.view'))->withErrors($validator)
                 ->withInput();
         }
-
-        info($request);
 
         $address_id = 0;
 
@@ -585,8 +581,6 @@ class ProposalPcController extends Controller
             ->first();
 
         $proposal = Proposal::with('regions', 'products')->select()->where('id', $id)->where('users_id', Auth::guard('web')->user()->id)->first();
-
-        Log::info($proposal);
 
         return view('www.proposal.my-proposal-offer-list', compact('user', 'proposal'));
     }

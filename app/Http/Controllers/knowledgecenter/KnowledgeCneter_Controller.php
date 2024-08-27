@@ -320,7 +320,6 @@ class KnowledgeCneter_Controller extends Controller
         if ($file) {
             $fileName = $file->getClientOriginalName();
             $fileSize = $file->getSize();
-            Log::info("업로드된 파일 이름: $fileName, 파일 크기: $fileSize bytes");
         }
 
         // Excel 파일을 PhpSpreadsheet 라이브러리를 사용하여 읽기
@@ -369,7 +368,6 @@ class KnowledgeCneter_Controller extends Controller
 
         // Excel::import($file, function ($rows) {
         //     foreach ($rows as $row) {
-        //         Log::info($row);
         // $model = KnowledgeCenter::where('id', $row->id)->first();
         // if ($model) {
         //     $model->name = $row->name;

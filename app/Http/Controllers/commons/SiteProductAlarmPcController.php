@@ -65,8 +65,6 @@ class SiteProductAlarmPcController extends Controller
                 ->select('site_product_alarms.*', 'site_product_schedule.title as schedule_title', 'site_product.title as product_title')
                 ->get();
 
-            Log::info('todayAlarmList' . $ddayAlarmList);
-
             foreach ($ddayAlarmList as $alarm) {
                 $productTitle = $alarm->product_title;
                 $scheduleTitle = $alarm->schedule_title;
@@ -121,8 +119,6 @@ class SiteProductAlarmPcController extends Controller
                 ->select('site_product_alarms.*', 'site_product_schedule.title as schedule_title', 'site_product.title as product_title')
                 ->get();
 
-            Log::info('todayAlarmList' . $ddayAlarmList);
-
             foreach ($ddayAlarmList as $alarm) {
                 $productTitle = $alarm->product_title;
                 $scheduleTitle = $alarm->schedule_title;
@@ -174,8 +170,6 @@ class SiteProductAlarmPcController extends Controller
                 })
                 ->select('site_product_alarms.*', 'site_product_schedule.title as schedule_title', 'site_product.title as product_title')
                 ->get();
-
-            Log::info('todayAlarmList' . $ddayAlarmList);
 
             foreach ($ddayAlarmList as $alarm) {
                 $productTitle = $alarm->product_title;

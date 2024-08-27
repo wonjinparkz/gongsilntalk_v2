@@ -236,7 +236,6 @@ class SiteProductController extends Controller
      */
     public function siteProductUpdate(Request $request)
     {
-        Log::info($request);
         // 유효성 검사
         $validator = Validator::make($request->all(), [
             'region_type' => 'required',

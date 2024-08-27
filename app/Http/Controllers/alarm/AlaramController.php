@@ -67,8 +67,6 @@ class AlaramController extends Controller
             $unknownTokens = count($response->unknownTokens());
             $invalidTokens = count($response->invalidTokens());
 
-            Log::info('V:' . $validTokens . ' - U:' . $unknownTokens . '- I:' . $invalidTokens);
-
             return Redirect::route('admin.alarm.view')->with('message', '알림을 발송했습니다.');
         } else {
             return Redirect::route('admin.alarm.view')->with('message', '알림발송에 실패했습니다.');

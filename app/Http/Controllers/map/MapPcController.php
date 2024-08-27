@@ -176,7 +176,6 @@ class MapPcController extends Controller
     public function getMapMarker(Request $request)
     {
 
-        info('가져옴?');
         // 위도와 경도를 요청에서 가져오거나 기본값 설정
         $address_lat = $request->lat ?? 37.4874462;
         $address_lng = $request->lng ?? 126.8913583;
@@ -466,8 +465,6 @@ class MapPcController extends Controller
             $product->whereHas('priceInfo', function ($query) use ($request) {
                 // 거래유형
                 $paymentTypes = explode(',', $request->payment_type);
-
-                info($request->payment_type);
 
                 if (isset($request->payment_type)) {
                     $query->whereIn('product_price.payment_type', $paymentTypes);

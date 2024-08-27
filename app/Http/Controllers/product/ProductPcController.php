@@ -192,8 +192,6 @@ class ProductPcController extends Controller
      */
     public function corpProductCreate2View(Request $request): View
     {
-        Log::info($request->all());
-
         $result = $request->all();
 
         return view('www.product.corp_product_create2', compact('result'));
@@ -203,7 +201,6 @@ class ProductPcController extends Controller
      */
     public function corpProductCreate3View(Request $request): View
     {
-        Log::info($request->all());
 
         $result = $request->all();
 
@@ -214,7 +211,6 @@ class ProductPcController extends Controller
      */
     public function corpProductCreate4View(Request $request): View
     {
-        Log::info($request->all());
 
         $result = $request->all();
 
@@ -225,7 +221,6 @@ class ProductPcController extends Controller
      */
     public function corpProductCreate5View(Request $request): View
     {
-        Log::info($request->all());
 
         $result = $request->all();
 
@@ -237,7 +232,6 @@ class ProductPcController extends Controller
      */
     public function corpProductCreateTypeCheck(Request $request): RedirectResponse
     {
-        Log::info($request);
         $validator = Validator::make($request->all(), [
             'type' => "required",
             'payment_type' => "required",
@@ -357,7 +351,6 @@ class ProductPcController extends Controller
         ]);
 
         if ($validator->fails()) {
-            Log::info($validator->errors());
             return redirect(route('www.corp.product.create3.view'))->withErrors($validator)
                 ->withInput();
         }
@@ -555,8 +548,6 @@ class ProductPcController extends Controller
             'commission_rate' => 'required',
 
         ]);
-
-        Log::info($request);
 
         if ($validator->fails()) {
             return redirect(route('www.corp.product.create5.view', $request->input()))

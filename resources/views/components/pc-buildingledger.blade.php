@@ -274,7 +274,6 @@
                     <tbody class="">
                         @if (count($BrExposPubuseAreaInfo) > 0)
                             @foreach ($BrExposPubuseAreaInfo as $info)
-                                {{ Log::info($info) }}
                                 <tr
                                     class="{{ isset($info['dongNm']) && $info['dongNm'] !== '' ? '단일' : $info['dongNm'] }}">
                                     {{-- <tr class="{{ $info['dongNm'] }} dongInfo"> --}}
