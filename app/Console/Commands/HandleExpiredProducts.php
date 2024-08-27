@@ -33,9 +33,11 @@ class HandleExpiredProducts extends Command
         $expiredProducts = Product::where('user_type', 1)->where('created_at', '<', $date30DaysAgo)->first();
 
         $this->info('$expiredProducts : ', $expiredProducts);
-        // foreach ($expiredProducts as $product) {
+        if (isset($expiredProducts)) {
+            // foreach ($expiredProducts as $product) {
             $expiredProducts->update(['status' => '4']); // Example action
-        // }
+            // }
+        }
 
         $this->info('중개사 매물 30일 초과 등록만료 처리.');
     }
