@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('target_id')->nullable()->comment('타겟 아이디');
             $table->longText('json_data')->nullable()->comment('json 타입으로 받은 데이터');
             $table->timestamps();
+            $table->index(['target_type', 'target_id']); // 빠른 조회
         });
         DB::statement("ALTER TABLE brtitleinfo COMMENT='표제부 정보'");
     }
