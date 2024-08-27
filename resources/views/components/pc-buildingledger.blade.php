@@ -121,7 +121,7 @@
                     <div class="td">{{ $info['platArea'] != '' ? number_format($info['platArea'], 2) . '㎡' : '-' }}
                     </div>
                     <div class="td">주구조</div>
-                    <div class="td">{{ $info['strctCdNm'] ?? '-' }}</div>
+                    <div class="td">{{ Commons::formatValue($info['strctCdNm'] ?? '') }}</div>
                     <div class="td">지붕구조</div>
                     <div class="td">{{ Commons::formatValue($info['etcRoof'] ?? '') }}</div>
                     <div class="td">엘리베이터</div>
@@ -164,7 +164,7 @@
                     <div class="td">{{ $info['platArea'] != '' ? number_format($info['platArea'], 2) . '㎡' : '-' }}
                     </div>
                     <div class="td">주구조</div>
-                    <div class="td">{{ $info['strctCdNm'] ?? '-' }}</div>
+                    <div class="td">{{ Commons::formatValue($info['strctCdNm']) }}</div>
                     <div class="td">지붕구조</div>
                     <div class="td">{{ Commons::formatValue($info['etcRoof'] ?? '') }}</div>
                     <div class="td">엘리베이터</div>
