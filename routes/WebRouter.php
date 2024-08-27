@@ -154,7 +154,7 @@ Route::middleware('pc.auth')->controller(ProductPcController::class)->group(func
     Route::post('/corp/product/create/info/check', 'corpProductCreateInfoCheck')->name('www.corp.product.create.info.check');
     Route::post('/corp/product/create/add/info/check', 'corpProductCreateAddInfoCheck')->name('www.corp.product.create.add.info.check');
     Route::post('/corp/product/create', 'corpProductCreate')->name('www.corp.product.create');
-    Route::post('/corp/product/re/register/{id}', 'corpProductReRegister')->name('www.corp.proudct.re.register');
+    Route::get('/corp/product/re/register/{id}', 'corpProductReRegister')->name('www.corp.proudct.re.register');
 });
 
 // 커뮤니티
