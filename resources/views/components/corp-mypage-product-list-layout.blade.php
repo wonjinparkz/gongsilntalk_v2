@@ -107,7 +107,8 @@
                                 <button class="btn_gray_ghost btn_sm"
                                     onclick="location.href='{{ route('www.mypage.corp.product.magagement.update.view', [$product->id]) }}'">수정</button>
                             @else
-                                <button class="btn_gray_ghost btn_sm">재등록</button>
+                                <button class="btn_gray_ghost btn_sm"
+                                    onclick="location.href='{{ route('www.corp.proudct.re.register', [$product->id]) }}'">재등록</button>
                             @endif
                             <button class="btn_gray_ghost btn_sm" type="button"
                                 onclick="modal_open('asset_delete_{{ $product->id }}')">삭제</button>
@@ -194,7 +195,8 @@
                         <button class="btn_gray_ghost btn_sm"
                             onclick="location.href='{{ route('www.mypage.corp.product.magagement.update.view', [$product->id]) }}'">수정</button>
                     @else
-                        <button class="btn_gray_ghost btn_sm">재등록</button>
+                        <button class="btn_gray_ghost btn_sm"
+                            onclick="location.href='{{ route('www.corp.proudct.re.register', [$product->id]) }}'">재등록</button>
                     @endif
                     <button class="btn_gray_ghost btn_sm">삭제</button>
                 </div>

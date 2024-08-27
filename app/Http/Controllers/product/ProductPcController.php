@@ -20,6 +20,18 @@ use Illuminate\View\View;
 
 class ProductPcController extends Controller
 {
+
+
+    // 매물 등록번호 생성 메서드
+    protected function generateProductCode()
+    {
+        $datePart = date('ymd'); // YYMMDD 형식
+        $todayCount = Product::whereDate('created_at', today())->count() + 1;
+        $numberPart = str_pad($todayCount, 4, '0', STR_PAD_LEFT);
+
+        return $datePart . $numberPart;
+    }
+
     /**
      * 내 매물 등록 관리
      */
@@ -767,13 +779,14 @@ class ProductPcController extends Controller
         return Redirect::route('www.mypage.corp.product.magagement.list.view')->with('message', '매물을 등록했습니다.');
     }
 
-    // 매물 등록번호 생성 메서드
-    protected function generateProductCode()
+    public function corpProductReRegister($id)
     {
-        $datePart = date('ymd'); // YYMMDD 형식
-        $todayCount = Product::whereDate('created_at', today())->count() + 1;
-        $numberPart = str_pad($todayCount, 4, '0', STR_PAD_LEFT);
+        $product = Product::where('id', $id)->where('users_id', Auth::guard('web')->user()->id)->first();
 
-        return $datePart . $numberPart;
+        if ($product) {
+            $product->update(['state' => '1', 'created_at' => now()]);
+        }
+
+        return Redirect::back()->with('message', '매물이 재등록 되었습니다.');
     }
 }
