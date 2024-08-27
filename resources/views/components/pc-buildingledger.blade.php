@@ -274,13 +274,14 @@
                     <tbody class="">
                         @if (count($BrExposPubuseAreaInfo) > 0)
                             @foreach ($BrExposPubuseAreaInfo as $info)
+                                {{ Log::info($info) }}
                                 <tr
                                     class="{{ isset($info['dongNm']) && $info['dongNm'] !== '' ? '단일' : $info['dongNm'] }}">
                                     {{-- <tr class="{{ $info['dongNm'] }} dongInfo"> --}}
                                     <td>{{ $info['exposPubuseGbCdNm'] }}</td>
                                     <td>{{ isset($info['dongNm']) && $info['dongNm'] !== '' ? '' : $info['dongNm'] }}
                                     </td>
-                                    <td>{{ $info['mainPurpsCdNm'] ?? '-' }}</td>
+                                    <td>{{ $info['mainPurpsCdNm'] }}</td>
                                     <td>{{ $info['mainAtchGbCdNm'] }}</td>
                                     <td>{{ number_format($info['area']) }}㎡</td>
                                 </tr>
