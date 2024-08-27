@@ -9,6 +9,7 @@ use App\Models\ProductOptions;
 use App\Models\ProductPrice;
 use App\Models\ProductServices;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -608,6 +609,7 @@ class ProductPcController extends Controller
             'commission_rate' => $request->commission_rate,
             'is_blind' => 0,
             'is_delete' => 0,
+            'expires_at' => Carbon::now()->addDays(30),
         ];
 
 
@@ -784,7 +786,7 @@ class ProductPcController extends Controller
         $product = Product::where('id', $id)->where('users_id', Auth::guard('web')->user()->id)->first();
 
         if ($product) {
-            $product->update(['state' => '1', 'created_at' => now()]);
+            $product->update(['state' => '1', 'expires_at' => Carbon::now()->addDays(30)]);
         }
 
         return Redirect::back()->with('message', '매물이 재등록 되었습니다.');

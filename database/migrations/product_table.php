@@ -71,6 +71,8 @@ return new class extends Migration
             $table->integer('is_blind')->nullable()->comment('비공개 여부 - 0: 공개, 1: 비공개');
             $table->integer('is_delete')->nullable()->comment('삭제 여부 - 0: 게시중, 1: 삭제');
 
+            $table->date('expires_at')->nullable()->comment('마감일 - 중개사 매물만 존재');
+
             // Indexes
             $table->timestamps();
         });

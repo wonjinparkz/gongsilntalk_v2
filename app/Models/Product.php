@@ -60,6 +60,7 @@ class Product extends BaseModel
         'non_memo',
         'is_blind',
         'is_delete',
+        'expires_at'
     ];
 
 
