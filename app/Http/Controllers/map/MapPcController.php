@@ -594,7 +594,6 @@ class MapPcController extends Controller
                 if (isset($request->wattage_type)) {
                     $query->where('product_add_info.wattage_type', $request->wattage_type);
                 }
-
             });
 
 
@@ -641,7 +640,9 @@ class MapPcController extends Controller
         if ($markerType == 'knowledge') {
             $result = KnowledgeCenter::where('id', $request->id)->first();
         } else if ($markerType == 'apt') {
-            $result = DataApt::select('data_apt.*', 'data_apt.y as address_lat', 'data_apt.x as address_lng')->where('id', $request->id)->first();
+            $result = DataApt::with(['transactions', 'transactionsRent', 'BrTitleInfo', 'BrRecapTitleInfo', 'BrFlrOulnInfo', 'BrExposInfo', 'BrExposPubuseAreaInfo'])
+                ->select('data_apt.*', 'data_apt.y as address_lat', 'data_apt.x as address_lng')
+                ->where('id', $request->id)->first();
             if ($result) {
                 $result->transactions = $result->transactions()->get(); // 실제 데이터를 가져옵니다.
                 $result->transactionsRent = $result->transactionsRent()->get(); // 실제 데이터를 가져옵니다.
