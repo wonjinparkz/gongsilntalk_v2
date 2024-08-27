@@ -181,7 +181,6 @@
 
         // 페이징
         function loadMoreData(page) {
-            console.log('123');
             $.ajax({
                     url: '{{ Request::url() }}',
                     data: {

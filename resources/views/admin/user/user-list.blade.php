@@ -258,7 +258,6 @@
 
         // 승인 물음
         function stateAlert(type, id, state) {
-            console.log('확인', type);
             switch (type) {
                 case "1":
                     text = "선택하신 회원을 이용정지 하시겠습니까?";

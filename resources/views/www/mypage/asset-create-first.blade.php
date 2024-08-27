@@ -490,8 +490,6 @@
 
         callJusoroMapApiType1(rtentX, rtentY);
 
-        console.log('주소 검색 끝!');
-
         confirm_check();
         usersAddressList($('#old_address').val(), 0);
     }
@@ -514,13 +512,10 @@
                 'is_map': is_map ?? 0
             },
             success: function(result) {
-                console.log(result.result);
                 if (result.result == null) {
-                    console.log('없어요');
                 } else {
                     $('#asset_address_id').val(result.result.id);
                     modal_open('address_add');
-                    console.log('있네여');
                 }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {

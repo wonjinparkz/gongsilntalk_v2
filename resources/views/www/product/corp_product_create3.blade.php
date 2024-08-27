@@ -358,18 +358,6 @@
             inputCheck();
         });
 
-        // function inputCheck() {
-        //     var type = $('#type').val();
-
-        //     console.log('type : ', type);
-
-        //     if ([0, 1, 2].indexOf(type) !== -1) {
-        //         console.log('지식, 사무실, 창고');
-        //     }else if(type == 3) {
-        //         console.log('상가');
-        //     }else if(type == )
-        // }
-
         function inputCheck() {
             var type = $('#type').val();
 

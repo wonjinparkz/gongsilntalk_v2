@@ -759,7 +759,6 @@
 
 
         function uploadFloorFile(input) {
-            console.log('이미지 업로드');
             const data = new FormData(); // Create a new FormData object to store the file data
             let file = input.files[0]; // Get the selected file from the input element
             data.append('image', file); // Append the selected file to the FormData object with key 'image'
@@ -771,7 +770,6 @@
                 contentType: false, // Set contentType to false to prevent jQuery from automatically setting the content type
                 processData: false, // Set processData to false to prevent jQuery from automatically processing the data
                 success: function(response) {
-                    console.log(response.result);
                     const container = input.closest('.file-upload-container');
                     const hiddenInput = container.querySelector('input[type="hidden"]');
                     const fileNameValue = container.querySelector('.file-nameValue');
@@ -1104,35 +1102,6 @@
         // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
         $('input[name=address]').val(rtRoadFullAddr);
 
-        console.log('RoadFullAddr:', rtRoadFullAddr);
-        console.log('AddrPart1:', rtAddrPart1);
-        console.log('AddrDetail:', rtAddrDetail);
-        console.log('AddrPart2:', rtAddrPart2);
-        console.log('EngAddr:', rtEngAddr);
-        console.log('JibunAddr:', rtJibunAddr);
-        console.log('ZipNo:', rtZipNo);
-        console.log('AdmCd:', rtAdmCd);
-        console.log('RnMgtSn:', rtRnMgtSn);
-        console.log('BdMgtSn:', rtBdMgtSn);
-        console.log('DetBdNmList:', rtDetBdNmList);
-        console.log('BdNm:', rtBdNm);
-        console.log('BdKdcd:', rtBdKdcd);
-        console.log('SiNm:', rtSiNm);
-        console.log('SggNm:', rtSggNm);
-        console.log('EmdNm:', rtEmdNm);
-        console.log('LiNm:', rtLiNm);
-        console.log('Rn:', rtRn);
-        console.log('UdrtYn:', rtUdrtYn);
-        console.log('BuldMnnm:', rtBuldMnnm);
-        console.log('BuldSlno:', rtBuldSlno);
-        console.log('MtYn:', rtMtYn);
-        console.log('LnbrMnnm:', rtLnbrMnnm);
-        console.log('LnbrSlno:', rtLnbrSlno);
-        console.log('EmdNo:', rtEmdNo);
-        console.log('lJibun:', relJibun);
-        console.log('entX:', rtentX);
-        console.log('entY:', rtentY);
-
         var wgs84Coords = get_coordinate_conversion(rtentX, rtentY);
 
         $('#address').val(rtAddrPart1 + ' ' + rtAddrDetail)
@@ -1142,6 +1111,5 @@
         $('#region_code').val(rtAdmCd);
         $('#region_address').val(rtSiNm + ' ' + rtSggNm + ' ' + rtEmdNm + ' ' + rtLiNm);
 
-        console.log('주소 검색 끝!');
     }
 </script>

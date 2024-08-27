@@ -196,7 +196,6 @@
             if (results && results.EDBrokers && results.EDBrokers.field && results.EDBrokers.field.length > 0) {
                 $emptyWrap.hide();
                 results.EDBrokers.field.forEach(function(result) {
-                    console.log(result);
                     var bsnmCmpnm = result.bsnmCmpnm || "";
                     var brkrNm = result.brkrNm || "";
                     var ldCodeNm = result.ldCodeNm || "";
@@ -267,36 +266,6 @@
         $('input[name="company_address_lat"]').val(wgs84Coords[1]);
         $('input[name="company_address_detail"]').val(rtAddrDetail);
         $('input[name="company_postcode"]').val(rtZipNo);
-
-        console.log('RoadFullAddr:', rtRoadFullAddr);
-        console.log('AddrPart1:', rtAddrPart1);
-        console.log('AddrDetail:', rtAddrDetail);
-        console.log('AddrPart2:', rtAddrPart2);
-        console.log('EngAddr:', rtEngAddr);
-        console.log('JibunAddr:', rtJibunAddr);
-        console.log('ZipNo:', rtZipNo);
-        console.log('AdmCd:', rtAdmCd);
-        console.log('RnMgtSn:', rtRnMgtSn);
-        console.log('BdMgtSn:', rtBdMgtSn);
-        console.log('DetBdNmList:', rtDetBdNmList);
-        console.log('BdNm:', rtBdNm);
-        console.log('BdKdcd:', rtBdKdcd);
-        console.log('SiNm:', rtSiNm);
-        console.log('SggNm:', rtSggNm);
-        console.log('EmdNm:', rtEmdNm);
-        console.log('LiNm:', rtLiNm);
-        console.log('Rn:', rtRn);
-        console.log('UdrtYn:', rtUdrtYn);
-        console.log('BuldMnnm:', rtBuldMnnm);
-        console.log('BuldSlno:', rtBuldSlno);
-        console.log('MtYn:', rtMtYn);
-        console.log('LnbrMnnm:', rtLnbrMnnm);
-        console.log('LnbrSlno:', rtLnbrSlno);
-        console.log('EmdNo:', rtEmdNo);
-        console.log('lJibun:', relJibun);
-        console.log('entX:', rtentX);
-        console.log('entY:', rtentY);
-
     }
 
 
@@ -331,7 +300,6 @@
                 "b_adr": ""
             }]
         }
-        console.log(data);
 
         $.ajax({
             url: "https://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey={{ env('API_DATE_KEY') }}", // serviceKey 값을 xxxxxx에 입력
@@ -352,7 +320,6 @@
                 });
             },
             error: function(result) {
-                console.log(result.responseText); //responseText의 에러메세지 확인
                 alert(result.responseText);
             }
         });

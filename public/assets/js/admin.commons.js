@@ -25,12 +25,10 @@ function gte_useWFS(pnu) {
         data: data,
         async: true,
         success: function (data) {
-            console.log(JSON.stringify(data.features[0].properties));
             $('#useWFS_json').val(JSON.stringify(data.features[0].properties));
         },
         error: function (xhr, stat, err) {
             alert('주소API 오류 WFS 발생 주소를 다시 입력해주세요.');
-            console.log('xhr :', xhr);
             $('#address').val('');
         }
     });
@@ -59,7 +57,6 @@ function get_coordinates(pnu) {
         data: data,
         async: true,
         success: function (response) {
-            console.log(response);
             var features = response.features;
             if (features && features.length > 0) {
                 var coordinates = features[0].geometry.coordinates;
@@ -81,7 +78,6 @@ function get_coordinates(pnu) {
         },
         error: function (xhr, stat, err) {
             alert('POLYGON 오류 발생 주소를 다시 입력해주세요.');
-            console.log('xhr :', xhr);
             $('#address').val('');
         }
     });
@@ -116,7 +112,6 @@ function get_characteristics(pnu) {
         },
         error: function (xhr, stat, err) {
             alert('주소API Land 오류 발생 주소를 다시 입력해주세요.');
-            console.log('xhr :', xhr);
             $('#address').val('');
         }
     });

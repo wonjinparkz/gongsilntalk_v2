@@ -303,7 +303,6 @@
             var confirm = false;
 
             if (is_invest == 1 && invest_price != '') {
-                console.log('gd');
             }
 
             if (payment_type == 0) {
@@ -327,7 +326,6 @@
             } else {
                 return $('.confirm').attr("disabled", true);
             }
-            console.log('is_invest : ', is_invest);
         }
 
         function formSetting() {

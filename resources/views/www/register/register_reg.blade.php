@@ -202,7 +202,6 @@
             popup: true
         }, function(rsp) { // callback
             if (rsp.success) { // 인증 성공
-                console.log(rsp);
                 jQuery.ajax({
                         url: "{{ route('www.verification.result') }}",
                         method: "get",
@@ -215,14 +214,11 @@
                             merchant_uid: rsp.merchant_uid,
                         }
                     }).done(function(data) {
-                        // console.log(json_decode(data));
-                        // console.log();
                         $("#verificat").html(data);
                         $("#confirm").attr('onclick', '').unbind('click');
                         button_active();
                     })
                     .fail(function(jqXHR, ajaxOptions, thrownError) {
-                        console.log(thrownError);
                         alert('다시 시도해주세요.', "확인");
                     });
 

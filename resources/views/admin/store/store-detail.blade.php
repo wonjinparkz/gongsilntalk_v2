@@ -266,35 +266,6 @@
             // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
             $('input[name=address]').val(rtRoadFullAddr);
 
-            console.log('RoadFullAddr:', rtRoadFullAddr);
-            console.log('AddrPart1:', rtAddrPart1);
-            console.log('AddrDetail:', rtAddrDetail);
-            console.log('AddrPart2:', rtAddrPart2);
-            console.log('EngAddr:', rtEngAddr);
-            console.log('JibunAddr:', rtJibunAddr);
-            console.log('ZipNo:', rtZipNo);
-            console.log('AdmCd:', rtAdmCd);
-            console.log('RnMgtSn:', rtRnMgtSn);
-            console.log('BdMgtSn:', rtBdMgtSn);
-            console.log('DetBdNmList:', rtDetBdNmList);
-            console.log('BdNm:', rtBdNm);
-            console.log('BdKdcd:', rtBdKdcd);
-            console.log('SiNm:', rtSiNm);
-            console.log('SggNm:', rtSggNm);
-            console.log('EmdNm:', rtEmdNm);
-            console.log('LiNm:', rtLiNm);
-            console.log('Rn:', rtRn);
-            console.log('UdrtYn:', rtUdrtYn);
-            console.log('BuldMnnm:', rtBuldMnnm);
-            console.log('BuldSlno:', rtBuldSlno);
-            console.log('MtYn:', rtMtYn);
-            console.log('LnbrMnnm:', rtLnbrMnnm);
-            console.log('LnbrSlno:', rtLnbrSlno);
-            console.log('EmdNo:', rtEmdNo);
-            console.log('lJibun:', relJibun);
-            console.log('entX:', rtentX);
-            console.log('entY:', rtentY);
-
             var AdmCd = String(rtAdmCd);
             var MtYn = rtMtYn == '0' ? '1' : '2';
             var LnbrMnnm = String(rtLnbrMnnm).padStart(4, '0');

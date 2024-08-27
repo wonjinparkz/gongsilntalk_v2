@@ -551,8 +551,6 @@
 
         callJusoroMapApiType1(rtentX, rtentY);
 
-        console.log('주소 검색 끝!');
-
         confirm_check();
         usersAddressList($('#old_address').val(), 0);
     }
@@ -576,7 +574,6 @@
             },
             success: function(result) {
                 if (result.result == null) {
-                    console.log('없어요');
                 } else {
                     $('#asset_address_id').val(result.result.id);
                     modal_open('address_add');

@@ -229,7 +229,6 @@
                 clientNameCheck = ($('#client_name_1').val() != '') ? true : false;
                 clientTypeCheck = ($('#client_type').val() != '') ? true : false;
             }
-            console.log(monthPriceCheck + ' | ' + priceCheck + ' | ' + clientNameCheck + ' | ' + clientTypeCheck);
             if (monthPriceCheck && priceCheck && clientNameCheck) {
                 document.getElementById('nextPageButton').disabled = false;
             } else {

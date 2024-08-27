@@ -1129,7 +1129,6 @@
             $('.map_side_1').addClass('active');
         }
 
-        console.log('gd? ');
         $('.filter_panel').css('display', 'none');
 
         var center = map.getCenter();
@@ -1243,7 +1242,6 @@
                 if (min == 0 && max == 200) {} else {
                     text = text + (min > 0 ? min + '억' : '') + ' ~ ' + (max < 200 ? max + '억' : '');
                 }
-                console.log('valueArray : ', valueArray);
                 if (valueArray.includes('2') || valueArray.includes('4') || valueArray.length == 0) {
                     $('#month_price').val($('#temp_month_price').val());
                     [min, max] = $('#temp_month_price').val().split(',').map(Number);

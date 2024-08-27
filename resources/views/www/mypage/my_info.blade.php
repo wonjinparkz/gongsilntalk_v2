@@ -188,7 +188,6 @@
                     refreshFsLightbox();
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError) {
-                    console.log('이미지 업로드 실패');
                 });
         }
     });
@@ -303,7 +302,6 @@
             popup: true
         }, function(rsp) { // callback
             if (rsp.success) { // 인증 성공
-                console.log(rsp);
                 jQuery.ajax({
                         url: "{{ route('www.verification.result') }}",
                         method: "get",
@@ -320,7 +318,6 @@
                         $("#verification_confirm").attr('disabled', false);
                     })
                     .fail(function(jqXHR, ajaxOptions, thrownError) {
-                        console.log(thrownError);
                         alert('다시 시도해주세요.', "확인");
                     });
 

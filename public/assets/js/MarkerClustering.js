@@ -635,7 +635,6 @@ Cluster.prototype = {
                 // getProductSide(null);
                 var allMarkers = this._markerClusterer.getMarkers();
                 allMarkers.forEach(function (marker) {
-                    console.log('모든 마커:', marker.id);
                     MarkerIdArray.push(marker.id);
                 });
             } else {
@@ -646,11 +645,9 @@ Cluster.prototype = {
 
                 var markers = this.getClusterMember();
                 markers.forEach(function (marker) {
-                    console.log('클러스터 내 마커:', marker.id);
                     MarkerIdArray.push(marker.id);
                 });
             }
-            console.log('MarkerIdArray :', MarkerIdArray);
             productIdArray = MarkerIdArray;
             $('#getPropertyList').click();
         }, this));
@@ -696,7 +693,6 @@ Cluster.prototype = {
                 clusterMarkerElement.classList.remove('active');
                 var allMarkers = this._markerClusterer.getMarkers();
                 allMarkers.forEach(function (marker) {
-                    console.log('중개사 모든 마커:', marker.id);
                     MarkerIdArray.push(marker.id);
                 });
             } else {
@@ -707,7 +703,6 @@ Cluster.prototype = {
 
                 var markers = this.getClusterMember();
                 markers.forEach(function (marker) {
-                    console.log('중개사 클러스터 내 마커:', marker.id);
                     MarkerIdArray.push(marker.id);
                 });
             }

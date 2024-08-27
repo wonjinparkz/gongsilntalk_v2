@@ -118,8 +118,6 @@
     </div>
 
     <script>
-        console.log($('input[name="_token"]').val());
-
         function createButton() {
             var types = [];
             $('input[name="type[]"]:checked').each(function() {
@@ -144,7 +142,6 @@
                 'company_phone': company_phone,
                 'user_name': user_name
             }
-            console.log($('input[name="_token"]').val());
 
             $.ajax({
                 url: '{{ route('www.interior.estimate.create') }}',

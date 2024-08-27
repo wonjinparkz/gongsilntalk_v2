@@ -664,7 +664,6 @@
                 }
             }
 
-            console.log('checkConfirm : ', checkConfirm);
             if (checkConfirm) {
                 $('.confirm').attr("disabled", false);
             } else {

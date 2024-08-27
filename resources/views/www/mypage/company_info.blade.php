@@ -212,7 +212,6 @@
                         refreshFsLightbox();
                     })
                     .fail(function(jqXHR, ajaxOptions, thrownError) {
-                        console.log('실패했는디');
                     });
             }
         });
@@ -346,7 +345,6 @@
                     $('#companyPhoneTag').html(inputTag);
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError) {
-                    console.log('실패했는디');
                 });
         }
     </script>

@@ -91,9 +91,6 @@
         var content = $('#content').val();
         var terms = $('input[name="checkOne"]:checked').length
 
-        console.log('name : ' + name + '\n phone : ' + phone + '\n email : ' + email + '\n content : ' + content +
-            '\n terms : ' + terms);
-
         if (name != '' && phone != '' && email != '' && content != '' && terms > 1) {
             $('#create_btn').attr('disabled', false);
         } else {

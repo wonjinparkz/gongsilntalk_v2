@@ -823,7 +823,6 @@
 
         // 탭에 클릭 이벤트 추가
         $('.detail_tab .swiper-slide').on('click', function() {
-            console.log('옵션 클릭');
             var index = $(this).index();
             showContent(index);
         });

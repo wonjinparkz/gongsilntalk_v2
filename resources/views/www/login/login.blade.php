@@ -279,13 +279,10 @@
         var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
 
         if (!passwordRegex.test(change_password)) {
-            console.log('비밀번호 입력1');
             $('.change_password').css('display', '');
 
         } else {
             $('.change_password').css('display', 'none');
-            console.log('비밀번호 입력2');
-
         }
 
         if (change_password != '' && change_password_confirmation) {
@@ -313,7 +310,6 @@
             popup: true
         }, function(rsp) { // callback
             if (rsp.success) { // 인증 성공
-                console.log(rsp);
                 jQuery.ajax({
                         url: "{{ route('www.verification.result') }}",
                         method: "get",
@@ -326,14 +322,11 @@
                             merchant_uid: rsp.merchant_uid,
                         }
                     }).done(function(data) {
-                        // console.log(json_decode(data));
-                        // console.log();
                         $("#verificat").html(data);
                         $("#confirm").attr('onclick', '').unbind('click');
                         passwordUserCheck();
                     })
                     .fail(function(jqXHR, ajaxOptions, thrownError) {
-                        console.log(thrownError);
                         alert('다시 시도해주세요.', "확인");
                     });
 
@@ -361,7 +354,6 @@
             url: "{{ route('password.user.check') }}",
             data: formData,
             success: function(data, status, xhr) {
-                console.log(data);
                 $('#passwordUser').val(data.confirm);
                 if (data.confirm) {
                     $('#password_email_confirmation').val(password_email);

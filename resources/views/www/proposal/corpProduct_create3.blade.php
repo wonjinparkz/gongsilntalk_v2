@@ -293,7 +293,6 @@
             var imageCount1 = document.querySelectorAll('input[name="product_detail_image_paths[]"]').length
             var product_content = $('#product_content').val();
 
-            console.log('gd');
             var confirm = false;
 
 

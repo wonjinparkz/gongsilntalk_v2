@@ -153,7 +153,6 @@
         //탭 보기
         function showType(element) {
             var is_checked = element.checked;
-            console.log('elment', is_checked);
             if (is_checked) {
                 var index = element.value;
                 var type_preview = document.querySelectorAll('.type_view_wrap .proposal_type_item');

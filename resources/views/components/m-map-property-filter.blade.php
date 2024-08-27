@@ -685,8 +685,6 @@
         var valueMax = document.querySelector(slider.maxId);
         var itemTxt = document.querySelector(slider.txtId);
 
-        console.log('valueMin: ', valueMin);
-
         if (!sliderElement) {
             console.error('Slider element not found: ' + sliderId);
             return;

@@ -651,7 +651,6 @@
         function showDiv(className, index) {
 
             if (className == 'lease' || className == 'lease_1' || className == 'keymoney') {
-                console.log('초기화 제외');
             } else {
                 $('span[class="price"]').empty();
                 $('.find_form input').val('');

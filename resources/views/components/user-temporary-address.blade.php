@@ -119,7 +119,6 @@
 
     // 지역 가져오는 api
     function get_region(regcode, region) {
-        console.log('지역 가져오기');
         var gatewayUrl =
             "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + regcode +
             "&is_ignore_zero=true";
@@ -151,7 +150,6 @@
                         for (var i = 0; i < response.regcodes.length; i++) {
                             var regcodeObj = response.regcodes[i];
                             var regcode = regcodeObj.code;
-                            console.log('regionObj', regcodeObj);
                             var nameParts = regcodeObj.name.split(' ');
                             if (region == 2) {
                                 regcode = regcode.substring(4, 5) > 0 ? regcode.substring(0, 5) :
@@ -243,7 +241,6 @@
                 address: address // 단일 주소를 서버에 전송합니다.
             },
             success: function(data, status, xhr) {
-                console.log('응답 데이터:', data); // 응답 객체의 전체 구조를 확인
 
                 let AddressList = data.AddressList;
 
@@ -262,7 +259,6 @@
                 }
             },
             error: function(xhr) {
-                console.log(xhr);
                 alert('검색된 주소가 없습니다.');
             }
         });
@@ -271,8 +267,6 @@
     function selectRegion(name, index) {
         if (index > 0) {
             $('#' + name).val(index);
-
-            console.log('name : ', name + ' index : ', index);
 
             var currentIndex = 0;
             var region_code = '';
@@ -301,7 +295,6 @@
             }
 
             $('#region_code').val(index.padEnd(10, '0'));
-            console.log('region : ', region_code + '\n index : ', index.length);
         }
     }
 

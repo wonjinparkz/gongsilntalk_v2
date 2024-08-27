@@ -10,9 +10,7 @@
             popup: true
         }, function(rsp) { // callback
             if (rsp.success) { // 인증 성공
-                console.log('인증 성공');
-                console.log(rsp);
-                console.log('인증 끝?');
+
                 jQuery.ajax({
                         url: "{{ route('commons.verification.result') }}",
                         method: "get",
@@ -24,14 +22,10 @@
                             success: rsp.success
                         }
                     }).done(function(data) {
-                        // console.log(json_decode(data));
-                        // console.log();
                         $("#verificat").html(data);
-
                     })
                     .fail(function(jqXHR, ajaxOptions, thrownError) {
                         alert('다시 시도해주세요.');
-                        console.log(thrownError);
                     });
 
             } else { // 인증 실패

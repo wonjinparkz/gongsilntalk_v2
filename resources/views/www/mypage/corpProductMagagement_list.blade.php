@@ -250,7 +250,6 @@
 
         function stateChangeModal(id, state) {
             $("#state_update_" + id).val(state);
-            console.log('state : ', $("#state_update_" + id).val());
             modal_open("state_update_" + id);
         }
 

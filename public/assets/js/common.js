@@ -30,13 +30,11 @@ function handleLabelClick(event) {
             let optionItems = optionList.querySelectorAll('.optionItem');
             clickLabel(lb, optionItems);
         } else {
-            console.log('옵션 리스트를 찾을 수 없음', lb);
         }
     }
 }
 
 const clickLabel = (lb, optionItems) => {
-    console.log('옵션 선택', lb, optionItems);
     if (lb.parentNode.classList.contains('active')) {
         lb.parentNode.classList.remove('active');
         optionItems.forEach((opt) => {
@@ -652,8 +650,6 @@ function file_upload(img_id, file_type, limit_cnt) {
                 str += "<input type='hidden' name='" + img_id + "_height[]' id='" + img_id + "_height_" + i + "' value='" + img_list[i].image_height + "'/>";
                 str += "</li>";
 
-                //console.log(str);
-
                 if (img_id == 'img') {
                     set_img(img_list[i].path, img_list[i].orig_name);
                     // set_member_img(img_list[i].path);
@@ -799,7 +795,6 @@ function get_priceTrans(number) {
         }
     }
 
-    console.log(converted.trim() + '원');
     return converted.trim() + '원';
 }
 

@@ -696,8 +696,6 @@
 
         callJusoroMapApiType1(rtentX, rtentY);
 
-        console.log('주소 검색 끝!');
-
         confirm_check();
     }
 
@@ -772,7 +770,6 @@
                 is_address_detail && address_detail != ''))) {
             return $('.confirm').attr("disabled", false);
         } else {
-            console.log('gd?', is_address_detail);
             return $('.confirm').attr("disabled", true);
         }
     }
@@ -816,7 +813,6 @@
 
     // 융자금 타입 선택시
     $('input[name="loan_type"]').change(function() {
-        console.log('체크');
         loanType($(this).val());
     });
 
