@@ -123,7 +123,7 @@
                     <div class="td">주구조</div>
                     <div class="td">{{ $info['strctCdNm'] ?? '-' }}</div>
                     <div class="td">지붕구조</div>
-                    <div class="td">{{ $info['etcRoof'] ?? '-' }}</div>
+                    <div class="td">{{ is_array($info['etcRoof']) ? implode(', ', $info['etcRoof']) : ($info['etcRoof'] ?? '-') }}</div>
                     <div class="td">엘리베이터</div>
                     <div class="td">{{ $info['rideUseElvtCnt'] ?? '-' }}</div>
                     <div class="td">용적률</div>
