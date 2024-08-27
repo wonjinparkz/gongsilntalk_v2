@@ -176,6 +176,7 @@ class MapPcController extends Controller
     public function getMapMarker(Request $request)
     {
 
+        info('가져옴?');
         // 위도와 경도를 요청에서 가져오거나 기본값 설정
         $address_lat = $request->lat ?? 37.4874462;
         $address_lng = $request->lng ?? 126.8913583;
@@ -529,8 +530,6 @@ class MapPcController extends Controller
                 }
             }
 
-            info('service_price : ' . $request->service_price);
-
             // 관리비
             if (isset($request->service_price)) {
                 $servicePriceArray = explode(',', $request->service_price);
@@ -594,7 +593,6 @@ class MapPcController extends Controller
                 if (isset($request->wattage_type)) {
                     $query->where('product_add_info.wattage_type', $request->wattage_type);
                 }
-
             });
 
 
@@ -616,7 +614,6 @@ class MapPcController extends Controller
 
         // 최종 데이터 배열에 저장
         $data = [
-            // 'maps' => $maps,
             'region' => $regionList,
             'aptMaps' => $filteredAptMaps,
             'knowledges' => $knowledges,
