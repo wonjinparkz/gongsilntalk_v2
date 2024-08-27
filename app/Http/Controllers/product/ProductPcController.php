@@ -243,7 +243,6 @@ class ProductPcController extends Controller
             'current_month_price' => 'required_if:is_use,1',
             'is_premium' => 'required_if:type,3',
             'premium_price' => 'required_if:is_premium,1',
-            'approve_date' => 'required_if:type,>=,14',
         ]);
 
         if ($validator->fails()) {

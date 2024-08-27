@@ -86,7 +86,7 @@
         var type = $('#type').val();
         // 매물 타입이 분양권일 경우 활성화
         if (type > 13) {
-            $('#is_unregistered').css('display', '');
+            // $('#is_unregistered').css('display', '');
         };
 
         // 지역구 가져오기
