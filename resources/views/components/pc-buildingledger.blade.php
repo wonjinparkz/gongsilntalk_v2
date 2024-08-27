@@ -110,7 +110,7 @@
                     <div class="td">{{ $carbon::parse($info['useAprDay'])->format('Y년 m월 d일') }}</div>
                     {{-- <div class="td">{{ date_format($info['useAprDay'], 'Y년 m월 d일') }}</div> --}}
                     <div class="td">주용도</div>
-                    <div class="td">{{ $info['mainPurpsCdNm'] ?? '-' }}</div>
+                    <div class="td">{{ Commons::formatValue($info['mainPurpsCdNm'] ?? '') }}</div>
                     <div class="td">건축면적</div>
                     <div class="td">{{ $info['archArea'] != '' ? number_format($info['archArea'], 2) . '㎡' : '-' }}
                     </div>
@@ -153,7 +153,7 @@
                     <div class="td">사용승인일</div>
                     <div class="td">{{ $carbon::parse($info['useAprDay'])->format('Y년 m월 d일') }}</div>
                     <div class="td">주용도</div>
-                    <div class="td">{{ $info['mainPurpsCdNm'] ?? '-' }}</div>
+                    <div class="td">{{ Commons::formatValue($info['mainPurpsCdNm'] ?? '') }}</div>
                     <div class="td">건축면적</div>
                     <div class="td">{{ $info['archArea'] != '' ? number_format($info['archArea'], 2) . '㎡' : '-' }}
                     </div>
@@ -206,7 +206,7 @@
                                 @if ($name == $info['dongNm'])
                                     <tr>
                                         <td>{{ $info['flrNoNm'] }}</td>
-                                        <td>{{ is_array($info['mainPurpsCdNm']) ? implode(', ', $info['mainPurpsCdNm']) : $info['mainPurpsCdNm'] ?? '-' }}
+                                        <td>{{ Commons::formatValue($info['mainPurpsCdNm'] ?? '') }}
                                         </td>
                                         <td>{{ number_format($info['area'], 2) }}㎡</td>
                                     </tr>
