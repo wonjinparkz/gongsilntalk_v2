@@ -82,11 +82,17 @@
                     <td>{{ $product->address . ' ' . $product->address_detail }}
                     </td>
                     <td class="square">{{ in_array($product->type, [6, 7]) ? '대지' : '공급' }}
-                        {{ $product->square }}㎡<br>{{ $product->type != 7 ? '전용 ' . $product->exclusive_square : '' }}㎡
+                        {{ $product->square }}㎡<br>
+                        @if ($product->exclusive_square > 0)
+                            {{ $product->type != 7 ? '전용 ' . $product->exclusive_square : '' }}㎡
+                        @endif
                     </td>
                     <td class="area" style="display: none">
                         {{ in_array($product->type, [6, 7]) ? '대지' : '공급' }}
-                        {{ $product->area }}평<br>{{ $product->type != 7 ? '전용' . $product->exclusive_area : '' }}평
+                        {{ $product->area }}평
+                        @if ($product->exclusive_area > 0)
+                            <br> {{ $product->type != 7 ? '전용' . $product->exclusive_area : '' }}평
+                        @endif
                     </td>
                     <td>{{ Lang::get('commons.payment_type.' . $product->priceInfo->payment_type) }}<br>
                         {{ mb_substr(Commons::get_priceTrans($product->priceInfo->price), 0, -1) }}
@@ -214,8 +220,10 @@
                             {{ $product->address . ' ' . $product->address_detail }}
                         </p>
                         <p class="txt_item_1">{{ in_array($product->type, [6, 7]) ? '대지' : '공급' }}
-                            {{ $product->square }}㎡ /
-                            {{ $product->type != 7 ? '전용 ' . $product->exclusive_square : '' }}㎡
+                            {{ $product->square }}㎡
+                            @if ($product->exclusive_square > 0)
+                                / {{ $product->type != 7 ? '전용 ' . $product->exclusive_square : '' }}㎡
+                            @endif
                         </p>
                         <p class="txt_item_2">
                             {{ Lang::get('commons.payment_type.' . $product->priceInfo->payment_type) }}
