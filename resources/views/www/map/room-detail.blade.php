@@ -399,7 +399,7 @@
                                         <div>{{ $result->productAddInfo->is_hoist == 0 ? '없음' : '있음' }}</div>
                                     @endif
                                     <div>승강시설</div>
-                                    <div>{{ $result->is_elevator == 0 ? '없음' : '있음' }}</div>
+                                    <div>{{ $result->productAddInfo->is_elevator == 0 ? '없음' : '있음' }}</div>
                                     <div>화물용 승강시설</div>
                                     <div>{{ $result->productAddInfo->is_goods_elevator == 0 ? '없음' : '있음' }}</div>
                                     <div>층고</div>
