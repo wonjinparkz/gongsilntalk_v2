@@ -747,7 +747,7 @@
 
                     {{-- 건물 방향 --}}
                     <div class="row mb-6 add_info_input direction_type_input">
-                        <label class="col-lg-2 col-form-label fw-semibold fs-6">건물 방향</label>
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">건물 방향</label>
                         <div class="col-lg-3 fv-row">
                             <select name="direction_type" class="form-select" data-control="select2"
                                 data-hide-search="true">

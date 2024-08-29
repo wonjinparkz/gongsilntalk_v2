@@ -452,9 +452,13 @@
                                         @endif
                                     </div>
                                 @endif
+                                <div>냉방종류</div>
+                                <div>
+                                    {{ $result->productAddInfo->cooling_type != '' ? Lang::get('commons.cooling_type.' . $result->productAddInfo->cooling_type) : '-' }}
+                                </div>
                                 <div>난방종류</div>
                                 <div>
-                                    {{ Lang::get('commons.heating_type.' . $result->productAddInfo->heating_type) }}
+                                    {{ $result->productAddInfo->heating_type != '' ? Lang::get('commons.heating_type.' . $result->productAddInfo->heating_type) : '-' }}
                                 </div>
                                 @if (!in_array($type, [0, 1, 2, 4, 7]))
                                     <div>승강시설</div>

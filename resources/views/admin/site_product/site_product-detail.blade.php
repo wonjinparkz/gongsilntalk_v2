@@ -61,9 +61,14 @@
                     <div class="row mb-6">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">주소</label>
                         <div class="col-lg-9 fv-row">
-                            <a onclick="getAddress()" class="btn btn-outline mb-md-5"
+                            <a onclick="getAddress()" class="btn btn-outline mb-md-5 search_address_1"
                                 style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; margin-bottom: 5px;">
                                 주소 검색 </a>
+                            <a class="btn btn-outline mb-md-5 search_address_2" data-bs-toggle="modal"
+                                data-bs-target="#modal_address_search"
+                                style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; margin-bottom: 5px;
+                                ">
+                                (구)주소 검색 </a>
                             <input type="text" name="address" id="address" class="form-control form-control-solid"
                                 readonly placeholder="" value="{{ old('address') ?? $result->address }}" />
                             <input type="hidden" name="region_code" id="region_code" class="form-control " readonly
@@ -286,7 +291,7 @@
                                 <input type="text" name="builging_ratio" class="form-control"
                                     onkeyup="imsi(this)" placeholder="건폐율"
                                     value="{{ old('builging_ratio') ?? $result->builging_ratio }}" />
-                                <span class="input-group-text" id="basic-addon2">만원</span>
+                                <span class="input-group-text" id="basic-addon2">%</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('floor_area_ratio')" />
                         </div>
@@ -295,7 +300,7 @@
                                 <input type="text" name="floor_area_ratio" class="form-control"
                                     onkeyup="imsi(this)" placeholder="용적률"
                                     value="{{ old('floor_area_ratio') ?? $result->floor_area_ratio }}" />
-                                <span class="input-group-text" id="basic-addon2">만원</span>
+                                <span class="input-group-text" id="basic-addon2">%</span>
                             </div>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('builging_ratio')" />
                         </div>
@@ -778,6 +783,8 @@
     {{-- FORM END --}}
 
     </div>
+
+    <x-admin-temporary-address isMapClick="false" />
 
     <style>
         .custom-file-label {

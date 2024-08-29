@@ -1,11 +1,11 @@
-@props(['usersAddressList' => 'false'])
+@props(['isMapClick' => 'true'])
 
 <!-- modal (구)주소 검색 : s-->
 <div class="modal fade" tabindex="-1" id="modal_address_search">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">(구) 주소 검색</h5>
+                <h5 class="modal-title">(구) 주소 검색 {{$isMapClick}}</h5>
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 modal_address_search_close"
                     data-bs-dismiss="modal" aria-label="Close">
@@ -65,9 +65,9 @@
 
         var type = $('#type').val();
         // 매물 타입이 분양권일 경우 활성화
-        if (type > 13) {
-            $('#is_unregistered').css('display', '');
-        };
+        // if (type > 13) {
+        //     $('#is_unregistered').css('display', '');
+        // };
 
         // 지역구 가져오기
         get_region('*00000000', '1');
@@ -75,27 +75,29 @@
     });
 
     //(구)주소 클릭 이벤트
-    document.getElementById("is_map").addEventListener("change", function() {
-        var address_1 = document.querySelector(".detail_address_1");
-        var search_1 = document.querySelector(".search_address_1");
-        var search_2 = document.querySelector(".search_address_2");
-        var is_map_0 = document.querySelector("#mapWrap");
+    @if ($isMapClick == 'true')
+        document.getElementById("is_map").addEventListener("change", function() {
+            var address_1 = document.querySelector(".detail_address_1");
+            var search_1 = document.querySelector(".search_address_1");
+            var search_2 = document.querySelector(".search_address_2");
+            var is_map_0 = document.querySelector("#mapWrap");
 
-        $('#address').val('');
-        $('#roadName').empty();
-        $('#jibunName').empty();
-        $('#address_detail').val('');
-        $('#address_dong').val('');
-        $('#address_number').val('');
+            $('#address').val('');
+            $('#roadName').empty();
+            $('#jibunName').empty();
+            $('#address_detail').val('');
+            $('#address_dong').val('');
+            $('#address_number').val('');
 
-        if (this.checked) {
-            search_1.style.display = "none";
-            search_2.style.display = ""
-        } else {
-            search_1.style.display = "";
-            search_2.style.display = "none";
-        }
-    });
+            if (this.checked) {
+                search_1.style.display = "none";
+                search_2.style.display = ""
+            } else {
+                search_1.style.display = "";
+                search_2.style.display = "none";
+            }
+        });
+    @endif
 
     // 지역 가져오는 api
     function get_region(regcode, region) {
@@ -184,31 +186,28 @@
 
 
     function seach_address() {
-        var sidoName = $('#sidoButton').text();
-        var sigunguName = $('#sigunguButton').text();
-        var dongName = $('#dongButton').text();
-        var riName = $('#riButton').text() == '리 선택' ? '' : $('#riButton').text();
+        var sidoName = $('#region_code_1 option:selected').text();
+        var sigunguName = $('#region_code_2 option:selected').text();
+        var dongName = $('#region_code_3 option:selected').text();
+        var riName = $('#region_code_4 option:selected').text() == '리' ? '' : $('#region_code_4 option:selected')
+            .text();
         var is_mount = $('#is_mount').is(":checked");
         var ji = $('#ji').val();
         var bun = $('#bun').val();
+
+        console.log('sido : ' + sidoName + '|sigungu : ' + sigunguName + '|dong : ' + dongName + '|ri : ' + riName);
 
         var jiBun = (is_mount ? '산' + ji : ji) + (bun != '' ? '-' : '') + bun;
 
         var address = sidoName + ' ' + sigunguName + ' ' + dongName + (riName != '' ? ' ' : '') + riName;
 
-        modal_close('address_search')
+        $('.modal_address_search_close').click();
 
-        $('#roadName').html('<span>지번</span>' + address + ' ' + jiBun);
         $('#address').val(address + ' ' + jiBun);
         $('#region_address').val(address);
 
         naverAdddress();
-        confirm_check();
 
-        @if ($usersAddressList)
-            $('#old_address').val(address + ' ' + jiBun);
-            usersAddressList(address + ' ' + jiBun, 1);
-        @endif
     }
 
     function naverAdddress() {

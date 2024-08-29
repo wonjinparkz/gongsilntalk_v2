@@ -257,6 +257,7 @@ return [
         'is_use' => '기존 임대차 사용여부',
         'current_price' => '현 보증금',
         'current_month_price' => '현 월임대료',
+        'direction type' => '건물 방향',
         'is_premium' => '권리금 여부',
         'premium_price' => '권리금',
         'room_count' => '방 수',

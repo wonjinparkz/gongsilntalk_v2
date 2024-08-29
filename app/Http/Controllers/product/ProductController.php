@@ -210,7 +210,7 @@ class ProductController extends Controller
             'region_address' => 'required',
             'address_lat' => 'required_if:is_map,1',
             'address_lng' => 'required_if:is_map,1',
-            'address_detail' =>  'required_if:is_address_detail,1',
+            'address_detail' =>  'required_if:is_address_detail,0',
             'floor_number' => [
                 Rule::requiredIf(function () use ($request) {
                     return $request->input('type') != 6 && $request->input('type') != 7;
@@ -256,6 +256,7 @@ class ProductController extends Controller
                     return $request->input('type') == 3 && $request->input('is_premium') == 1;
                 }),
             ],
+            'direction_type' => 'required_unless:type,6',
             'room_count' => 'required_if:type,8,10,11,12,13',
             'bathroom_count' => 'required_if:type,8,10,11,12,13',
             'product_image_ids' => 'required',
