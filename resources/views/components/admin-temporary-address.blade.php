@@ -90,10 +90,10 @@
 
         if (this.checked) {
             search_1.style.display = "none";
-            search_2.classList.add("active");
+            search_2.style.display = ""
         } else {
-            search_1.style.display = "block";
-            search_2.classList.remove("active");
+            search_1.style.display = "";
+            search_2.style.display = "none";
         }
     });
 

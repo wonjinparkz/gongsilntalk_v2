@@ -1264,8 +1264,8 @@
                 <div class="card-body border-top p-9">
 
                     {{-- 이미지 --}}
-                    <x-admin-image-picker :title="'사진등록'" :id="'product'" required="required" cnt="8" label_col='2'
-                        :images="$result->images" />
+                    <x-admin-image-picker :title="'사진등록'" :id="'product'" required="required" cnt="8"
+                        label_col='2' :images="$result->images" />
 
                     {{-- 한줄요약 --}}
                     <div class="row mb-6">
@@ -1821,16 +1821,6 @@
             } else {
                 $('#service_price').attr('disabled', false);
                 $('input[name="service_type[]"]').attr('disabled', false);
-            }
-        });
-
-        // 가임시 주소일 경우 동없음 체크여부
-        $('#address_no_1').click(function() {
-            if ($(this).is(':checked')) {
-                $('#address_dong').val('');
-                $('#address_dong').attr('disabled', true);
-            } else {
-                $('#address_dong').attr('disabled', false);
             }
         });
 
