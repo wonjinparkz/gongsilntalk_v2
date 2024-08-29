@@ -179,7 +179,7 @@
                                         {{-- 주소 --}}
                                         <td class="text-center">
                                             <a href="{{ route('admin.product.detail.view', [$product->id]) }}"
-                                                class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $product->address . ' ' . ($product->is_map == 1 ? $product->address_detail : $product->address_dong . ' ' . $product->address_number) }}</a>
+                                                class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $product->address . ' ' . $product->address_detail }}</a>
                                         </td>
 
                                         {{-- 요청자 명 --}}

@@ -862,8 +862,12 @@ function onTextChangeEvent(element) {
     let value = element.value;
     element.value = '';
     value = value.replace(/[^0-9]/g, '');
+    // 만약 입력값이 0으로 시작하고 그 다음에 숫자가 입력되면 0을 제거
+    if (value.length > 1 && value[0] === '0') {
+        value = value.substring(1);
+    }
     value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    element.value = value == 0 ? '' : value;
+    element.value = value;
 }
 
 // 금액 콤마
@@ -871,9 +875,13 @@ function onTextChangeEventIndex(name, index) {
     let value = $('#' + name + '_' + index).val();
     $('#' + name + '_' + index).val('');
     value = value.replace(/[^0-9]/g, '');
+    // 만약 값이 0으로 시작하고 그 다음에 숫자가 입력되면 0을 제거
+    if (value.length > 1 && value[0] === '0') {
+        value = value.substring(1);
+    }
     $('#' + name).val(value);
     value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    $('#' + name + '_' + index).val((value == 0 ? '' : value));
+    $('#' + name + '_' + index).val((value));
 }
 
 

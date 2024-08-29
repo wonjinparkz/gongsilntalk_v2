@@ -770,6 +770,9 @@
                 }
             }
         } else {
+            if (Name == 'useDate') {
+                text = value == '0' ? "준공연차" : text;
+            }
             if (Name == 'etc') {
                 value = $('input[name="floor_height_type"]:checked').val();
                 $('#floor_height_type').val(value);

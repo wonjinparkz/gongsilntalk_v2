@@ -117,7 +117,7 @@ class ProductPcController extends Controller
             'user_type' => $request->user_type,
             'state' => 0,
             'type' => $request->type,
-            'is_map' => $request->is_map,
+            'is_map' => $request->is_map ?? 0,
             'address_lat' => $request->address_lat,
             'address_lng' => $request->address_lng,
             'region_code' => $request->region_code,
@@ -544,7 +544,6 @@ class ProductPcController extends Controller
             'comments' => 'required',
             'commission' => 'required',
             'commission_rate' => 'required',
-
         ]);
 
         if ($validator->fails()) {
@@ -561,8 +560,8 @@ class ProductPcController extends Controller
             'users_id' => Auth::guard('web')->user()->id,
             'user_type' => 1,
             'type' => $request->type,
-            'is_map' => $request->is_map ?? 0,
             'state' => 1,
+            'is_map' => $request->is_map ?? 0,
             'region_code' => $request->region_code,
             'region_address' => $request->region_address,
             'address' => $request->address,
@@ -643,8 +642,6 @@ class ProductPcController extends Controller
             'is_premium' => $request->type == 3 ? $request->is_premium : null,
             'premium_price' => $premium_price,
         ]);
-
-
 
         // 추가정보
         if (in_array($request->type, [0, 1, 2, 4])) {

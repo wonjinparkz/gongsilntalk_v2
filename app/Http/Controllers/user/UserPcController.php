@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserPcController extends Controller
 {
@@ -268,17 +269,68 @@ class UserPcController extends Controller
     public function corpProductMagagementUpdate(Request $request): RedirectResponse
     {
 
+        $validator = Validator::make($request->all(), [
+            'type' => 'required',
+            'address' => 'required',
+            'region_code' => 'required',
+            'region_address' => 'required',
+            'address_lat' => 'required_if:is_map,1',
+            'address_lng' => 'required_if:is_map,1',
+            'lowest_floor_number' => 'required_if:type,7',
+            'top_floor_number' => 'required_if:type,7',
+            'area' => 'required',
+            'square' => 'required',
+            'total_floor_area' => 'required_if:type,7',
+            'total_floor_square' => 'required_if:type,7',
+            'exclusive_area' => 'required_unless:type,6',
+            'exclusive_square' => 'required_unless:type,6',
+            'approve_date' => 'required_unless:type,6',
+            'building_type' => 'required',
+            'move_type' => 'required_unless:type,6',
+            'move_date' => 'required_if:move_type,2',
+            'service_price' => 'required_unless:is_service,1',
+            'service_type' => 'required_unless:is_service,1',
+            'loan_type' => 'required',
+            'loan_price' => 'required_unless:loan_type,0',
+            'parking_type' => 'required_unless:type,6',
+            'payment_type' => 'required',
+            'price' => 'required',
+            'month_price' => 'required_if:payment_type,1,2,4',
+            'current_price' => [
+                Rule::requiredIf(function () use ($request) {
+                    return !in_array($request->input('type'), [14, 15, 16, 17]) && $request->input('is_use') == 1;
+                }),
+            ],
+            'premium_price' => [
+                Rule::requiredIf(function () use ($request) {
+                    return $request->input('type') == 3 && $request->input('is_premium') == 1;
+                }),
+            ],
+            'room_count' => 'required_if:type,8,10,11,12,13',
+            'bathroom_count' => 'required_if:type,8,10,11,12,13',
+            'image_ids' => 'required',
+            'comments' => 'required',
+            'commission' => 'required',
+            'commission_rate' => 'required',
+        ]);
+
+
+        if ($validator->fails()) {
+            return redirect(route('www.mypage.corp.product.magagement.update.view', $request->id))
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         $productDate = [
+            'is_map' => $request->is_map ?? 0,
             'region_code' => $request->region_code,
             'region_address' => $request->region_address,
             'address' => $request->address,
-            'is_map' => $request->is_map ?? 0,
             'address_lat' => $request->address_lat,
             'address_lng' => $request->address_lng,
             'address_detail' => $request->address_detail,
-            'address_dong' => $request->address_dong,
-            'address_number' => $request->address_number,
+            'address_dong' => null,
+            'address_number' => null,
             'floor_number' => in_array($request->type, ['6', '7']) ? null : $request->floor_number,
             'total_floor_number' => in_array($request->type, ['6', '7']) ? null : $request->total_floor_number,
             'lowest_floor_number' => $request->type == 7 ? $request->lowest_floor_number : null,
@@ -340,7 +392,7 @@ class UserPcController extends Controller
         ProductPrice::create([
             'product_id' => $request->id,
             'payment_type' => $request->payment_type,
-            'price' => str_replace(',', '', $request->{'price_' . $request->payment_type}) ?: null,
+            'price' => str_replace(',', '', $request->price) ?: null,
             'month_price' => in_array($request->payment_type, [1, 2, 4]) ? (str_replace(',', '', $request->month_price) ?: null) : null,
             'is_price_discussion' => $request->is_price_discussion ?? 0,
             'is_use' => $request->type >= 14 ? NULL : $request->is_use ?? 0,
@@ -780,12 +832,13 @@ class UserPcController extends Controller
         $ownership_share = $request->name_type == 1 ? ($request->ownership_share / 100) : 0;
 
 
+        $secoundType = $request->secoundType ?? 0;
         $result = Asset::create([
             'asset_address_id' => $asset_address_id,
             'type' => $request->type,
             'type_detail' => $request->type_detail,
-            'address_dong' => isset($request->address_dong) ? $request->address_dong : null,
-            'address_detail' => $request->address_detail_ho,
+            'address_dong' => null,
+            'address_detail' => $request->address_detail,
             'area' => $request->area,
             'square' => $request->square,
             'exclusive_area' => $request->exclusive_area,
@@ -794,11 +847,11 @@ class UserPcController extends Controller
             'ownership_share' => $request->name_type == 1 ? $request->ownership_share : null,
             'business_type' => $request->business_type,
 
-            'tran_type' => $request->secoundType,
+            'tran_type' => $secoundType,
             'price' => $ownership_share > 0 ? ($request->price * $ownership_share) : $request->price,
             'contracted_at' => isset($request->contracted_at) ? $this->integerToDate($request->contracted_at) : null,
             'registered_at' => isset($request->registered_at) ? $this->integerToDate($request->registered_at) : null,
-            'acquisition_tax_rate' => $request->secoundType == 0 ? $request->acquisition_tax_rate_0 : $request->acquisition_tax_rate_1,
+            'acquisition_tax_rate' => $secoundType == 0 ? $request->acquisition_tax_rate_0 : $request->acquisition_tax_rate_1,
             'etc_price' => $ownership_share > 0 ? ($request->etc_price * $ownership_share) : $request->etc_price,
             'tax_price' => $ownership_share > 0 ? ($request->tax_price * $ownership_share) : $request->tax_price,
             'estate_price' => $ownership_share > 0 ? ($request->estate_price * $ownership_share) : $request->estate_price,
@@ -897,13 +950,14 @@ class UserPcController extends Controller
         }
 
         $ownership_share = $request->name_type == 1 ? ($request->ownership_share / 100) : 0;
+        $secoundType = $request->secoundType ?? 0;
 
         $result = Asset::where('id', $request->id)->update([
             'asset_address_id' => $asset_address_id,
             'type' => $request->type,
             'type_detail' => $request->type_detail,
-            'address_dong' => isset($request->address_dong) ? $request->address_dong : null,
-            'address_detail' => $request->address_detail_ho,
+            'address_dong' => null,
+            'address_detail' => $request->address_detail,
             'area' => $request->area,
             'square' => $request->square,
             'exclusive_area' => $request->exclusive_area,
@@ -912,11 +966,11 @@ class UserPcController extends Controller
             'ownership_share' => $request->name_type == 1 ? $request->ownership_share : null,
             'business_type' => $request->business_type,
 
-            'tran_type' => $request->secoundType,
+            'tran_type' => $secoundType,
             'price' => $ownership_share > 0 ? ($request->price * $ownership_share) : $request->price,
             'contracted_at' => isset($request->contracted_at) ? $this->integerToDate($request->contracted_at) : null,
             'registered_at' => isset($request->registered_at) ? $this->integerToDate($request->registered_at) : null,
-            'acquisition_tax_rate' => $request->secoundType == 0 ? $request->acquisition_tax_rate_0 : $request->acquisition_tax_rate_1,
+            'acquisition_tax_rate' => $secoundType == 0 ? $request->acquisition_tax_rate_0 : $request->acquisition_tax_rate_1,
             'etc_price' => $ownership_share > 0 ? ($request->etc_price * $ownership_share) : $request->etc_price,
             'tax_price' => $ownership_share > 0 ? ($request->tax_price * $ownership_share) : $request->tax_price,
             'estate_price' => $ownership_share > 0 ? ($request->estate_price * $ownership_share) : $request->estate_price,

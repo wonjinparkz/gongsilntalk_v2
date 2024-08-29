@@ -159,7 +159,7 @@
         function inputCheck() {
             var imageCount = parseInt($('.imageCount').text());
             var comments = $('input[name="comments"]').val();
-            var content = $('textarea[name="content"]').val();
+            var content = $('textarea[name="contents"]').val();
             var commission = $('input[name="commission"]').val();
             var commission_rate = $('input[name="commission_rate"]').val();
 

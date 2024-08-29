@@ -115,8 +115,7 @@
             }
         }
 
-        $address_detail = isset($result->address_dong) ? $result->address_dong . '동 ' : '';
-        $address_detail .= $result->address_detail . '호';
+        $address_detail = isset($result->address_detail) ? $result->address_detail : '';
 
         if ($result->type_detail == 0) {
             $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;

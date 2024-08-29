@@ -47,8 +47,10 @@
                         <h4>거래정보</h4>
 
                         <ul class="tab_type_3 tab_toggle_menu">
-                            <li id="tran_type_0_btn" class="active" onclick="onTabChange(0);">매매</li>
-                            <li id="tran_type_1_btn" onclick="onTabChange(1);">분양권</li>
+                            <li id="tran_type_0_btn" class="{{ $result->tran_type == 0 ? 'active' : '' }}"
+                                onclick="onTabChange(0);">매매</li>
+                            <li id="tran_type_1_btn" class="{{ $result->tran_type == 1 ? 'active' : '' }}"
+                                onclick="onTabChange(1);">분양권</li>
                         </ul>
 
                         <div class="tab_area_wrap">
@@ -152,7 +154,7 @@
                                         </div>
                                         <div class="flex_1 flex_between">
                                             <input type="text" id="registered_at_1" name="registered_at_1"
-                                                value="{{ $result->tran_type == 1 ? $carbon::parse($result->registered_at)->format('Y.m.d') : '' }}"
+                                                value="{{ $result->tran_type == 1 ? ($result->registered_at != '' ? $carbon::parse($result->registered_at)->format('Y.m.d') : '') : '' }}"
                                                 inputmode="numeric" placeholder="예) 20230101"
                                                 oninput="onlyNumbers(this); onDateChangeEvent('registered_at', 1);">
                                         </div>
@@ -321,7 +323,7 @@
             onFieldInputCheck();
         }
 
-        let tabIndex = 0;
+        let tabIndex = $('#secoundType').val();
 
         // 매매 / 분양권 인덱스 변경
         function onTabChange(idx) {
@@ -359,14 +361,23 @@
         function onFieldInputCheck() {
 
             if (tabIndex == 0) {
-                if ($('#price_0').val() != '' && $('#contracted_at_0').val() != '' && $('#acquisition_tax_rate_0').val() !=
+                if ($('#price_0').val() != '' && $('#contracted_at_0').val().length == 10 && $('#acquisition_tax_rate_0')
+                    .val() !=
                     '') {
+                    document.getElementById('nextPageButton').disabled = false;
+                } else {
                     document.getElementById('nextPageButton').disabled = false;
                 }
             } else {
-                if ($('#price_1').val() != '' && $('#contracted_at_1').val() != '' && $('#acquisition_tax_rate_1').val() !=
+                if ($('#price_1').val() != '' && $('#contracted_at_1').val().length == 10 && $('#acquisition_tax_rate_1')
+                    .val() !=
                     '') {
+                    console.log('price_1 : ', $('#price_1').val());
+                    console.log('contracted_at_1 : ', $('#contracted_at_1').val());
+                    console.log('acquisition_tax_rate_1 : ', $('#acquisition_tax_rate_1').val());
                     document.getElementById('nextPageButton').disabled = false;
+                } else {
+                    document.getElementById('nextPageButton').disabled = true;
                 }
             }
         }
@@ -374,6 +385,10 @@
         const processChange = debounce(() => onFieldInputCheck());
 
         addEventListener("input", (event) => {
+            processChange();
+        });
+
+        $('input[type="text"]').on('change', function() {
             processChange();
         });
     </script>

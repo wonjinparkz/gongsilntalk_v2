@@ -1,5 +1,26 @@
 <x-layout>
     @inject('carbon', 'Carbon\Carbon')
+    @php
+        $payment_type = $product->priceInfo->payment_type;
+        $price = $product->priceInfo->price;
+        $month_price = $product->priceInfo->month_price;
+        $is_price_discussion = $product->priceInfo->is_price_discussion;
+        $is_use = $product->priceInfo->is_use;
+        $current_price = $product->priceInfo->current_price;
+        $current_month_price = $product->priceInfo->current_month_price;
+        $is_premium = $product->priceInfo->is_premium;
+        $premium_price = $product->priceInfo->premium_price;
+
+        if ($product->type < 8) {
+            $type = 0;
+        } elseif ($product->type > 7 && $product->type < 14) {
+            $type = 1;
+        } elseif ($product->type > 13) {
+            $type = 2;
+        } else {
+            $type = 0;
+        }
+    @endphp
 
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
@@ -12,8 +33,13 @@
     <div class="body">
         <form method="post" id="updateForm" action="{{ route('www.mypage.corp.product.magagement.update') }}">
 
-            <input type="hidden" id="id" name="id" value="{{ $product->id }}">
-            <input type="hidden" id="type" name="type" value="{{ $product->type }}">
+            <input hidden name="id" id="id" value="{{ $product->id }}">
+            <input hidden name="type" id="type" value="{{ $product->type }}">
+            <input hidden name="price" id="price" value="{{ $price }}">
+            <input hidden name="month_price" id="month_price" value="{{ $month_price }}">
+            <input hidden name="is_price_discussion" id="is_price_discussion" value="{{ $is_price_discussion }}">
+            <input hidden name="approve_date" id="approve_date" value="{{ $product->approve_date }}">
+            <input hidden name="move_date" id="move_date" value="{{ $product->move_date }}">
 
             <!-- my_body : s -->
             <div class="inner_mid_wrap m_inner_wrap mid_body">
@@ -22,17 +48,7 @@
                 <div class="offer_step_wrap">
                     <div class="box_01 box_reg">
                         <h4>매물 유형 <span class="txt_point">*</span></h4>
-                        @php
-                            if ($product->type < 8) {
-                                $type = 0;
-                            } elseif ($product->type > 7 && $product->type < 14) {
-                                $type = 1;
-                            } elseif ($product->type > 13) {
-                                $type = 2;
-                            } else {
-                                $type = 0;
-                            }
-                        @endphp
+
                         <div class="estate_type_txt">{{ Lang::get('commons.management_product_type.' . $type) }} >
                             {{ Lang::get('commons.product_type.' . $product->type) }}
                         </div>
@@ -40,434 +56,397 @@
 
                     <div class="box_01 box_reg">
                         <div class="category_wrap">
-
                             @if ($type == 0)
                                 <!-- 상업용 : s -->
-                                <div class="category_item">
-                                    <div class="input_item_grid">
-                                        <h4>상업용 거래 정보 <span class="txt_point">*</span></h4>
-                                        <div class="btn_radioType">
-                                            <input type="radio" name="payment_type" id="payment_type_1_1"
-                                                {{ $product->priceInfo->payment_type == 0 ? 'checked' : '' }}
-                                                value="0">
-                                            <label for="payment_type_1_1" onclick="showDiv('type', 0)">매매</label>
+                                <div class="input_item_grid">
+                                    <h4>상업용 거래 정보 <span class="txt_point">*</span></h4>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="payment_type" id="payment_type_1" value="0"
+                                            {{ $payment_type == 0 ? 'checked' : '' }}>
+                                        <label for="payment_type_1" onclick="showDiv('type', 0)">매매</label>
 
-                                            <input type="radio" name="payment_type" id="payment_type_1_2"
-                                                {{ $product->priceInfo->payment_type == 1 ? 'checked' : '' }}
-                                                value="1">
-                                            <label for="payment_type_1_2" onclick="showDiv('type', 1)">임대</label>
+                                        <input type="radio" name="payment_type" id="payment_type_2" value="1"
+                                            {{ $payment_type == 1 ? 'checked' : '' }}>
+                                        <label for="payment_type_2" onclick="showDiv('type', 1)">임대</label>
 
-                                            <input type="radio" name="payment_type" id="payment_type_1_3"
-                                                {{ $product->priceInfo->payment_type == 2 ? 'checked' : '' }}
-                                                value="2">
-                                            <label for="payment_type_1_3" onclick="showDiv('type', 1)">단기임대</label>
-                                        </div>
-
-                                        <div class="type_wrap">
-                                            <!-- 매매 -->
-                                            <div
-                                                class="type_item open_key {{ $product->priceInfo->payment_type == 0 ? 'active' : '' }}">
-                                                <div class="input_item_grid">
-                                                    <div>
-                                                        <label class="input_label">매매가</label>
-                                                        <div class="input_area_1">
-                                                            <input type="text" id="price_0" name="price_0"
-                                                                inputmode="numeric"
-                                                                oninput="onlyNumbers(this); onTextChangeEvent(this)"
-                                                                value="{{ number_format($product->priceInfo->price) }}">
-                                                            <span class="gray_deep">원</span>
-                                                            <input type="checkbox" name="is_price_discussion"
-                                                                id="is_price_discussion_0" value="1"
-                                                                {{ $product->priceInfo->is_price_discussion == 1 ? 'checked' : '' }}>
-                                                            <label for="is_price_discussion_0"
-                                                                class="gray_deep"><span></span>
-                                                                협의가능</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- 임대, 단기임대 -->
-                                            <div
-                                                class="type_item open_key {{ $product->priceInfo->payment_type > 0 ? 'active' : '' }}">
-                                                <div class="input_item_grid">
-                                                    <div class="input_area_2">
-                                                        <div class="flex_between">
-                                                            <div class="item">
-                                                                <label class="input_label">현 보증금</label>
-                                                                <div class="flex_1">
-                                                                    <input type="text" id="price_1" name="price_1"
-                                                                        class="w_input_150" inputmode="numeric"
-                                                                        oninput="onlyNumbers(this); onTextChangeEvent(this)"
-                                                                        value="{{ number_format($product->priceInfo->price) }}">
-                                                                    <span>/</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="item">
-                                                                <label class="input_label">현 월임대료</label>
-                                                                <div class="flex_1">
-                                                                    <input type="text" id="month_price"
-                                                                        name="month_price" class="w_input_150"
-                                                                        inputmode="numeric"
-                                                                        oninput="onlyNumbers(this); onTextChangeEvent(this)"
-                                                                        value="{{ number_format($product->priceInfo->month_price) }}">
-                                                                    <span>원</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="item_check_add">
-                                                            <input type="checkbox" name="is_price_discussion"
-                                                                id="is_price_discussion_1" value="1"
-                                                                {{ $product->priceInfo->is_price_discussion == 1 ? 'checked' : '' }}>
-                                                            <label for="is_price_discussion_1"
-                                                                class="gray_deep mt18"><span></span>
-                                                                협의가능</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div>
-                                            <label class="input_label">기존 임대차 내용</label>
-                                            <div class="btn_radioType">
-                                                <input type="radio" name="is_use" id="is_use_1" value="1"
-                                                    {{ $product->priceInfo->is_use == 1 ? 'checked' : '' }}>
-                                                <label for="is_use_1" onclick="showDiv('lease_1', 0)">있음</label>
-
-                                                <input type="radio" name="is_use" id="is_use_2" value="0"
-                                                    {{ $product->priceInfo->is_use == 0 ? 'checked' : '' }}>
-                                                <label for="is_use_2" onclick="showDiv('lease_1', 1)">없음</label>
-                                            </div>
-                                        </div>
-                                        <div class="lease_1_wrap">
-                                            <div
-                                                class="lease_1_item open_key {{ $product->priceInfo->is_use == 1 ? 'active' : '' }}">
-                                                <div class="flex_between w_30">
-                                                    <div class="item">
-                                                        <label class="input_label">현 보증금</label>
-                                                        <div class="flex_1">
-                                                            <input type="text" id="current_price"
-                                                                name="current_price" class="w_input_150"
-                                                                value="{{ number_format($product->priceInfo->current_price) }}"
-                                                                inputmode="numeric"
-                                                                oninput="onlyNumbers(this); onTextChangeEvent(this)">
-                                                            <span>/</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="item">
-                                                        <label class="input_label">현 월임대료</label>
-                                                        <div class="flex_1">
-                                                            <input type="text" id="current_month_price"
-                                                                name="current_month_price" class="w_input_150"
-                                                                value="{{ number_format($product->priceInfo->current_month_price) }}"
-                                                                inputmode="numeric"
-                                                                oninput="onlyNumbers(this); onTextChangeEvent(this)">
-                                                            <span>원</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="lease_1_item open_key  {{ $product->priceInfo->is_use == 0 ? 'active' : '' }}">
-                                            </div>
-                                        </div>
-
-
-                                        @if ($product->type == 3)
-                                            <div>
-                                                <label class="input_label">권리금</label>
-                                                <div class="btn_radioType">
-                                                    <input type="radio" name="is_premium" id="is_premium_1"
-                                                        value="1"
-                                                        {{ $product->priceInfo->is_premium == 1 ? 'checked' : '' }}>
-                                                    <label for="is_premium_1"
-                                                        onclick="showDiv('keymoney', 0)">있음</label>
-
-                                                    <input type="radio" name="is_premium" id="is_premium_2"
-                                                        value="0"
-                                                        {{ $product->priceInfo->is_premium == 0 ? 'checked' : '' }}>
-                                                    <label for="is_premium_2"
-                                                        onclick="showDiv('keymoney', 1)">없음</label>
-                                                </div>
-                                            </div>
-                                            <div class="keymoney_wrap w_30">
-                                                <div
-                                                    class="keymoney_item open_key {{ $product->priceInfo->is_premium == 1 ? 'active' : '' }}">
-                                                    <div class="flex_1 flex_between">
-                                                        <input type="text" id="premium_price" name="premium_price"
-                                                            inputmode="numeric"
-                                                            oninput="onlyNumbers(this); onTextChangeEvent(this)"
-                                                            value="{{ number_format($product->priceInfo->premium_price) }}">
-                                                        <span>원</span>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="keymoney_item open_key {{ $product->priceInfo->is_premium == 0 ? 'active' : '' }}">
-                                                </div>
-                                            </div>
-                                        @endif
-
-
+                                        <input type="radio" name="payment_type" id="payment_type_3" value="2"
+                                            {{ $payment_type == 2 ? 'checked' : '' }}>
+                                        <label for="payment_type_3" onclick="showDiv('type', 1)">단기임대</label>
                                     </div>
-                                </div>
-                                <!-- 상업용 : e -->
-                            @elseif ($type == 1)
-                                <!-- 주거용 : s -->
-                                <div class="category_item">
-                                    <div class="input_item_grid">
-                                        <h4>주거용 거래 정보 <span class="txt_point">*</span></h4>
-                                        <div class="btn_radioType">
-                                            <input type="radio" name="payment_type" id="payment_type_1"
-                                                {{ $product->priceInfo->payment_type == 0 ? 'checked' : '' }}
-                                                value="0">
-                                            <label for="payment_type_1" onclick="showDiv('type_2', 0)">매매</label>
 
-                                            <input type="radio" name="payment_type" id="payment_type_2"
-                                                {{ $product->priceInfo->payment_type == 3 ? 'checked' : '' }}
-                                                value="3">
-                                            <label for="payment_type_2" onclick="showDiv('type_2', 1)">전세</label>
-
-                                            <input type="radio" name="payment_type" id="payment_type_3"
-                                                {{ $product->priceInfo->payment_type == 4 ? 'checked' : '' }}
-                                                value="4">
-                                            <label for="payment_type_3" onclick="showDiv('type_2', 2)">월세</label>
-
-                                            <input type="radio" name="payment_type" id="payment_type_4"
-                                                {{ $product->priceInfo->payment_type == 2 ? 'checked' : '' }}
-                                                value="2">
-                                            <label for="payment_type_4" onclick="showDiv('type_2', 2)">단기임대</label>
-                                        </div>
-
-                                        <div class="type_2_wrap">
-                                            <!-- 매매 -->
-                                            <div
-                                                class="type_2_item open_key {{ $product->priceInfo->payment_type == 0 ? 'active' : '' }}">
+                                    <div class="type_wrap">
+                                        <!-- 매매 -->
+                                        <div class="type_item open_key {{ $payment_type == 0 ? 'active' : '' }}">
+                                            <div class="input_item_grid">
                                                 <div>
                                                     <label class="input_label">매매가</label>
                                                     <div class="input_area_1">
-                                                        <input type="text" id="price_0" name="price_0"
-                                                            inputmode="numeric"
-                                                            oninput="onlyNumbers(this); onTextChangeEvent(this)"
-                                                            value="{{ number_format($product->priceInfo->price) }}">
+                                                        <input type="text" name="input_price" id="price_1"
+                                                            inputmode="numeric" value="{{ number_format($price) }}"
+                                                            oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                         <span class="gray_deep">원</span>
-                                                        <input type="checkbox" name="is_price_discussion"
-                                                            id="is_price_discussion_0" value="1"
-                                                            {{ $product->priceInfo->is_price_discussion == 1 ? 'checked' : '' }}>
-                                                        <label for="is_price_discussion_0"
+                                                        <input type="checkbox" name="input_is_price_discussion"
+                                                            id="is_price_discussion_1" value="Y"
+                                                            {{ $is_price_discussion ? 'checked' : '' }}>
+                                                        <label for="is_price_discussion_1"
                                                             class="gray_deep"><span></span>
                                                             협의가능</label>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <!-- 전세 -->
-                                            <div
-                                                class="type_2_item open_key {{ $product->priceInfo->payment_type == 3 ? 'active' : '' }}">
-                                                <div>
-                                                    <label class="input_label">전세가</label>
-                                                    <div class="input_area_1">
-                                                        <input type="text" id="price_3" name="price_3"
-                                                            inputmode="numeric"
-                                                            oninput="onlyNumbers(this); onTextChangeEvent(this)"
-                                                            value="{{ number_format($product->priceInfo->price) }}">
-                                                        <span class="gray_deep">원</span>
-                                                        <input type="checkbox" name="is_price_discussion"
-                                                            id="is_price_discussion_3" value="1"
-                                                            {{ $product->priceInfo->is_price_discussion == 1 ? 'checked' : '' }}>
-                                                        <label for="is_price_discussion_3"
-                                                            class="gray_deep"><span></span>
-                                                            협의가능</label>
+                                                    <div class="txt_item_2 mt20">
+                                                        {{-- <span name="price_conversion" class="price"></span> --}}
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- 월세, 단기임대 -->
-                                            <div
-                                                class="type_2_item open_key {{ $product->priceInfo->payment_type == 2 || $product->priceInfo->payment_type == 4 ? 'active' : '' }}">
+                                        </div>
+
+                                        <!-- 임대, 단기임대 -->
+                                        <div class="type_item open_key {{ $payment_type != 0 ? 'active' : '' }}">
+                                            <div class="input_item_grid">
                                                 <div class="input_area_2">
                                                     <div class="flex_between">
                                                         <div class="item">
                                                             <label class="input_label">보증금</label>
                                                             <div class="flex_1">
-                                                                <input type="text" id="price_4" name="price_4"
+                                                                <input type="text" class="w_input_150"
                                                                     inputmode="numeric"
-                                                                    oninput="onlyNumbers(this); onTextChangeEvent(this)"
-                                                                    value="{{ number_format($product->priceInfo->price) }}"
-                                                                    class="w_input_150"><span>/</span>
+                                                                    value="{{ number_format($price) }}"
+                                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);"
+                                                                    name="input_price" id="price_2"><span>/</span>
                                                             </div>
                                                         </div>
                                                         <div class="item">
                                                             <label class="input_label">월임대료</label>
                                                             <div class="flex_1">
-                                                                <input type="text" id="month_price"
-                                                                    name="month_price" inputmode="numeric"
-                                                                    oninput="onlyNumbers(this); onTextChangeEvent(this)"
-                                                                    value="{{ number_format($product->priceInfo->month_price) }}"
-                                                                    class="w_input_150"><span>원</span>
+                                                                <input type="text" class="w_input_150"
+                                                                    inputmode="numeric"
+                                                                    value="{{ $month_price != '' ? number_format($month_price) : '' }}"
+                                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);"
+                                                                    name="input_month_price"
+                                                                    id="month_price_1"><span>원</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="item_check_add">
-                                                        <input type="checkbox" name="is_price_discussion"
-                                                            id="is_price_discussion_4" value="1"
-                                                            {{ $product->priceInfo->is_price_discussion == 1 ? 'checked' : '' }}>
-                                                        <label for="is_price_discussion_4"
+                                                        <input type="checkbox" name="input_is_price_discussion"
+                                                            id="is_price_discussion_2" value="Y"
+                                                            {{ $is_price_discussion ? 'checked' : '' }}>
+                                                        <label for="is_price_discussion_2"
                                                             class="gray_deep mt18"><span></span>
                                                             협의가능</label>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div>
-                                            <label class="input_label">기존 임대차 내용</label>
-                                            <div class="btn_radioType">
-                                                <input type="radio" name="is_use" id="is_use_1" value="1"
-                                                    {{ $product->priceInfo->is_use == 1 ? 'checked' : '' }}>
-                                                <label for="is_use_1" onclick="showDiv('lease_1', 0)">있음</label>
+                                    <div>
+                                        <label class="input_label">기존 임대차 내용</label>
+                                        <div class="btn_radioType">
+                                            <input type="radio" name="is_use" id="is_use_1" value="1"
+                                                {{ $is_use == 1 ? 'checked' : '' }}>
+                                            <label for="is_use_1" onclick="showDiv('lease', 0)">있음</label>
 
-                                                <input type="radio" name="is_use" id="is_use_2" value="0"
-                                                    {{ $product->priceInfo->is_use == 0 ? 'checked' : '' }}>
-                                                <label for="is_use_2" onclick="showDiv('lease_1', 1)">없음</label>
-                                            </div>
-                                        </div>
-                                        <div class="lease_1_wrap">
-                                            <div
-                                                class="lease_1_item open_key {{ $product->priceInfo->is_use == 1 ? 'active' : '' }}">
-                                                <div class="flex_between w_30">
-                                                    <div class="item">
-                                                        <label class="input_label">현 보증금</label>
-                                                        <div class="flex_1">
-                                                            <input type="text" id="current_price"
-                                                                name="current_price" inputmode="numeric"
-                                                                oninput="onlyNumbers(this); onTextChangeEvent(this)"
-                                                                value="{{ number_format($product->priceInfo->current_price) }}"
-                                                                class="w_input_150"><span>/</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="item">
-                                                        <label class="input_label">현 월임대료</label>
-                                                        <div class="flex_1">
-                                                            <input type="text" id="current_month_price"
-                                                                name="current_month_price" inputmode="numeric"
-                                                                oninput="onlyNumbers(this); onTextChangeEvent(this)"
-                                                                value="{{ number_format($product->priceInfo->current_month_price) }}"
-                                                                class="w_input_150"><span>원</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="lease_1_item open_key  {{ $product->priceInfo->is_use == 0 ? 'active' : '' }}">
-                                            </div>
+                                            <input type="radio" name="is_use" id="is_use_2" value="0"
+                                                {{ $is_use != 1 ? 'checked' : '' }}>
+                                            <label for="is_use_2" onclick="showDiv('lease', 1)">없음</label>
                                         </div>
 
                                     </div>
+
+                                    <div class="lease_wrap">
+                                        <div class="lease_item open_key {{ $is_use == 1 ? 'active' : '' }}">
+                                            <div class="flex_between w_30">
+                                                <div class="item">
+                                                    <label class="input_label">현 보증금</label>
+                                                    <div class="flex_1">
+                                                        <input type="text" class="w_input_150" inputmode="numeric"
+                                                            oninput="onlyNumbers(this); onTextChangeEvent(this);"
+                                                            value="{{ $current_price != '' ? number_format($current_price) : '' }}"
+                                                            name="current_price" id="current_price"><span>/</span>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+                                                    <label class="input_label">현 월임대료</label>
+                                                    <div class="flex_1">
+                                                        <input type="text" class="w_input_150"
+                                                            name="current_month_price" inputmode="numeric"
+                                                            oninput="onlyNumbers(this); onTextChangeEvent(this);"
+                                                            value="{{ $current_month_price != '' ? number_format($current_month_price) : '' }}"
+                                                            id="current_month_price"><span>원</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="lease_item open_key {{ $is_use != 1 ? 'active' : '' }}"></div>
+                                    </div>
+
+                                    <div style="display:{{ $product->type == 3 ? '' : 'none' }}">
+                                        <label class="input_label">권리금</label>
+                                        <div class="btn_radioType">
+                                            <input type="radio" name="is_premium" id="is_premium_1" value="1"
+                                                {{ $is_premium == 1 ? 'checked' : '' }}>
+                                            <label for="is_premium_1" onclick="showDiv('keymoney', 0)">있음</label>
+
+                                            <input type="radio" name="is_premium" id="is_premium_2" value="0"
+                                                {{ $is_premium != 1 ? 'checked' : '' }}>
+                                            <label for="is_premium_2" onclick="showDiv('keymoney', 1)">없음</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="keymoney_wrap w_30">
+                                        <div class="keymoney_item open_key {{ $is_premium == 1 ? 'active' : '' }}">
+                                            <div class="flex_1 flex_between">
+                                                <input type="text" name="premium_price" inputmode="numeric"
+                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);"
+                                                    value="{{ $premium_price != '' ? number_format($premium_price) : '' }}"
+                                                    id="premium_price">
+                                                <span>원</span>
+                                            </div>
+                                        </div>
+                                        <div class="keymoney_item open_key {{ $is_premium != 1 ? 'active' : '' }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 상업용 : e -->
+                            @elseif($type == 1)
+                                <!-- 주거용 : s -->
+                                <div class="input_item_grid">
+                                    <h4>주거용 거래 정보 <span class="txt_point">*</span></h4>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="payment_type" id="payment_type_4" value="0"
+                                            {{ $payment_type == 0 ? 'checked' : '' }}>
+                                        <label for="payment_type_4" onclick="showDiv('type_2', 0)">매매</label>
+
+                                        <input type="radio" name="payment_type" id="payment_type_5" value="3"
+                                            {{ $payment_type == 3 ? 'checked' : '' }}>
+                                        <label for="payment_type_5" onclick="showDiv('type_2', 1)">전세</label>
+
+                                        <input type="radio" name="payment_type" id="payment_type_6" value="4"
+                                            {{ $payment_type == 4 ? 'checked' : '' }}>
+                                        <label for="payment_type_6" onclick="showDiv('type_2', 2)">월세</label>
+
+                                        <input type="radio" name="payment_type" id="payment_type_7" value="2"
+                                            {{ $payment_type == 2 ? 'checked' : '' }}>
+                                        <label for="payment_type_7" onclick="showDiv('type_2', 2)">단기임대</label>
+                                    </div>
+
+                                    <div class="type_2_wrap">
+                                        <!-- 매매 -->
+                                        <div class="type_2_item open_key {{ $payment_type == 0 ? 'active' : '' }}">
+                                            <div>
+                                                <label class="input_label">매매가</label>
+                                                <div class="input_area_1">
+                                                    <input type="text" name="input_price" id="price_3"
+                                                        inputmode="numeric" value="{{ number_format($price) }}"
+                                                        oninput="onlyNumbers(this); onTextChangeEvent(this);">
+                                                    <span class="gray_deep">원</span>
+                                                    <input type="checkbox" name="input_is_price_discussion"
+                                                        id="is_price_discussion_3" value="Y">
+                                                    <label for="is_price_discussion_3" class="gray_deep"><span></span>
+                                                        협의가능</label>
+                                                </div>
+                                                <div class="txt_item_2 mt20">
+                                                    {{-- <span name="price_conversion" class="price"></span> --}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- 전세 -->
+                                        <div class="type_2_item open_key {{ $payment_type == 3 ? 'active' : '' }}">
+                                            <div>
+                                                <label class="input_label">전세가</label>
+                                                <div class="input_area_1">
+                                                    <input type="text" name="input_price" id="price_4"
+                                                        inputmode="numeric" value="{{ number_format($price) }}"
+                                                        oninput="onlyNumbers(this); onTextChangeEvent(this);">
+                                                    <span class="gray_deep">원</span>
+                                                    <input type="checkbox" name="input_is_price_discussion"
+                                                        id="is_price_discussion_4" value="Y">
+                                                    <label for="is_price_discussion_4" class="gray_deep"><span></span>
+                                                        협의가능</label>
+                                                </div>
+                                                <div class="txt_item_2 mt20">
+                                                    {{-- <span name="price_conversion" class="price"></span> --}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- 월세, 단기임대 -->
+                                        <div
+                                            class="type_2_item open_key {{ in_array($payment_type, [2, 4]) ? 'active' : '' }}">
+                                            <div class="input_area_2">
+                                                <div class="flex_between">
+                                                    <div class="item">
+                                                        <label class="input_label">보증금</label>
+                                                        <div class="flex_1">
+                                                            <input type="text" name="input_price" id="price_5"
+                                                                class="w_input_150" inputmode="numeric"
+                                                                value="{{ number_format($price) }}"
+                                                                oninput="onlyNumbers(this); onTextChangeEvent(this);"><span>/</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item">
+                                                        <label class="input_label">월임대료</label>
+                                                        <div class="flex_1">
+                                                            <input type="text" name="input_month_price"
+                                                                id="month_price_2" class="w_input_150"
+                                                                inputmode="numeric"
+                                                                value="{{ $month_price != '' ? number_format($month_price) : '' }}"
+                                                                oninput="onlyNumbers(this); onTextChangeEvent(this);"><span>원</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="item_check_add">
+                                                    <input type="checkbox" name="input_is_price_discussion"
+                                                        id="is_price_discussion_5" value="Y">
+                                                    <label for="is_price_discussion_5"
+                                                        class="gray_deep mt18"><span></span>
+                                                        협의가능</label>
+                                                </div>
+                                            </div>
+                                            <div class="txt_item_2 mt20">
+                                                {{-- <span name="price_conversion" class="price"></span> --}}
+                                                {{-- <span name="month_price_conversion" class="price"></span> --}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- 기존 임대차 내용 STRAT --}}
+                                    <div>
+                                        <label class="input_label">기존 임대차 내용</label>
+                                        <div class="btn_radioType">
+                                            <input type="radio" name="is_use" id="is_use_1" value="1"
+                                                {{ $is_use == 1 ? 'checked' : '' }}>
+                                            <label for="is_use_1" onclick="showDiv('lease', 0)">있음</label>
+
+                                            <input type="radio" name="is_use" id="is_use_2" value="0"
+                                                {{ $is_use != 1 ? 'checked' : '' }}>
+                                            <label for="is_use_2" onclick="showDiv('lease', 1)">없음</label>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="lease_wrap">
+                                        <div class="lease_item open_key {{ $is_use == 1 ? 'active' : '' }}">
+                                            <div class="flex_between w_30">
+                                                <div class="item">
+                                                    <label class="input_label">현 보증금</label>
+                                                    <div class="flex_1">
+                                                        <input type="text" class="w_input_150" inputmode="numeric"
+                                                            oninput="onlyNumbers(this); onTextChangeEvent(this);"
+                                                            value="{{ $current_price != '' ? number_format($current_price) : '' }}"
+                                                            name="current_price" id="current_price"><span>/</span>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+                                                    <label class="input_label">현 월임대료</label>
+                                                    <div class="flex_1">
+                                                        <input type="text" class="w_input_150"
+                                                            name="current_month_price" inputmode="numeric"
+                                                            oninput="onlyNumbers(this); onTextChangeEvent(this);"
+                                                            value="{{ $current_month_price != '' ? number_format($current_month_price) : '' }}"
+                                                            id="current_month_price"><span>원</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="lease_item open_key {{ $is_use != 1 ? 'active' : '' }}"></div>
+                                    </div>
+                                    {{-- 기존 임대차 내용 END --}}
+
                                 </div>
                                 <!-- 주거용 : e -->
-                            @else
+                            @elseif($type == 2)
                                 <!-- 분양권 : s -->
-                                <div class="category_item">
-                                    <div class="input_item_grid">
-                                        <h4>분양권 거래 정보 <span class="txt_point">*</span></h4>
-                                        <div class="btn_radioType">
-                                            <input type="radio" name="payment_type" id="payment_type_1"
-                                                {{ $product->priceInfo->payment_type == 5 ? 'checked' : '' }}
-                                                value="5">
-                                            <label for="payment_type_1" onclick="showDiv('type_3', 0)">전매</label>
+                                <div class="input_item_grid">
+                                    <h4>분양권 거래 정보 <span class="txt_point">*</span></h4>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="payment_type" id="payment_type_8" value="5"
+                                            {{ $payment_type == 5 ? 'checked' : '' }}>
+                                        <label for="payment_type_8" onclick="showDiv('type_3', 0)">전매</label>
 
-                                            <input type="radio" name="payment_type" id="payment_type_3"
-                                                {{ $product->priceInfo->payment_type == 4 ? 'checked' : '' }}
-                                                value="4">
-                                            <label for="payment_type_3" onclick="showDiv('type_3', 2)">월세</label>
+                                        <input type="radio" name="payment_type" id="payment_type_9" value="3"
+                                            {{ $payment_type == 3 ? 'checked' : '' }}>
+                                        <label for="payment_type_9" onclick="showDiv('type_3', 1)">전세</label>
+
+                                        <input type="radio" name="payment_type" id="payment_type_10"
+                                            value="4" {{ $payment_type == 4 ? 'checked' : '' }}>
+                                        <label for="payment_type_10"onclick="showDiv('type_3', 2)">월세</label>
+                                    </div>
+
+                                    <div class="type_3_wrap">
+                                        <!-- 전매 -->
+                                        <div class="type_3_item open_key active">
+                                            <div>
+                                                <label class="input_label">전매가</label>
+                                                <div class="input_area_1">
+                                                    <input type="text" name="input_price" id="price_6"
+                                                        inputmode="numeric" value="{{ number_format($price) }}"
+                                                        oninput="onlyNumbers(this); onTextChangeEvent(this);">
+                                                    <span class="gray_deep">원</span>
+                                                    <input type="checkbox" name="input_is_price_discussion"
+                                                        id="is_price_discussion_6" value="Y">
+                                                    <label for="is_price_discussion_6" class="gray_deep"><span></span>
+                                                        협의가능</label>
+                                                </div>
+                                                <div class="txt_item_2 mt20">
+                                                    {{-- <span name="price_conversion" class="price"></span> --}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- 전세 -->
+                                        <div class="type_3_item open_key">
+                                            <div>
+                                                <label class="input_label">전세가</label>
+                                                <div class="input_area_1">
+                                                    <input type="text" name="input_price" id="price_7"
+                                                        inputmode="numeric" value="{{ number_format($price) }}"
+                                                        oninput="onlyNumbers(this); onTextChangeEvent(this);">
+                                                    <span class="gray_deep">원</span>
+                                                    <input type="checkbox" name="input_is_price_discussion"
+                                                        id="is_price_discussion_7" value="Y">
+                                                    <label for="is_price_discussion_7" class="gray_deep"><span></span>
+                                                        협의가능</label>
+                                                </div>
+                                                <div class="txt_item_2 mt20">
+                                                    {{-- <span name="price_conversion" class="price"></span> --}}
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <div class="type_3_wrap">
-                                            <!-- 전매 -->
-                                            <div
-                                                class="type_3_item open_key {{ $product->priceInfo->payment_type == 5 ? 'active' : '' }}">
-                                                <div>
-                                                    <label class="input_label">전매가</label>
-                                                    <div class="input_area_1">
-                                                        <input type="text" id="price_5" name="price_5"
-                                                            inputmode="numeric"
-                                                            oninput="onlyNumbers(this); onTextChangeEvent(this)"
-                                                            value="{{ number_format($product->priceInfo->price) }}">
-                                                        <span class="gray_deep">원</span>
-                                                        <input type="checkbox" name="is_price_discussion"
-                                                            id="is_price_discussion_5" value="1"
-                                                            {{ $product->priceInfo->is_price_discussion == 1 ? 'checked' : '' }}>
-                                                        <label for="is_price_discussion_5"
-                                                            class="gray_deep"><span></span>
-                                                            협의가능</label>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="mt20">
-                                                    <label class="input_label">프리미엄</label>
-                                                    <div class="input_area_1">
-                                                        <input type="text" id="premium_price" name="premium_price"
-                                                            inputmode="numeric"
-                                                            oninput="onlyNumbers(this); onTextChangeEvent(this)"
-                                                            value="{{ number_format($product->priceInfo->premium_price) }}">
-                                                        <span class="gray_deep">원</span>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <!-- 월세 -->
-                                            <div
-                                                class="type_3_item open_key {{ $product->priceInfo->payment_type == 4 ? 'active' : '' }}">
-                                                <div class="input_area_2">
-                                                    <div class="flex_between">
-                                                        <div class="item">
-                                                            <label class="input_label">보증금</label>
-                                                            <div class="flex_1">
-                                                                <input type="text" id="price_4" name="price_4"
-                                                                    class="w_input_150" inputmode="numeric"
-                                                                    oninput="onlyNumbers(this); onTextChangeEvent(this)"
-                                                                    value="{{ number_format($product->priceInfo->price) }}">
-                                                                <span>/</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="item">
-                                                            <label class="input_label">월임대료</label>
-                                                            <div class="flex_1">
-                                                                <input type="text" id="month_price"
-                                                                    name="month_price" class="w_input_150"
-                                                                    inputmode="numeric"
-                                                                    oninput="onlyNumbers(this); onTextChangeEvent(this)"
-                                                                    value="{{ number_format($product->priceInfo->month_price) }}">
-                                                                <span>원</span>
-                                                            </div>
+                                        <!-- 월세 -->
+                                        <div class="type_3_item open_key">
+                                            <div class="input_area_2">
+                                                <div class="flex_between">
+                                                    <div class="item">
+                                                        <label class="input_label">보증금</label>
+                                                        <div class="flex_1">
+                                                            <input type="text" class="w_input_150"
+                                                                name="input_price" id="price_8" inputmode="numeric"
+                                                                value="{{ number_format($price) }}"
+                                                                oninput="onlyNumbers(this); onTextChangeEvent(this);"><span>/</span>
                                                         </div>
                                                     </div>
-                                                    <div class="item_check_add">
-                                                        <input type="checkbox" name="is_price_discussion"
-                                                            id="is_price_discussion_4" value="1"
-                                                            {{ $product->priceInfo->is_price_discussion == 1 ? 'checked' : '' }}>
-                                                        <label for="is_price_discussion_4"
-                                                            class="gray_deep mt18"><span></span>
-                                                            협의가능</label>
+                                                    <div class="item">
+                                                        <label class="input_label">월임대료</label>
+                                                        <div class="flex_1">
+                                                            <input type="text" name="input_month_price"
+                                                                id="month_price_3" class="w_input_150"
+                                                                inputmode="numeric"
+                                                                value="{{ $month_price != '' ? number_format($month_price) : '' }}"
+                                                                oninput="onlyNumbers(this); onTextChangeEvent(this);"><span>원</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
-                                        </div>
-
-
-                                        <div>
-                                            <label class="input_label">준공예정일</label>
-                                            <div class="w_30">
-                                                <input type="text" id="approve_date_0" name="approve_date_0"
-                                                    value="{{ $carbon::parse($product->approve_date)->format('Y.m.d') }}"
-                                                    placeholder="예) 20230101" inputmode="numeric"
-                                                    oninput="onlyNumbers(this); onDateChangeEvent('approve_date', 0);">
+                                                <div class="item_check_add">
+                                                    <input type="checkbox" name="input_is_price_discussion"
+                                                        id="is_price_discussion_8" value="Y"
+                                                        {{ $is_price_discussion ? 'checked' : '' }}>
+                                                    <label for="is_price_discussion_8"
+                                                        class="gray_deep mt18"><span></span>
+                                                        협의가능</label>
+                                                </div>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                                 <!-- 분양권 : e -->
@@ -535,9 +514,9 @@
                                             placeholder="건물명, 동/호 또는 상세주소 입력 예) 1동 101호">
                                     </div>
                                     <div class="mt8">
-                                        <input type="checkbox" name="address_no" id="address_no_2" value="Y"
-                                            {{ $product->address_detail == '' ? 'checked' : '' }}>
-                                        <label for="address_no_2" class="gray_deep"><span></span> 상세주소 없음</label>
+                                        <input type="checkbox" name="is_address_detail" id="is_address_detail"
+                                            value="Y" {{ $product->address_detail == '' ? 'checked' : '' }}>
+                                        <label for="is_address_detail" class="gray_deep"><span></span> 상세주소 없음</label>
                                     </div>
                                 </div>
                             </div>
@@ -683,7 +662,8 @@
                         <div class="reg_mid_wrap">
                             @if ($product->type != 6)
                                 <div class="reg_item">
-                                    <label class="input_label">사용승인일 <span class="txt_point">*</span></label>
+                                    <label class="input_label">{{ $product->type < 14 ? '사용승인일' : '준공예정일' }} <span
+                                            class="txt_point">*</span></label>
                                     <input type="text" id="approve_date_1" name="approve_date_1"
                                         value="{{ $carbon::parse($product->approve_date)->format('Y.m.d') }}"
                                         placeholder="예) 20230101" inputmode="numeric"
@@ -756,8 +736,8 @@
                                         <div
                                             class="m_day_item open_key {{ $product->move_type == 2 ? 'active' : '' }}">
                                             <input type="text" id="move_date_0" name="move_date_0"
-                                                value="{{ $product->move_date }}" placeholder="예) 20230101"
-                                                inputmode="numeric"
+                                                value="{{ $product->move_type == 2 ? $carbon::parse($product->move_date)->format('Y.m.d') : '' }}"
+                                                placeholder="예) 20230101" inputmode="numeric"
                                                 oninput="onlyNumbers(this); onDateChangeEvent('move_date', 0);">
                                         </div>
                                     </div>
@@ -770,7 +750,7 @@
                                     <label class="input_label">월 관리비 <span class="txt_point">*</span></label>
                                     <div class="input_area_1">
                                         <input type="text" id="service_price" name="service_price"
-                                            value="{{ $product->service_price > 0 ? number_format($product->service_price) : '' }}"
+                                            value="{{ $product->service_price != '' ? number_format($product->service_price) : '' }}"
                                             inputmode="numeric" oninput="onlyNumbers(this); onTextChangeEvent(this)">
                                         <span class="gray_deep">원</span>
 
@@ -826,7 +806,7 @@
                                 </div>
                                 <div class="flex_1 mt10">
                                     <input type="text" id="loan_price" name="loan_price" class="w_input_150"
-                                        value="{{ $product->loan_price > 0 ? number_format($product->loan_price) : '' }}"
+                                        value="{{ $product->loan_price != '' ? number_format($product->loan_price) : '' }}"
                                         {{ $product->loan_type == 0 ? 'disabled' : '' }} inputmode="numeric"
                                         oninput="onlyNumbers(this); onTextChangeEvent(this)">
                                     <span>원</span>
@@ -869,6 +849,7 @@
                     <div class="box_01 box_reg">
                         <h4>추가 정보</h4>
                         @if ($product->type != 6)
+
                             {{-- 상업용 - 상가일 경우 --}}
                             @if ($product->type == 3)
                                 <div class="reg_mid_wrap">
@@ -909,7 +890,7 @@
                                 </div>
                             @endif
 
-                            @if ($product->type == 4 || ($product->type > 7 && $product->type < 14))
+                            @if (in_array($product->type, [4, 8, 9, 10, 11, 12, 13]))
                                 <div class="reg_mid_wrap">
                                     <div class="reg_item">
                                         <label class="input_label">방/욕실 수 <span class="txt_point">*</span></label>
@@ -1007,6 +988,7 @@
                                         </div>
                                     </div>
                                 @endif
+
                                 <div class="reg_item">
                                     <label class="input_label">승강시설 <span class="txt_point">*</span></label>
                                     <div class="btn_radioType mt18">
@@ -1020,10 +1002,10 @@
 
                                     </div>
                                 </div>
-                                <div class="reg_item">
-                                    <label class="input_label">화물용 승강시설 <span class="txt_point">*</span></label>
-                                    <div class="btn_radioType mt18">
-                                        @if (in_array($product->type, [0, 1, 2, 7]) || $product->type > 13)
+                                @if (in_array($product->type, [0, 1, 2, 7]) || $product->type > 13)
+                                    <div class="reg_item">
+                                        <label class="input_label">화물용 승강시설</label>
+                                        <div class="btn_radioType mt18">
                                             <input type="radio" name="is_goods_elevator" id="is_goods_elevator_1"
                                                 value="1"
                                                 {{ $product->productAddInfo->is_goods_elevator == 1 ? 'checked' : '' }}>
@@ -1033,87 +1015,87 @@
                                                 value="0"
                                                 {{ $product->productAddInfo->is_goods_elevator == 0 ? 'checked' : '' }}>
                                             <label for="is_goods_elevator_2">없음</label>
-                                        @endif
 
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
 
-                            @if ($product->type != 3 && $product->type != 5 && $product->type != 4 && ($product->type < 8 || $product->type > 13))
-                                @if ($product->type != 7)
-                                    <div class="reg_mid_wrap">
-                                        <div class="reg_item">
-                                            <label class="input_label">인테리어 여부</label>
-                                            <div class="btn_radioType">
-                                                <input type="radio" name="interior_type" id="interior_type_1"
-                                                    value="0"
-                                                    {{ $product->productAddInfo->interior_type == 0 ? 'checked' : '' }}
-                                                    checked="">
-                                                <label for="interior_type_1">선택 안함</label>
-
-                                                <input type="radio" name="interior_type" id="interior_type_2"
-                                                    value="1"
-                                                    {{ $product->productAddInfo->interior_type == 1 ? 'checked' : '' }}>
-                                                <label for="interior_type_2">있음</label>
-
-                                                <input type="radio" name="interior_type" id="interior_type_3"
-                                                    value="2"
-                                                    {{ $product->productAddInfo->interior_type == 2 ? 'checked' : '' }}>
-                                                <label for="interior_type_3">없음</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-
-                                @if ($product->type == 7)
-                                    <div class="reg_mid_wrap">
-                                        <div class="reg_item">
-                                            <label class="input_label">도크</label>
-                                            <div class="btn_radioType">
-                                                <input type="radio" name="is_dock" id="is_dock_1" value="1"
-                                                    {{ $product->productAddInfo->is_dock == 1 ? 'checked' : '' }}>
-                                                <label for="is_dock_1">있음</label>
-                                                <input type="radio" name="is_dock" id="is_dock_0" value="0"
-                                                    {{ $product->productAddInfo->is_dock == 0 ? 'checked' : '' }}>
-                                                <label for="is_dock_0">없음</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="reg_mid_wrap">
-                                        <div class="reg_item">
-                                            <label class="input_label">호이스트</label>
-                                            <div class="btn_radioType">
-                                                <input type="radio" name="is_hoist" id="is_hoist_1" value="1"
-                                                    {{ $product->productAddInfo->is_hoist == 1 ? 'checked' : '' }}>
-                                                <label for="is_hoist_1">가능</label>
-                                                <input type="radio" name="is_hoist" id="is_hoist_0" value="0"
-                                                    {{ $product->productAddInfo->is_hoist == 0 ? 'checked' : '' }}>
-                                                <label for="is_hoist_0">불가능</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
+                            @if (in_array($product->type, [0, 1, 2]) || $product->type > 13)
                                 <div class="reg_mid_wrap">
                                     <div class="reg_item">
-                                        <label class="input_label">층고</label>
+                                        <label class="input_label">인테리어 여부</label>
                                         <div class="btn_radioType">
-                                            <input type="radio" name="floor_height_type" id="floor_height_"
-                                                value="">
-                                            <label for="floor_height_">선택 안함</label>
+                                            <input type="radio" name="interior_type" id="interior_type_1"
+                                                value="0"
+                                                {{ $product->productAddInfo->interior_type == 0 ? 'checked' : '' }}
+                                                checked="">
+                                            <label for="interior_type_1">선택 안함</label>
 
-                                            @foreach (Lang::get('commons.floor_height_type') as $index => $floorHeightType)
-                                                <input type="radio" name="floor_height_type"
-                                                    id="floor_height_type_{{ $index }}"
-                                                    value="{{ $index }}"
-                                                    {{ $product->productAddInfo->floor_height_type == $index ? 'checked' : '' }}>
-                                                <label
-                                                    for="floor_height_type_{{ $index }}">{{ $floorHeightType }}</label>
-                                            @endforeach
+                                            <input type="radio" name="interior_type" id="interior_type_2"
+                                                value="1"
+                                                {{ $product->productAddInfo->interior_type == 1 ? 'checked' : '' }}>
+                                            <label for="interior_type_2">있음</label>
+
+                                            <input type="radio" name="interior_type" id="interior_type_3"
+                                                value="2"
+                                                {{ $product->productAddInfo->interior_type == 2 ? 'checked' : '' }}>
+                                            <label for="interior_type_3">없음</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if ($product->type == 7)
+                                <div class="reg_mid_wrap">
+                                    <div class="reg_item">
+                                        <label class="input_label">도크</label>
+                                        <div class="btn_radioType">
+                                            <input type="radio" name="is_dock" id="is_dock_1" value="1"
+                                                {{ $product->productAddInfo->is_dock == 1 ? 'checked' : '' }}>
+                                            <label for="is_dock_1">있음</label>
+                                            <input type="radio" name="is_dock" id="is_dock_0" value="0"
+                                                {{ $product->productAddInfo->is_dock == 0 ? 'checked' : '' }}>
+                                            <label for="is_dock_0">없음</label>
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="reg_mid_wrap">
+                                    <div class="reg_item">
+                                        <label class="input_label">호이스트</label>
+                                        <div class="btn_radioType">
+                                            <input type="radio" name="is_hoist" id="is_hoist_1" value="1"
+                                                {{ $product->productAddInfo->is_hoist == 1 ? 'checked' : '' }}>
+                                            <label for="is_hoist_1">가능</label>
+                                            <input type="radio" name="is_hoist" id="is_hoist_0" value="0"
+                                                {{ $product->productAddInfo->is_hoist == 0 ? 'checked' : '' }}>
+                                            <label for="is_hoist_0">불가능</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if (in_array($product->type, [0, 1, 2, 7]) || $product->type > 13)
+                                <div class="reg_item">
+                                    <label class="input_label">층고</label>
+                                    <div class="btn_radioType">
+                                        <input type="radio" name="floor_height_type" id="floor_height_"
+                                            value="">
+                                        <label for="floor_height_">선택 안함</label>
+
+                                        @foreach (Lang::get('commons.floor_height_type') as $index => $floorHeightType)
+                                            <input type="radio" name="floor_height_type"
+                                                id="floor_height_type_{{ $index }}"
+                                                value="{{ $index }}"
+                                                {{ $product->productAddInfo->floor_height_type == $index ? 'checked' : '' }}>
+                                            <label
+                                                for="floor_height_type_{{ $index }}">{{ $floorHeightType }}</label>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                            @if (in_array($type, [0, 1, 2, 7]) || $product->type > 13)
                                 <div>
                                     <div class="reg_item">
                                         <label class="input_label">사용전력</label>
@@ -1242,6 +1224,9 @@
                         @endif
                     </div>
                     @php
+
+                        $is_option = $product->productAddInfo->is_option;
+
                         $option_count = 0;
 
                         $optionArray = [];
@@ -1258,15 +1243,16 @@
                                     <label class="input_label">옵션 여부</label>
                                     <div class="btn_radioType">
                                         <input type="radio" name="is_option" id="is_option_1" value="1"
-                                            checked="">
+                                            {{ $is_option == 1 ? 'checked' : '' }}>
                                         <label for="is_option_1" onclick="showDiv('is_option', 0)">있음</label>
 
-                                        <input type="radio" name="is_option" id="is_option_2" value="0">
+                                        <input type="radio" name="is_option" id="is_option_2" value="0"
+                                            {{ $is_option == 0 ? 'checked' : '' }}>
                                         <label for="is_option_2" onclick="showDiv('is_option', 1)">없음</label>
                                     </div>
 
                                     <div class="is_option_wrap">
-                                        <div class="is_option_item open_key active">
+                                        <div class="is_option_item open_key  {{ $is_option == 1 ? 'active' : '' }}">
                                             <div class="option_row option_facility_row">
                                                 <div class="option_tit">시설</div>
                                                 <div class="checkbox_btn">
@@ -1356,71 +1342,75 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="is_option_item open_key"></div>
+                                        <div class="is_option_item open_key  {{ $is_option == 0 ? 'active' : '' }}">
+                                        </div>
 
                                     </div>
-                                    <div class="reg_mid_wrap mt10">
-                                        <div class="reg_item">
-                                            <label class="input_label">구조</label>
-                                            <div class="btn_radioType">
-                                                <input type="radio" name="structure_type" id="structure_type_0"
-                                                    value="0"
-                                                    {{ $product->productAddInfo->structure_type == 0 ? 'checked' : '' }}>
-                                                <label for="structure_type_0">선택 안함</label>
+                                    @if (in_array($product->type, [4, 9]))
+                                        <div class="reg_mid_wrap mt10">
+                                            <div class="reg_item">
+                                                <label class="input_label">구조</label>
+                                                <div class="btn_radioType">
+                                                    <input type="radio" name="structure_type"
+                                                        id="structure_type_0" value="0"
+                                                        {{ $product->productAddInfo->structure_type == 0 ? 'checked' : '' }}>
+                                                    <label for="structure_type_0">선택 안함</label>
 
-                                                <input type="radio" name="structure_type" id="structure_type_1"
-                                                    value="1"
-                                                    {{ $product->productAddInfo->structure_type == 1 ? 'checked' : '' }}>
-                                                <label for="structure_type_1">복층</label>
+                                                    <input type="radio" name="structure_type"
+                                                        id="structure_type_1" value="1"
+                                                        {{ $product->productAddInfo->structure_type == 1 ? 'checked' : '' }}>
+                                                    <label for="structure_type_1">복층</label>
 
-                                                <input type="radio" name="structure_type" id="structure_type_2"
-                                                    value="2"
-                                                    {{ $product->productAddInfo->structure_type == 2 ? 'checked' : '' }}>
-                                                <label for="structure_type_2">1.5룸/주방분리형</label>
+                                                    <input type="radio" name="structure_type"
+                                                        id="structure_type_2" value="2"
+                                                        {{ $product->productAddInfo->structure_type == 2 ? 'checked' : '' }}>
+                                                    <label for="structure_type_2">1.5룸/주방분리형</label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="reg_mid_wrap mt10">
-                                        <div class="reg_item">
-                                            <label class="input_label">빌트인</label>
-                                            <div class="btn_radioType">
-                                                <input type="radio" name="builtin_type" id="builtin_type_0"
-                                                    value="0"
-                                                    {{ $product->productAddInfo->builtin_type == 0 ? 'checked' : '' }}>
-                                                <label for="builtin_type_0">선택 안함</label>
 
-                                                <input type="radio" name="builtin_type" id="builtin_type_1"
-                                                    value="1"
-                                                    {{ $product->productAddInfo->builtin_type == 1 ? 'checked' : '' }}>
-                                                <label for="builtin_type_1">있음</label>
+                                        <div class="reg_mid_wrap mt10">
+                                            <div class="reg_item">
+                                                <label class="input_label">빌트인</label>
+                                                <div class="btn_radioType">
+                                                    <input type="radio" name="builtin_type" id="builtin_type_0"
+                                                        value="0"
+                                                        {{ $product->productAddInfo->builtin_type == 0 ? 'checked' : '' }}>
+                                                    <label for="builtin_type_0">선택 안함</label>
 
-                                                <input type="radio" name="builtin_type" id="builtin_type_2"
-                                                    value="2"
-                                                    {{ $product->productAddInfo->builtin_type == 2 ? 'checked' : '' }}>
-                                                <label for="builtin_type_2">없음</label>
+                                                    <input type="radio" name="builtin_type" id="builtin_type_1"
+                                                        value="1"
+                                                        {{ $product->productAddInfo->builtin_type == 1 ? 'checked' : '' }}>
+                                                    <label for="builtin_type_1">있음</label>
+
+                                                    <input type="radio" name="builtin_type" id="builtin_type_2"
+                                                        value="2"
+                                                        {{ $product->productAddInfo->builtin_type == 2 ? 'checked' : '' }}>
+                                                    <label for="builtin_type_2">없음</label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="reg_mid_wrap mt10">
-                                        <div class="reg_item">
-                                            <label class="input_label">전입신고 가능 여부</label>
-                                            <div class="btn_radioType">
-                                                <input type="radio" name="declare_type" id="declare_type_0"
-                                                    value="0"
-                                                    {{ $product->productAddInfo->declare_type == 0 ? 'checked' : '' }}>
-                                                <label for="declare_type_0">선택 안함</label>
-                                                <input type="radio" name="declare_type" id="declare_type_1"
-                                                    value="1"
-                                                    {{ $product->productAddInfo->declare_type == 1 ? 'checked' : '' }}>
-                                                <label for="declare_type_1">가능</label>
-                                                <input type="radio" name="declare_type" id="declare_type_2"
-                                                    value="2"
-                                                    {{ $product->productAddInfo->declare_type == 2 ? 'checked' : '' }}>
-                                                <label for="declare_type_2">불가능</label>
+                                        <div class="reg_mid_wrap mt10">
+                                            <div class="reg_item">
+                                                <label class="input_label">전입신고 가능 여부</label>
+                                                <div class="btn_radioType">
+                                                    <input type="radio" name="declare_type" id="declare_type_0"
+                                                        value="0"
+                                                        {{ $product->productAddInfo->declare_type == 0 ? 'checked' : '' }}>
+                                                    <label for="declare_type_0">선택 안함</label>
+                                                    <input type="radio" name="declare_type" id="declare_type_1"
+                                                        value="1"
+                                                        {{ $product->productAddInfo->declare_type == 1 ? 'checked' : '' }}>
+                                                    <label for="declare_type_1">가능</label>
+                                                    <input type="radio" name="declare_type" id="declare_type_2"
+                                                        value="2"
+                                                        {{ $product->productAddInfo->declare_type == 2 ? 'checked' : '' }}>
+                                                    <label for="declare_type_2">불가능</label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
 
                                 </div>
 
@@ -1500,8 +1490,6 @@
                 </div>
             </div>
             <!-- my_body : e -->
-            <input hidden name="approve_date" id="approve_date">
-            <input hidden name="move_date" id="move_date">
         </form>
     </div>
 
@@ -1525,8 +1513,6 @@
             pcDiv.appendChild(mobileDiv);
         }
 
-        var type = sessionStorage.getItem("typeSession");
-
         $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/common.css"]').remove();
         $('link[href="https://business.juso.go.kr/juso_support_center/css/addrlink/map/addrlinkMap.css"]')
             .remove();
@@ -1542,6 +1528,8 @@
         } else {
             setTimeout(function() {}, 2000);
         }
+
+        confirm_check();
     });
 
     function optionSetting(type) {
@@ -1642,11 +1630,7 @@
     function area_change(name) {
         var area_name = name + 'area';
         var square_name = name + 'square';
-
-        console.log('name : ', area_name);
         var area = $('#' + area_name).val();
-
-        console.log('area', area);
 
         if (area > 0) {
             var convertedSquare = (area * 3.3058).toString();
@@ -1736,33 +1720,6 @@
         });
         tabContents[index].classList.add('active');
     }
-
-    function formSetting() {
-
-        var is_temporary = $('#is_map').is(':checked');
-        var is_address_no_1 = $('#address_no_1').is(':checked');
-        var is_address_no_2 = $('#address_no_2').is(':checked');
-
-        var address_lng = $('#address_lng').val();
-        var address_lat = $('#address_lat').val();
-        var region_code = $('#region_code').val();
-        var region_address = $('#region_address').val();
-        var address = $('#address').val();
-        var address_detail = $('#address_detail').val();
-        var address_dong = $('#address_dong').val();
-        var address_number = $('#address_number').val();
-
-        $('.find_form').submit();
-    }
-
-    $('#address_no_2').click(function() {
-        if ($(this).is(':checked')) {
-            $('#address_detail').val('');
-            $('#address_detail').attr('disabled', true);
-        } else {
-            $('#address_detail').attr('disabled', false);
-        }
-    });
 </script>
 
 
@@ -1805,8 +1762,6 @@
 
         callJusoroMapApiType1(rtentX, rtentY);
 
-        console.log('주소 검색 끝!');
-
         confirm_check();
     }
 
@@ -1829,22 +1784,178 @@
         };
     }
 
+    // 매매가 & 보증금
+    $('input[name="input_price"]').keyup(function() {
+        $('#price').val($(this).val().replace(/[^0-9]/g, ''));
+    });
+
+    // 월임대료
+    $('input[name="input_month_price"]').keyup(function() {
+        $('#month_price').val($(this).val().replace(/[^0-9]/g, ''));
+    });
+
+    // 가격 협의가능 여부
+    $('input[name="input_is_price_discussion"]').change(function() {
+        var isChecked = this.checked;
+        $('#is_price_discussion').val($(this).is(':checked') ? 1 : 0);
+        $('input[name="input_is_price_discussion"]').each(function() {
+            this.checked = isChecked;
+        });
+    });
+
     function confirm_check() {
-
-        var minusVal = 0;
-
-        ($('#floor_number').val() != '') ? true: minusVal++;
-        ($('#total_floor_number').val() != '') ? true: minusVal++;
-        ($('#comments').val() != '') ? true: minusVal++;
-        ($('#comments').val() != '') ? true: minusVal++;
-        ($('#address').val() != '') ? true: minusVal++;
-        ($('#price_' + $("input[name='payment_type']:checked").val()).val() != '') ? true: minusVal++;
-
-        var direction_type = $('input[name="direction_type"]');
-
         var checkConfirm = false;
 
-        if (direction_type.length > 0) {
+        // 세션 1
+        var type = $('#type').val();
+        var payment_type = $('input[name="payment_type"]:checked').val();
+        var price = $('#price').val();
+        var month_price = $('#month_price').val();
+        var is_price_discussion = $('#is_price_discussion').val();
+        var is_use = $('input[name="is_use"]:checked').val();
+        var current_price = $('#current_price').val();
+        var current_month_price = $('#current_month_price').val();
+        var is_premium = $('input[name="is_premium"]:checked').val();
+        var premium_price = $('#premium_price').val();
+
+        if (type != '' && payment_type != '' && price != '') {
+            if ($.inArray(payment_type, ['1', '2', '4']) !== -1) {
+                if (month_price != '') {
+                    checkConfirm = true;
+                } else {
+                    checkConfirm = false;
+                }
+            } else {
+                checkConfirm = true;
+            }
+
+            if (checkConfirm && type < 14) {
+                if (type == 3) {
+                    if (is_premium == 1) {
+                        if (premium_price != '') {
+                            checkConfirm = true;
+                        } else {
+                            checkConfirm = false;
+                        }
+                    } else {
+                        checkConfirm = true;
+                    }
+                }
+
+                if (checkConfirm && is_use == 1) {
+                    if (current_price != '' && current_month_price != '') {
+                        checkConfirm = true;
+                    } else {
+                        checkConfirm = false;
+                    }
+                } else if (checkConfirm) {
+                    checkConfirm = true;
+                }
+            } else if (checkConfirm) {
+                checkConfirm = true;
+            }
+        } else {
+            checkConfirm = false;
+        }
+
+        if (checkConfirm == false) {
+            return $('#nextPageButton').attr("disabled", true);
+        }
+
+        // 세션 2
+        var region_code = $('#region_code').val();
+        var address = $('#address').val();
+        var is_address_detail = $('#is_address_detail').is(':checked');
+        var address_detail = $('#address_detail').val();
+
+        if (region_code == '' || address == '' || (!is_address_detail && address_detail ==
+                '')) {
+            return $('#nextPageButton').attr("disabled", true);
+        }
+
+        // 세션 3
+        var floor_number = $('input[name="floor_number"]').val();
+        var total_floor_number = $('input[name="total_floor_number"]').val();
+        var lowest_floor_number = $('input[name="lowest_floor_number"]').val();
+        var top_floor_number = $('input[name="top_floor_number"]').val();
+        var area = $('#area').val();
+        var square = $('#square').val();
+        var total_floor_area = $('input[name="total_floor_area"]').val();
+        var total_floor_square = $('input[name="total_floor_square"]').val();
+        var exclusive_area = $('input[name="exclusive_area"]').val();
+        var exclusive_square = $('input[name="exclusive_square"]').val();
+        var building_type = $('input[name="building_type"]').val();
+        var move_type = $('input[name="move_type"]:checked').val();
+        var move_date = $('input[name="move_date"]').val().length;
+        var is_service = $('input[name="is_service"]').is(":checked");
+        var service_price = $('input[name="service_price"]').val();
+        var service_type = $('input[name="service_type[]"]:checked').length;
+        var loan_type = $('input[name="loan_type"]:checked').val();
+        var loan_price = $('input[name="loan_price"]').val();
+        var parking_type = $('input[name="parking_type"]:checked').val();
+        var parking_price = $('input[name="parking_price"]').val();
+        var approve_date = $('input[name="approve_date"]').val().length;
+
+        if (type == 6 && checkConfirm) {
+            if (area != '' && square != '' && building_type != '' && (loan_type == 0 || (loan_type != 0 &&
+                    loan_price !=
+                    ''))) {
+                checkConfirm = true;
+            } else {
+                checkConfirm = false;
+            }
+        } else if (checkConfirm) {
+            if (area != '' && square != '' && exclusive_area != '' && exclusive_square != '' && approve_date == 8 &&
+                building_type != '' &&
+                (move_type != 2 || (move_type == 2 && move_date == 8)) &&
+                (is_service || is_service == false && service_price != '' && service_type > 0) &&
+                (loan_type == 0 || (loan_type != 0 && loan_price != ''))) {
+
+                checkConfirm = true;
+                if (type == 7) {
+                    if (total_floor_area != '' && total_floor_square != '') {
+                        checkConfirm = true;
+                    } else {
+                        checkConfirm = false
+                    }
+                } else {
+                    if (floor_number != '' && total_floor_number != '') {
+                        checkConfirm = true;
+                    } else {
+                        checkConfirm = false;
+                    }
+                }
+
+            } else {
+                checkConfirm = false;
+            }
+        }
+
+        if (checkConfirm == false) {
+            return $('#nextPageButton').attr("disabled", true);
+        }
+
+
+        // 세션 4
+        var room_count = $('input[name="room_count"]');
+        var bathroom_count = $('input[name="bathroom_count"]');
+        var is_option = $('input[name="is_option"]:checked').val();
+        var options_checked = $('input[name="option_type[]"]:checked').length;
+        var direction_type = $('input[name="direction_type"]');
+
+        if (is_option == "1" && options_checked <= 0) {
+            checkConfirm = false;
+        } else if (room_count.length > 0) {
+            if (room_count.val() != '' && bathroom_count.val() != '') {
+                checkConfirm = true;
+            } else {
+                checkConfirm = false
+            }
+        } else {
+            checkConfirm = true;
+        }
+
+        if (direction_type.length > 0 && checkConfirm) {
             if (direction_type.val() != '') {
                 checkConfirm = true;
             } else {
@@ -1852,10 +1963,22 @@
             }
         }
 
-        if (minusVal == 0 && checkConfirm) {
-            document.getElementById('nextPageButton').disabled = false;
+        if (checkConfirm == false) {
+            return $('#nextPageButton').attr("disabled", true);
+        }
+
+        // 세션 5
+        var imageCount = parseInt($('#imageCount').text());
+        var comments = $('input[name="comments"]').val();
+        var content = $('textarea[name="contents"]').val();
+        var commission = $('input[name="commission"]').val();
+        var commission_rate = $('input[name="commission_rate"]').val();
+
+        if (imageCount > 0 && comments != '' && content != '' && commission != '' && commission_rate != '' &&
+            checkConfirm) {
+            $('#nextPageButton').attr("disabled", false);
         } else {
-            document.getElementById('nextPageButton').disabled = true;
+            $('#nextPageButton').attr("disabled", true);
         }
     }
 
@@ -1874,7 +1997,10 @@
         isService($(this).is(':checked'));
     });
 
+    isService({{ $product->is_service }})
+
     function isService(element) {
+        console.log('element ', element);
         $('input[name="service_price"]').val('');
         $('input[name="service_type[]"]').prop("checked", false)
         if (element) {
@@ -1888,7 +2014,6 @@
 
     // 융자금 타입 선택시
     $('input[name="loan_type"]').change(function() {
-        console.log('체크');
         loanType($(this).val());
     });
 
@@ -1900,4 +2025,13 @@
             $('input[name="loan_price"]').attr('disabled', false);
         }
     }
+
+    $('#is_address_detail').click(function() {
+        if ($(this).is(':checked')) {
+            $('#address_detail').val('');
+            $('#address_detail').attr('disabled', true);
+        } else {
+            $('#address_detail').attr('disabled', false);
+        }
+    });
 </script>

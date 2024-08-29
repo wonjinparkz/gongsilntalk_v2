@@ -148,7 +148,7 @@
                                             <div class="flex_1 mt10">
                                                 <input type="text" name="premium_price" placeholder="프리미엄"
                                                     class="w_input_150" inputmode="numeric"
-                                                    value="{{ $product->price->premium_price > 0 ? number_format($product->price->premium_price) : '' }}"
+                                                    value="{{ $product->price->premium_price != '' ? number_format($product->price->premium_price) : '' }}"
                                                     oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                 <span>원</span>
                                             </div>
@@ -174,7 +174,7 @@
                                             <div class="flex_1 mt10">
                                                 <input type="text" name="support_price" placeholder="지원금액"
                                                     class="w_input_150" inputmode="numeric"
-                                                    value="{{ $product->price->support_price > 0 ? number_format($product->price->support_price) : '' }}"
+                                                    value="{{ $product->price->support_price != '' ? number_format($product->price->support_price) : '' }}"
                                                     oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                 <span>원</span>
                                             </div>
@@ -188,7 +188,7 @@
                                             <div class="flex_1 mt10">
                                                 <input type="text" name="etc_price" placeholder="기타비용"
                                                     class="w_input_150" inputmode="numeric"
-                                                    value="{{ $product->price->etc_price > 0 ? number_format($product->price->etc_price) : '' }}"
+                                                    value="{{ $product->price->etc_price != '' ? number_format($product->price->etc_price) : '' }}"
                                                     oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                 <span>원</span>
                                             </div>
@@ -275,7 +275,7 @@
                                                             보증금
                                                         </label><input type="text" name="invest_price"
                                                             placeholder="보증금" inputmode="numeric"
-                                                            value="{{ $product->price->invest_price > 0 ? number_format($product->price->invest_price) : '' }}"
+                                                            value="{{ $product->price->invest_price != '' ? number_format($product->price->invest_price) : '' }}"
                                                             oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                         <span class="gray_deep">/</span>
                                                     </div>
@@ -284,7 +284,7 @@
                                                             월임대료
                                                         </label><input type="text" name="invest_month_price"
                                                             placeholder="월임대료" inputmode="numeric"
-                                                            value="{{ $product->price->invest_month_price > 0 ? number_format($product->price->invest_month_price) : '' }}"
+                                                            value="{{ $product->price->invest_month_price != '' ? number_format($product->price->invest_month_price) : '' }}"
                                                             oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                         <span class="gray_deep">원</span>
                                                     </div>
@@ -305,7 +305,7 @@
                                             <div class="flex_1 mt10">
                                                 <input type="text" name="price_3" placeholder="전세보증금"
                                                     class="w_input_150" inputmode="numeric"
-                                                    value="{{ $product->price->price > 0 ? number_format($product->price->price) : '' }}"
+                                                    value="{{ $product->price->price != '' ? number_format($product->price->price) : '' }}"
                                                     oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                 <span>원</span>
                                             </div>
@@ -325,7 +325,7 @@
                                                     보증금 <span class="txt_point">*</span>
                                                 </label><input type="text" placeholder="보증금" name="price_4"
                                                     inputmode="numeric"
-                                                    value="{{ $product->price->price > 0 ? number_format($product->price->price) : '' }}"
+                                                    value="{{ $product->price->price != '' ? number_format($product->price->price) : '' }}"
                                                     oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                 <span class="gray_deep">/</span>
                                             </div>
@@ -334,7 +334,7 @@
                                                     월임대료 <span class="txt_point">*</span>
                                                 </label><input type="text" placeholder="월임대료" name="month_price_4"
                                                     inputmode="numeric"
-                                                    value="{{ $product->price->month_price > 0 ? number_format($product->price->month_price) : '' }}"
+                                                    value="{{ $product->price->month_price != '' ? number_format($product->price->month_price) : '' }}"
                                                     oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                                 <span class="gray_deep">원</span>
                                             </div>
@@ -390,7 +390,7 @@
                                 <div class="input_area_1">
                                     <input type="text" name="service_price" inputmode="numeric"
                                         {{ $product->is_service == 1 ? 'disabled' : '' }}
-                                        value="{{ $product->service_price > 0 ? number_format($product->service_price) : '' }}"
+                                        value="{{ $product->service_price != '' ? number_format($product->service_price) : '' }}"
                                         oninput="onlyNumbers(this); onTextChangeEvent(this);">
                                     <span class="gray_deep">원</span>
                                     <input type="checkbox" name="is_service" id="is_service_1" value="1"
