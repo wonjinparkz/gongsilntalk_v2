@@ -38,7 +38,7 @@
         <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
 
         <section class="type_1_page type_1_2">
-            <h2>01 매물세부내용</h2>
+            <h2>01 건물소개</h2>
             <h3>{{ $product->product_name }}</h3>
             <div class="item_wrap">
                 <div>
@@ -62,7 +62,7 @@
         <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
 
         <section class="type_1_page type_1_3">
-            <h2>01 매물세부내용</h2>
+            <h2>02 매물세부내용</h2>
             <h3>{{ $product->product_name }}</h3>
             <div class="item_2_wrap">
                 <table class="proposal_section_table">
@@ -188,7 +188,7 @@
         <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
 
         <section class="type_1_page type_1_3">
-            <h2>02 도면 및 사진</h2>
+            <h2>03 도면 및 사진</h2>
             <div class="item_3_wrap">
                 @foreach ($product->detail_images as $images)
                     <div>
@@ -205,7 +205,7 @@
 
         @if ($product->price->payment_type == 0)
             <section class="type_1_page type_1_4">
-                <h2>03 견적서</h2>
+                <h2>04 견적서</h2>
                 <div class="item_4_wrap">
                     <div class="item_div">
                         <h4>{{ $product->product_name }} 견적서 1</h4>

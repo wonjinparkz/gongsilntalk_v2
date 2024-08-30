@@ -43,7 +43,7 @@
     @foreach ($products as $key => $product)
         <section class="type_page type_5_3">
             <div class="header">
-                <h2>01 매물세부내용</h2>
+                <h2>01 건물소개</h2>
             </div>
             <h3>{{ $product->product_name }}</h3>
             <div class="item_wrap">
@@ -71,7 +71,7 @@
 
         <section class="type_page">
             <div class="header">
-                <h2>01 매물세부내용</h2>
+                <h2>02 매물세부내용</h2>
             </div>
             <h3>{{ $product->product_name }}</h3>
             <div class="item_2_wrap">
@@ -196,7 +196,7 @@
 
         <section class="type_page">
             <div class="header">
-                <h2>02 도면 및 사진</h2>
+                <h2>03 도면 및 사진</h2>
             </div>
             <div class="item_3_wrap">
                 @foreach ($product->detail_images as $images)
@@ -213,7 +213,7 @@
         @if ($product->price->payment_type == 0)
             <section class="type_page">
                 <div class="header">
-                    <h2>03 견적서</h2>
+                    <h2>04 견적서</h2>
                 </div>
                 <div class="item_4_wrap">
                     <div class="item_div">
