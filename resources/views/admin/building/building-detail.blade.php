@@ -2,7 +2,7 @@
     {{-- FORM START  --}}
 
     <div class="app-container container-xxl">
-        <form class="form" method="POST" action="{{ route('admin.building.update') }}">
+        <form class="form" method="POST" id="update_form" action="{{ route('admin.building.update') }}">
             @csrf
 
             <input type="hidden" name="id" value="{{ $result->id }}" />
@@ -187,6 +187,13 @@
                     </div>
                     <!--내용 END-->
 
+                    {{-- Footer Bottom START --}}
+                    <div class="card-footer d-flex justify-content-end py-6 px-9">
+                        <button type="button" class="btn btn-primary"
+                            onclick="$('#update_form').submit();">수정</button>
+                    </div>
+                    {{-- Footer END --}}
+
                 </div>
             </x-screen-card>
         </form>
@@ -198,11 +205,7 @@
 
 
         {{-- FORM END --}}
-        {{-- Footer Bottom START --}}
-        <div class="card-footer d-flex justify-content-end py-6 px-9">
-            <button type="submit" class="btn btn-primary">저장</button>
-        </div>
-        {{-- Footer END --}}
+
 
     </div>
 

@@ -4,7 +4,7 @@
         </x-screen-card>
         {{-- FORM START  --}}
         @inject('carbon', 'Carbon\Carbon')
-        <form class="form" method="POST" action="{{ route('admin.knowledgeCenter.update') }}">
+        <form class="form" method="POST" id="update_form" action="{{ route('admin.knowledgeCenter.update') }}">
             @csrf
             <input type="hidden" name="id" value="{{ $result->id }}" />
             <input type="hidden" name="last_url" value="{{ old('last_url') ?? URL::previous() }}">
@@ -416,7 +416,8 @@
 
                     {{-- Footer Bottom START --}}
                     <div class="card-footer d-flex justify-content-end py-6 px-9">
-                        <button type="submit" class="btn btn-primary">수정</button>
+                        <button type="button" class="btn btn-primary"
+                            onclick="$('#update_form').submit();">수정</button>
                     </div>
                     {{-- Footer END --}}
                 </div>

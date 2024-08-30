@@ -1,7 +1,7 @@
 <x-admin-layout>
     <div class="app-container container-xxl">
         {{-- FORM START  --}}
-        <form class="form" method="POST" action="{{ route('admin.store.create') }}">
+        <form class="form" method="POST" id="update_form" action="{{ route('admin.store.create') }}">
             @csrf
 
             <x-screen-card :title="'상가 상세'">
@@ -72,8 +72,9 @@
                         <div class="row mb-6">
                             <label class="col-lg-3 col-form-label fw-semibold fs-6">법정동코드</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" name="region_code" id="region_code" readonly class="form-control form-control-solid"
-                                    placeholder="법정동코드" value="{{ old('region_code') ?? $result->bjdCode }}" />
+                                <input type="text" name="region_code" id="region_code" readonly
+                                    class="form-control form-control-solid" placeholder="법정동코드"
+                                    value="{{ old('region_code') ?? $result->bjdCode }}" />
                             </div>
                         </div>
 
@@ -180,7 +181,12 @@
 
                     </div>
                     <!--내용 END-->
-
+                    {{-- Footer Bottom START --}}
+                    <div class="card-footer d-flex justify-content-end py-6 px-9">
+                        <button type="button" class="btn btn-primary"
+                            onclick="$('#update_form').submit();">저장</button>
+                    </div>
+                    {{-- Footer END --}}
                 </div>
             </x-screen-card>
         </form>
@@ -188,14 +194,6 @@
         <x-screen-card :title="'건축물 대장'">
             <x-admin-buildingledger :class="'App\Models\DataStore'" :result="$result" />
         </x-screen-card>
-
-        {{-- FORM END --}}
-
-        {{-- Footer Bottom START --}}
-        <div class="card-footer d-flex justify-content-end py-6 px-9">
-            <button type="submit" class="btn btn-primary">저장</button>
-        </div>
-        {{-- Footer END --}}
 
         {{-- FORM END --}}
 
