@@ -73,7 +73,7 @@ class DataStoreController extends Controller
             'pnu' => $request->pnu,
             'x' => $request->address_lng,
             'y' => $request->address_lat,
-            'bjdCode' => $request->bjdCode,
+            'bjdCode' => $request->region_code,
             'as1' => $request->as1,
             'as2' => $request->as2,
             'as3' => $request->as3,

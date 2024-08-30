@@ -12,9 +12,17 @@
                     <div class="row mb-6">
                         <label class="required col-lg-3 col-form-label fw-semibold fs-6">주소</label>
                         <div class="col-lg-9 fv-row">
-                            <a onclick="getAddress()" class="btn btn-outline mb-md-5"
+                            <a onclick="getAddress()" class="btn btn-outline mb-md-5 search_address_1"
                                 style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; margin-bottom: 5px;">
                                 주소 검색 </a>
+                            <a class="btn btn-outline mb-md-5 search_address_2" data-bs-toggle="modal"
+                                data-bs-target="#modal_address_search"
+                                style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; margin-bottom: 5px;
+                                ">
+                                (구)주소 검색 </a>
+                            <input type="hidden" name="region_code" id="region_code"
+                                class="form-control form-control-solid " readonly placeholder=""
+                                value="{{ old('region_code') }}" />
                             <input type="text" name="address" id="address" class="form-control form-control-solid "
                                 readonly placeholder="" value="{{ old('address') }}" />
                             <input type="hidden" name="pnu" id="pnu" class="form-control form-control-solid "
@@ -399,6 +407,7 @@
 
     </div>
 
+    <x-admin-temporary-address isMapClick="false" isPnu="true" />
     {{--
        * 페이지에서 사용하는 자바스크립트
     --}}

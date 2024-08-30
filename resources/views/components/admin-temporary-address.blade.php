@@ -1,11 +1,11 @@
-@props(['isMapClick' => 'true'])
+@props(['isMapClick' => 'true', 'isPnu' => 'false', 'isData' => 'false'])
 
 <!-- modal (구)주소 검색 : s-->
 <div class="modal fade" tabindex="-1" id="modal_address_search">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">(구) 주소 검색 {{$isMapClick}}</h5>
+                <h5 class="modal-title">(구) 주소 검색</h5>
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 modal_address_search_close"
                     data-bs-dismiss="modal" aria-label="Close">
@@ -43,6 +43,15 @@
                         <div class="col-lg-4 fv-row">
                             <div class="input-group">
                                 <input type="text" name="bun" id="bun" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4 fv-row">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="is_mount" id="is_mount"
+                                    value="1" />
+                                <label class="form-check-label d-block mt-2" for="is_mount">
+                                    산
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -186,6 +195,7 @@
 
 
     function seach_address() {
+
         var sidoName = $('#region_code_1 option:selected').text();
         var sigunguName = $('#region_code_2 option:selected').text();
         var dongName = $('#region_code_3 option:selected').text();
@@ -194,8 +204,6 @@
         var is_mount = $('#is_mount').is(":checked");
         var ji = $('#ji').val();
         var bun = $('#bun').val();
-
-        console.log('sido : ' + sidoName + '|sigungu : ' + sigunguName + '|dong : ' + dongName + '|ri : ' + riName);
 
         var jiBun = (is_mount ? '산' + ji : ji) + (bun != '' ? '-' : '') + bun;
 
@@ -207,7 +215,44 @@
         $('#region_address').val(address);
 
         naverAdddress();
+        @if ($isPnu == 'true')
+            var region_code = $('#region_code').val();
+            var MtYn = is_mount ? 2 : 1;
+            var LnbrMnnm = String(ji).padStart(4, '0');
+            var LnbrSlno = String(bun).padStart(4, '0');
 
+            var pnu = region_code + MtYn + LnbrMnnm + LnbrSlno;
+            $('input[name=pnu]').val(pnu);
+
+
+            loadPnuData(pnu)
+        @endif
+        @if ($isData == 'true')
+            $('input[name="as1"]').val(sidoName);
+            $('input[name="as2"]').val(sigunguName);
+            $('input[name="as3"]').val(dongName);
+            $('input[name="as4"]').val(riName);
+        @endif
+    }
+
+    function loadPnuData(pnu) {
+        console.log('pnu : ', pnu);
+        loadingStart();
+
+        gte_useWFS(pnu);
+
+        setTimeout(function() {}, 1000);
+        setTimeout(function() {
+            get_coordinates(pnu);
+        }, 2000);
+        setTimeout(function() {
+            get_characteristics(pnu);
+        }, 3000);
+
+
+        setTimeout(function() {
+            loadingEnd();
+        }, 4000);
     }
 
     function naverAdddress() {
@@ -275,7 +320,7 @@
             $('#seach_address').attr("disabled", false);
         }
 
-        $('#region_code').val(check_code);
+        $('#region_code').val(check_code.padEnd(10, '0'));
 
     });
 </script>

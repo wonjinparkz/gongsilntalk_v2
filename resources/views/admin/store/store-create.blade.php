@@ -16,9 +16,14 @@
 
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">주소</label>
                         <div class="col-lg-10 fv-row">
-                            <a onclick="getAddress()" class="btn btn-outline mb-md-5"
+                            <a onclick="getAddress()" class="btn btn-outline mb-md-5 search_address_1"
                                 style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; margin-bottom: 5px;">
                                 주소 검색 </a>
+                            <a class="btn btn-outline mb-md-5 search_address_2" data-bs-toggle="modal"
+                                data-bs-target="#modal_address_search"
+                                style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .5rem; margin-bottom: 5px;
+                                ">
+                                (구)주소 검색 </a>
                             <input type="text" name="address" id="address" class="form-control form-control-solid "
                                 readonly placeholder="" value="{{ old('address') }}" />
                             <input type="hidden" name="pnu" id="pnu" class="form-control form-control-solid "
@@ -67,8 +72,8 @@
                         <div class="row mb-6">
                             <label class="col-lg-3 col-form-label fw-semibold fs-6">법정동코드</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" name="bjdCode" readonly class="form-control form-control-solid"
-                                    placeholder="법정동코드" value="{{ old('bjdCode') }}" />
+                                <input type="text" name="region_code" id="region_code" readonly class="form-control form-control-solid"
+                                    placeholder="법정동코드" value="{{ old('region_code') }}" />
                             </div>
                         </div>
 
@@ -76,8 +81,8 @@
                         <div class="row mb-6">
                             <label class="col-lg-3 col-form-label fw-semibold fs-6">시도</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" name="as1" readonly class="form-control form-control-solid" placeholder="시도"
-                                    value="{{ old('as1') }}" />
+                                <input type="text" name="as1" readonly class="form-control form-control-solid"
+                                    placeholder="시도" value="{{ old('as1') }}" />
                             </div>
                         </div>
 
@@ -85,8 +90,8 @@
                         <div class="row mb-6">
                             <label class="col-lg-3 col-form-label fw-semibold fs-6">시군구</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" name="as2" readonly class="form-control form-control-solid" placeholder="시군구"
-                                    value="{{ old('as2') }}" />
+                                <input type="text" name="as2" readonly class="form-control form-control-solid"
+                                    placeholder="시군구" value="{{ old('as2') }}" />
                             </div>
                         </div>
 
@@ -94,8 +99,8 @@
                         <div class="row mb-6">
                             <label class="col-lg-3 col-form-label fw-semibold fs-6">읍면동</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" name="as3" readonly class="form-control form-control-solid" placeholder="읍면동"
-                                    value="{{ old('as3') }}" />
+                                <input type="text" name="as3" readonly class="form-control form-control-solid"
+                                    placeholder="읍면동" value="{{ old('as3') }}" />
                             </div>
                         </div>
 
@@ -103,8 +108,8 @@
                         <div class="row mb-6">
                             <label class="col-lg-3 col-form-label fw-semibold fs-6">리</label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" name="as4" readonly class="form-control form-control-solid" placeholder="리"
-                                    value="{{ old('as4') }}" />
+                                <input type="text" name="as4" readonly class="form-control form-control-solid"
+                                    placeholder="리" value="{{ old('as4') }}" />
                             </div>
                         </div>
 
@@ -189,6 +194,8 @@
         </div>
     </form>
 
+    <x-admin-temporary-address isMapClick="false" isPnu="true" isData="true" />
+
     {{-- 지도 맵 api js --}}
     <script type="text/javascript"
         src="https://business.juso.go.kr/juso_support_center/js/addrlink/map/jusoro_map_api.min.js?confmKey={{ env('CONFM_MAP_KEY') }}&skinType=1">
@@ -269,7 +276,7 @@
 
             $('input[name=pnu]').val(pnu);
 
-            $('input[name="bjdCode"]').val(rtAdmCd);
+            $('input[name="region_code"]').val(rtAdmCd);
             $('input[name="as1"]').val(rtSiNm);
             $('input[name="as2"]').val(rtSggNm);
             $('input[name="as3"]').val(rtEmdNm);

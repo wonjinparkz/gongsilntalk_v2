@@ -73,7 +73,7 @@ class DataBuildingController extends Controller
             'pnu' => $request->pnu,
             'x' => $request->address_lng,
             'y' => $request->address_lat,
-            'bjdCode' => $request->bjdCode,
+            'bjdCode' => $request->region_code,
             'as1' => $request->as1,
             'as2' => $request->as2,
             'as3' => $request->as3,
@@ -91,6 +91,49 @@ class DataBuildingController extends Controller
         ]);
 
         return Redirect::route('admin.building.list.view')->with('message', '건물을 등록했습니다');
+    }
+
+    /**
+     * 건물 등록
+     */
+    public function buildingUpdate(Request $request): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'address' => 'required',
+            'kbuildingName' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $result = DataBuilding::where('id', $request->id)->first();
+
+        $result->update([
+            'kbuildingAddr' => $request->address,
+            'pnu' => $request->pnu,
+            'x' => $request->address_lng,
+            'y' => $request->address_lat,
+            'bjdCode' => $request->region_code,
+            'as1' => $request->as1,
+            'as2' => $request->as2,
+            'as3' => $request->as3,
+            'as4' => $request->as4,
+            'kbuildingName' => $request->kbuildingName,
+            'subwayStation' => $request->subwayStation,
+            'subwayLine' => $request->subwayLine,
+            'kbuildingdWtimesub' => $request->kbuildingdWtimesub,
+            'kbuildingdWtimebus' => $request->kbuildingdWtimebus,
+            'convenientFacility' => $request->convenientFacility,
+            'educationFacility' => $request->educationFacility,
+            'polygon_coordinates' => $request->polygon_coordinates,
+            'characteristics_json' => $request->characteristics_json,
+            'useWFS_json' => $request->useWFS_json,
+        ]);
+
+        return redirect()->to($request->lasturl)->with('message', '건물을 수정했습니다');
     }
 
 
