@@ -93,6 +93,49 @@ class DataStoreController extends Controller
         return Redirect::route('admin.store.list.view')->with('message', '상가를 등록했습니다');
     }
 
+    /**
+     * 상가 수정
+     */
+    public function storeUpdate(Request $request): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'address' => 'required',
+            'kstoreName' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $result = DataStore::where('id', $request->id)->first();
+
+        $result->update([
+            'kstoreAddr' => $request->address,
+            'pnu' => $request->pnu,
+            'x' => $request->address_lng,
+            'y' => $request->address_lat,
+            'bjdCode' => $request->region_code,
+            'as1' => $request->as1,
+            'as2' => $request->as2,
+            'as3' => $request->as3,
+            'as4' => $request->as4,
+            'kstoreName' => $request->kstoreName,
+            'subwayStation' => $request->subwayStation,
+            'subwayLine' => $request->subwayLine,
+            'kstoredWtimesub' => $request->kstoredWtimesub,
+            'kstoredWtimebus' => $request->kstoredWtimebus,
+            'convenientFacility' => $request->convenientFacility,
+            'educationFacility' => $request->educationFacility,
+            'polygon_coordinates' => $request->polygon_coordinates,
+            'characteristics_json' => $request->characteristics_json,
+            'useWFS_json' => $request->useWFS_json,
+        ]);
+
+        return redirect()->to($request->lasturl)->with('message', '상가를 수정했습니다');
+    }
+
 
     /**
      * 상가 상태 수정

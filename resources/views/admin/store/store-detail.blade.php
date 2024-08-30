@@ -1,8 +1,11 @@
 <x-admin-layout>
     <div class="app-container container-xxl">
         {{-- FORM START  --}}
-        <form class="form" method="POST" id="update_form" action="{{ route('admin.store.create') }}">
+        <form class="form" method="POST" id="update_form" action="{{ route('admin.store.update') }}">
             @csrf
+
+            <input type="hidden" name="id" value="{{ $result->id }}" />
+            <input type="hidden" name="lasturl" value="{{ URL::previous() }}">
 
             <x-screen-card :title="'상가 상세'">
             </x-screen-card>
@@ -286,10 +289,7 @@
             $('input[name="as3"]').val(rtEmdNm);
             $('input[name="as4"]').val(rtLiNm);
 
-            // loadingStart();
-
             var wgs84Coords = get_coordinate_conversion(rtentX, rtentY)
-
 
             $('input[name=address_lng]').val(wgs84Coords[0]);
             $('input[name=address_lat]').val(wgs84Coords[1]);

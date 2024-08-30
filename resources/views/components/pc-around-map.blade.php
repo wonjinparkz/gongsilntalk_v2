@@ -3,7 +3,7 @@
     'address_lng' => '',
 ])
 <div>
-    <div id="aroundMap" style="width:100%; height:230px" class="size_100p">
+    <div id="aroundMap" style="width:100%; height:300px" class="size_100p">
     </div>
 </div>
 <script>

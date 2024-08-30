@@ -4,6 +4,10 @@
     'products' => [],
 ])
 
+<script type="text/javascript"
+    src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
+</script>
+
 @inject('carbon', 'Carbon\Carbon')
 
 <div class="proposal_type_item proposal_type_2">
@@ -52,17 +56,38 @@
                     </div>
                     <div class="item_img">
                         <div class="img_box">
-                            <iframe src="https://www.google.com/maps?q={{ $product->address }}&output=embed"
-                                style="border:0;" allowfullscreen="" loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"></iframe>
-                            <!-- <iframe src="https://www.google.com/maps?q={{ $product->address }}&output=embed"
-                                width="428" height="250" style="border:0;" allowfullscreen="" loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"></iframe> -->
+                            <div id="minimap_2_{{ $key }}" style="width:100%; height:100%;"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <script>
+            var miniMap_2_{{ $key }} = new naver.maps.Map('minimap_2_{{ $key }}', {
+                center: new naver.maps.LatLng({{ $product->address_lat }}, {{ $product->address_lng }}),
+                // center: new naver.maps.LatLng(37.48860419800877, 126.8880090781063),
+                zoom: 15,
+                minZoom: 13,
+                maxZoom: 20,
+                mapTypeId: naver.maps.MapTypeId.NORMAL,
+                mapDataControl: false,
+                scaleControl: false,
+                mapTypeControl: false
+            });
+
+            marker = new naver.maps.Marker({
+                position: new naver.maps.LatLng('{{ $product->address_lat }}', '{{ $product->address_lng }}'),
+                map: miniMap_2_{{ $key }},
+                icon: {
+                    url: "{{ asset('assets/media/map_marker_default.png') }}",
+                    size: new naver.maps.Size(100, 100), //아이콘 크기
+                    scaledSize: new naver.maps.Size(30, 43), //아이콘 크기
+                    origin: new naver.maps.Point(0, 0),
+                    anchor: new naver.maps.Point(11, 35)
+                }
+            });
+        </script>
 
         <section class="type_3_page type_2_1">
             <h2>02 매물세부내용</h2>
