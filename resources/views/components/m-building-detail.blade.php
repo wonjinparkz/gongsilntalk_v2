@@ -45,38 +45,50 @@
         }
 
         // 모든 표제부 층 정보를 가져와 상단 층별정보에 값 넣어주기
-        $floor = 0;
-        $floorMin = 100;
-        $Minfloor = 0;
-        $useAprDay = '-';
+        $maxGroundFloor = 0; // 최고 지상층
+        $minGroundFloor = null; // 최저 지상층
+        $maxUndergroundFloor = null; // 최고 지하층
+        $useAprDay = '-'; // 사용 승인일 초기값
 
         if (count($BrTitleInfo) > 0) {
-            foreach ($BrTitleInfo as $key => $info) {
-                $Tfloor = $info['grndFlrCnt'];
-                $TMinfloor = $info['ugrndFlrCnt'];
+        foreach ($BrTitleInfo as $info) {
+            $currentGroundFloor = $info['grndFlrCnt']; // 현재 지상층 수
+            $currentUndergroundFloor = isset($info['ugrndFlrCnt']) ? $info['ugrndFlrCnt'] : null; // 현재 지하층 수, 없으면 null
 
-                if (($info['mainPurpsCdNm'] > 0 || $info['mainPurpsCdNm'] != '') && $mainUse == '-') {
-                    $mainUse = $info['mainPurpsCdNm'];
-                }
+            // 최고 지상층 찾기
+            if ($currentGroundFloor > $maxGroundFloor) {
+                $maxGroundFloor = $currentGroundFloor;
+            }
 
-                if ($info['useAprDay'] > 0 || $info['useAprDay'] != '') {
-                    $useAprDay = substr($info['useAprDay'], 0, 4);
-                }
+            // 최저 지상층 찾기
+            if (is_null($minGroundFloor) || $currentGroundFloor < $minGroundFloor) {
+                $minGroundFloor = $currentGroundFloor;
+            }
 
-                if ($Tfloor > $floor) {
-                    $floor = $Tfloor;
-                }
+            // 최고 지하층 찾기
+            if (
+                !is_null($currentUndergroundFloor) &&
+                $currentUndergroundFloor > 0 &&
+                $currentUndergroundFloor > $maxUndergroundFloor
+            ) {
+                $maxUndergroundFloor = $currentUndergroundFloor;
+            }
 
-                if ($TMinfloor > $Minfloor) {
-                    $Minfloor = $TMinfloor;
-                }
+            // 사용 승인일 처리
+            if (!empty($info['useAprDay'])) {
+                $useAprDay = substr($info['useAprDay'], 0, 4); // YYYY 형식으로 년도만 추출
+            }
 
-                if ($Tfloor < $floorMin) {
-                    // grndFlrCnt에서 가장 낮은 값을 찾기 위해 $Tfloor를 사용
-                    $floorMin = $Tfloor;
-                }
+            // 주용도 처리
+            if (!empty($info['mainPurpsCdNm']) && $mainUse == '-') {
+                $mainUse = $info['mainPurpsCdNm'];
             }
         }
+    }
+
+    // 지하층이 없으면 지상 1층을 최저층으로 표시, 지하층이 있으면 최저층은 지하층
+    $minFloorDisplay = is_null($maxUndergroundFloor) ? 1 : 'B' . $maxUndergroundFloor;
+    $maxFloorDisplay = $maxGroundFloor > 0 ? $maxGroundFloor : '-';
     @endphp
 
 
@@ -137,7 +149,7 @@
                 </li>
                 <li>
                     <p>
-                        {{ $Minfloor > 0 ? 'B' . $Minfloor : ($floor > 0 ? $floorMin : '-') }}층/{{ $floor > 0 ? $floor : '-' }}층
+                        {{ $minFloorDisplay . '층/' . $maxFloorDisplay . '층' }}
                     </p>
                     <label>최저/최고</label>
                 </li>
