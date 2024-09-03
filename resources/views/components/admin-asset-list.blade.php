@@ -47,12 +47,8 @@
                     @endphp
                     <tr class="cursor_pointer">
                         <td class="">{{ $key + 1 }}</td>
-                        @php
-                            $address_detail = isset($asset->address_dong) ? $asset->address_dong . '동 ' : '';
-                            $address_detail .= $asset->address_detail . '호';
-                        @endphp
                         <td class="">
-                            {{ $asset->is_temporary == 0 ? $address_detail : $asset->address_detail }}
+                            {{ $asset->address_detail ?? '-' }}
                         </td>
                         <td class="">{{ Lang::get('commons.product_type.' . $asset->type_detail) }}</td>
                         <td class="square_{{ $address->id }}">{{ $asset->exclusive_square }}㎡
@@ -65,7 +61,7 @@
                         <td class="gsntalk-color"><span class="txt_point">{{ number_format($myPrice) }}원</span>
                         </td>
                         <td class="gsntalk-color"><span
-                                class="txt_point">{{ round(($myPrice / $realPrice) * 100, 2) }}%</span>
+                                class="txt_point">{{ round((($myPrice * 12) / $realPrice) * 100, 2) }}%</span>
                         </td>
                     </tr>
                 @endforeach

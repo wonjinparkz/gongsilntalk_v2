@@ -66,11 +66,15 @@
             <div class="card-body border-top p-9">
 
                 @php
-                    $monthProfitPrice = 0;
-                    $monthProfitRate = 0;
-                    $price_1 = isset($monthProfitPrice) ? $monthProfitPrice : 1;
-                    $price_2 = isset($addressData->price) ? $addressData->price : 1;
-                    $monthProfitRate = round($price_1 / $price_2, 2);
+                    $realPrice =
+                        $addressData->price +
+                        $addressData->acquisition_tax_price +
+                        $addressData->etc_price -
+                        $addressData->loan_price -
+                        $addressData->check_price;
+
+                    $myPrice = $addressData->month_price - $addressData->loan_rate_price;
+                    $realMonthPrice = (($myPrice * 12) / $realPrice) * 100;
                 @endphp
                 {{-- 자산정보 --}}
                 <div class="row mb-6">
@@ -81,16 +85,16 @@
                     <label class="col-lg-2 fw-bold fs-2 flex-column">
                         <span>실투자금</span>
                         <p class="fw-bold gsntalk-color">
-                            {{ number_format($addressData->price - $addressData->loan_price) }}원</p>
+                            {{ number_format($realPrice) }}원</p>
                     </label>
                     <label class="col-lg-2 fw-bold fs-2 flex-column">
                         <span>월순수익</span>
                         <p class="fw-bold gsntalk-color">
-                            {{ number_format($monthProfitPrice) }}원</p>
+                            {{ number_format($myPrice) }}원</p>
                     </label>
                     <label class="col-lg-2 fw-bold fs-2 flex-column">
                         <span>수익률</span>
-                        <p class="fw-bold gsntalk-color">{{ number_format($monthProfitRate) }}%</p>
+                        <p class="fw-bold gsntalk-color">{{ number_format($realMonthPrice, 2) }}%</p>
                     </label>
                 </div>
 
