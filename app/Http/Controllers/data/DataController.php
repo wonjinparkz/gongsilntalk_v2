@@ -916,7 +916,7 @@ class DataController extends Controller
     private function storeBuildingLedgerData($apt, $items, $type)
     {
         $apt->update(['is_building_ledger' => 1]);
-        info('표제부 업데이트');
+
         // 기존 데이터를 한 번만 삭제
         switch ($type) {
             case 'BrTitleInfo':
