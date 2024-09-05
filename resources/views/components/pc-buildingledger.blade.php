@@ -201,7 +201,7 @@
                 </thead>
                 @if (count($BrFlrOulnInfo) > 0)
                     @foreach ($dongName as $name)
-                        <tbody class="{{ $name }} dongInfo">
+                        <tbody class="dongInfo_{{ str_replace(' ', '', $name) }} dongInfo">
                             @foreach ($BrFlrOulnInfo as $info)
                                 @if ($name == $info['dongNm'])
                                     <tr>
@@ -221,87 +221,63 @@
     </div>
 </div>
 
-@if (count($BrExposPubuseAreaInfo) > 0)
-    <div class="open_con_wrap building_item_3">
-        <div class="open_trigger">전유부 <span><img src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
-        </div>
-        <div class="con_panel">
-            <div class="dropdown_box s_sm w_40">
-                <button class="dropdown_label"></button>
-                @php
-                    $uniqueList = [];
-                    foreach ($BrExposPubuseAreaInfo ?? [] as $info) {
-                        // 공백을 제거한 동 이름을 기준으로 필터링 및 중복 제거
-                        $dongKey = str_replace(' ', '', $info['dongNm']);
-                        $hoKey = $info['hoNm'];
-
-                        // 동 이름과 호수로 키 생성
-                        $key = $dongKey . ' ' . $hoKey;
-
-                        if (!isset($uniqueList[$key])) {
-                            $uniqueList[$key] = $info;
-                        }
-                    }
-
-                    // 중복 제거 후 배열로 변환
-                    $BrExposPubuseAreaInfoArray = array_values($uniqueList);
-                @endphp
-
-                @foreach ($dongName as $name)
-                    <ul class="optionList {{ str_replace(' ', '', $name) }} dongInfo">
-                        @if (count($BrExposPubuseAreaInfoArray) > 0)
-                            @foreach ($BrExposPubuseAreaInfoArray as $info)
+<!-- HTML 구조 -->
+@if (count($BrExposInfo) > 0)
+    @foreach ($dongName as $name)
+        <div class="open_con_wrap building_item_3 dongInfo_{{ str_replace(' ', '', $name) }} dongInfo">
+            <div class="open_trigger">전유부 <span><img src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
+            </div>
+            <div class="con_panel">
+                <div class="dropdown_box s_sm w_40">
+                    <button class="dropdown_label">전유부 선택</button>
+                    <ul class="optionList">
+                        @php
+                            // hoNm 기준으로 정렬
+                            $sortedBrExposInfo = $BrExposInfo;
+                            usort($sortedBrExposInfo, function ($a, $b) {
+                                return intval($a['hoNm']) - intval($b['hoNm']);
+                            });
+                        @endphp
+                        @foreach ($sortedBrExposInfo as $info)
+                            @if ($name == $info['dongNm'])
                                 {{-- 전유부 동 이름과 매칭되도록 필터링 --}}
-                                @if (str_replace(' ', '', $info['dongNm']) == str_replace(' ', '', $name))
-                                    <li class="optionItem {{ str_replace(' ', '', $info['dongNm']) }}">
-                                        {{ $info['dongNm'] }} || {{ $info['hoNm'] }}
-                                    </li>
-                                @endif
-                            @endforeach
-                        @endif
+                                <li class="optionItem unit-specific {{ str_replace(' ', '', $info['dongNm']) }}"
+                                    data-dong="{{ $info['dongNm'] }}" data-ho="{{ $info['hoNm'] }}">
+                                    {{ $info['dongNm'] != '' ? $info['dongNm'] . '-' : '' }}{{ $info['hoNm'] }}
+                                </li>
+                            @endif
+                        @endforeach
                     </ul>
-                @endforeach
+                </div>
+
+                <div class="default_box showstep1 mt10">
+                    <table class="table_type_1">
+                        <colgroup>
+                            <col width="50">
+                            <col width="80">
+                            <col width="60">
+                            <col width="*">
+                            <col width="100">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>구분</th>
+                                <th>층별</th>
+                                <th>건축물</th>
+                                <th>용도</th>
+                                <th>면적</th>
+                            </tr>
+                        </thead>
+                        <tbody class="BrExposPubuseAreaInfoContainer">
+                            {{-- 선택한 항목에 맞는 데이터가 들어갈 자리 --}}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="btn_more_open">더보기</div>
             </div>
-            <div class="default_box showstep1 mt10">
-                <table class="table_type_1">
-                    <colgroup>
-                        <col width="50">
-                        <col width="50">
-                        <col width="60">
-                        <col width="*">
-                        <col width="100">
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>구분</th>
-                            <th>층별</th>
-                            <th>건축물</th>
-                            <th>용도</th>
-                            <th>면적</th>
-                        </tr>
-                    </thead>
-                    <tbody class="">
-                        @if (count($BrExposPubuseAreaInfo) > 0)
-                            @foreach ($BrExposPubuseAreaInfo as $info)
-                                {{ Log::info($info) }}
-                                <tr
-                                    class="{{ isset($info['dongNm']) && $info['dongNm'] !== '' ? '단일' : $info['dongNm'] }}">
-                                    {{-- <tr class="{{ $info['dongNm'] }} dongInfo"> --}}
-                                    <td>{{ $info['exposPubuseGbCdNm'] }}</td>
-                                    <td>{{ isset($info['dongNm']) && $info['dongNm'] !== '' ? '' : $info['dongNm'] }}
-                                    </td>
-                                    <td>{{ Commons::formatValue($info['mainPurpsCdNm'] ?? '') }}</td>
-                                    <td>{{ $info['mainAtchGbCdNm'] }}</td>
-                                    <td>{{ number_format($info['area']) }}㎡</td>
-                                </tr>
-                            @endforeach
-                        @endif
-                    </tbody>
-                </table>
-            </div>
-            <div class="btn_more_open">더보기</div>
         </div>
-    </div>
+    @endforeach
 @endif
 
 @if ($characteristics_json != '')
@@ -354,25 +330,91 @@
 @endif
 
 <!-- 건물·토지정보 : e -->
-
-
 <script>
+    // Blade에서 BrExposPubuseAreaInfo를 바로 JavaScript로 넘겨줌
+    var exposPubuseAreaInfos = @json($BrExposPubuseAreaInfo);
+
     $(document).ready(function() {
+
         ShowDongInfo();
+        // 동 정보 변경 시 다시 필터링
+        $('input[name="dong"]').change(function() {
+            ShowDongInfo();
+        });
+
+        // 페이지 로드 시 모든 동에 대해 첫 번째 전유부 항목 자동 선택 및 전유공용면적 정보 표시
+        $('.dongInfo').each(function() {
+            var firstOption = $(this).find('.optionItem').first();
+            if (firstOption.length > 0) {
+                firstOption.addClass('selected'); // 선택된 항목 표시
+                updateExposPubuseAreaInfo(firstOption); // 전유공용면적 정보 업데이트
+                updateDropdownLabel(firstOption);
+            }
+        });
+
+        $('.optionItem').on('click', function() {
+            // 클릭된 항목 강조 표시 (선택된 항목 스타일 변경)
+            $(this).closest('.dongInfo').find('.optionItem').removeClass('selected');
+            $(this).addClass('selected');
+
+            // 전유공용면적 정보 업데이트
+            updateExposPubuseAreaInfo($(this));
+        });
     });
 
-    $('input[name="dong"]').change(function() {
-        ShowDongInfo();
-    });
-
+    // 동 정보 필터링 함수
     function ShowDongInfo() {
         var dongName = $('input[name="dong"]:checked').val();
         if (!dongName || dongName.trim() === '') {
             dongName = $('input[name="dong"]').first().val();
         }
         if (dongName) {
+            // 모든 dongInfo를 숨김
             $('.dongInfo').css('display', 'none');
-            $('.' + dongName).css('display', '');
+            // 선택된 dongName의 dongInfo만 보이도록 설정
+            $('.dongInfo_' + dongName).css('display', '');
         }
+    }
+
+    // 전유공용면적 정보 업데이트 함수
+    function updateExposPubuseAreaInfo($selectedOption) {
+        // 선택한 항목의 dongNm 및 hoNm 값 가져오기
+        var selectedDong = $selectedOption.data('dong');
+        var selectedHo = $selectedOption.data('ho');
+
+        // 선택한 dongNm 및 hoNm에 맞는 데이터 필터링
+        var filteredData = exposPubuseAreaInfos.filter(function(info) {
+            return info.dongNm === selectedDong && info.hoNm === selectedHo;
+        });
+
+        // 해당 데이터를 표시할 tbody 요소 찾기
+        var $tbody = $selectedOption.closest('.con_panel').find('.BrExposPubuseAreaInfoContainer');
+
+        // tbody 요소의 내용을 비우고 새로 필터링된 데이터를 추가
+        $tbody.empty();
+
+        if (filteredData.length > 0) {
+            $.each(filteredData, function(index, info) {
+                var row = `<tr>
+                            <td>${info.exposPubuseGbCdNm}</td>
+                            <td>${info.flrNoNm}</td>
+                            <td>${info.mainAtchGbCd == 0 ? '주' : '부속'}</td>
+                            <td>${info.mainPurpsCdNm ?? ''}</td>
+                            <td>${parseFloat(info.area).toLocaleString()}㎡</td>
+                        </tr>`;
+                $tbody.append(row);
+            });
+        } else {
+            $tbody.append('<tr><td colspan="5">해당 데이터가 없습니다.</td></tr>');
+        }
+    }
+    // 드롭다운 레이블 업데이트 함수
+    function updateDropdownLabel($selectedOption) {
+        var dong = $selectedOption.data('dong');
+        var ho = $selectedOption.data('ho');
+        var label = dong + '-' + ho; // ex) "107동-1001호"
+
+        // 해당 드롭다운 레이블을 찾아 텍스트 업데이트
+        $selectedOption.closest('.con_panel').find('.dropdown_label').text(label);
     }
 </script>
