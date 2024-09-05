@@ -228,14 +228,12 @@ class DataController extends Controller
      */
     public function getTransactionsApt(Request $request)
     {
-        // API 연동
         // 유효성 검사
         $validator = Validator::make($request->all(), [
             'region_id' => 'required',
             'year' => 'required',
             'month' => 'required',
         ]);
-
 
         if ($validator->fails()) {
             return redirect(route('admin.transactions.list.view'))
@@ -245,57 +243,52 @@ class DataController extends Controller
         }
 
         $newLastUpdatedAt = $request->year . str_pad($request->month, 2, '0', STR_PAD_LEFT);
-
         $region = TransactionsRegionUpdate::select()->where('type', '0')->where('id', $request->region_id)->first();
 
+        // 마지막 업데이트 시점보다 최신인지 확인
         if (strtotime($newLastUpdatedAt) > strtotime($region->last_updated_at)) {
-            $region->update([
-                'last_updated_at' => $newLastUpdatedAt,
-            ]);
+            $region->update(['last_updated_at' => $newLastUpdatedAt]);
         }
 
-        $url = "https://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev";
-
+        // API URL 및 파라미터 설정
+        $url = "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade?_wadl&type=xml";
         $param = [
-            'serviceKey' => env('ENCODING_API_DATE_KEY'),
+            'serviceKey' => env('API_DATE_KEY'),
             'numOfRows' => '20000',
             'LAWD_CD' => $region->lawd_cd,
             'DEAL_YMD' => $newLastUpdatedAt,
         ];
 
-        Log::info(env('ENCODING_API_DATE_KEY'));
-
+        // 비동기 API 요청
         $promise = Http::async()->get($url, $param)->then(
-            function (Response|TransferException $response) {
+            function ($response) {
                 try {
-                    if ($response instanceof TransferException) {
-                        // 예외 처리
-                        Log::error('HTTP request failed: ' . $response->getMessage());
-                        return;
+                    if (!$response->successful()) {
+                        throw new Exception('API 요청 실패: ' . $response->status());
                     }
 
+                    // XML 파싱
                     $xml = simplexml_load_string($response->getBody(), 'SimpleXMLElement', LIBXML_NOCDATA);
                     if ($xml === false) {
-                        // XML 파싱 오류 처리
-                        Log::error('Failed to parse XML response: ' . $response->getBody());
-                        return;
+                        throw new Exception('XML 파싱 실패: ' . $response->getBody());
                     }
 
+                    // XML을 JSON으로 변환
                     $json = json_encode($xml);
                     $jsonDecode = json_decode($json, true);
                     if (json_last_error() !== JSON_ERROR_NONE) {
-                        // JSON 디코딩 오류 처리
-                        Log::error('Failed to decode JSON: ' . json_last_error_msg());
-                        return;
+                        throw new Exception('JSON 변환 실패: ' . json_last_error_msg());
                     }
 
+                    // 결과 코드 확인
                     $header = $jsonDecode['header'];
                     $body = $jsonDecode['body'];
-                    $items = $body['items'];
+                    $items = $body['items'] ?? [];
                     $item = $items['item'] ?? [];
-                    $originItem = [];
 
                     if ($header['resultCode'] == "00") {
+                        $originItem = [];
+
                         foreach ($item as $value) {
                             $obj = [
                                 'type' => '0',
@@ -328,27 +321,31 @@ class DataController extends Controller
 
                             array_push($originItem, $obj);
                         }
+
+                        // 데이터를 1000개씩 나누어 삽입
                         foreach (array_chunk($originItem, 1000) as $t) {
-                            // Transactions::create($t);
                             Log::info('Inserting transactions: ' . json_encode($t));
                             Transactions::upsert($t, 'unique_code');
                         }
                     } else {
-                        Log::warning('API response returned with resultCode: ' . $header['resultCode']);
+                        Log::warning('API 응답 실패: resultCode ' . $header['resultCode']);
+                        return back()->with('error', 'API에서 데이터를 불러오지 못했습니다. resultCode: ' . $header['resultCode']);
                     }
                 } catch (Exception $e) {
-                    Log::error('An error occurred: ' . $e->getMessage());
+                    Log::error('오류 발생: ' . $e->getMessage());
+                    return back()->with('error', '데이터 처리 중 오류가 발생했습니다.');
                 }
             }
         );
 
+        // 비동기 요청 대기
         $promise->wait();
 
         return back()->with('message', '아파트 매매 실거래가를 불러왔습니다.');
     }
 
     /**
-     * 아파트 매매 실거래가 정보 불러오기
+     * 아파트 전월세 실거래가 정보 불러오기
      */
     public function getTransactionsRentApt(Request $request)
     {
@@ -379,66 +376,87 @@ class DataController extends Controller
             ]);
         }
 
-        $url = "https://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptRent";
+        $url = "http://apis.data.go.kr/1613000/RTMSDataSvcAptRent";
 
         $param = [
-            'serviceKey' => env('ENCODING_API_DATE_KEY'),
+            'serviceKey' => env('API_DATE_KEY'),
             'numOfRows' => '20000',
-            // 'LAWD_CD' => '11110',
-            // 'DEAL_YMD' => '202406',
             'LAWD_CD' => $region->lawd_cd,
             'DEAL_YMD' => $newLastUpdatedAt,
         ];
 
         $promise = Http::async()->get($url, $param)->then(
             function (Response|TransferException $response) {
-                $xml = simplexml_load_string($response->getBody(), 'SimpleXMLElement', LIBXML_NOCDATA);
-                $json = json_encode($xml);
-                $jsonDecode = json_decode($json, true);
-                $header = $jsonDecode['header'];
-                $body = $jsonDecode['body'];
-                $items = $body['items'];
-                $item = $items['item'] ?? [];
-                $originItem = [];
-                if ($header['resultCode'] == "00") {
-                    foreach ($item as $value) {
+                try {
+                    if ($response instanceof TransferException) {
+                        // 예외 처리
+                        Log::error('HTTP request failed: ' . $response->getMessage());
+                        return;
+                    }
+                    $xml = simplexml_load_string($response->getBody(), 'SimpleXMLElement', LIBXML_NOCDATA);
+                    if ($xml === false) {
+                        // XML 파싱 오류 처리
+                        Log::error('Failed to parse XML response: ' . $response->getBody());
+                        return;
+                    }
+                    $json = json_encode($xml);
+                    $jsonDecode = json_decode($json, true);
+                    if (json_last_error() !== JSON_ERROR_NONE) {
+                        // JSON 디코딩 오류 처리
+                        Log::error('Failed to decode JSON: ' . json_last_error_msg());
+                        return;
+                    }
 
-                        foreach ($value as $key => $val) {
-                            if (is_array($val) && empty($val)) {
-                                $value[$key] = '';
+                    $header = $jsonDecode['header'];
+                    $body = $jsonDecode['body'];
+                    $items = $body['items'];
+                    $item = $items['item'] ?? [];
+                    $originItem = [];
+
+                    if ($header['resultCode'] == "00") {
+                        foreach ($item as $value) {
+
+                            foreach ($value as $key => $val) {
+                                if (is_array($val) && empty($val)) {
+                                    $value[$key] = '';
+                                }
                             }
+
+                            $obj = [
+                                'type' => '1',
+                                'legalDongCityCode' => trim($value['지역코드']) ?? '',
+                                'renewalRight' => trim($value['갱신요구권사용']) ?? '',
+                                'constructionYear' => trim($value['건축년도']) ?? '',
+                                'contract_type' => trim($value['계약구분']) ?? '',
+                                'contract_at' => trim($value['계약기간']) ?? '',
+                                'year' => trim($value['년']) ?? '',
+                                'legalDong' => trim($value['법정동']) ?? '',
+                                'transactionPrice' => trim($value['보증금액']) ?? '',
+                                'aptName' => trim($value['아파트']) ?? '',
+                                'month' => trim($value['월']) ?? '',
+                                'transactionMonthPrice' => trim($value['월세금액']) ?? '',
+                                'day' => trim($value['일']) ?? '',
+                                'exclusiveArea' => trim($value['전용면적']) ?? '',
+                                'previousTransactionPrice' => trim($value['종전계약보증금']) ?? '',
+                                'previousTransactionMonthPrice' => trim($value['종전계약월세']) ?? '',
+                                'jibun' => trim($value['지번']) ?? '',
+                                'regionCode' => trim($value['지역코드']) ?? '',
+                                'floor' => trim($value['층']) ?? '',
+                                'unique_code' => '1' . (trim($value['년']) ?? '') . (trim($value['월']) ?? '') . (trim($value['일']) ?? '') . (trim($value['아파트']) ?? '') . (trim($value['층']) ?? '') . (trim($value['보증금액']) ?? '') . (trim($value['월세금액']) ?? ''),
+                            ];
+
+                            // Transactions::create($obj);
+                            array_push($originItem, $obj);
                         }
-
-                        $obj = [
-                            'type' => '1',
-                            'legalDongCityCode' => trim($value['지역코드']) ?? '',
-                            'renewalRight' => trim($value['갱신요구권사용']) ?? '',
-                            'constructionYear' => trim($value['건축년도']) ?? '',
-                            'contract_type' => trim($value['계약구분']) ?? '',
-                            'contract_at' => trim($value['계약기간']) ?? '',
-                            'year' => trim($value['년']) ?? '',
-                            'legalDong' => trim($value['법정동']) ?? '',
-                            'transactionPrice' => trim($value['보증금액']) ?? '',
-                            'aptName' => trim($value['아파트']) ?? '',
-                            'month' => trim($value['월']) ?? '',
-                            'transactionMonthPrice' => trim($value['월세금액']) ?? '',
-                            'day' => trim($value['일']) ?? '',
-                            'exclusiveArea' => trim($value['전용면적']) ?? '',
-                            'previousTransactionPrice' => trim($value['종전계약보증금']) ?? '',
-                            'previousTransactionMonthPrice' => trim($value['종전계약월세']) ?? '',
-                            'jibun' => trim($value['지번']) ?? '',
-                            'regionCode' => trim($value['지역코드']) ?? '',
-                            'floor' => trim($value['층']) ?? '',
-                            'unique_code' => '1' . (trim($value['년']) ?? '') . (trim($value['월']) ?? '') . (trim($value['일']) ?? '') . (trim($value['아파트']) ?? '') . (trim($value['층']) ?? '') . (trim($value['보증금액']) ?? '') . (trim($value['월세금액']) ?? ''),
-                        ];
-
-                        // Transactions::create($obj);
-                        array_push($originItem, $obj);
+                        foreach (array_chunk($originItem, 1000) as $t) {
+                            // Transactions::create($t);
+                            Transactions::upsert($t, 'unique_code');
+                        }
+                    } else {
+                        Log::warning('API response returned with resultCode: ' . $header['resultCode']);
                     }
-                    foreach (array_chunk($originItem, 1000) as $t) {
-                        // Transactions::create($t);
-                        Transactions::upsert($t, 'unique_code');
-                    }
+                } catch (Exception $e) {
+                    Log::error('An error occurred: ' . $e->getMessage());
                 }
             }
         );
@@ -794,13 +812,11 @@ class DataController extends Controller
 
         $promise->wait();
     }
-
     /**
      * 아파트 표제부 가져오기
      */
     public function getAptBuildingLedger()
     {
-
         $apt = DataApt::whereRaw('CHAR_LENGTH(pnu) = 19')
             ->where('is_building_ledger', 0)
             ->where(function ($query) {
@@ -819,7 +835,6 @@ class DataController extends Controller
         Log::info('표제부 아파트 정보 : ' . $apt);
 
         $pnu = $apt->pnu;
-        // 건축물 대장 가져오는 api
         $sigunguCd = substr($pnu, 0, 5);
         $bjdongCd = substr($pnu, 5, 5);
         $platGbCd = substr($pnu, 10, 1) - 1;
@@ -827,7 +842,6 @@ class DataController extends Controller
         $ji = substr($pnu, 15, 5);
 
         $get_types = [];
-        // 필요한 타입만 요청 리스트에 추가
         if (count($apt->BrTitleInfo) == 0) {
             $get_types[] = 'BrTitleInfo';
         }
@@ -846,134 +860,129 @@ class DataController extends Controller
 
         if (count($get_types) > 0) {
             foreach ($get_types as $type) {
-                $url = 'https://apis.data.go.kr/1613000/BldRgstService_v2/get' . $type;
-                $data = [
-                    'serviceKey' => env('ENCODING_API_DATE_KEY'), // 서비스 키가 URL 인코딩된 상태로 설정되어 있는지 확인
-                    'sigunguCd' => $sigunguCd,
-                    'bjdongCd' => $bjdongCd,
-                    'platGbCd' => $platGbCd,
-                    'bun' => $bun,
-                    'ji' => $ji,
-                    'numOfRows' => '1000',
-                    'pageNo' => '1',
-                ];
+                $pageNo = 1;
+                $totalCount = 0;
+                $allItems = [];  // 모든 아이템을 모아두는 배열
 
-                $promises[] = Http::async()->get($url, $data)->then(
-                    function (Response $response) use ($apt, $type) {
+                do {
+                    $url = 'https://apis.data.go.kr/1613000/BldRgstService_v2/get' . $type;
+                    $data = [
+                        'serviceKey' => env('ENCODING_API_DATE_KEY'),
+                        'sigunguCd' => $sigunguCd,
+                        'bjdongCd' => $bjdongCd,
+                        'platGbCd' => $platGbCd,
+                        'bun' => $bun,
+                        'ji' => $ji,
+                        'numOfRows' => '100',
+                        'pageNo' => $pageNo,
+                    ];
 
-                        $apt->update(['is_building_ledger' => 1]);
+                    $response = Http::get($url, $data);
 
-                        try {
-                            $xml = simplexml_load_string($response->body());
+                    if ($response->ok()) {
+                        $xml = simplexml_load_string($response->body());
+                        $json = json_encode($xml, JSON_UNESCAPED_UNICODE);
+                        $responseArray = json_decode($json, true);
 
-                            $json = json_encode($xml, JSON_UNESCAPED_UNICODE); // 데이터 인코딩 처리
-                            $responseArray = json_decode($json, true);
-
-                            $totalCount = $responseArray['body']['totalCount'];
-                            // 기존 데이터 업데이트 및 새로운 데이터 삽입
-                            if ($totalCount > 0) {
-
-                                if ($totalCount > 1) {
-                                    $items = $responseArray['body']['items']['item'];
-                                } else {
-                                    $items = [$responseArray['body']['items']['item']];
-                                }
-
-
-                                switch ($type) {
-                                    case 'BrTitleInfo':
-                                        BrTitleInfo::where('target_id', '=', $apt->id)
-                                            ->where('target_type', '=', DataApt::class)->update([
-                                                'target_type' => null,
-                                                'target_id' => null,
-                                            ]);
-                                        foreach ($items as $item) {
-                                            BrTitleInfo::create([
-                                                'json_data' => json_encode($item, JSON_UNESCAPED_UNICODE),
-                                                'target_type' => DataApt::class,
-                                                'target_id' => $apt->id,
-                                            ]);
-                                        }
-                                        break;
-
-                                    case 'BrRecapTitleInfo':
-                                        BrRecapTitleInfo::where('target_id', '=', $apt->id)
-                                            ->where('target_type', '=', DataApt::class)->update([
-                                                'target_type' => null,
-                                                'target_id' => null,
-                                            ]);
-                                        foreach ($items as $item) {
-                                            BrRecapTitleInfo::create([
-                                                'json_data' => json_encode($item, JSON_UNESCAPED_UNICODE),
-                                                'target_type' => DataApt::class,
-                                                'target_id' => $apt->id,
-                                            ]);
-                                        }
-                                        break;
-
-                                    case 'BrFlrOulnInfo':
-                                        BrFlrOulnInfo::where('target_id', '=', $apt->id)
-                                            ->where('target_type', '=', DataApt::class)->update([
-                                                'target_type' => null,
-                                                'target_id' => null,
-                                            ]);
-                                        foreach ($items as $item) {
-                                            BrFlrOulnInfo::create([
-                                                'json_data' => json_encode($item, JSON_UNESCAPED_UNICODE),
-                                                'target_type' => DataApt::class,
-                                                'target_id' => $apt->id,
-                                            ]);
-                                        }
-                                        break;
-
-                                    case 'BrExposInfo':
-                                        BrExposInfo::where('target_id', '=', $apt->id)
-                                            ->where('target_type', '=', DataApt::class)->update([
-                                                'target_type' => null,
-                                                'target_id' => null,
-                                            ]);
-                                        foreach ($items as $item) {
-                                            BrExposInfo::create([
-                                                'json_data' => json_encode($item, JSON_UNESCAPED_UNICODE),
-                                                'target_type' => DataApt::class,
-                                                'target_id' => $apt->id,
-                                            ]);
-                                        }
-                                        break;
-
-                                    case 'BrExposPubuseAreaInfo':
-                                        BrExposPubuseAreaInfo::where('target_id', '=', $apt->id)
-                                            ->where('target_type', '=', DataApt::class)->update([
-                                                'target_type' => null,
-                                                'target_id' => null,
-                                            ]);
-                                        foreach ($items as $item) {
-                                            BrExposPubuseAreaInfo::create([
-                                                'json_data' => json_encode($item, JSON_UNESCAPED_UNICODE),
-                                                'target_type' => DataApt::class,
-                                                'target_id' => $apt->id,
-                                            ]);
-                                        }
-                                        break;
-                                }
+                        $totalCount = $responseArray['body']['totalCount'];
+                        if ($totalCount > 0) {
+                            if ($totalCount > 1) {
+                                $items = $responseArray['body']['items']['item'];
+                            } else {
+                                $items = [$responseArray['body']['items']['item']];
                             }
-                        } catch (\Exception $e) {
-                            // 오류 처리
-                            return Log::error('API 요청 중 오류 발생: ' . $e->getMessage());
+
+                            // 모든 아이템을 한 배열에 모음
+                            $allItems = array_merge($allItems, $items);
                         }
-                    },
-                    function (ConnectionException $exception) use ($apt) {
-                        Log::error('Connection error for kaptCode ' . $apt->kaptCode . ': ' . $exception->getMessage());
+
+                        $pageNo++;
+                    } else {
+                        Log::error('API 요청 실패: ' . $response->body());
+                        break;
                     }
-                );
-                foreach ($promises as $promise) {
-                    $promise->wait();
-                }
+                } while (($pageNo - 1) * 100 < $totalCount);
+
+                // API 요청이 끝난 후 데이터를 한 번에 저장
+                $this->storeBuildingLedgerData($apt, $allItems, $type);
             }
         }
     }
 
+    /**
+     * 건축물 대장 데이터를 저장하는 메소드
+     * 기존 데이터는 한 번만 삭제하고, 모든 데이터를 한 번에 저장합니다.
+     */
+    private function storeBuildingLedgerData($apt, $items, $type)
+    {
+        // 기존 데이터를 한 번만 삭제
+        switch ($type) {
+            case 'BrTitleInfo':
+                BrTitleInfo::where('target_id', '=', $apt->id)
+                    ->where('target_type', '=', DataApt::class)
+                    ->delete();  // 기존 데이터 삭제
+                foreach ($items as $item) {
+                    BrTitleInfo::create([
+                        'json_data' => json_encode($item, JSON_UNESCAPED_UNICODE),
+                        'target_type' => DataApt::class,
+                        'target_id' => $apt->id,
+                    ]);
+                }
+                break;
 
+            case 'BrRecapTitleInfo':
+                BrRecapTitleInfo::where('target_id', '=', $apt->id)
+                    ->where('target_type', '=', DataApt::class)
+                    ->delete();  // 기존 데이터 삭제
+                foreach ($items as $item) {
+                    BrRecapTitleInfo::create([
+                        'json_data' => json_encode($item, JSON_UNESCAPED_UNICODE),
+                        'target_type' => DataApt::class,
+                        'target_id' => $apt->id,
+                    ]);
+                }
+                break;
+
+            case 'BrFlrOulnInfo':
+                BrFlrOulnInfo::where('target_id', '=', $apt->id)
+                    ->where('target_type', '=', DataApt::class)
+                    ->delete();  // 기존 데이터 삭제
+                foreach ($items as $item) {
+                    BrFlrOulnInfo::create([
+                        'json_data' => json_encode($item, JSON_UNESCAPED_UNICODE),
+                        'target_type' => DataApt::class,
+                        'target_id' => $apt->id,
+                    ]);
+                }
+                break;
+
+            case 'BrExposInfo':
+                BrExposInfo::where('target_id', '=', $apt->id)
+                    ->where('target_type', '=', DataApt::class)
+                    ->delete();  // 기존 데이터 삭제
+                foreach ($items as $item) {
+                    BrExposInfo::create([
+                        'json_data' => json_encode($item, JSON_UNESCAPED_UNICODE),
+                        'target_type' => DataApt::class,
+                        'target_id' => $apt->id,
+                    ]);
+                }
+                break;
+
+            case 'BrExposPubuseAreaInfo':
+                BrExposPubuseAreaInfo::where('target_id', '=', $apt->id)
+                    ->where('target_type', '=', DataApt::class)
+                    ->delete();  // 기존 데이터 삭제
+                foreach ($items as $item) {
+                    BrExposPubuseAreaInfo::create([
+                        'json_data' => json_encode($item, JSON_UNESCAPED_UNICODE),
+                        'target_type' => DataApt::class,
+                        'target_id' => $apt->id,
+                    ]);
+                }
+                break;
+        }
+    }
 
     // 엑셀 행정구역 중심 좌표
     public function exportRegionCoordinateUpdateExcel(Request $request): RedirectResponse

@@ -12,6 +12,7 @@ use App\Models\BrTitleInfo;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
@@ -32,137 +33,119 @@ use Maatwebsite\Excel\Facades\Excel;
 class BuildingledgerController extends Controller
 {
     /**
-     * 건출대장 업데이트
+     * 건출대장 표제부 업데이트
      */
-    public function BrTitleInfoUpdate(Request $request): RedirectResponse
+    public function BrTitleInfoUpdate(Request $request)
     {
-        if ($request->BrTitleInfo) {
-            // 기존 데이터 초기화 하고 이미지 업데이트
-            BrTitleInfo::where('target_id', '=', $request->id)
-                ->where('target_type', '=', $request->class)->update([
-                    'target_type' => null,
-                    'target_id' => null,
-                ]);
-
-            foreach ($request->BrTitleInfo as $key => $BrTitleInfo) {
-                BrTitleInfo::create([
-                    'json_data' => $BrTitleInfo,
-                    'target_type' => $request->class,
-                    'target_id' => $request->id,
-                ]);
-            }
-
-            return back()->with('message', '표제부 업데이터를 했습니다.');
-        }
-
-        return back()->with('message', '표제부 업데이터 실패했습니다.');
+        return $this->updateBuildingLedger(
+            $request->data,
+            BrTitleInfo::class,
+            $request->id,
+            $request->class,
+            '표제부'
+        );
     }
+
     /**
-     * 건출대장 업데이트
+     * 건출대장 총괄표제부 업데이트
      */
-    public function BrRecapTitleInfoUpdate(Request $request): RedirectResponse
+    public function BrRecapTitleInfoUpdate(Request $request)
     {
-
-        if ($request->BrRecapTitleInfo) {
-            // 기존 데이터 초기화 하고 이미지 업데이트
-            BrRecapTitleInfo::where('target_id', '=', $request->id)
-                ->where('target_type', '=', $request->class)->update([
-                    'target_type' => null,
-                    'target_id' => null,
-                ]);
-
-            foreach ($request->BrRecapTitleInfo as $key => $BrRecapTitleInfo) {
-                BrRecapTitleInfo::create([
-                    'json_data' => $BrRecapTitleInfo,
-                    'target_type' => $request->class,
-                    'target_id' => $request->id,
-                ]);
-            }
-
-            return back()->with('message', '총괄표제부 업데이터를 했습니다.');
-        }
-
-        return back()->with('message', '총괄표제부 업데이터 실패했습니다.');
+        return $this->updateBuildingLedger(
+            $request->data,
+            BrRecapTitleInfo::class,
+            $request->id,
+            $request->class,
+            '총괄표제부'
+        );
     }
+
     /**
-     * 건출대장 업데이트
+     * 건출대장 층별개요 업데이트
      */
-    public function BrFlrOulnInfoUpdate(Request $request): RedirectResponse
+    public function BrFlrOulnInfoUpdate(Request $request)
     {
-
-        if ($request->BrFlrOulnInfo) {
-            // 기존 데이터 초기화 하고 이미지 업데이트
-            BrFlrOulnInfo::where('target_id', '=', $request->id)
-                ->where('target_type', '=', $request->class)->update([
-                    'target_type' => null,
-                    'target_id' => null,
-                ]);
-
-            foreach ($request->BrFlrOulnInfo as $key => $BrFlrOulnInfo) {
-                BrFlrOulnInfo::create([
-                    'json_data' => $BrFlrOulnInfo,
-                    'target_type' => $request->class,
-                    'target_id' => $request->id,
-                ]);
-            }
-
-            return back()->with('message', '층별개요 업데이터를 했습니다.');
-        }
-
-
-        return back()->with('message', '층별개요 업데이터 실패했습니다.');
+        return $this->updateBuildingLedger(
+            $request->data,
+            BrFlrOulnInfo::class,
+            $request->id,
+            $request->class,
+            '층별개요'
+        );
     }
+
     /**
-     * 건출대장 업데이트
+     * 건출대장 전유부 업데이트
      */
-    public function BrExposInfoUpdate(Request $request): RedirectResponse
+    public function BrExposInfoUpdate(Request $request)
     {
+        // 서버로 전달된 데이터 확인을 위한 로그
+        Log::info('전송된 BrExposInfo 데이터:', [$request->data]);
 
-        if ($request->BrExposInfo) {
-            // 기존 데이터 초기화 하고 이미지 업데이트
-            BrExposInfo::where('target_id', '=', $request->id)
-                ->where('target_type', '=', $request->class)->update([
-                    'target_type' => null,
-                    'target_id' => null,
-                ]);
-            foreach ($request->BrExposInfo as $key => $BrExposInfo) {
-                BrExposInfo::create([
-                    'json_data' => $BrExposInfo,
-                    'target_type' => $request->class,
-                    'target_id' => $request->id,
-                ]);
-            }
-            return back()->with('message', '전유부 업데이터를 했습니다.');
-        }
-
-
-        return back()->with('message', '전유부 업데이터 실패했습니다.');
+        return $this->updateBuildingLedger(
+            $request->data,
+            BrExposInfo::class,
+            $request->id,
+            $request->class,
+            '전유부'
+        );
     }
+
     /**
-     * 건출대장 업데이트
+     * 건출대장 전유공용면적 업데이트
      */
-    public function BrExposPubuseAreaInfoUpdate(Request $request): RedirectResponse
+    public function BrExposPubuseAreaInfoUpdate(Request $request)
     {
+        return $this->updateBuildingLedger(
+            $request->data,
+            BrExposPubuseAreaInfo::class,
+            $request->id,
+            $request->class,
+            '전유공용면적'
+        );
+    }
 
-        if ($request->BrExposPubuseAreaInfo) {
-            // 기존 데이터 초기화 하고 이미지 업데이트
-            BrExposPubuseAreaInfo::where('target_id', '=', $request->id)
-                ->where('target_type', '=', $request->class)->update([
-                    'target_type' => null,
-                    'target_id' => null,
-                ]);
+    /**
+     * 공통 업데이트 처리 메소드
+     */
+    private function updateBuildingLedger($data, $model, $targetId, $targetType, $message)
+    {
+        if ($data) {
+            DB::beginTransaction();
+            try {
+                // 기존 데이터 초기화 로그
+                Log::info("기존 데이터 초기화 중: target_id={$targetId}, target_type={$targetType}");
 
-            foreach ($request->BrExposPubuseAreaInfo as $key => $BrExposPubuseAreaInfo) {
-                BrExposPubuseAreaInfo::create([
-                    'json_data' => $BrExposPubuseAreaInfo,
-                    'target_type' => $request->class,
-                    'target_id' => $request->id,
-                ]);
+                $data = json_decode($data, true);
+
+                // 기존 데이터 초기화
+                $model::where('target_id', '=', $targetId)
+                    ->where('target_type', '=', $targetType)
+                    ->update([
+                        'target_type' => null,
+                        'target_id' => null,
+                    ]);
+
+                // 새로운 데이터 저장
+                foreach ($data as $item) {
+                    $model::create([
+                        'json_data'   => json_encode($item),
+                        'target_type' => $targetType,
+                        'target_id'   => $targetId,
+                    ]);
+                }
+
+                DB::commit();
+                Log::info("{$message} 업데이트 성공");
+                return back()->with('message', "{$message} 업데이트를 완료했습니다.");
+            } catch (\Exception $e) {
+                DB::rollBack();
+                Log::error("{$message} 업데이트 실패: " . $e->getMessage());
+                return back()->with('error', "{$message} 업데이트에 실패했습니다. 오류: " . $e->getMessage());
             }
-            return back()->with('message', '전유공용면적 업데이터를 했습니다.');
         }
 
-
-        return back()->with('message', '전유공용면적 업데이터 실패했습니다.');
+        Log::error("{$message} 데이터가 없습니다.");
+        return back()->with('error', "{$message} 데이터가 없습니다.");
     }
 }

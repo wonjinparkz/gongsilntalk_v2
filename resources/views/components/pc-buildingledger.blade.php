@@ -24,7 +24,7 @@
                     <col width="40">
                     <col width="*">
                     <col width="55">
-                    <col width="50">
+                    <col width="100">
                     <col width="90">
                 </colgroup>
                 <thead>
@@ -228,31 +228,39 @@
         <div class="con_panel">
             <div class="dropdown_box s_sm w_40">
                 <button class="dropdown_label"></button>
-                <ul class="optionList">
-                    @php
-                        $uniqueList = [];
-                        foreach ($BrExposPubuseAreaInfo ?? [] as $info) {
-                            $key =
-                                (isset($info['dongNm']) && $info['dongNm'] !== '' ? '단일' : $info['dongNm']) .
-                                ' ' .
-                                $info['hoNm'];
-                            if (!isset($uniqueList[$key])) {
-                                $uniqueList[$key] = $info;
-                            }
+                @php
+                    $uniqueList = [];
+                    foreach ($BrExposPubuseAreaInfo ?? [] as $info) {
+                        // 공백을 제거한 동 이름을 기준으로 필터링 및 중복 제거
+                        $dongKey = str_replace(' ', '', $info['dongNm']);
+                        $hoKey = $info['hoNm'];
+
+                        // 동 이름과 호수로 키 생성
+                        $key = $dongKey . ' ' . $hoKey;
+
+                        if (!isset($uniqueList[$key])) {
+                            $uniqueList[$key] = $info;
                         }
-                        $BrExposPubuseAreaInfoArray = array_values($uniqueList);
-                    @endphp
-                    @if (count($BrExposPubuseAreaInfoArray) > 0)
-                        @foreach ($BrExposPubuseAreaInfoArray as $info)
-                            <li
-                                class="optionItem {{ isset($info['dongNm']) && $info['dongNm'] !== '' ? '단일' : $info['dongNm'] }} ">
-                                {{-- <li class="optionItem {{ $info['dongNm'] }} dongInfo"> --}}
-                                {{ isset($info['dongNm']) && $info['dongNm'] !== '' ? '' : $info['dongNm'] . ' - ' }}
-                                {{ $info['hoNm'] }}
-                            </li>
-                        @endforeach
-                    @endif
-                </ul>
+                    }
+
+                    // 중복 제거 후 배열로 변환
+                    $BrExposPubuseAreaInfoArray = array_values($uniqueList);
+                @endphp
+
+                @foreach ($dongName as $name)
+                    <ul class="optionList {{ str_replace(' ', '', $name) }} dongInfo">
+                        @if (count($BrExposPubuseAreaInfoArray) > 0)
+                            @foreach ($BrExposPubuseAreaInfoArray as $info)
+                                {{-- 전유부 동 이름과 매칭되도록 필터링 --}}
+                                @if (str_replace(' ', '', $info['dongNm']) == str_replace(' ', '', $name))
+                                    <li class="optionItem {{ str_replace(' ', '', $info['dongNm']) }}">
+                                        {{ $info['dongNm'] }} || {{ $info['hoNm'] }}
+                                    </li>
+                                @endif
+                            @endforeach
+                        @endif
+                    </ul>
+                @endforeach
             </div>
             <div class="default_box showstep1 mt10">
                 <table class="table_type_1">
