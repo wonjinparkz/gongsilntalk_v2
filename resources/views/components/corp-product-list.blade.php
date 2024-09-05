@@ -5,7 +5,8 @@
     @foreach ($productList as $item)
         {{-- {{ $item }} --}}
         <div class="sales_card">
-            <span class="sales_list_wish {{ $item->like_id > 0 ? 'on' : '' }}" value="{{ $item->id}}" onclick="btn_wish(this)"></span>
+            <span class="sales_list_wish {{ $item->like_id > 0 ? 'on' : '' }}" value="{{ $item->id }}"
+                onclick="btn_wish(this)"></span>
             <a href="{{ route('www.map.room.detail', [$item->id]) }}">
                 <div class="sales_card_img">
                     <div class="img_box">
@@ -27,8 +28,11 @@
                         @endif
                     </p>
                     <p class="txt_item_4">{{ $item->region_address }}</p>
-                    <p class="txt_item_2">{{ $item->square ?? '-' }}㎡ /
-                        {{ $item->exclusive_square ?? '-' }}㎡·{{ $item->floor_number ?? '-' }}층
+                    <p class="txt_item_2">{{ $item->square ?? '-' }}㎡
+                        @if ($item->exclusive_square > 0)
+                            / {{ $item->type != 7 ? '전용 ' . $item->exclusive_square : '' }}㎡
+                        @endif
+                        {{ $item->floor_number != '' ? '·' . $item->floor_number . '층' : '' }}
                     </p>
                     <p class="txt_item_3">{{ $item->contents ?? '' }}</p>
                 </div>

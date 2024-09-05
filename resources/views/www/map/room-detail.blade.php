@@ -161,8 +161,8 @@
                                 <i>|</i>
                             </li>
                             <li>
-                                {{ $displayDate }}년 <span>사용승인</span>
-                                <p>사용승인연도</p><i>|</i>
+                                {{ $displayDate }}년 <span>{{$result->type < 14 ? '사용승인' : '준공일'}}</span>
+                                <p>{{$result->type < 14 ? '사용승인' : '준공일'}}연도</p><i>|</i>
                             </li>
                             <li>
                                 <span>관리비</span>

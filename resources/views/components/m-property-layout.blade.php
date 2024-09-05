@@ -26,8 +26,12 @@
                     </p>
                     <p class="txt_lh_1">{{ Lang::get('commons.product_type.' . $property->type) }}
                         {{ $property->region_address }}</p>
-                    <p class="txt_lh_1">{{ $property->square ?? '-' }}㎡ /
-                        {{ $property->exclusive_square ?? '-' }}㎡·{{ $property->floor_number ?? '-' }}층</p>
+                    <p class="txt_lh_1">{{ $property->square ?? '-' }}㎡
+                        @if ($property->exclusive_square > 0)
+                            / {{ $property->type != 7 ? '전용 ' . $property->exclusive_square : '' }}㎡
+                        @endif
+                        {{ $property->floor_number != '' ? '·' . $property->floor_number . '층' : '' }}
+                    </p>
                     <p class="property_sm_item_2">{{ $property->comments ?? '' }}</p>
                 </div>
             </a>
