@@ -662,6 +662,7 @@ class ProductPcController extends Controller
             $product_add_info = [
                 'product_id' => $result->id,
                 'current_business' => $request->current_business,
+                'current_business_type' => $request->current_business_type,
                 'recommend_business_type' => $request->recommend_business_type,
                 'direction_type' => $request->direction_type,
                 'cooling_type' => $request->cooling_type,
@@ -693,7 +694,6 @@ class ProductPcController extends Controller
                 'direction_type' => $request->direction_type,
                 'cooling_type' => $request->cooling_type,
                 'heating_type' => $request->heating_type,
-                'recommend_business_type' => $request->recommend_business_type,
                 'is_elevator' => $request->is_elevator,
                 'is_goods_elevator' => $request->is_goods_elevator,
                 'is_dock' => $request->is_dock,
