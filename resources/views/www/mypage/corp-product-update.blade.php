@@ -272,7 +272,7 @@
                                         </div>
                                         <!-- 월세, 단기임대 -->
                                         <div
-                                            class="type_2_item open_key {{ in_array($payment_type, [2, 4]) ? 'active' : '' }}">
+                                            class="type_2_item open_key {{ in_array($payment_type, [1, 2, 4]) ? 'active' : '' }}">
                                             <div class="input_area_2">
                                                 <div class="flex_between">
                                                     <div class="item">

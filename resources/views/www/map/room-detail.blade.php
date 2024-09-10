@@ -48,7 +48,7 @@
                 {{-- 20억 4000만 --}}
                 {{ $formatPrice }}
                 {{-- 월세/단기임대 --}}
-                @if (in_array($result->priceInfo->payment_type, [2, 4]))
+                @if (in_array($result->priceInfo->payment_type, [1, 2, 4]))
                     / {{ $formatMonthPrice }}
                 @endif
             </div>
@@ -124,7 +124,7 @@
                             <span>{{ Lang::get('commons.payment_type.' . $result->priceInfo->payment_type) }}</span>
                             {{ $formatPrice }}
                             {{-- 월세/단기임대 --}}
-                            @if (in_array($result->priceInfo->payment_type, [2, 4]))
+                            @if (in_array($result->priceInfo->payment_type, [1, 2, 4]))
                                 / {{ $formatMonthPrice }}
                             @endif
                         </div>
@@ -254,7 +254,7 @@
                             </div>
                         @endif
                         <div class="item_col_3">{{ $formatPrice }}
-                            @if (in_array($result->priceInfo->payment_type, [2, 4]))
+                            @if (in_array($result->priceInfo->payment_type, [1, 2, 4]))
                                 / {{ $formatMonthPrice }}
                             @endif
                             @if ($paymentType == 0)
@@ -874,7 +874,7 @@
                                                 {{ isset($item->priceInfo) ? Commons::get_priceTrans($item->priceInfo->price) : 0 }}
                                                 {{-- {{ Commons::get_priceTrans($item->priceInfo->price) }} --}}
                                                 {{-- 월세/단기임대 --}}
-                                                @if (isset($item->priceInfo) && in_array($item->priceInfo->payment_type, [2, 4]))
+                                                @if (isset($item->priceInfo) && in_array($item->priceInfo->payment_type, [1, 2, 4]))
                                                     / {{ Commons::get_priceTrans($item->priceInfo->month_price) }}
                                                 @endif
                                             </p>

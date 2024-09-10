@@ -4,9 +4,9 @@
         name="create_check">
         @csrf
         {{ $errors }}
-        <input type="hidden" name="type" id="type" value="{{ $result['type'] }}">
-        <input type="hidden" name="payment_type" id="payment_type" value="{{ $result['payment_type'] }}">
-        <input type="hidden" name="price" id="price" value="{{ $result['price'] }}">
+        <input type="hidden" name="type" id="type" value="{{ $result['type'] ?? 0 }}">
+        <input type="hidden" name="payment_type" id="payment_type" value="{{ $result['payment_type'] ?? 0 }}">
+        <input type="hidden" name="price" id="price" value="{{ $result['price'] ?? ''}}">
         <input type="hidden" name="month_price" id="month_price" value="{{ $result['month_price'] ?? '' }}">
         <input type="hidden" name="is_price_discussion" id="is_price_discussion"
             value="{{ $result['is_price_discussion'] ?? '' }}">
@@ -117,10 +117,10 @@
                     </div>
 
                     <div class="step_btn_wrap">
-                        <button class="btn_full_basic btn_graylight_ghost"
-                            onclick="javascript:history.go(-1)">이전</button>
+                        <button type="button" class="btn_full_basic btn_graylight_ghost"
+                            onclick="location.href='javascript:history.go(-1)'">이전</button>
                         <!-- <button class="btn_full_basic btn_point" disabled>다음</button> 정보 입력하지 않았을때 disabled 처리 필요. -->
-                        <button class="btn_full_basic btn_point confirm" disabled onclick="formSetting();">다음</button>
+                        <button type="button" class="btn_full_basic btn_point confirm" disabled onclick="formSetting();">다음</button>
                     </div>
 
                 </div>

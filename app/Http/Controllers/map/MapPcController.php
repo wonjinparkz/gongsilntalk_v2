@@ -481,7 +481,7 @@ class MapPcController extends Controller
                 }
                 // 임대료
                 if (isset($request->month_price)) {
-                    if (array_intersect([2, 4], $paymentTypes)) {
+                    if (array_intersect([1, 2, 4], $paymentTypes)) {
                         $monthPriceArray = explode(',', $request->month_price);
                         if ($monthPriceArray[0] > 0) {
                             $query->where('product_price.month_price', '>=', $monthPriceArray[0] * 10000);

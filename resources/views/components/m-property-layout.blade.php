@@ -20,7 +20,7 @@
                         {{ Lang::get('commons.payment_type.' . $property->priceInfo->payment_type) }}
                         {{ Commons::get_priceTrans($property->priceInfo->price) }}
                         {{-- 월세/단기임대 --}}
-                        @if (in_array($property->priceInfo->payment_type, [2, 4]))
+                        @if (in_array($property->priceInfo->payment_type, [1, 2, 4]))
                             / {{ Commons::get_priceTrans($property->priceInfo->month_price) }}
                         @endif
                     </p>
