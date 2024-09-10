@@ -161,8 +161,8 @@
                                 <i>|</i>
                             </li>
                             <li>
-                                {{ $displayDate }}년 <span>{{$result->type < 14 ? '사용승인' : '준공일'}}</span>
-                                <p>{{$result->type < 14 ? '사용승인' : '준공일'}}연도</p><i>|</i>
+                                {{ $displayDate }}년 <span>{{ $result->type < 14 ? '사용승인' : '준공일' }}</span>
+                                <p>{{ $result->type < 14 ? '사용승인' : '준공일' }}연도</p><i>|</i>
                             </li>
                             <li>
                                 <span>관리비</span>
@@ -404,11 +404,11 @@
                                     <div>{{ $result->productAddInfo->is_goods_elevator == 0 ? '없음' : '있음' }}</div>
                                     <div>층고</div>
                                     <div>
-                                        {{ Lang::get('commons.floor_height_type.' . $result->productAddInfo->floor_height_type) }}
+                                        {{ $result->productAddInfo->floor_height_type != '' ? Lang::get('commons.floor_height_type.' . $result->productAddInfo->floor_height_type) : '-' }}
                                     </div>
                                     <div>사용전력</div>
                                     <div>
-                                        {{ Lang::get('commons.wattage_type.' . $result->productAddInfo->wattage_type) }}
+                                        {{ $result->productAddInfo->wattage_type != '' ? Lang::get('commons.wattage_type.' . $result->productAddInfo->wattage_type) : '-' }}
                                     </div>
                                 @endif
                                 @if ($type == 3)

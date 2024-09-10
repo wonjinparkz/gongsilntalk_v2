@@ -1095,7 +1095,7 @@
                                     </div>
                                 </div>
                             @endif
-                            @if (in_array($type, [0, 1, 2, 7]) || $product->type > 13)
+                            @if (in_array($product->type, [0, 1, 2, 7]) || $product->type > 13)
                                 <div>
                                     <div class="reg_item">
                                         <label class="input_label">사용전력</label>
