@@ -135,8 +135,6 @@ class UserAuthPcController extends Controller
                 ->withInput();
         }
 
-        Auth::login($user, $auto_login);
-
         if ($user->state == 1) {
             return redirect(route('www.login.login'))
                 ->withErrors('관리자에 의해 사용 불가능한 상태입니다. 관리자에 문의해주세요.')
@@ -162,6 +160,8 @@ class UserAuthPcController extends Controller
                     ->withInput();
             }
         }
+
+        Auth::login($user, $auto_login);
 
         // 업데이트할 데이터 배열 초기화
         $updateArray = [
