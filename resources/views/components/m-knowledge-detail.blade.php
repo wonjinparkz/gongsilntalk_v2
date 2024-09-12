@@ -197,8 +197,6 @@
                                 </div>
                                 <div class="td">주차대수</div>
                                 <div class="td">{{ number_format($result->parking_count) }}</div>
-                                <div class="td">세대수</div>
-                                <div class="td">{{ number_format($result->generation_count) }}</div>
                                 <div class="td">시공사</div>
                                 <div class="td">{{ $result->comstruction_company ?? '-' }}</div>
                                 <div class="td">시행사</div>
