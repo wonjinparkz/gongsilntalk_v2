@@ -21,7 +21,7 @@
             <div class="offer_step_wrap">
                 <div class="box_01 box_reg">
                     <h4>1. 사무실 인테리어 상담 희망 내용을 선택해주세요. <span class="txt_point">*</span></h4>
-                    <div class="tab_area_wrap">
+                    <div class="tab_area_wrap1">
                         <div>
                             <div class="btn_checktype">
                                 <input type="checkbox" name="type[]" id="type_0" value="0">
