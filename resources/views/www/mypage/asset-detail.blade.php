@@ -125,14 +125,11 @@
 
             $avgPrice = $price / $result->area / 10000;
 
-            // $avgRate = $avgPrice / $industryCenterAvgPrice;
+            if ($avgPrice > $industryCenterAvgPrice) {
+                $avgRate = $avgPrice / $industryCenterAvgPrice;
+            } else {
                 $avgRate = $industryCenterAvgPrice / $avgPrice;
-
-            // if ($avgPrice > $industryCenterAvgPrice) {
-            //     $avgRate = $avgPrice / $industryCenterAvgPrice;
-            // } else {
-            //     $avgRate = $industryCenterAvgPrice / $avgPrice;
-            // }
+            }
 
             $profit = $avgPrice - $industryCenterAvgPrice;
 
