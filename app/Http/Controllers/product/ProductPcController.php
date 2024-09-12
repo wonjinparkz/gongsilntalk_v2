@@ -771,8 +771,15 @@ class ProductPcController extends Controller
     {
         $product = Product::where('id', $id)->where('users_id', Auth::guard('web')->user()->id)->first();
 
+        $productCode = $this->generateProductCode();
+
         if ($product) {
-            $product->update(['state' => '1', 'expires_at' => Carbon::now()->addDays(30)]);
+            $product->update([
+                'state' => '1',
+                'expires_at' => Carbon::now()->addDays(30),
+                'product_number' => $productCode,
+                'created_at' => now(),
+            ]);
         }
 
         return Redirect::back()->with('message', '매물이 재등록 되었습니다.');
