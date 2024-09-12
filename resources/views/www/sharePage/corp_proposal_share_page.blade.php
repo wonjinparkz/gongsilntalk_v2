@@ -51,11 +51,11 @@
 
 <body style="margin: 0;">
 
-    <div class="share_tit">
+    <!-- <div class="share_tit">
         공실앤톡
-    </div>
+    </div> -->
 
-    <div class="proposal_type_wrap">
+    <div class="">
         <!-- tab : s -->
         <div class="swiper proposal_type_tab" style="display: {{ $is_type == 1 ? '' : 'none' }}">
             <div class="swiper-wrapper">
@@ -88,7 +88,7 @@
         </div>
         <!-- tab : e -->
 
-        <div id="type_preview" class="type_view_wrap">
+        <div id="type_preview" class="type_view_wrap" style="margin-top:0;">
             <!-- type_1 : s -->
             <x-user-proposal-type-1 :corpInfo="$corpInfo" :address="$address" :products="$products" />
             <!-- type_1 : e -->

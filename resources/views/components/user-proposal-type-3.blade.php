@@ -19,6 +19,7 @@
             </div>
         </div>
     </section>
+    <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
 
     <section class="type_3_2">
         <h2>목차</h2>
@@ -38,6 +39,7 @@
             @endforeach
         </div>
     </section>
+    <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
     @foreach ($products as $key => $product)
         <section class="type_page type_3_3">
             <h2>01 건물소개</h2>
@@ -91,6 +93,7 @@
                 }
             });
         </script>
+        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
 
         <section class="type_page type_3_4">
             <h2>02 매물세부내용</h2>
@@ -214,6 +217,7 @@
                 </table>
             </div>
         </section>
+        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
 
         <section class="type_page type_3_5">
             <h2>03 도면 및 사진</h2>
@@ -229,6 +233,7 @@
 
             </div>
         </section>
+        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
         @if ($product->price->payment_type == 0)
             <section class="type_page type_3_5">
                 <h2>04 견적서</h2>
@@ -447,6 +452,7 @@
             </section>
         @endif
     @endforeach
+    <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
     <section class="type_3_1">
         <div class="ghost_end_box">
             <div class="end_company_wrap">

@@ -10,7 +10,7 @@
 
 @inject('carbon', 'Carbon\Carbon')
 
-<div class="proposal_type_item proposal_type_5 ">
+<div class="proposal_type_item proposal_type_5">
     <section class="type_5_1">
         <div class="ghost_box">
             <p class="txt_item_1">COMPANY RELOCATION PROPOSAL</p>
@@ -22,6 +22,8 @@
             </div>
         </div>
     </section>
+
+    <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
 
     <section class="type_page">
         <div class="header">
@@ -44,6 +46,8 @@
 
         </div>
     </section>
+
+    <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
     @foreach ($products as $key => $product)
         <section class="type_page type_5_3">
             <div class="header">
@@ -70,6 +74,8 @@
                 </div>
             </div>
         </section>
+
+        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
 
         <script>
             var miniMap_5_{{ $key }} = new naver.maps.Map('minimap_5_{{ $key }}', {
@@ -222,6 +228,8 @@
             </div>
         </section>
 
+        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
+
         <section class="type_page">
             <div class="header">
                 <h2>03 도면 및 사진</h2>
@@ -238,6 +246,8 @@
 
             </div>
         </section>
+
+        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
         @if ($product->price->payment_type == 0)
             <section class="type_page">
                 <div class="header">
@@ -458,6 +468,8 @@
             </section>
         @endif
     @endforeach
+
+    <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
 
     <section class="type_5_1 type_5_end">
         <div class="ghost_end_box">

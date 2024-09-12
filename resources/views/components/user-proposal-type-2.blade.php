@@ -9,58 +9,73 @@
 </script>
 
 @inject('carbon', 'Carbon\Carbon')
-
+<meta name="viewport" content="width=1000">
+<style>
+    @page { size: A4 landscape; margin:0;}
+</style>
 <div class="proposal_type_item proposal_type_2">
-    <section class="type_1_page type_2_1">
-        <h1>{{ $corpInfo->corp_name }}<br>기업이전제안서</h1>
-        <p class="txt_item_1">COMPANY RELOCATION PROPOSAL</p>
+    <section class="print_page">
+        <div class="page_layer">
+            <h1>{{ $corpInfo->corp_name }}<br>기업이전제안서</h1>
+            <p class="txt_item_1">COMPANY RELOCATION PROPOSAL</p>
+        </div>
+        <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type2_img_1.png') }}" style="width:100%;"></div>
     </section>
 
-    <section class="type_2_page type_2_1">
-        <h2>목차</h2>
-        <div class="type_2_index">
-            @foreach ($address as $key => $address)
-                <div class="index_item">
-                    <div class="index_tit">
-                        <div class="index_name">{{ $address->city }}</div>
-                        <div class="index_number">{{ $key + 1 < 10 ? '0' . $key + 1 : $key }}</div>
+    <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
+
+    <section class="type_2_page type_2_1 print_page" style="background:none;">
+        <div class="page_layer">
+            <h2>목차</h2>
+            <div class="type_2_index">
+                @foreach ($address as $key => $address)
+                    <div class="index_item">
+                        <div class="index_tit">
+                            <div class="index_name">{{ $address->city }}</div>
+                            <div class="index_number">{{ $key + 1 < 10 ? '0' . $key + 1 : $key }}</div>
+                        </div>
+                        <div class="index_item_list">
+                            @foreach ($address->products as $product)
+                                <div class="index_item_row">{{ $product->product_name }}</div>
+                            @endforeach
+                        </div>
                     </div>
-                    <div class="index_item_list">
-                        @foreach ($address->products as $product)
-                            <div class="index_item_row">{{ $product->product_name }}</div>
-                        @endforeach
-                    </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
+        <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type2_img_2.png') }}" style="width:100%;"></div>
     </section>
 
     @foreach ($products as $key => $product)
-        <section class="type_3_page type_2_1">
-            <h2>01 건물소개</h2>
-            <h3>{{ $product->product_name }}</h3>
-            <div class="item_wrap">
-                <div class="item_wrap_box">
-                    <div class="item_info">
-                        <h5>외관</h5>
-                    </div>
-                    <div class="item_img">
-                        <div class="img_box"><img src="{{ Storage::url('image/' . $product->main_images->path) }}">
+    <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
+        <section class="type_3_page type_2_1 print_page" style="background:none;">
+            <div class="page_layer">
+                <h2>01 건물소개</h2>
+                <h3>{{ $product->product_name }}</h3>
+                <div class="item_wrap">
+                    <div class="item_wrap_box">
+                        <div class="item_info">
+                            <h5>외관</h5>
+                        </div>
+                        <div class="item_img">
+                            <div class="img_box"><img src="{{ Storage::url('image/' . $product->main_images->path) }}">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="item_wrap_box">
-                    <div class="item_info">
-                        <h5>위치</h5>
-                        <p>{{ $product->address }}</p>
-                    </div>
-                    <div class="item_img">
-                        <div class="img_box">
-                            <div id="minimap_2_{{ $key }}" style="width:100%; height:100%;"></div>
+                    <div class="item_wrap_box">
+                        <div class="item_info">
+                            <h5>위치</h5>
+                            <p>{{ $product->address }}</p>
+                        </div>
+                        <div class="item_img">
+                            <div class="img_box">
+                                <div id="minimap_2_{{ $key }}" style="width:100%; height:100%;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type2_img_3.png') }}" style="width:100%;"></div>
         </section>
 
         <script>
@@ -89,7 +104,8 @@
             });
         </script>
 
-        <section class="type_3_page type_2_1">
+        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
+        <section class="type_3_page type_2_1 print_page">
             <h2>02 매물세부내용</h2>
             <h3>{{ $product->product_name }}</h3>
             <div class="item_2_wrap">
@@ -221,7 +237,8 @@
             </div>
         </section>
 
-        <section class="type_3_page type_2_1">
+        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
+        <section class="type_3_page type_2_1 print_page">
             <h2>03 도면 및 사진</h2>
             <div class="item_3_wrap">
                 @foreach ($product->detail_images as $images)
@@ -237,7 +254,8 @@
         </section>
 
         @if ($product->price->payment_type == 0)
-            <section class="type_3_page type_2_1">
+        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
+            <section class="type_3_page type_2_1 print_page">
                 <h2>04 견적서</h2>
                 <div class="item_4_wrap">
                     <div class="item_div">
@@ -453,8 +471,8 @@
             </section>
         @endif
     @endforeach
-
-    <section class="type_3_page type_2_5">
+    <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
+    <section class="type_3_page type_2_5 print_page" >
         <div class="txt_item_end">
             감사합니다
             <p>Thank you</p>
