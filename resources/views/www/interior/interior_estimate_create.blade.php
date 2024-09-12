@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="box_01 box_reg">
-                    <h4>2. 사무실 규모와 사용 인원을 말씀해주세요. <span class="txt_point">*</span></h4>
+                    <h4>2. 사무실 규모와 사용 인원을 작성해주세요. <span class="txt_point">*</span></h4>
                     <p class="txt_point">여러 층인 경우, 각 층의 면적을 합쳐주세요.</p>
 
                     <div class="reg_mid_wrap">
@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="box_01 box_reg">
-                    <h4>3. 서비스가 필요한 위치와 입주 예정일을 말씀해주세요.</h4>
+                    <h4>3. 서비스가 필요한 위치와 입주 예정일을 작성해주세요.</h4>
 
                     <div class="reg_mid_wrap">
                         <div class="reg_item">
@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="box_01 box_reg">
-                    <h4>4. 제안 받으실 기업의 정보를 말씀 해주세요.</h4>
+                    <h4>4. 제안 받으실 기업의 정보를 작성해주세요.</h4>
 
                     <div class="reg_mid_wrap">
                         <div class="reg_item">
