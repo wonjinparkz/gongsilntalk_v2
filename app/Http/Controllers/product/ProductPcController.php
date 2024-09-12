@@ -774,14 +774,11 @@ class ProductPcController extends Controller
         $productCode = $this->generateProductCode();
 
         if ($product) {
-            $product->timestamps = false; // timestamps를 비활성화
             $product->update([
                 'state' => '1',
                 'expires_at' => Carbon::now()->addDays(30),
                 'product_number' => $productCode,
-                'created_at' => now(), // 수동으로 재정의
             ]);
-            $product->timestamps = true; // 다시 timestamps 활성화
         }
 
         return Redirect::back()->with('message', '매물이 재등록 되었습니다.');
