@@ -11,15 +11,6 @@
 @inject('carbon', 'Carbon\Carbon')
 <meta name="viewport" content="width=1000">
 <style>
-    /* * {box-sizing: border-box; -moz-box-sizing: border-box;}
-    .page-break {page-break-before: always;  margin: 0; border: initial;}
-    .type_view_wrap section{width:297mm; height:210mm;}
-    .print_page{position:relative}
-    .print_page .page_layer{position:absolute; top:0; left:0; z-index:2; width:100%; height:100%; padding:38px; box-sizing: border-box;}
-    .bg_img_wrap{width:100%; height:210mm; overflow:hidden;}
-    h1, h2, .txt_item_end, .txt_item_1{color:#fff !important; -webkit-print-color-adjust:exact;}
-    .checkbox_btn input[type="checkbox"]:checked + label{background:#9D9999 !important; -webkit-print-color-adjust:exact;} */
-
     @page { size: A4 landscape; margin:0;}
 </style>
 <!-- type_1 : s -->
