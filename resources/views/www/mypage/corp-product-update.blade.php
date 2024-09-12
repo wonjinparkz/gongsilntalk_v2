@@ -750,13 +750,13 @@
                                     <label class="input_label">월 관리비 <span class="txt_point">*</span></label>
                                     <div class="input_area_1">
                                         <input type="text" id="service_price" name="service_price"
-                                            value="{{ $product->priceInfo->service_price != '' ? number_format($product->priceInfo->service_price) : '' }}"
+                                            value="{{ $product->service_price != '' ? number_format($product->service_price) : '' }}"
                                             inputmode="numeric" oninput="onlyNumbers(this); onTextChangeEvent(this)">
                                         <span class="gray_deep">원</span>
 
                                         @if ($type != 6)
                                             <input type="checkbox" name="is_service" id="is_service_4"
-                                                value="1" {{ $product->priceInfo->is_service == 1 ? 'checked' : '' }}>
+                                                value="1" {{ $product->is_service == 1 ? 'checked' : '' }}>
                                             <label for="is_service_4" class="gray_deep"><span></span> 관리비 없음</label>
                                         @endif
 
@@ -2000,8 +2000,6 @@
     isService({{ $product->is_service }})
 
     function isService(element) {
-        console.log('element ', element);
-        $('input[name="service_price"]').val('');
         $('input[name="service_type[]"]').prop("checked", false)
         if (element) {
             $('input[name="service_type[]"]').attr('disabled', true);
