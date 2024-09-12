@@ -43,7 +43,7 @@
 
                     <div class="reg_mid_wrap">
                         <div class="reg_item">
-                            <label class="input_label">공급 면적 기준 ㎡평</label>
+                            <label class="input_label">공급 면적 기준 평</label>
                             <div class="flex_1 flex_between">
                                 <input type="number" name="area" id="area" placeholder="ex) 330">
                                 <span>평</span>
