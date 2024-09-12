@@ -423,7 +423,7 @@
                                 @endif
                                 <div>건물 방향</div>
                                 <div>
-                                    {{ Lang::get('commons.direction_type.' . $result->productAddInfo->direction_type) }}향
+                                    {{ Lang::get('commons.direction_type.' . $result->productAddInfo->direction_type) }}향 (주 출입구 기준)
                                 </div>
                                 @if (!in_array($type, [0, 1, 2, 3, 4, 5, 7]))
                                     <div>방/욕실 수</div>
