@@ -473,7 +473,7 @@
                                 <div>
                                     <label class="input_label">준공예정일</label>
                                     <div class="w_30">
-                                        <input type="text" id="approve_date_0" name="approve_date_0"
+                                        <input type="text" id="approve_date_0" name="approve_date_0" autocomplete="off"
                                             inputmode="numeric" placeholder="예) 20230101"
                                             oninput="onlyNumbers(this); onDateChangeEvent('approve_date', 0);">
                                     </div>

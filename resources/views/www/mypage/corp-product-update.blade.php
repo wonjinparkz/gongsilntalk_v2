@@ -664,7 +664,7 @@
                                 <div class="reg_item">
                                     <label class="input_label">{{ $product->type < 14 ? '사용승인일' : '준공예정일' }} <span
                                             class="txt_point">*</span></label>
-                                    <input type="text" id="approve_date_1" name="approve_date_1"
+                                    <input type="text" id="approve_date_1" name="approve_date_1" autocomplete="off"
                                         value="{{ $carbon::parse($product->approve_date)->format('Y.m.d') }}"
                                         placeholder="예) 20230101" inputmode="numeric"
                                         oninput="onlyNumbers(this); onDateChangeEvent('approve_date', 1);">
