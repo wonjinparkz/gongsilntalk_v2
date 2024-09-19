@@ -7,6 +7,7 @@
     'div_col' => '8',
     'images' => [],
     'size' => '',
+    'type' => '',
 ])
 <style>
     .top_tit {
@@ -24,6 +25,9 @@
                 <span style="color: #F16341"
                     id="{{ $id }}_image_count">{{ count(old($id . '_image_ids', $images)) }}</span>/{{ $cnt }}
             </p>
+            @if ($type == 'product')
+                <span class="d-flex justify-content-end">* 첫번째 위치한 사진이 대표 이미지 입니다.</span>
+            @endif
             @if ($size != '')
                 <p>{{ $size }}</p>
             @endif

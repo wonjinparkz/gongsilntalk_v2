@@ -1262,10 +1262,9 @@
             <x-screen-card :title="'사진 및 상세 설명'">
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
-
                     {{-- 이미지 --}}
                     <x-admin-image-picker :title="'사진등록'" :id="'product'" required="required" cnt="8"
-                        label_col='2' :images="$result->images" />
+                        label_col='2' :images="$result->images" type="product"/>
 
                     {{-- 한줄요약 --}}
                     <div class="row mb-6">
