@@ -36,7 +36,7 @@
                     <h4>매물 유형 <span class="txt_point">*</span></h4>
                     <ul class="tab_type_3 tab_toggle_menu">
                         <li class="active" onclick="showDiv('category', 0)">상업용</li>
-                        <li onclick="showDiv('category', 1)">주거용</li>
+                        {{-- <li onclick="showDiv('category', 1)">주거용</li> --}}
                         <li onclick="showDiv('category', 2)">분양권</li>
                     </ul>
                     <div class="tab_area_wrap">
