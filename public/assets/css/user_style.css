@@ -295,7 +295,7 @@ img.floor_img{width: 80%;}
 .traffic_wrap{padding: 20px 4px; min-height: 80px;}
 .traffic_tit{font-family: 'font-b'; display: flex; align-items: center; padding-bottom:2px;}
 .traffic_tit img{width:12px; margin-right: 8px;}
-.traffic_row{margin-top:10px;}
+.traffic_row{margin-top:10px; line-height: 1.4;}
 .traffic_row span{margin-left:6px; color: var(--color-gray-3);}
 .facility_wrap, .edu_wrap{min-height: 80px; padding: 20px 4px; line-height: 1.4;}
 .property_sm_list{border-bottom: 1px solid var(--gray-line); display: flex; padding:30px 16px; gap:14px; align-items: center;}
