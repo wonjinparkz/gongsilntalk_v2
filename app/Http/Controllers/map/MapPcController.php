@@ -340,7 +340,7 @@ class MapPcController extends Controller
                 $distance = 1.5;
 
                 // 아파트 데이터를 가져옴
-                if (!isset($request->sale_product_type) || $request->sale_product_type == 3) {
+                // if (!isset($request->sale_product_type) || $request->sale_product_type == 3) {
                     $aptMaps = DataApt::select('data_apt.*', 'data_apt.y as address_lat', 'data_apt.x as address_lng')
                         ->where('is_base_info', 1)
                         ->where('is_detail_info', 1)
@@ -383,7 +383,7 @@ class MapPcController extends Controller
                         $apt->transactions = $transactions ?? '';
                         $filteredAptMaps[] = $apt;
                     }
-                }
+                // }
                 if (!isset($request->sale_product_type) || $request->sale_product_type == 0) {
                     // 지식 센터 데이터를 가져옴
                     $knowledges = KnowledgeCenter::select()

@@ -468,7 +468,7 @@ img.floor_img{width: 80%;}
 .btn_room_wish.on{background: url('/assets/media/btn_like_on.png') 16px 50% no-repeat; background-size:16px auto; border: 1px solid var(--main-color);}
 .btn_room_wish{background: url('/assets/media/btn_like_off.png') 16px 50% no-repeat; background-size:16px auto; border: 1px solid #D2D1D0; border-radius: 5px; display: inline-block; padding: 14px 16px 14px 36px; cursor: pointer; margin-right: 8px;}
 .btn_room_share{width:44px; height: 44px; background: url('/assets/media/header_btn_share_deep.png') 50% 50% no-repeat; background-size:16px auto;  display:inline-block; border: 1px solid #D2D1D0; border-radius: 5px; cursor: pointer;}
-.layer_share_wrap{display: none; background: #fff; width:240px; border: 1px solid #D2D1D0; border-radius: 5px; position: absolute; z-index: 2; margin-top: 48px;}
+.layer_share_wrap{display: none; background: #fff; width:240px; border: 1px solid #D2D1D0; border-radius: 5px; position: absolute; z-index: 10; margin-top: 48px;}
 .layer_share_wrap.layer_share_top{margin-top: 8px !important;}/* header에 있을 경우 */
 .layer_share_con{display:flex; justify-content: center; padding: 18px 18px; text-align:center; }
 .layer_share_con a{margin:  0 8px; color: var(--color-gray-2);}
