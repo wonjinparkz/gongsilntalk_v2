@@ -248,17 +248,11 @@
                         @if (isset($paymentTypes[$paymentType]))
                             <div>
                                 {{ $paymentTypes[$paymentType] }}
-                                @if (in_array($paymentType, [0, 5]))
-                                    <span class="gray_basic">({{ $isDiscussion }}/㎡)</span>
-                                @endif
                             </div>
                         @endif
                         <div class="item_col_3">{{ $formatPrice }}
                             @if (in_array($result->priceInfo->payment_type, [1, 2, 4]))
                                 / {{ $formatMonthPrice }}
-                            @endif
-                            @if ($paymentType == 0)
-                                <span class="gray_basic">({{ $formatAveragePrice }}/㎡)</span> &nbsp;
                             @endif
                         </div>
                         <div>관리비</div>
