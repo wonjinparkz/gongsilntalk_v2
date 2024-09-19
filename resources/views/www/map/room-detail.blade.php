@@ -278,9 +278,9 @@
                         <div>융자금</div>
                         <div class="item_col_3">
                             @if ($result->loan_type == 1)
-                                30%미만 {{ number_format($result->loan_price) }}원
+                                30%미만 {{ $result->loan_price > 0 ? number_format($result->loan_price) . '원' : '' }}
                             @elseif($result->loan_type == 2)
-                                30%이상 {{ number_format($result->loan_price) }}원
+                                30%이상 {{ $result->loan_price > 0 ? number_format($result->loan_price) . '원' : '' }}
                             @else
                                 없음
                             @endif

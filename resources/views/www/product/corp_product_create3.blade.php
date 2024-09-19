@@ -378,7 +378,7 @@
             var service_price = $('input[name="service_price"]').val();
             var service_type = $('input[name="service_type[]"]:checked').length;
             var loan_type = $('input[name="loan_type"]:checked').val();
-            var loan_price = $('input[name="loan_price"]').val();
+            var loan_price = 1;
             var parking_type = $('input[name="parking_type"]:checked').val();
             var parking_price = $('input[name="parking_price"]').val();
             var approve_date = $('input[name="approve_date"]').val().length;

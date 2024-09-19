@@ -88,7 +88,7 @@
                                     <label for="sales_type_1" onclick="showDiv('type', 0)">매매</label>
 
                                     <input type="radio" name="sales_type" id="sales_type_2" value="1">
-                                    <label for="sales_type_2" onclick="showDiv('type', 1)">임대</label>
+                                    <label for="sales_type_2" onclick="showDiv('type', 1)">월세</label>
 
                                     <input type="radio" name="sales_type" id="sales_type_3" value="2">
                                     <label for="sales_type_3" onclick="showDiv('type', 1)">단기임대</label>
