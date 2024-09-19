@@ -202,16 +202,14 @@
                                 foreach ($product->facility as $key => $option) {
                                     array_push($optionArray, $option->type);
                                 }
+
+                                // $optionArray의 값에 해당하는 옵션 타입만 가져옴
+                                $selectedOptions = array_map(function ($index) {
+                                    return Lang::get('commons.corp_product_option_type')[$index];
+                                }, $optionArray);
+
+                                echo implode(', ', $selectedOptions);
                             @endphp
-                            <div class="checkbox_btn">
-                                @foreach (Lang::get('commons.corp_product_option_type') as $index => $optionType)
-                                    @if (in_array($index, $optionArray) ? 'checked' : '')
-                                        <input type="checkbox" name="option[]" id="option_{{ $index }}"
-                                            value="{{ $index }}" checked disabled>
-                                        <label for="option_{{ $index }}">{{ $optionType }}</label>
-                                    @endif
-                                @endforeach
-                            </div>
                         </td>
                     </tr>
                 </table>

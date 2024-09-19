@@ -11,7 +11,10 @@
 @inject('carbon', 'Carbon\Carbon')
 <meta name="viewport" content="width=1000">
 <style>
-    @page { size: A4 landscape; margin:0;}
+    @page {
+        size: A4 landscape;
+        margin: 0;
+    }
 </style>
 <!-- type_1 : s -->
 <div class="proposal_type_item proposal_type_1 active">
@@ -202,16 +205,14 @@
                                     foreach ($product->facility as $key => $option) {
                                         array_push($optionArray, $option->type);
                                     }
+
+                                    // $optionArray의 값에 해당하는 옵션 타입만 가져옴
+                                    $selectedOptions = array_map(function ($index) {
+                                        return Lang::get('commons.corp_product_option_type')[$index];
+                                    }, $optionArray);
+
+                                    echo implode(', ', $selectedOptions);
                                 @endphp
-                                <div class="checkbox_btn">
-                                    @foreach (Lang::get('commons.corp_product_option_type') as $index => $optionType)
-                                        @if (in_array($index, $optionArray) ? 'checked' : '')
-                                            <input type="checkbox" name="option[]" id="option_{{ $index }}"
-                                                value="{{ $index }}" checked disabled>
-                                            <label for="option_{{ $index }}">{{ $optionType }}</label>
-                                        @endif
-                                    @endforeach
-                                </div>
                             </td>
                         </tr>
                     </table>
@@ -255,7 +256,8 @@
                                     <col width="*">
                                 </colgroup>
                                 @php
-                                    $acquisitionPrice = $product->price->price * ($product->price->acquisition_tax / 100); // 취득세
+                                    $acquisitionPrice =
+                                        $product->price->price * ($product->price->acquisition_tax / 100); // 취득세
                                     $loanPrice = $product->price->price * ($product->price->loan_rate_one / 100); // 대출금
                                     $payPrice = ($loanPrice * ($product->price->loan_interest / 100)) / 12;
                                     $realInvestPrice =
@@ -362,7 +364,8 @@
                                     <col width="*">
                                 </colgroup>
                                 @php
-                                    $acquisitionPrice = $product->price->price * ($product->price->acquisition_tax / 100); // 취득세
+                                    $acquisitionPrice =
+                                        $product->price->price * ($product->price->acquisition_tax / 100); // 취득세
                                     $loanPrice = $product->price->price * ($product->price->loan_rate_two / 100); // 대출금
                                     $payPrice = ($loanPrice * ($product->price->loan_interest / 100)) / 12;
                                     $realInvestPrice =
@@ -437,7 +440,8 @@
                                         <th>11</th>
                                         <th>연수익 <p class="txt_item_1">월수익×12</p>
                                         </th>
-                                        <td><span class="txt_item_2">{{ number_format($monthMyPrice * 12) }}원</span></td>
+                                        <td><span class="txt_item_2">{{ number_format($monthMyPrice * 12) }}원</span>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>12</th>
@@ -457,7 +461,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type1_img_2.png') }}" style="width:100%;"></div>
+                <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type1_img_2.png') }}"
+                        style="width:100%;"></div>
             </section>
         @endif
     @endforeach
