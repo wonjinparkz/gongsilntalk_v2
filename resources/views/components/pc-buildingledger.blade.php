@@ -203,7 +203,7 @@
                     @foreach ($dongName as $name)
                         <tbody class="dongInfo_{{ str_replace(' ', '', $name) }} dongInfo">
                             @foreach ($BrFlrOulnInfo as $info)
-                                @if ($name == $info['dongNm'])
+                                @if ($name == str_replace(' ', '', $info['dongNm']))
                                     <tr>
                                         <td>{{ $info['flrNoNm'] }}</td>
                                         <td>{{ Commons::formatValue($info['mainPurpsCdNm'] ?? '') }}
@@ -239,10 +239,10 @@
                             });
                         @endphp
                         @foreach ($sortedBrExposInfo as $info)
-                            @if ($name == $info['dongNm'])
+                            @if ($name == str_replace(' ', '', $info['dongNm']))
                                 {{-- 전유부 동 이름과 매칭되도록 필터링 --}}
                                 <li class="optionItem unit-specific {{ str_replace(' ', '', $info['dongNm']) }}"
-                                    data-dong="{{ $info['dongNm'] }}" data-ho="{{ $info['hoNm'] }}">
+                                    data-dong="{{ str_replace(' ', '', $info['dongNm']) }}" data-ho="{{ $info['hoNm'] }}">
                                     {{ $info['dongNm'] != '' ? $info['dongNm'] . '-' : '' }}{{ $info['hoNm'] }}
                                 </li>
                             @endif
@@ -331,12 +331,23 @@
 
 <!-- 건물·토지정보 : e -->
 <script>
-    // Blade에서 BrExposPubuseAreaInfo를 바로 JavaScript로 넘겨줌
     var exposPubuseAreaInfos = @json($BrExposPubuseAreaInfo);
 
     $(document).ready(function() {
-
         ShowDongInfo();
+
+        // 드롭다운 박스를 클릭할 때 이벤트 처리
+        $('.dropdown_box').on('click', function() {
+            var $optionList = $(this).find('.optionList');
+
+            // 현재 드롭다운이 닫혀 있으면 열고, 열려 있으면 닫음
+            if ($optionList.css('display') === 'none') {
+                $optionList.css('display', 'block'); // 드롭다운 열기
+            } else {
+                $optionList.css('display', 'none'); // 드롭다운 닫기
+            }
+        });
+
         // 동 정보 변경 시 다시 필터링
         $('input[name="dong"]').change(function() {
             ShowDongInfo();
@@ -352,13 +363,21 @@
             }
         });
 
+        // 드롭다운 항목이 클릭될 때 전유부 정보 업데이트
         $('.optionItem').on('click', function() {
+            var $parentDropdown = $(this).closest('.dropdown_box');
+            var $optionList = $parentDropdown.find('.optionList');
+
             // 클릭된 항목 강조 표시 (선택된 항목 스타일 변경)
-            $(this).closest('.dongInfo').find('.optionItem').removeClass('selected');
+            $parentDropdown.find('.optionItem').removeClass('selected');
             $(this).addClass('selected');
 
             // 전유공용면적 정보 업데이트
             updateExposPubuseAreaInfo($(this));
+            updateDropdownLabel($(this));
+
+            // 클릭 후 드롭다운을 닫음
+            $optionList.css('display', 'none');
         });
     });
 
@@ -368,6 +387,7 @@
         if (!dongName || dongName.trim() === '') {
             dongName = $('input[name="dong"]').first().val();
         }
+
         if (dongName) {
             // 모든 dongInfo를 숨김
             $('.dongInfo').css('display', 'none');
@@ -378,7 +398,6 @@
 
     // 전유공용면적 정보 업데이트 함수
     function updateExposPubuseAreaInfo($selectedOption) {
-        // 선택한 항목의 dongNm 및 hoNm 값 가져오기
         var selectedDong = $selectedOption.data('dong');
         var selectedHo = $selectedOption.data('ho');
 
@@ -398,7 +417,7 @@
                 var row = `<tr>
                             <td>${info.exposPubuseGbCdNm}</td>
                             <td>${info.flrNoNm}</td>
-                            <td>${info.mainAtchGbCd == 0 ? '주' : '부속'}</td>
+                            <td>${info.mainAtchGb == 0 ? '주' : '부속'}</td>
                             <td>${info.mainPurpsCdNm ?? ''}</td>
                             <td>${parseFloat(info.area).toLocaleString()}㎡</td>
                         </tr>`;
@@ -408,11 +427,23 @@
             $tbody.append('<tr><td colspan="5">해당 데이터가 없습니다.</td></tr>');
         }
     }
+
     // 드롭다운 레이블 업데이트 함수
     function updateDropdownLabel($selectedOption) {
         var dong = $selectedOption.data('dong');
         var ho = $selectedOption.data('ho');
-        var label = dong + '-' + ho; // ex) "107동-1001호"
+
+        // 동이 단일인지 확인 (하나의 동만 있는 경우)
+        var totalDongCount = $('input[name="dong"]').length;
+        var label;
+
+        if (totalDongCount === 1 && dong) {
+            // 동이 단일일 경우 호실만 표시
+            label = ho; // ex) "B102"
+        } else {
+            // 여러 동이 있을 경우 동-호 표시
+            label = dong + '-' + ho; // ex) "107동-B102"
+        }
 
         // 해당 드롭다운 레이블을 찾아 텍스트 업데이트
         $selectedOption.closest('.con_panel').find('.dropdown_label').text(label);
