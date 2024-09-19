@@ -72,8 +72,6 @@
 
                     <div class="border_top">
                         <div>
-                            <!-- <input type="checkbox" name="checkAll" id="checkAll">
-                          <label for="checkAll"><span></span></label> -->
                         </div>
                         <div class="right_spacing">
                             <button class="btn_gray_ghost btn_sm" type="button" onclick="modal_open('delete')">선택
@@ -82,6 +80,10 @@
                                 onclick="location.href='{{ route('www.corp.product.create.view') }}'">신규 매물
                                 등록</button>
                         </div>
+                    </div>
+
+                    <div class="border_top">
+                        <span class="gray_basic">* 거래완료 처리시 재등록, 수정 불가하니 정확하게 확인 후 선택하세요.</span>
                     </div>
 
                     <div class="productListDiv">
