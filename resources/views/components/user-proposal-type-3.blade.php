@@ -457,16 +457,16 @@
         <div class="ghost_end_box">
             <div class="end_company_wrap">
                 <div>
-                    <p class="txt_item_1">{{ $corpInfo->company_name }}</p>
+                    <p class="txt_item_1">{{ $corpInfo->users->company_name }}</p>
                     <p class="txt_item_2">{{ $corpInfo->position }}
-                        {{ $corpInfo->name }}</p>
+                        {{ $corpInfo->users->name }}</p>
                 </div>
                 <div>
-                    <p class="txt_item_1">{{ $corpInfo->phone }}</p>
-                    <p class="txt_item_1">{{ $corpInfo->email }}</p>
+                    <p class="txt_item_1">{{ $corpInfo->users->phone }}</p>
+                    <p class="txt_item_1">{{ $corpInfo->users->email }}</p>
                 </div>
-                <p class="txt_item_3">{{ $corpInfo->company_address }}
-                    {{ $corpInfo->company_address_detail }}</p>
+                <p class="txt_item_3">{{ $corpInfo->users->company_address }}
+                    {{ $corpInfo->users->company_address_detail }}</p>
             </div>
             <div class="txt_item_end">Thank you</div>
         </div>
