@@ -175,13 +175,24 @@ class UserController extends Controller
      */
     public function userStateUpdate(Request $request): RedirectResponse
     {
-        $result = User::where('id', $request->id)
-            ->update([
-                'state' => $request->state,
-                'contract_cancell_at' => $request->state == 3 ? Carbon::now() : null,
-            ]);
+        if ($request->state == 2) {
+            $result = User::where('id', $request->id)
+                ->update([
+                    'leaved_at' => Carbon::now(),
+                    'state' => 2,
+                    'fcm_key' => null
+                ]);
 
-        return back()->with('message', '사용자 상태를 수정했습니다.');
+            return back()->with('message', '사용자를 회원탈퇴 하였습니다.');
+        } else {
+            $result = User::where('id', $request->id)
+                ->update([
+                    'state' => $request->state,
+                    'contract_cancell_at' => $request->state == 3 ? Carbon::now() : null,
+                ]);
+
+            return back()->with('message', '사용자 상태를 수정했습니다.');
+        }
     }
 
     /**

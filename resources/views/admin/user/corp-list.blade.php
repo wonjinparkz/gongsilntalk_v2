@@ -229,6 +229,10 @@
                                                                 재계약
                                                             </a>
                                                         @endif
+                                                        <a onclick="stateAlert('5','{{ $user->id }}','2');"
+                                                            class="menu-link px-3">
+                                                            회원탈퇴
+                                                        </a>
                                                     </div>
                                                 </div>
                                             @endif
@@ -272,6 +276,9 @@
                     break;
                 case "4":
                     text = "선택하신 회원과 재계약 하시겠습니까?";
+                    break;
+                case "5":
+                    text = "선택하신 회원을 탈퇴 하시겠습니까?";
                     break;
                 default:
                     text = "";
