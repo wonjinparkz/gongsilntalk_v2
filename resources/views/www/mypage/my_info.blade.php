@@ -52,12 +52,15 @@
                             {{-- QA-68 디자인 변경 필요 --}}
                             <li>
                                 <label>닉네임</label>
-                                <input type="text" id="chage_nickname" name="chage_nickname"
-                                    value="{{ $user->nickname }}">
-                                <p id="nickname_confirm" style="color:red; display:none;"></p>
+                                <div class="input_wrap_check">
+                                    <input type="text" id="chage_nickname" name="chage_nickname"
+                                        value="{{ $user->nickname }}">
+                                
+                                    <button class="btn_gray_ghost btn_sm" id="btn_pw" onclick="changeNickName()">닉네임
+                                        변경</button>
+                                </div>
+                                <p id="nickname_confirm" style="color:red; display:none; margin-top:8px"></p>
                                 <p />
-                                <button class="btn_gray_ghost btn_sm" id="btn_pw" onclick="changeNickName()">닉네임
-                                    변경</button>
                             </li>
 
                             <li>
@@ -90,8 +93,12 @@
                         <button class="btn_gray_ghost btn_full_basic mt28" type="button"
                             onclick="modal_open('info_modify')"><b>내 정보
                                 수정</b></button>
-                        <button class="btn_ghost btn_full_thin mt28" type="button"
-                            onclick="location.href='{{ route('www.logout.logout') }}'"><b>로그아웃</b></button>
+                                <div class="flex_between mt28">
+                                    <button class="btn_ghost" type="button"
+                                    onclick="location.href='{{ route('www.logout.logout') }}'"><b>로그아웃</b></button>
+                                    <button class="btn_ghost" type="button">회원탈퇴</button>
+                                </div>
+                        
                     </div>
 
                 </div>
