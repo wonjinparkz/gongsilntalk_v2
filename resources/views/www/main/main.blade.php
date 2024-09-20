@@ -17,7 +17,7 @@
                         @if ($notTodayId == 'N' || $notTodayId == null)
                             <div class="popup_div popup_div_{{ $item->id }}">
                                 <div class="popup_img">
-                                    <a href="{{ $item->url ?? route('www.main.main') }}">
+                                    <a href="{{ $item->url ?? route('www.main.main') }}" onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
                                         <div class="img_box"><img
                                                 src="{{ Storage::url('image/' . $item->images[0]->path) }}">
                                         </div>
