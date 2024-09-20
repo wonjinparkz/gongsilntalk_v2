@@ -96,7 +96,7 @@
                                 <tr class="text-start text-gray-400 fw-bold fl-7 text-uppercase gs-0">
                                     <th class="text-center w-20px">No.</th>
                                     <th class="text-center">노출순서</th>
-                                    <th class="text-center min-w-250px">배너명</th>
+                                    <th class="text-center min-w-250px">배너 제목</th>
                                     <th class="text-center">공개 여부</th>
                                     <th class="text-center">작성일</th>
                                     <th class="text-center">동작</th>
@@ -123,7 +123,7 @@
                                         {{-- 배너 제목 --}}
                                         <td class="text-center">
                                             <a href="{{ route('admin.banner.detail.view', [$banner->id]) }}"
-                                                class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $banner->name }}</a>
+                                                class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $banner->title }}</a>
                                         </td>
 
                                         {{-- 상태 --}}
