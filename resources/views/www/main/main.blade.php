@@ -17,11 +17,15 @@
                         @if ($notTodayId == 'N' || $notTodayId == null)
                             <div class="popup_div popup_div_{{ $item->id }}">
                                 <div class="popup_img">
-                                    <div class="img_box"><img src="{{ Storage::url('image/' . $item->images[0]->path) }}">
-                                    </div>
+                                    <a href="{{ $item->url ?? route('www.main.main') }}">
+                                        <div class="img_box"><img
+                                                src="{{ Storage::url('image/' . $item->images[0]->path) }}">
+                                        </div>
+                                    </a>
                                 </div>
                                 <div class="popup_bottom">
-                                    <span class="today_close" onclick="todayClosePopupEach({{ $item->id }});">오늘 하루 보지
+                                    <span class="today_close" onclick="todayClosePopupEach({{ $item->id }});">오늘 하루
+                                        보지
                                         않기</span>
                                     <span class="close" onclick="closePopupEach({{ $item->id }});">닫기</span>
                                 </div>
@@ -57,23 +61,6 @@
                                             </div>
                                         @endif
                                     @endforeach
-
-                                    {{-- <div class="swiper-slide swiper-slide-active">
-                                    <a href="#">
-                                        <div class="img_box" style="text-align:center; height:90%; width:100%;">
-                                            <img style="height:100%;" src="{{ asset('assets/media/s_2.png') }}"
-                                                alt="">
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="swiper-slide">
-                                    <a href="#">
-                                        <div class="img_box" style="text-align:center; height:90%; width:100%;">
-                                            <img style="height:100%;" src="{{ asset('assets/media/s_8.png') }}"
-                                                alt="">
-                                        </div>
-                                    </a>
-                                </div> --}}
                                 </div>
                                 <div class="swiper-pagination"></div>
                             </div>
@@ -389,7 +376,8 @@
             <div class="right_side_wrap">
                 <div class="right_side">
                     @if (Auth::guard('web')->user()->type ?? 0 == 1)
-                        <button class="quick_bn" onclick="location.href='{{ route('www.corp.product.create.view') }}' ">
+                        <button class="quick_bn"
+                            onclick="location.href='{{ route('www.corp.product.create.view') }}' ">
                             <img src="{{ asset('assets/media/ic_org_estate.png') }}">
                             <p>매물 내놓기</p>
                         </button>
@@ -446,10 +434,12 @@
                         @endforeach
                     </div>
                     <div class="btn_arrow_wrap">
-                        <div class="swiper-button-next"><img src="{{ asset('assets/media/arrow_w_next.png') }}"></div>
-                        <div class="swiper-button-prev"><img src="{{ asset('assets/media/arrow_w_prev.png') }}"></div>
+                        <div class="swiper-button-next"><img src="{{ asset('assets/media/arrow_w_next.png') }}">
+                        </div>
+                        <div class="swiper-button-prev"><img src="{{ asset('assets/media/arrow_w_prev.png') }}">
+                        </div>
                     </div>
-                    
+
                     <div class="swiper-pagination_wrap">
                         <div class="swiper-pagination"></div>
                     </div>
