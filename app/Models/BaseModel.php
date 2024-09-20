@@ -106,6 +106,6 @@ class BaseModel extends Authenticatable
      */
     public function images()
     {
-        return $this->morphMany(Images::class, 'target')->orderBy('created_at', 'desc');
+        return $this->morphMany(Images::class, 'target')->orderBy('order', 'asc')->orderBy('created_at', 'desc');
     }
 }

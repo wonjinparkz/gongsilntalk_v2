@@ -402,6 +402,8 @@
 
     // 탭메뉴 토글기능
     $(document).ready(function() {
+        initializeDropdowns();
+
         $(".tab_sm_wrap > div").hide();
         $(".tab_sm_wrap > div").first().show();
         $(".tab_sm_menu li").click(function() {

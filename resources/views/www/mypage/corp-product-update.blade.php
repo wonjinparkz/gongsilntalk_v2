@@ -776,7 +776,6 @@
                                     }
                                 @endphp
                                 <div class="checkbox_btn">
-
                                     @foreach (Lang::get('commons.service_type') as $index => $service_type)
                                         <input type="checkbox" name="service_type[]"
                                             id="service_type_{{ $index }}" value="{{ $index }}"
@@ -2009,13 +2008,14 @@
 
     //관리비 없음 체크여부
     $('input[name="is_service"]').change(function() {
+        $('input[name="service_price"]').val('');
+        $('input[name="service_type[]"]').prop("checked", false);
         isService($(this).is(':checked'));
     });
 
     isService({{ $product->is_service }})
 
     function isService(element) {
-        $('input[name="service_type[]"]').prop("checked", false)
         if (element) {
             $('input[name="service_type[]"]').attr('disabled', true);
             $('input[name="service_price"]').attr('disabled', true);

@@ -336,18 +336,6 @@
     $(document).ready(function() {
         ShowDongInfo();
 
-        // 드롭다운 박스를 클릭할 때 이벤트 처리
-        $('.dropdown_box').on('click', function() {
-            var $optionList = $(this).find('.optionList');
-
-            // 현재 드롭다운이 닫혀 있으면 열고, 열려 있으면 닫음
-            if ($optionList.css('display') === 'none') {
-                $optionList.css('display', 'block'); // 드롭다운 열기
-            } else {
-                $optionList.css('display', 'none'); // 드롭다운 닫기
-            }
-        });
-
         // 동 정보 변경 시 다시 필터링
         $('input[name="dong"]').change(function() {
             ShowDongInfo();
@@ -376,8 +364,6 @@
             updateExposPubuseAreaInfo($(this));
             updateDropdownLabel($(this));
 
-            // 클릭 후 드롭다운을 닫음
-            $optionList.css('display', 'none');
         });
     });
 
@@ -437,12 +423,12 @@
         var totalDongCount = $('input[name="dong"]').length;
         var label;
 
-        if (totalDongCount === 1 && dong) {
-            // 동이 단일일 경우 호실만 표시
-            label = ho; // ex) "B102"
-        } else {
+        if (totalDongCount > 1 ||  dong.trim() !== "") {
             // 여러 동이 있을 경우 동-호 표시
             label = dong + '-' + ho; // ex) "107동-B102"
+        } else {
+            // 동이 단일일 경우 호실만 표시
+            label = ho; // ex) "B102"
         }
 
         // 해당 드롭다운 레이블을 찾아 텍스트 업데이트

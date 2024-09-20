@@ -78,11 +78,14 @@ class Controller extends BaseController
     {
         if ($imageId != null) {
             // 이미지 업데이트
-            Images::whereIn('id', $imageId)
-                ->update([
-                    'target_type' => $targetType,
-                    'target_id' => $targetId,
-                ]);
+            foreach ($imageId as $index => $id) {
+                Images::where('id', $id)
+                    ->update([
+                        'target_type' => $targetType,
+                        'target_id' => $targetId,
+                        'order' => $index + 1,  // 배열 순서를 기반으로 order 값 설정
+                    ]);
+            }
         }
     }
 
@@ -102,11 +105,15 @@ class Controller extends BaseController
                     'target_id' => null,
                 ]);
 
-            Images::whereIn('id', $imageId)
-                ->update([
-                    'target_type' => $targetType,
-                    'target_id' => $targetId,
-                ]);
+            // 이미지 ID 배열을 순회하며 순서대로 order 값을 설정
+            foreach ($imageId as $index => $id) {
+                Images::where('id', $id)
+                    ->update([
+                        'target_type' => $targetType,
+                        'target_id' => $targetId,
+                        'order' => $index + 1,  // 배열 순서를 기반으로 order 값 설정
+                    ]);
+            }
         }
     }
 
@@ -120,12 +127,15 @@ class Controller extends BaseController
     {
         if ($imageId != null) {
             // 이미지 업데이트
-            Images::whereIn('id', $imageId)
-                ->update([
-                    'target_type' => $targetType,
-                    'target_id' => $targetId,
-                    'type' => $type
-                ]);
+            foreach ($imageId as $index => $id) {
+                Images::where('id', $id)
+                    ->update([
+                        'target_type' => $targetType,
+                        'target_id' => $targetId,
+                        'type' => $type,
+                        'order' => $index + 1,  // 배열 순서를 기반으로 order 값 설정
+                    ]);
+            }
         }
     }
 
@@ -148,12 +158,15 @@ class Controller extends BaseController
                     'type' => null
                 ]);
 
-            Images::whereIn('id', $imageId)
-                ->update([
-                    'target_type' => $targetType,
-                    'target_id' => $targetId,
-                    'type' => $type
-                ]);
+            foreach ($imageId as $index => $id) {
+                Images::where('id', $id)
+                    ->update([
+                        'target_type' => $targetType,
+                        'target_id' => $targetId,
+                        'type' => $type,
+                        'order' => $index + 1,  // 배열 순서를 기반으로 order 값 설정
+                    ]);
+            }
         }
     }
 
