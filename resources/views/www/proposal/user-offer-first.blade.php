@@ -58,16 +58,14 @@
                     <div class="box_01 box_reg">
                         <h4>어디에 매물을 얻고 싶으신가요?</h4>
                         <div class="w_30">
-                            <div class="search_wrap" onclick="onShowRegionList();">
-                                <input type="text" id="regionSearch" name="regionSearch" placeholder="시·군·구로 검색해주세요"
+                            {{-- <div class="search_wrap" onclick="onShowRegionList();">
+                            </div> --}}
+                            <div class="dropdown_box" id="regionList">
+                                <input type="text" class="dropdown_label" id="regionSearch" name="regionSearch" placeholder="시·군·구로 검색해주세요"
                                     autocomplete='off'>
-                                <button type="button"><img src="{{ asset('assets/media/btn_search.png') }}"
-                                        alt="검색"></button>
-                            </div>
-                            <div class="dropdown_search" style="display:none;" id="regionList">
                                 <ul class="optionList" id="regionOptionList">
                                     @foreach ($zcodeList as $zcode)
-                                        <li class="optionItem"
+                                        <li class="optionItem" data-region-code="{{ $zcode->region_code }}"
                                             onclick="onAddRegion('{{ $zcode->zone }}', '{{ $zcode->region_code }}');">
                                             {{ $zcode->zone }}</li>
                                     @endforeach
@@ -235,7 +233,6 @@
             onFieldInputCheck();
         }
 
-        //직접입력
         function toggleCalendar(index) {
             var tabContents = document.querySelectorAll('.self_day_wrap .self_day_item');
             tabContents.forEach(function(content) {
@@ -243,6 +240,21 @@
             });
             tabContents[index].classList.add('active');
         }
+
+        //직접입력
+        $('#regionSearch').keyup(function(e) {
+            var searchValue = $('#regionSearch').val().toLowerCase(); // 검색어를 소문자로 변환
+            $('#regionOptionList li').each(function() {
+                var zoneText = $(this).text().toLowerCase(); // li의 텍스트를 소문자로 변환
+                if (zoneText.includes(searchValue)) {
+                    $(this).show(); // 검색어가 포함된 항목은 보이기
+                } else {
+                    $(this).hide(); // 검색어가 포함되지 않은 항목은 숨기기
+                }
+            });
+            regionListCheck();
+        });
+
 
         //매물조건 구분
         function showContent(index, type) {
@@ -261,15 +273,10 @@
             div.parentNode.removeChild(div);
             $('#regionBoxCount').text(parseInt($('#regionBoxCount').text()) - 1);
             onFieldInputCheck();
-        }
 
-        $('#regionSearch').keyup(function(e) {
-            loadRegionData($('#regionSearch').val());
-        });
-
-        function onShowRegionList() {
-            $('#regionList').show();
-            $('#regionList').addClass('active');
+            // 모든 항목을 먼저 보여주기
+            $('#regionOptionList li').show();
+            regionListCheck();
         }
 
         function onAddRegion(region, regionCode) {
@@ -288,41 +295,26 @@
             }
 
             onFieldInputCheck();
+            regionListCheck();
         }
 
-        $('#regionSearch').blur(function() {
+        function regionListCheck() {
+            var regionArr = []; // 빈 배열 생성
 
-            setTimeout(() => {
-                $('#regionList').hide();
-            }, "1000");
-        });
+            // 모든 input[name="region_code[]"] 값을 배열에 담기
+            $('input[name="region_code[]"]').each(function() {
+                regionArr.push($(this).val()); // 각 값을 배열에 추가
+            });
 
 
-        loadRegionData('');
-
-        function loadRegionData(zone) {
-
-            $.ajax({
-                    url: '{{ route('www.mypage.user.offer.first.create.view') }}',
-                    type: "get",
-                    data: {
-                        'zone': zone
-                    }
-                })
-                .done(function(data) {
-                    var opitonDiv = '';
-
-                    data.zcodeList.forEach(element => {
-                        opitonDiv += `<li class="optionItem" onclick="onAddRegion('${element.zone}', '${element.region_code}');">
-                                        ${element.zone}
-                                        </li>`;
-                    });
-
-                    $('#regionOptionList').html(opitonDiv);
-                })
-                .fail(function(jqXHR, ajaxOptions, thrownError) {
-                    alert('데이터를 불러오지 못했습니다.');
-                });
+            // 배열을 순회하여 선택된 region_code와 일치하는 항목만 숨기기
+            regionArr.forEach(function(code) {
+                // 해당 region_code에 해당하는 li 항목을 직접 선택해서 숨기기
+                var $liToHide = $('#regionOptionList li[data-region-code="' + code + '"]');
+                if ($liToHide.length > 0) {
+                    $liToHide.hide(); // 선택된 region_code와 일치하는 항목 숨기기
+                }
+            });
         }
 
         // 평수 제곱 변환
@@ -358,7 +350,6 @@
                 $('#' + square_name).val('');
             }
         }
-
 
         function debounce(func, timeout = 300) {
             let timer;
