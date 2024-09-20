@@ -665,6 +665,7 @@
                                     <label class="input_label">{{ $product->type < 14 ? '사용승인일' : '준공예정일' }} <span
                                             class="txt_point">*</span></label>
                                     <input type="text" id="approve_date_1" name="approve_date_1"
+                                        autocomplete="off"
                                         value="{{ $carbon::parse($product->approve_date)->format('Y.m.d') }}"
                                         placeholder="예) 20230101" inputmode="numeric"
                                         oninput="onlyNumbers(this); onDateChangeEvent('approve_date', 1);">
@@ -1424,7 +1425,8 @@
                             <p class="gray_basic">최대 8장 업로드 가능 <span class="txt_point"
                                     id="imageCount">{{ count($product->images) }}</span> / 8</p>
                         </div>
-                        <div class="img_add_wrap reg_step_type" id="imageList">
+                        <span class="gray_basic">* 첫번째 위치한 사진이 대표 이미지 입니다.</span>
+                        <div class="img_add_wrap reg_step_type draggable-zone" id="imageList">
                             <div class="cell">
                                 <button type="button" id="profile_drop">
                                     <div class="img_box"><img src="{{ asset('assets/media/btn_img_add.png') }}"
@@ -1434,12 +1436,12 @@
                             </div>
                             @if (count($product->images) > 0)
                                 @foreach ($product->images as $image)
-                                    <div class="cell">
+                                    <div class="cell draggable">
                                         <input type="hidden" id="image_ids[]" name="image_ids[]"
                                             value="{{ $image->id }}">
                                         <img src="{{ asset('assets/media/btn_img_delete.png') }}"
                                             class="btn_img_delete" onclick="removeImage(this);">
-                                        <div class="img_box"><img
+                                        <div class="img_box draggable-handle"><img
                                                 src="{{ Storage::url('image/' . $image->path) }}">
                                         </div>
                                     </div>
@@ -1660,6 +1662,7 @@
         maxFiles: 1, // 파일 갯수
         maxFilesize: 10, // MB
         timeout: 300000, // 타임아웃 30초 기본 설정
+        previewTemplate: '<div></div>', // 미리보기 완전히 비활성화
         addRemoveLinks: true, // 업로드 후 파일 삭제버튼 표시 여부
         acceptedFiles: '.jpeg,.jpg,.png,.gif,.JPEG,.JPG,.PNG,.GIF', // 이미지 파일 포맷만 허
         accept: function(file, done) {
@@ -1672,10 +1675,10 @@
                 var imagePath = '{{ Storage::url('image/') }}' + responseText.result.path;
 
                 var imageTag = `
-                    <div class="cell">
+                    <div class="cell draggable">
                         <input type="hidden" id="image_ids[]" name="image_ids[]" value="${responseText.result.id}">
                         <img src="{{ asset('assets/media/btn_img_delete.png') }}" class="btn_img_delete" onclick="removeImage(this);">
-                        <div class="img_box">
+                        <div class="img_box draggable-handle">
                             <img src="${imagePath}">
                         </div>
                     </div>
@@ -1688,6 +1691,18 @@
             refreshFsLightbox();
 
         }
+    });
+
+    var containers = document.querySelectorAll(".draggable-zone");
+
+    var swappable = new Sortable.default(containers, {
+        draggable: ".draggable",
+        handle: ".draggable .draggable-handle",
+        mirror: {
+            appendTo: "body",
+            constrainDimensions: true
+        },
+
     });
 
     // 이미지 제거
@@ -1891,7 +1906,7 @@
         var service_price = $('input[name="service_price"]').val();
         var service_type = $('input[name="service_type[]"]:checked').length;
         var loan_type = $('input[name="loan_type"]:checked').val();
-        var loan_price = $('input[name="loan_price"]').val();
+        var loan_price = 1;
         var parking_type = $('input[name="parking_type"]:checked').val();
         var parking_price = $('input[name="parking_price"]').val();
         var approve_date = $('input[name="approve_date"]').val().length;

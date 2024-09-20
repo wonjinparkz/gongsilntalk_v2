@@ -496,6 +496,8 @@ class ProposalPcController extends Controller
             ->where('product_price.price', '<', str_replace(',', '', $request->{'price_' . $request->budget_type}) + str_replace(',', '', $request->{'price_' . $request->budget_type}))
             ->get();
 
+// 수정
+
         foreach ($sameList as $same) {
             ProposalProduct::create([
                 'proposal_id' => $proposal->id,

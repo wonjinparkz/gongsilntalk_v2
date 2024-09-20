@@ -167,14 +167,14 @@
                             @if ($result['type'] < 14)
                                 <div class="reg_item no_forest">
                                     <label class="input_label">사용승인일 <span class="txt_point">*</span></label>
-                                    <input type="text" id="approve_date_0" name="approve_date_0"
+                                    <input type="text" id="approve_date_0" name="approve_date_0" autocomplete="off"
                                         inputmode="numeric" placeholder="예) 20230101"
                                         oninput="onlyNumbers(this); onDateChangeEvent('approve_date', 0);">
                                 </div>
                             @else
                                 <div class="reg_item no_forest">
                                     <label class="input_label">준공예정일 <span class="txt_point">*</span></label>
-                                    <input type="text" id="approve_date_0" name="approve_date_0"
+                                    <input type="text" id="approve_date_0" name="approve_date_0" autocomplete="off"
                                         inputmode="numeric" placeholder="예) 20230101"
                                         oninput="onlyNumbers(this); onDateChangeEvent('approve_date', 0);">
                                 </div>
@@ -378,7 +378,7 @@
             var service_price = $('input[name="service_price"]').val();
             var service_type = $('input[name="service_type[]"]:checked').length;
             var loan_type = $('input[name="loan_type"]:checked').val();
-            var loan_price = $('input[name="loan_price"]').val();
+            var loan_price = 1;
             var parking_type = $('input[name="parking_type"]:checked').val();
             var parking_price = $('input[name="parking_price"]').val();
             var approve_date = $('input[name="approve_date"]').val().length;

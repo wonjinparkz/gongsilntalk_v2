@@ -110,8 +110,10 @@
                     <td>
                         <div class="gap_8">
                             @if ($product->state < 4)
-                                <button class="btn_gray_ghost btn_sm"
-                                    onclick="location.href='{{ route('www.mypage.corp.product.magagement.update.view', [$product->id]) }}'">수정</button>
+                                @if ($product->state != 2)
+                                    <button class="btn_gray_ghost btn_sm"
+                                        onclick="location.href='{{ route('www.mypage.corp.product.magagement.update.view', [$product->id]) }}'">수정</button>
+                                @endif
                             @else
                                 <button class="btn_gray_ghost btn_sm"
                                     onclick="location.href='{{ route('www.corp.proudct.re.register', [$product->id]) }}'">재등록</button>

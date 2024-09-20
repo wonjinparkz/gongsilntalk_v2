@@ -248,17 +248,11 @@
                         @if (isset($paymentTypes[$paymentType]))
                             <div>
                                 {{ $paymentTypes[$paymentType] }}
-                                @if (in_array($paymentType, [0, 5]))
-                                    <span class="gray_basic">({{ $isDiscussion }}/㎡)</span>
-                                @endif
                             </div>
                         @endif
                         <div class="item_col_3">{{ $formatPrice }}
                             @if (in_array($result->priceInfo->payment_type, [1, 2, 4]))
                                 / {{ $formatMonthPrice }}
-                            @endif
-                            @if ($paymentType == 0)
-                                <span class="gray_basic">({{ $formatAveragePrice }}/㎡)</span> &nbsp;
                             @endif
                         </div>
                         <div>관리비</div>
@@ -284,9 +278,9 @@
                         <div>융자금</div>
                         <div class="item_col_3">
                             @if ($result->loan_type == 1)
-                                30%미만 {{ number_format($result->loan_price) }}원
+                                30%미만 {{ $result->loan_price > 0 ? number_format($result->loan_price) . '원' : '' }}
                             @elseif($result->loan_type == 2)
-                                30%이상 {{ number_format($result->loan_price) }}원
+                                30%이상 {{ $result->loan_price > 0 ? number_format($result->loan_price) . '원' : '' }}
                             @else
                                 없음
                             @endif
@@ -423,7 +417,10 @@
                                 @endif
                                 <div>건물 방향</div>
                                 <div>
-                                    {{ Lang::get('commons.direction_type.' . $result->productAddInfo->direction_type) }}향 (주 출입구 기준)
+                                    @if ($result->productAddInfo->direction_type != '')
+                                        {{ Lang::get('commons.direction_type.' . $result->productAddInfo->direction_type) }}향
+                                        <span class="gray_basic">(주 출입구 기준)</span>
+                                    @endif
                                 </div>
                                 @if (!in_array($type, [0, 1, 2, 3, 4, 5, 7]))
                                     <div>방/욕실 수</div>

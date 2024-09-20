@@ -86,9 +86,7 @@ class BannerController extends Controller
     {
         // 유효성 검사
         $validator = Validator::make($request->all(), [
-            'name' => 'required|min:1|max:50',
             'title' => 'required|min:1|max:50',
-            'content' => 'required|min:1|max:80',
             'banner_image_ids' => 'required',
         ]);
 
@@ -124,9 +122,7 @@ class BannerController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|min:1|max:50',
             'title' => 'required|min:1|max:50',
-            'content' => 'required|min:1|max:80',
             'banner_image_ids' => 'required',
         ]);
 

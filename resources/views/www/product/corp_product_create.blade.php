@@ -36,7 +36,7 @@
                     <h4>매물 유형 <span class="txt_point">*</span></h4>
                     <ul class="tab_type_3 tab_toggle_menu">
                         <li class="active" onclick="showDiv('category', 0)">상업용</li>
-                        <li onclick="showDiv('category', 1)">주거용</li>
+                        {{-- <li onclick="showDiv('category', 1)">주거용</li> --}}
                         <li onclick="showDiv('category', 2)">분양권</li>
                     </ul>
                     <div class="tab_area_wrap">
@@ -88,7 +88,7 @@
                                     <label for="sales_type_1" onclick="showDiv('type', 0)">매매</label>
 
                                     <input type="radio" name="sales_type" id="sales_type_2" value="1">
-                                    <label for="sales_type_2" onclick="showDiv('type', 1)">임대</label>
+                                    <label for="sales_type_2" onclick="showDiv('type', 1)">월세</label>
 
                                     <input type="radio" name="sales_type" id="sales_type_3" value="2">
                                     <label for="sales_type_3" onclick="showDiv('type', 1)">단기임대</label>
@@ -488,6 +488,51 @@
     </div>
 
     <script>
+        $(document).ready(function() {
+            // payment_type이 변경될 때 필드 활성화/비활성화
+            $('input[name="sales_type"]').on('change', function() {
+                var paymentType = $(this).val();
+                handlePaymentType(paymentType);
+            });
+
+            // 권리금 활성화 여부 판단
+            $('input[name="keymoney"]').on('change', function() {
+                var isPremium = $(this).val();
+                if (isPremium == '1') {
+                    $('#store').show(); // 권리금 있음
+                } else {
+                    $('#store').hide(); // 권리금 없음
+                }
+            });
+
+            // 기존 임대차 정보 활성화 여부 판단
+            $('input[name="lease"]').on('change', function() {
+                var isLease = $(this).val();
+                if (isLease == '1') {
+                    $('.lease_wrap').show(); // 기존 임대차 정보 있음
+                } else {
+                    $('.lease_wrap').hide(); // 기존 임대차 정보 없음
+                }
+            });
+
+            // 초기 로딩 시 payment_type에 따른 필드 설정
+            var initialPaymentType = $('input[name="sales_type"]:checked').val();
+            handlePaymentType(initialPaymentType);
+
+            // payment_type에 따른 필드 활성화 함수
+            function handlePaymentType(paymentType) {
+                if (paymentType == '0') {
+                    // 매매일 때 필드 활성화
+                    $('.sales_fields').show();
+                    $('.rent_fields').hide();
+                } else if (paymentType == '1' || paymentType == '2') {
+                    // 임대 또는 단기 임대일 때 필드 활성화
+                    $('.sales_fields').hide();
+                    $('.rent_fields').show();
+                }
+            }
+        });
+
         function formSetting() {
             var is_use = $('#is_use').val();
             var is_premium = $('#is_premium').val();
@@ -650,8 +695,7 @@
         //입력란 열고 닫기
         function showDiv(className, index) {
 
-            if (className == 'lease' || className == 'lease_1' || className == 'keymoney') {
-            } else {
+            if (className == 'lease' || className == 'lease_1' || className == 'keymoney') {} else {
                 $('span[class="price"]').empty();
                 $('.find_form input').val('');
 

@@ -291,7 +291,6 @@ class UserPcController extends Controller
             'service_price' => 'required_unless:is_service,1',
             'service_type' => 'required_unless:is_service,1',
             'loan_type' => 'required',
-            'loan_price' => 'required_unless:loan_type,0',
             'parking_type' => 'required_unless:type,6',
             'payment_type' => 'required',
             'price' => 'required',

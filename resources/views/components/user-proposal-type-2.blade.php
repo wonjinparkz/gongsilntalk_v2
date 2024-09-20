@@ -11,7 +11,10 @@
 @inject('carbon', 'Carbon\Carbon')
 <meta name="viewport" content="width=1000">
 <style>
-    @page { size: A4 landscape; margin:0;}
+    @page {
+        size: A4 landscape;
+        margin: 0;
+    }
 </style>
 <div class="proposal_type_item proposal_type_2">
     <section class="print_page">
@@ -47,7 +50,7 @@
     </section>
 
     @foreach ($products as $key => $product)
-    <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
+        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
         <section class="type_3_page type_2_1 print_page" style="background:none;">
             <div class="page_layer">
                 <h2>01 건물소개</h2>
@@ -220,16 +223,14 @@
                                 foreach ($product->facility as $key => $option) {
                                     array_push($optionArray, $option->type);
                                 }
+
+                                // $optionArray의 값에 해당하는 옵션 타입만 가져옴
+                                $selectedOptions = array_map(function ($index) {
+                                    return Lang::get('commons.corp_product_option_type')[$index];
+                                }, $optionArray);
+
+                                echo implode(', ', $selectedOptions);
                             @endphp
-                            <div class="checkbox_btn">
-                                @foreach (Lang::get('commons.corp_product_option_type') as $index => $optionType)
-                                    @if (in_array($index, $optionArray) ? 'checked' : '')
-                                        <input type="checkbox" name="option[]" id="option_{{ $index }}"
-                                            value="{{ $index }}" checked disabled>
-                                        <label for="option_{{ $index }}">{{ $optionType }}</label>
-                                    @endif
-                                @endforeach
-                            </div>
                         </td>
                     </tr>
                 </table>
@@ -254,7 +255,7 @@
         </section>
 
         @if ($product->price->payment_type == 0)
-        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
+            <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
             <section class="type_3_page type_2_1 print_page">
                 <h2>04 견적서</h2>
                 <div class="item_4_wrap">
@@ -472,23 +473,23 @@
         @endif
     @endforeach
     <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
-    <section class="type_3_page type_2_5 print_page" >
+    <section class="type_3_page type_2_5 print_page">
         <div class="txt_item_end">
             감사합니다
             <p>Thank you</p>
         </div>
         <div class="end_company_wrap">
             <div>
-                <p class="txt_item_1">{{ $corpInfo->company_name }}</p>
+                <p class="txt_item_1">{{ $corpInfo->users->company_name }}</p>
                 <p class="txt_item_2">{{ $corpInfo->position }}
-                    {{ $corpInfo->name }}</p>
+                    {{ $corpInfo->users->name }}</p>
             </div>
             <div>
-                <p class="txt_item_1">{{ $corpInfo->phone }}</p>
-                <p class="txt_item_1">{{ $corpInfo->email }}</p>
+                <p class="txt_item_1">{{ $corpInfo->users->phone }}</p>
+                <p class="txt_item_1">{{ $corpInfo->users->email }}</p>
             </div>
-            <p class="txt_item_3">{{ $corpInfo->company_address }}
-                {{ $corpInfo->company_address_detail }}</p>
+            <p class="txt_item_3">{{ $corpInfo->users->company_address }}
+                {{ $corpInfo->users->company_address_detail }}</p>
         </div>
     </section>
 

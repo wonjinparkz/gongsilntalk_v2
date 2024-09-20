@@ -331,7 +331,7 @@
                         <label
                             class="required col-lg-2 col-form-label fw-semibold fs-6 approve_date_text">{{ $type > 13 ? '준공예정일' : '사용승인일' }}</label>
                         <div class="col-lg-3 fv-row">
-                            <input type="text" name="approve_date" class="form-control" placeholder="예) 20230204"
+                            <input type="text" name="approve_date" class="form-control" placeholder="예) 20230204" autocomplete="off"
                                 value="{{ old('approve_date') ? old('approve_date') : $result->approve_date }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('approve_date')" />
                         </div>
@@ -1262,10 +1262,9 @@
             <x-screen-card :title="'사진 및 상세 설명'">
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
-
                     {{-- 이미지 --}}
                     <x-admin-image-picker :title="'사진등록'" :id="'product'" required="required" cnt="8"
-                        label_col='2' :images="$result->images" />
+                        label_col='2' :images="$result->images" type="product"/>
 
                     {{-- 한줄요약 --}}
                     <div class="row mb-6">

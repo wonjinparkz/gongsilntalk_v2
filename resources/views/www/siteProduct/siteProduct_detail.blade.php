@@ -355,7 +355,7 @@
                             @foreach ($dateJson[$year] as $schedule)
                                 <li>
                                     @if ($schedule->ended_date == '')
-                                        <div class="schedule_item_1">
+                                        <div class="schedule_item_3">
                                             {{ date('Y.m.d', strtotime($schedule->start_date)) }}
                                         </div>
                                     @else

@@ -195,6 +195,43 @@
                             <textarea name="product_content" id="product_content" placeholder="건물의 특징이나 장점을 설명해주세요."></textarea>
                         </div>
 
+
+                        <script>
+                            const textarea = document.getElementById('product_content');
+                            const maxLines = 15;
+                            const maxCharsPerLine = 40;
+
+                            textarea.addEventListener('input', () => {
+                                const startPos = textarea.selectionStart; // 현재 커서 위치 저장
+                                const endPos = textarea.selectionEnd; // 선택된 텍스트 범위의 끝 위치 저장
+                                const originalValue = textarea.value;
+                                const lines = originalValue.split('\n');
+                                let result = '';
+
+                                // 각 줄에서 40글자 초과하면 자르기 (공백 포함)
+                                for (let i = 0; i < lines.length; i++) {
+                                    if (i < maxLines) {
+                                        if (lines[i].length > maxCharsPerLine) {
+                                            // 40글자까지만 자르기
+                                            result += lines[i].slice(0, maxCharsPerLine) + '\n';
+                                        } else {
+                                            result += lines[i] + '\n';
+                                        }
+                                    }
+                                }
+
+                                // 15줄 초과 시 잘라내기
+                                const limitedText = result.split('\n').slice(0, maxLines).join('\n');
+
+                                // 기존 값과 다르면 텍스트 재설정 및 커서 위치 유지
+                                if (textarea.value !== limitedText) {
+                                    const cursorOffset = textarea.value.length - originalValue.length;
+                                    textarea.value = limitedText;
+                                    textarea.setSelectionRange(startPos - cursorOffset, endPos - cursorOffset); // 커서 위치 복구
+                                }
+                            });
+                        </script>
+
                         {{-- <div class="offer_textarea_wrap">
                             <label class="input_label">요청사항 </label>
                             <textarea name="content" id="content" placeholder="별도의 요청사항이 있다면 작성해주세요."></textarea>

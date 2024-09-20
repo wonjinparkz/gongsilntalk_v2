@@ -295,7 +295,7 @@ img.floor_img{width: 80%;}
 .traffic_wrap{padding: 20px 4px; min-height: 80px;}
 .traffic_tit{font-family: 'font-b'; display: flex; align-items: center; padding-bottom:2px;}
 .traffic_tit img{width:12px; margin-right: 8px;}
-.traffic_row{margin-top:10px;}
+.traffic_row{margin-top:10px; line-height: 1.4;}
 .traffic_row span{margin-left:6px; color: var(--color-gray-3);}
 .facility_wrap, .edu_wrap{min-height: 80px; padding: 20px 4px; line-height: 1.4;}
 .property_sm_list{border-bottom: 1px solid var(--gray-line); display: flex; padding:30px 16px; gap:14px; align-items: center;}
@@ -399,7 +399,7 @@ img.floor_img{width: 80%;}
 .map_bottom_btn.p_area{bottom: 120px !important;}
 .map_bottom_btn button{background: #fff; border-radius:6px; display: flex; flex-direction: column; gap:6px; font-size: 11px; letter-spacing: -1px; align-items: center; padding:10px 0; box-shadow: 0 0 5px rgba(0,0,0,0.1);}
 .map_bottom_btn button img{width:22px;}
-.map_view_btn{position:fixed; z-index: 2; left: 50%; transform: translateX(-50%); bottom:30px; background: #fff; border-radius: 50px; padding:8px 12px; box-shadow: 0 0 5px rgba(0,0,0,0.1);}
+.map_view_btn{position:fixed; z-index: 2; left: 50%; transform: translateX(-50%); bottom:30px; background: #fff; border-radius: 50px; padding:15px 19px; box-shadow: 0 0 5px rgba(0,0,0,0.1);}
 .map_side_btn{width:44px; position:fixed; z-index: 2; right:30px; top:145px; display: flex; flex-direction: column; gap: 14px;}
 .map_side_btn button{display: flex; justify-content: center; align-items: center; width: 44px; height: 44px; font-size: 13px; border-radius: 6px; background: #fff; box-shadow: 0 0 6px rgba(0,0,0,0.2);}
 .map_side_btn button img{width:20px;}
@@ -468,7 +468,7 @@ img.floor_img{width: 80%;}
 .btn_room_wish.on{background: url('/assets/media/btn_like_on.png') 16px 50% no-repeat; background-size:16px auto; border: 1px solid var(--main-color);}
 .btn_room_wish{background: url('/assets/media/btn_like_off.png') 16px 50% no-repeat; background-size:16px auto; border: 1px solid #D2D1D0; border-radius: 5px; display: inline-block; padding: 14px 16px 14px 36px; cursor: pointer; margin-right: 8px;}
 .btn_room_share{width:44px; height: 44px; background: url('/assets/media/header_btn_share_deep.png') 50% 50% no-repeat; background-size:16px auto;  display:inline-block; border: 1px solid #D2D1D0; border-radius: 5px; cursor: pointer;}
-.layer_share_wrap{display: none; background: #fff; width:240px; border: 1px solid #D2D1D0; border-radius: 5px; position: absolute; z-index: 2; margin-top: 48px;}
+.layer_share_wrap{display: none; background: #fff; width:240px; border: 1px solid #D2D1D0; border-radius: 5px; position: absolute; z-index: 10; margin-top: 48px;}
 .layer_share_wrap.layer_share_top{margin-top: 8px !important;}/* header에 있을 경우 */
 .layer_share_con{display:flex; justify-content: center; padding: 18px 18px; text-align:center; }
 .layer_share_con a{margin:  0 8px; color: var(--color-gray-2);}

@@ -17,8 +17,8 @@
             <h1>{{ $corpInfo->corp_name }}<br>기업이전제안서</h1>
             <div>
                 <p class="txt_item_2">{{ $corpInfo->position }}
-                    {{ $corpInfo->name }}</p>
-                <p class="txt_item_3">{{ $corpInfo->company_name }}</p>
+                    {{ $corpInfo->users->name }}</p>
+                <p class="txt_item_3">{{ $corpInfo->users->company_name }}</p>
             </div>
         </div>
     </section>
@@ -212,16 +212,14 @@
                                 foreach ($product->facility as $key => $option) {
                                     array_push($optionArray, $option->type);
                                 }
+
+                                // $optionArray의 값에 해당하는 옵션 타입만 가져옴
+                                $selectedOptions = array_map(function ($index) {
+                                    return Lang::get('commons.corp_product_option_type')[$index];
+                                }, $optionArray);
+
+                                echo implode(', ', $selectedOptions);
                             @endphp
-                            <div class="checkbox_btn">
-                                @foreach (Lang::get('commons.corp_product_option_type') as $index => $optionType)
-                                    @if (in_array($index, $optionArray) ? 'checked' : '')
-                                        <input type="checkbox" name="option[]" id="option_{{ $index }}"
-                                            value="{{ $index }}" checked disabled>
-                                        <label for="option_{{ $index }}">{{ $optionType }}</label>
-                                    @endif
-                                @endforeach
-                            </div>
                         </td>
                     </tr>
                 </table>
@@ -478,16 +476,16 @@
             </div>
             <div class="end_company_wrap">
                 <div>
-                    <p class="txt_item_1">{{ $corpInfo->company_name }}</p>
+                    <p class="txt_item_1">{{ $corpInfo->users->company_name }}</p>
                     <p class="txt_item_2">{{ $corpInfo->position }}
-                        {{ $corpInfo->name }}</p>
+                        {{ $corpInfo->users->name }}</p>
                 </div>
                 <div>
-                    <p class="txt_item_1">{{ $corpInfo->phone }}</p>
-                    <p class="txt_item_1">{{ $corpInfo->email }}</p>
+                    <p class="txt_item_1">{{ $corpInfo->users->phone }}</p>
+                    <p class="txt_item_1">{{ $corpInfo->users->email }}</p>
                 </div>
-                <p class="txt_item_3">{{ $corpInfo->company_address }}
-                    {{ $corpInfo->company_address_detail }}</p>
+                <p class="txt_item_3">{{ $corpInfo->users->company_address }}
+                    {{ $corpInfo->users->company_address_detail }}</p>
             </div>
         </div>
     </section>
