@@ -655,6 +655,8 @@ a.btn_like{background: url('../images/btn_like_off.png') no-repeat; background-s
 .inner_change_button img{width:10px; vertical-align: middle; margin-top: -5px;}
 .my_body_top{margin-top:38px;}
 .step_number, .step_number span{color: var(--color-gray-3); font-size: 20px; font-family: 'font-b';}
+.input_wrap_check{display: flex; gap: 8px;}
+.input_wrap_check input{flex: 1;}
 
 .user_profile_wrap {width:80px; height:80px; overflow:hidden; margin:0 auto; position: relative; }
 .user_profile_wrap img {border-radius:80px;}
