@@ -482,6 +482,9 @@ class ProposalPcController extends Controller
 
         $sameList = Product::select('product.id as product_id')
             ->leftjoin('product_price', 'product_price.product_id', 'product.id')
+            ->where('product.is_blind', 0)
+            ->where('product.is_delete', 0)
+            ->where('product.state', 1)
             ->where(function ($query) use ($request) {
                 foreach ($request->region_zone as $key => $region) {
                     if ($key == 0) {
@@ -490,13 +493,40 @@ class ProposalPcController extends Controller
                     $query->orWhere('product.region_address', 'like', "%{$region}%");
                 }
             })
-            ->where('product.exclusive_area', '>', ($request->area - 5))
-            ->where('product.exclusive_area', '<', ($request->area + 15))
-            ->where('product_price.price', '>', str_replace(',', '', $request->{'price_' . $request->budget_type}))
-            ->where('product_price.price', '<', str_replace(',', '', $request->{'price_' . $request->budget_type}) + str_replace(',', '', $request->{'price_' . $request->budget_type}))
-            ->get();
+            ->whereBetween('product.exclusive_area', [
+                $request->area - 5,  // 평수 값의 -5
+                $request->area + 10  // 평수 값의 +10
+            ]);
 
-// 수정
+
+        if ($proposal->type == 0) {
+            $sameList->where('product.type', '=', 3);
+        } else if ($proposal->type == 1) {
+            $sameList->whereIn('product.type', [0, 1, 2]);
+        } else if ($proposal->type == 2) {
+            $sameList->where('product.type', '=', 7);
+        }
+
+        // 매매일 경우 매매가 검색
+        if ($proposal->payment_type == 0) {
+            $sameList->where('product_price.payment_type', 0)->whereBetween('product_price.price', [
+                $proposal->price * 0.7,  // 가격의 -30%
+                $proposal->price * 1.3   // 가격의 +30%
+            ]);
+        }
+
+        // 임대 또는 월세일 경우 월임대료 검색
+        if ($proposal->payment_type == 1) {
+            $sameList->whereIn('product_price.payment_type', [1, 2, 4])->whereBetween('product_price.month_price', [
+                $proposal->month_price * 0.7,  // 가격의 -30%
+                $proposal->month_price * 1.3   // 가격의 +30%
+            ]);
+        }
+
+
+        $sameList = $sameList->get();
+
+        // 수정
 
         foreach ($sameList as $same) {
             ProposalProduct::create([

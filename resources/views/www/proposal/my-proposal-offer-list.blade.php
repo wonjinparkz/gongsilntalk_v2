@@ -102,7 +102,8 @@
                                             <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                             <p class="mt8">카카오톡</p>
                                         </a>
-                                        <a onclick="textCopy('{{ env('APP_URL') }}/share/proposal/detail?id={{ $proposal->id }}');$('.md_btn_close').click();">
+                                        <a
+                                            onclick="textCopy('{{ env('APP_URL') }}/share/proposal/detail?id={{ $proposal->id }}');$('.md_btn_close').click();">
                                             <img src="{{ asset('assets/media/share_ic_02.png') }}">
                                             <p class="mt8">링크복사</p>
                                         </a>
@@ -131,10 +132,10 @@
                             <table class="table_basic mt12 only_pc">
                                 <colgroup>
                                     <col width="80">
-                                    <col width="80">
-                                    <col width="240">
-                                    <col width="*">
                                     <col width="120">
+                                    <col width="200">
+                                    <col width="*">
+                                    <col width="150">
                                     <col width="100">
                                     <col width="100">
                                     <col width="80">
@@ -215,13 +216,17 @@
                                                         {{ $price > 0 ? Commons::get_priceTrans($price) : 0 }}
                                                         {{ $monthPrice }}
                                                     </span><br>
-                                                    <span class="area">({{ number_format($priceArea) }}/평)</span>
+                                                    <span class="area">
+                                                        @if ($product->product->priceInfo->payment_type == 0)
+                                                            ({{ number_format($priceArea) }}/평)
+                                                        @endif
+                                                    </span>
                                                 </td>
                                                 <td>{{ $product->product->address }} </td>
-                                                <td>전용 {{ $product->product->exclusive_square }}㎡</td>
+                                                <td>전용 {{ $product->product->exclusive_square ?? '-' }}㎡ / {{ $product->product->exclusive_area ?? '-' }}평</td>
                                                 <td>{{ $product->product->floor_number }}층 /
                                                     {{ $product->product->total_floor_number }}층</td>
-                                                <td>{{ $product->product->is_service == 0 ? '관리비 ' . number_format($product->product->service_price) . '원' : '-' }}
+                                                <td>{{ $product->product->is_service == 0 ? number_format($product->product->service_price) . '원' : '없음' }}
                                                 </td>
                                                 <td><button
                                                         class="btn_like {{ $product->product->like_id != '' ? 'on' : '' }}"

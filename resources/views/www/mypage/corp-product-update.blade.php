@@ -67,7 +67,7 @@
 
                                         <input type="radio" name="payment_type" id="payment_type_2" value="1"
                                             {{ $payment_type == 1 ? 'checked' : '' }}>
-                                        <label for="payment_type_2" onclick="showDiv('type', 1)">임대</label>
+                                        <label for="payment_type_2" onclick="showDiv('type', 1)">월세</label>
 
                                         <input type="radio" name="payment_type" id="payment_type_3" value="2"
                                             {{ $payment_type == 2 ? 'checked' : '' }}>

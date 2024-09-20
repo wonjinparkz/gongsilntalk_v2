@@ -174,7 +174,7 @@
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">작성 제안서 개수</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" disabled class="form-control form-control-solid"
-                                    placeholder="작성 제안서 개수" value="{{$proposalCount ?? 0}}개" />
+                                    placeholder="작성 제안서 개수" value="{{ $proposalCount ?? 0 }}개" />
                             </div>
                         </div>
 
@@ -342,18 +342,46 @@
                     {{-- 테이블 내용 --}}
                     <tbody class="fw-semibold text-gray-600">
                         @if ($result->products)
-                            @foreach ($result->products as $product)
+                            @foreach ($result->products as $index => $product)
+                                @php
+                                    $product = $product->product;
+
+                                    $monthPrice = '';
+                                    $priceArea = 0.0;
+                                    $price = $product->priceInfo->price ?? 0;
+                                    $month_price = $product->priceInfo->month_price ?? 0;
+                                    $exclusive_area = $product->exclusive_area ?? 0;
+
+                                    if (
+                                        $product->priceInfo->payment_type == 1 ||
+                                        $product->priceInfo->payment_type == 2 ||
+                                        $product->priceInfo->payment_type == 4
+                                    ) {
+                                        if ($month_price > 0) {
+                                            $monthPrice =
+                                                ' / ' . ($month_price > 0 ? Commons::get_priceTrans($month_price) : 0);
+                                            if ($exclusive_area > 0) {
+                                                $priceArea = $month_price / $product->exclusive_area;
+                                            }
+                                        }
+                                    } else {
+                                        $monthPrice = '';
+                                        if ($price > 0 && $exclusive_area > 0) {
+                                            $priceArea = $price / $product->exclusive_area;
+                                        }
+                                    }
+                                @endphp
                                 <tr>
                                     {{-- 매물 제안서 건물 번호 --}}
                                     <td class="text-center">
-                                        <span class="fw-bold fs-5">1</span>
+                                        <span class="fw-bold fs-5">{{ $index + 1 }}</span>
                                     </td>
 
                                     {{-- 사진 --}}
                                     <td class="text-center">
                                         <div class="symbol symbol-70px">
                                             <div class="symbol-label"
-                                                style="background-image:url({{ asset('assets/media/default_user.png') }})">
+                                                style="background-image:url({{ Storage::url('image/' . $product->images[0]->path) }})">
                                             </div>
                                         </div>
                                     </td>
@@ -361,37 +389,42 @@
                                     {{-- 거래정보 --}}
                                     <td class="text-center">
                                         <span class="fw-bold fs-5 text-dark">
-                                            임대 3억 2,220만/4,500만
+                                            {{ Lang::get('commons.payment_type.' . $product->priceInfo->payment_type) }}
+                                            {{ mb_substr(Commons::get_priceTrans($product->priceInfo->price), 0, -1) }}
+                                            {{ in_array($product->priceInfo->payment_type, [1, 2, 4]) ? ' / ' . mb_substr(Commons::get_priceTrans($product->priceInfo->month_price), 0, -1) : '' }}
                                         </span>
-                                        <p class="fs-6">(800만/㎡)</p>
+                                        @if ($product->priceInfo->payment_type == 0)
+                                            <p class="fs-6">({{ number_format($priceArea) }}/평)</p>
+                                        @endif
                                     </td>
 
                                     {{-- 주소 --}}
                                     <td class="text-center">
                                         <span class="fw-bold fs-5 text-dark">
-                                            강남구 역삼동 123-12
+                                            {{ $product->address }}
                                         </span>
                                     </td>
 
                                     {{-- 면적 --}}
                                     <td class="text-center">
                                         <span class="fw-bold fs-5 text-dark">
-                                            전용 112.05㎡/100평
+                                            전용
+                                            {{ $product->exclusive_square ?? '-' }}㎡/{{ $product->exclusive_area ?? '-' }}평
                                         </span>
                                     </td>
 
                                     {{-- 층 정보 --}}
                                     <td class="text-center">
                                         <span class="fw-bold fs-5 text-dark">
-                                            3층/12층
+                                            {{ $product->floor_number }}층 /
+                                            {{ $product->total_floor_number }}층
                                         </span>
                                     </td>
 
                                     {{-- 관리비 --}}
                                     <td class="text-center">
                                         <span class="fw-bold fs-5 text-dark">
-                                            {{ 100000 / 10000 }}만원
-                                        </span>
+                                            {{ $product->is_service == 0 ? number_format($product->service_price) . '원' : '없음' }}
                                     </td>
 
                                 </tr>
