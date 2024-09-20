@@ -123,7 +123,7 @@
                                         {{-- 배너 제목 --}}
                                         <td class="text-center">
                                             <a href="{{ route('admin.banner.detail.view', [$banner->id]) }}"
-                                                class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $banner->name }}</a>
+                                                class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $banner->title }}</a>
                                         </td>
 
                                         {{-- 상태 --}}
