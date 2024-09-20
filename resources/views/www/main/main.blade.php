@@ -445,10 +445,11 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="swiper-button-next"><img src="{{ asset('assets/media/arrow_w_next.png') }}">
+                    <div class="btn_arrow_wrap">
+                        <div class="swiper-button-next"><img src="{{ asset('assets/media/arrow_w_next.png') }}"></div>
+                        <div class="swiper-button-prev"><img src="{{ asset('assets/media/arrow_w_prev.png') }}"></div>
                     </div>
-                    <div class="swiper-button-prev"><img src="{{ asset('assets/media/arrow_w_prev.png') }}">
-                    </div>
+                    
                     <div class="swiper-pagination_wrap">
                         <div class="swiper-pagination"></div>
                     </div>
