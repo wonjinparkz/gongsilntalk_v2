@@ -114,12 +114,12 @@
                             <b>내 정보 수정
                             </b>
                         </button>
-                        <div class="flex_between">
-                            <button class="btn_ghost btn_full_thin mt28" type="button"
+                        <div class="flex_between mt28">
+                            <button class="btn_ghost" type="button"
                                 onclick="location.href='{{ route('www.logout.logout') }}'">
                                 <b>로그아웃</b>
                             </button>
-                            <button type="button">회원탈퇴</button>
+                            <button class="btn_ghost" type="button">회원탈퇴</button>
                         </div>
                     </div>
 

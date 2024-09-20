@@ -93,10 +93,10 @@
                         <button class="btn_gray_ghost btn_full_basic mt28" type="button"
                             onclick="modal_open('info_modify')"><b>내 정보
                                 수정</b></button>
-                                <div class="flex_between">
-                                    <button class="btn_ghost mt28" type="button"
+                                <div class="flex_between mt28">
+                                    <button class="btn_ghost" type="button"
                                     onclick="location.href='{{ route('www.logout.logout') }}'"><b>로그아웃</b></button>
-                                    <button type="button">회원탈퇴</button>
+                                    <button class="btn_ghost" type="button">회원탈퇴</button>
                                 </div>
                         
                     </div>
