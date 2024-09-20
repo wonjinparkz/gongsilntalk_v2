@@ -59,7 +59,7 @@
                                     <button class="btn_gray_ghost btn_sm" id="btn_pw" onclick="changeNickName()">닉네임
                                         변경</button>
                                 </div>
-                                <p id="nickname_confirm" style="color:red; display:none;"></p>
+                                <p id="nickname_confirm" style="color:red; display:none; margin-top:8px"></p>
                                 <p />
                             </li>
 
