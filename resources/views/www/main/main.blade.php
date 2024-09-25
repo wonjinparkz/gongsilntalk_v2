@@ -17,7 +17,8 @@
                         @if ($notTodayId == 'N' || $notTodayId == null)
                             <div class="popup_div popup_div_{{ $item->id }}">
                                 <div class="popup_img">
-                                    <a href="{{ $item->url ?? route('www.main.main') }}" onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
+                                    <a href="{{ $item->url ?? route('www.main.main') }}"
+                                        onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
                                         <div class="img_box"><img
                                                 src="{{ Storage::url('image/' . $item->images[0]->path) }}">
                                         </div>
@@ -539,14 +540,14 @@
                 <div class="inner_wrap">
                     <div class="txt_item_1">어떤 매물을 찾으시나요?</div>
                     <div class="txt_item_2">원하시는 부동산을 찾아보세요.</div>
-
-                    <ul class="property_img_wrap">
-                        <li class="active">사무실</li>
-                        <li>공장/창고</li>
-                        <li>건물</li>
-                        <li>상가</li>
-                    </ul>
-
+                    <a href="{{ route('www.mypage.user.offer.first.create.view') }}">
+                        <ul class="property_img_wrap">
+                            <li class="active">사무실</li>
+                            <li>공장/창고</li>
+                            <li>건물</li>
+                            <li>상가</li>
+                        </ul>
+                    </a>
                 </div>
             </section>
             <script>
