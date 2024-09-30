@@ -19,7 +19,7 @@ class Images extends BaseModel
     /**
      * 모델
      */
-    protected $fillable = ['path', 'width', 'height', 'order'];
+    protected $fillable = ['path', 'width', 'height', 'order', 'type'];
 
 
     /**
