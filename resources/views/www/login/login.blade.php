@@ -86,7 +86,7 @@
 
                 $('#kakao-login').html('<iframe id="kakaoLoginFrame" src="' + kakaoLoginUrl +
                     '" frameborder="0" style="width:' + width + 'px; height:' + height + 'px;"></iframe>');
-                modal_close('sns_login')
+                    modal_open('sns_login')
 
                 // window.addEventListener('message', function(event) {
                 //     if (event.origin !== window.location.origin) {
