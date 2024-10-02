@@ -883,9 +883,11 @@
                                 <p class="txt_item_1">더욱 편리하게<br>앱을 이용해보세요.</p>
                                 <p class="txt_item_2">언제 어디서나 공실앤톡을 이용해 보세요.</p>
                                 <div class="main_download_btn">
-                                    <button class="btn_point btn_basic"><img
+                                    <button class="btn_point btn_basic"
+                                        onclick="location.href='https://play.google.com/store/apps/details?id=com.gsntalk'"><img
                                             src="{{ asset('assets/media/ic_download_aos.png') }}">안드로이드</button>
-                                    <button class="btn_point btn_basic"><img
+                                    <button class="btn_point btn_basic"
+                                        onclick="location.href='https://apps.apple.com/kr/app/%EA%B3%B5%EC%8B%A4%EC%95%A4%ED%86%A1-%EC%A7%80%EC%8B%9D%EC%82%B0%EC%97%85%EC%84%BC%ED%84%B0-%EC%82%AC%EB%AC%B4%EC%8B%A4-%EA%B3%B5%EC%9E%A5-%EC%83%81%EA%B0%80-%EA%B3%B5%EC%8B%A4%EA%B4%80%EB%A6%AC/id6593676137'"><img
                                             src="{{ asset('assets/media/ic_download_ios.png') }}">아이폰</button>
                                 </div>
                             </div>
