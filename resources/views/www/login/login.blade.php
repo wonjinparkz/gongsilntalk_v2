@@ -41,7 +41,7 @@
                         {{-- <a onclick="openApplePopup();">
                             <img src="{{ asset('assets/media/btn_ss_1.png') }}" alt="애플로그인">
                         </a> --}}
-                        <a onclick="openKakaoPopup();">
+                         <a onclick="openKakaoPopup();">
                             <img src="{{ asset('assets/media/btn_ss_2.png') }}" alt="카카오로그인">
                         </a>
                         <a onclick="form_sns_login('{{ route('www.login.naver') }}');">
@@ -83,39 +83,18 @@
                 var height = 600;
                 var left = (screen.width / 2) - (width / 2);
                 var top = (screen.height / 2) - (height / 2);
+                var popup = window.open(kakaoLoginUrl, 'kakaoLoginPopup', 'width=' + width + ', height=' + height + ', top=' +
+                    top + ', left=' + left);
 
-                $('#kakao-login').html('<iframe id="kakaoLoginFrame" src="' + kakaoLoginUrl +
-                    '" frameborder="0" style="width:' + width + 'px; height:' + height + 'px;"></iframe>');
-                    modal_open('sns_login')
-
-                // window.addEventListener('message', function(event) {
-                //     if (event.origin !== window.location.origin) {
-                //         return;
-                //     }
-                //     if (event.data === 'success') {
-                //         window.location.reload();
-                //     }
-                // }, false);
+                window.addEventListener('message', function(event) {
+                    if (event.origin !== window.location.origin) {
+                        return;
+                    }
+                    if (event.data === 'success') {
+                        window.location.reload();
+                    }
+                }, false);
             }
-
-            // function openKakaoPopup() {
-            //     var kakaoLoginUrl = "{{ route('www.login.kakao') }}";
-            //     var width = 500;
-            //     var height = 600;
-            //     var left = (screen.width / 2) - (width / 2);
-            //     var top = (screen.height / 2) - (height / 2);
-            //     var popup = window.open(kakaoLoginUrl, 'kakaoLoginPopup', 'width=' + width + ', height=' + height + ', top=' +
-            //         top + ', left=' + left);
-
-            //     window.addEventListener('message', function(event) {
-            //         if (event.origin !== window.location.origin) {
-            //             return;
-            //         }
-            //         if (event.data === 'success') {
-            //             window.location.reload();
-            //         }
-            //     }, false);
-            // }
 
             function openApplePopup() {
                 var appleLoginUrl = "{{ route('www.login.apple') }}";
