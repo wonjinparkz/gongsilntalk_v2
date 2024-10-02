@@ -83,21 +83,19 @@
                 var height = 600;
                 var left = (screen.width / 2) - (width / 2);
                 var top = (screen.height / 2) - (height / 2);
-                var popup = window.open(kakaoLoginUrl, 'kakaoLoginPopup', 'width=' + width + ', height=' + height + ', top=' +
-                    top + ', left=' + left);
 
                 $('#kakao-login').html('<iframe id="kakaoLoginFrame" src="' + kakaoLoginUrl +
                     '" frameborder="0" style="width:' + width + 'px; height:' + height + 'px;"></iframe>');
                 $('#snsLoginModal').modal('show');
 
-                window.addEventListener('message', function(event) {
-                    if (event.origin !== window.location.origin) {
-                        return;
-                    }
-                    if (event.data === 'success') {
-                        window.location.reload();
-                    }
-                }, false);
+                // window.addEventListener('message', function(event) {
+                //     if (event.origin !== window.location.origin) {
+                //         return;
+                //     }
+                //     if (event.data === 'success') {
+                //         window.location.reload();
+                //     }
+                // }, false);
             }
 
             // function openKakaoPopup() {
