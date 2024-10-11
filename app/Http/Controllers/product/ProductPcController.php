@@ -624,9 +624,9 @@ class ProductPcController extends Controller
         $premium_price = $request->premium_price;
 
         if ($request->type == 3) {
-            $premium_price = $request->is_premium == 1 ? $premium_price : '';
+            $premium_price = $request->is_premium == 1 ? $premium_price : 0;
         } else if ($request->type > 13) {
-            $premium_price = $premium_price;
+            $premium_price = $premium_price ?? 0;
         }
         ProductPrice::create([
             'product_id' => $result->id,
