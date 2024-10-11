@@ -144,7 +144,8 @@
                 $info['dongNm'] = '';
             }
         @endphp
-        <div class="{{ str_replace(' ', '', $info['dongNm']) }} dongInfo">
+        <div
+            class="{{ str_replace(' ', '', $info['dongNm']) }} dongInfo dongInfo_{{ str_replace(' ', '', $info['dongNm']) }}">
             <div class="default_box showstep1">
                 <div class="table_container2_sm mt10">
                     <div class="td">규모</div>
@@ -242,7 +243,8 @@
                             @if ($name == str_replace(' ', '', $info['dongNm']))
                                 {{-- 전유부 동 이름과 매칭되도록 필터링 --}}
                                 <li class="optionItem unit-specific {{ str_replace(' ', '', $info['dongNm']) }}"
-                                    data-dong="{{ str_replace(' ', '', $info['dongNm']) }}" data-ho="{{ $info['hoNm'] }}">
+                                    data-dong="{{ str_replace(' ', '', $info['dongNm']) }}"
+                                    data-ho="{{ $info['hoNm'] }}">
                                     {{ $info['dongNm'] != '' ? $info['dongNm'] . '-' : '' }}{{ $info['hoNm'] }}
                                 </li>
                             @endif
@@ -423,7 +425,7 @@
         var totalDongCount = $('input[name="dong"]').length;
         var label;
 
-        if (totalDongCount > 1 ||  dong.trim() !== "") {
+        if (totalDongCount > 1 || dong.trim() !== "") {
             // 여러 동이 있을 경우 동-호 표시
             label = dong + '-' + ho; // ex) "107동-B102"
         } else {
