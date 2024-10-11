@@ -36,7 +36,7 @@
                     <h4>매물 유형 <span class="txt_point">*</span></h4>
                     <ul class="tab_type_3 tab_toggle_menu">
                         <li class="active" onclick="showDiv('category', 0)">상업용</li>
-                        {{-- <li onclick="showDiv('category', 1)">주거용</li> --}}
+                        <li onclick="showDiv('category', 1)" style="display: none">
                         <li onclick="showDiv('category', 2)">분양권</li>
                     </ul>
                     <div class="tab_area_wrap">
@@ -473,8 +473,8 @@
                                 <div>
                                     <label class="input_label">준공예정일</label>
                                     <div class="w_30">
-                                        <input type="text" id="approve_date_0" name="approve_date_0" autocomplete="off"
-                                            inputmode="numeric" placeholder="예) 20230101"
+                                        <input type="text" id="approve_date_0" name="approve_date_0"
+                                            autocomplete="off" inputmode="numeric" placeholder="예) 20230101"
                                             oninput="onlyNumbers(this); onDateChangeEvent('approve_date', 0);">
                                     </div>
                                 </div>
@@ -667,8 +667,7 @@
         //입력란 열고 닫기
         function showDiv(className, index) {
 
-            if (className == 'lease' || className == 'lease_1' || className == 'keymoney') {
-            } else {
+            if (className == 'lease' || className == 'lease_1' || className == 'keymoney') {} else {
                 $('span[class="price"]').empty();
                 $('.find_form input').val('');
 
