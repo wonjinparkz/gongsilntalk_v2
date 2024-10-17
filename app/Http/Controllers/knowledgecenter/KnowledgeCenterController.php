@@ -33,7 +33,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 */
 
 
-class KnowledgeCneter_Controller extends Controller
+class KnowledgeCenterController extends Controller
 {
     /**
      * 지식산업센터 목록 보기

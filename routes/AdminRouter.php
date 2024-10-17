@@ -20,7 +20,7 @@ use App\Http\Controllers\consulting\ConsultingController;
 use App\Http\Controllers\data\DataController;
 use App\Http\Controllers\interior\InteriorEstimateController;
 use App\Http\Controllers\store\DataStoreController;
-use App\Http\Controllers\knowledgecenter\KnowledgeCneter_Controller;
+use App\Http\Controllers\knowledgecenter\KnowledgeCenterController;
 use App\Http\Controllers\magazine\MagazineController;
 use App\Http\Controllers\maintext\MainTextController;
 use App\Http\Controllers\product\ProductController;
@@ -144,7 +144,7 @@ Route::middleware('admin.auth')->controller(SiteProductController::class)->group
 /**
  * 지식산업센터 관리
  */
-Route::middleware('admin.auth')->controller(KnowledgeCneter_Controller::class)->group(function () {
+Route::middleware('admin.auth')->controller(KnowledgeCenterController::class)->group(function () {
     Route::get('/knowledgeCenter/list/view', 'knowledgeCenterListView')->name('admin.knowledgeCenter.list.view');
     Route::get('/knowledgeCenter/detail/view/{id}', 'knowledgeCenterdetailView')->name('admin.knowledgeCenter.detail.view');
     Route::get('/knowledgeCenter/create', 'knowledgeCenterCreateView')->name('admin.knowledgeCenter.create.view');
