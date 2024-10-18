@@ -572,6 +572,7 @@
 </script>
 <script src="{{ asset('assets/js/MarkerClustering.js') }}"></script>
 <script>
+    var today = new Date();
     var polygonMap = null;
     var map;
     var pano;
