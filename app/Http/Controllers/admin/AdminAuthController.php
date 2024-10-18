@@ -51,10 +51,6 @@ class AdminAuthController extends Controller
                 ->withInput();
         }
 
-        $user = User::find(11);
-        $user->phone = '01051847214';
-        $user->save();
-
         if (Auth::guard('admin')->attempt($request->only('admin_id', 'password'))) {
             $request->session()->regenerate();
             return Redirect::route('admin.user.list.view')->with('message', "환영합니다.");
