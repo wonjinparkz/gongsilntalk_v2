@@ -1158,14 +1158,19 @@
         sale_min_price,
         sale_max_price,
         lease_min_price,
-        lease_max_price
+        lease_max_price,
+        completion_date
     }) {
+        is_sale = '';
+        if (compareDate(completion_date)) {
+            is_sale = '<span class="bubble_info">준공전</span>';
+        }
         return `<div class="activeMarker iw_inner">
         <h3>${product_name || 'No name'}</h3>
         <div class="inner_info">
             <p>매매 <span>${sale_min_price}~${sale_max_price}</span></p>
             <p>임대 <span>${lease_min_price}~${lease_max_price}</span></p>
-            <span class="bubble_info">준공전</span>
+             ${is_sale}
         </div>
     </div>`;
     }
