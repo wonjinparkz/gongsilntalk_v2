@@ -85,7 +85,7 @@
                         <p><span>주소</span>
                             {{ implode(', ', array_filter([$result->company_address ?? '', $result->company_address_detail ?? ''])) }}
                         </p>
-                        <p><span>중개등록번호</span> {{ $result->company_number ?? '-' }}</p>
+                        <p><span>중개등록번호</span> {{ $result->brokerage_number ?? '-' }}</p>
                         <p><span>대표번호</span> {{ $result->company_phone ?? '-' }}</p>
                     </div>
                 </div>
