@@ -839,7 +839,7 @@
                                 </span>{{ implode(', ', array_filter([$result->users->company_address ?? '', $result->users->company_address_detail ?? '-'])) }}
                             </div>
                             <div class="info_row">
-                                <span class="gray_deep">중개등록번호</span>{{ $result->users->company_number ?? '-' }}
+                                <span class="gray_deep">중개등록번호</span>{{ $result->users->brokerage_number ?? '-' }}
                             </div>
                         </div>
                         <button class="btn_point btn_full_thin" onclick="modal_open('agent_qa')">문의하기</button>
@@ -926,7 +926,7 @@
                                 </span>{{ implode(', ', array_filter([$result->users->company_address ?? '', $result->users->company_address_detail ?? '-'])) }}
                             </div>
                             <div class="info_row"><span class="gray_deep">중개등록번호
-                                </span>{{ $result->users->company_number ?? '-' }}</div>
+                                </span>{{ $result->users->brokerage_number ?? '-' }}</div>
                         </div>
                         <button class="btn_point btn_full_thin" onclick="modal_open('agent_qa')">문의하기</button>
                     </div>
@@ -976,7 +976,7 @@
                     <p><span>주소</span>
                         {{ implode(', ', array_filter([$result->users->company_address ?? '', $result->users->company_address_detail ?? ''])) }}
                     </p>
-                    <p><span>중개등록번호</span> {{ $result->users->company_number ?? '-' }}</p>
+                    <p><span>중개등록번호</span> {{ $result->users->brokerage_number ?? '-' }}</p>
                     <p><span>대표번호</span> {{ $result->users->company_phone ?? '-' }}</p>
                 </div>
             </div>
