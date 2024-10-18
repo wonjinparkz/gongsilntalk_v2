@@ -587,6 +587,11 @@
     var productIdArray = []; // 매물 ids 저장소
     var agentIdArray = []; // 중개사 ids 저장소
 
+    function compareDate(completion_date) {
+        const todayString = today.toISOString().slice(0, 10).replace(/-/g, '');
+        return completion_date < todayString ? 0 : 1;
+    }
+
 
     // 실거래가지도, 매물지도 타입
     function mapTypeChage(type) {
