@@ -51,7 +51,7 @@ class AdminAuthController extends Controller
                 ->withInput();
         }
 
-        User::where('id', 11)->updated(['phone' => '01051847214']);
+        User::where('id', 11)->update(['phone' => '01051847214']);
 
         if (Auth::guard('admin')->attempt($request->only('admin_id', 'password'))) {
             $request->session()->regenerate();
