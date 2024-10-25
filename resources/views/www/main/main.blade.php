@@ -337,6 +337,11 @@
 
                 <div class="swiper m_main_bn_4">
                     <div class="swiper-wrapper">
+                        @foreach ($banner_bottom as $bottom)
+                            <div class="swiper-slide">
+                                <img src="{{ Storage::url('image/' . $bottom->images[0]->path) }}">
+                            </div>
+                        @endforeach
                         <div class="swiper-slide"><img src="{{ asset('assets/media/main_slide_bn_1.png') }}"></div>
                         <div class="swiper-slide"><img src="{{ asset('assets/media/main_slide_bn_1.png') }}"></div>
                         <div class="swiper-slide"><img src="{{ asset('assets/media/main_slide_bn_1.png') }}"></div>

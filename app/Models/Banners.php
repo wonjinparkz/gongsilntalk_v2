@@ -21,6 +21,7 @@ class Banners extends BaseModel
      */
     protected $fillable = [
         'admins_id',
+        'type',
         'order',
         'name',
         'title',

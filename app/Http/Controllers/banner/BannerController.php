@@ -40,6 +40,10 @@ class BannerController extends Controller
     {
         $bannerList = Banners::with('images')->select();
 
+        if (isset($request->type)) {
+            $bannerList->where('type', $request->type);
+        }
+
         // 검색어
         if (isset($request->is_blind)) {
             $bannerList->where('banners.is_blind', "$request->is_blind");
@@ -49,8 +53,6 @@ class BannerController extends Controller
         if (isset($request->from_created_at) && isset($request->to_created_at)) {
             $bannerList->DurationDate('created_at', $request->from_created_at, $request->to_created_at);
         }
-
-
 
         // 정렬
         $bannerList->orderBy('banners.created_at', 'desc')->orderBy('id', 'desc');
@@ -74,9 +76,11 @@ class BannerController extends Controller
     /**
      * 배너 등록 화면 조회
      */
-    public function bannerCreateView(): View
+    public function bannerCreateView($type): View
     {
-        return view('admin.banner.banner-create');
+        $type = $type;
+
+        return view('admin.banner.banner-create', compact('type'));
     }
 
     /**
@@ -96,12 +100,13 @@ class BannerController extends Controller
                 ->withInput();
         }
 
-        $order = Banners::max('order');
+        $order = Banners::where('type', $request->type)->max('order');
         $order = $order + 1;
 
         // DB 추가
         $result = Banners::create([
             'admins_id' => Auth::guard('admin')->user()->id,
+            'type' => $request->type,
             'order' => $order,
             'name' => $request->name,
             'title' => $request->title,
@@ -112,7 +117,7 @@ class BannerController extends Controller
 
         $this->imageWithCreate($request->banner_image_ids, Banners::class, $result->id);
 
-        return Redirect::route('admin.banner.list.view')->with('message', '배너를 등록했습니다.');
+        return Redirect::route('admin.banner.list.view', ['type' => $request->type])->with('message', '배너를 등록했습니다.');
     }
 
     /**
@@ -179,14 +184,14 @@ class BannerController extends Controller
         // #1 노출순서를 바꾸는 배너들 널값으로 변경 후에
         foreach ($order_data as $key => $value) {
             // 기존 데이터 초기화 하고 이미지 업데이트
-            Banners::where('id', '=', $key)->update([
+            Banners::where('id', '=', $key)->where('type', $request->type)->update([
                 'order' => null,
             ]);
         }
 
         // #2 중복된 값이 있는지 체크 후에
         foreach ($order_data as $key => $value) {
-            $bannersList =  Banners::where('order', $value)->get();
+            $bannersList =  Banners::where('order', $value)->where('type', $request->type)->get();
         }
 
         // #3 중복된 값이 있을 경우 롤백 작업

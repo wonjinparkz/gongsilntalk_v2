@@ -256,8 +256,10 @@ Route::middleware('admin.auth')->controller(TermsController::class)->group(funct
 Route::middleware('admin.auth')->controller(BannerController::class)->group(function () {
 
     Route::get('/banner/list/view', 'bannerListView')->name('admin.banner.list.view');
+    Route::get('/bottom/banner/list/view', 'bottomBannerListView')->name('admin.bottom.banner.list.view');
+
     Route::get('/banner/detail/view/{id}', 'bannerDetailView')->name('admin.banner.detail.view');
-    Route::get('/banner/create/view', 'bannerCreateView')->name('admin.banner.create.view');
+    Route::get('/banner/create/view/{type}', 'bannerCreateView')->name('admin.banner.create.view');
 
     Route::post('/banner/order/update', 'bannerOrderUpdate')->name('admin.banner.order.update');
 

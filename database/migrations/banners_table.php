@@ -15,7 +15,8 @@ return new class extends Migration
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
             $table->integer('admins_id')->comment('관리자 id');
-            $table->integer('order')->unique()->nullable()->comment('노출 순서');
+            $table->integer('type')->nullable()->comment('배너 타입 - 0: 메인베너, 1: 하단배너');
+            $table->integer('order')->nullable()->comment('노출 순서');
             $table->string('name')->nullable()->comment('배너 명');
             $table->string('title')->comment('배너 제목');
             $table->longText('content')->nullable()->comment('배너 내용');

@@ -15,7 +15,8 @@ class MainPcController extends Controller
     public function mainView(): View
     {
         // 메인 배너 섹션 - section 1
-        $banner_main = Banners::with('images')->where('is_blind', 0)->orderBy('order')->get();
+        $banner_main = Banners::with('images')->where('type', 0)->where('is_blind', 0)->orderBy('order')->get();
+        $banner_bottom = Banners::with('images')->where('type', 1)->where('is_blind', 0)->orderBy('order')->get();
 
         // 메인 서비스 기능 설명 섹션 - section 2
         // type 서비스 타입 - 0: 메인
@@ -41,6 +42,6 @@ class MainPcController extends Controller
             ->orderBy('order')
             ->get();
 
-        return view('www.main.main', compact('banner_main', 'banner_service', 'banner_text', 'banner_extra_service', 'popups', 'app_download'));
+        return view('www.main.main', compact('banner_main', 'banner_bottom', 'banner_service', 'banner_text', 'banner_extra_service', 'popups', 'app_download'));
     }
 }

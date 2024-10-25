@@ -358,12 +358,22 @@
                         @if (in_array('19', $permissions))
                             {{-- 메인 배너 관리 메뉴 --}}
                             <div class="menu-item">
-                                <a class="menu-link {{ str_contains(Route::currentRouteName(), 'banner') ? 'active' : '' }}"
-                                    href="{{ route('admin.banner.list.view') }}">
+                                <a class="menu-link {{ Route::currentRouteName() === 'admin.banner.list.view' && request('type') == 0 ? 'active' : '' }}"
+                                    href="{{ route('admin.banner.list.view', ['type' => 0]) }}">
                                     <span class="menu-icon">
                                         <i class="fa-solid fa-sign-hanging"></i>
                                     </span>
                                     <span class="menu-title">메인 배너 관리</span>
+                                </a>
+                            </div>
+
+                            <div class="menu-item">
+                                <a class="menu-link {{ Route::currentRouteName() === 'admin.banner.list.view' && request('type') == 1 ? 'active' : '' }}"
+                                    href="{{ route('admin.banner.list.view', ['type' => 1]) }}">
+                                    <span class="menu-icon">
+                                        <i class="fa-solid fa-sign-hanging"></i>
+                                    </span>
+                                    <span class="menu-title">하단 배너 관리</span>
                                 </a>
                             </div>
                         @endif

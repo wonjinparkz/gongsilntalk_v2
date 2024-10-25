@@ -1,9 +1,11 @@
 <x-admin-layout>
     <div class="app-container container-xxl">
-        <x-screen-card :title="'메인 배너 등록'">
+        <x-screen-card :title="($type == 0 ? '메인' : '하단') . ' 배너 등록'">
             {{-- FORM START  --}}
             <form class="form" method="POST" action="{{ route('admin.banner.create') }}">
                 @csrf
+
+                <input hidden name="type" value="{{ $type }}">
 
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
@@ -31,7 +33,6 @@
                             <input type="text" name="title" class="form-control form-control-solid"
                                 placeholder="배너의 제목을 입력해주세요." value="{{ old('title') }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('title')" />
-
                         </div>
                     </div>
 

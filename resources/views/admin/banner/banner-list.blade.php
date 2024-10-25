@@ -1,5 +1,8 @@
 <x-admin-layout>
 
+    @php
+        $type = Request::get('type') ?? 0;
+    @endphp
     {{-- 기본 - 모양 --}}
     <div class="d-flex flex-column flex-column-fluid">
         {{-- 화면 툴바 - 제목, 버튼 --}}
@@ -7,14 +10,15 @@
             <div class="app-container container-xxl d-flex flex-stack">
                 {{-- 페이지 제목 --}}
                 <div class="d-inline-block position-relative">
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">메인 배너 관리
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-5ts flex-column justify-content-center ">
+                        {{ $type == 0 ? '메인' : '하단' }} 배너 관리
                     </h1>
                     <span
                         class="d-inline-block position-absolute mt-3 h-8px bottom-0 end-0 start-0 bg-success translate rounded" />
                 </div>
                 {{-- 페이지 버튼 --}}
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
-                    <a href="{{ route('admin.banner.create.view') }}" class="btn btn-lm fw-bold btn-primary">등록</a>
+                    <a href="{{ route('admin.banner.create.view', [$type]) }}" class="btn btn-lm fw-bold btn-primary">등록</a>
                 </div>
             </div>
         </div>
@@ -27,6 +31,7 @@
                     <form class="form card-body row border-top p-9 align-items-center" method="GET"
                         action="{{ route('admin.banner.list.view') }}">
                         @csrf
+                        <input hidden name="type" value="{{ $type }}">
 
                         {{-- 배너 명 --}}
                         <div class="col-lg-6 row mb-6">
@@ -75,6 +80,7 @@
                     <form id="orderUpdate" action="{{ route('admin.banner.order.update') }}" method="POST">
                         @csrf
                         <input type="hidden" name="order_data" id="order_data" value="" />
+                        <input hidden name="type" value="{{ $type }}">
                     </form>
                     <div class="d-flex justify-content-end mb-10">
                         <button type="submit" onclick="orderUpdate()"
