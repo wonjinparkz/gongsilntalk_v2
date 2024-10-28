@@ -3,9 +3,15 @@
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
         <div class="left_area"></div>
-        <div class="m_map_title">
+        <!-- <div class="m_map_title">
             <div class="txt_bold" id="mapTypeText" onclick="modal_open_slide('menu_map')">실거래가지도 <img
                     src="{{ asset('assets/media/ic_org_arrow.png') }}" class="tit_dropdown_arrow"></div>
+            <div class="txt_bold" onclick="modal_open_slide('menu_map')">실거래가지도 <img
+                    src="{{ asset('assets/media/ic_org_arrow.png') }}" class="tit_dropdown_arrow"></div>
+        </div> -->
+        <div class="m_map_title toggle_menu">
+            <div class="m_map_tab active" onclick="mapTypeChage(0)">실거래가지도</div>
+            <div class="m_map_tab" onclick="mapTypeChage(1)">매물지도 </div>
         </div>
         <div class="right_area"></div>
     </div>

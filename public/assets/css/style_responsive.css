@@ -170,15 +170,16 @@
     .side_fixed{background: #fff; position:relative; top:50px; left:0; width:100%; z-index:9; box-sizing: border-box; border-top: 1px solid #EEEDED; padding-bottom: 30px;}
     .map_side .scroll_wrap_1{height:auto; overflow-y:auto; position: relative; padding-bottom: 30px;}
     .map_side_btn{right: 10px; top:110px}
-    .map_bottom_tab{position: absolute; display:flex; width:100%; height:44px; bottom:60px; background: #fff;}
-    .map_bottom_tab button{display: flex; flex: 1; justify-content: center; align-items: center;}
+    .map_bottom_tab{position: absolute; display:flex; width:100%; height:44px; bottom:61px; background: #fff; border:1px solid #F16341; box-sizing: border-box;}
+    .map_bottom_tab button{display: flex; flex: 1; justify-content: center; align-items: center; position: relative;}
+    .map_bottom_tab button::before{content: ''; width: 1px; height: 14px; background:#F16341; position: absolute; left: -1px; top:14px}
     .map_bottom_area{position:fixed; width:60px; z-index:2; right:0px; bottom:74px;}
     .map_bottom_area.map_bottom_area_2{bottom:120px;}
     .map_bottom_area .map_bottom_btn{width:60px; right: 10px; bottom:auto; z-index:2; display: flex; flex-direction: column; gap: 8px; position: relative !important;}
     .map_bottom_btn.p_area{bottom: 120px !important;}
     .map_bottom_btn button{background: #fff; border-radius:6px; display: flex; flex-direction: column; gap:6px; font-size: 11px; letter-spacing: -1px; align-items: center; padding:10px 0; box-shadow: 0 0 5px rgba(0,0,0,0.1);}
     .map_bottom_btn button img{width:22px;}
-    .map_view_btn{position: fixed; z-index: 2; left: 50%; transform: translateX(-50%); bottom:74px; background:#F75E39; border-radius: 50px; padding:15px 19px; box-shadow: 0 0 5px rgba(0,0,0,0.1);}
+    .map_view_btn{position: fixed; z-index: 2; left: 50%; transform: translateX(-50%); bottom:74px; background:#F75E39; border: 2px; border-radius: 50px; padding:15px 19px; box-shadow: 0 0 5px rgba(0,0,0,0.1);}
     .map_view_btn.map_view_btn_2{bottom:118px;}
     .map_view_btn .txt_point {color: #fff !important;}
     .side_list_wrap{width: 100%; height:calc(100vh - 50px); padding-top: 50px;}

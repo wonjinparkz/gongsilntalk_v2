@@ -36,8 +36,9 @@
     .m_header.transparent{background:linear-gradient(to bottom, rgba(0,0,0,0.3) 10%, rgba(0,0,0,0)); color:#fff; border-bottom: none;}
     .m_header.transparent span{color:#fff;}
     .m_header .m_title{font-family:'font-b'; position: absolute; left:50%;top:50%;transform:translate(-50%, -50%);}
-    .m_header .m_map_title{font-family:'font-b'; position: absolute;left:50%; top:50%; transform:translate(-50%, -50%); border:2px solid #F75E39; padding: 10px 15px; border-radius: 50px;}
-    .m_header .m_map_title .txt_bold{color: #F75E39; display: flex; align-items:center;}
+    .m_header .m_map_title{ position: absolute; left:50%; top:50%; transform:translate(-50%, -50%); border-radius: 50px; display: flex; gap: 8px; width: 100%; justify-content: center;}
+    .m_header .m_map_title .m_map_tab{background: #eae9e8; padding: 10px 15px; color: #000; display: flex; align-items:center; border-radius: 50px; font-family:'font-r';}
+    .m_header .m_map_title .m_map_tab.active{background: #F75E39; padding: 10px 15px; color: #fff; display: flex; align-items:center; border-radius: 50px; font-family:'font-b';}
     .m_header .m_map_title .tit_dropdown_arrow{width:14px; height:auto; margin-left: 6px;}
     .m_header .left_area, .m_header .right_area{display: flex; align-items: center;}
     .m_header .left_area a{margin-right:14px; height:20px; display:inline-block; vertical-align: middle;}
