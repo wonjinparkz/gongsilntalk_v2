@@ -98,14 +98,17 @@
         </script>
 
         <!---------------------------------- only m : s ---------------------------------->
-        <div class="only_m">
+        <div class="m_main_body only_m">
 
             <!-- m::header bar : s -->
-            <div class="m_header">
+            <div class="m_main_header">
                 <div class="left_area"><a href="{{ route('www.main.main') }}"><img
-                            src="{{ asset('assets/media/header_logo.png') }}" alt="공실앤톡 로고"></a></div>
-                <!-- <div class="m_title">홈</div> -->
-                <div class="right_area">
+                            src="{{ asset('assets/media/header_logo.png') }}" class="m_header_logo" alt="공실앤톡 로고"></a></div>
+                <button class="main_btn_call" onclick="location.href='tel:1600-5734'">
+                <img src="{{ asset('assets/media/ic_phone.png') }}">1600-5734
+                </button>
+
+                <!-- <div class="right_area">
                     @guest
                     @else
                         <a>
@@ -114,7 +117,7 @@
                             </div>
                         </a>
                     @endguest
-                </div>
+                </div> -->
             </div>
             <!-- m::header bar : s -->
 
@@ -125,8 +128,8 @@
                         autocomplete='off'>
                     <img src="{{ asset('assets/media/btn_solid_delete.png') }}" alt="del" class="btn_del"
                         style="display: none">
-                    {{-- <button onclick="search_request()"><img src="{{ asset('assets/media/btn_point_search.png') }}"
-                            alt="검색"></button> --}}
+                    <button onclick="search_request()"><img src="{{ asset('assets/media/btn_org_search.png') }}"
+                            alt="검색" class="main_btn_searh"></button>
                 </div>
                 <div class="search_open main_search_open" id="search_open_layer">
                     <div class="search_recent">
@@ -306,15 +309,54 @@
                     }
                 </script>
 
+                <div class="bn_group_1_wrap">
+                    <div class="bn_item_1" onclick="location.href='{{ route('www.map.mobile') }}'">
+                        <div>
+                            <div class="bn_txt">전국지식산업센터 · 사무실 · 상가</div>
+                            <div class="bn_tit"><span>30초</span> 만에<br>부동산 매물 찾기</div>
+                            <div><button>AI 매물 검색 <img src="{{ asset('assets/media/ic_btn_arrow.png') }}" class=""></button></div>
+                        </div>
+                        <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_1.png') }}"></div>
+                    </div>
+                    <div class="bn_group_2_wrap">
+                        <div class="bn_item_2" onclick="location.href='{{ route('www.map.mobile') }}'">
+                            <div class="bn_txt_item">
+                                <div class="bn_tit">구하기</div>
+                                <div class="bn_txt">맞춤 제안서 받기</div>
+                            </div>
+                            <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_2.png') }}"></div>
+                        </div>
+                        <div class="bn_item_2" onclick="location.href='{{ route('www.product.create.view') }}'">
+                            <div class="bn_txt_item">
+                                <div class="bn_tit">내놓기</div>
+                                <div class="bn_txt">내 매물 등록하기</div>
+                            </div>
+                            <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_3.png') }}"></div>
+                        </div>
+                    </div>
+                </div>
 
-                <div class="m_main_bn_1">
+                <div class="bn_group_3_wrap">
+                    <div class="bn_item_3 bg_1">
+                        <div class="bn_tit"><span>매물·실거래가</span><br>지도 검색</div>
+                        <div class="bn_txt">원하는 정보, 한번에<br>알아보기</div>
+                    </div>
+                    <div class="bn_item_3 bg_2">
+                        <div class="bn_tit"><span>실시간</span> 분양 현장</div>
+                        <div class="bn_txt">전국 지식산업센터<br>분양 현장 알아보기</div>
+                    </div>
+
+                </div>
+
+
+                <!-- <div class="m_main_bn_1">
                     <a href="{{ route('www.mypage.proposal.list.view') }}">
                         <div>
                             <h1>AI기반<br>매물 매칭 시스템</h1>
                             <p>전국 지식산업센터,<br>30초만에 매물 제안 받으세요.</p>
                         </div>
                     </a>
-                </div>
+                </div> 
 
                 <div class="m_main_bn_2">
                     <a href="{{ route('www.map.mobile') }}"><img src="{{ asset('assets/media/main_bn_2.png') }}"
@@ -333,7 +375,7 @@
                         <span>내놓기</span> <img src="{{ asset('assets/media/ic_arrow_more.png') }}">
                         <p>여기 공실이 있어요.</p>
                     </a>
-                </div>
+                </div>-->
 
                 <div class="swiper m_main_bn_4">
                     <div class="swiper-wrapper">
@@ -358,7 +400,7 @@
 
 
             </div>
-            <div class="cs_bn">
+            <!-- <div class="cs_bn">
                 <a href="{{ route('www.consulting.create.view') }}">
                     <button>
                         <img src="{{ asset('assets/media/quick_bn_3.png') }}">
@@ -369,7 +411,7 @@
                     <img src="{{ asset('assets/media/ic_point_call.png') }}">
                     <p>1600-5734</p>
                 </button>
-            </div>
+            </div> -->
 
         </div>
         <!-- nav : s -->

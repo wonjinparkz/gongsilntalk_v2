@@ -652,6 +652,8 @@ a.btn_like{background: url('/assets/media/btn_like_off.png') no-repeat; backgrou
 .my_gnb li.active a{background: #FEEFEC; color:var(--main-color);}
 .btn_call{display: flex; align-items: center; font-size:16px; justify-content: center; height: 50px; border: 1px solid #9D9999; border-radius: 5px; width: 100%; margin-top: 22px;}
 .btn_call img{width:14px; margin-right: 8px;}
+.btn_cst{display: flex; align-items: center; gap: 8px; font-size:16px; justify-content: center; height: 50px; background:#fff; border: 1px solid #F75E39; color: #F75E39; border-radius: 5px; width: 100%; margin-top: 22px;}
+.btn_cst img{width:20px;}
 .my_body{margin: 0 !important; padding-top: 40px; padding-bottom: 40px; min-height:700px;}
 .my_tab_wrap{border-bottom: 1px solid var(--gray-line); margin-top: 30px;}
 .my_search_wrap{display: flex; justify-content: space-between; margin-top: 40px;}

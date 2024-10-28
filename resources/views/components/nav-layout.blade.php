@@ -24,7 +24,7 @@
          <li class="{{ str_contains(Route::currentRouteName(), 'community') ? 'active' : '' }}">
              <a href="{{ route('www.community.list.view') }}">
                  <span>
-                     <img src="{{ asset('assets/media/mcnu_ic_5.png') }}" alt="">
+                     <img src="{{ asset('assets/media/mcnu_ic_4.png') }}" alt="">
                  </span>
                  커뮤니티
              </a>
@@ -32,7 +32,7 @@
          <li class="{{ str_contains(Route::currentRouteName(), 'mypage') ? 'active' : '' }}">
              <a href="{{ route('www.mypage.product.magagement.list.view') }}">
                  <span>
-                     <img src="{{ asset('assets/media/mcnu_ic_4.png') }}" alt="">
+                     <img src="{{ asset('assets/media/mcnu_ic_5.png') }}" alt="">
                  </span>
                  마이페이지
              </a>

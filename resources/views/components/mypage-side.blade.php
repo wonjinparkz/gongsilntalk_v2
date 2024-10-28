@@ -62,6 +62,11 @@
         <a href="{{ route('www.mypage.alarm.list.view') }}">알림</a>
     </li>
     <li>
+        <button class="btn_cst" onclick="location.href='{{ route('www.consulting.create.view') }}'">
+            <img src="{{ asset('assets/media/quick_bn_3.png') }}"> 상담 문의
+        </button>
+    </li>
+    <li>
         <button class="btn_call" onclick="location.href='tel:1600-5734'">
             <img src="{{ asset('assets/media/ic_call.png') }}"> 고객센터 문의
         </button>

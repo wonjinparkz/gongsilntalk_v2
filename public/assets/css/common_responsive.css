@@ -28,15 +28,17 @@
     nav li{height: 100%; width:20%; float: left; text-align: center;}
     nav li a{height:100%; width:100%; display:inline-block; letter-spacing:-0.5px; font-size:12px; color:#D2D1D0;}
     nav li img{width:20px; left:-20px;}
-    nav li a span{overflow: hidden; margin: 12px auto 6px auto; width:20px; height:16px; display: block; position: relative;}
+    nav li a span{overflow: hidden; margin: 12px auto 6px auto; width:20px; height:20px; display: block; position: relative;}
     nav li.active a{color:#F16341; font-weight:600}
-    nav li.active img{position:absolute; top:-16px; left:0; display: block}
+    nav li.active img{position:absolute; top:-20px; left:0; display: block}
 
     .m_header{background:#fff; height: 50px; display: flex; justify-content: space-between; align-items: center; position: fixed; top:0; left:0; width:100%; z-index: 98; padding: 0 16px; box-sizing: border-box;}
     .m_header.transparent{background:linear-gradient(to bottom, rgba(0,0,0,0.3) 10%, rgba(0,0,0,0)); color:#fff; border-bottom: none;}
     .m_header.transparent span{color:#fff;}
     .m_header .m_title{font-family:'font-b'; position: absolute; left:50%;top:50%;transform:translate(-50%, -50%);}
-    .m_header .m_title .tit_dropdown_arrow{width:14px; height:auto; transform: rotate(90deg); margin-left: 6px;}
+    .m_header .m_map_title{font-family:'font-b'; position: absolute;left:50%; top:50%; transform:translate(-50%, -50%); border:2px solid #F75E39; padding: 10px 15px; border-radius: 50px;}
+    .m_header .m_map_title .txt_bold{color: #F75E39; display: flex; align-items:center;}
+    .m_header .m_map_title .tit_dropdown_arrow{width:14px; height:auto; margin-left: 6px;}
     .m_header .left_area, .m_header .right_area{display: flex; align-items: center;}
     .m_header .left_area a{margin-right:14px; height:20px; display:inline-block; vertical-align: middle;}
     .m_header .right_area a{margin-left:14px; display: inline-block; vertical-align: middle;}
@@ -46,6 +48,9 @@
     .m_header img{height:20px;}
     .m_header .layer_menu{position: absolute; right: 16px; top:45px;}
     .m_header .layer_menu a{padding:16px 18px;}
+
+    .m_main_header{height: 60px; display: flex; justify-content:space-between; align-items: center; padding: 16px; box-sizing: border-box;}
+    .m_main_header .m_header_logo{width: 90px;}
 
     /* table */
     .table_container{display: grid; grid-template-columns:140px 1fr; border-top:1px solid var(--gray-line);}
