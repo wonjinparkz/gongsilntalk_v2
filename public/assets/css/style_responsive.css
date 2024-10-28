@@ -622,7 +622,7 @@
 
     /* consulting */
     .body.cst_bg{background: url('/assets/media/img_consulting_bg.png') top center; background-size: 100% auto; padding-bottom:0px;}
-    .cst_top{display: flex; flex-direction: column; align-items: center; justify-content: center; height:140px; gap: 24px;}
+    .cst_top{display: flex; flex-direction: column; align-items: center; justify-content: center; height:140px; gap: 24px; padding-top: 50px;}
     .cst_top h1{color:#fff}
     .cst_top .sub_txt{color:#fff; font-size:16px; line-height: 1.4; text-align: center;}
     .cst_wrap{margin: 0 auto !important; width: 100%; border-radius: 0;}
