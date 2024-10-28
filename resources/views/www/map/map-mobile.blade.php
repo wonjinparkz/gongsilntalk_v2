@@ -20,10 +20,10 @@
             <span>지도 선택</span>
             <img src="{{ asset('assets/media/btn_md_close.png') }}" onclick="modal_close_slide('menu_map')">
         </div>
-        <ul class="slide_modal_menu">
+        {{-- <ul class="slide_modal_menu">
             <li><a href="javascript:;" onclick="mapTypeChage(0)">실거래가지도</a></li>
             <li><a href="javascript:;" onclick="mapTypeChage(1)">매물지도</a></li>
-        </ul>
+        </ul> --}}
         <input type="hidden" id="mapType" value="{{ $mapType ?? 0 }}">
     </div>
     <div class="md_slide_overlay md_slide_overlay_menu_map" onclick="modal_close_slide('menu_map')"></div>
@@ -611,10 +611,12 @@
         var map_view_btn = document.getElementById('map_view_btn');
         var map_bottom_area = document.getElementById('map_bottom_area');
         const mapElement = document.getElementById('map');
-        // $('#mapTypeText').text(text);
-        var mapType = document.getElementById('mapTypeText');
-        mapType.childNodes[0].nodeValue = text;
-        $('.centerDongMapText').text(type == 0 ? '매물현황' : '실거래가');
+
+        // 변경 사항
+        // var mapType = document.getElementById('mapTypeText');
+        // mapType.childNodes[0].nodeValue = text;
+        // $('.centerDongMapText').text(type == 0 ? '매물현황' : '실거래가');
+
         if (type == 0) {
             bottom_property.style.display = "none";
             mapElement.style.height = 'calc(100vh - 60px)';
