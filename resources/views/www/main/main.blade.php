@@ -103,19 +103,20 @@
             <!-- m::header bar : s -->
             <div class="m_main_header">
                 <div class="left_area"><a href="{{ route('www.main.main') }}"><img
-                            src="{{ asset('assets/media/header_logo.png') }}" class="m_header_logo" alt="공실앤톡 로고"></a></div>
+                            src="{{ asset('assets/media/header_logo.png') }}" class="m_header_logo" alt="공실앤톡 로고"></a>
+                </div>
                 <button class="main_btn_call" onclick="location.href='tel:1600-5734'">
-                <img src="{{ asset('assets/media/ic_phone.png') }}">1600-5734
+                    <img src="{{ asset('assets/media/ic_phone.png') }}">1600-5734
                 </button>
 
                 <!-- <div class="right_area">
                     @guest
-                    @else
-                        <a>
-                            <div class="user_profileImg">
-                                <div class="img_box"><img src="{{ asset('assets/media/default_user.png') }}"></div>
-                            </div>
-                        </a>
+@else
+    <a>
+                                            <div class="user_profileImg">
+                                                <div class="img_box"><img src="{{ asset('assets/media/default_user.png') }}"></div>
+                                            </div>
+                                        </a>
                     @endguest
                 </div> -->
             </div>
@@ -314,7 +315,8 @@
                         <div>
                             <div class="bn_txt">전국지식산업센터 · 사무실 · 상가</div>
                             <div class="bn_tit"><span>30초</span> 만에<br>부동산 매물 찾기</div>
-                            <div><button>AI 매물 검색 <img src="{{ asset('assets/media/ic_btn_arrow.png') }}" class=""></button></div>
+                            <div><button>AI 매물 검색 <img src="{{ asset('assets/media/ic_btn_arrow.png') }}"
+                                        class=""></button></div>
                         </div>
                         <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_1.png') }}"></div>
                     </div>
@@ -356,7 +358,7 @@
                             <p>전국 지식산업센터,<br>30초만에 매물 제안 받으세요.</p>
                         </div>
                     </a>
-                </div> 
+                </div>
 
                 <div class="m_main_bn_2">
                     <a href="{{ route('www.map.mobile') }}"><img src="{{ asset('assets/media/main_bn_2.png') }}"
@@ -381,12 +383,14 @@
                     <div class="swiper-wrapper">
                         @foreach ($banner_bottom as $bottom)
                             <div class="swiper-slide">
-                                <img src="{{ Storage::url('image/' . $bottom->images[0]->path) }}">
+                                <a href='{{ $bottom->url }}'>
+                                    <img src="{{ Storage::url('image/' . $bottom->images[0]->path) }}">
+                                </a>
                             </div>
                         @endforeach
+                        {{-- <div class="swiper-slide"><img src="{{ asset('assets/media/main_slide_bn_1.png') }}"></div>
                         <div class="swiper-slide"><img src="{{ asset('assets/media/main_slide_bn_1.png') }}"></div>
-                        <div class="swiper-slide"><img src="{{ asset('assets/media/main_slide_bn_1.png') }}"></div>
-                        <div class="swiper-slide"><img src="{{ asset('assets/media/main_slide_bn_1.png') }}"></div>
+                        <div class="swiper-slide"><img src="{{ asset('assets/media/main_slide_bn_1.png') }}"></div> --}}
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
