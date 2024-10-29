@@ -134,7 +134,6 @@
         };
 
         document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
-            console.log('type : ' + $('input[name=proposal_type]:checked').val());
             Kakao.Share.createDefaultButton({
                 container: button,
                 objectType: "feed",
@@ -143,8 +142,8 @@
                     description: '{{ $corpInfo->corp_name }} 기업 이전 제안서를 공유드립니다.',
                     imageUrl: "",
                     link: {
-                        mobileWebUrl: `{{ env('APP_URL') }}/share/corp/proposal/detail?id={{ $corpInfo->id }}&type=${$('input[name=proposal_type]:checked').val()}`,
-                        webUrl: `{{ env('APP_URL') }}/share/corp/proposal/detail?id={{ $corpInfo->id }}&type=${$('input[name=proposal_type]:checked').val()}`,
+                        mobileWebUrl: `{{ env('APP_URL') }}/share/corp/proposal/detail?id={{ $corpInfo->id }}&type=${document.querySelector('input[name="proposal_type"]:checked').value}`,
+                        webUrl: `{{ env('APP_URL') }}/share/corp/proposal/detail?id={{ $corpInfo->id }}&type=${document.querySelector('input[name="proposal_type"]:checked').value}`,
                     },
                 }
             });
