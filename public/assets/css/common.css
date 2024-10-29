@@ -102,7 +102,7 @@ td.td_right, th.th_right{text-align: right !important;}
 td.td_center, th.th_center{text-align: center;}
 
 /* 폼 관련 */
-textarea{width:100%; height:340px; padding:20px; border: 1px solid #D2D1D0; resize: none; box-sizing: border-box;-webkit-appearance: none; border-radius:5px;}
+textarea{width:100%; height:340px; padding:12px; border: 1px solid #D2D1D0; resize: none; box-sizing: border-box;-webkit-appearance: none; border-radius:5px;}
 .textarea{border:0; border-bottom: 1px solid #ddd; height: 300px !important; text-indent: 0;}
 ::-webkit-input-placeholder {color:#D2D1D0;}/* WebKit, Blink, Edge */
 :-moz-placeholder {color:#D2D1D0; opacity:1;} /* Mozilla Firefox 4 to 18 */
