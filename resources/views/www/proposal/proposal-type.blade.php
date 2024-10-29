@@ -133,19 +133,24 @@
             });
         };
 
+        // Kakao 공유 버튼 클릭 시 동적으로 설정
         document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
-            Kakao.Share.createDefaultButton({
-                container: button,
-                objectType: "feed",
-                content: {
-                    title: '{{ $corpInfo->corp_name }} 기업 이전 제안서',
-                    description: '{{ $corpInfo->corp_name }} 기업 이전 제안서를 공유드립니다.',
-                    imageUrl: "",
-                    link: {
-                        mobileWebUrl: `{{ env('APP_URL') }}/share/corp/proposal/detail?id={{ $corpInfo->id }}&type=${document.querySelector('input[name="proposal_type"]:checked').value}`,
-                        webUrl: `{{ env('APP_URL') }}/share/corp/proposal/detail?id={{ $corpInfo->id }}&type=${document.querySelector('input[name="proposal_type"]:checked').value}`,
-                    },
-                }
+            button.addEventListener('click', function() {
+                const proposalType = $('input[name=proposal_type]:checked').val();
+
+                Kakao.Share.createDefaultButton({
+                    container: button,
+                    objectType: "feed",
+                    content: {
+                        title: '{{ $corpInfo->corp_name }} 기업 이전 제안서',
+                        description: '{{ $corpInfo->corp_name }} 기업 이전 제안서를 공유드립니다.',
+                        imageUrl: "",
+                        link: {
+                            mobileWebUrl: `{{ env('APP_URL') }}/share/corp/proposal/detail?id={{ $corpInfo->id }}&type=${proposalType}`,
+                            webUrl: `{{ env('APP_URL') }}/share/corp/proposal/detail?id={{ $corpInfo->id }}&type=${proposalType}`,
+                        },
+                    }
+                });
             });
         });
 
