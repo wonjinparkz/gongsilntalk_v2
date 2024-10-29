@@ -134,6 +134,7 @@
         };
 
         document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
+            console.log('type : ' + $('input[name=proposal_type]:checked').val());
             Kakao.Share.createDefaultButton({
                 container: button,
                 objectType: "feed",
