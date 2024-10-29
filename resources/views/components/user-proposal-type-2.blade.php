@@ -239,6 +239,7 @@
         </section>
 
         <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
+
         <section class="type_3_page type_2_1 print_page">
             <h2>03 도면 및 사진</h2>
             <div class="item_3_wrap">

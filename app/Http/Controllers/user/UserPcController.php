@@ -307,7 +307,7 @@ class UserPcController extends Controller
             ],
             'room_count' => 'required_if:type,8,10,11,12,13',
             'bathroom_count' => 'required_if:type,8,10,11,12,13',
-            'image_ids' => 'required',
+            'product_image_ids' => 'required',
             'comments' => 'required',
             'commission' => 'required',
             'commission_rate' => 'required',
@@ -518,7 +518,7 @@ class UserPcController extends Controller
             }
         }
 
-        $this->imageWithEdit($request->image_ids, Product::class, $request->id);
+        $this->imageWithEdit($request->product_image_ids, Product::class, $request->id);
 
         return Redirect::route('www.mypage.corp.product.magagement.list.view')->with('message', "매물이 수정 되었습니다.");
     }

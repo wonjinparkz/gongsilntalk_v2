@@ -1426,7 +1426,9 @@
                         </div>
                         <span class="gray_basic">* 첫번째 위치한 사진이 대표 이미지 입니다.</span>
                         <div class="img_add_wrap reg_step_type draggable-zone" id="imageList">
-                            <div class="cell">
+                            <x-pc-image-picker :title="''" id="product" cnt="8" required="required"
+                                inputCheck="true" :images="$product->images"/>
+                            {{-- <div class="cell">
                                 <button type="button" id="profile_drop">
                                     <div class="img_box"><img src="{{ asset('assets/media/btn_img_add.png') }}"
                                             onclick="plusClickEvent();">
@@ -1445,8 +1447,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                            @endif
-
+                            @endif --}}
                         </div>
 
                         <div>

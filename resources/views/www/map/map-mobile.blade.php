@@ -322,8 +322,8 @@
 
     <div class="map_bottom_tab" id="bottom_property">
         <button id="getPropertyList"
-            onclick="loadMoreData();setTimeout(function() { modal_open('m_property_list'); }, 100);">지도 내 매물&nbsp; <span
-                class="property_count">0</span></button>
+            onclick="loadMoreData();setTimeout(function() { modal_open('m_property_list'); }, 100);">지도 내 매물&nbsp;
+            <span class="property_count">0</span></button>
         <button id="getAgentList"
             onclick="loadMoreData();setTimeout(function() { modal_open('m_agent_list'); }, 100);">중개사무소 &nbsp;<span
                 class="agent_count">0</span></button>
@@ -1162,9 +1162,14 @@
         return `<div class="activeMarker iw_region_inner">
         <span>${name}</span>
         <div class="mini_inner_info">
-            <p>${average_price ? formatPrice(average_price.toLocaleString()) + '만' : '-'}</p>
         </div>
     </div>`;
+        //     return `<div class="activeMarker iw_region_inner">
+        //     <span>${name}</span>
+        //     <div class="mini_inner_info">
+        //         <p>${average_price ? formatPrice(average_price.toLocaleString()) + '만' : '-'}</p>
+        //     </div>
+        // </div>`;
     }
 
     function getContentStringForKnowledge({
