@@ -322,10 +322,10 @@
 
     <div class="map_bottom_tab" id="bottom_property">
         <button id="getPropertyList"
-            onclick="loadMoreData();setTimeout(function() { modal_open('m_property_list'); }, 100);">지도 내 매물 <span
+            onclick="loadMoreData();setTimeout(function() { modal_open('m_property_list'); }, 100);">지도 내 매물&nbsp; <span
                 class="property_count">0</span></button>
         <button id="getAgentList"
-            onclick="loadMoreData();setTimeout(function() { modal_open('m_agent_list'); }, 100);">중개사무소 <span
+            onclick="loadMoreData();setTimeout(function() { modal_open('m_agent_list'); }, 100);">중개사무소 &nbsp;<span
                 class="agent_count">0</span></button>
     </div>
 
