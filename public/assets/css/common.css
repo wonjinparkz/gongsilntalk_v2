@@ -257,6 +257,7 @@ header .header_user_img {width:32px; height:32px; margin-right:8px;}
 header .header_user_img .img_box{border-radius: 50%;}
 
 footer{width:100%; min-width:1175px; padding:40px 0; background:#2B2B2B;}
+footer .footer_title{font-size:30px; color:#D2D1D0; margin-bottom:16px;}
 footer .footer_info{color:#D2D1D0; font-family:'font-r'; line-height: 1.5; margin-bottom: 20px;}
 footer p{font-size:14x; color:#999; margin-top:16px;}
 footer i{display:inline-block; font-size:9px; color:#D2D1D0; font-style:normal; margin: 0 6px;}
