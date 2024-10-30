@@ -887,8 +887,7 @@
 
                             <div class="t_center">
                                 <a href="{{ route('www.map.agent.detail', ['id' => $result->users_id]) }}"
-                                    class="btn_more">더
-                                    많은 매물 보러가기</a>
+                                    class="btn_more">더 많은 매물 보러가기</a>
                             </div>
                         </div>
                     </section>
