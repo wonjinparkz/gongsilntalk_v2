@@ -642,7 +642,7 @@ class ProductPcController extends Controller
         ]);
 
         // 추가정보
-        if (in_array($request->type, [0, 1, 2, 4])) {
+        if (in_array($request->type, [0, 1, 2])) {
             $product_add_info = [
                 'product_id' => $result->id,
                 'direction_type' => $request->direction_type,
@@ -700,7 +700,7 @@ class ProductPcController extends Controller
                 'wattage_type' => $request->wattage_type,
                 'is_option' => $request->is_option,
             ];
-        } else if ($request->type == 9) {
+        } else if (in_array($request->type, [4, 9])) {
             $product_add_info = [
                 'product_id' => $result->id,
                 'room_count' => $request->room_count,
