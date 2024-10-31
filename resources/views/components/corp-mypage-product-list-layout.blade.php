@@ -79,7 +79,9 @@
                         </div>
                     </td>
                     <td>{{ Lang::get('commons.product_type.' . $product->type) }}</td>
-                    <td>{{ $product->address . ' ' . $product->address_detail }}
+                    <td>
+                        <a href="{{ route('www.map.room.detail', [$product->id]) }}"
+                            style="text-decoration: underline;">{{ $product->address . ' ' . $product->address_detail }}</a>
                     </td>
                     <td class="square">{{ in_array($product->type, [6, 7]) ? '대지' : '공급' }}
                         {{ $product->square }}㎡<br>
@@ -210,11 +212,13 @@
                 </div>
                 <div class="list_m_cnt">
                     <div class="list_thumb_1">
-                        <div class="img_box">
-                            @if (count($product->images) > 0)
-                                <img src="{{ Storage::url('image/' . $product->images[0]->path) }}">
-                            @endif
-                        </div>
+                        <a href="{{ route('www.map.room.detail', [$product->id]) }}">
+                            <div class="img_box">
+                                @if (count($product->images) > 0)
+                                    <img src="{{ Storage::url('image/' . $product->images[0]->path) }}">
+                                @endif
+                            </div>
+                        </a>
                     </div>
                     <div class="list_view">
                         <p class="tit">{{ Lang::get('commons.product_type.' . $product->type) }}</p>
