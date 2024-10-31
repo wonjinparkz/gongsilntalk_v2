@@ -113,10 +113,10 @@
                     @guest
 @else
     <a>
-                                            <div class="user_profileImg">
-                                                <div class="img_box"><img src="{{ asset('assets/media/default_user.png') }}"></div>
-                                            </div>
-                                        </a>
+                                                            <div class="user_profileImg">
+                                                                <div class="img_box"><img src="{{ asset('assets/media/default_user.png') }}"></div>
+                                                            </div>
+                                                        </a>
                     @endguest
                 </div> -->
             </div>
@@ -340,11 +340,15 @@
 
                 <div class="bn_group_3_wrap">
                     <div class="bn_item_3 bg_1">
-                        <div class="bn_tit"><span>매물·실거래가</span><br>지도 검색</div>
+                        <div class="bn_tit" onclick="location.href='{{ route('www.map.mobile') }}'">
+                            <span>매물·실거래가</span><br>지도 검색
+                        </div>
                         <div class="bn_txt">원하는 정보, 한번에<br>알아보기</div>
                     </div>
                     <div class="bn_item_3 bg_2">
-                        <div class="bn_tit"><span>실시간</span> 분양 현장</div>
+                        <div class="bn_tit" onclick="location.href='{{ route('www.site.product.list.view') }}'">
+                            <span>실시간</span> 분양 현장
+                        </div>
                         <div class="bn_txt">전국 지식산업센터<br>분양 현장 알아보기</div>
                     </div>
 
@@ -383,7 +387,7 @@
                     <div class="swiper-wrapper">
                         @foreach ($banner_bottom as $bottom)
                             <div class="swiper-slide">
-                                <a href='{{ $bottom->url }}'>
+                                <a @if ($bottom->url != '') href='{{ $bottom->url }}' @endif>
                                     <img src="{{ Storage::url('image/' . $bottom->images[0]->path) }}">
                                 </a>
                             </div>
@@ -530,16 +534,19 @@
                                             <p class="txt_item_1">{{ sprintf('%02d', $key + 1) }}</p>
                                             <p class="txt_item_1">{{ $item->title }}</p>
                                             <p class="txt_item_2">{!! nl2br($item->content) !!}</p>
-                                            <button onclick="location.href='{{ $item->url }}' ">서비스 바로가기</button>
+                                            <button onclick="location.href='{{ $item->url }}' ">서비스
+                                                바로가기</button>
                                         </div>
                                     @endforeach
                                 </div>
                             </div>
                             <div class="main_2_btn">
                                 <div class="swiper-button-prev"><img
-                                        src="{{ asset('assets/media/bn_arrow_prev.png') }}" alt=""></div>
+                                        src="{{ asset('assets/media/bn_arrow_prev.png') }}" alt="">
+                                </div>
                                 <div class="swiper-button-next"><img
-                                        src="{{ asset('assets/media/bn_arrow_next.png') }}" alt=""></div>
+                                        src="{{ asset('assets/media/bn_arrow_next.png') }}" alt="">
+                                </div>
                             </div>
                             <div class="swiper-pagination"></div>
                         </div>
@@ -623,7 +630,8 @@
                             <img src="{{ asset('assets/media/cst_img_1.png') }}" alt="">
                             <div class="con_w_box">
                                 <p class="box_item_1">오피스 인테리어</p>
-                                <div class="box_item_2">기업의 규모와 관계 없이 무료 3D도면을 제공<br>드리며, 회사의 정체성을 담은 완성도 높고<br>책임감 있는
+                                <div class="box_item_2">기업의 규모와 관계 없이 무료 3D도면을 제공<br>드리며, 회사의 정체성을 담은 완성도
+                                    높고<br>책임감 있는
                                     설계와
                                     공사를 진행합니다.</div>
                                 <div class="tag_area">
@@ -642,7 +650,8 @@
                             <img src="{{ asset('assets/media/cst_img_2.png') }}" alt="">
                             <div class="con_w_box">
                                 <p class="box_item_1">퍼시스 가구</p>
-                                <div class="box_item_2">국내 사무가구 1위 브랜드, 퍼시스(FURSYS)<br>가구와 모든 서비스를 합리적인 단가로 제공<br>받으실 수
+                                <div class="box_item_2">국내 사무가구 1위 브랜드, 퍼시스(FURSYS)<br>가구와 모든 서비스를 합리적인 단가로
+                                    제공<br>받으실 수
                                     있습니다.</div>
                                 <div class="tag_area">
                                     <span class="txt_tag">#퍼시스 가구</span>
@@ -659,7 +668,8 @@
                             <img src="{{ asset('assets/media/cst_img_3.png') }}" alt="">
                             <div class="con_w_box">
                                 <p class="box_item_1">데스커 가구</p>
-                                <div class="box_item_2">본질에 집중하고, 깔끔한 디자인의 데스커<br>(DESKER)입니다. 데스커 기업전용 서비스를<br>데스커 공식
+                                <div class="box_item_2">본질에 집중하고, 깔끔한 디자인의 데스커<br>(DESKER)입니다. 데스커 기업전용
+                                    서비스를<br>데스커 공식
                                     에이트에게 받으실 수 있습니다.</div>
                                 <div class="tag_area">
                                     <span class="txt_tag">#데스커 가구</span>
