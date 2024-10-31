@@ -91,6 +91,7 @@
                     <li onclick="onSaleChange('');"><a href="#">전체</a></li>
                     <li onclick="onSaleChange('0');"><a href="#">분양예정</a></li>
                     <li onclick="onSaleChange('1');"><a href="#">분양중</a></li>
+                    <li onclick="onSaleChange('2');"><a href="#">분양완료</a></li>
                 </ul>
             </div>
             <div class="md_slide_overlay md_slide_overlay_state" onclick="modal_close_slide('state')"></div>
