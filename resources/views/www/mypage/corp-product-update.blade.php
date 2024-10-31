@@ -1427,7 +1427,7 @@
                         <span class="gray_basic">* 첫번째 위치한 사진이 대표 이미지 입니다.</span>
                         <div class="img_add_wrap reg_step_type draggable-zone" id="imageList">
                             <x-pc-image-picker :title="''" id="product" cnt="8" required="required"
-                                inputCheck="true" :images="$product->images"/>
+                                inputCheck="true" :images="$product->images" />
                             {{-- <div class="cell">
                                 <button type="button" id="profile_drop">
                                     <div class="img_box"><img src="{{ asset('assets/media/btn_img_add.png') }}"
@@ -1464,7 +1464,7 @@
                             </div>
                             <div class="reg_mid_wrap mt10">
                                 <div class="reg_item">
-                                    <label class="input_label">중개보수(부가세별도) <span class="txt_point">*</span></label>
+                                    <label class="input_label">중개보수(부가세별도)</label>
                                     <input type="text" id="commission" name="commission"
                                         value="{{ $product->commission > 0 ? number_format($product->commission) : '' }}"
                                         placeholder="중개보수를 입력해 주세요." inputmode="numeric"
@@ -1478,7 +1478,9 @@
                                         placeholder="상한요율을 % 단위로 입력해 주세요.">
                                 </div>
                             </div>
-
+                            <div class="mt10">
+                                <span class="gray_basic">* 거래완료 처리시 재등록, 수정 불가하니 정확하게 확인 후 선택하세요.</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1989,7 +1991,7 @@
         var commission = $('input[name="commission"]').val();
         var commission_rate = $('input[name="commission_rate"]').val();
 
-        if (imageCount > 0 && comments != '' && content != '' && commission != '' && commission_rate != '' &&
+        if (imageCount > 0 && comments != '' && content != '' && commission_rate != '' &&
             checkConfirm) {
             $('#nextPageButton').attr("disabled", false);
         } else {

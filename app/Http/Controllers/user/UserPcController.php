@@ -309,7 +309,6 @@ class UserPcController extends Controller
             'bathroom_count' => 'required_if:type,8,10,11,12,13',
             'product_image_ids' => 'required',
             'comments' => 'required',
-            'commission' => 'required',
             'commission_rate' => 'required',
         ]);
 

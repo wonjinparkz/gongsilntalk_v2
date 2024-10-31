@@ -116,7 +116,7 @@
                             </div>
                             <div class="reg_mid_wrap mt10">
                                 <div class="reg_item">
-                                    <label class="input_label">중개보수(부가세별도) <span class="txt_point">*</span></label>
+                                    <label class="input_label">중개보수(부가세별도) </label>
                                     <input type="text" name="commission" class="form-control" inputmode="numeric"
                                         oninput="onlyNumbers(this); onTextChangeEvent(this);"
                                         placeholder="중개보수를 입력해 주세요.">
@@ -124,8 +124,12 @@
                                 <div class="reg_item">
                                     <label class="input_label">상한요율 <span class="txt_point">*</span></label>
                                     <input type="text" name="commission_rate" class="form-control"
-                                        inputmode="numeric" oninput="imsi1(this);" placeholder="상한요율을 % 단위로 입력해 주세요.">
+                                        inputmode="numeric" oninput="imsi1(this);"
+                                        placeholder="상한요율을 % 단위로 입력해 주세요.">
                                 </div>
+                            </div>
+                            <div class="mt10">
+                                <span class="gray_basic">* 거래완료 처리시 재등록, 수정 불가하니 정확하게 확인 후 선택하세요.</span>
                             </div>
                         </div>
 
@@ -164,7 +168,7 @@
             var commission = $('input[name="commission"]').val();
             var commission_rate = $('input[name="commission_rate"]').val();
 
-            if (imageCount > 0 && comments != '' && content != '' && commission != '' && commission_rate != '') {
+            if (imageCount > 0 && comments != '' && content != '' && commission_rate != '') {
                 $('.confirm').attr("disabled", false);
             } else {
                 $('.confirm').attr("disabled", true);
