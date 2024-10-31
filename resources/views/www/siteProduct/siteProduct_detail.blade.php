@@ -25,6 +25,8 @@
                     src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
         <div class="m_title">{{ $result->title }}</div>
         <div class="right_area">
+            <span class="header_btn_alarm {{ isset($result->alarm_id) ? 'on' : '' }}"
+                onclick="onAlarmStateChage('{{ $result->id }}')"></span>
             <img src="{{ asset('assets/media/header_btn_share_deep.png') }}" onclick="modal_open_slide('share')">
         </div>
         <div class="modal_slide modal_slide_share">
@@ -557,7 +559,6 @@
                         .result.images.path;
 
                     $('.floor_info').text(arrayFloorType.join('/'));
-
                 }
             });
         }
@@ -589,6 +590,8 @@
 
                     $('#floorListPc').html(divTag);
                     $('#floorListMobile').html(divTagM);
+
+                    onFloorDetailChange();
                 }
             });
         }
