@@ -612,10 +612,17 @@
         var map_bottom_area = document.getElementById('map_bottom_area');
         const mapElement = document.getElementById('map');
 
+        $(".m_map_tab").removeClass("active");
+
+        // 클릭된 타입에 따라 active 클래스 추가
+        $(".m_map_tab").eq(type).addClass("active");
+
         // 변경 사항
         // var mapType = document.getElementById('mapTypeText');
         // mapType.childNodes[0].nodeValue = text;
-        // $('.centerDongMapText').text(type == 0 ? '매물현황' : '실거래가');
+
+
+        $('.centerDongMapText').text(type == 0 ? '매물현황' : '실거래가');
 
         if (type == 0) {
             bottom_property.style.display = "none";

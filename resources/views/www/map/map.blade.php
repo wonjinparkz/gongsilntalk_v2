@@ -727,12 +727,12 @@
         <div class="mini_inner_info">
         </div>
     </div>`;
-    //     return `<div class="activeMarker iw_region_inner">
-    //     <span>${name}</span>
-    //     <div class="mini_inner_info">
-    //         <p>${average_price ? formatPrice(average_price.toLocaleString()) + '만' : '-'}</p>
-    //     </div>
-    // </div>`;
+        //     return `<div class="activeMarker iw_region_inner">
+        //     <span>${name}</span>
+        //     <div class="mini_inner_info">
+        //         <p>${average_price ? formatPrice(average_price.toLocaleString()) + '만' : '-'}</p>
+        //     </div>
+        // </div>`;
     }
 
     function getContentStringForKnowledge({
