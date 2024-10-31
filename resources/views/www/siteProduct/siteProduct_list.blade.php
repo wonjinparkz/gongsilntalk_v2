@@ -109,7 +109,7 @@
                     </li>
                     @for ($i = 0; $i < count(Lang::get('commons.site_product_region_type')); $i++)
                         <li>
-                            <input type="checkbox" onclick="formSubmit();" name="m_region[]"
+                            <input type="checkbox" onclick="regionCheck();" name="m_region[]"
                                 id="m_region_{{ $i }}" value="{{ $i }}"
                                 {{ in_array($i, $m_region) ? 'checked' : '' }}>
                             <label
@@ -117,7 +117,8 @@
                         </li>
                     @endfor
                 </ul>
-                <button class="btn_slide btn_point" type="button" onclick="modal_close_slide('region')">선택하기</button>
+                <button class="btn_slide btn_point" type="button"
+                    onclick="modal_close_slide('region'); formSubmit();">선택하기</button>
             </div>
             <div class="md_slide_overlay md_slide_overlay_region" onclick="modal_close_slide('region')"></div>
             <!-- M::filter : e -->
@@ -202,6 +203,17 @@
             m_checkboxes.forEach((checkbox) => {
                 checkbox.checked = selectAll.checked;
             })
+        }
+
+        function regionCheck() {
+            const $allCheckbox = $("#m_region_");
+            const $regionCheckboxes = $("input[name='m_region[]']").not("#m_region_");
+
+            // 다른 지역이 하나라도 선택되었는지 확인
+            const isAnyRegionSelected = $regionCheckboxes.is(":checked");
+
+            // 다른 지역이 선택되었으면 "전체" 체크를 해제, 선택되지 않았으면 "전체" 체크
+            $allCheckbox.prop("checked", !isAnyRegionSelected);
         }
 
         function formSubmit() {
