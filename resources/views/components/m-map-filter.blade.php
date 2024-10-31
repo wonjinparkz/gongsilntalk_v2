@@ -13,8 +13,8 @@
              <input type="radio" name="sale_product_type" id="sale_product_type_2" value="2">
              <label for="sale_product_type_2">건물</label>
              <input type="radio" name="sale_product_type" id="sale_product_type_3" value="3">
-             <label for="sale_product_type_3">아파트</label>
-             <input type="hidden" id="sale_product_type" value="0">
+             {{-- <label for="sale_product_type_3">아파트</label>
+             <input type="hidden" id="sale_product_type" value="0"> --}}
          </div>
      </div>
      <div class="filter_panel_bottom">

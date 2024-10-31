@@ -321,7 +321,7 @@
                         <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_1.png') }}"></div>
                     </div>
                     <div class="bn_group_2_wrap">
-                        <div class="bn_item_2" onclick="location.href='{{ route('www.map.mobile') }}'">
+                        <div class="bn_item_2" onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'">
                             <div class="bn_txt_item">
                                 <div class="bn_tit">구하기</div>
                                 <div class="bn_txt">맞춤 제안서 받기</div>

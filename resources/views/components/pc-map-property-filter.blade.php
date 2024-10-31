@@ -33,7 +33,7 @@
             <h6 id="product_type_title">매물 종류</h6>
             <ul class="tab_type_3 tab_toggle_menu">
                 <li class="active" onclick="productTypeChage(0)">상업용</li>
-                <li onclick="productTypeChage(8)">주거용</li>
+                <li onclick="productTypeChage(8)" style="display:none">주거용</li>
                 <li onclick="productTypeChage(14)">분양권</li>
             </ul>
             <div class="tab_area_wrap">
@@ -103,7 +103,7 @@
                     </div>
                     <div class="product_payment0">
                         <input type="checkbox" name="payment_type_txt" id="payment_type_1" value="1">
-                        <label for="payment_type_1"><span></span>임대</label>
+                        <label for="payment_type_1"><span></span>월세</label>
                     </div>
                     <div class="product_payment1">
                         <input type="checkbox" name="payment_type_txt" id="payment_type_5" value="5">
@@ -114,8 +114,8 @@
                         <label for="payment_type_3"><span></span>전세</label>
                     </div>
                     <div class="">
-                        <input type="checkbox" name="payment_type_txt" id="payment_type_4" value="4">
-                        <label for="payment_type_4"><span></span>월세</label>
+                        {{-- <input type="checkbox" name="payment_type_txt" id="payment_type_4" value="4">
+                        <label for="payment_type_4"><span></span>월세</label> --}}
                     </div>
                     <div class="product_payment0">
                         <input type="checkbox" name="payment_type_txt" id="payment_type_2" value="2">
