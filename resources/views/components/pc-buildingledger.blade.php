@@ -203,12 +203,25 @@
                 @if (count($BrFlrOulnInfo) > 0)
                     @foreach ($dongName as $name)
                         <tbody class="dongInfo_{{ str_replace(' ', '', $name) }} dongInfo">
-                            @foreach ($BrFlrOulnInfo as $info)
+                            @php
+                                // Sort the floor numbers in a logical order
+                                $sortedInfo = collect($BrFlrOulnInfo)
+                                    ->sortBy(function ($info) {
+                                        $flrNo = $info['flrNoNm'];
+                                        // Handle special cases: convert 지하 (basement) and 지상 floors to negative or zero values for sorting
+                                        if (strpos($flrNo, '지') !== false) {
+                                            return -1 * filter_var($flrNo, FILTER_SANITIZE_NUMBER_INT);
+                                        }
+                                        return filter_var($flrNo, FILTER_SANITIZE_NUMBER_INT) ?: 0; // Default to 0 if no number found
+                                    })
+                                    ->values();
+                            @endphp
+
+                            @foreach ($sortedInfo as $info)
                                 @if ($name == str_replace(' ', '', $info['dongNm']))
                                     <tr>
                                         <td>{{ $info['flrNoNm'] }}</td>
-                                        <td>{{ Commons::formatValue($info['mainPurpsCdNm'] ?? '') }}
-                                        </td>
+                                        <td>{{ Commons::formatValue($info['mainPurpsCdNm'] ?? '') }}</td>
                                         <td>{{ number_format($info['area'], 2) }}㎡</td>
                                     </tr>
                                 @endif
