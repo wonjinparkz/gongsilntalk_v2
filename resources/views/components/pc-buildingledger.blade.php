@@ -208,11 +208,19 @@
                                 $sortedInfo = collect($BrFlrOulnInfo)
                                     ->sortBy(function ($info) {
                                         $flrNo = $info['flrNoNm'];
-                                        // Handle special cases: convert 지하 (basement) and 지상 floors to negative or zero values for sorting
-                                        if (strpos($flrNo, '지') !== false) {
-                                            return -1 * filter_var($flrNo, FILTER_SANITIZE_NUMBER_INT);
+
+                                        // '지'로 시작하는 층수는 음수로 변환하여 우선적으로 오름차순으로 정렬
+                                        if (strpos($flrNo, '지') === 0) {
+                                            return -2000 + intval(filter_var($flrNo, FILTER_SANITIZE_NUMBER_INT));
                                         }
-                                        return filter_var($flrNo, FILTER_SANITIZE_NUMBER_INT) ?: 0; // Default to 0 if no number found
+
+                                        // 숫자로 시작하는 층수는 그 다음으로 정렬
+                                        if (is_numeric(substr($flrNo, 0, 1))) {
+                                            return -1000 + intval(filter_var($flrNo, FILTER_SANITIZE_NUMBER_INT));
+                                        }
+
+                                        // '지'나 숫자가 아닌 다른 문자로 시작하는 층수는 맨 뒤에 배치
+                                        return 1000;
                                     })
                                     ->values();
                             @endphp
