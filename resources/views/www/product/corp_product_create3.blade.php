@@ -85,7 +85,7 @@
                                     <label class="input_label">대지면적 <span class="txt_point">*</span></label>
                                     <div class="input_pyeong_area">
                                         <div><input type="text" name="area" id="area" placeholder="대지면적"
-                                                inputmode="numeric" oninput="onlyNumbers(this);area_change('');">
+                                                inputmode="numeric" oninput="imsi(this); area_change('');">
                                             <span class="gray_deep">평</span>
                                         </div>
                                         <span class="gray_deep">/</span>
@@ -107,7 +107,7 @@
                                     <div class="input_pyeong_area">
                                         <div>
                                             <input type="text" name="area" id="area" placeholder="전용면적"
-                                                inputmode="numeric" oninput="onlyNumbers(this);area_change('');">
+                                                inputmode="numeric" oninput="imsi(this); area_change('');">
                                             <span class="gray_deep">평</span>
                                         </div>
                                         <span class="gray_deep">/</span>
@@ -128,7 +128,7 @@
                                         <div>
                                             <input type="text" name="total_floor_area" id="total_floor_area"
                                                 placeholder="연면적" inputmode="numeric"
-                                                oninput="onlyNumbers(this);area_change('total_floor_');">
+                                                oninput="imsi(this);area_change('total_floor_');">
                                             <span class="gray_deep">평</span>
                                         </div>
                                         <span class="gray_deep">/</span>
@@ -149,7 +149,7 @@
                                     <div>
                                         <input type="text" name="exclusive_area" id="exclusive_area"
                                             placeholder="전용면적" inputmode="numeric"
-                                            oninput="onlyNumbers(this);area_change('exclusive_');">
+                                            oninput="imsi(this);area_change('exclusive_');">
                                         <span class="gray_deep">평</span>
                                     </div>
                                     <span class="gray_deep">/</span>
@@ -167,15 +167,15 @@
                             @if ($result['type'] < 14)
                                 <div class="reg_item no_forest">
                                     <label class="input_label">사용승인일 <span class="txt_point">*</span></label>
-                                    <input type="text" id="approve_date_0" name="approve_date_0" autocomplete="off"
-                                        inputmode="numeric" placeholder="예) 20230101"
+                                    <input type="text" id="approve_date_0" name="approve_date_0"
+                                        autocomplete="off" inputmode="numeric" placeholder="예) 20230101"
                                         oninput="onlyNumbers(this); onDateChangeEvent('approve_date', 0);">
                                 </div>
                             @else
                                 <div class="reg_item no_forest">
                                     <label class="input_label">준공예정일 <span class="txt_point">*</span></label>
-                                    <input type="text" id="approve_date_0" name="approve_date_0" autocomplete="off"
-                                        inputmode="numeric" placeholder="예) 20230101"
+                                    <input type="text" id="approve_date_0" name="approve_date_0"
+                                        autocomplete="off" inputmode="numeric" placeholder="예) 20230101"
                                         oninput="onlyNumbers(this); onDateChangeEvent('approve_date', 0);">
                                 </div>
                             @endif
@@ -393,22 +393,24 @@
                     checkConfirm = false;
                 }
             } else {
-                if (area != '' && square != '' && exclusive_area != '' && exclusive_square != '' && approve_date == 8 && building_type != '' &&
+                if (area != '' && square != '' && exclusive_area != '' && exclusive_square != '' && approve_date == 8 &&
+                    building_type != '' &&
                     (move_type != 2 || (move_type == 2 && move_date == 8)) &&
                     (is_service || is_service == false && service_price != '' && service_type > 0) &&
                     (loan_type == 0 || (loan_type != 0 && loan_price != ''))) {
 
                     checkConfirm = true;
                     if (type == 7) {
-                        if (lowest_floor_number != '' && top_floor_number != '' && total_floor_area != '' && total_floor_square != '') {
+                        if (lowest_floor_number != '' && top_floor_number != '' && total_floor_area != '' &&
+                            total_floor_square != '') {
                             checkConfirm = true;
                         } else {
                             checkConfirm = false
                         }
-                    }else {
-                        if(floor_number != '' && total_floor_number != ''){
+                    } else {
+                        if (floor_number != '' && total_floor_number != '') {
                             checkConfirm = true;
-                        }else {
+                        } else {
                             checkConfirm = false;
                         }
                     }
@@ -434,7 +436,7 @@
             var square = $('#' + square_name).val();
 
             if (square > 0) {
-                var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
+                var convertedArea = (square / 3.3058).toFixed(2); // 평수로 변환하여 소수점 2자리까지
                 $('#' + area_name).val(convertedArea);
             } else {
                 $('#' + square_name).val('');

@@ -78,7 +78,7 @@
                         alert("검색 결과가 너무 많습니다(1,000건 이상)\n검색어 예를 참조하여 검색하시기 바랍니다.");
 
                     if (errCode != "0") {
-                        alert(errDesc);
+                        // alert(errDesc);
                     } else {
                         if (xmlStr != null) {
                             makeList(xmlData);

@@ -560,7 +560,7 @@
                                     <div class="input_pyeong_area">
                                         <div><input type="text" id="area" name="area" inputmode="numeric"
                                                 value="{{ $product->area }}" placeholder="대지면적"
-                                                oninput="onlyNumbers(this);area_change('');">
+                                                oninput="imsi(this); area_change('');">
                                             <span class="gray_deep">평</span>
                                         </div>
                                         <span class="gray_deep">/</span>
@@ -605,7 +605,7 @@
                                                 <input type="text" id="total_floor_area" name="total_floor_area"
                                                     value="{{ $product->total_floor_area }}" placeholder="연면적"
                                                     inputmode="numeric"
-                                                    oninput="onlyNumbers(this);area_change('total_floor_');">
+                                                    oninput="imsi(this); area_change('total_floor_');">
                                                 <span class="gray_deep">평</span>
                                             </div>
                                             <span class="gray_deep">/</span>
@@ -626,7 +626,7 @@
                                             <div>
                                                 <input type="text" id="area" name="area"
                                                     value="{{ $product->area }}" placeholder="공급면적"
-                                                    inputmode="numeric" oninput="onlyNumbers(this);area_change('');">
+                                                    inputmode="numeric" oninput="imsi(this); area_change('');">
                                                 <span class="gray_deep">평</span>
                                             </div>
                                             <span class="gray_deep">/</span>
@@ -643,8 +643,7 @@
                                     <div class="input_pyeong_area">
                                         <div><input type="text" id="exclusive_area" name="exclusive_area"
                                                 value="{{ $product->exclusive_area }}" placeholder="전용면적"
-                                                inputmode="numeric"
-                                                oninput="onlyNumbers(this);area_change('exclusive_');">
+                                                inputmode="numeric" oninput="imsi(this); area_change('exclusive_');">
                                             <span class="gray_deep">평</span>
                                         </div>
                                         <span class="gray_deep">/</span>
@@ -1622,7 +1621,7 @@
         var square = $('#' + square_name).val();
 
         if (square > 0) {
-            var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
+            var convertedArea = (square / 3.3058).toFixed(2);; // 평수로 변환하여 정수로 반올림
             $('#' + area_name).val(convertedArea);
         } else {
             $('#' + square_name).val('');
