@@ -240,9 +240,10 @@
             <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type1_img_2.png') }}" style="width:100%;"></div>
         </section>
 
-        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
 
         @if ($product->price->payment_type == 0)
+        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
+
             <section class="type_1_4 print_page">
                 <div class="page_layer">
                     <h2 style="color:#fff; font-size:30px;">04 견적서</h2>
@@ -465,11 +466,12 @@
                         style="width:100%;"></div>
             </section>
         @endif
+
     @endforeach
 
     <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
 
-    <section class="type_1_5 print_page" style="background:none; padding:0">
+    <section class="type_1_3 print_page" style="background:none; padding:0">
         <div class="page_layer">
             <div class="txt_item_end" style="font-size:80px; color:#fff;">Thank You</div>
             <div class="end_company_wrap">
