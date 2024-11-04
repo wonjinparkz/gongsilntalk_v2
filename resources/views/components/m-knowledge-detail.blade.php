@@ -304,9 +304,9 @@
 
             </div>
 
-            <div class="sction_item min_height">
+            <div class="sction_item">
                 <!-- 층별도면 : s -->
-                <div class="side_section">
+                <div class="side_section min_height">
                     <h4>층별도면</h4>
                 </div>
                 <div>
