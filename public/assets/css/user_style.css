@@ -301,10 +301,10 @@ img.floor_img{width: 80%;}
 .property_sm_list{border-bottom: 1px solid var(--gray-line); display: flex; padding:14px 16px; gap:14px; align-items: center; box-sizing: border-box;}
 .property_sm_list .frame_img_mid{position: relative; width: 140px; height: 140px;}
 .property_sm_list .frame_img_mid .img_box{width: 140px; height: 140px;}
-.property_sm_list .property_sm_item_1{color: #F16341; font-size: 17px;}
+.property_sm_list .property_sm_item_1{color: #F16341; font-size:18px;}
 .property_sm_info{width: calc(100% - 2px);}
 .property_sm_info .txt_lh_1{margin-top:6px;}
-.property_sm_item_1{font-size: 16px; font-family: 'font-b'; margin-bottom:8px;}
+.property_sm_item_1{font-size: 16px; font-family: 'font-b'; margin-bottom:10px;}
 .property_sm_item_2{font-family: 'font-r'; color: var(--color-gray-3); margin-top:10px; overflow: hidden; text-overflow: ellipsis; white-space:nowrap;}
 .filter_dropdown_wrap{display: flex; gap: 8px; height: 56px; align-items: center; padding: 0 12px;}
 .filter_btn_wrap{position: relative;}
