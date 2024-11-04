@@ -189,7 +189,7 @@
     .side_list_wrap .tab_area_wrap1 .side_list_scroll{height:calc(100vh - 142px);}
     .modal_container_full{padding: 0;}
     .modal_container_full .side_list_scroll{overflow-y: auto; height:calc(100vh - 1px); background: #fff; padding-top: 50px;}
-    .modal_container_full .side_list_scroll.type_2{padding-top:0 !important;}
+    .modal_container_full .side_list_scroll.type_2{padding-top:0 !important; height: calc(100vh - 93px) !important;}
     .side_list_tab {
         width: 100%;
         display:block;
