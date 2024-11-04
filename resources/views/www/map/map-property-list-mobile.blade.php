@@ -46,7 +46,7 @@
                         <p><img src="{{ asset('assets/media/img_empty_1.png') }}" class="empty_img"></p>
                         <span>조건에 맞는 매물이 없습니다.<br>지도를 이동하거나, 검색 필터를 조정해보세요.</span>
                     </div>
-                    <div class="side_list_scroll" id="property_list">
+                    <div class="side_list_scroll type_2" id="property_list">
                     </div>
                 </div>
                 <div>
