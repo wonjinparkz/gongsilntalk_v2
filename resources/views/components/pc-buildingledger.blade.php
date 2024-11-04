@@ -398,11 +398,18 @@
         }
 
         if (dongName) {
+            var safeDongName = escapeSelector(dongName);
+
             // 모든 dongInfo를 숨김
             $('.dongInfo').css('display', 'none');
             // 선택된 dongName의 dongInfo만 보이도록 설정
             $('.dongInfo_' + dongName).css('display', '');
         }
+    }
+
+    function escapeSelector(selector) {
+        // 선택자에서 jQuery에서 사용될 수 없는 특수 문자를 모두 이스케이프 처리
+        return selector.replace(/([!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~])/g, '\\$1');
     }
 
     // 전유공용면적 정보 업데이트 함수
