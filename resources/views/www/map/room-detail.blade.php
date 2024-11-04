@@ -59,7 +59,7 @@
     <!-- m::header bar : s -->
     <div class="m_header transparent">
         <div class="left_area">
-            <a href="javascript:history.go(-1)" class="btn_back"><img
+            <a onclick="modal_close('m_room_detail')" class="btn_back"><img
                     src="{{ asset('assets/media/header_btn_back_w.png') }}"></a>
             <span>매물번호 {{ $result->product_number }}</span>
         </div>
