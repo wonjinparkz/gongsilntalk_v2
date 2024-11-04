@@ -86,7 +86,9 @@ function menuScroll() {
     const breakpoints = 767; // 모바일 사이즈 분기점
     let windowWidth = window.innerWidth;
     let isMobile = window.innerWidth < breakpoints;
-    let position = $menuWrap.offset().top;
+    if ($menuWrap.length > 0) {
+        position = $menuWrap.offset().top;
+    }
     let resizeTimer;
     let scrollTimer;
 
