@@ -284,7 +284,7 @@
                     <h4>특장점</h4>
                 </div>
                 <div>
-                    <div class="swiper features features">
+                    <div class="swiper features features1">
                         <div class="swiper-wrapper">
                             @foreach ($result->features_files as $file)
                                 <div class="swiper-slide">
