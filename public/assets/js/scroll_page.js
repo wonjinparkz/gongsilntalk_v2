@@ -79,8 +79,8 @@ function menuScroll() {
     const $menuList = $menu.find('div');
     const $menuItems = $menu.find('a')
     const $contents = $('.page');
-    //const offsetMo = 50;  메뉴 상단 고정 위치 (모바일)
-    //const offsetPC = 0;  메뉴 상단 고정 위치 (PC)
+    const offsetMo = 50; // 메뉴 상단 고정 위치 (모바일)
+    const offsetPC = 0;  // 메뉴 상단 고정 위치 (PC)
     const topMo = 80; // 스크롤 했을 때 컨텐츠 시작 위치 (모바일)
     const topPc = 150; // 스크롤 했을 때 컨텐츠 시작 위치 (PC)
     const breakpoints = 767; // 모바일 사이즈 분기점
