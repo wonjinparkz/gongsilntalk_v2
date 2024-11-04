@@ -406,7 +406,7 @@
                 </a>
             </li>
         </ul>
-        <div class="side_list_scroll" id="property_list">
+        <div class="side_list_scroll type_2" id="property_list">
         </div>
     </div>
 </div>
