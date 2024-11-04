@@ -24,7 +24,7 @@
                             / {{ Commons::get_priceTrans($property->priceInfo->month_price) }}
                         @endif
                     </p>
-                    <p class="txt_lh_1">{{ Lang::get('commons.product_type.' . $property->type) }}
+                    <p class="txt_lh_1">{{ Lang::get('commons.product_type.' . $property->type) }}  · 
                         {{ $property->region_address }}</p>
                     <p class="txt_lh_1">{{ $property->square ?? '-' }}㎡
                         @if ($property->exclusive_square > 0)
