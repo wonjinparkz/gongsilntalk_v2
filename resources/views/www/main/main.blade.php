@@ -26,8 +26,7 @@
                                 </div>
                                 <div class="popup_bottom">
                                     <span class="today_close" onclick="todayClosePopupEach({{ $item->id }});">오늘 하루
-                                        보지
-                                        않기</span>
+                                        보지 않기</span>
                                     <span class="close" onclick="closePopupEach({{ $item->id }});">닫기</span>
                                 </div>
                             </div>
@@ -52,7 +51,7 @@
                                             <div class="swiper-slide swiper-slide-active">
                                                 <a href="{{ $item->url ?? route('www.main.main') }}">
                                                     <div class="img_box"
-                                                        style="text-align:center; height:90%; width:100%;">
+                                                        style="text-align:center; width:100%;">
                                                         <img style="height:100%;"
                                                             src="{{ Storage::url('image/' . $item->images[0]->path) }}"
                                                             onerror="this.src='{{ asset('assets/media/s_2.png') }}';"
