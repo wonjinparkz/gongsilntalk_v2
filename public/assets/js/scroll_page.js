@@ -75,8 +75,11 @@ function initTabSwipers() {
 function menuScroll() {
     const $menuWrap = $('.tab_type_2');
     if (!$menuWrap.length) {
+        alert('요소 없음.');
         return; // 요소가 없으면 함수 종료
     }
+    alert('요소 있음');
+    alert($menuWrap);
     const $menuBox = $menuWrap.find('.detail_tab');
     const $menu = $('.menu');
     const $menuList = $menu.find('div');
