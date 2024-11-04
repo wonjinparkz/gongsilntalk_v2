@@ -403,7 +403,7 @@
             // 모든 dongInfo를 숨김
             $('.dongInfo').css('display', 'none');
             // 선택된 dongName의 dongInfo만 보이도록 설정
-            $('.dongInfo_' + dongName).css('display', '');
+            $('.dongInfo_' + safeDongName).css('display', '');
         }
     }
 
