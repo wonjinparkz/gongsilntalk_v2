@@ -254,10 +254,13 @@
                     <button class="dropdown_label">전유부 선택</button>
                     <ul class="optionList">
                         @php
-                            // hoNm 기준으로 정렬
+                            // hoNm 기준으로 정렬 (숫자로 변환 후 정렬)
                             $sortedBrExposInfo = $BrExposInfo;
                             usort($sortedBrExposInfo, function ($a, $b) {
-                                return intval($a['hoNm']) - intval($b['hoNm']);
+                                // hoNm 값이 숫자일 경우에는 숫자 비교, 숫자가 아니면 문자열 비교
+                                $hoA = intval(preg_replace('/[^0-9]/', '', $a['hoNm'])); // hoNm에서 숫자만 추출
+                                $hoB = intval(preg_replace('/[^0-9]/', '', $b['hoNm'])); // hoNm에서 숫자만 추출
+                                return $hoA - $hoB;
                             });
                         @endphp
                         @foreach ($sortedBrExposInfo as $info)
