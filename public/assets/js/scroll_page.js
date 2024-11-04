@@ -91,16 +91,16 @@ function menuScroll() {
     let scrollTimer;
 
     // 메뉴를 고정하는 함수
-    // function scrollAct() {
-    //     const scrollTop = $(window).scrollTop();
-    //     const offset = isMobile ? offsetMo : offsetPC;
-    //     const menuWrapTop = isMobile ? offsetMo : offsetPC;
-    //     if (scrollTop > position - offset) {
-    //         $menuWrap.css({ 'position': 'fixed', 'top': menuWrapTop + 'px' });
-    //     } else {
-    //         $menuWrap.css({ 'position': 'absolute', 'top': '0' });
-    //     }
-    // }
+    function scrollAct() {
+        const scrollTop = $(window).scrollTop();
+        const offset = isMobile ? offsetMo : offsetPC;
+        const menuWrapTop = isMobile ? offsetMo : offsetPC;
+        if (scrollTop > position - offset) {
+            $menuWrap.css({ 'position': 'fixed', 'top': menuWrapTop + 'px' });
+        } else {
+            $menuWrap.css({ 'position': 'absolute', 'top': '0' });
+        }
+    }
 
     // 활성화된 메뉴 항목을 중앙으로 이동하는 함수
     function activeMenu(target) {
