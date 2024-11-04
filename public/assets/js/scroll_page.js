@@ -1,7 +1,7 @@
 
 $(document).ready(function () {
-    // initTabSwipers(); // 클릭하면 탭 가운데 정렬 함수
-    // menuScroll(); // 메뉴 클릭 시 스크롤 이동 함수
+    initTabSwipers(); // 클릭하면 탭 가운데 정렬 함수
+    menuScroll(); // 메뉴 클릭 시 스크롤 이동 함수
 });
 
 function initTabSwipers() {
