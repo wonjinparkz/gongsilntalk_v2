@@ -424,7 +424,7 @@
             <li class="active sort_distance"><a>가까운 거리순</a></li>
             <li class="sort_name"><a>이름순</a></li>
         </ul>
-        <div class="side_list_scroll" id="agent_list">
+        <div class="side_list_scroll type_2" id="agent_list">
         </div>
     </div>
 </div>
