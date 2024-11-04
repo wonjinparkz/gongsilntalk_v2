@@ -74,13 +74,16 @@ function initTabSwipers() {
 
 function menuScroll() {
     const $menuWrap = $('.tab_type_2');
+    if (!$menuWrap.length) {
+        return; // 요소가 없으면 함수 종료
+    }
     const $menuBox = $menuWrap.find('.detail_tab');
     const $menu = $('.menu');
     const $menuList = $menu.find('div');
     const $menuItems = $menu.find('a')
     const $contents = $('.page');
-    //const offsetMo = 50;  메뉴 상단 고정 위치 (모바일)
-    //const offsetPC = 0;  메뉴 상단 고정 위치 (PC)
+    const offsetMo = 50; // 메뉴 상단 고정 위치 (모바일)
+    const offsetPC = 0; // 메뉴 상단 고정 위치 (PC)
     const topMo = 80; // 스크롤 했을 때 컨텐츠 시작 위치 (모바일)
     const topPc = 150; // 스크롤 했을 때 컨텐츠 시작 위치 (PC)
     const breakpoints = 767; // 모바일 사이즈 분기점
@@ -91,16 +94,16 @@ function menuScroll() {
     let scrollTimer;
 
     // 메뉴를 고정하는 함수
-    // function scrollAct() {
-    //     const scrollTop = $(window).scrollTop();
-    //     const offset = isMobile ? offsetMo : offsetPC;
-    //     const menuWrapTop = isMobile ? offsetMo : offsetPC;
-    //     if (scrollTop > position - offset) {
-    //         $menuWrap.css({ 'position': 'fixed', 'top': menuWrapTop + 'px' });
-    //     } else {
-    //         $menuWrap.css({ 'position': 'absolute', 'top': '0' });
-    //     }
-    // }
+    function scrollAct() {
+        const scrollTop = $(window).scrollTop();
+        const offset = isMobile ? offsetMo : offsetPC;
+        const menuWrapTop = isMobile ? offsetMo : offsetPC;
+        if (scrollTop > position - offset) {
+            $menuWrap.css({ 'position': 'fixed', 'top': menuWrapTop + 'px' });
+        } else {
+            $menuWrap.css({ 'position': 'absolute', 'top': '0' });
+        }
+    }
 
     // 활성화된 메뉴 항목을 중앙으로 이동하는 함수
     function activeMenu(target) {
