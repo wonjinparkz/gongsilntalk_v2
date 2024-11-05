@@ -663,6 +663,8 @@
             $('#square').val('');
             $('#area').val('');
 
+            initializeSliders('#rangeSquare')
+            initializeSliders('#rangeArea')
         } else if (Name == 'etc') {
             // 기타 옵션 초기화
             $('input[name="floor_height_type"][type="radio"]').eq(0).prop('checked', true);
@@ -674,15 +676,18 @@
         } else if (Name == 'service_price') {
             // 관리비 초기화
             $('#service_price').val('');
+            initializeSliders('#rangeServicePrice')
 
         } else if (Name == 'approve_date') {
             // 사용승인연도 초기화
             $('#approve_date').val('');
             $('#temp_approve_date').val('');
+            initializeSliders('#rangeApproveDate')
 
         } else if (Name == 'premium_price') {
             // 권리금 초기화
             $('#premium_price').val('');
+            initializeSliders('#rangePremiumPrice')
 
         } else if (Name == 'loan_type') {
             // 융자금 초기화
