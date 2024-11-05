@@ -297,7 +297,7 @@
 
     <script>
         document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
-            Kakao.Link.createDefaultButton({
+            Kakao.Share.createDefaultButton({
                 container: button,
                 objectType: "feed",
                 content: {
@@ -305,8 +305,8 @@
                     description: '{{ $shortened_content }}',
                     imageUrl: "{{ count($result->images) > 0 ? asset('storage/image/' . $result->images[0]->path) : '' }}",
                     link: {
-                        mobileWebUrl: '{!! url()->full() !!}', // 모바일 웹 URL로 처리
-                        webUrl: '{!! url()->full() !!}', // 데스크톱에서도 동일 URL 사용
+                        mobileWebUrl: `{!! url()->full() !!}`,
+                        webUrl: `{!! url()->full() !!}`,
                     },
                 }
             });

@@ -159,6 +159,7 @@
         @endforeach
     @endif
 
+
     //로그인 이동
     function login() {
         location.href = "{{ route('www.login.login') }}";
