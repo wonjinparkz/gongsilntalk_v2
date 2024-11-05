@@ -278,9 +278,9 @@
 
             </div>
 
-            <div class="sction_item">
+            <div class="sction_item min_height">
                 <!-- 특장점 : s -->
-                <div class="side_section min_height">
+                <div class="side_section">
                     <h4>특장점</h4>
                 </div>
                 <div>
@@ -304,9 +304,9 @@
 
             </div>
 
-            <div class="sction_item">
+            <div class="sction_item min_height">
                 <!-- 층별도면 : s -->
-                <div class="side_section min_height">
+                <div class="side_section">
                     <h4>층별도면</h4>
                 </div>
                 <div>
