@@ -108,8 +108,8 @@
                 <label for="payment_type_1"><span></span>월세</label>
             </div>
             <div class="product_payment1">
-                <input type="checkbox" name="payment_type_txt" id="payment_type_5" value="5">
-                <label for="payment_type_5"><span></span>전매</label>
+                {{-- <input type="checkbox" name="payment_type_txt" id="payment_type_5" value="5">
+                <label for="payment_type_5"><span></span>전매</label> --}}
             </div>
             <div class="product_payment0">
                 <input type="checkbox" name="payment_type_txt" id="payment_type_3" value="3">
@@ -178,7 +178,11 @@
         $('#rangeMonthPrice').closest('.range_wrap').show(); // 월세 슬라이더 표시
         $('.product_payment0').show(); // 기본 거래 유형 표시 설정
         $('.product_payment1').hide(); // 추가적인 거래 유형 숨김
+
+        initializeSliders('#rangePrice');
+        initializeSliders('#rangeMonthPrice');
     }
+
     $('input[name="payment_type_txt"]').on('change', function() {
         // 선택된 product_type 값을 가져옵니다.
         var productTypeValue = $('input[name="payment_type_txt"]:checked').val();
@@ -208,42 +212,37 @@
 
         // 라벨 텍스트 설정
         var priceLabelText = '';
-        var showMonthPriceSlider = paymentTypeValues.includes(2) || paymentTypeValues.includes(4);
+        var showMonthPriceSlider = paymentTypeValues.some(val => [1, 2, 4].includes(val));
+
+        // 각 paymentTypeValue에 대한 텍스트 매핑
+        var labelMap = {
+            0: '매매가',
+            1: '보증금',
+            2: '보증금',
+            3: '전세가',
+            4: '보증금',
+            5: '전매가'
+        };
 
         if (paymentTypeValues.length === 1) {
-            switch (paymentTypeValues[0]) {
-                case 0:
-                    priceLabelText = '매매가';
-                    break;
-                case 1:
-                    priceLabelText = '임대가';
-                    break;
-                case 5:
-                    priceLabelText = '전매가';
-                    break;
-                case 3:
-                    priceLabelText = '전세가';
-                    break;
-                case 2:
-                case 4:
-                    priceLabelText = '보증금';
-                    break;
-            }
+            priceLabelText = labelMap[paymentTypeValues[0]];
         } else if (paymentTypeValues.length > 1) {
-            if (paymentTypeValues.includes(0) && paymentTypeValues.includes(3)) {
-                priceLabelText = '매매가/전세가';
-            } else if (paymentTypeValues.includes(0) && (paymentTypeValues.includes(2) || paymentTypeValues
-                    .includes(4))) {
-                priceLabelText = '매매가/보증금';
-            } else if (paymentTypeValues.includes(3) && (paymentTypeValues.includes(2) || paymentTypeValues
-                    .includes(4))) {
-                priceLabelText = '전세가/보증금';
-            } else if (paymentTypeValues.includes(5) && (paymentTypeValues.includes(2) || paymentTypeValues
-                    .includes(4))) {
-                priceLabelText = '전매가/보증금';
-            } else if (paymentTypeValues.includes(0) && paymentTypeValues.includes(3) && (paymentTypeValues
-                    .includes(2) || paymentTypeValues.includes(4))) {
+            const hasSale = paymentTypeValues.includes(0);
+            const hasJeonse = paymentTypeValues.includes(3);
+            const hasDeposit = paymentTypeValues.some(val => [1, 2, 4].includes(val));
+            const hasTransfer = paymentTypeValues.includes(5);
+
+            // 여러 가지 조합 처리
+            if (hasSale && hasJeonse && hasDeposit) {
                 priceLabelText = '매매가/전세가/보증금';
+            } else if (hasSale && hasJeonse) {
+                priceLabelText = '매매가/전세가';
+            } else if (hasSale && hasDeposit) {
+                priceLabelText = '매매가/보증금';
+            } else if (hasJeonse && hasDeposit) {
+                priceLabelText = '전세가/보증금';
+            } else if (hasTransfer && hasDeposit) {
+                priceLabelText = '전매가/보증금';
             }
         }
 
