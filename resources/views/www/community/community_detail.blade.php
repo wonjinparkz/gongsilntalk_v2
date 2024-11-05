@@ -311,6 +311,7 @@
         //         }
         //     });
         // });
+
         document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
             button.addEventListener('click', function() { // 클릭 시 실행
                 var title = "{{ $result->title }}";
@@ -320,7 +321,7 @@
                 var mobileWebUrl = `{!! url()->full() !!}`;
                 var webUrl = `{!! url()->full() !!}`;
 
-                Kakao.Share.sendDefault({
+                Kakao.Link.sendDefault({
                     objectType: 'feed',
                     content: {
                         title: title,
