@@ -32,7 +32,7 @@
         <div class="filter_panel_body">
             <h6 id="product_type_title">매물 종류</h6>
             <ul class="tab_type_3 tab_toggle_menu">
-                <li class="active" onclick="productTypeChage(0)">상업용</li>
+                <li class="active" onclick="productTypeChage('0,1,2')">상업용</li>
                 <li onclick="productTypeChage(8)" style="display:none">주거용</li>
                 <li onclick="productTypeChage(14)">분양권</li>
             </ul>

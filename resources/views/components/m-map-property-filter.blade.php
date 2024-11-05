@@ -33,7 +33,7 @@
     </div>
     <div class="slide_modal_body">
         <ul class="tab_type_3 tab_toggle_menu">
-            <li class="active" onclick="productTypeChage(0)">상업용</li>
+            <li class="active" onclick="productTypeChage('0,1,2')">상업용</li>
             <li onclick="productTypeChage(8)" style="display:none">주거용</li>
             <li onclick="productTypeChage(14)">분양권</li>
         </ul>
