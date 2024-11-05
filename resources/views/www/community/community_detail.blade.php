@@ -297,18 +297,16 @@
 
     <script>
         document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
-            alert('{!! url()->full() !!}')
-            Kakao.Share.createDefaultButton({
-                container: button,
-                objectType: "feed",
+            Kakao.Share.sendDefault({
+                objectType: 'feed',
                 content: {
                     title: '{{ $result->title }}',
                     description: '{{ $shortened_content }}',
                     imageUrl: "{{ count($result->images) > 0 ? asset('storage/image/' . $result->images[0]->path) : '' }}",
                     link: {
-                        mobileWebUrl: `123`,
-                        webUrl: `123`,
-                    },
+                        mobileWebUrl: `{!! url()->full() !!}`,
+                        webUrl: `{!! url()->full() !!}`
+                    }
                 }
             });
         });
