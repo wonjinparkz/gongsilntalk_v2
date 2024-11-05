@@ -297,6 +297,7 @@
 
     <script>
         document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
+            alert('{!! url()->full() !!}')
             Kakao.Share.createDefaultButton({
                 container: button,
                 objectType: "feed",
@@ -305,7 +306,8 @@
                     description: '{{ $shortened_content }}',
                     imageUrl: "{{ count($result->images) > 0 ? asset('storage/image/' . $result->images[0]->path) : '' }}",
                     link: {
-                        webUrl: `{!! url()->full() !!}`,
+                        mobileWebUrl: `123`,
+                        webUrl: `123`,
                     },
                 }
             });
