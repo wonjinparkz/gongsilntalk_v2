@@ -296,19 +296,42 @@
     @endphp
 
     <script>
+        // document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
+        //     Kakao.Share.createDefaultButton({
+        //         container: button,
+        //         objectType: "feed",
+        //         content: {
+        //             title: '{{ $result->title }}',
+        //             description: '{{ $shortened_content }}',
+        //             imageUrl: "{{ count($result->images) > 0 ? asset('storage/image/' . $result->images[0]->path) : '' }}",
+        //             link: {
+        //                 mobileWebUrl: `{!! url()->full() !!}`,
+        //                 webUrl: `{!! url()->full() !!}`,
+        //             },
+        //         }
+        //     });
+        // });
         document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
-            Kakao.Share.createDefaultButton({
-                container: button,
-                objectType: "feed",
-                content: {
-                    title: '{{ $result->title }}',
-                    description: '{{ $shortened_content }}',
-                    imageUrl: "{{ count($result->images) > 0 ? asset('storage/image/' . $result->images[0]->path) : '' }}",
-                    link: {
-                        mobileWebUrl: `{!! url()->full() !!}`,
-                        webUrl: `{!! url()->full() !!}`,
-                    },
-                }
+            button.addEventListener('click', function() { // 클릭 시 실행
+                var title = "{{ $result->title }}";
+                var description = "{{ $shortened_content }}";
+                var imageUrl =
+                    "{{ count($result->images) > 0 ? asset('storage/image/' . $result->images[0]->path) : '' }}";
+                var mobileWebUrl = `{!! url()->full() !!}`;
+                var webUrl = `{!! url()->full() !!}`;
+
+                Kakao.Share.sendDefault({
+                    objectType: 'feed',
+                    content: {
+                        title: title,
+                        description: description,
+                        imageUrl: imageUrl,
+                        link: {
+                            mobileWebUrl: mobileWebUrl,
+                            webUrl: webUrl
+                        }
+                    }
+                });
             });
         });
     </script>
