@@ -311,33 +311,27 @@
         //         }
         //     });
         // });
-        if (!Kakao.isInitialized()) {
-            Kakao.init('{{ env('KAKAO_CLIENT_ID') }}'); // 실제 앱 키로 변경
-        }
-
-        document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
-            button.addEventListener('click', function() { // 클릭 시 실행
-                var title = "{{ $result->title }}";
-                var description = "{{ $shortened_content }}";
-                var imageUrl =
-                    "{{ count($result->images) > 0 ? asset('storage/image/' . $result->images[0]->path) : '' }}";
-                var mobileWebUrl = `{!! url()->full() !!}`;
-                var webUrl = `{!! url()->full() !!}`;
-
-                Kakao.Link.sendDefault({
-                    objectType: 'feed',
-                    content: {
-                        title: title,
-                        description: description,
-                        imageUrl: imageUrl,
-                        link: {
-                            mobileWebUrl: mobileWebUrl,
-                            webUrl: webUrl
+        window.onload = function() {
+            if (!Kakao.isInitialized()) {
+                Kakao.init('0137e2c7fcf3ebb6956ea376bc415ebc'); // 앱 키로 교체
+            }
+            document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    Kakao.Link.sendDefault({
+                        objectType: 'feed',
+                        content: {
+                            title: 'Title',
+                            description: 'Description',
+                            imageUrl: 'Image URL',
+                            link: {
+                                mobileWebUrl: 'Mobile Web URL',
+                                webUrl: 'Web URL'
+                            }
                         }
-                    }
+                    });
                 });
             });
-        });
+        };
     </script>
 
 
