@@ -75,7 +75,7 @@
 
         <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
         <script>
-            Kakao.init('{{ env('NAVER_CLIENT_SECRET') }}'); // 카카오 SDK 초기화
+            Kakao.init('{{ env('KAKAO_CLIENT_ID') }}'); // 카카오 SDK 초기화
 
             function openKakaoPopup() {
                 var kakaoLoginUrl = "{{ route('www.login.kakao') }}";
