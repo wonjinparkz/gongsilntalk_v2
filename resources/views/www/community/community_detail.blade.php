@@ -311,6 +311,9 @@
         //         }
         //     });
         // });
+        if (!Kakao.isInitialized()) {
+            Kakao.init('{{ env('KAKAO_CLIENT_ID') }}'); // 실제 앱 키로 변경
+        }
 
         document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
             button.addEventListener('click', function() { // 클릭 시 실행
