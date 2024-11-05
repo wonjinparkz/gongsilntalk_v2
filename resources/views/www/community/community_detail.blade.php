@@ -296,42 +296,22 @@
     @endphp
 
     <script>
-        // document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
-        //     Kakao.Share.createDefaultButton({
-        //         container: button,
-        //         objectType: "feed",
-        //         content: {
-        //             title: '{{ $result->title }}',
-        //             description: '{{ $shortened_content }}',
-        //             imageUrl: "{{ count($result->images) > 0 ? asset('storage/image/' . $result->images[0]->path) : '' }}",
-        //             link: {
-        //                 mobileWebUrl: `{!! url()->full() !!}`,
-        //                 webUrl: `{!! url()->full() !!}`,
-        //             },
-        //         }
-        //     });
-        // });
-        window.onload = function() {
-            if (!Kakao.isInitialized()) {
-                Kakao.init('0137e2c7fcf3ebb6956ea376bc415ebc'); // 앱 키로 교체
-            }
-            document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    Kakao.Link.sendDefault({
-                        objectType: 'feed',
-                        content: {
-                            title: 'Title',
-                            description: 'Description',
-                            imageUrl: 'Image URL',
-                            link: {
-                                mobileWebUrl: 'Mobile Web URL',
-                                webUrl: 'Web URL'
-                            }
-                        }
-                    });
-                });
+        document.querySelectorAll('.kakaotalk-sharing-btn').forEach(function(button) {
+            Kakao.Share.createDefaultButton({
+                container: button,
+                objectType: "feed",
+                content: {
+                    title: '{{ $result->title }}',
+                    description: '{{ $shortened_content }}',
+                    imageUrl: "{{ count($result->images) > 0 ? asset('storage/image/' . $result->images[0]->path) : '' }}",
+                    link: {
+                        mobileWebUrl: `{!! url()->full() !!}`,
+                        webUrl: `{!! url()->full() !!}`,
+                    },
+                },
+                installTalk: true // 카카오톡 설치 유무 확인
             });
-        };
+        });
     </script>
 
 
