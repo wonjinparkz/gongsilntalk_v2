@@ -96,6 +96,8 @@ class UserController extends Controller
             $userList->whereBetween('created_at', [$request->from_created_at, $request->to_created_at]);
         }
 
+        $userList->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+
         // 쿼리 실행 후 결과 가져오기
         $result = $userList->get();
 
