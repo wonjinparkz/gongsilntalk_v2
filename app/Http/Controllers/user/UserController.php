@@ -59,10 +59,9 @@ class UserController extends Controller
         $userList->orderBy('created_at', 'desc')->orderBy('id', 'desc');
         $result = $userList->get(); // 페이지네이션 적용 전 전체 데이터 조회
 
-        // phone 필터링을 후처리로 적용
         if (isset($request->phone)) {
             $result = $result->filter(function ($user) use ($request) {
-                return decrypt($user->phone) === $request->phone;
+                return strpos($user->phone, $request->phone) !== false;
             });
         }
 
