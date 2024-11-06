@@ -451,6 +451,7 @@
             $('#orderby').val('price_desc');
             deleteDivItem();
         });
+
         priceButton.addEventListener("click", function() {
             if (priceTextSpan.textContent === "낮은가격순") {
                 priceTextSpan.textContent = "높은가격순";
@@ -642,7 +643,12 @@
         $('#mapType').val(type);
         modal_close_slide('menu_map')
         mapReset();
+
     }
+
+    @if ($markerId != '' && $markerType != '')
+        getProductSide('{{ $markerId }}', '{{ $markerType }}', 0)
+    @endif
 
     function filter_reset(Name) {
         var text = '';
@@ -1572,4 +1578,11 @@
 
     // 페이지 로드 시 지도 초기화
     window.onload = initializeMap;
+
+    // 주소 복사
+    var textCopy = (url) => {
+        window.navigator.clipboard.writeText(url).then(() => {
+            alert("링크가 복사 되었습니다.");
+        });
+    };
 </script>

@@ -49,7 +49,8 @@
                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                     <p class="mt8">카카오톡</p>
                 </a>
-                <a href="#">
+                <a
+                    onclick="textCopy('{{ route('www.map.mobile', ['markerId' => $result->id, 'markerType' => 'knowledge']) }}'); modal_close_slide('share');">
                     <img src="{{ asset('assets/media/share_ic_02.png') }}">
                     <p class="mt8">링크복사</p>
                 </a>
@@ -613,18 +614,18 @@
         // });
 
         // 탭메뉴 토글기능
-    $(document).ready(function() {
-        $(".tab_sm_wrap > div").hide();
-        $(".tab_sm_wrap > div").first().show();
-        $(".tab_sm_menu li").click(function() {
-            var list = $(this).index();
-            $(".tab_sm_menu li").removeClass("active");
-            $(this).addClass("active");
-
+        $(document).ready(function() {
             $(".tab_sm_wrap > div").hide();
-            $(".tab_sm_wrap > div").eq(list).show();
+            $(".tab_sm_wrap > div").first().show();
+            $(".tab_sm_menu li").click(function() {
+                var list = $(this).index();
+                $(".tab_sm_menu li").removeClass("active");
+                $(this).addClass("active");
+
+                $(".tab_sm_wrap > div").hide();
+                $(".tab_sm_wrap > div").eq(list).show();
+            });
         });
-    });
 
         // 탭 상단 고정
         function scrollToTab(tab) {

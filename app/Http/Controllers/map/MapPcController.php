@@ -31,12 +31,15 @@ class MapPcController extends Controller
     // 모바일 맵
     public function mapMobile(Request $request): View
     {
+        $markerId = $request->markerId ?? '';
+        $markerType = $request->markerType ?? '';
+
         $mapType = $request->mapType ?? 0;
         $lat = $request->lat ?? 37.2109494;
         $lng = $request->lng ?? 127.0922858;
         $search_name = $request->search_name ?? '';
 
-        return view('www.map.map-mobile', compact('mapType', 'lat', 'lng', 'search_name'));
+        return view('www.map.map-mobile', compact('mapType', 'lat', 'lng', 'search_name', 'markerId', 'markerType'));
     }
 
     // 모바일 지도 내 매물목록
