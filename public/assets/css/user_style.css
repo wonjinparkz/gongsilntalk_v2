@@ -523,7 +523,7 @@ img.floor_img{width: 80%;}
 .btn_more_open.close{background:url('/assets/media/ic_arrow_close.png') calc(50% + 26px) center no-repeat; background-size: 10px auto;}
 .showstep1{max-height:180px; overflow: hidden;}
 .showstep2{max-height:100%; overflow: hidden;}
-.container_map_wrap{overflow: hidden; width: 397px;}
+.container_map_wrap{overflow: hidden;}
 .map_detail_wrp{margin-top:14px;}
 .mediation_price{width:382px;}
 .mediation_price li{display: flex; justify-content: space-between; padding:4px 0; font-size: 16px;}
