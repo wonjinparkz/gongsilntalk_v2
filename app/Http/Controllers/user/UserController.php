@@ -41,11 +41,6 @@ class UserController extends Controller
             $userList->where('name', 'like', "%{$request->name}%");
         }
 
-        // 사용자 전화번호
-        if (isset($request->phone)) {
-            $userList->where('phone', 'like', "%{$request->phone}%");
-        }
-
         // 사용자 상태
         if ($request->has('state') && $request->state > -1) {
             $userList->where('state', '=', $request->state);
@@ -59,6 +54,13 @@ class UserController extends Controller
         // 게시 시작일 from ~ to
         if (isset($request->from_created_at) && isset($request->to_created_at)) {
             $userList->DurationDate('created_at', $request->from_created_at, $request->to_created_at);
+        }
+
+        // phone 필터링을 후처리로 적용
+        if (isset($request->phone)) {
+            $result = $result->filter(function ($user) use ($request) {
+                return decrypt($user->phone) === $request->phone;
+            });
         }
 
         // 정렬
