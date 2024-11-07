@@ -1592,7 +1592,7 @@
 
         // Kakao 공유 기능을 동적으로 호출
         Kakao.Share.createDefaultButton({
-            container: $button,
+            container: event.target,
             objectType: "feed",
             content: {
                 title: title,
