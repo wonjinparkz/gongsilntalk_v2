@@ -159,6 +159,7 @@ return [
         'name' => '이름',
         'phone' => '전화번호',
         'nickname' => '닉네임',
+        'birth' => '생일',
 
         'category' => '게시판 유형',
         'reply_content' => '답변',

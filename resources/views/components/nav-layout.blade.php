@@ -36,21 +36,30 @@
                  </span>
                  마이페이지
              </a> --}}
-
-             @if (Auth::guard('web')->user()->phone == null)
-                 <a href="javascript:;" onclick="modal_open('add_info')">
-                     <span>
-                         <img src="{{ asset('assets/media/mcnu_ic_5.png') }}" alt="">
-                     </span>
-                 </a>
-             @else
+             @guest
                  <a href="{{ route('www.mypage.product.magagement.list.view') }}">
                      <span>
                          <img src="{{ asset('assets/media/mcnu_ic_5.png') }}" alt="">
                      </span>
                      마이페이지
                  </a>
-             @endif
+             @else
+                 @if (Auth::guard('web')->user()->phone == null)
+                     <a href="javascript:;" onclick="modal_open('add_info')">
+                         <span>
+                             <img src="{{ asset('assets/media/mcnu_ic_5.png') }}" alt="">
+                         </span>
+                         마이페이지
+                     </a>
+                 @else
+                     <a href="{{ route('www.mypage.product.magagement.list.view') }}">
+                         <span>
+                             <img src="{{ asset('assets/media/mcnu_ic_5.png') }}" alt="">
+                         </span>
+                         마이페이지
+                     </a>
+                 @endif
+             @endguest
          </li>
      </ul>
  </nav>
