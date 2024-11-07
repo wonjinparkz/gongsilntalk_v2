@@ -108,7 +108,11 @@
                 <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close btn_share">
             </div>
             <div class="layer_share_con">
-                <a href="#">
+                <a class="kakaotalk-sharing-btn" onclick="modal_close_slide('share');"
+                    data-title="{{ $result->kstoreName }} 실거래가" data-description="{{ $result->kstoreAddr }}"
+                    data-image-url="{{ asset('assets/media/s_3.png') }}"
+                    data-m_link="{{ route('www.map.mobile', ['markerId' => $result->id, 'markerType' => 'knowledge', 'lat' => $result->address_lat, 'lng' => $result->address_lng]) }}"
+                    data-pc_link="{{ route('www.map.map', ['markerId' => $result->id, 'markerType' => 'knowledge', 'lat' => $result->address_lat, 'lng' => $result->address_lng]) }}">
                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                     <p class="mt8">카카오톡</p>
                 </a>
@@ -170,8 +174,8 @@
                         <div class="swiper-slide"><a href="javascript:void(0);">매물정보</a></div>
                     </div>
                 </div>
-                <div class="swiper-button-next detail-tab-next"><img src="{{ asset('assets/media/ic_list_arrow.png') }}"
-                    style="width:10px;"></div>
+                <div class="swiper-button-next detail-tab-next"><img
+                        src="{{ asset('assets/media/ic_list_arrow.png') }}" style="width:10px;"></div>
                 <!-- <div class="swiper-button-prev detail-tab-prev"></div> -->
             </div>
         </div>
