@@ -45,11 +45,13 @@
                 <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close btn_share">
             </div>
             <div class="layer_share_con">
-                <a href="#">
+                <a class="kakaotalk-sharing-btn" onclick="modal_close_slide('share');" data-title="제목"
+                    data-description="내용" data-image-url="이미지 URL" data-link="링크">
                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                     <p class="mt8">카카오톡</p>
                 </a>
-                <a href="#">
+                <a
+                    onclick="textCopy('{{ route('www.map.map', ['markerId' => $result->id, 'markerType' => 'knowledge', 'lat' => $result->address_lat, 'lng' => $result->address_lng]) }}'); modal_close_slide('share');">
                     <img src="{{ asset('assets/media/share_ic_02.png') }}">
                     <p class="mt8">링크복사</p>
                 </a>
@@ -81,7 +83,7 @@
             <div style="width: 100%;">
                 <div class="swiper detail_tab">
                     <div class="swiper-wrapper menu toggle_menu">
-                        <div  class="swiper-slide active"><a>거래내역</a></div>
+                        <div class="swiper-slide active"><a>거래내역</a></div>
                         <div class="swiper-slide"><a>조감도</a></div>
                         <div class="swiper-slide"><a>건물정보</a></div>
                         <div class="swiper-slide"><a>현장설명</a></div>
@@ -351,7 +353,8 @@
                                     {{ $result->subway_time }}
                                 </p>
 
-                                <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스 정류장
+                                <div class="traffic_tit mt28"><img src="{{ asset('assets/media/ic_bus.png') }}">버스
+                                    정류장
                                 </div>
                                 <p class="traffic_row">{!! nl2br($result->bus_stop_contents) !!}</p>
 

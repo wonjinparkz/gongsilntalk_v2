@@ -23,9 +23,14 @@ class MapPcController extends Controller
 {
     public function map(Request $request): View
     {
-        $mapType = $request->mapType ?? 0;
+        $markerId = $request->markerId ?? '';
+        $markerType = $request->markerType ?? '';
 
-        return view('www.map.map', compact('mapType'));
+        $mapType = $request->mapType ?? 0;
+        $lat = $request->lat ?? 37.2109494;
+        $lng = $request->lng ?? 127.0922858;
+
+        return view('www.map.map', compact('mapType', 'lat', 'lng', 'markerId', 'markerType'));
     }
 
     // 모바일 맵

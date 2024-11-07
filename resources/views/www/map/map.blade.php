@@ -458,6 +458,11 @@
                     clusterKnowledgesMarkers();
                 }
 
+                @if ($markerId != '' && $markerType != '')
+                    getProductSide('{{ $markerId }}', '{{ $markerType }}', 0)
+                    $('.map_side_0').addClass('active');
+                @endif
+
                 // 지도 경계 설정
                 // map.fitBounds(bounds);
             },
@@ -796,8 +801,8 @@
 
     function initializeMap() {
         map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.2109494, 127.0922858),
-            zoom: 20,
+            center: new naver.maps.LatLng({{ $lat }}, {{ $lng }}),
+            zoom: 18,
             minZoom: 8,
             maxZoom: 21,
             size: new naver.maps.Size(window.innerWidth, window.innerHeight),
@@ -1162,6 +1167,7 @@
     //     $('#' + Name).val('');
     //     mapReset();
     // }
+
     function filter_reset(Name) {
         var text = '';
         text = $('#' + Name + '_title').text();
@@ -1455,4 +1461,37 @@
         // 맵 초기화
         mapReset();
     });
+
+    // 카카오톡 공유하기 버튼
+    $(document).on('click', '.kakaotalk-sharing-btn', function(event) {
+        event.preventDefault(); // 기본 클릭 동작 방지
+
+        // 버튼 요소의 데이터 속성을 읽어옵니다.
+        var $button = $(this);
+        var title = $button.data('title');
+        var description = $button.data('description');
+        var imageUrl = $button.data('image-url');
+        var link = $button.data('link');
+
+        // Kakao 공유 기능을 동적으로 호출
+        Kakao.Share.sendDefault({
+            objectType: "feed",
+            content: {
+                title: title,
+                description: description,
+                imageUrl: imageUrl,
+                link: {
+                    mobileWebUrl: link,
+                    webUrl: link
+                }
+            }
+        });
+    });
+
+    // 주소 복사
+    var textCopy = (url) => {
+        window.navigator.clipboard.writeText(url).then(() => {
+            alert("링크가 복사 되었습니다.");
+        });
+    };
 </script>

@@ -50,7 +50,7 @@
                     <p class="mt8">카카오톡</p>
                 </a>
                 <a
-                    onclick="textCopy('{{ route('www.map.mobile', ['markerId' => $result->id, 'markerType' => 'knowledge']) }}'); modal_close_slide('share');">
+                    onclick="textCopy('{{ route('www.map.mobile', ['markerId' => $result->id, 'markerType' => 'knowledge', 'lat' => $result->address_lat, 'lng' => $result->address_lng]) }}'); modal_close_slide('share');">
                     <img src="{{ asset('assets/media/share_ic_02.png') }}">
                     <p class="mt8">링크복사</p>
                 </a>

@@ -46,50 +46,50 @@
 
         // 모든 표제부 층 정보를 가져와 상단 층별정보에 값 넣어주기
         // 모든 표제부 층 정보를 가져와 상단 층별정보에 값 넣어주기
-    $maxGroundFloor = 0; // 최고 지상층
-    $minGroundFloor = null; // 최저 지상층
-    $maxUndergroundFloor = null; // 최고 지하층
-    $useAprDay = '-'; // 사용 승인일 초기값
+        $maxGroundFloor = 0; // 최고 지상층
+        $minGroundFloor = null; // 최저 지상층
+        $maxUndergroundFloor = null; // 최고 지하층
+        $useAprDay = '-'; // 사용 승인일 초기값
 
-    if (count($BrTitleInfo) > 0) {
-        foreach ($BrTitleInfo as $info) {
-            $currentGroundFloor = $info['grndFlrCnt']; // 현재 지상층 수
-            $currentUndergroundFloor = isset($info['ugrndFlrCnt']) ? $info['ugrndFlrCnt'] : null; // 현재 지하층 수, 없으면 null
+        if (count($BrTitleInfo) > 0) {
+            foreach ($BrTitleInfo as $info) {
+                $currentGroundFloor = $info['grndFlrCnt']; // 현재 지상층 수
+                $currentUndergroundFloor = isset($info['ugrndFlrCnt']) ? $info['ugrndFlrCnt'] : null; // 현재 지하층 수, 없으면 null
 
-            // 최고 지상층 찾기
-            if ($currentGroundFloor > $maxGroundFloor) {
-                $maxGroundFloor = $currentGroundFloor;
-            }
+                // 최고 지상층 찾기
+                if ($currentGroundFloor > $maxGroundFloor) {
+                    $maxGroundFloor = $currentGroundFloor;
+                }
 
-            // 최저 지상층 찾기
-            if (is_null($minGroundFloor) || $currentGroundFloor < $minGroundFloor) {
-                $minGroundFloor = $currentGroundFloor;
-            }
+                // 최저 지상층 찾기
+                if (is_null($minGroundFloor) || $currentGroundFloor < $minGroundFloor) {
+                    $minGroundFloor = $currentGroundFloor;
+                }
 
-            // 최고 지하층 찾기
-            if (
-                !is_null($currentUndergroundFloor) &&
-                $currentUndergroundFloor > 0 &&
-                $currentUndergroundFloor > $maxUndergroundFloor
-            ) {
-                $maxUndergroundFloor = $currentUndergroundFloor;
-            }
+                // 최고 지하층 찾기
+                if (
+                    !is_null($currentUndergroundFloor) &&
+                    $currentUndergroundFloor > 0 &&
+                    $currentUndergroundFloor > $maxUndergroundFloor
+                ) {
+                    $maxUndergroundFloor = $currentUndergroundFloor;
+                }
 
-            // 사용 승인일 처리
-            if (!empty($info['useAprDay'])) {
-                $useAprDay = substr($info['useAprDay'], 0, 4); // YYYY 형식으로 년도만 추출
-            }
+                // 사용 승인일 처리
+                if (!empty($info['useAprDay'])) {
+                    $useAprDay = substr($info['useAprDay'], 0, 4); // YYYY 형식으로 년도만 추출
+                }
 
-            // 주용도 처리
-            if (!empty($info['mainPurpsCdNm']) && $mainUse == '-') {
-                $mainUse = $info['mainPurpsCdNm'];
+                // 주용도 처리
+                if (!empty($info['mainPurpsCdNm']) && $mainUse == '-') {
+                    $mainUse = $info['mainPurpsCdNm'];
+                }
             }
         }
-    }
 
-    // 지하층이 없으면 지상 1층을 최저층으로 표시, 지하층이 있으면 최저층은 지하층
-    $minFloorDisplay = is_null($maxUndergroundFloor) ? 1 : 'B' . $maxUndergroundFloor;
-    $maxFloorDisplay = $maxGroundFloor > 0 ? $maxGroundFloor : '-';
+        // 지하층이 없으면 지상 1층을 최저층으로 표시, 지하층이 있으면 최저층은 지하층
+        $minFloorDisplay = is_null($maxUndergroundFloor) ? 1 : 'B' . $maxUndergroundFloor;
+        $maxFloorDisplay = $maxGroundFloor > 0 ? $maxGroundFloor : '-';
 
     @endphp
     <!----------------------------- m::header bar : s ----------------------------->
@@ -112,7 +112,8 @@
                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                     <p class="mt8">카카오톡</p>
                 </a>
-                <a href="#">
+                <a
+                    onclick="textCopy('{{ route('www.map.mobile', ['markerId' => $result->id, 'markerType' => 'store', 'lat' => $result->address_lat, 'lng' => $result->address_lng]) }}'); modal_close_slide('share');">
                     <img src="{{ asset('assets/media/share_ic_02.png') }}">
                     <p class="mt8">링크복사</p>
                 </a>
