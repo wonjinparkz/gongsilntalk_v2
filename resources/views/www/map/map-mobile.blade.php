@@ -1591,7 +1591,7 @@
         var pc_link = $button.data('pc_link');
 
         // Kakao 공유 기능을 동적으로 호출
-        Kakao.Share.sendDefault({
+        Kakao.Share.createDefaultButton({
             objectType: "feed",
             content: {
                 title: title,
