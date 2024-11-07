@@ -13,14 +13,14 @@
             @if (Auth::guard('web')->user()->type == 0)
                 <li class="{{ str_contains(Route::currentRouteName(), 'mypage') ? 'active' : '' }}">
                     @if (Auth::guard('web')->user()->phone == null)
-                        <a href="javascript:;" onclick="modal_open('add_info')">마이메뉴</a>
+                        <a href="javascript:;" onclick="modal_open('add_info')">마이페이지</a>
                     @else
-                        <a href="{{ route('www.mypage.product.magagement.list.view') }}">마이메뉴</a>
+                        <a href="{{ route('www.mypage.product.magagement.list.view') }}">마이페이지</a>
                     @endif
                 </li>
             @else
                 <li class="{{ str_contains(Route::currentRouteName(), 'mypage') ? 'active' : '' }}">
-                    <a href="{{ route('www.mypage.corp.product.magagement.list.view') }}">마이메뉴</a>
+                    <a href="{{ route('www.mypage.corp.product.magagement.list.view') }}">마이페이지</a>
                 </li>
             @endif
         @endguest
