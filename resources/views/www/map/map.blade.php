@@ -1471,7 +1471,8 @@
         var title = $button.data('title');
         var description = $button.data('description');
         var imageUrl = $button.data('image-url');
-        var link = $button.data('link');
+        var m_link = $button.data('m_link');
+        var pc_link = $button.data('pc_link');
 
         // Kakao 공유 기능을 동적으로 호출
         Kakao.Share.sendDefault({
@@ -1481,8 +1482,8 @@
                 description: description,
                 imageUrl: imageUrl,
                 link: {
-                    mobileWebUrl: link,
-                    webUrl: link
+                    mobileWebUrl: m_link,
+                    webUrl: pc_link
                 }
             }
         });

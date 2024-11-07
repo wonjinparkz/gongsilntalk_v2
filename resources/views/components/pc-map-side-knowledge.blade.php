@@ -45,8 +45,10 @@
                 <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close btn_share">
             </div>
             <div class="layer_share_con">
-                <a class="kakaotalk-sharing-btn" onclick="modal_close_slide('share');" data-title="제목"
-                    data-description="내용" data-image-url="이미지 URL" data-link="링크">
+                <a class="kakaotalk-sharing-btn" onclick="modal_close_slide('share');"
+                    data-title="{{ $result->product_name }} 실거래가" data-description="{{ $result->address }}"
+                    data-image-url="{{ asset('storage/file/' . $result->birdSEyeView_files[0]->path . '/' . $result->birdSEyeView_files[0]->path) }}"
+                    data-m_link="{{ route('www.map.mobile', ['markerId' => $result->id, 'markerType' => 'knowledge', 'lat' => $result->address_lat, 'lng' => $result->address_lng]) }}" data-pc_link="{{ route('www.map.map', ['markerId' => $result->id, 'markerType' => 'knowledge', 'lat' => $result->address_lat, 'lng' => $result->address_lng]) }}">
                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                     <p class="mt8">카카오톡</p>
                 </a>
