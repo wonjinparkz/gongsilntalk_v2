@@ -30,12 +30,27 @@
              </a>
          </li>
          <li class="{{ str_contains(Route::currentRouteName(), 'mypage') ? 'active' : '' }}">
-             <a href="{{ route('www.mypage.product.magagement.list.view') }}">
+             {{-- <a href="{{ route('www.mypage.product.magagement.list.view') }}">
                  <span>
                      <img src="{{ asset('assets/media/mcnu_ic_5.png') }}" alt="">
                  </span>
                  마이페이지
-             </a>
+             </a> --}}
+
+             @if (Auth::guard('web')->user()->phone == null)
+                 <a href="javascript:;" onclick="modal_open('add_info')">
+                     <span>
+                         <img src="{{ asset('assets/media/mcnu_ic_5.png') }}" alt="">
+                     </span>
+                 </a>
+             @else
+                 <a href="{{ route('www.mypage.product.magagement.list.view') }}">
+                     <span>
+                         <img src="{{ asset('assets/media/mcnu_ic_5.png') }}" alt="">
+                     </span>
+                     마이페이지
+                 </a>
+             @endif
          </li>
      </ul>
  </nav>
