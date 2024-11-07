@@ -109,7 +109,7 @@
             </div>
             <div class="layer_share_con">
                 <a class="kakaotalk-sharing-btn" onclick="modal_close_slide('share');"
-                    data-title="{{ $result->kstoreName }} 실거래가" data-description="{{ $result->kstoreAddr }}"
+                    data-title="{{ $result->kbuildingName }} 실거래가" data-description="{{ $result->kbuildingAddr }}"
                     data-image-url="{{ asset('assets/media/s_3.png') }}"
                     data-m_link="{{ route('www.map.mobile', ['markerId' => $result->id, 'markerType' => 'building', 'lat' => $result->address_lat, 'lng' => $result->address_lng]) }}"
                     data-pc_link="{{ route('www.map.map', ['markerId' => $result->id, 'markerType' => 'building', 'lat' => $result->address_lat, 'lng' => $result->address_lng]) }}">
