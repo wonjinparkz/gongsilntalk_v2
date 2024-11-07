@@ -1580,9 +1580,8 @@
     window.onload = initializeMap;
 
     $(document).on('click', '.kakaotalk-sharing-btn', function(event) {
-        event.preventDefault(); // 기본 클릭 동작 방지
+        event.preventDefault();
 
-        // 버튼 요소의 데이터 속성을 읽어옵니다.
         var $button = $(this);
         var title = $button.data('title');
         var description = $button.data('description');
@@ -1590,9 +1589,7 @@
         var m_link = $button.data('m_link');
         var pc_link = $button.data('pc_link');
 
-        // Kakao 공유 기능을 동적으로 호출
-        Kakao.Share.createDefaultButton({
-            container: event.target,
+        Kakao.Share.sendDefault({
             objectType: "feed",
             content: {
                 title: title,
