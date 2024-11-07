@@ -1372,7 +1372,7 @@
             @endif ;
 
         if (login_check) {
-            // dialog('로그인이 필요합니다.\n로그인 하시겠어요?', '로그인', '아니요', login);
+            dialog('로그인이 필요합니다.\n로그인 하시겠어요?', '로그인', '아니요', login);
             return;
         } else {
             var formData = {

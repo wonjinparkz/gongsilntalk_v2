@@ -736,8 +736,10 @@ function dialog(message, confirmText, cancelText, onConfrim) {
         showCancelButton: true,
         confirmButtonText: confirmText,
         cancelButtonText: cancelText,
-        confirmButtonColor: '#20BFA9',
+        confirmButtonColor: '#F16341',
         cancelButtonColor: '#999999',
+        background: '#f0f0f0', // Background color
+        color: '#333333', // Text color
         width: 400,
         padding: 20,
         allowOutsideClick: false

@@ -413,7 +413,7 @@
         <!-- floating btn : s -->
         <div class="floating_btn_wrap only_m">
             <a href="javascript:void(0)" class="floating_wish"
-                onclick="onLikeStateChange('{{ $result->id }}', 'site_product');btn_wish(this);">관심등록</a>
+                onclick="onLikeStateChange('{{ $result->id }}', 'site_product');">관심등록</a>
             <button class="btn_point btn_full_floting"
                 onclick="location.href='{{ route('www.consulting.create.view') }}'">분양문의</button>
         </div>
@@ -448,7 +448,7 @@
                     true
                 @endif ;
             if (login_check) {
-                // dialog('로그인이 필요합니다.\n로그인 하시겠어요?', '로그인', '아니요', login);
+                dialog('로그인이 필요합니다.\n로그인 하시겠어요?', '로그인', '아니요', login);
                 return;
             } else {
 
@@ -456,6 +456,11 @@
                     $('.header_btn_wish').removeClass("on");
                 } else {
                     $('.header_btn_wish').addClass("on");
+                }
+                if ($('.floating_wish').hasClass("on")) {
+                    $('.floating_wish').removeClass("on");
+                } else {
+                    $('.floating_wish').addClass("on");
                 }
 
                 $.ajax({
@@ -480,7 +485,7 @@
                     true
                 @endif ;
             if (login_check) {
-                // dialog('로그인이 필요합니다.\n로그인 하시겠어요?', '로그인', '아니요', login);
+                dialog('로그인이 필요합니다.\n로그인 하시겠어요?', '로그인', '아니요', login);
                 return;
             } else {
 
