@@ -111,8 +111,8 @@
                 <a class="kakaotalk-sharing-btn" onclick="modal_close_slide('share');"
                     data-title="{{ $result->kstoreName }} 실거래가" data-description="{{ $result->kstoreAddr }}"
                     data-image-url="{{ asset('assets/media/s_3.png') }}"
-                    data-m_link="{{ route('www.map.mobile', ['markerId' => $result->id, 'markerType' => 'knowledge', 'lat' => $result->address_lat, 'lng' => $result->address_lng]) }}"
-                    data-pc_link="{{ route('www.map.map', ['markerId' => $result->id, 'markerType' => 'knowledge', 'lat' => $result->address_lat, 'lng' => $result->address_lng]) }}">
+                    data-m_link="{{ route('www.map.mobile', ['markerId' => $result->id, 'markerType' => 'building', 'lat' => $result->address_lat, 'lng' => $result->address_lng]) }}"
+                    data-pc_link="{{ route('www.map.map', ['markerId' => $result->id, 'markerType' => 'building', 'lat' => $result->address_lat, 'lng' => $result->address_lng]) }}">
                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                     <p class="mt8">카카오톡</p>
                 </a>
