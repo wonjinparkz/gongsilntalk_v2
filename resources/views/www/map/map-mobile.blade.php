@@ -1579,6 +1579,32 @@
     // 페이지 로드 시 지도 초기화
     window.onload = initializeMap;
 
+    $(document).on('click', '.kakaotalk-sharing-btn', function(event) {
+        event.preventDefault(); // 기본 클릭 동작 방지
+
+        // 버튼 요소의 데이터 속성을 읽어옵니다.
+        var $button = $(this);
+        var title = $button.data('title');
+        var description = $button.data('description');
+        var imageUrl = $button.data('image-url');
+        var m_link = $button.data('m_link');
+        var pc_link = $button.data('pc_link');
+
+        // Kakao 공유 기능을 동적으로 호출
+        Kakao.Share.sendDefault({
+            objectType: "feed",
+            content: {
+                title: title,
+                description: description,
+                imageUrl: imageUrl,
+                link: {
+                    mobileWebUrl: m_link,
+                    webUrl: pc_link
+                }
+            }
+        });
+    });
+
     // 주소 복사
     var textCopy = (url) => {
         window.navigator.clipboard.writeText(url).then(() => {
