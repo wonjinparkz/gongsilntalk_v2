@@ -42,7 +42,7 @@ class SiteProductExport implements FromView
         // 정렬
         $siteProductList->orderBy('site_product.created_at', 'desc')->orderBy('id', 'desc');
 
-        return view('exports.siteProduct', [
+        return view('exports.SiteProduct', [
             'result' => $siteProductList->get()
         ]);
     }
