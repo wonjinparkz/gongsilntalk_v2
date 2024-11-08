@@ -96,11 +96,7 @@
 
                 </div>
                 <!--내용 END-->
-                {{-- Footer Bottom START --}}
-                <div class="card-footer d-flex justify-content-end py-6 px-9">
-                    <button type="submit" class="btn btn-primary">수정</button>
-                </div>
-                {{-- Footer END --}}
+
             </form>
             {{-- FORM END --}}
 

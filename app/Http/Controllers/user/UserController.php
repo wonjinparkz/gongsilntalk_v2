@@ -122,6 +122,7 @@ class UserController extends Controller
         // View에 페이지네이션된 결과 전달
         return view('admin.user.user-list', ['result' => $paginatedResult]);
     }
+
     /**
      * 사용자 상세 화면 보기
      */
@@ -175,18 +176,52 @@ class UserController extends Controller
     /**
      * 중개사 목록 보기
      */
+    // public function companyListView(Request $request): View
+    // {
+    //     $userList = User::select()->where('type', '=', '1')->whereNot('company_state', '=', '1');
+
+    //     // 담당자 이름
+    //     if (isset($request->name)) {
+    //         $userList->where('name', 'like', "%{$request->name}%");
+    //     }
+
+    //     // 담당자 전화번호
+    //     if (isset($request->phone)) {
+    //         $userList->where('phone', 'like', "%{$request->phone}%");
+    //     }
+
+    //     // 중개사무소명
+    //     if (isset($request->company_name)) {
+    //         $userList->where('company_name', 'like', "%{$request->company_name}%");
+    //     }
+
+    //     // 중개사 상태
+    //     if ($request->has('state') && $request->state > -1) {
+    //         $userList->where('state', '=', $request->state);
+    //     }
+
+    //     // 게시 시작일 from ~ to
+    //     if (isset($request->from_created_at) && isset($request->to_created_at)) {
+    //         $userList->DurationDate('created_at', $request->from_created_at, $request->to_created_at);
+    //     }
+
+    //     // 정렬
+    //     $userList->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+
+    //     $result = $userList->paginate($request->per_page == null ? 10 : $request->per_page);
+    //     $result->appends(request()->except('page'));
+
+    //     return view('admin.user.company-list', compact('result'));
+    // }
+
     public function companyListView(Request $request): View
     {
+        // 초기 쿼리 작성
         $userList = User::select()->where('type', '=', '1')->whereNot('company_state', '=', '1');
 
         // 담당자 이름
         if (isset($request->name)) {
             $userList->where('name', 'like', "%{$request->name}%");
-        }
-
-        // 담당자 전화번호
-        if (isset($request->phone)) {
-            $userList->where('phone', 'like', "%{$request->phone}%");
         }
 
         // 중개사무소명
@@ -204,13 +239,31 @@ class UserController extends Controller
             $userList->DurationDate('created_at', $request->from_created_at, $request->to_created_at);
         }
 
-        // 정렬
         $userList->orderBy('created_at', 'desc')->orderBy('id', 'desc');
 
-        $result = $userList->paginate($request->per_page == null ? 10 : $request->per_page);
-        $result->appends(request()->except('page'));
+        // 쿼리 실행 후 결과 가져오기
+        $result = $userList->get();
 
-        return view('admin.user.company-list', compact('result'));
+        // phone 필드에 대한 후처리 필터링 적용
+        if (isset($request->phone)) {
+            $result = $result->filter(function ($user) use ($request) {
+                return strpos($user->phone, $request->phone) !== false;
+            });
+        }
+
+        // 필터링된 결과를 수동으로 페이지네이션 처리
+        $perPage = $request->per_page ?? 10;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $paginatedResult = new LengthAwarePaginator(
+            $result->forPage($currentPage, $perPage), // 현재 페이지의 데이터
+            $result->count(),                         // 전체 데이터 수
+            $perPage,                                 // 페이지당 표시할 항목 수
+            $currentPage,                             // 현재 페이지 번호
+            ['path' => request()->url(), 'query' => request()->query()] // 페이지네이션 URL과 쿼리 파라미터
+        );
+
+        // View에 페이지네이션된 결과 전달
+        return view('admin.user.company-list', ['result' => $paginatedResult]);
     }
 
     /**

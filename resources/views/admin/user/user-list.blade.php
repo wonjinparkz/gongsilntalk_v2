@@ -95,8 +95,6 @@
                                     </option>
                                     <option value="N" @if ($provider == 'N') selected @endif>네이버
                                     </option>
-                                    <option value="A" @if ($provider == 'A') selected @endif>애플
-                                    </option>
                                 </select>
                             </div>
                         </div>
