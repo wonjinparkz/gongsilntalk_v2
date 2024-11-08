@@ -176,7 +176,7 @@ class UserController extends Controller
     public function corpListView(Request $request): View
     {
         // 초기 쿼리 작성
-        $userList = User::select()->where('type', '=', '1')->whereNot('company_state', '=', '1');
+        $userList = User::select()->where('type', '=', '1')->where('company_state', '=', '1');
 
         // 담당자 이름
         if (isset($request->name)) {
