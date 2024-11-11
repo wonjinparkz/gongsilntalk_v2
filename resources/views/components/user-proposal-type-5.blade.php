@@ -190,7 +190,7 @@
                             <th>{{ $product->price->payment_type == 3 ? '전세가' : '보증금' }}</th>
                             <td>{{ number_format($product->price->price) }}원</td>
                         </tr>
-                        @if ($product->price->payment_type == 4)
+                        @if ($product->price->payment_type == 1)
                             <tr>
                                 <th>월세</th>
                                 <td>{{ number_format($product->price->month_price) }}원</td>

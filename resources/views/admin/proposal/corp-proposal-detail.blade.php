@@ -286,7 +286,7 @@
                                     <td class="text-center">
                                         <span class="fw-bold fs-5 text-dark">
                                             {{ Lang::get('commons.payment_type.' . $product->price->payment_type) }}
-                                            @if ($product->price->payment_type == 4)
+                                            @if ($product->price->payment_type == 1)
                                                 {{ Commons::get_priceTrans($product->price->price) }} /
                                                 {{ Commons::get_priceTrans($product->price->month_price) }}
                                             @else

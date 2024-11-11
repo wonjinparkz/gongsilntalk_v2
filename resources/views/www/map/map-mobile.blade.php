@@ -910,7 +910,7 @@
                 bounds = new naver.maps.LatLngBounds(); // bounds 초기화
 
                 // 새 마커 추가
-                processRegionArray(data.region, 'region', getContentStringForRegion, 25, 55);
+                // processRegionArray(data.region, 'region', getContentStringForRegion, 25, 55);
                 processDataArray(data.knowledges, 'knowledge', getContentStringForKnowledge, 0, 73);
                 processDataArray(data.aptMaps, 'apt', getContentStringForApt, 0, 50);
                 processDataArray(data.store, 'store', getContentStringForStore, 0, 50);

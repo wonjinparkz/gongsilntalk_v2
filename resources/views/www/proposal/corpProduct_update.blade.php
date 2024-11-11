@@ -125,8 +125,8 @@
                                 onclick="paymentCheck(0)">매매</li>
                             <li class="{{ $product->price->payment_type == 3 ? 'active' : '' }}"
                                 onclick="paymentCheck(3)">전세</li>
-                            <li class="{{ $product->price->payment_type == 4 ? 'active' : '' }}"
-                                onclick="paymentCheck(4)">월세</li>
+                            <li class="{{ $product->price->payment_type == 1 ? 'active' : '' }}"
+                                onclick="paymentCheck(1)">월세</li>
                         </ul>
                         <div class="tab_area_wrap">
                             <div>
@@ -323,7 +323,7 @@
                                             <div>
                                                 <label class="input_label">
                                                     보증금 <span class="txt_point">*</span>
-                                                </label><input type="text" placeholder="보증금" name="price_4"
+                                                </label><input type="text" placeholder="보증금" name="price_1"
                                                     inputmode="numeric"
                                                     value="{{ $product->price->price != '' ? number_format($product->price->price) : '' }}"
                                                     oninput="onlyNumbers(this); onTextChangeEvent(this);">
@@ -332,7 +332,7 @@
                                             <div>
                                                 <label class="input_label">
                                                     월임대료 <span class="txt_point">*</span>
-                                                </label><input type="text" placeholder="월임대료" name="month_price_4"
+                                                </label><input type="text" placeholder="월임대료" name="month_price_1"
                                                     inputmode="numeric"
                                                     value="{{ $product->price->month_price != '' ? number_format($product->price->month_price) : '' }}"
                                                     oninput="onlyNumbers(this); onTextChangeEvent(this);">
@@ -715,7 +715,7 @@
 
         var payment_type = $('input[name="payment_type"]').val();
         var price = $('input[name="price_' + payment_type + '"]').val();
-        var month_price = $('input[name="month_price_4"]').val();
+        var month_price = $('input[name="month_price_1"]').val();
         var acquisition_tax = $('input[name="acquisition_tax"]').val();
         var loan_rate_one = $('input[name="loan_rate_one"]').val();
         var loan_rate_two = $('input[name="loan_rate_two"]').val();
@@ -756,7 +756,7 @@
             if (price != '') {
                 confirm_2 = true;
             }
-        } else if (payment_type == 4) {
+        } else if (payment_type == 1) {
             if (price != '' && month_price != '') {
                 confirm_2 = true;
             }

@@ -84,7 +84,7 @@
                                                         {{ $product->exclusive_area }}평</td>
 
                                                     <td>{{ Lang::get('commons.payment_type.' . $product->price->payment_type) }}
-                                                        @if ($product->price->payment_type == 4)
+                                                        @if ($product->price->payment_type == 1)
                                                             {{ Commons::get_priceTrans($product->price->price) }} /
                                                             {{ Commons::get_priceTrans($product->price->month_price) }}
                                                         @else
@@ -162,7 +162,7 @@
                                                         </div>
                                                         <div class="list_detail_item">거래정보 <span
                                                                 class="txt_point">{{ Lang::get('commons.payment_type.' . $product->price->payment_type) }}
-                                                                @if ($product->price->payment_type == 4)
+                                                                @if ($product->price->payment_type == 1)
                                                                     {{ Commons::get_priceTrans($product->price->price) }}
                                                                     /
                                                                     {{ Commons::get_priceTrans($product->price->month_price) }}
