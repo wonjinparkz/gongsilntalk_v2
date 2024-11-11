@@ -18,7 +18,7 @@
 <div class="proposal_type_item proposal_type_4">
     <section class="type_4_1">
         <div class="ghost_box">
-            <h1>{{ $corpInfo->corp_name }}<br>기업이전제안서33</h1>
+            <h1>{{ $corpInfo->corp_name }}<br>기업이전제안서</h1>
             <p class="txt_item_1">COMPANY RELOCATION PROPOSAL</p>
         </div>
     </section>

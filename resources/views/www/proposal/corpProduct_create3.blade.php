@@ -193,7 +193,7 @@
                         <div class="offer_textarea_wrap">
                             <label class="input_label">상세 설명 <span class="txt_point">*</span></label>
                             <textarea name="product_content" id="product_content" placeholder="건물의 특징이나 장점을 설명해주세요."
-                                style="width: 340px; height: 320px; resize: none; overflow: hidden;"></textarea>
+                                style="width: 340px; height: 320px; resize: none; overflow: hidden;" maxlength="400"></textarea>
                         </div>
 
                         {{-- <div class="offer_textarea_wrap">
