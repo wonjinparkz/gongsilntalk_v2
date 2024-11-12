@@ -141,7 +141,7 @@
         var data = {};
         // data.key = "E2C5234B-AE55-3D0D-91C0-6A61FFE0A48B";
         data.key = "{{ env('V_WORD_KEY') }}";
-        data.domain = "k-late.com";
+        data.domain = "xn--ob0bz92b4xbc9t.com";
         data.format = "json";
         data.numOfRows = "30";
         data.pageNo = "1";
