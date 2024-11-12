@@ -41,7 +41,7 @@
                         {{-- <a onclick="openApplePopup();">
                             <img src="{{ asset('assets/media/btn_ss_1.png') }}" alt="애플로그인">
                         </a> --}}
-                         <a onclick="openKakaoPopup();">
+                        <a onclick="openKakaoPopup();">
                             <img src="{{ asset('assets/media/btn_ss_2.png') }}" alt="카카오로그인">
                         </a>
                         <a onclick="form_sns_login('{{ route('www.login.naver') }}');">
@@ -280,7 +280,6 @@
 
         if (!passwordRegex.test(change_password)) {
             $('.change_password').css('display', '');
-
         } else {
             $('.change_password').css('display', 'none');
         }
