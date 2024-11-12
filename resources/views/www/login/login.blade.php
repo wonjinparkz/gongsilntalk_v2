@@ -357,7 +357,7 @@
                 $('#passwordUser').val(data.confirm);
                 if (data.confirm) {
                     $('#password_email_confirmation').val(password_email);
-                    passwordInputCheck2();
+                    passwordConfirm();
                 } else {
                     return alert('가입한 회원을 찾을 수 없습니다.');
                 }
