@@ -129,9 +129,15 @@ class UserAuthPcController extends Controller
 
         $user = User::where('email', $credentials['email'])->first();
 
-        if (!$user || !Hash::check($credentials['password'], $user->password)) {
+        if (!$user) {
             return redirect(route('www.login.login'))
                 ->withErrors('가입한 회원정보가 없습니다.')
+                ->withInput();
+        }
+
+        if (!Hash::check($credentials['password'], $user->password)) {
+            return redirect(route('www.login.login'))
+                ->withErrors('비밀번호가 틀립니다.')
                 ->withInput();
         }
 
