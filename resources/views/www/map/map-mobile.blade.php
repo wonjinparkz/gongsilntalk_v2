@@ -1499,7 +1499,7 @@
 
             knowledgeClustering = new MarkerClustering({
                 minClusterSize: 1,
-                maxZoom: 18,
+                maxZoom: 20,
                 map: map,
                 markers: knowledgeMarkers, // knowledge 마커들만 클러스터링
                 disableClickZoom: false,
