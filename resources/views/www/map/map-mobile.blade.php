@@ -1504,7 +1504,7 @@
                 markers: knowledgeMarkers, // knowledge 마커들만 클러스터링
                 disableClickZoom: false,
                 knowledgeSaleMidPrice: true,
-                gridSize: 70,
+                gridSize: 100,
                 icons: [htmlMarker3],
                 indexGenerator: [1],
             });
@@ -1564,7 +1564,7 @@
                 markers: agentMarkers, // product 마커들만 클러스터링
                 disableClickZoom: true,
                 agentClick: true,
-                gridSize: 120,
+                gridSize: 70,
                 icons: [htmlMarker2],
                 indexGenerator: [2],
                 stylingFunction: function(clusterMarker, count) {
