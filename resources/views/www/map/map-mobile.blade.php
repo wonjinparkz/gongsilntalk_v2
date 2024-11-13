@@ -961,6 +961,10 @@
                 anchorY: anchorY
             });
         });
+
+        if (type == 'knowledge') {
+            clusterKnowledgesMarkers();
+        }
     }
 
     // 데이터 배열 처리 함수
