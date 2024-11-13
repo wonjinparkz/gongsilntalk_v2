@@ -1504,7 +1504,7 @@
                 markers: knowledgeMarkers, // knowledge 마커들만 클러스터링
                 disableClickZoom: false,
                 knowledgeSaleMidPrice: true,
-                gridSize: 100,
+                gridSize: 120,
                 icons: [htmlMarker3],
                 indexGenerator: [1],
             });
