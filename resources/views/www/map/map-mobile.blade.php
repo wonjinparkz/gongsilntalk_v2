@@ -1564,7 +1564,7 @@
                 markers: agentMarkers, // product 마커들만 클러스터링
                 disableClickZoom: true,
                 agentClick: true,
-                gridSize: 100,
+                gridSize: 120,
                 icons: [htmlMarker2],
                 indexGenerator: [2],
                 stylingFunction: function(clusterMarker, count) {
