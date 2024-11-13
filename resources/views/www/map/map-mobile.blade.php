@@ -1509,6 +1509,8 @@
                 indexGenerator: [1],
             });
             console.log('Knowledge Clustering Instance:', knowledgeClustering);
+        } else {
+            console.warn('No knowledge markers to cluster.');
         }
     }
 
