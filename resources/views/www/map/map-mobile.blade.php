@@ -1495,6 +1495,8 @@
                 return marker.type === 'knowledge';
             });
 
+            console.log('Filtered Knowledge Markers:', knowledgeMarkers);
+
             knowledgeClustering = new MarkerClustering({
                 minClusterSize: 1,
                 maxZoom: 16,
@@ -1506,6 +1508,7 @@
                 icons: [htmlMarker3],
                 indexGenerator: [1],
             });
+            console.log('Knowledge Clustering Instance:', knowledgeClustering);
         }
     }
 
