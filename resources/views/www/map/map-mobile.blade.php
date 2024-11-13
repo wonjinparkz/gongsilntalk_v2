@@ -1494,44 +1494,27 @@
 
     function clusterKnowledgesMarkers() {
         if (markers.length > 0) {
-            const knowledgeMarkers = markers.filter(marker => marker.type === 'knowledge');
+            // knowledge 타입의 마커들만 필터링합니다.
+            const knowledgeMarkers = markers.filter(function(marker) {
+                return marker.type === 'knowledge';
+            });
+
             console.log('Filtered Knowledge Markers:', knowledgeMarkers);
 
-            if (knowledgeMarkers.length > 0) {
-                knowledgeClustering = new MarkerClustering({
-                    minClusterSize: 2, // 최소 클러스터 크기
-                    maxZoom: 20, // 클러스터 해제 줌 레벨
-                    map: map,
-                    markers: knowledgeMarkers,
-                    gridSize: 80, // 클러스터 반경
-                    icons: [{
-                        content: '<div style="background-color: red; color: white; padding: 5px; border-radius: 50%;">{text}</div>',
-                        size: [50, 50],
-                        anchor: [25, 25],
-                    }],
-                    indexGenerator: function(clusterMarkers) {
-                        return clusterMarkers.length;
-                    },
-                });
-
-                console.log('Knowledge Clustering Instance:', knowledgeClustering);
-
-                // 줌 변경 시 클러스터 강제 업데이트
-                map.addListener('zoom_changed', function() {
-                    console.log('Zoom Level Changed:', map.getZoom());
-                    knowledgeClustering.repaint();
-                });
-
-                // 클러스터 클릭 이벤트 추가
-                knowledgeClustering.on('clusterclick', function(cluster) {
-                    console.log('Cluster Clicked:', cluster);
-                    map.setCenter(cluster.getCenter());
-                    map.setZoom(map.getZoom() + 1);
-                });
-
-            } else {
-                console.warn('No knowledge markers to cluster.');
-            }
+            knowledgeClustering = new MarkerClustering({
+                minClusterSize: 2,
+                maxZoom: 20,
+                map: map,
+                markers: knowledgeMarkers, // knowledge 마커들만 클러스터링
+                disableClickZoom: false,
+                knowledgeSaleMidPrice: true,
+                gridSize: 60,
+                icons: [htmlMarker3],
+                indexGenerator: [1],
+            });
+            console.log('Knowledge Clustering Instance:', knowledgeClustering);
+        } else {
+            console.warn('No knowledge markers to cluster.');
         }
     }
 
