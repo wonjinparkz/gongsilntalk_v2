@@ -27,8 +27,8 @@ class MapPcController extends Controller
         $markerType = $request->markerType ?? '';
 
         $mapType = $request->mapType ?? 0;
-        $lat = $request->lat ?? 37.2109494;
-        $lng = $request->lng ?? 127.0922858;
+        $lat = $request->lat ?? 37.3360377;
+        $lng = $request->lng ?? 127.1079639;
 
         return view('www.map.map', compact('mapType', 'lat', 'lng', 'markerId', 'markerType'));
     }
@@ -40,8 +40,8 @@ class MapPcController extends Controller
         $markerType = $request->markerType ?? '';
 
         $mapType = $request->mapType ?? 0;
-        $lat = $request->lat ?? 37.2109494;
-        $lng = $request->lng ?? 127.0922858;
+        $lat = $request->lat ?? 37.3360377;
+        $lng = $request->lng ?? 127.1079639;
         $search_name = $request->search_name ?? '';
 
         return view('www.map.map-mobile', compact('mapType', 'lat', 'lng', 'search_name', 'markerId', 'markerType'));

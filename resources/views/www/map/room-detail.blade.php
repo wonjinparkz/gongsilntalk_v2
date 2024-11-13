@@ -807,7 +807,7 @@
                         <ul class="mediation_price">
                             <li>
                                 <div class="gray_deep">중개보수<span class="gray_basic">(부가세 별도)</span></div>
-                                <div class="txt_point">{{ $commission }}원</div>
+                                <div class="txt_point">{{ $commission > 0 ? $commission : '-' }}원</div>
                             </li>
                             <li>
                                 <div class="gray_deep">상한요율</div>

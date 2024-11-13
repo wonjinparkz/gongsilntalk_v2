@@ -21,10 +21,10 @@ return [
         'name' => '임요섭', /* 대표이사 */
         'consulNumber' => '1600-5734', /* 상담문의 */
         'mian_address' => '서울특별시 서초구 강남대로37길 56-31 (서초동, 서현빌딩)',
-        'address' => '경기도 화성시 동탄첨단산업1로 27, 1층 (영천동, 금강펜테리움IX타워)', /* 주소 */
+        'address' => '경기도 화성시 동탄기흥로 557, 1층 (영천동, 금강펜테리움IT타워)', /* 주소 */
         'number' => '291-81-02340', /* 사업자 등록 번호 */
-        'pressEmail' => 'gongsil_ntalk@naver.com', /* 이메일 */
-        'email' => 'gongsil_ntalk@naver.com', /* 이메일 */
+        'pressEmail' => 'gsntalk@naver.com', /* 이메일 */
+        'email' => 'gsntalk@naver.com', /* 이메일 */
         'securityName' => '김책임' /* 개인정보 관리 책임자 */
     ],
 
