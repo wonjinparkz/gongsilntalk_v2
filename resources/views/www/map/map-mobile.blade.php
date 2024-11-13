@@ -929,7 +929,7 @@
                     clusterAgentMarkers();
                     loadMoreData();
                 } else {
-                    clusterKnowledgesMarkers();
+                    // clusterKnowledgesMarkers();
                 }
 
                 // 지도 경계 설정
