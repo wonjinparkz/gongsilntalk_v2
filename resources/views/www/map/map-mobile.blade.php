@@ -706,6 +706,8 @@
             $('input[name="business_type"]').prop('checked', false);
             $('#business_type').val('');
             $('#businessTypeAll').prop('checked', false);
+        } else if (Name == 'product_type') {
+            $('.tab_type_3.tab_toggle_menu li:first').click();
         }
 
         // 라디오 버튼 초기화 (필요 시)
