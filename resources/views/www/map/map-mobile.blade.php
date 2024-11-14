@@ -662,6 +662,8 @@
             $('#month_price').val('');
 
             resetPaymentType();
+
+            modal_close_slide('filter_4');
             // 거래유형에 따른 슬라이더 상태 초기화
 
         } else if (Name == 'area') {

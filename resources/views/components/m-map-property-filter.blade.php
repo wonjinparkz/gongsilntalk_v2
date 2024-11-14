@@ -165,7 +165,7 @@
     </div>
     <div class="filter_panel_bottom">
         <button type="button" class="btn_graylight_ghost btn_md_full"
-            onclick="filter_reset('payment_type_txt') modal_close_slide('filter_4');"><img
+            onclick="filter_reset('payment_type_txt')"><img
                 src="{{ asset('assets/media/ic_refresh.png') }}">초기화</button>
         <button type="button" class="btn_point btn_md_full"
             onclick="filter_apply('payment_type_txt', 1) modal_close_slide('filter_4');">적용하기</button>
