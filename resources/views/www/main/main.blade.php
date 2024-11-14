@@ -310,7 +310,7 @@
                 </script>
 
                 <div class="bn_group_1_wrap">
-                    <div class="bn_item_1" onclick="location.href='{{ route('www.map.mobile') }}'">
+                    <div class="bn_item_1" onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'">
                         <div>
                             <div class="bn_txt">전국지식산업센터 · 사무실 · 상가</div>
                             <div class="bn_tit"><span>30초</span> 만에<br>부동산 매물 찾기</div>
