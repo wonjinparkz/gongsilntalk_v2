@@ -29,11 +29,6 @@ class CompanyExport implements FromView
             $userList->where('name', 'like', "%{$this->request->name}%");
         }
 
-        // 담당자 전화번호
-        if (isset($this->request->phone)) {
-            $userList->where('phone', 'like', "%{$this->request->phone}%");
-        }
-
         // 중개사무소명
         if (isset($this->request->company_name)) {
             $userList->where('company_name', 'like', "%{$this->request->company_name}%");
