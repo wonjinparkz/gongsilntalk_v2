@@ -18,10 +18,12 @@
 </style>
 <!-- type_1 : s -->
 <div class="proposal_type_item proposal_type_1 active">
-    <section class="print_page">
-        <div class="page_layer">
-            <h1 style="color: #fff !important; font-size:40px;">{{ $corpInfo->corp_name }}<br>기업이전제안서</h1>
-            <p class="txt_item_1" style="color:#fff; margin-top:10px;">COMPANY RELOCATION PROPOSAL</p>
+    <section class="type_1_1 print_page">
+        <div class="page_layer page_ui">
+            <div>
+                <h1 style="color: #fff !important; font-size:40px;">{{ $corpInfo->corp_name }}<br>기업이전제안서</h1>
+                <p class="txt_item_1">COMPANY RELOCATION PROPOSAL</p>
+            </div>
 
             <div class="type_1_index">
                 @foreach ($address as $key => $address)
@@ -39,12 +41,12 @@
                 @endforeach
             </div>
         </div>
-        <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type1_img_1.png') }}" style="width:100%;"></div>
+        <!-- <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type1_img_1.png') }}" style="width:100%;"></div> -->
     </section>
-
+    
     @foreach ($products as $key => $product)
-        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
-
+         <!-- 새로운 페이지 시작 -->
+         <div class="page-break"></div>
         <section class="type_1_2 print_page">
             <div class="page_layer">
                 <h2 style="color:#fff; font-size:30px;">01 건물소개</h2>
@@ -60,12 +62,12 @@
                     <div>
                         <h5>위치 : {{ $product->address }}</h5>
                         <div class="item_img">
-                            <div id="minimap_1_{{ $key }}" style="width:100%; height:100%;"></div>
+                            <div id="minimap_1_{{ $key }}" style="width:428px; height:293px;"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type1_img_2.png') }}" style="width:100%;"></div>
+            <!-- <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type1_img_2.png') }}" style="width:100%;"></div> -->
         </section>
 
 
@@ -218,7 +220,7 @@
                     </table>
                 </div>
             </div>
-            <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type1_img_2.png') }}" style="width:100%;"></div>
+            <!-- <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type1_img_2.png') }}" style="width:100%;"></div> -->
         </section>
 
         <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
@@ -237,7 +239,7 @@
                     @endforeach
                 </div>
             </div>
-            <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type1_img_2.png') }}" style="width:100%;"></div>
+            <!-- <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type1_img_2.png') }}" style="width:100%;"></div> -->
         </section>
 
 
@@ -462,18 +464,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type1_img_2.png') }}"
-                        style="width:100%;"></div>
+                <!-- <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type1_img_2.png') }}" style="width:100%;"></div> -->
             </section>
+            
         @endif
 
     @endforeach
 
-    <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
+    <div class="page-break"></div><!-- 새로운 페이지 시작 -->
 
-    <section class="type_1_3 print_page" style="background:none; padding:0">
+    <section class="type_1_5 print_page">
         <div class="page_layer">
-            <div class="txt_item_end" style="font-size:80px; color:#fff;">Thank You</div>
+            <div class="txt_item_end">Thank You</div>
             <div class="end_company_wrap">
                 <div>
                     <p class="txt_item_1">{{ $corpInfo->users->company_name }}</p>
@@ -488,7 +490,7 @@
                     {{ $corpInfo->users->company_address_detail }}</p>
             </div>
         </div>
-        <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type1_img_3.png') }}" style="width:100%;"></div>
+        <!-- <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type1_img_3.png') }}" style="width:100%;"></div> -->
     </section>
 </div>
 <!-- type_1 : e -->

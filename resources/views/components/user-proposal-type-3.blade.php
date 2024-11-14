@@ -61,7 +61,7 @@
                     </div>
                     <div class="item_img">
                         <div class="img_box">
-                            <div id="minimap_3_{{ $key }}" style="width:100%; height:100%;"></div>
+                            <div id="minimap_3_{{ $key }}" style="width:428px; height:293px;"></div>
                         </div>
                     </div>
                 </div>
@@ -231,8 +231,9 @@
 
             </div>
         </section>
-        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
+        
         @if ($product->price->payment_type == 0)
+        <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
             <section class="type_page type_3_5">
                 <h2>04 견적서</h2>
                 <div class="item_4_wrap">
