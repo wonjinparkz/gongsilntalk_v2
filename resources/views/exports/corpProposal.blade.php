@@ -34,7 +34,7 @@
 
                 {{-- 제안서 명 --}}
                 <td>
-                    {{ $proposal->name }}
+                    {{ $proposal->title }}
                 </td>
 
                 {{-- 희망면적 --}}
