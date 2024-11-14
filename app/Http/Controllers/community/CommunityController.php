@@ -38,7 +38,7 @@ class CommunityController extends Controller
             'community.*',
             'users.nickname AS author_nickname',
         )
-        ->where('community.is_delete', '0');
+            ->where('community.is_delete', '0');
 
 
         $communityList->join('users', 'community.author', '=', 'users.id');
@@ -102,7 +102,7 @@ class CommunityController extends Controller
 
         // 해당 댓글만
         $ReplyList->where('reply.target_id', '=', $request->id);
-        $ReplyList->where('reply.target_type', '=', Community::class);
+        $ReplyList->where('reply.target_type', '=', 'community');
 
         // 작성자 닉네임
         if (isset($request->author_nickname)) {

@@ -21,7 +21,7 @@
                                     class="menu_more"></button>
                             <div class="more_menu">
                                 @if ($nowUser == $reply->author)
-                                    <a href="javascript:(0)">수정</a>
+                                    {{-- <a href="javascript:(0)">수정</a> --}}
                                     <a href="{{ route('www.reply.delete', ['id' => $reply->id]) }}">삭제</a>
                                 @else
                                     <a
@@ -57,7 +57,7 @@
                                     class="menu_more"></button>
                             <div class="more_menu">
                                 @if ($nowUser == $rereply->author)
-                                    <a href="javascript:(0)">수정</a>
+                                    {{-- <a href="javascript:(0)">수정</a> --}}
                                     <a href="{{ route('www.reply.delete', ['id' => $rereply->id]) }}">삭제</a>
                                 @else
                                     <a
@@ -92,7 +92,7 @@
                                         class="menu_more"></button>
                                 <div class="more_menu">
                                     @if ($nowUser == $rerereply->author)
-                                        <a href="javascript:(0)">수정</a>
+                                        {{-- <a href="javascript:(0)">수정</a> --}}
                                         <a href="{{ route('www.reply.delete', ['id' => $rerereply->id]) }}">삭제</a>
                                     @else
                                         <a

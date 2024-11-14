@@ -81,7 +81,7 @@ class MagazineController extends Controller
 
         // 해당 댓글만
         $ReplyList->where('reply.target_id', '=', $request->id);
-        $ReplyList->where('reply.target_type', '=', Magazine::class);
+        $ReplyList->where('reply.target_type', '=', 'magazine');
 
         // 작성자 닉네임
         if (isset($request->author_nickname)) {
