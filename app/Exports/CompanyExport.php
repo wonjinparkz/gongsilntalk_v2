@@ -22,16 +22,11 @@ class CompanyExport implements FromView
     public function view(): View
     {
 
-        $userList = User::select()->where('type', '=', '1')->where('company_state', '=', '1');
+        $userList = User::select()->where('type', '=', '1')->whereNot('company_state', '=', '1');
 
         // 담당자 이름
         if (isset($this->request->name)) {
             $userList->where('name', 'like', "%{$this->request->name}%");
-        }
-
-        // 담당자 전화번호
-        if (isset($this->request->phone)) {
-            $userList->where('phone', 'like', "%{$this->request->phone}%");
         }
 
         // 중개사무소명
@@ -52,8 +47,17 @@ class CompanyExport implements FromView
         // 정렬
         $userList->orderBy('created_at', 'desc')->orderBy('id', 'desc');
 
+        $result = $userList->get();
+
+        if (isset($this->request->phone)) {
+            $phone = $this->request->phone;
+            $result = $result->filter(function ($user) use ($phone) {
+                return strpos($user->phone, $phone) !== false;
+            });
+        }
+
         return view('exports.company', [
-            'result' => $userList->get()
+            'result' => $result
         ]);
     }
 }

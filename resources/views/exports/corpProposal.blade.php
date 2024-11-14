@@ -5,10 +5,9 @@
             <th>일반 회원 이름 또는 중개사무소 명</th>
             <th>일반 회원 연락처 또는 중개사무소 연락처</th>
             <th>제안서 명</th>
-            <th>희망면적</th>
+            <th>기업명</th>
             <th>ID</th>
             <th>예산</th>
-            <th>회원 유형</th>
             <th>받은 제안서 개수</th>
             <th>등록일</th>
         </tr>
@@ -34,35 +33,22 @@
 
                 {{-- 제안서 명 --}}
                 <td>
-                    {{ $proposal->name }}
+                    {{ $proposal->corp_name }}
                 </td>
 
-                {{-- 희망면적 --}}
+                {{-- 기업명 --}}
                 <td>
-
-                    {{ $proposal->area }}
-
+                    {{ $proposal->corp_name }}
                 </td>
 
                 {{-- ID --}}
                 <td>
-
                     {{ $proposal->users->email }}
-
                 </td>
 
                 {{-- 예산 --}}
                 <td>
-
                     {{ $proposal->payment_type == 0 ? '매매 ' . Commons::get_priceTrans($proposal->price) : '월세 ' . Commons::get_priceTrans($proposal->price) . '/' . Commons::get_priceTrans($proposal->month_price) }}
-
-                </td>
-
-                {{-- 회원 유형 --}}
-                <td>
-
-                    {{ $proposal->users->type == 0 ? '일반 회원' : '중개사 회원' }}
-
                 </td>
 
                 {{-- 받은 제안서 개수 --}}

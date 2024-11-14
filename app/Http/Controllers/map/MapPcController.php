@@ -208,52 +208,87 @@ class MapPcController extends Controller
             // 줌 레벨에 따른 클러스터링 처리
             if ($zoomLv <= 10) {
                 $distance = 500;
-                $regionList = RegionCoordinate::select('id', 'sido as name', 'address_lat', 'address_lng')
-                    ->whereNull('sigungu')
-                    ->whereNull('dong')
-                    ->whereRaw(
-                        "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
-                        [$address_lat, $address_lng, $address_lat, $distance]
-                    )->get();
-                foreach ($regionList as $region) {
-                    $sido = $region->name;  // $region->sido -> $region->name
-                    $dongs = RegionCoordinate::select('dong')->where('sido', $sido)->whereNotNull('dong')->pluck('dong')->toArray();
+                // $regionList = RegionCoordinate::select('id', 'sido as name', 'address_lat', 'address_lng')
+                //     ->whereNull('sigungu')
+                //     ->whereNull('dong')
+                //     ->whereRaw(
+                //         "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
+                //         [$address_lat, $address_lng, $address_lat, $distance]
+                //     )->get();
+                // foreach ($regionList as $region) {
+                //     $sido = $region->name;  // $region->sido -> $region->name
+                //     $dongs = RegionCoordinate::select('dong')->where('sido', $sido)->whereNotNull('dong')->pluck('dong')->toArray();
 
-                    if (!empty($dongs)) {
-                        $average_price = Transactions::whereIn('legalDong', $dongs)
-                            ->where('type', 0)
-                            ->where('is_matching', 1)
-                            ->avg('transactionPrice');
+                //     if (!empty($dongs)) {
+                //         $average_price = Transactions::whereIn('legalDong', $dongs)
+                //             ->where('type', 0)
+                //             ->where('is_matching', 1)
+                //             ->avg('transactionPrice');
 
-                        $region->average_price = $average_price;
-                    } else {
-                        $region->average_price = null;
+                //         $region->average_price = $average_price;
+                //     } else {
+                //         $region->average_price = null;
+                //     }
+                // }
+                if (!isset($request->sale_product_type) || $request->sale_product_type == 0) {
+                    // 지식 센터 데이터를 가져옴
+                    $knowledges = KnowledgeCenter::select()
+                        ->where('is_delete', '0')
+                        ->where('is_blind', '0')
+                        ->whereRaw(
+                            "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
+                            [$address_lat, $address_lng, $address_lat, $distance]
+                        );
+
+                    if ($request->useDate > 0) {
+                        $currentYear = Carbon::now()->year;
+                        if ($request->useDate == 1) {
+                            $lastYear = $currentYear - 1;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 2) {
+                            $lastYear = $currentYear - 2;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 3) {
+                            $lastYear = $currentYear - 5;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 4) {
+                            $lastYear = $currentYear - 10;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 5) {
+                            $lastYear = $currentYear - 15;
+                            $knowledges->whereRaw('YEAR(completion_date) >= ?', [$lastYear]);
+                        } elseif ($request->useDate == 6) {
+                            $lastYear = $currentYear - 15;
+                            $knowledges->whereRaw('YEAR(completion_date) < ?', [$lastYear]);
+                        }
                     }
+                    $knowledges = $knowledges->get();
                 }
             } elseif ($zoomLv >= 11 && $zoomLv <= 13) {
                 $distance = 30;
-                $regionList = RegionCoordinate::select('id', 'sigungu as name', 'address_lat', 'address_lng')
-                    ->whereNull('dong')
-                    ->whereNotNull('sigungu')
-                    ->whereRaw(
-                        "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
-                        [$address_lat, $address_lng, $address_lat, $distance]
-                    )->get();
-                foreach ($regionList as $region) {
-                    $sigungu = $region->name;  // $region->sigungu -> $region->name
-                    $dongs = RegionCoordinate::select('dong')->where('sigungu', $sigungu)->whereNotNull('dong')->pluck('dong')->toArray();
+                // $regionList = RegionCoordinate::select('id', 'sigungu as name', 'address_lat', 'address_lng')
+                //     ->whereNull('dong')
+                //     ->whereNotNull('sigungu')
+                //     ->whereRaw(
+                //         "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
+                //         [$address_lat, $address_lng, $address_lat, $distance]
+                //     )->get();
+                // foreach ($regionList as $region) {
+                //     $sigungu = $region->name;  // $region->sigungu -> $region->name
+                //     $dongs = RegionCoordinate::select('dong')->where('sigungu', $sigungu)->whereNotNull('dong')->pluck('dong')->toArray();
 
-                    if (!empty($dongs)) {
-                        $average_price = Transactions::whereIn('legalDong', $dongs)
-                            ->where('type', 0)
-                            ->where('is_matching', 1)
-                            ->avg('transactionPrice');
+                //     if (!empty($dongs)) {
+                //         $average_price = Transactions::whereIn('legalDong', $dongs)
+                //             ->where('type', 0)
+                //             ->where('is_matching', 1)
+                //             ->avg('transactionPrice');
 
-                        $region->average_price = $average_price;
-                    } else {
-                        $region->average_price = null;
-                    }
-                }
+                //         $region->average_price = $average_price;
+                //     } else {
+                //         $region->average_price = null;
+                //     }
+                // }
+
                 if (!isset($request->sale_product_type) || $request->sale_product_type == 0) {
                     // 지식 센터 데이터를 가져옴
                     $knowledges = KnowledgeCenter::select()
@@ -290,26 +325,26 @@ class MapPcController extends Controller
                 }
             } elseif ($zoomLv >= 14 && $zoomLv <= 15) {
                 $distance = 10;
-                $regionList = RegionCoordinate::select('id', 'dong as name', 'address_lat', 'address_lng')->whereNotNull('dong')
-                    ->whereRaw(
-                        "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
-                        [$address_lat, $address_lng, $address_lat, $distance]
-                    )->get();
-                foreach ($regionList as $region) {
-                    $dong = $region->name;
-                    $dongs = RegionCoordinate::select('dong')->where('dong', $dong)->whereNotNull('dong')->pluck('dong')->toArray();
+                // $regionList = RegionCoordinate::select('id', 'dong as name', 'address_lat', 'address_lng')->whereNotNull('dong')
+                //     ->whereRaw(
+                //         "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
+                //         [$address_lat, $address_lng, $address_lat, $distance]
+                //     )->get();
+                // foreach ($regionList as $region) {
+                //     $dong = $region->name;
+                //     $dongs = RegionCoordinate::select('dong')->where('dong', $dong)->whereNotNull('dong')->pluck('dong')->toArray();
 
-                    if (!empty($dongs)) {
-                        $average_price = Transactions::whereIn('legalDong', $dongs)
-                            ->where('type', 0)
-                            ->where('is_matching', 1)
-                            ->avg('transactionPrice');
+                //     if (!empty($dongs)) {
+                //         $average_price = Transactions::whereIn('legalDong', $dongs)
+                //             ->where('type', 0)
+                //             ->where('is_matching', 1)
+                //             ->avg('transactionPrice');
 
-                        $region->average_price = $average_price;
-                    } else {
-                        $region->average_price = null;
-                    }
-                }
+                //         $region->average_price = $average_price;
+                //     } else {
+                //         $region->average_price = null;
+                //     }
+                // }
                 if (!isset($request->sale_product_type) || $request->sale_product_type == 0) {
                     // 지식 센터 데이터를 가져옴
                     $knowledges = KnowledgeCenter::select()

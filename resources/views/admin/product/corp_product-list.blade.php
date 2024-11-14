@@ -69,7 +69,6 @@
                             </div>
                         </div>
 
-                        {{-- 거래 유형 --}}
                         <div class="col-lg-6 row mb-6">
                             <label class="col-lg-4 col-form-label fw-semibold fs-6">거래 유형</label>
                             @php
@@ -79,11 +78,11 @@
                                 <select name="payment_type[]"class="form-select form-select-solid"
                                     data-control="select2" data-close-on-select="false" data-placeholder="거래유형를 선택해주세요."
                                     data-allow-clear="true" multiple="multiple">
-                                    @for ($i = 0; $i < count(Lang::get('commons.payment_type')); $i++)
-                                        <option value="{{ $i }}"
-                                            @if (in_array($i, $payment_type)) selected @endif>
-                                            {{ Lang::get('commons.payment_type.' . $i) }}</option>
-                                    @endfor
+                                    @foreach (Lang::get('commons.payment_type') as $index => $paymentType)
+                                        <option value="{{ $index }}"
+                                            @if (in_array($index, $payment_type)) selected @endif>
+                                            {{ $paymentType }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -222,6 +221,5 @@
             // 날짜 검색이 있을 경우 추가
             initDaterangepicker();
             initDaterangepicker2();
-
         </script>
 </x-admin-layout>
