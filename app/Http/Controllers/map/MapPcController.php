@@ -230,7 +230,7 @@ class MapPcController extends Controller
                         $region->average_price = null;
                     }
                 }
-            } elseif ($zoomLv >= 11 && $zoomLv <= 13) {
+
                 $distance = 30;
                 $regionList = RegionCoordinate::select('id', 'sigungu as name', 'address_lat', 'address_lng')
                     ->whereNull('dong')
