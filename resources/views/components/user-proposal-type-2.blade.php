@@ -17,17 +17,17 @@
     }
 </style>
 <div class="proposal_type_item proposal_type_2">
-    <section class="print_page">
+    <section class="type_2_1 print_page">
         <div class="page_layer">
             <h1>{{ $corpInfo->corp_name }}<br>기업이전제안서</h1>
             <p class="txt_item_1">COMPANY RELOCATION PROPOSAL</p>
         </div>
-        <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type2_img_1.png') }}" style="width:100%;"></div>
+        <!-- <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type2_img_1.png') }}" style="width:100%;"></div> -->
     </section>
 
     <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
 
-    <section class="type_2_page type_2_1 print_page" style="background:none;">
+    <section class="type_2_page type_2_2 print_page">
         <div class="page_layer">
             <h2>목차</h2>
             <div class="type_2_index">
@@ -46,12 +46,12 @@
                 @endforeach
             </div>
         </div>
-        <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type2_img_2.png') }}" style="width:100%;"></div>
+        <!-- <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type2_img_2.png') }}" style="width:100%;"></div> -->
     </section>
 
     @foreach ($products as $key => $product)
         <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
-        <section class="type_3_page type_2_1 print_page" style="background:none;">
+        <section class="type_3_page type_2_3 print_page">
             <div class="page_layer">
                 <h2>01 건물소개</h2>
                 <h3>{{ $product->product_name }}</h3>
@@ -72,13 +72,13 @@
                         </div>
                         <div class="item_img">
                             <div class="img_box">
-                                <div id="minimap_2_{{ $key }}" style="width:100%; height:100%;"></div>
+                                <div id="minimap_2_{{ $key }}" style="width:394px; height:293px;"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type2_img_3.png') }}" style="width:100%;"></div>
+            <!-- <div class="bg_img_wrap"><img src="{{ asset('/assets/media/type2_img_3.png') }}" style="width:100%;"></div> -->
         </section>
 
         <script>
@@ -108,7 +108,7 @@
         </script>
 
         <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
-        <section class="type_3_page type_2_1 print_page">
+        <section class="type_3_page type_2_3 print_page">
             <h2>02 매물세부내용</h2>
             <h3>{{ $product->product_name }}</h3>
             <div class="item_2_wrap">
@@ -240,7 +240,7 @@
 
         <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
 
-        <section class="type_3_page type_2_1 print_page">
+        <section class="type_3_page type_2_3 print_page">
             <h2>03 도면 및 사진</h2>
             <div class="item_3_wrap">
                 @foreach ($product->detail_images as $images)
@@ -257,7 +257,7 @@
 
         @if ($product->price->payment_type == 0)
             <div class="page-break"></div> <!-- 새로운 페이지 시작 -->
-            <section class="type_3_page type_2_1 print_page">
+            <section class="type_3_page type_2_3 print_page">
                 <h2>04 견적서</h2>
                 <div class="item_4_wrap">
                     <div class="item_div">
