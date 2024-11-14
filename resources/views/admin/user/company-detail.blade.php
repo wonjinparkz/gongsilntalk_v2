@@ -1,6 +1,6 @@
 <x-admin-layout>
     <div class="app-container container-xxl">
-        <x-screen-card :title="'회원 상세'">
+        <x-screen-card :title="($result->company_state != 1 ? '승인 중개사' : '중개사') . ' 상세'">
             {{-- FORM START  --}}
             {{-- <form class="form" method="POST" action="{{ route('admin.notice.update') }}"> --}}
             <form action="{{ route('admin.company.update.state') }}" id="approve" method="POST">
@@ -201,7 +201,7 @@
                         <div class="col-lg-12 mb-6">
                             <form action="{{ route('admin.user.memo.update') }}" id="memoUpdate" method="POST">
                                 <input type="hidden" name="id" value="{{ $result->id }}" />
-                                <label class="required col-lg-12 col-form-label fw-semibold fs-6">메모</label>
+                                <label class="col-lg-12 col-form-label fw-semibold fs-6">메모</label>
                                 <div class="col-lg-6 fv-row">
                                     <textarea name="memo" class="form-control mb-5" rows="5" placeholder="">{{ $result->memo }}</textarea>
                                 </div>

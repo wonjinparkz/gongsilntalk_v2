@@ -1,6 +1,6 @@
 <x-admin-layout>
     <div class="app-container container-xxl">
-        <x-screen-card :title="'회원 상세'">
+        <x-screen-card :title="'중개사 상세'">
             {{-- FORM START  --}}
             {{-- <form class="form" method="POST" action="{{ route('admin.notice.update') }}"> --}}
             <form class="form" method="POST" action="#">
