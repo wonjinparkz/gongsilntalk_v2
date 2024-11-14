@@ -1506,7 +1506,7 @@
             console.log('Filtered Knowledge Markers:', knowledgeMarkers);
 
             knowledgeClustering = new MarkerClustering({
-                minClusterSize: 1,
+                minClusterSize: 2,
                 maxZoom: 20,
                 map: map,
                 markers: knowledgeMarkers, // knowledge 마커들만 클러스터링
