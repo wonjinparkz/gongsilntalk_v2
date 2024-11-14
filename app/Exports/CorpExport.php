@@ -28,11 +28,6 @@ class CorpExport implements FromView
             $userList->where('name', 'like', "%{$this->request->name}%");
         }
 
-        // 담당자 전화번호
-        if (isset($this->request->phone)) {
-            $userList->where('phone', 'like', "%{$this->request->phone}%");
-        }
-
         // 중개사무소명
         if (isset($this->request->company_name)) {
             $userList->where('company_name', 'like', "%{$this->request->company_name}%");
@@ -51,8 +46,17 @@ class CorpExport implements FromView
         // 정렬
         $userList->orderBy('created_at', 'desc')->orderBy('id', 'desc');
 
+        $result = $userList->get();
+
+        if (isset($this->request->phone)) {
+            $phone = $this->request->phone;
+            $result = $result->filter(function ($user) use ($phone) {
+                return strpos($user->phone, $phone) !== false;
+            });
+        }
+
         return view('exports.corp', [
-            'result' => $userList->get()
+            'result' => $result
         ]);
     }
 }

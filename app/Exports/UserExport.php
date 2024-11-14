@@ -28,11 +28,6 @@ class UserExport implements FromView
             $userList->where('name', 'like', "%{$this->request->name}%");
         }
 
-        // 사용자 전화번호
-        if (isset($this->request->phone)) {
-            $userList->where('phone', 'like', "%{$this->request->phone}%");
-        }
-
         // 사용자 상태
         if ($this->request->has('state') && $this->request->state > -1) {
             $userList->where('state', '=', $this->request->state);
@@ -51,8 +46,17 @@ class UserExport implements FromView
         // 정렬
         $userList->orderBy('created_at', 'desc')->orderBy('id', 'desc');
 
+        $result = $userList->get();
+
+        if (isset($this->request->phone)) {
+            $phone = $this->request->phone;
+            $result = $result->filter(function ($user) use ($phone) {
+                return strpos($user->phone, $phone) !== false;
+            });
+        }
+
         return view('exports.user', [
-            'result' => $userList->get()
+            'result' => $result
         ]);
     }
 }
