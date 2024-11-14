@@ -22,31 +22,42 @@ class CorpProposalExport implements FromView
     {
         $request = $this->request;
 
-        $corpProposalList = CorpProposal::with('users')->select()
+        $corpProposalList = CorpProposal::with('users')
+            ->select()
             ->where('is_delete', '0');
 
-        $corpProposalList->whereHas('users', function ($query) use ($request) {
-            if (isset($request->name)) {
-                $query->where('users.name', 'like', "%{$request->name}%");
-            }
-            if (isset($request->phone)) {
-                $query->where('users.phone', 'like', "%{$request->phone}%");
-            }
-            if (isset($request->company_name)) {
-                $query->where('users.company_name', 'like', "%{$request->company_name}%");
-            }
-        });
+        // 사용자 필터링
+        if ($request->has('phone') || $request->has('name')) {
+            $corpProposalList->whereHas('users', function ($query) use ($request) {
+                if (isset($request->name)) {
+                    $query->where('users.company_name', 'like', "%{$request->name}%");
+                }
+            });
+        }
 
-       // 게시 시작일 from ~ to
-       if (isset($request->from_created_at) && isset($request->to_created_at)) {
-        $corpProposalList->DurationDate('corp_proposal.created_at', $request->from_created_at, $request->to_created_at);
-    }
+        // 게시 시작일 필터링
+        if (isset($request->from_created_at) && isset($request->to_created_at)) {
+            $corpProposalList->DurationDate('corp_proposal.created_at', $request->from_created_at, $request->to_created_at);
+        }
 
         // 정렬
-        $corpProposalList->orderBy('corp_proposal.created_at', 'desc')->orderBy('corp_proposal.id', 'asc');
+        $corpProposalList->orderBy('corp_proposal.created_at', 'desc')
+            ->orderBy('corp_proposal.id', 'asc');
+
+        // 쿼리 실행 후 결과 가져오기
+        $result = $corpProposalList->get();
+
+        // phone 필드에 대한 후처리 필터링 적용
+        if (isset($request->phone)) {
+            $result = $result->filter(function ($proposal) use ($request) {
+                // 단일 users 관계에서 phone 값을 확인
+                return strpos($proposal->users->phone, $request->phone) !== false;
+            });
+        }
+
 
         return view('exports.corpProposal', [
-            'result' => $corpProposalList->get()
+            'result' => $result
         ]);
     }
 }

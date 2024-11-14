@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,34 +92,52 @@ class ProposalController extends Controller
      */
     public function corpProposalListView(Request $request): View
     {
-        $corpProposalList = CorpProposal::with('users')->select()
+        // 초기 쿼리 작성
+        $corpProposalList = CorpProposal::with('users')
+            ->select()
             ->where('is_delete', '0');
 
-        $corpProposalList->whereHas('users', function ($query) use ($request) {
-            if (isset($request->name)) {
-                $query->where('users.name', 'like', "%{$request->name}%");
-            }
-            if (isset($request->phone)) {
-                $query->where('users.phone', 'like', "%{$request->phone}%");
-            }
-            if (isset($request->company_name)) {
-                $query->where('users.company_name', 'like', "%{$request->company_name}%");
-            }
-        });
+        // 사용자 필터링
+        if ($request->has('phone') || $request->has('name')) {
+            $corpProposalList->whereHas('users', function ($query) use ($request) {
+                if (isset($request->name)) {
+                    $query->where('users.company_name', 'like', "%{$request->name}%");
+                }
+            });
+        }
 
-        // 게시 시작일 from ~ to
+        // 게시 시작일 필터링
         if (isset($request->from_created_at) && isset($request->to_created_at)) {
             $corpProposalList->DurationDate('corp_proposal.created_at', $request->from_created_at, $request->to_created_at);
         }
 
         // 정렬
-        $corpProposalList->orderBy('corp_proposal.created_at', 'desc')->orderBy('corp_proposal.id', 'asc');
+        $corpProposalList->orderBy('corp_proposal.created_at', 'desc')
+            ->orderBy('corp_proposal.id', 'asc');
 
-        $result = $corpProposalList->paginate($request->per_page == null ? 10 : $request->per_page);
+        // 쿼리 실행 후 결과 가져오기
+        $result = $corpProposalList->get();
 
-        $result->appends(request()->except('page'));
+        // phone 필드에 대한 후처리 필터링 적용
+        if (isset($request->phone)) {
+            $result = $result->filter(function ($proposal) use ($request) {
+                // 단일 users 관계에서 phone 값을 확인
+                return strpos($proposal->users->phone, $request->phone) !== false;
+            });
+        }
 
-        return view('admin.proposal.corp-proposal-list', compact('result'));
+        // 필터링된 결과를 수동으로 페이지네이션 처리
+        $perPage = $request->per_page ?? 10;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $paginatedResult = new LengthAwarePaginator(
+            $result->forPage($currentPage, $perPage), // 현재 페이지의 데이터
+            $result->count(),                         // 전체 데이터 수
+            $perPage,                                 // 페이지당 표시할 항목 수
+            $currentPage,                             // 현재 페이지 번호
+            ['path' => request()->url(), 'query' => request()->query()] // 페이지네이션 URL과 쿼리 파라미터
+        );
+
+        return view('admin.proposal.corp-proposal-list', ['result' => $paginatedResult]);
     }
 
     /**

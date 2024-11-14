@@ -28,9 +28,9 @@
                         action="{{ route('admin.corp.proposal.list.view') }}">
                         @csrf
 
-                        {{-- 일반 회원 이름 또는 중개사무소 명 --}}
+                        {{-- 중개사무소 명 --}}
                         <div class="col-lg-12 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">일반 회원 이름 또는 중개사무소 명</label>
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">중개사무소 명</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="name" name="name"
                                     class="form-control form-control-solid" placeholder="검색어를 입력해 주세요."
@@ -38,32 +38,13 @@
                             </div>
                         </div>
 
-                        {{-- 일반 회원 연락처 또는 중개사 회원 담당자 연락처 --}}
+                        {{-- 중개사 회원 담당자 연락처 --}}
                         <div class="col-lg-12 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">일반 회원 연락처 또는 중개사 회원 담당자 연락처</label>
+                            <label class="col-lg-4 col-form-label fw-semibold fs-6">중개사 회원 담당자 연락처</label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" id="phone" name="phone"
                                     class="form-control form-control-solid" placeholder="검색어를 입력해 주세요."
                                     value="{{ Request::get('phone') }}" />
-                            </div>
-                        </div>
-
-                        {{-- 회원 유형 --}}
-                        <div class="col-lg-6 row mb-6">
-                            <label class="col-lg-4 col-form-label fw-semibold fs-6">회원 유형</label>
-                            @php
-                                $isBlind = Request::get('member_type') ?? -1;
-                            @endphp
-                            <div class="col-lg-8 fv-row">
-                                <select name="member_type" class="form-select form-select-solid" data-control="select2"
-                                    data-hide-search="true">
-                                    <option value="" @if ($isBlind < 0) selected @endif>전체
-                                    </option>
-                                    <option value="0" @if ($isBlind == 0) selected @endif>일반 회원
-                                    </option>
-                                    <option value="1" @if ($isBlind == 1) selected @endif>중개사 회원
-                                    </option>
-                                </select>
                             </div>
                         </div>
 
@@ -102,10 +83,10 @@
                             <thead>
                                 <tr class="text-start text-gray-400 fw-bold fl-7 text-uppercase gs-0">
                                     <th class="text-center w-20px">No.</th>
-                                    <th class="text-center">일반 회원 이름<br>또는 중개사무소 명</th>
-                                    <th class="text-center">일반 회원 연락처<br>또는 중개사무소 연락처</th>
+                                    <th class="text-center">중개사무소 명</th>
+                                    <th class="text-center">중개사무소 연락처</th>
                                     <th class="text-center w-200px">제안서 명</th>
-                                    <th class="text-center w-150px">받은 제안서 개수</th>
+                                    <th class="text-center w-150px">제안서 개수</th>
                                     <th class="text-center">기업명</th>
                                     <th class="text-center">등록일</th>
                                 </tr>
@@ -120,14 +101,14 @@
                                             <span class="fw-bold fs-5">{{ $proposal->id }}</span>
                                         </td>
 
-                                        {{-- 일반 회원 이름 또는 중개사무소 명 --}}
+                                        {{-- 중개사무소 명 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 {{ $proposal->users->type == 0 ? $proposal->users->name : $proposal->users->company_name }}
                                             </span>
                                         </td>
 
-                                        {{-- 일반 회원 연락처 또는 중개사무소 연락처 --}}
+                                        {{-- 중개사무소 연락처 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 {{ $proposal->users->phone }}
@@ -142,7 +123,7 @@
                                             </a>
                                         </td>
 
-                                        {{-- 받은 제안서 개수 --}}
+                                        {{-- 제안서 개수 --}}
                                         <td class="text-center">
                                             <span class="fw-bold fs-5">
                                                 {{ count($proposal->products) }}
