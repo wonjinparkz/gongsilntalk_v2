@@ -8,7 +8,7 @@
                 <div class="card-body border-top p-9">
 
                     {{-- 이미지  --}}
-                    <x-admin-image-picker :title="'팝업 이미지'" id="popup" required="required" cnt="1" size="800 x 800" />
+                    <x-admin-image-picker :title="'팝업 이미지'" id="popup" required="required" cnt="1" size="600 x 800" />
 
                     {{-- 팝업명 --}}
                     <div class="row mb-6">
