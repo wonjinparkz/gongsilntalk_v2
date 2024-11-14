@@ -1506,13 +1506,13 @@
             console.log('Filtered Knowledge Markers:', knowledgeMarkers);
 
             knowledgeClustering = new MarkerClustering({
-                minClusterSize: 2,
+                minClusterSize: 1,
                 maxZoom: 20,
                 map: map,
                 markers: knowledgeMarkers, // knowledge 마커들만 클러스터링
                 disableClickZoom: false,
                 knowledgeSaleMidPrice: true,
-                gridSize: 100,
+                gridSize: 70,
                 icons: [htmlMarker3],
                 indexGenerator: [1],
             });
