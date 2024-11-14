@@ -50,8 +50,7 @@
                                         @if (isset($item->images))
                                             <div class="swiper-slide swiper-slide-active">
                                                 <a href="{{ $item->url ?? route('www.main.main') }}">
-                                                    <div class="img_box"
-                                                        style="text-align:center; width:100%;">
+                                                    <div class="img_box" style="text-align:center; width:100%;">
                                                         <img style="height:100%;"
                                                             src="{{ Storage::url('image/' . $item->images[0]->path) }}"
                                                             onerror="this.src='{{ asset('assets/media/s_2.png') }}';"
@@ -112,10 +111,10 @@
                     @guest
 @else
     <a>
-                                                            <div class="user_profileImg">
-                                                                <div class="img_box"><img src="{{ asset('assets/media/default_user.png') }}"></div>
-                                                            </div>
-                                                        </a>
+                                                                <div class="user_profileImg">
+                                                                    <div class="img_box"><img src="{{ asset('assets/media/default_user.png') }}"></div>
+                                                                </div>
+                                                            </a>
                     @endguest
                 </div> -->
             </div>
@@ -310,7 +309,8 @@
                 </script>
 
                 <div class="bn_group_1_wrap">
-                    <div class="bn_item_1" onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'">
+                    <div class="bn_item_1"
+                        onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'">
                         <div>
                             <div class="bn_txt">전국지식산업센터 · 사무실 · 상가</div>
                             <div class="bn_tit"><span>30초</span> 만에<br>부동산 매물 찾기</div>
@@ -320,7 +320,8 @@
                         <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_1.png') }}"></div>
                     </div>
                     <div class="bn_group_2_wrap">
-                        <div class="bn_item_2" onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'">
+                        <div class="bn_item_2"
+                            onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'">
                             <div class="bn_txt_item">
                                 <div class="bn_tit">구하기</div>
                                 <div class="bn_txt">맞춤 제안서 받기</div>
@@ -338,14 +339,14 @@
                 </div>
 
                 <div class="bn_group_3_wrap">
-                    <div class="bn_item_3 bg_1">
-                        <div class="bn_tit" onclick="location.href='{{ route('www.map.mobile') }}'">
+                    <div class="bn_item_3 bg_1" onclick="location.href='{{ route('www.map.mobile') }}'">
+                        <div class="bn_tit">
                             <span>매물·실거래가</span><br>지도 검색
                         </div>
                         <div class="bn_txt">원하는 정보, 한번에<br>알아보기</div>
                     </div>
-                    <div class="bn_item_3 bg_2">
-                        <div class="bn_tit" onclick="location.href='{{ route('www.site.product.list.view') }}'">
+                    <div class="bn_item_3 bg_2" onclick="location.href='{{ route('www.site.product.list.view') }}'">
+                        <div class="bn_tit">
                             <span>실시간</span> 분양 현장
                         </div>
                         <div class="bn_txt">전국 지식산업센터<br>분양 현장 알아보기</div>
