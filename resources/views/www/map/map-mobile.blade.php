@@ -1622,4 +1622,39 @@
             alert("링크가 복사 되었습니다.");
         });
     };
+
+    // 좋아요 토글버튼
+    function btn_wish(element, id) {
+
+        var login_check =
+            @if (Auth::guard('web')->check())
+                false
+            @else
+                true
+            @endif ;
+
+        if (login_check) {
+            dialog('로그인이 필요합니다.\n로그인 하시겠어요?', '로그인', '아니요', login);
+            return;
+        } else {
+            var formData = {
+                'target_id': id,
+                'target_type': 'product',
+            };
+
+            if ($(element).hasClass("on")) {
+                $(element).removeClass("on");
+            } else {
+                $(element).addClass("on");
+            }
+
+            $.ajax({
+                type: "post", //전송타입
+                url: "{{ route('www.commons.like') }}",
+                data: formData,
+                success: function(data, status, xhr) {},
+                error: function(xhr, status, e) {}
+            });
+        }
+    }
 </script>
