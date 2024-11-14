@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="md_slide_overlay md_slide_overlay_share" onclick="modal_close_slide('share')"></div>
-    <!----------------------------- m::header bar : s ----------------------------->
+    <!----------------------------- m::header bar : e ----------------------------->
 
     <div class="body gray_body">
         <div class="inner_wrap community_wrap">

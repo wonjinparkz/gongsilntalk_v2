@@ -75,11 +75,11 @@
         </div>
         <div class="slide_modal_body">
             <div class="layer_share_con">
-                <a class="kakaotalk-sharing-btn" href="javascript:;">
+                <a class="kakaotalk-sharing-btn" onclick="modal_close_slide('share');">
                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                     <p class="mt8">카카오톡</p>
                 </a>
-                <a href="javascript:void(0);" onclick="urlCopy();">
+                <a onclick="urlCopy(); modal_close_slide('share');">
                     <img src="{{ asset('assets/media/share_ic_02.png') }}">
                     <p class="mt8">링크복사</p>
                 </a>
@@ -185,11 +185,11 @@
                                 <img src="{{ asset('assets/media/btn_md_close.png') }}" class="md_btn_close btn_share">
                             </div>
                             <div class="layer_share_con">
-                                <a class="kakaotalk-sharing-btn" href="javascript:;">
+                                <a class="kakaotalk-sharing-btn" onclick="$('.md_btn_close').click();">
                                     <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                     <p class="mt8">카카오톡</p>
                                 </a>
-                                <a href="javascript:void(0);" onclick="urlCopy();">
+                                <a onclick="urlCopy(); $('.md_btn_close').click();">
                                     <img src="{{ asset('assets/media/share_ic_02.png') }}">
                                     <p class="mt8">링크복사</p>
                                 </a>
