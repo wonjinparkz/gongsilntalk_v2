@@ -179,7 +179,7 @@
                 </ul>
                 <div class="mt50">
                     <!-- <a href="#" class="btn_disabled_2 btn_full_basic"><b>변경 완료</b></a> -->
-                    <button class="btn_point btn_full_basic password_confirm_1" disabled
+                    <button class="btn_point btn_full_basic password_confirm_2" disabled
                         onclick="passwordConfirm()"><b>변경 완료</b></button>
                 </div>
             </div>
@@ -189,6 +189,8 @@
 
         <form class="form" name="form_password" id="form_password" method="POST"
             action="{{ route('password.change') }}">
+            @csrf
+
             <input type="hidden" id="verification" name="verification" value='N'>
             <input type="hidden" id="name" name="name" value=''>
             <input type="hidden" id="phone" name="phone" value=''>
@@ -276,7 +278,7 @@
         var change_password_confirmation = $('#change_password_confirmation').val();
 
         // 비밀번호 유효성 검사
-        var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+        var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,15}$/;
 
         if (!passwordRegex.test(change_password)) {
             $('.change_password').css('display', '');
@@ -286,7 +288,7 @@
 
         if (change_password != '' && change_password_confirmation) {
             if (change_password == change_password_confirmation) {
-                $('.password_confirm_1').attr("disabled", false);
+                $('.password_confirm_2').attr("disabled", false);
                 $('#new_password').val(change_password);
                 $('#new_password_confirmation').val(change_password_confirmation);
                 $('.change_password_confirmation').css('display', 'none')
@@ -294,7 +296,7 @@
                 $('.change_password_confirmation').css('display', '');
             }
         } else {
-            $('.password_confirm_1').attr("disabled", true);
+            $('.password_confirm_2').attr("disabled", true);
         }
     }
 
@@ -330,7 +332,7 @@
                     });
 
             } else { // 인증 실패
-
+                alert('본인 인증에 실패했습니다. 다시 시도해주세요.', "확인");
             }
         });
     }
@@ -348,15 +350,18 @@
             'phone': phone,
         };
 
+        console.log(formData);
+
         $.ajax({
             type: "post", //전송타입
             url: "{{ route('password.user.check') }}",
             data: formData,
             success: function(data, status, xhr) {
+                console.log(data);
                 $('#passwordUser').val(data.confirm);
                 if (data.confirm) {
                     $('#password_email_confirmation').val(password_email);
-                    passwordInputCheck2();
+                    passwordInputCheck();
                 } else {
                     return alert('가입한 회원을 찾을 수 없습니다.');
                 }
