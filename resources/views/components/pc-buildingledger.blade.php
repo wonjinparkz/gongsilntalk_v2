@@ -254,6 +254,7 @@
                     <button class="dropdown_label">전유부 선택</button>
                     <ul class="optionList">
                         @php
+                            info($BrExposInfo);
                             // hoNm 기준으로 정렬 (지하 -> 지상 순서로 정렬)
                             $sortedBrExposInfo = $BrExposInfo;
                             usort($sortedBrExposInfo, function ($a, $b) {
@@ -438,6 +439,10 @@
 
         // 선택한 dongNm 및 hoNm에 맞는 데이터 필터링
         var filteredData = exposPubuseAreaInfos.filter(function(info) {
+            console.log('info' + info.dongNm);
+            console.log('selectedDong' + selectedDong);
+            console.log('hoNm' + info.hoNm);
+            console.log('selectedHo' + selectedHo);
             return info.dongNm === selectedDong && info.hoNm === selectedHo;
         });
 
