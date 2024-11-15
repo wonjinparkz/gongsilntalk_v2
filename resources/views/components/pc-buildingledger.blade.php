@@ -444,7 +444,7 @@
             console.log('info.hoNm : ' + info.hoNm + '\nselectedHo : ' + selectedHo);
             console.log((!info.dongNm && !selectedDong || info.dongNm === selectedDong) &&
                 info.hoNm === selectedHo);
-            return (!info.dongNm && !selectedDong || info.dongNm === selectedDong) &&
+            return ((!info.dongNm && !selectedDong) || info.dongNm === selectedDong) &&
                 info.hoNm === selectedHo;
         });
 
