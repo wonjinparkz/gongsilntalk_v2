@@ -440,6 +440,10 @@
 
         // 선택한 dongNm 및 hoNm에 맞는 데이터 필터링
         var filteredData = exposPubuseAreaInfos.filter(function(info) {
+            console.log('info.dongNm : ' + info.dongNm + '\nselectedDong : ' + selectedDong);
+            console.log('info.hoNm : ' + info.hoNm + '\nselectedHo : ' + selectedHo);
+            console.log((!info.dongNm && !selectedDong || info.dongNm === selectedDong) &&
+                info.hoNm === selectedHo);
             return (!info.dongNm && !selectedDong || info.dongNm === selectedDong) &&
                 info.hoNm === selectedHo;
         });
