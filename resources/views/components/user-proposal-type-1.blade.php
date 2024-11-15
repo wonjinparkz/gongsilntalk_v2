@@ -19,7 +19,7 @@
 <!-- type_1 : s -->
 <div class="proposal_type_item proposal_type_1 active">
     <section class="type_1_1 print_page">
-        <div class="page_layer page_ui">
+        <div class="page_ui">
             <div>
                 <h1 style="color: #fff !important; font-size:40px;">{{ $corpInfo->corp_name }}<br>기업이전제안서</h1>
                 <p class="txt_item_1">COMPANY RELOCATION PROPOSAL</p>
