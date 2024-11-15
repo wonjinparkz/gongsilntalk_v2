@@ -254,7 +254,8 @@
                     <button class="dropdown_label">전유부 선택</button>
                     <ul class="optionList">
                         @php
-                            info($BrExposInfo);
+                            info($BrExposPubuseAreaInfo);
+
                             // hoNm 기준으로 정렬 (지하 -> 지상 순서로 정렬)
                             $sortedBrExposInfo = $BrExposInfo;
                             usort($sortedBrExposInfo, function ($a, $b) {
