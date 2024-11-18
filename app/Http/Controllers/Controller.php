@@ -201,7 +201,7 @@ class Controller extends BaseController
                 'notification' => $data,
                 'data' => $data,
             ]);
-            $response = $messaging->sendMulticast($iosMessage, $androidFcmTokens);
+            $response = $messaging->sendMulticast($iosMessage, $iosFcmTokens);
 
             // 오류 체크
             $validTokens = count($response->validTokens());
