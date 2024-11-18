@@ -93,7 +93,7 @@
     .slide_select_menu li [type="checkbox"]:checked + label{background:var(--gray-bg) url('/assets/media/ic_check.png') calc(100% - 18px) center no-repeat; background-size: 15px auto;}
 
     /* tab */
-    .tab_type_2{position:sticky; width: 100%; border-bottom: 1px solid #D2D1D0; background: #fff; z-index: 100; box-sizing: border-box; top:50px}
+    .tab_type_2{position:sticky !important; width: 100%; border-bottom: 1px solid #D2D1D0; background: #fff; z-index: 100; box-sizing: border-box; top:50px}
 
     .tab_type_5 {display: flex; display: flex; justify-content:flex-start; padding: 0 16px;}
     .tab_type_5 li{font-size:14px; color:#9D9999; width:auto; height:auto; padding: 10px; display:inline-block; align-items: center; justify-content: center; cursor: pointer;}

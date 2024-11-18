@@ -71,9 +71,7 @@
                             <p>{{ $product->address }}</p>
                         </div>
                         <div class="item_img">
-                            <div class="img_box">
-                                <div id="minimap_2_{{ $key }}" style="width:394px; height:293px;"></div>
-                            </div>
+                            <div id="minimap_2_{{ $key }}" style="width:420px; height:293px;"></div>
                         </div>
                     </div>
                 </div>
