@@ -244,8 +244,8 @@
     .room_img .swiper-slide{height:220px;}
     .room_img .swiper-slide .img_box{height:220px;}
     .room_section_1 .room_detail_info{width:100%; padding: 0 16px; box-sizing: border-box;}
-    .btn_floting_wrap{bottom:50px;}
-    .btn_floting_wrap, .btn_floting{width: 100%;}
+    .btn_floting_wrap{bottom:50px; right:0; left: auto;}
+    .btn_floting_wrap, .btn_floting{width:40px;}
     .room_detail_info{text-align: center;}
     .room_detail_info .txt_item_1{display: none;}
     .room_detail_info .txt_item_2{font-size: 24px;}
@@ -266,7 +266,7 @@
 
     .room_option_wrap{width:calc(100% + 18px);}
     .room_option_wrap ul{display:flex; overflow-x:auto; overflow-y: none; padding-bottom: 10px;}
-    .detail_info_container{font-size: 14px; background: #fff; padding: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;}
+    .detail_info_container{font-size: 14px; background: #fff; padding: 0;}
     .detail_info_container_btn {appearance: none; text-align:center; padding:13px; cursor: pointer; color:#63605F; display:block !important; background:url('/assets/media/ic_select_arrow.png') calc(50% + 50px) center no-repeat; background-size: 10px auto;}
     .detail_info_container_btn:before {content: '상세설명 열기';}
     .detail_info_container_btn:checked[type='checkbox']{appearance: none; background: none; background:url('/assets/media/ic_arrow_close.png') calc(50% + 50px) center no-repeat; background-size: 10px auto;}
