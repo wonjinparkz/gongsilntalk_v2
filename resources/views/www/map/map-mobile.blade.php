@@ -1364,7 +1364,7 @@
                     if (isMobile.Android()) {
                         window.rocateer.requestCurrentLocation();
                     } else if (isMobile.iOS()) {
-                        window.webkit.messageHandlers.requestCurrentLocation.postMessage();
+                        window.webkit.messageHandlers.requestCurrentLocation.postMessage('requestCurrentLocation');
                     }
                 }
             });
