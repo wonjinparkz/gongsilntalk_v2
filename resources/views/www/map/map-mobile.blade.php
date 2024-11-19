@@ -1369,14 +1369,7 @@
                 }
             });
 
-            function currentUpdate(lat, lng) {
-                console.log('모바일에서 좌표 받음 [' + lat + ']' + '[' + lng + ']');
-                alert('모바일에서 좌표 받음 [' + lat + ']' + '[' + lng + ']');
-                var currentLocation = new naver.maps.LatLng(lat, lng);
-                map.setZoom(18, true);
-                map.setCenter(currentLocation);
-                updateCenter();
-            }
+
 
             window.toggleSatelliteView = function() {
                 var currentMapTypeId = map.getMapTypeId();
@@ -1662,5 +1655,14 @@
                 error: function(xhr, status, e) {}
             });
         }
+    }
+
+    function currentUpdate(lat, lng) {
+        console.log('모바일에서 좌표 받음 [' + lat + ']' + '[' + lng + ']');
+        alert('모바일에서 좌표 받음 [' + lat + ']' + '[' + lng + ']');
+        var currentLocation = new naver.maps.LatLng(lat, lng);
+        map.setZoom(18, true);
+        map.setCenter(currentLocation);
+        updateCenter();
     }
 </script>
