@@ -232,7 +232,7 @@ class UserAuthPcController extends Controller
             'is_marketing' => $request->is_marketing ?? 0,
         ]);
 
-        $this->kakaoSend('112', $request->name, $request->phone);
+        // $this->kakaoSend('112', $request->name, $request->phone);
 
         // $request->authenticate();
         // $request->session()->regenerate();
@@ -412,8 +412,7 @@ class UserAuthPcController extends Controller
         // 세션 데이터 삭제
         $request->session()->forget(['companyInfo']);
 
-
-        // $this->kakaoSend('112', $request->name, $request->phone);
+        // $this->kakaoSend('115', $request->name, $request->phone);
 
         return Redirect::route('www.register.complete.corp')->with('message', '회원가입이 완료되었습니다.');
     }
@@ -725,6 +724,7 @@ class UserAuthPcController extends Controller
             'birth'  => $request->birth,
             'nickname'  => $request->nickname,
         ]);
+        $this->kakaoSend('112', $request->name, $request->phone);
 
         return response()->json(['success' => true]);
     }
