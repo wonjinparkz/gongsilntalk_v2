@@ -1364,7 +1364,8 @@
                     if (isMobile.Android()) {
                         window.rocateer.requestCurrentLocation();
                     } else if (isMobile.iOS()) {
-                        window.webkit.messageHandlers.requestCurrentLocation.postMessage('requestCurrentLocation');
+                        window.webkit.messageHandlers.requestCurrentLocation.postMessage(
+                            'requestCurrentLocation');
                     }
                 }
             });
@@ -1643,8 +1644,6 @@
     }
 
     function currentUpdate(lat, lng) {
-        console.log('모바일에서 좌표 받음 [' + lat + ']' + '[' + lng + ']');
-        alert('모바일에서 좌표 받음 [' + lat + ']' + '[' + lng + ']');
         var currentLocation = new naver.maps.LatLng(lat, lng);
         map.setZoom(18, true);
         map.setCenter(currentLocation);
