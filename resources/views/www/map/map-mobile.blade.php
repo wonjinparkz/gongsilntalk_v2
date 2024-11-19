@@ -1364,12 +1364,10 @@
                     if (isMobile.Android()) {
                         window.rocateer.requestCurrentLocation();
                     } else if (isMobile.iOS()) {
-                        webkit.messageHandlers.requestCurrentLocation.postMessage();
+                        window.webkit.messageHandlers.requestCurrentLocation.postMessage();
                     }
                 }
             });
-
-
 
             window.toggleSatelliteView = function() {
                 var currentMapTypeId = map.getMapTypeId();
