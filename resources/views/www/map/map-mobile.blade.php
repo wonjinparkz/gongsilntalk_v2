@@ -1360,15 +1360,22 @@
             var currentbtn = $('#current');
             currentbtn.on("click", function(e) {
                 e.preventDefault();
-                navigator.geolocation.getCurrentPosition((position) => {
-                    var lat = position.coords.latitude;
-                    var lng = position.coords.longitude;
-                    var currentLocation = new naver.maps.LatLng(lat, lng);
-                    map.setZoom(18, true);
-                    map.setCenter(currentLocation);
-                    updateCenter();
-                });
+
+                if (isMobile.any()) {
+                    if (isMobile.Android()) {
+                        window.rocateer.requestCurrentLocation();
+                    } else if (isMobile.iOS()) {
+                        webkit.messageHandlers.requestCurrentLocation.postMessage();
+                    }
+                }
             });
+
+            function currentUpdate(lat, lng) {
+                var currentLocation = new naver.maps.LatLng(lat, lng);
+                map.setZoom(18, true);
+                map.setCenter(currentLocation);
+                updateCenter();
+            }
 
             window.toggleSatelliteView = function() {
                 var currentMapTypeId = map.getMapTypeId();
@@ -1502,8 +1509,6 @@
             const knowledgeMarkers = markers.filter(function(marker) {
                 return marker.type === 'knowledge';
             });
-
-            console.log('Filtered Knowledge Markers:', knowledgeMarkers);
 
             knowledgeClustering = new MarkerClustering({
                 minClusterSize: 1,
