@@ -296,7 +296,12 @@ class Controller extends BaseController
             "user_template_no" => $user_template_no,
             "receiver" => $receiver
         ];
+        if (isset($return_url)) {
+            $postarr["return_url_yn"] = true;
+            $postarr["return_url"] = $return_url;
+        }
 
+        info($postarr);
 
         $postvars = json_encode($postarr);   //JSON 데이터
 
