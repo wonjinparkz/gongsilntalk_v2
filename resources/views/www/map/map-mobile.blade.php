@@ -1360,15 +1360,33 @@
             var currentbtn = $('#current');
             currentbtn.on("click", function(e) {
                 // e.preventDefault();
-                if (isMobile.any()) {
-                    if (isMobile.Android()) {
-                        window.rocateer.requestCurrentLocation();
-                    } else if (isMobile.iOS()) {
-                        window.webkit.messageHandlers.requestCurrentLocation.postMessage(
-                            'requestCurrentLocation');
+                try {
+                    requestNativeLocation();
+
+                } catch (error) {
+                    if (isMobile.any()) {
+                        if (isMobile.Android()) {
+                            window.rocateer.requestCurrentLocation();
+                        } else if (isMobile.iOS()) {
+                            window.webkit.messageHandlers.requestCurrentLocation.postMessage(
+                                'requestCurrentLocation');
+                        }
                     }
                 }
             });
+
+            function requestNativeLocation() {
+                var currentbtn = $('#current');
+
+                navigator.geolocation.getCurrentPosition((position) => {
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+                    var currentLocation = new naver.maps.LatLng(lat, lng);
+                    map.setZoom(18, true);
+                    map.setCenter(currentLocation);
+                    updateCenter();
+                });
+            }
 
             window.toggleSatelliteView = function() {
                 var currentMapTypeId = map.getMapTypeId();
@@ -1501,9 +1519,6 @@
                 icons: [htmlMarker3],
                 indexGenerator: [1],
             });
-            console.log('Knowledge Clustering Instance:', knowledgeClustering);
-        } else {
-            console.warn('No knowledge markers to cluster.');
         }
     }
 
