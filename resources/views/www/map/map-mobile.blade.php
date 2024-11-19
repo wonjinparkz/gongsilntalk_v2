@@ -1404,19 +1404,6 @@
                 }
             });
 
-            var currentbtn = $('#current');
-            currentbtn.on("click", function(e) {
-                e.preventDefault();
-                navigator.geolocation.getCurrentPosition((position) => {
-                    var lat = position.coords.latitude;
-                    var lng = position.coords.longitude;
-                    var currentLocation = new naver.maps.LatLng(lat, lng);
-                    map.setZoom(18, true);
-                    map.setCenter(currentLocation);
-                    updateCenter();
-                });
-            });
-
             // 초기 마커 설정
             mapTypeChage({{ $mapType ?? 0 }})
 
