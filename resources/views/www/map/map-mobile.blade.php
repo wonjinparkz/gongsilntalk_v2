@@ -1359,8 +1359,7 @@
             // 현재 위치로 이동 버튼
             var currentbtn = $('#current');
             currentbtn.on("click", function(e) {
-                e.preventDefault();
-
+                // e.preventDefault();
                 if (isMobile.any()) {
                     if (isMobile.Android()) {
                         window.rocateer.requestCurrentLocation();
@@ -1371,6 +1370,7 @@
             });
 
             function currentUpdate(lat, lng) {
+                console.log('모바일에서 좌표 받음 [' + lat + ']' + '[' + lng + ']');
                 var currentLocation = new naver.maps.LatLng(lat, lng);
                 map.setZoom(18, true);
                 map.setCenter(currentLocation);
