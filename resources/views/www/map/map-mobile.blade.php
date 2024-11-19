@@ -1361,9 +1361,6 @@
             currentbtn.on("click", function(e) {
                 // e.preventDefault();
                 try {
-                    requestNativeLocation();
-
-                } catch (error) {
                     if (isMobile.any()) {
                         if (isMobile.Android()) {
                             window.rocateer.requestCurrentLocation();
@@ -1372,6 +1369,8 @@
                                 'requestCurrentLocation');
                         }
                     }
+                } catch (error) {
+                    requestNativeLocation();
                 }
             });
 
