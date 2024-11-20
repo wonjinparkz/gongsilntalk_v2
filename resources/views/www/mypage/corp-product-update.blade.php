@@ -1478,7 +1478,7 @@
                                 </div>
                             </div>
                             <div class="mt10">
-                                <span class="gray_basic">* 거래완료 처리시 재등록, 수정 불가하니 정확하게 확인 후 선택하세요.</span>
+                                <span class="gray_basic">* 중개보수는 직접 산출해서 기입하거나 공란으로 두면 "-원"으로 표시됩니다.</span>
                             </div>
                         </div>
                     </div>
