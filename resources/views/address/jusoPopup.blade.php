@@ -459,8 +459,7 @@
         function init() {
             var browerName = navigator.appName;
             var browerAgent = navigator.userAgent;
-            self.resizeTo(570, 520);
-
+            // self.resizeTo(570, 520);
         }
 
         $(document).ready(function() {
