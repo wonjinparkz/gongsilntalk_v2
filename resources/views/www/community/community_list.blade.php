@@ -156,15 +156,35 @@
                     </div>
                     <!-- community list : e -->
 
-                    <div class="mt20 t_right only_pc">
-                        <button class="btn_gray_ghost btn_md"
-                            onclick="location.href='{{ route('www.community.create.view') }}'"><img
-                                src="{{ asset('assets/media/ic_pen.png') }}">글쓰기</button>
-                    </div>
-                    <button onclick="location.href='{{ route('www.community.create.view') }}'">
-                        <img src="{{ asset('assets/media/floting_btn.png') }}" class="floting_right_btn only_m">
-                    </button>
-
+                    @guest
+                        <div class="mt20 t_right only_pc">
+                            <button class="btn_gray_ghost btn_md"
+                                onclick="location.href='{{ route('www.community.create.view') }}'"><img
+                                    src="{{ asset('assets/media/ic_pen.png') }}">글쓰기</button>
+                        </div>
+                        <button onclick="location.href='{{ route('www.community.create.view') }}'">
+                            <img src="{{ asset('assets/media/floting_btn.png') }}" class="floting_right_btn only_m">
+                        </button>
+                    @else
+                        @if (Auth::guard('web')->user()->phone == null)
+                            <div class="mt20 t_right only_pc">
+                                <button class="btn_gray_ghost btn_md" onclick="modal_open('add_info')"><img
+                                        src="{{ asset('assets/media/ic_pen.png') }}">글쓰기</button>
+                            </div>
+                            <button onclick="modal_open('add_info')">
+                                <img src="{{ asset('assets/media/floting_btn.png') }}" class="floting_right_btn only_m">
+                            </button>
+                        @else
+                            <div class="mt20 t_right only_pc">
+                                <button class="btn_gray_ghost btn_md"
+                                    onclick="location.href='{{ route('www.community.create.view') }}'"><img
+                                        src="{{ asset('assets/media/ic_pen.png') }}">글쓰기</button>
+                            </div>
+                            <button onclick="location.href='{{ route('www.community.create.view') }}'">
+                                <img src="{{ asset('assets/media/floting_btn.png') }}" class="floting_right_btn only_m">
+                            </button>
+                        @endif
+                    @endguest
                     {{ $result->onEachSide(1)->links('components.pc-pagination') }}
                 </div>
                 <!-- community body : e -->

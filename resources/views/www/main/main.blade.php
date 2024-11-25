@@ -111,10 +111,10 @@
                     @guest
 @else
     <a>
-                                                                <div class="user_profileImg">
-                                                                    <div class="img_box"><img src="{{ asset('assets/media/default_user.png') }}"></div>
-                                                                </div>
-                                                            </a>
+                                                                                                                                                                                        <div class="user_profileImg">
+                                                                                                                                                                                            <div class="img_box"><img src="{{ asset('assets/media/default_user.png') }}"></div>
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                    </a>
                     @endguest
                 </div> -->
             </div>
@@ -309,32 +309,110 @@
                 </script>
 
                 <div class="bn_group_1_wrap">
-                    <div class="bn_item_1"
-                        onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'">
-                        <div>
-                            <div class="bn_txt">전국지식산업센터 · 사무실 · 상가</div>
-                            <div class="bn_tit"><span>30초</span> 만에<br>부동산 매물 찾기</div>
-                            <div><button>AI 매물 검색 <img src="{{ asset('assets/media/ic_btn_arrow.png') }}"
-                                        class=""></button></div>
-                        </div>
-                        <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_1.png') }}"></div>
-                    </div>
-                    <div class="bn_group_2_wrap">
-                        <div class="bn_item_2"
+                    @guest
+                        <div class="bn_item_1"
                             onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'">
-                            <div class="bn_txt_item">
-                                <div class="bn_tit">구하기</div>
-                                <div class="bn_txt">맞춤 제안서 받기</div>
+                            <div>
+                                <div class="bn_txt">전국지식산업센터 · 사무실 · 상가</div>
+                                <div class="bn_tit"><span>30초</span> 만에<br>부동산 매물 찾기</div>
+                                <div><button>AI 매물 검색 <img src="{{ asset('assets/media/ic_btn_arrow.png') }}"
+                                            class=""></button></div>
                             </div>
-                            <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_2.png') }}"></div>
+                            <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_1.png') }}"></div>
                         </div>
-                        <div class="bn_item_2" onclick="location.href='{{ route('www.product.create.view') }}'">
-                            <div class="bn_txt_item">
-                                <div class="bn_tit">내놓기</div>
-                                <div class="bn_txt">내 매물 등록하기</div>
+                    @else
+                        @if (Auth::guard('web')->user()->phone == null)
+                            <div class="bn_item_1" onclick="modal_open('add_info')">
+                                <div>
+                                    <div class="bn_txt">전국지식산업센터 · 사무실 · 상가</div>
+                                    <div class="bn_tit"><span>30초</span> 만에<br>부동산 매물 찾기</div>
+                                    <div><button>AI 매물 검색 <img src="{{ asset('assets/media/ic_btn_arrow.png') }}"
+                                                class=""></button></div>
+                                </div>
+                                <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_1.png') }}"></div>
                             </div>
-                            <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_3.png') }}"></div>
-                        </div>
+                        @else
+                            <div class="bn_item_1"
+                                onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'">
+                                <div>
+                                    <div class="bn_txt">전국지식산업센터 · 사무실 · 상가</div>
+                                    <div class="bn_tit"><span>30초</span> 만에<br>부동산 매물 찾기</div>
+                                    <div><button>AI 매물 검색 <img src="{{ asset('assets/media/ic_btn_arrow.png') }}"
+                                                class=""></button></div>
+                                </div>
+                                <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_1.png') }}"></div>
+                            </div>
+                        @endif
+                    @endguest
+                    <div class="bn_group_2_wrap">
+                        @guest
+                            <div class="bn_item_2"
+                                onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'">
+                                <div class="bn_txt_item">
+                                    <div class="bn_tit">구하기</div>
+                                    <div class="bn_txt">맞춤 제안서 받기</div>
+                                </div>
+                                <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_2.png') }}"></div>
+                            </div>
+                        @else
+                            @if (Auth::guard('web')->user()->phone == null)
+                                <div class="bn_item_2" onclick="modal_open('add_info')">
+                                    <div class="bn_txt_item">
+                                        <div class="bn_tit">구하기</div>
+                                        <div class="bn_txt">맞춤 제안서 받기</div>
+                                    </div>
+                                    <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_2.png') }}"></div>
+                                </div>
+                            @else
+                                <div class="bn_item_2"
+                                    onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}'">
+                                    <div class="bn_txt_item">
+                                        <div class="bn_tit">구하기</div>
+                                        <div class="bn_txt">맞춤 제안서 받기</div>
+                                    </div>
+                                    <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_2.png') }}"></div>
+                                </div>
+                            @endif
+                        @endguest
+                        @guest
+                            <div class="bn_item_2" onclick="location.href='{{ route('www.corp.product.create.view') }}'">
+                                <div class="bn_txt_item">
+                                    <div class="bn_tit">내놓기</div>
+                                    <div class="bn_txt">내 매물 등록하기</div>
+                                </div>
+                                <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_3.png') }}"></div>
+                            </div>
+                        @else
+                            @if (Auth::guard('web')->user()->type == 0)
+                                @if (Auth::guard('web')->user()->phone == null)
+                                    <div class="bn_item_2" onclick="modal_open('add_info')">
+                                        <div class="bn_txt_item">
+                                            <div class="bn_tit">내놓기</div>
+                                            <div class="bn_txt">내 매물 등록하기</div>
+                                        </div>
+                                        <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_3.png') }}"></div>
+                                    </div>
+                                @else
+                                    <div class="bn_item_2"
+                                        onclick="location.href='{{ route('www.product.create.view') }}'">
+                                        <div class="bn_txt_item">
+                                            <div class="bn_tit">내놓기</div>
+                                            <div class="bn_txt">내 매물 등록하기</div>
+                                        </div>
+                                        <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_3.png') }}"></div>
+                                    </div>
+                                @endif
+                            @else
+                                <div class="bn_item_2"
+                                    onclick="location.href='{{ route('www.corp.product.create.view') }}'">
+                                    <div class="bn_txt_item">
+                                        <div class="bn_tit">내놓기</div>
+                                        <div class="bn_txt">내 매물 등록하기</div>
+                                    </div>
+                                    <div class="bn_img"><img src="{{ asset('assets/media/m_bn_img_3.png') }}"></div>
+                                </div>
+                            @endif
+                        @endguest
                     </div>
                 </div>
 
@@ -431,23 +509,53 @@
         <div class="only_pc">
             <div class="right_side_wrap">
                 <div class="right_side">
-                    @if (Auth::guard('web')->user()->type ?? 0 == 1)
-                        <button class="quick_bn"
-                            onclick="location.href='{{ route('www.corp.product.create.view') }}' ">
-                            <img src="{{ asset('assets/media/ic_org_estate.png') }}">
-                            <p>매물 내놓기</p>
-                        </button>
-                    @else
+                    @guest
                         <button class="quick_bn" onclick="location.href='{{ route('www.product.create.view') }}' ">
                             <img src="{{ asset('assets/media/ic_org_estate.png') }}">
                             <p>매물 내놓기</p>
                         </button>
-                    @endif
-                    <button class="quick_bn"
-                        onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}' ">
-                        <img src="{{ asset('assets/media/btn_point_search.png') }}">
-                        <p>매물 구하기</p>
-                    </button>
+                    @else
+                        @if (Auth::guard('web')->user()->type == 0)
+                            @if (Auth::guard('web')->user()->phone == null)
+                                <button class="quick_bn" onclick="modal_open('add_info')">
+                                    <img src="{{ asset('assets/media/ic_org_estate.png') }}">
+                                    <p>매물 내놓기</p>
+                                </button>
+                            @else
+                                <button class="quick_bn"
+                                    onclick="location.href='{{ route('www.product.create.view') }}' ">
+                                    <img src="{{ asset('assets/media/ic_org_estate.png') }}">
+                                    <p>매물 내놓기</p>
+                                </button>
+                            @endif
+                        @else
+                            <button class="quick_bn"
+                                onclick="location.href='{{ route('www.corp.product.create.view') }}' ">
+                                <img src="{{ asset('assets/media/ic_org_estate.png') }}">
+                                <p>매물 내놓기</p>
+                            </button>
+                        @endif
+                    @endguest
+                    @guest
+                        <button class="quick_bn"
+                            onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}' ">
+                            <img src="{{ asset('assets/media/btn_point_search.png') }}">
+                            <p>매물 구하기</p>
+                        </button>
+                    @else
+                        @if (Auth::guard('web')->user()->phone == null)
+                            <button class="quick_bn" onclick="modal_open('add_info')">
+                                <img src="{{ asset('assets/media/btn_point_search.png') }}">
+                                <p>매물 구하기</p>
+                            </button>
+                        @else
+                            <button class="quick_bn"
+                                onclick="location.href='{{ route('www.mypage.user.offer.first.create.view') }}' ">
+                                <img src="{{ asset('assets/media/btn_point_search.png') }}">
+                                <p>매물 구하기</p>
+                            </button>
+                        @endif
+                    @endguest
                     <a href="{{ route('www.consulting.create.view') }}">
                         <button class="quick_bn">
                             <img src="{{ asset('assets/media/quick_bn_3.png') }}">
