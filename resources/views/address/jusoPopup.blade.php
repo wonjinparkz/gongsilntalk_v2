@@ -466,7 +466,7 @@
             // 팝업 창 크기 계산
             var popupWidth, popupHeight;
 
-            popupHeight = 520;
+            popupHeight = 600;
 
             console.log('parentWidth : ' + parentWidth);
 
@@ -821,7 +821,7 @@
                     </div>
                 </div>
                 <!-- //상세주소 입력 -->
-                <div class="logo" style="display: block;">&nbsp;</div>
+                <div class="logo" style="display: none;">&nbsp;</div>
             </div>
         </div>
     </form>
