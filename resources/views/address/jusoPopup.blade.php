@@ -834,7 +834,7 @@
         const wrapElement = document.querySelector(".pop-address-search .pop-address-search-inner .wrap");
 
         // 화면 너비에서 여백을 제외하고 적용
-        const calculatedWidth = width - 120;
+        const calculatedWidth = width - 130;
 
         // wrap 너비를 동적으로 조정하되, 최대 너비를 초과하지 않도록 설정
         wrapElement.style.width = calculatedWidth + "px";
