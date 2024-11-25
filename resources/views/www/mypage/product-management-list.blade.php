@@ -4,7 +4,7 @@
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
                     src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
-        <div class="m_title">마이페이지</div>
+        <div class="m_title">내 매물관리</div>
         <div class="right_area"><a href="javascript:history.go(-1)"><img
                     src="{{ asset('assets/media/header_btn_alarm.png') }}"></a></div>
     </div>

@@ -10,7 +10,7 @@
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
                     src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
-        <div class="m_title">마이메뉴</div>
+        <div class="m_title">내 정보 수정</div>
         <div class="right_area"></div>
     </div>
     <!----------------------------- m::header bar : s ----------------------------->
@@ -55,7 +55,7 @@
                                 <div class="input_wrap_check">
                                     <input type="text" id="chage_nickname" name="chage_nickname"
                                         value="{{ $user->nickname }}">
-                                
+
                                     <button class="btn_gray_ghost btn_sm" id="btn_pw" onclick="changeNickName()">닉네임
                                         변경</button>
                                 </div>
@@ -98,7 +98,7 @@
                                     onclick="location.href='{{ route('www.logout.logout') }}'"><b>로그아웃</b></button>
                                     <button class="btn_ghost" type="button">회원탈퇴</button>
                                 </div>
-                        
+
                     </div>
 
                 </div>

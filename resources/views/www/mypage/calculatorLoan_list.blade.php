@@ -17,7 +17,7 @@
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
                     src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
-        <div class="m_title">마이메뉴</div>
+        <div class="m_title">대출이자 계산기</div>
         <div class="right_area"></div>
     </div>
     <!----------------------------- m::header bar : s ----------------------------->
