@@ -51,7 +51,7 @@ class ProposalProduct extends BaseModel
                     ->where('like.target_type', '=', 'product');
             })->addSelect(
                 DB::raw('ifnull(like.id, "") AS like_id')
-            );
+            )->where('is_delete', 0);
     }
     /**
      * 이미지 가져오기
