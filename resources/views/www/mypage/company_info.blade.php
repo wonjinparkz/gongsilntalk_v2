@@ -79,10 +79,10 @@
                                     <input type="text" id="chage_nickname" name="chage_nickname"
                                         value="{{ $user->nickname }}">
                                     <button class="btn_gray_ghost btn_sm" id="btn_pw" onclick="changeNickName()">닉네임
-                                    변경</button>
+                                        변경</button>
                                 </div>
                                 <p id="nickname_confirm" style="color:red; display:none; margin-top:8px"></p>
-                                    <p />
+                                <p />
                             </li>
                             <li>
                                 <label>이메일</label>
@@ -119,7 +119,10 @@
                                 onclick="location.href='{{ route('www.logout.logout') }}'">
                                 <b>로그아웃</b>
                             </button>
-                            <button class="btn_ghost" type="button">회원탈퇴</button>
+                            <button class="btn_ghost" type="button"
+                            onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdZBSzZ01PcTOrIW3mMxrxqbwaRBHy7MV49CWQhA5_PQjKiRw/viewform?usp=sf_link', '_blank')">
+                                회원탈퇴
+                            </button>
                         </div>
                     </div>
 
@@ -217,8 +220,7 @@
                         profileimageDropzone.removeFile(file);
                         refreshFsLightbox();
                     })
-                    .fail(function(jqXHR, ajaxOptions, thrownError) {
-                    });
+                    .fail(function(jqXHR, ajaxOptions, thrownError) {});
             }
         });
 
@@ -350,8 +352,7 @@
                         `;
                     $('#companyPhoneTag').html(inputTag);
                 })
-                .fail(function(jqXHR, ajaxOptions, thrownError) {
-                });
+                .fail(function(jqXHR, ajaxOptions, thrownError) {});
         }
     </script>
 

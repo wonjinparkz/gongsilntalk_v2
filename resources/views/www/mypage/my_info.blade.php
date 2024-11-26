@@ -96,7 +96,10 @@
                         <div class="flex_between mt28">
                             <button class="btn_ghost" type="button"
                                 onclick="location.href='{{ route('www.logout.logout') }}'"><b>로그아웃</b></button>
-                            <button class="btn_ghost" type="button">회원탈퇴</button>
+                            <button class="btn_ghost" type="button"
+                            onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdZBSzZ01PcTOrIW3mMxrxqbwaRBHy7MV49CWQhA5_PQjKiRw/viewform?usp=sf_link', '_blank')">
+                                회원탈퇴
+                            </button>
                         </div>
 
                     </div>
