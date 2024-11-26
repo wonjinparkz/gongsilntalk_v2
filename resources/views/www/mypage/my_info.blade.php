@@ -90,9 +90,9 @@
                                 <input type="text" value="{{ $user->phone }}" disabled>
                             </li>
                         </ul>
-                        <button class="btn_gray_ghost btn_full_basic mt28" type="button"
+                        {{-- <button class="btn_gray_ghost btn_full_basic mt28" type="button"
                             onclick="modal_open('info_modify')"><b>내 정보
-                                수정</b></button>
+                                수정</b></button> --}}
                         <div class="flex_between mt28">
                             <button class="btn_ghost" type="button"
                                 onclick="location.href='{{ route('www.logout.logout') }}'"><b>로그아웃</b></button>
