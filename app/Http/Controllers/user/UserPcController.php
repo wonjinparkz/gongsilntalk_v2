@@ -89,7 +89,7 @@ class UserPcController extends Controller
             $productList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc');
             $result = $productList->paginate(10);
 
-            $view = view('components.user-mypage-product-main-list-layout', compact('result', 'type'))->render();
+            $view = view('components.user-mypage-product-list-layout', compact('result', 'type'))->render();
             return response()->json(['html' => $view]);
         }
 
