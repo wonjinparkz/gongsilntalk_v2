@@ -175,7 +175,7 @@
                                                 <td>
                                                     <div class="frame_img_mid">
                                                         <div class="img_box">
-                                                            @if (count($product->product->images) > 0)
+                                                            @if (count($product->product->images ?? []) > 0)
                                                                 <img
                                                                     src="{{ Storage::url('image/' . $product->product->images[0]->path) }}">
                                                             @endif
@@ -302,7 +302,7 @@
                                             <div class="flex_between mt10">
                                                 <div class="frame_img_mid">
                                                     <div class="img_box">
-                                                        @if (count($product->product->images) > 0)
+                                                        @if (count($product->product->images ?? []) > 0)
                                                             <img
                                                                 src="{{ Storage::url('image/' . $product->product->images[0]->path) }}">
                                                         @endif
