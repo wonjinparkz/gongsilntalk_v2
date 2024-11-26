@@ -75,7 +75,7 @@
                                     <input type="password" id="password" name="password" placeholder="현재 비밀번호">
                                     <p id="password_confirm" style="color:red; display:none;"></p>
                                     <input type="password" id="new_password" name="new_password"
-                                        placeholder="새 비밀번호 8자리 이상 영문, 숫자 포함">
+                                        placeholder="새 비밀번호 8자리 이상 영문, 숫자, 특수문자 포함">
                                     <p id="new_password_confirm" style="color:red; display:none;"></p>
                                     <input type="password" id="new_password_confirmation"
                                         name="new_password_confirmation" placeholder="비밀번호 확인">
@@ -93,11 +93,11 @@
                         <button class="btn_gray_ghost btn_full_basic mt28" type="button"
                             onclick="modal_open('info_modify')"><b>내 정보
                                 수정</b></button>
-                                <div class="flex_between mt28">
-                                    <button class="btn_ghost" type="button"
-                                    onclick="location.href='{{ route('www.logout.logout') }}'"><b>로그아웃</b></button>
-                                    <button class="btn_ghost" type="button">회원탈퇴</button>
-                                </div>
+                        <div class="flex_between mt28">
+                            <button class="btn_ghost" type="button"
+                                onclick="location.href='{{ route('www.logout.logout') }}'"><b>로그아웃</b></button>
+                            <button class="btn_ghost" type="button">회원탈퇴</button>
+                        </div>
 
                     </div>
 
@@ -195,8 +195,7 @@
                     profileimageDropzone.removeFile(file);
                     refreshFsLightbox();
                 })
-                .fail(function(jqXHR, ajaxOptions, thrownError) {
-                });
+                .fail(function(jqXHR, ajaxOptions, thrownError) {});
         }
     });
 

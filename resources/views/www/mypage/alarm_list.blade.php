@@ -125,7 +125,9 @@
                                 <div class="empty_wrap">
                                     <p>새로운 알림이 없습니다.</p>
                                     <span>분양현장에서 마음에 드는 분양 매물의<br>‘알림 받기’ 등록을 해보세요.</span>
-                                    <div class="mt8"><button class="btn_point btn_md_bold">분양현장 바로가기</button></div>
+                                    <div class="mt8"><button class="btn_point btn_md_bold"
+                                            onclick="location.href='{{ route('www.site.product.list.view') }}'">분양현장 바로가기</button>
+                                    </div>
                                 </div>
                                 <!-- 데이터가 없을 경우 : e -->
                             @else
@@ -150,7 +152,8 @@
                                                 {{-- {{ Lang::get('commons.product_type.' . $productAlarm->product->type) }} --}}
                                                 {{ $productAlarm->title }}</div>
                                             <div class="alarm_arrow">
-                                                <img src="{{ asset('assets/media/ic_list_arrow.png') }}" class="w_8p">
+                                                <img src="{{ asset('assets/media/ic_list_arrow.png') }}"
+                                                    class="w_8p">
                                             </div>
                                         </div>
                                         <!-- 분양현장 알림 : e -->
