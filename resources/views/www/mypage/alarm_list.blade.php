@@ -97,8 +97,6 @@
                                 <!-- 데이터가 없을 경우 : s -->
                                 <div class="empty_wrap">
                                     <p>새로운 알림이 없습니다.</p>
-                                    <span>분양현장에서 마음에 드는 분양 매물의<br>‘알림 받기’ 등록을 해보세요.</span>
-                                    <div class="mt8"><button class="btn_point btn_md_bold">분양현장 바로가기</button></div>
                                 </div>
                                 <!-- 데이터가 없을 경우 : e -->
                             @else
