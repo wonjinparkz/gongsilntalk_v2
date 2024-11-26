@@ -96,7 +96,7 @@
                                     <input type="password" id="password" name="password" placeholder="현재 비밀번호">
                                     <p id="password_confirm" style="color:red; display:none;"></p>
                                     <input type="password" id="new_password" name="new_password"
-                                        placeholder="새 비밀번호 8자리 이상 영문, 숫자 포함">
+                                        placeholder="새 비밀번호 8자리 이상 영문, 숫자, 특수문자 포함">
                                     <p id="new_password_confirm" style="color:red; display:none;"></p>
                                     <input type="password" id="new_password_confirmation"
                                         name="new_password_confirmation" placeholder="비밀번호 확인">
