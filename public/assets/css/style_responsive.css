@@ -392,7 +392,7 @@
     .repayment_schedule_wrap{height:auto; overflow-y:hidden; margin-top:10px;}
     .schedule_tit_tiem span{font-size:14px;}
     .repayment_table th, .repayment_table td{font-size: 13px;}
-    .input_area_1 input{width:calc(100% - 110px)}
+    .input_area_1 input{width:calc(90% - 110px)}
     .address_reg_wrap{display:block; gap:22px;}
     .inner_map{border: 1px solid #D2D1D0; border-radius: 5px; display: flex; align-items: center; color:#D2D1D0; justify-content:center; text-align: center; line-height: 1.4; height: 200px; margin-top:18px;}
     .address_reg_wrap .inner_item.inner_map.only_m{display: flex;}

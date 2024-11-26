@@ -152,7 +152,7 @@
                                                     </p>
                                                     <div class="m_asset_detail_row panel">
                                                         <div class="list_detail_item">주소 <span
-                                                                class="gray_deep">양{{ $product->address }}</span>
+                                                                class="gray_deep">{{ $product->address }}</span>
                                                         </div>
                                                         <div class="list_detail_item">층정보 <span
                                                                 class="gray_deep">{{ $product->floor_number }}층/{{ $product->total_floor_number }}층</span>
