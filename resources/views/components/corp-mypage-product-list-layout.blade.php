@@ -208,7 +208,8 @@
                         <button class="btn_gray_ghost btn_sm"
                             onclick="location.href='{{ route('www.corp.proudct.re.register', [$product->id]) }}'">재등록</button>
                     @endif
-                    <button class="btn_gray_ghost btn_sm">삭제</button>
+                    <button class="btn_gray_ghost btn_sm"
+                        onclick="modal_open('asset_delete_{{ $product->id }}')">삭제</button>
                 </div>
                 <div class="list_m_cnt">
                     <div class="list_thumb_1">
