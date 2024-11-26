@@ -346,9 +346,10 @@
 
 <script>
     $("input[name=checkAll]").click(function() {
-        if ($(this).is(":checked") === true)
+        if ($(this).is(":checked") === true) {
             $("input[name=checkOne]").prop("checked", true);
-        else
+        } else {
             $("input[name=checkOne]").prop("checked", false);
+        }
     });
 </script>
