@@ -166,7 +166,9 @@
                                 <td>
                                     <div class="list_thumb_1">
                                         <div class="img_box">
-                                            <img src="{{ Storage::url('image/' . $product->images[0]->path) }}">
+                                            @if (count($product->images) > 0)
+                                                <img src="{{ Storage::url('image/' . $product->images[0]->path) }}">
+                                            @endif
                                         </div>
                                     </div>
                                 </td>
