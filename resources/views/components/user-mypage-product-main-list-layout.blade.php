@@ -11,7 +11,7 @@
             </div>
             <!-- 데이터가 없을 경우 : e -->
         @else
-            {{-- <table class="table_basic mt20 only_pc">
+            <table class="table_basic mt20 only_pc">
                 <colgroup>
                     <col width="50">
                     <col width="100">
@@ -172,7 +172,7 @@
         @endif
         <!----------------------------- Only M list : e ----------------------------->
 
-    </div> --}}
+    </div>
     <!-- 일반매물 : e -->
 @else
     <!--  분양매물 : s -->
