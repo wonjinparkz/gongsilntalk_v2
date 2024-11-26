@@ -184,11 +184,6 @@
                                                 </td>
                                                 <td>
                                                     @php
-                                                        if (!$product->product) {
-                                                            info($product);
-                                                        }
-                                                    @endphp
-                                                    @php
                                                         $monthPrice = '';
                                                         $priceArea = 0.0;
                                                         $price = $product->product->priceInfo->price ?? 0;
