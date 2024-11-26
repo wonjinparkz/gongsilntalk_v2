@@ -223,7 +223,8 @@
                                                     </span>
                                                 </td>
                                                 <td>{{ $product->product->address }} </td>
-                                                <td>전용 {{ $product->product->exclusive_square ?? '-' }}㎡ / {{ $product->product->exclusive_area ?? '-' }}평</td>
+                                                <td>전용 {{ $product->product->exclusive_square ?? '-' }}㎡ /
+                                                    {{ $product->product->exclusive_area ?? '-' }}평</td>
                                                 <td>{{ $product->product->floor_number }}층 /
                                                     {{ $product->product->total_floor_number }}층</td>
                                                 <td>{{ $product->product->is_service == 0 ? number_format($product->product->service_price) . '원' : '없음' }}

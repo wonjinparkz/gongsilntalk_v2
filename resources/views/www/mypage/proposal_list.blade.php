@@ -55,11 +55,53 @@
                                                 onclick="modal_open('delete_{{ $proposal->id }}')">삭제</button>
                                         </div>
                                     </div>
+                                    {{-- m 공유버튼 --}}
                                     <div class="proposal_m_btn only_m"><!-- m -->
-                                        <button class="btn_gray_ghost btn_sm_full">다운로드</button>
+                                        <button class="btn_gray_ghost btn_sm_full"
+                                            onclick="modal_open_slide('share_{{ $proposal->id }}')">공유하기</button>
                                         <button class="btn_gray_ghost btn_sm_full"
                                             onclick="modal_open('delete_{{ $proposal->id }}')">삭제</button>
                                     </div>
+
+                                    <div class="modal_slide modal_slide_share_{{ $proposal->id }}">
+                                        <div class="slide_title_wrap">
+                                            <span>공유하기</span>
+                                            <img src="{{ asset('assets/media/btn_md_close.png') }}"
+                                                onclick="modal_close_slide('share_{{ $proposal->id }}')">
+                                        </div>
+                                        <div class="slide_modal_body">
+                                            <div class="layer_share_con">
+                                                @php
+                                                    $cleaned_content = strip_tags(
+                                                        html_entity_decode($proposal->content),
+                                                    );
+                                                    $cleaned_content = preg_replace("/\r|\n/", ' ', $cleaned_content);
+
+                                                    $shortened_content =
+                                                        mb_strlen($cleaned_content) > 50
+                                                            ? mb_substr($cleaned_content, 0, 50) . '...'
+                                                            : $cleaned_content;
+                                                @endphp
+                                                <a class="kakaotalk-sharing-btn"
+                                                    onclick="modal_close_slide('share_{{ $proposal->id }}');"
+                                                    data-title="{{ $proposal->title }}"
+                                                    data-description="{{ $shortened_content }}"
+                                                    data-m_link="{{ env('APP_URL') }}/share/proposal/detail?id={{ $proposal->id }}"
+                                                    data-pc_link="{{ env('APP_URL') }}/share/proposal/detail?id={{ $proposal->id }}">
+                                                    <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                                                    <p class="mt8">카카오톡</p>
+                                                </a>
+                                                <a
+                                                    onclick="textCopy('{{ env('APP_URL') }}/share/proposal/detail?id={{ $proposal->id }}');modal_close_slide('share_{{ $proposal->id }}');">
+                                                    <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                                                    <p class="mt8">링크복사</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="md_slide_overlay md_slide_overlay_share_{{ $proposal->id }}"
+                                        onclick="modal_close_slide('share_{{ $proposal->id }}')"></div>
+                                    {{-- m 공유 버튼 --}}
                                     <div class="table_container mt18 only_pc">
                                         <div>희망 지역</div>
                                         <div>
@@ -140,10 +182,47 @@
         </div>
     </div>
 
+
 </x-layout>
 
 <script>
     function onProposalDelete(id) {
         $('#deleteForm_' + id).submit();
     }
+
+    // 주소 복사
+    var textCopy = (url) => {
+        window.navigator.clipboard.writeText(url).then(() => {
+            alert("링크가 복사 되었습니다.");
+        });
+    };
+
+    // 카카오톡 공유하기 버튼
+
+    // 리스트에서 처리한 방식
+    // 이벤트 바인딩 (중복 방지 처리)
+    $(document).off('click', '.kakaotalk-sharing-btn').on('click', '.kakaotalk-sharing-btn', function(event) {
+        event.preventDefault();
+
+        // 클릭한 버튼의 데이터 읽기
+        var $button = $(this);
+        var title = $button.data('title');
+        var description = $button.data('description').toString();
+        var m_link = $button.data('m_link');
+        var pc_link = $button.data('pc_link');
+
+        // Kakao 공유 호출
+        Kakao.Share.sendDefault({
+            objectType: "feed",
+            content: {
+                title: title,
+                description: description,
+                imageUrl: "",
+                link: {
+                    mobileWebUrl: m_link,
+                    webUrl: pc_link
+                }
+            }
+        });
+    });
 </script>
