@@ -184,7 +184,9 @@
                                                 </td>
                                                 <td>
                                                     @php
-                                                        info($product);
+                                                        if (!$product->product) {
+                                                            info($product);
+                                                        }
                                                     @endphp
                                                     @php
                                                         $monthPrice = '';
