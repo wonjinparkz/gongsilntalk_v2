@@ -207,7 +207,7 @@ class MapPcController extends Controller
 
             // 줌 레벨에 따른 클러스터링 처리
             if ($zoomLv <= 10) {
-                $distance = 300;
+                $distance = 500;
                 // $regionList = RegionCoordinate::select('id', 'sido as name', 'address_lat', 'address_lng')
                 //     ->whereNull('sigungu')
                 //     ->whereNull('dong')
@@ -265,7 +265,7 @@ class MapPcController extends Controller
                     $knowledges = $knowledges->get();
                 }
             } elseif ($zoomLv >= 11 && $zoomLv <= 13) {
-                $distance = 15;
+                $distance = 30;
                 // $regionList = RegionCoordinate::select('id', 'sigungu as name', 'address_lat', 'address_lng')
                 //     ->whereNull('dong')
                 //     ->whereNotNull('sigungu')
@@ -324,7 +324,7 @@ class MapPcController extends Controller
                     $knowledges = $knowledges->get();
                 }
             } elseif ($zoomLv >= 14 && $zoomLv <= 15) {
-                $distance = 8;
+                $distance = 10;
                 // $regionList = RegionCoordinate::select('id', 'dong as name', 'address_lat', 'address_lng')->whereNotNull('dong')
                 //     ->whereRaw(
                 //         "ROUND((6371 * ACOS(COS(RADIANS(?)) * COS(RADIANS(address_lat)) * COS(RADIANS(address_lng) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(address_lat)))), 2) < ?",
@@ -380,7 +380,7 @@ class MapPcController extends Controller
                     $knowledges = $knowledges->get();
                 }
             } else {
-                $distance = 1;
+                $distance = 1.5;
 
                 // 아파트 데이터를 가져옴
                 if (!isset($request->sale_product_type) || $request->sale_product_type == 3) {
