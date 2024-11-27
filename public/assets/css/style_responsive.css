@@ -441,7 +441,7 @@
     .document_reg_list li .document_img_reg{width:80px; height:80px; text-align: center; background: #F5F5F5; border: 1px solid #F5F5F5;}
     .document_reg_list li .document_area{display: flex; align-items: center; gap:14px; width: calc(100% - 70px); }
     .document_name_wrap{width:calc(100% - 100px);}
-    .document_name_wrap .document_name span{font-size:13px; color:#9D9999; width: calc(100% - 40px); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display: inline-block;}
+    .document_name_wrap .document_name span{font-size:13px; color:#9D9999; width: calc(100% - 40px); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display: inline-block; height: 18px;}
     .document_reg_list .gap_8{display: flex; flex-direction:column;}
 
     .proposal_list_row{display:flex; flex-direction: column; justify-content: flex-start; gap: 14px; padding: 14px;}
