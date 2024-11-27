@@ -251,7 +251,7 @@
                             <div class="detail_open_wrap">
                                 <label>총 자산 현황</label>
                                 <button class="simple_toggle_trigger only_m"><img
-                                        src="{{ asset('assets/media/dropdown_arrow.png') }}" class="w_100"></button>
+                                        src="{{ asset('assets/media/dropdown_arrow2.png') }}" class="w_100"></button>
                             </div>
 
                             <h1>{{ number_format($result->price) }}원</h1>
