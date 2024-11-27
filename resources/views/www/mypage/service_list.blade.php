@@ -28,7 +28,7 @@
                                 <div class="detail_open_wrap">
                                     <label>총 자산 현황</label>
                                     <button class="simple_toggle_trigger only_m"><img
-                                            src="{{ asset('assets/media/dropdown_arrow.png') }}"
+                                            src="{{ asset('assets/media/dropdown_arrow2.png') }}"
                                             class="w_100"></button>
                                 </div>
 
@@ -55,7 +55,7 @@
                                         </p>
                                     </li>
                                 </ul>
-                                <div class="detail_price_wrap simple_toggle_layer">
+                                <div class="detail_price_wrap simple_toggle_layer" style="display:block">
                                     <ul class="detail_price">
                                         <li>임대 보증금<p>{{ number_format($addressData->check_price) }}원</p>
                                         </li>
