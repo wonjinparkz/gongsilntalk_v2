@@ -117,6 +117,7 @@
 
             <!-- paging : s -->
             {{ $result->onEachSide(1)->links('components.pc-my-page-interest-pagination') }}
+            {{ $result->onEachSide(1)->links('components.m-my-page-interest-pagination') }}
             <!-- paging : e -->
 
         @endif
@@ -290,6 +291,7 @@
             </table>
             <!-- paging : s -->
             {{ $result->onEachSide(1)->links('components.pc-my-page-recently-pagination') }}
+            {{ $result->onEachSide(1)->links('components.m-my-page-recently-pagination') }}
             <!-- paging : e -->
         @endif
 

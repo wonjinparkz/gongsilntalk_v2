@@ -91,6 +91,7 @@
 
                         <!-- paging : s -->
                         {{ $result_community->onEachSide(1)->links('components.pc-my-community-page-pagination') }}
+                        {{ $result_community->onEachSide(1)->links('components.m-my-community-page-pagination') }}
                         <!-- paging : e -->
                     @else
                         <!-- 데이터가 없을 경우 : s -->

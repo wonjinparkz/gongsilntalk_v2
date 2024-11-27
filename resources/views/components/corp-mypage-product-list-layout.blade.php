@@ -221,7 +221,7 @@
                             <p class="txt_point">{{ Lang::get('commons.product_state.' . $product->state) }}</p>
                         @endif
                     </div>
-                    
+
                 </div>
                 <div class="list_m_cnt">
                     <div class="list_thumb_1">
@@ -274,6 +274,9 @@
             </li>
         @endforeach
     </ul>
+
+    {{ $result->onEachSide(1)->links('components.m-my-page-pagination') }}
+
     <!----------------------------- Only M list : e ----------------------------->
 @endif
 

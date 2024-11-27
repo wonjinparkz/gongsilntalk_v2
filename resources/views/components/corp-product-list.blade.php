@@ -42,3 +42,4 @@
 </div>
 
 {{ $productList->onEachSide(1)->links('components.pc-pagination') }}
+{{ $productList->onEachSide(1)->links('components.m-pagination') }}

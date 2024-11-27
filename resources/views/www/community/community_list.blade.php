@@ -186,6 +186,7 @@
                         @endif
                     @endguest
                     {{ $result->onEachSide(1)->links('components.pc-pagination') }}
+                    {{ $result->onEachSide(1)->links('components.m-pagination') }}
                 </div>
                 <!-- community body : e -->
 

@@ -132,6 +132,7 @@
                         </div> --}}
                     @endif
                     {{ $result->onEachSide(1)->links('components.pc-pagination') }}
+                    {{ $result->onEachSide(1)->links('components.m-pagination') }}
 
                 </div>
 
