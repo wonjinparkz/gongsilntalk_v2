@@ -852,11 +852,13 @@ a.btn_like{background: url('../images/btn_like_off.png') no-repeat; background-s
 .type_1_page h3{font-size: 20px; background:#FAFAFA; border: 1px solid #EDEDED; margin-top:80px; text-align: center; padding: 14px;}
 .proposal_type_item .item_wrap{display: flex; justify-content: space-between; gap:28px; margin-top: 60px;}
 .proposal_type_item .item_wrap .item_img{width:428px; height: 293px; margin-top:14px;}
+.proposal_type_item .item_wrap .item_img img{height: 293px;}
 .proposal_type_item .item_wrap .item_img iframe{width:428px; height: 293px;}
 .proposal_type_item .item_wrap h5{font-size: 18px;}
 .proposal_type_item .item_2_wrap{display: grid; grid-template-columns:repeat(2, 1fr); gap: 28px; margin-top:40px;}
 .proposal_type_item .item_3_wrap{display: grid; grid-template-columns:repeat(2, 1fr); gap:28px; grid-row-gap:28px; width: 786px; margin:80px auto 0;}
 .proposal_type_item .item_3_wrap .item_img{width:379px; height:259px;}
+.proposal_type_item .item_3_wrap .item_img img{height:259px;}
 .proposal_type_item .item_4_wrap {display: flex; justify-content: space-between; gap:60px; margin-top: 60px;}
 .proposal_type_item .item_4_wrap h4{font-size: 18px; border: 1px solid #EDEDED; padding: 14px; text-align: center; margin-bottom: 10px;}
 .proposal_type_item .item_4_wrap .item_div{flex: 1;}
@@ -1003,6 +1005,8 @@ a.btn_like{background: url('../images/btn_like_off.png') no-repeat; background-s
 .type_5_end .end_company_wrap .txt_item_2{color:#fff; font-size: 20px; line-height: 1.4; font-family: 'font-b';}
 .type_5_end .end_company_wrap .txt_item_3{color:#fff; font-size: 14px;}
 
+.td_wrap_1{overflow:hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp:17; line-height:16px;}
+
 
 /* 제안서 인쇄 */
 .proposal_type_1 h3{font-size: 20px; background: #FAFAFA; border: 1px solid #EDEDED; margin-top:60px; text-align: center; padding: 14px;}
@@ -1014,7 +1018,8 @@ a.btn_like{background: url('../images/btn_like_off.png') no-repeat; background-s
 .checkbox_btn input[type="checkbox"]:checked + label{background:#9D9999 !important; -webkit-print-color-adjust:exact;}
 .type_view_wrap section.type_2_1 h1{color:#000 !important; -webkit-print-color-adjust:exact;}
 .proposal_type_2 h1{color:#000 !important; -webkit-print-color-adjust:exact; font-size: 40px; line-height: 1.2;}
-.proposal_type_2 .txt_item_1{margin-top: 10px;}
+.proposal_type_2 .txt_item_1{margin-top:4px;}
+.proposal_section_table_2 .txt_item_1{color:#F16341 !important;}
 
 @media print {
     @page {size: A4 landscape; margin:0;}

@@ -165,6 +165,7 @@ $(function () {
         return false;
     });
 
+
     // 검색창 검색어 삭제 기능
     $(document).ready(function () {
         $("#search_input").on("propertychange change keyup paste input", function () {

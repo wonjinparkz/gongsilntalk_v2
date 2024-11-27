@@ -28,7 +28,7 @@
                                 <div class="detail_open_wrap">
                                     <label>총 자산 현황</label>
                                     <button class="simple_toggle_trigger only_m"><img
-                                            src="{{ asset('assets/media/dropdown_arrow.png') }}"
+                                            src="{{ asset('assets/media/dropdown_arrow2.png') }}"
                                             class="w_100"></button>
                                 </div>
 
