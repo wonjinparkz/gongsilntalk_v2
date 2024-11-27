@@ -137,7 +137,7 @@
 
             $avgRealPrice = $industryCenterAvgPrice * $result->area;
 
-            info($result->area);
+            info($result);
             info('price' . $price);
             info('acquisition_tax_price' . $acquisition_tax_price);
             info('etc_price' . $etc_price);
