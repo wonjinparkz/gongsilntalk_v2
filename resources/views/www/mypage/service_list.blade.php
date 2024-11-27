@@ -55,7 +55,7 @@
                                         </p>
                                     </li>
                                 </ul>
-                                <div class="detail_price_wrap simple_toggle_layer" style="display:block">
+                                <div class="detail_price_wrap simple_toggle_layer">
                                     <ul class="detail_price">
                                         <li>임대 보증금<p>{{ number_format($addressData->check_price) }}원</p>
                                         </li>

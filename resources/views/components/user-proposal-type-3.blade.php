@@ -145,9 +145,11 @@
                     <tr>
                         <th>특장점</th>
                         <td>
+                        <div class="td_wrap_1">
                             @php
                                 echo nl2br($product->product_content);
                             @endphp
+                            </div>
                         </td>
                     </tr>
                 </table>

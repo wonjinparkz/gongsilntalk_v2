@@ -408,6 +408,7 @@
     .asset_dashboard_wrap .ds_item_1{width:100%; border: none; padding: 0;}
     .detail_open_wrap{display: flex; justify-content: space-between;}
     .detail_open_wrap button{width:24px; padding: 6px; display: flex; align-items: center;}
+    .detail_price_wrap{display: block;}
     .asset_dashboard_wrap .ds_item_2{display: none;}
     .asset_detail_top_wrap{padding: 20px 0;}
     .m_asset_reg{border-top:10px solid #F5F5F5; border-bottom:10px solid #F5F5F5; padding:14px 16px; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center;}
