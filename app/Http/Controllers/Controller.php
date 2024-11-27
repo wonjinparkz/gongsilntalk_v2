@@ -201,7 +201,7 @@ class Controller extends BaseController
                 'notification' => $data,
                 'data' => $data,
             ]);
-            $response = $messaging->sendMulticast($iosMessage, $androidFcmTokens);
+            $response = $messaging->sendMulticast($iosMessage, $iosFcmTokens);
 
             // 오류 체크
             $validTokens = count($response->validTokens());
@@ -296,7 +296,12 @@ class Controller extends BaseController
             "user_template_no" => $user_template_no,
             "receiver" => $receiver
         ];
+        if (isset($return_url)) {
+            $postarr["return_url_yn"] = true;
+            $postarr["return_url"] = $return_url;
+        }
 
+        info($postarr);
 
         $postvars = json_encode($postarr);   //JSON 데이터
 

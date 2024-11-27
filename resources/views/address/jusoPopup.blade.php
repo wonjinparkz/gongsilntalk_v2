@@ -459,8 +459,26 @@
         function init() {
             var browerName = navigator.appName;
             var browerAgent = navigator.userAgent;
-            self.resizeTo(570, 520);
 
+            // 부모 창의 크기 가져오기
+            parentWidth = window.opener.innerWidth
+
+            // 팝업 창 크기 계산
+            var popupWidth, popupHeight;
+
+            popupHeight = 600;
+
+            console.log('parentWidth : ' + parentWidth);
+
+            if (parentWidth > 767) {
+                popupWidth = 570; // PC 환경
+            } else {
+                popupWidth = parentWidth - 10; // 모바일 환경 (부모 창 너비 - 10px)
+            }
+            // 팝업 창 크기 및 위치 설정
+            self.resizeTo(popupWidth, popupHeight);
+
+            adjustWrapWidth(popupWidth);
         }
 
         $(document).ready(function() {
@@ -803,10 +821,22 @@
                     </div>
                 </div>
                 <!-- //상세주소 입력 -->
-                <div class="logo" style="display: block;">&nbsp;</div>
+                <div class="logo" style="display: none;">&nbsp;</div>
             </div>
         </div>
     </form>
 </body>
 
 </html>
+
+<script>
+    function adjustWrapWidth(width) {
+        const wrapElement = document.querySelector(".pop-address-search .pop-address-search-inner .wrap");
+
+        // 화면 너비에서 여백을 제외하고 적용
+        const calculatedWidth = width - 130;
+
+        // wrap 너비를 동적으로 조정하되, 최대 너비를 초과하지 않도록 설정
+        wrapElement.style.width = calculatedWidth + "px";
+    }
+</script>

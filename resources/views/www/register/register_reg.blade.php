@@ -34,7 +34,7 @@
                         </li>
                         <li>
                             <label>비밀번호</label>
-                            <input type="password" name="password" id="password" placeholder="8자리 이상 영문, 숫자 포함"
+                            <input type="password" name="password" id="password" placeholder="8자리 이상 영문, 숫자, 특수문자 포함"
                                 value="{{ old('password') }}">
                             <input type="password" name="password_confirmation" id="password_confirmation"
                                 placeholder="비밀번호 확인" class="mt8" value="{{ old('password_confirmation') }}">

@@ -44,8 +44,7 @@ class Proposal extends BaseModel
     /**
      * Hidden
      */
-    protected $hidden = [
-    ];
+    protected $hidden = [];
 
     /**
      * Cast
@@ -76,6 +75,9 @@ class Proposal extends BaseModel
      */
     public function products()
     {
-        return $this->hasMany(ProposalProduct::class, 'proposal_id', 'id');
+        return $this->hasMany(ProposalProduct::class, 'proposal_id', 'id')
+            ->whereHas('product', function ($query) {
+                $query->where('is_delete', 0); // 삭제되지 않은 상품만 포함
+            });
     }
 }

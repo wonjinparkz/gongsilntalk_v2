@@ -16,7 +16,7 @@
                                     href="{{ str_contains(Route::currentRouteName(), 'update') ? URL::previous() : route('www.community.list.view', ['community' => '1']) }}"><img
                                         src="{{ asset('assets/media/header_btn_back.png') }}"></a>
                             </div>
-                            <div>신규 게시글 작성</div>
+                            <div>게시글 수정</div>
                             <div></div>
                         </div>
 

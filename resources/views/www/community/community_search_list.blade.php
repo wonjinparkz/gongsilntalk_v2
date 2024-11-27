@@ -125,11 +125,11 @@
                     <!-- community list : e -->
 
                     @if (request()->query('community') == 1)
-                        <div class="mt20 t_right only_pc">
+                        {{-- <div class="mt20 t_right only_pc">
                             <button class="btn_gray_ghost btn_md"
                                 onclick="location.href='{{ route('www.community.create.view') }}'"><img
                                     src="{{ asset('assets/media/ic_pen.png') }}">글쓰기</button>
-                        </div>
+                        </div> --}}
                     @endif
                     {{ $result->onEachSide(1)->links('components.pc-pagination') }}
 

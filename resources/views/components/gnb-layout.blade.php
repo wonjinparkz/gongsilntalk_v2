@@ -75,10 +75,16 @@
                     </ul>
                     <div class="mt50">
                         <label>본인인증<span class="txt_point">*</span></label>
-                        <button type="button" class="btn_black_ghost btn_full_basic" id="confirm"
+                        <button type="button" class="btn_black_ghost btn_full_basic mt10" id="confirm"
                             onclick="verificationstart()"><b>본인인증</b></button>
                     </div>
                     <div class="mt50">
+                        <button type="button" class="btn_gray_ghost btn_full_basic"
+                            onclick="location.href='{{ route('www.logout.logout') }}'">
+                            <b>로그아웃</b>
+                        </button>
+                    </div>
+                    <div class="mt10">
                         <button type="button" class="btn_point btn_full_basic" onclick="add_info()">
                             <b>입력 완료</b>
                         </button>

@@ -10,7 +10,7 @@
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
                     src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
-        <div class="m_title">마이메뉴</div>
+        <div class="m_title">내 정보 수정</div>
         <div class="right_area"></div>
     </div>
     <!----------------------------- m::header bar : s ----------------------------->
@@ -79,10 +79,10 @@
                                     <input type="text" id="chage_nickname" name="chage_nickname"
                                         value="{{ $user->nickname }}">
                                     <button class="btn_gray_ghost btn_sm" id="btn_pw" onclick="changeNickName()">닉네임
-                                    변경</button>
+                                        변경</button>
                                 </div>
                                 <p id="nickname_confirm" style="color:red; display:none; margin-top:8px"></p>
-                                    <p />
+                                <p />
                             </li>
                             <li>
                                 <label>이메일</label>
@@ -96,7 +96,7 @@
                                     <input type="password" id="password" name="password" placeholder="현재 비밀번호">
                                     <p id="password_confirm" style="color:red; display:none;"></p>
                                     <input type="password" id="new_password" name="new_password"
-                                        placeholder="새 비밀번호 8자리 이상 영문, 숫자 포함">
+                                        placeholder="새 비밀번호 8자리 이상 영문, 숫자, 특수문자 포함">
                                     <p id="new_password_confirm" style="color:red; display:none;"></p>
                                     <input type="password" id="new_password_confirmation"
                                         name="new_password_confirmation" placeholder="비밀번호 확인">
@@ -110,16 +110,19 @@
                                 <input type="text" value="{{ $user->phone }}" disabled>
                             </li>
                         </ul>
-                        <button class="btn_gray_ghost btn_full_basic mt28" onclick="modal_open('info_modify')">
+                        {{-- <button class="btn_gray_ghost btn_full_basic mt28" onclick="modal_open('info_modify')">
                             <b>내 정보 수정
                             </b>
-                        </button>
+                        </button> --}}
                         <div class="flex_between mt28">
                             <button class="btn_ghost" type="button"
                                 onclick="location.href='{{ route('www.logout.logout') }}'">
                                 <b>로그아웃</b>
                             </button>
-                            <button class="btn_ghost" type="button">회원탈퇴</button>
+                            <button class="btn_ghost" type="button"
+                            onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdZBSzZ01PcTOrIW3mMxrxqbwaRBHy7MV49CWQhA5_PQjKiRw/viewform?usp=sf_link', '_blank')">
+                                회원탈퇴
+                            </button>
                         </div>
                     </div>
 
@@ -217,8 +220,7 @@
                         profileimageDropzone.removeFile(file);
                         refreshFsLightbox();
                     })
-                    .fail(function(jqXHR, ajaxOptions, thrownError) {
-                    });
+                    .fail(function(jqXHR, ajaxOptions, thrownError) {});
             }
         });
 
@@ -350,8 +352,7 @@
                         `;
                     $('#companyPhoneTag').html(inputTag);
                 })
-                .fail(function(jqXHR, ajaxOptions, thrownError) {
-                });
+                .fail(function(jqXHR, ajaxOptions, thrownError) {});
         }
     </script>
 

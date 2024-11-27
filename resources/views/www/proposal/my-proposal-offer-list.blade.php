@@ -9,7 +9,7 @@
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
                     src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
-        <div class="m_title">마이메뉴</div>
+        <div class="m_title">제안 받은 매물 목록</div>
         <div class="right_area"></div>
     </div>
     <!----------------------------- m::header bar : s ----------------------------->
@@ -175,8 +175,10 @@
                                                 <td>
                                                     <div class="frame_img_mid">
                                                         <div class="img_box">
-                                                            <img
-                                                                src="{{ Storage::url('image/' . $product->product->images[0]->path) }}">
+                                                            @if (count($product->product->images ?? []) > 0)
+                                                                <img
+                                                                    src="{{ Storage::url('image/' . $product->product->images[0]->path) }}">
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </td>
@@ -223,7 +225,8 @@
                                                     </span>
                                                 </td>
                                                 <td>{{ $product->product->address }} </td>
-                                                <td>전용 {{ $product->product->exclusive_square ?? '-' }}㎡ / {{ $product->product->exclusive_area ?? '-' }}평</td>
+                                                <td>전용 {{ $product->product->exclusive_square ?? '-' }}㎡ /
+                                                    {{ $product->product->exclusive_area ?? '-' }}평</td>
                                                 <td>{{ $product->product->floor_number }}층 /
                                                     {{ $product->product->total_floor_number }}층</td>
                                                 <td>{{ $product->product->is_service == 0 ? number_format($product->product->service_price) . '원' : '없음' }}
@@ -298,8 +301,11 @@
                                             </div>
                                             <div class="flex_between mt10">
                                                 <div class="frame_img_mid">
-                                                    <div class="img_box"><img
-                                                            src="{{ Storage::url('image/' . $product->product->images[0]->path) }}">
+                                                    <div class="img_box">
+                                                        @if (count($product->product->images ?? []) > 0)
+                                                            <img
+                                                                src="{{ Storage::url('image/' . $product->product->images[0]->path) }}">
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="offer_card_info">

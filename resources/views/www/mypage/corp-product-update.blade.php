@@ -1478,7 +1478,7 @@
                                 </div>
                             </div>
                             <div class="mt10">
-                                <span class="gray_basic">* 거래완료 처리시 재등록, 수정 불가하니 정확하게 확인 후 선택하세요.</span>
+                                <span class="gray_basic">* 중개보수는 직접 산출해서 기입하거나 공란으로 두면 "-원"으로 표시됩니다.</span>
                             </div>
                         </div>
                     </div>
@@ -1750,7 +1750,7 @@
         //주소검색을 수행할 팝업 페이지를 호출합니다.
         //호출된 페이지(jusoPopup.jsp)에서 실제 주소검색URL(https://business.juso.go.kr/addrlink/addrLinkUrlJsonp.do)를 호출하게 됩니다.
         var pop = window.open("{{ route('api.popupOpen.getAddress') }}", "pop",
-            "width=450,height=420, scrollbars=yes, resizable=yes");
+            "width=400,height=320, scrollbars=yes, resizable=yes");
     }
 
 

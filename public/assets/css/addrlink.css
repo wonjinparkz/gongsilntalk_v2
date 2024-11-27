@@ -166,7 +166,7 @@
 
 .pop-address-search .pop-address-search-inner .wrap {
     display: block;
-    width: 350px;
+    /* width: 240px; */
     position: relative;
     border: 2px solid #186bb9;
     padding: 0 39px 0 0

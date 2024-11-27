@@ -6,7 +6,7 @@
     <div class="m_header">
         <div class="left_area"><a href="javascript:history.go(-1)"><img
                     src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
-        <div class="m_title">마이메뉴</div>
+        <div class="m_title">기업 이전 제안서</div>
         <div class="right_area"></div>
     </div>
     <!----------------------------- m::header bar : s ----------------------------->
@@ -152,7 +152,7 @@
                                                     </p>
                                                     <div class="m_asset_detail_row panel">
                                                         <div class="list_detail_item">주소 <span
-                                                                class="gray_deep">양{{ $product->address }}</span>
+                                                                class="gray_deep">{{ $product->address }}</span>
                                                         </div>
                                                         <div class="list_detail_item">층정보 <span
                                                                 class="gray_deep">{{ $product->floor_number }}층/{{ $product->total_floor_number }}층</span>

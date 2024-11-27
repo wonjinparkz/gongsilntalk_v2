@@ -1359,7 +1359,24 @@
             // 현재 위치로 이동 버튼
             var currentbtn = $('#current');
             currentbtn.on("click", function(e) {
-                e.preventDefault();
+                // e.preventDefault();
+                try {
+                    if (isMobile.any()) {
+                        if (isMobile.Android()) {
+                            window.rocateer.requestCurrentLocation();
+                        } else if (isMobile.iOS()) {
+                            window.webkit.messageHandlers.requestCurrentLocation.postMessage(
+                                'requestCurrentLocation');
+                        }
+                    }
+                } catch (error) {
+                    requestNativeLocation();
+                }
+            });
+
+            function requestNativeLocation() {
+                var currentbtn = $('#current');
+
                 navigator.geolocation.getCurrentPosition((position) => {
                     var lat = position.coords.latitude;
                     var lng = position.coords.longitude;
@@ -1368,7 +1385,7 @@
                     map.setCenter(currentLocation);
                     updateCenter();
                 });
-            });
+            }
 
             window.toggleSatelliteView = function() {
                 var currentMapTypeId = map.getMapTypeId();
@@ -1401,19 +1418,6 @@
                     cadastralLayer.setMap(map);
                     btn.addClass('control-on').val('지적도 끄기');
                 }
-            });
-
-            var currentbtn = $('#current');
-            currentbtn.on("click", function(e) {
-                e.preventDefault();
-                navigator.geolocation.getCurrentPosition((position) => {
-                    var lat = position.coords.latitude;
-                    var lng = position.coords.longitude;
-                    var currentLocation = new naver.maps.LatLng(lat, lng);
-                    map.setZoom(18, true);
-                    map.setCenter(currentLocation);
-                    updateCenter();
-                });
             });
 
             // 초기 마커 설정
@@ -1503,8 +1507,6 @@
                 return marker.type === 'knowledge';
             });
 
-            console.log('Filtered Knowledge Markers:', knowledgeMarkers);
-
             knowledgeClustering = new MarkerClustering({
                 minClusterSize: 1,
                 maxZoom: 18,
@@ -1516,9 +1518,6 @@
                 icons: [htmlMarker3],
                 indexGenerator: [1],
             });
-            console.log('Knowledge Clustering Instance:', knowledgeClustering);
-        } else {
-            console.warn('No knowledge markers to cluster.');
         }
     }
 
@@ -1656,5 +1655,12 @@
                 error: function(xhr, status, e) {}
             });
         }
+    }
+
+    function currentUpdate(lat, lng) {
+        var currentLocation = new naver.maps.LatLng(lat, lng);
+        map.setZoom(18, true);
+        map.setCenter(currentLocation);
+        updateCenter();
     }
 </script>
