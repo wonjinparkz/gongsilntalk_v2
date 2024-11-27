@@ -1,7 +1,7 @@
 <x-layout>
 
     @php
-
+        info($result);
         $acquisition_tax_price = $result->price * ($result->acquisition_tax_rate / 100);
         $etc_price = $result->etc_price + $result->tax_price + $result->estate_price;
         $realPrice = $result->price + $acquisition_tax_price + $etc_price - $result->loan_price - $result->check_price;
