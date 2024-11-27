@@ -152,7 +152,12 @@
                                 </div>
                                 <div class="flex_between mt10">
                                     <div class="frame_img_mid">
-                                        <div class="img_box"><img src="{{ asset('assets/media/s_1.png') }}"></div>
+                                        <div class="img_box">
+                                            @if (count($product->product->images ?? []) > 0)
+                                                <img
+                                                    src="{{ Storage::url('image/' . $product->product->images[0]->path) }}">
+                                            @endif
+                                        </div>
                                     </div>
                                     <div class="share_offer_card_info">
                                         <p class="txt_item_1">
@@ -162,6 +167,7 @@
                                                 $price = $product->product->priceInfo->price ?? 0;
                                                 $month_price = $product->product->priceInfo->month_price ?? 0;
                                                 $exclusive_area = $product->product->exclusive_area ?? 0;
+                                                $area = $product->product->area ?? 0;
 
                                                 if (
                                                     $product->product->priceInfo->payment_type == 1 ||
@@ -174,29 +180,34 @@
                                                             ($month_price > 0
                                                                 ? Commons::get_priceTrans($month_price)
                                                                 : 0);
-                                                        if ($exclusive_area > 0) {
-                                                            $priceArea =
-                                                                $month_price / $product->product->exclusive_area;
+                                                        if ($area > 0) {
+                                                            $priceArea = $month_price / $product->product->area;
                                                         }
                                                     }
                                                 } else {
                                                     $monthPrice = '';
-                                                    if ($price > 0 && $exclusive_area > 0) {
-                                                        $priceArea = $price / $product->product->exclusive_area;
+                                                    if ($price > 0 && $area > 0) {
+                                                        $priceArea = $price / $product->product->area;
                                                     }
                                                 }
                                             @endphp
                                             {{ Lang::get('commons.payment_type.' . $product->product->priceInfo->payment_type) }}
                                             {{ $price > 0 ? Commons::get_priceTrans($price) : 0 }}
                                             {{ $monthPrice }}
-                                            <span>({{ number_format($priceArea) }}/평)</span>
+                                            @if ($product->product->priceInfo->payment_type == 0)
+                                                ({{ Commons::getformatPrice($priceArea / 10000) }}/평)
+                                            @endif
+                                            @if ($product->product->priceInfo->payment_type == 1)
+                                                ({{ Commons::getformatPrice($priceArea / 10000) }}/㎡)
+                                            @endif
                                         </p>
                                         <p class="txt_item_2">전용
                                             {{ $product->product->exclusive_area }}평·{{ $product->product->floor_number }}층
                                             /
                                             {{ $product->product->total_floor_number }}층</p>
                                         <p class="txt_item_3">
-                                            {{ $product->product->is_service == 0 ? '관리비 ' . number_format($product->product->service_price) . '원' : '-' }}
+                                            관리비
+                                            {{ $product->product->is_service == 0 ? number_format($product->product->service_price) . '원' : '없음' }}
                                         </p>
                                     </div>
                                 </div>
@@ -216,8 +227,9 @@
 
 
         <div class="share_btn_floting">
-            <button class="btn_point btn_full_basic" onclick="location.href='{{ env('APP_URL') }}'">공실앤톡 사이트
-                방문하기</button>
+            <button class="btn_point btn_full_basic" onclick="location.href='{{ env('APP_URL') }}'">
+                공실앤톡 매물 제안서 확인하기
+            </button>
         </div>
 
         <div class="my_inner_wrap">

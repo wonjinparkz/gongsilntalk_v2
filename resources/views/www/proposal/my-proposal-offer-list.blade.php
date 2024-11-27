@@ -98,7 +98,7 @@
                                             class="md_btn_close btn_share">
                                     </div>
                                     <div class="layer_share_con">
-                                        <a class="kakaotalk-sharing-btn">
+                                        <a class="kakaotalk-sharing-btn" onclick="$('.md_btn_close').click();">
                                             <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                             <p class="mt8">카카오톡</p>
                                         </a>
@@ -188,7 +188,7 @@
                                                         $priceArea = 0.0;
                                                         $price = $product->product->priceInfo->price ?? 0;
                                                         $month_price = $product->product->priceInfo->month_price ?? 0;
-                                                        $exclusive_area = $product->product->exclusive_area ?? 0;
+                                                        $area = $product->product->area ?? 0;
 
                                                         if (
                                                             $product->product->priceInfo->payment_type == 1 ||
@@ -201,16 +201,15 @@
                                                                     ($month_price > 0
                                                                         ? Commons::get_priceTrans($month_price)
                                                                         : 0);
-                                                                if ($exclusive_area > 0) {
+                                                                if ($area > 0) {
                                                                     $priceArea =
-                                                                        $month_price /
-                                                                        $product->product->exclusive_area;
+                                                                        $month_price / $product->product->square;
                                                                 }
                                                             }
                                                         } else {
                                                             $monthPrice = '';
-                                                            if ($price > 0 && $exclusive_area > 0) {
-                                                                $priceArea = $price / $product->product->exclusive_area;
+                                                            if ($price > 0 && $area > 0) {
+                                                                $priceArea = $price / $product->product->area;
                                                             }
                                                         }
                                                     @endphp
@@ -220,11 +219,19 @@
                                                     </span><br>
                                                     <span class="area">
                                                         @if ($product->product->priceInfo->payment_type == 0)
-                                                            ({{ number_format($priceArea) }}/평)
+                                                            ({{ Commons::getformatPrice($priceArea / 10000) }}/평)
+                                                        @endif
+                                                        @if ($product->product->priceInfo->payment_type == 1)
+                                                            ({{ Commons::getformatPrice($priceArea / 10000) }}/㎡)
                                                         @endif
                                                     </span>
                                                 </td>
-                                                <td>{{ $product->product->address }} </td>
+                                                <td>
+                                                    <a href="{{ route('www.map.room.detail', [$product->product->id]) }}"
+                                                        style="text-decoration: underline;">
+                                                        {{ $product->product->address }}
+                                                    </a>
+                                                </td>
                                                 <td>전용 {{ $product->product->exclusive_square ?? '-' }}㎡ /
                                                     {{ $product->product->exclusive_area ?? '-' }}평</td>
                                                 <td>{{ $product->product->floor_number }}층 /
@@ -316,7 +323,7 @@
                                                             $price = $product->product->priceInfo->price ?? 0;
                                                             $month_price =
                                                                 $product->product->priceInfo->month_price ?? 0;
-                                                            $exclusive_area = $product->product->exclusive_area ?? 0;
+                                                            $area = $product->product->area ?? 0;
 
                                                             if (
                                                                 $product->product->priceInfo->payment_type == 1 ||
@@ -329,24 +336,29 @@
                                                                         ($month_price > 0
                                                                             ? Commons::get_priceTrans($month_price)
                                                                             : 0);
-                                                                    if ($exclusive_area > 0) {
+                                                                    if ($area > 0) {
                                                                         $priceArea =
-                                                                            $month_price /
-                                                                            $product->product->exclusive_area;
+                                                                            $month_price / $product->product->square;
                                                                     }
                                                                 }
                                                             } else {
                                                                 $monthPrice = '';
-                                                                if ($price > 0 && $exclusive_area > 0) {
-                                                                    $priceArea =
-                                                                        $price / $product->product->exclusive_area;
+                                                                if ($price > 0 && $area > 0) {
+                                                                    $priceArea = $price / $product->product->area;
                                                                 }
                                                             }
                                                         @endphp
                                                         {{ Lang::get('commons.payment_type.' . $product->product->priceInfo->payment_type) }}
                                                         {{ $price > 0 ? Commons::get_priceTrans($price) : 0 }}
                                                         {{ $monthPrice }}
-                                                        <span>({{ number_format($priceArea) }}/평)</span>
+                                                        <span>
+                                                            @if ($product->product->priceInfo->payment_type == 0)
+                                                                ({{ Commons::getformatPrice($priceArea / 10000) }}/평)
+                                                            @endif
+                                                            @if ($product->product->priceInfo->payment_type == 1)
+                                                                ({{ Commons::getformatPrice($priceArea / 10000) }}/㎡)
+                                                            @endif
+                                                        </span>
                                                     </p>
                                                     <p class="txt_item_2">전용
                                                         {{ $product->product->exclusive_area }}평·{{ $product->product->floor_number }}층
@@ -354,7 +366,7 @@
                                                         {{ $product->product->total_floor_number }}층</p>
                                                     <p class="txt_item_3">
                                                         관리비
-                                                        {{ $product->product->is_service == 0 ? number_format($product->product->service_price) . '원' : '-' }}
+                                                        {{ $product->product->is_service == 0 ? number_format($product->product->service_price) . '원' : '없음' }}
                                                     </p>
                                                 </div>
                                             </div>

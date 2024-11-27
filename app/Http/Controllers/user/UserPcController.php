@@ -1014,7 +1014,11 @@ class UserPcController extends Controller
             ->where('users.id', Auth::guard('web')->user()->id)
             ->first();
 
-        $proposalList = Proposal::with('regions', 'products')->select()->where('users_id', Auth::guard('web')->user()->id)->whereDate('created_at', '>=', Carbon::now()->subDays(7)->toDateString())->get();
+        $proposalList = Proposal::with('regions', 'products')->select()
+            ->where('users_id', Auth::guard('web')->user()->id)
+            ->whereDate('created_at', '>=', Carbon::now()->subDays(7)->toDateString())
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('www.mypage.proposal_list', compact('user', 'proposalList'));
     }
