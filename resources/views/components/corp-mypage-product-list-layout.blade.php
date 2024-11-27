@@ -202,16 +202,26 @@
                         <span class="gray_deep">매물번호 {{ $product->product_number }}</span>
                     </div>
                     <div>
-                        @if ($product->state < 4)
-                            <button class="btn_gray_ghost btn_sm"
-                                onclick="location.href='{{ route('www.mypage.corp.product.magagement.update.view', [$product->id]) }}'">수정</button>
+                    @if ($product->state == 1 || $product->state == 3)
+                            <div class="dropdown_box s_xs" onclick="openList(this);">
+                                <button
+                                    class="dropdown_label">{{ Lang::get('commons.product_state.' . $product->state) }}</button>
+                                <ul class="optionList">
+                                    <li class="optionItem" onclick="stateChangeModal('{{ $product->id }}', 1);">거래중
+                                    </li>
+                                    <li class="optionItem" onclick="stateChangeModal('{{ $product->id }}', 2);">거래완료
+                                    </li>
+                                    <li class="optionItem" onclick="stateChangeModal('{{ $product->id }}', 3);">비공개
+                                    </li>
+                                </ul>
+                            </div>
+                        @elseif ($product->state == 2)
+                            <p>{{ Lang::get('commons.product_state.' . $product->state) }}</p>
                         @else
-                            <button class="btn_gray_ghost btn_sm"
-                                onclick="location.href='{{ route('www.corp.proudct.re.register', [$product->id]) }}'">재등록</button>
+                            <p class="txt_point">{{ Lang::get('commons.product_state.' . $product->state) }}</p>
                         @endif
-                        <button class="btn_gray_ghost btn_sm"
-                            onclick="modal_open('asset_delete_{{ $product->id }}')">삭제</button>
                     </div>
+                    
                 </div>
                 <div class="list_m_cnt">
                     <div class="list_thumb_1">
@@ -240,6 +250,26 @@
                             {{ in_array($product->priceInfo->payment_type, [1, 2, 4]) ? ' / ' . mb_substr(Commons::get_priceTrans($product->priceInfo->month_price), 0, -1) : '' }}
                         </p>
                     </div>
+                </div>
+                <div>
+                    <div class="m_memo">
+                    @if ($product->non_memo == '')
+                                <p class="txt_item">등록된 메모가 없습니다.</p>
+                            @else
+                                {{ $product->non_memo }}
+                            @endif
+                    </div>
+                </div>
+                <div class="align_r mt10 right_spacing">
+                        @if ($product->state < 4)
+                            <button class="btn_gray_ghost btn_sm"
+                                onclick="location.href='{{ route('www.mypage.corp.product.magagement.update.view', [$product->id]) }}'">수정</button>
+                        @else
+                            <button class="btn_gray_ghost btn_sm"
+                                onclick="location.href='{{ route('www.corp.proudct.re.register', [$product->id]) }}'">재등록</button>
+                        @endif
+                        <button class="btn_gray_ghost btn_sm"
+                            onclick="modal_open('asset_delete_{{ $product->id }}')">삭제</button>
                 </div>
             </li>
         @endforeach
