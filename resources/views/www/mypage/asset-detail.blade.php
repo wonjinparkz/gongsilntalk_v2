@@ -117,8 +117,6 @@
 
         $address_detail = isset($result->address_detail) ? $result->address_detail : '';
 
-        info('123 industryCenterAvgPrice : ' . $industryCenterAvgPrice);
-
         if ($result->type_detail == 0) {
             $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
 
@@ -138,6 +136,12 @@
             $addPrice = $profit * $result->area;
 
             $avgRealPrice = $industryCenterAvgPrice * $result->area;
+
+            info('area' . $result->area);
+            info('price' . $price);
+            info('acquisition_tax_price' . $acquisition_tax_price);
+            info('etc_price' . $etc_price);
+            info('avgRealPrice' . $avgRealPrice);
 
             $APrice =
                 $industryCenterAvgPrice * 10000 * $result->area -
