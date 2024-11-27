@@ -137,7 +137,8 @@
 
             $avgRealPrice = $industryCenterAvgPrice * $result->area;
 
-            info($industryCenterAvgPrice);
+            info('123 industryCenterAvgPrice : ' . $industryCenterAvgPrice);
+
             $APrice =
                 $industryCenterAvgPrice * 10000 * $result->area -
                 $price -
