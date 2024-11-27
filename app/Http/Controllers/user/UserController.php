@@ -282,8 +282,8 @@ class UserController extends Controller
         }
 
         // 중개사 상태
-        if ($request->has('state') && $request->state > -1) {
-            $userList->where('state', '=', $request->state);
+        if ($request->has('company_state') && $request->company_state > -1) {
+            $userList->where('company_state', '=', $request->company_state);
         }
 
         // 게시 시작일 from ~ to

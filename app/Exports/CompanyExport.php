@@ -35,8 +35,8 @@ class CompanyExport implements FromView
         }
 
         // 중개사 상태
-        if ($this->request->has('state') && $this->request->state > -1) {
-            $userList->where('state', '=', $this->request->state);
+        if ($this->request->has('company_state') && $this->request->company_state > -1) {
+            $userList->where('company_state', '=', $this->request->company_state);
         }
 
         // 게시 시작일 from ~ to

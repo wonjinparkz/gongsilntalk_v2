@@ -527,7 +527,6 @@ class ProposalPcController extends Controller
         $sameList = $sameList->get();
 
         // 수정
-
         foreach ($sameList as $same) {
             ProposalProduct::create([
                 'proposal_id' => $proposal->id,
@@ -537,25 +536,25 @@ class ProposalPcController extends Controller
             array_push($sameIdArray, $same->id);
         }
 
-        $tempList = Product::select('product.id as product_id')
-            ->leftjoin('product_price', 'product_price.product_id', 'product.id')
-            ->where(function ($query) use ($request) {
-                foreach ($request->region_zone as $key => $region) {
-                    if ($key == 0) {
-                        $query->where('product.region_address', 'like', "%{$region}%");
-                    }
-                    $query->orWhere('product.region_address', 'like', "%{$region}%");
-                }
-            })
-            ->whereNotIn('product.id', $sameIdArray)
-            ->get();
+        // $tempList = Product::select('product.id as product_id')
+        //     ->leftjoin('product_price', 'product_price.product_id', 'product.id')
+        //     ->where(function ($query) use ($request) {
+        //         foreach ($request->region_zone as $key => $region) {
+        //             if ($key == 0) {
+        //                 $query->where('product.region_address', 'like', "%{$region}%");
+        //             }
+        //             $query->orWhere('product.region_address', 'like', "%{$region}%");
+        //         }
+        //     })
+        //     ->whereNotIn('product.id', $sameIdArray)
+        //     ->get();
 
-        foreach ($tempList as $temp) {
-            ProposalProduct::create([
-                'proposal_id' => $proposal->id,
-                'product_id' => $temp->product_id
-            ]);
-        }
+        // foreach ($tempList as $temp) {
+        //     ProposalProduct::create([
+        //         'proposal_id' => $proposal->id,
+        //         'product_id' => $temp->product_id
+        //     ]);
+        // }
 
         $user = User::select()->where('id', Auth::guard('web')->user()->id)->first();
 

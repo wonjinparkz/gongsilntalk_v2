@@ -61,8 +61,8 @@
                             {{-- <div class="search_wrap" onclick="onShowRegionList();">
                             </div> --}}
                             <div class="dropdown_box" id="regionList">
-                                <input type="text" class="dropdown_label" id="regionSearch" name="regionSearch" placeholder="시·군·구로 검색해주세요"
-                                    autocomplete='off'>
+                                <input type="text" class="dropdown_label" id="regionSearch" name="regionSearch"
+                                    placeholder="시·군·구로 검색해주세요" autocomplete='off'>
                                 <ul class="optionList" id="regionOptionList">
                                     @foreach ($zcodeList as $zcode)
                                         <li class="optionItem" data-region-code="{{ $zcode->region_code }}"
@@ -97,8 +97,7 @@
                             <div class="input_pyeong_area w_30">
                                 <input type="text" id="area" name="area" placeholder="희망 면적"
                                     inputmode="numeric" oninput="onlyNumbers(this);area_change('');">
-                                <span class="gray_deep">평 /</span>
-
+                                <span class="gray_deep">평&nbsp;/</span>
                                 <input type="text" id="square" name="square" inputmode="numeric"
                                     oninput="imsi(this); square_change('');" placeholder="평 입력시 자동">
                                 <span class="gray_deep">㎡</span>

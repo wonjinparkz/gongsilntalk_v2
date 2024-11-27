@@ -1527,9 +1527,9 @@
             var wgs84Coords = get_coordinate_conversion1(address_lng, address_lat)
             setTimeout(function() {
                 callJusoroMapApiType1(wgs84Coords[0], wgs84Coords[1]);
-            }, 2000);
+            }, 3000);
         } else {
-            setTimeout(function() {}, 2000);
+            setTimeout(function() {}, 3000);
         }
 
         confirm_check();
