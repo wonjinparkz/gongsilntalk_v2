@@ -264,7 +264,7 @@
                 </div>
 
                 <form method="post" action="{{ route('www.calculator.loan.create') }}">
-                    <div class="md_inner_scroll">
+                    <div class="md_sm_scroll">
 
                         <ul class="tab_toggle_menu tab_type_4">
                             <li class="active" onclick="onTypeChange(0);"><a href="javascript:(0)">원금균등분할</a></li>

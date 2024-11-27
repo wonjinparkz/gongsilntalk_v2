@@ -266,7 +266,7 @@
                 <form class="form" id="revenueForm" method="POST"
                     action="{{ route('www.calculator.revenue.create') }}">
                     @csrf
-                    <div class="md_inner_scroll">
+                    <div class="md_sm_scroll">
 
                         <ul class="reg_bascic mt18">
                             <li>

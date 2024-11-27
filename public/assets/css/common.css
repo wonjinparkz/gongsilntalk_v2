@@ -207,6 +207,7 @@ input:checked + .check_slider:before {-webkit-transform: translateX(16px); -ms-t
 .modal .modal_title .md_btn_close, .layer .layer_title .md_btn_close{width:16px; cursor: pointer;}
 .modal .modal_container{position:relative; padding:15px; box-sizing:border-box;}
 .modal .md_inner_scroll{height: 500px; overflow-y: auto; padding: 0 15px}
+.modal .md_sm_scroll{height:300px; overflow-y: auto; padding: 0 15px}
 .modal .modal_mss_wrap{text-align: center; padding: 14px;}
 .modal .modal_mss_wrap .txt_item_1{font-size:16px; line-height: 1.6;}
 .modal .modal_mss_wrap .txt_item_2{font-size:13px; color: var(--color-gray-3);}
