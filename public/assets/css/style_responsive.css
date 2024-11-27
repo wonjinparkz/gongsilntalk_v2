@@ -335,8 +335,10 @@
     .my_gnb li.only_m{border-bottom: 10px solid #EEEDED; padding-bottom:15px; margin-bottom: 15px;}
     .my_body{padding-bottom: 60px; min-height: auto !important;}
 
-    .my_tab_wrap{margin-top: 20px; padding:0 -16px;}
-    .my_tab_wrap li{width: 50%; text-align: center; margin: 0 -16px;}
+    .my_tab_wrap{margin-top: 20px;}
+    .my_tab_wrap.inner_out{margin: 20px -16px 0 !important;}
+    .my_tab_wrap.inner_out .tab_type_5, .my_tab_wrap .tab_type_5{padding: 0 0;}
+    .my_tab_wrap li{width: 50%; text-align: center;}
     .my_search_wrap{display:flex; justify-content:unset; flex-direction: column-reverse; margin-top:16px; padding: 0 16px;}
     .my_search_wrap .sort_wrap{display: flex; justify-content: space-between; margin-top: 8px;}
     .my_search_wrap .dropdown_box{width:calc(50% - 6px); margin-right: 0;}
@@ -389,7 +391,7 @@
     .calculator_container .revenue_item{border:none; border-radius:0px; padding:0px; background: url('/assets/media/img_watermark.png') calc(100% - 50px) center  no-repeat; background-size:100px auto;}
     .calculator_container .revenue_item .table_container .td{padding:10px 14px;}
     .calculator_container .loan_item{border:none; border-radius:0px; padding:0px;}
-    .repayment_schedule_wrap{height:auto; overflow-y:hidden; margin-top:10px;}
+    .repayment_schedule_wrap{overflow-y:auto; margin-top:10px; height: 300px;}
     .schedule_tit_tiem span{font-size:14px;}
     .repayment_table th, .repayment_table td{font-size: 13px;}
     .input_area_1 input{width:calc(100% - 110px)}

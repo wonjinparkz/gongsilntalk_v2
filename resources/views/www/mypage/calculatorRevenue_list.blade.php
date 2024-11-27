@@ -21,7 +21,7 @@
                 <!-- my_body : s -->
                 <div class="my_body inner_wrap m_inner_wrap">
                     <h1 class="t_center only_pc">수익률 계산기</h1>
-                    <div class="my_tab_wrap">
+                    <div class="my_tab_wrap inner_out">
                         <ul class="tab_type_5">
                             <li class="active"
                                 onclick="location.href='{{ route('www.mypage.calculator.revenue.list.view') }}'">
