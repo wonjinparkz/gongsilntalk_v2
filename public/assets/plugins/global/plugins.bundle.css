@@ -33519,7 +33519,7 @@ i[class^=fonticon-]:before, i[class*=" fonticon-"]:before {
   align-items: center;
 }
 .select2-container--bootstrap5 .select2-selection--multiple .select2-search.select2-search--inline {
-  display: inline-flex;
+  display: inline-flex; flex: 1;
 }
 .select2-container--bootstrap5 .select2-selection--multiple .select2-selection__rendered {
   display: inline;
