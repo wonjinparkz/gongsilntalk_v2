@@ -7,7 +7,7 @@
             <th>제안서 명</th>
             <th>기업명</th>
             <th>ID</th>
-            <th>받은 제안서 개수</th>
+            <th>제안수 개수</th>
             <th>등록일</th>
         </tr>
     </thead>

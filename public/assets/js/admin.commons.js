@@ -208,3 +208,104 @@ $(".tab_toggle_menu li").click(function () {
 
 
 
+// 소수점 리미트
+function imsi(obj) {
+    if (obj.value.search(regexp) == -1) {
+        obj.value = prev;
+    } else {
+        prev = obj.value;
+    }
+}
+
+function imsi1(obj) {
+    if (obj.value.search(regexp1) == -1) {
+        obj.value = prev;
+    } else {
+        prev = obj.value;
+    }
+}
+
+// 숫자 입력 최대값
+function validateInput(element, max) {
+    var value = element.value;
+    if (value > max) {
+        element.value = max;
+    }
+}
+
+// 숫자만 입력
+function onlyNumbers(element) {
+    let value = element.value;
+    element.value = '';
+    element.value = value.replace(/[^0-9]/g, '');
+}
+
+// 금액 콤마
+function onTextChangeEvent(element) {
+    let value = element.value;
+    element.value = '';
+    value = value.replace(/[^0-9]/g, '');
+    // 만약 입력값이 0으로 시작하고 그 다음에 숫자가 입력되면 0을 제거
+    if (value.length > 1 && value[0] === '0') {
+        value = value.substring(1);
+    }
+    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    element.value = value;
+}
+
+// 금액 콤마
+function onTextChangeEventIndex(name, index) {
+    let value = $('#' + name + '_' + index).val();
+    $('#' + name + '_' + index).val('');
+    value = value.replace(/[^0-9]/g, '');
+    // 만약 값이 0으로 시작하고 그 다음에 숫자가 입력되면 0을 제거
+    if (value.length > 1 && value[0] === '0') {
+        value = value.substring(1);
+    }
+    $('#' + name).val(value);
+    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    $('#' + name + '_' + index).val((value));
+}
+
+// 날짜 입력
+function onDateChangeEvent(inputElement) {
+    let value = inputElement.value;
+
+    // 숫자만 남기고 나머지는 제거
+    value = value.replace(/[^0-9]/g, '');
+
+    // 년, 월, 일 파싱
+    let year = value.substring(0, 4);
+    let month = value.substring(4, 6);
+    let day = value.substring(6, 8);
+
+    // 년도 최소값 체크
+    if (year.length === 4) {
+        year = Math.max(1700, parseInt(year, 10)).toString();
+    }
+
+    // 월 최대/최소값 체크
+    if (month.length === 2) {
+        month = Math.max(1, Math.min(12, parseInt(month, 10))).toString().padStart(2, '0');
+    }
+
+    // 일 최대/최소값 체크
+    if (day.length === 2) {
+        day = Math.max(1, Math.min(31, parseInt(day, 10))).toString().padStart(2, '0');
+    }
+
+    // 날짜를 포맷팅하여 재조립
+    let formattedValue = year;
+    if (month) {
+        formattedValue += '.' + month;
+    }
+    if (day) {
+        formattedValue += '.' + day;
+    }
+
+    // 입력값 업데이트
+    inputElement.value = formattedValue;
+}
+
+
+
