@@ -115,6 +115,8 @@
             }
         }
 
+        info($result);
+
         $address_detail = isset($result->address_detail) ? $result->address_detail : '';
 
         if ($result->type_detail == 0) {
@@ -137,7 +139,6 @@
 
             $avgRealPrice = $industryCenterAvgPrice * $result->area;
 
-            info($result);
             info('price' . $price);
             info('acquisition_tax_price' . $acquisition_tax_price);
             info('etc_price' . $etc_price);
