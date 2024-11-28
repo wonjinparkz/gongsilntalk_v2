@@ -1,5 +1,5 @@
 <!-- paging : s -->
-<div class="paging only_pc">
+<div class="paging only_m">
     <ul class="btn_wrap">
         @if ($paginator->onFirstPage())
             <li class="btn_prev">
