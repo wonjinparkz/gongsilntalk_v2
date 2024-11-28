@@ -2,9 +2,10 @@
 
     @php
         info($result);
-        $acquisition_tax_price = $result->price * ($result->acquisition_tax_rate / 100);
+        $price = $result->price > 0 ? $result->price : 1;
+        $acquisition_tax_price = $price * ($result->acquisition_tax_rate / 100);
         $etc_price = $result->etc_price + $result->tax_price + $result->estate_price;
-        $realPrice = $result->price + $acquisition_tax_price + $etc_price - $result->loan_price - $result->check_price;
+        $realPrice = $price + $acquisition_tax_price + $etc_price - $result->loan_price - $result->check_price;
 
         $myPrice = $result->month_price - ($result->loan_price * ($result->loan_rate / 100)) / 12;
 
@@ -123,7 +124,7 @@
             $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
 
             // 지분율로 계산된 가격을 원래 가격으로 복원
-            $price = $ownership_share > 0 ? $result->price / $ownership_share : $result->price;
+            $price = $ownership_share > 0 ? $price / $ownership_share : $price;
 
             $avgPrice = $price / $result->area / 10000;
 
@@ -138,11 +139,6 @@
             $addPrice = $profit * $result->area;
 
             $avgRealPrice = $industryCenterAvgPrice * $result->area;
-
-            info('avgRealPrice' . $avgRealPrice);
-            info('price' . $price);
-            info('acquisition_tax_price' . $acquisition_tax_price);
-            info('etc_price' . $etc_price);
 
             $APrice =
                 $industryCenterAvgPrice * 10000 * $result->area -
