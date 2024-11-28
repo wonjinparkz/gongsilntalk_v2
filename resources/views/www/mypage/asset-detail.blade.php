@@ -1,7 +1,6 @@
 <x-layout>
 
     @php
-        info($result);
         $price = $result->price > 0 ? $result->price : 1;
         $acquisition_tax_price = $price * ($result->acquisition_tax_rate / 100);
         $etc_price = $result->etc_price + $result->tax_price + $result->estate_price;
@@ -115,8 +114,6 @@
                     break;
             }
         }
-
-        info($result);
 
         $address_detail = isset($result->address_detail) ? $result->address_detail : '';
 

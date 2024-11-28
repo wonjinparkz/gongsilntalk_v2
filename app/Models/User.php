@@ -136,7 +136,6 @@ class User extends BaseModel
         $createdAtDay = Carbon::parse($date);
         $nowDay = Carbon::now();
         // $this->pullup_at > $date;
-        info($this->pullup_at);
         if ($this->pullup_at > $date) {
             if ($this->pullup_at->isSameDay($nowDay)) {
                 return $this->pullup_at->format('H:i');

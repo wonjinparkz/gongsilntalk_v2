@@ -727,7 +727,6 @@ class UserPcController extends Controller
 
         if ($knowledge) {
             $industryCenterAvgPrice = $knowledge->sale_mid_price;
-            info($result->area);
         }
 
         // $industryCenterAvgPrice = Asset::select()
