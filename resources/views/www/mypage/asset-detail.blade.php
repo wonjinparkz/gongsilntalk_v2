@@ -170,6 +170,7 @@
             info('BPrice : ' . $BPrice);
             info('CPrice : ' . $CPrice);
             info('DPrice : ' . $DPrice);
+            info('$addPrice : ' . $addPrice);
 
             if ($year < 1) {
                 info($DPrice * 0.5 - $addPrice);
