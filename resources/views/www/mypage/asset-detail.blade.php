@@ -88,12 +88,26 @@
 
         function year($date)
         {
-            $nowYear = date('Y');
-            $dateYear = date_format($date, 'Y');
+            // 현재 날짜 가져오기
+            $now = new DateTime();
 
-            $year = $nowYear - $dateYear;
+            // 입력된 날짜를 DateTime 객체로 변환
+            if (!$date instanceof DateTime) {
+                $date = new DateTime($date); // 문자열 입력일 경우 변환
+            }
 
-            return $year;
+            // 날짜 차이 계산
+            $diff = $now->diff($date);
+
+            // 연도와 개월을 계산하여 소수점 연도로 반환
+            $years = $diff->y; // 차이 연도
+            $months = $diff->m; // 차이 월
+            $days = $diff->d; // 차이 일 (추가 확인용)
+
+            // 보유기간 계산 (연도 + 개월/12)
+            $totalYears = $years + $months / 12;
+
+            return $totalYears;
         }
 
         function format_phone($phone)
