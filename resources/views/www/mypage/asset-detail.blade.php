@@ -135,7 +135,7 @@
             $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
 
             // 지분율로 계산된 가격을 원래 가격으로 복원
-            $price = $ownership_share > 0 ? $price / $ownership_share : $price;
+            $price = 50000000;
 
             $avgPrice = $price / $result->area / 10000;
 
@@ -161,11 +161,10 @@
                 $avgRealPrice * 0.01;
 
             $CPrice = $APrice * yearRate($year);
-            $BPrice = $APrice - $CPrice;
+            $BPrice = $ownership_share > 0 ? $APrice - $CPrice / $ownership_share : $APrice - $CPrice;
             $DPrice = $BPrice - 2500000;
 
             info('year : ' . $year);
-
             info('APrice : ' . $APrice);
             info('BPrice : ' . $BPrice);
             info('CPrice : ' . $CPrice);
@@ -173,18 +172,13 @@
             info('$addPrice : ' . $addPrice);
 
             if ($year < 1) {
-                info($addPrice * 10000 - $DPrice * 0.5);
                 $lastPrice = ($addPrice * 10000 - $DPrice * 0.5) / 10000;
             } elseif ($year >= 1 && $year < 2) {
-                info($addPrice * 10000 - $DPrice * 0.6);
-                $lastPrice = ($addPrice * 10000 - $DPrice * 0.6) / 10000;
+                $lastPrice = ($addPrice * 10000 - $DPrice * 0.4) / 10000;
             } elseif ($year >= 2 && $year < 3) {
-                info($addPrice * 10000 - $DPrice * 0.15);
-                $lastPrice = ($addPrice * 10000 - $DPrice * 0.15) / 10000;
+                $lastPrice = ($addPrice * 10000 - $DPrice * taxRate($DPrice)) / 10000;
             } else {
-                info($addPrice * 10000 - $DPrice * 0.1);
-                $lastPrice = $addPrice * 10000 - $DPrice * taxRate($DPrice);
-                $lastPrice /= 10000;
+                $lastPrice = $addPrice * 10000 - ($DPrice * taxRate($DPrice)) / 10000;
             }
         }
     @endphp
