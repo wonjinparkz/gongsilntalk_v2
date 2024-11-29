@@ -173,9 +173,9 @@
 
             if ($year < 1) {
                 $lastPrice = ($DPrice * 0.5) / 10000;
-            } elseif ($year == 1) {
+            } elseif ($year >= 1 && $year < 2) {
                 $lastPrice = ($DPrice * 0.6) / 10000;
-            } elseif ($year == 2) {
+            } elseif ($year >= 2 && $year < 3) {
                 $lastPrice = ($DPrice * 0.15) / 10000;
             } else {
                 $lastPrice = $DPrice * taxRate($DPrice);
