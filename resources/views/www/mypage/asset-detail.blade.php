@@ -131,6 +131,7 @@
 
         if ($result->type_detail == 0) {
             $year = year($result->contracted_at);
+            $year = 3;
 
             $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
 
