@@ -150,7 +150,10 @@
             $BPrice = $APrice - $CPrice;
             $DPrice = $BPrice - 2500000;
 
-            info($year);
+            info('APrice : ' . $APrice);
+            info('BPrice : ' . $BPrice);
+            info('CPrice : ' . $CPrice);
+            info('DPrice : ' . $DPrice);
 
             if ($year < 1) {
                 $lastPrice = ($DPrice * 0.5) / 10000;

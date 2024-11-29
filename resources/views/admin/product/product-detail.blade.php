@@ -1,4 +1,6 @@
 <x-admin-layout>
+    @inject('carbon', 'Carbon\Carbon')
+
     <div class="app-container container-xxl">
         <x-screen-card :title="'등록자 정보'">
             {{-- 내용 START --}}
@@ -41,7 +43,7 @@
         $type = old('type') ?? $result->type;
     @endphp
 
-    <form class="form" method="POST" action="{{ route('admin.product.update') }}">
+    <form id="product_form" class="form" method="POST" action="{{ route('admin.product.update') }}">
         @csrf
         <input type="hidden" name="id" value="{{ $result->id }}" />
         <input type="hidden" name="last_url" value="{{ old('last_url') ?? URL::previous() }}">
@@ -136,8 +138,8 @@
                                 style="border: 1px solid #D2D1D0; border-radius: 5px; display: flex; align-items: center; color:#D2D1D0; justify-content:center; text-align: center; line-height: 1.4; height: 500px; margin-top:18px; position: relative;">
                                 <div id="is_temporary_0"
                                     style="position: absolute; width: 100%; height: 100%; display:;">
-                                    <div id="mapWrap" class="mapWrap"
-                                        style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
+                                    {{-- <div id="mapWrap" class="mapWrap"
+                                        style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div> --}}
                                 </div>
                                 <div id="is_temporary_1">
                                     (구)주소 선택시,<br>지도 노출이 불가능합니다.
@@ -232,7 +234,7 @@
                             class="required col-lg-2 col-form-label fw-semibold fs-6 area_text_1">{{ in_array($type, ['6', '7']) ? '대지면적' : '공급면적' }}</label>
                         <div class="col-lg-3 fv-row">
                             <div class="input-group">
-                                <input type="number" name="area" id="area" class="form-control"
+                                <input type="text" name="area" id="area" class="form-control"
                                     placeholder="변환 버튼을 눌러주세요."
                                     value="{{ old('area') ? old('area') : $result->area }}" />
                                 <span class="input-group-text" id="basic-addon2">평</span>
@@ -265,7 +267,7 @@
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">연면적</label>
                         <div class="col-lg-3 fv-row">
                             <div class="input-group">
-                                <input type="number" name="total_floor_area" id="total_floor_area"
+                                <input type="text" name="total_floor_area" id="total_floor_area"
                                     class="form-control" placeholder="변환 버튼을 눌러주세요."
                                     value="{{ old('total_floor_area') ? old('total_floor_area') : $result->total_floor_area }}" />
                                 <span class="input-group-text" id="basic-addon2">평</span>
@@ -298,7 +300,7 @@
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">전용 면적</label>
                         <div class="col-lg-3 fv-row">
                             <div class="input-group">
-                                <input type="number" name="exclusive_area" id="exclusive_area" class="form-control"
+                                <input type="text" name="exclusive_area" id="exclusive_area" class="form-control"
                                     placeholder="변환 버튼을 눌러주세요."
                                     value="{{ old('exclusive_area') ? old('exclusive_area') : $result->exclusive_area }}" />
                                 <span class="input-group-text" id="basic-addon2">평</span>
@@ -331,8 +333,9 @@
                         <label
                             class="required col-lg-2 col-form-label fw-semibold fs-6 approve_date_text">{{ $type > 13 ? '준공예정일' : '사용승인일' }}</label>
                         <div class="col-lg-3 fv-row">
-                            <input type="text" name="approve_date" class="form-control" placeholder="예) 20230204" autocomplete="off"
-                                value="{{ old('approve_date') ? old('approve_date') : $result->approve_date }}" />
+                            <input type="text" name="approve_date" class="form-control" placeholder="예) 20230204"
+                                autocomplete="off" oninput="onlyNumbers(this); onDateChangeEvent(this);"
+                                value="{{ old('approve_date') ?? ($carbon::parse($result->approve_date)->format('Y.m.d') ?? '') }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('approve_date')" />
                         </div>
                     </div>
@@ -340,12 +343,12 @@
                     {{-- 건축물 용도 --}}
                     <div class="row mb-6 building_type_input">
                         <label
-                            class="required col-lg-2 col-form-label fw-semibold fs-6">{{ $type != 6 ? '건축물 용도' : '주용도' }}</label>
+                            class="required col-lg-2 col-form-label fw-semibold fs-6">{{ $type == 6 ? '현용도' : '주용도' }}</label>
                         <div class="col-lg-3 fv-row">
                             <select name="building_type" class="form-select" data-control="select2"
                                 data-hide-search="true">
                                 <option value="">
-                                    {{ $type != 6 ? '건축물 용도' : '주용도' }} 선택
+                                    {{ $type == 6 ? '현용도' : '주용도' }} 선택
                                 </option>
                                 @for ($i = 0; $i < count(Lang::get('commons.building_type')); $i++)
                                     <option value="{{ $i }}"
@@ -378,9 +381,9 @@
                                     value="2"@if ($result->move_type == 2) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">직접 입력</span>
                             </label>
-                            @inject('carbon', 'Carbon\Carbon')
                             <input type="text" name="move_date" id="move_date" class="form-control"
-                                placeholder="예) 20230204" value="{{ old('move_date') ?? $result->move_date }}"
+                                autocomplete="off" placeholder="예) 20230204"
+                                value="{{ old('move_date') ?? $result->move_date }}"
                                 @if ($result->move_type != 2) disabled @endif />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('move_date')" />
                         </div>
@@ -392,10 +395,11 @@
                         <div class="col-lg-10 row">
                             <div class="col-lg-5 fv-row">
                                 <div class="input-group">
-                                    <input type="number" name="service_price" id="service_price"
-                                        class="form-control" placeholder="예) 10"
-                                        value="{{ old('service_price') ?? $result->service_price / 10000 }}" />
-                                    <span class="input-group-text" id="basic-addon2">만원</span>
+                                    <input type="text" name="service_price" id="service_price"
+                                        class="form-control" placeholder="예) 10" inputmode="numeric"
+                                        oninput="onlyNumbers(this);"
+                                        value="{{ old('service_price') ?? (number_format($result->service_price) ?? 0) }}" />
+                                    <span class="input-group-text" id="basic-addon2">원</span>
                                 </div>
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('service_price')" />
                             </div>
@@ -403,7 +407,7 @@
                                 <label class="form-check form-check-custom form-check-inline p-1">
                                     <input class="form-check-input" name="is_service" id="is_service"
                                         type="checkbox" value="1"
-                                        {{ old('is_service') ?? $result->is_service == 1 ? 'checked' : '' }}>
+                                        {{ old('is_service') ?? ($result->is_service ?? 1 == 1) ? 'checked' : '' }}>
                                     <span class="fw-semibold ps-2 fs-6">관리비 없음</span>
                                 </label>
                             </div>
@@ -451,9 +455,8 @@
                                     value="2"@if ($loan_type == 2) checked @endif>
                                 <span class="fw-semibold ps-2 fs-6">30% 이상</span>
                             </label>
-                            @inject('carbon', 'Carbon\Carbon')
                             <input type="text" name="loan_price" id="loan_price" class="form-control"
-                                placeholder="예) 1억 1000만"
+                                placeholder="예) 100,000" oninput="onlyNumbers(this); onTextChangeEvent(this)"
                                 value="{{ $loan_type != 0 ? old('loan_price') ?? $result->loan_price : '' }}"
                                 @if ($loan_type == 0) disabled @endif />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('loan_price')" />
@@ -554,9 +557,10 @@
                                     <div class="col-lg-4 fv-row price_input">
                                         <span class="fs-6" id="payment_price_text">{{ $payment_price_text }}</span>
                                         <div class="input-group">
-                                            <input type="number" name="price" id="price" class="form-control"
+                                            <input type="text" name="price" id="price" class="form-control"
                                                 placeholder="예) 100000"
-                                                value="{{ old('price') ?? $result->priceInfo->price }}" />
+                                                oninput="onlyNumbers(this); onTextChangeEvent(this);"
+                                                value="{{ old('price') ?? (number_format($result->priceInfo->price) ?? '') }}" />
                                             <span class="input-group-text" id="basic-addon2">원</span>
                                         </div>
                                     </div>
@@ -568,9 +572,10 @@
                                         style="display:{{ $is_moth_price }}">
                                         <span class="fs-6">월 임대료</span>
                                         <div class="input-group">
-                                            <input type="number" name="month_price" id="month_price"
+                                            <input type="text" name="month_price" id="month_price"
                                                 class="form-control" placeholder="예) 100000"
-                                                value="{{ old('month_price') ?? $result->priceInfo->month_price }}" />
+                                                oninput="onlyNumbers(this); onTextChangeEvent(this);"
+                                                value="{{ old('month_price') ?? (number_format($result->priceInfo->month_price) ?? '') }}" />
                                             <span class="input-group-text" id="basic-addon2">원</span>
                                         </div>
                                         <x-input-error class="mt-2 text-danger" :messages="$errors->get('month_price')" />
@@ -610,9 +615,10 @@
                                     <div class="col-lg-4 fv-row">
                                         <span class="fs-6">현 보증금</span>
                                         <div class="input-group ">
-                                            <input type="number" name="current_price" id="current_price"
+                                            <input type="text" name="current_price" id="current_price"
                                                 class="form-control" placeholder="예) 10"
-                                                value="{{ old('current_price') ?? $result->priceInfo->current_price }}"
+                                                oninput="onlyNumbers(this); onTextChangeEvent(this);"
+                                                value="{{ old('current_price') ?? (number_format($result->priceInfo->current_price) ?? '') }}"
                                                 @if ((old('is_use') ?? $result->priceInfo->is_use) == 0) disabled @endif />
                                             <span class="input-group-text" id="basic-addon2">원</span>
                                         </div>
@@ -622,9 +628,10 @@
                                     <div class="col-lg-4 fv-row">
                                         <span class="fs-6">현 월임대료</span>
                                         <div class="input-group">
-                                            <input type="number" name="current_month_price" id="current_month_price"
+                                            <input type="text" name="current_month_price" id="current_month_price"
                                                 class="form-control" placeholder="예) 10"
-                                                value="{{ old('current_month_price') ?? $result->priceInfo->current_month_price }}"
+                                                oninput="onlyNumbers(this); onTextChangeEvent(this);"
+                                                value="{{ old('current_month_price') ?? (number_format($result->priceInfo->current_month_price) ?? '') }}"
                                                 @if ((old('is_use') ?? $result->priceInfo->is_use) == '0') disabled @endif />
                                             <span class="input-group-text" id="basic-addon2">원</span>
                                         </div>
@@ -660,7 +667,8 @@
                                         <div class="input-group">
                                             <input type="text" name="premium_price" id="premium_price"
                                                 class="form-control" placeholder="예) 10"
-                                                value="{{ old('premium_price') ?? $result->priceInfo->premium_price }}"
+                                                oninput="onlyNumbers(this); onTextChangeEvent(this);"
+                                                value="{{ old('premium_price') ?? (number_format($result->priceInfo->premium_price) ?? '') }}"
                                                 @if ((old('is_premium') ?? $result->priceInfo->is_premium) == 0 && $type == 3) disabled @endif />
                                             <span class="input-group-text" id="basic-addon2">원</span>
                                         </div>
@@ -986,10 +994,16 @@
                     <div class="row mb-6 add_info_input floor_height_type_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">층고</label>
                         <div class="col-lg-10 fv-row">
+                            <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                <input class="form-check-input" name="floor_height_type" type="radio"
+                                    value="" @if (old('floor_height_type') ?? ($result->productAddInfo->floor_height_type ?? null) == '') checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">선택안함</span>
+                            </label>
                             @for ($i = 0; $i < count(Lang::get('commons.floor_height_type')); $i++)
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="floor_height_type" type="radio"
-                                        value="0" @if (old('floor_height_type') ?? ($result->productAddInfo->floor_height_type ?? 0) == "$i") checked @endif>
+                                        value="{{ $i }}"
+                                        @if (old('floor_height_type') ?? ($result->productAddInfo->floor_height_type ?? '') == "$i") checked @endif>
                                     <span
                                         class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.floor_height_type.' . $i) }}</span>
                                 </label>
@@ -1002,10 +1016,16 @@
                     <div class="row mb-6 add_info_input wattage_type_input">
                         <label class="col-lg-2 col-form-label fw-semibold fs-6">사용전력</label>
                         <div class="col-lg-10 fv-row">
+                            <label class="form-check form-check-custom form-check-inline me-5 p-1">
+                                <input class="form-check-input" name="wattage_type" type="radio" value=""
+                                    @if (old('wattage_type') ?? ($result->productAddInfo->wattage_type ?? '') == '') checked @endif>
+                                <span class="fw-semibold ps-2 fs-6">선택안함</span>
+                            </label>
                             @for ($i = 0; $i < count(Lang::get('commons.wattage_type')); $i++)
                                 <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                     <input class="form-check-input" name="wattage_type" type="radio"
-                                        value="0" @if (old('wattage_type') ?? ($result->productAddInfo->wattage_type ?? 0) == "$i") checked @endif>
+                                        value="{{ $i }}"
+                                        @if (old('wattage_type') ?? ($result->productAddInfo->wattage_type ?? '') == "$i") checked @endif>
                                     <span
                                         class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.wattage_type.' . $i) }}</span>
                                 </label>
@@ -1247,25 +1267,18 @@
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('access_load_type')" />
                             </div>
                         </div>
-
                     </div>
-
-
-
                 </div>
-
         </div>
         </x-screen-card>
-        </div>
 
         <div class="app-container container-xxl">
             <x-screen-card :title="'사진 및 상세 설명'">
                 {{-- 내용 START --}}
                 <div class="card-body border-top p-9">
                     {{-- 이미지 --}}
-                    <x-admin-image-picker :title="'사진등록'" :id="'product'" required="required" cnt="8"
-                        label_col='2' :images="$result->images" type="product"/>
-
+                    <x-admin-product-image-picker :title="'사진등록'" :id="'product'" required="required"
+                        cnt="8" label_col='2' :images="$result->images" type="product" />
                     {{-- 한줄요약 --}}
                     <div class="row mb-6">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">한줄요약</label>
@@ -1279,20 +1292,10 @@
 
                     {{-- 상세설명 --}}
                     <div class="row mb-6">
-                        <label class="col-lg-2 col-form-label fw-semibold fs-6">상세설명</label>
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">상세설명</label>
                         <div class="col-lg-10 fv-row">
                             <textarea name="contents" class="form-control mb-5" rows="5" placeholder="주변 편의시설, 역세권 등의 정보를 입력해주세요.">{{ old('contents') ? old('contents') : $result->contents }}</textarea>
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('contents')" />
-                        </div>
-                    </div>
-
-                    {{-- 3D 이미지 링크 --}}
-                    <div class="row mb-6">
-                        <label class="col-lg-2 col-form-label fw-semibold fs-6">3D 이미지 링크</label>
-                        <div class="col-lg-10 fv-row">
-                            <input type="text" name="image_link" class="form-control" placeholder="링크를 입력해 주세요."
-                                value="{{ old('image_link') ?? $result->image_link }}" />
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('image_link')" />
                         </div>
                     </div>
 
@@ -1344,10 +1347,11 @@
 
                     {{-- 중개보수(부가세별도) --}}
                     <div class="row mb-6">
-                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">중개보수(부가세별도)</label>
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">중개보수(부가세별도)</label>
                         <div class="col-lg-10 fv-row">
                             <input type="text" name="commission" class="form-control"
-                                placeholder="중개보수(부가세별도)" value="{{ old('commission') ?? $result->commission }}" />
+                                oninput="onlyNumbers(this); onTextChangeEvent(this);" placeholder="중개보수(부가세별도)"
+                                value="{{ old('commission') ?? (number_format($result->commission) ?? '') }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('commission')" />
                         </div>
                     </div>
@@ -1366,14 +1370,13 @@
                 </div>
             </x-screen-card>
         </div>
-
         {{-- Footer Bottom START --}}
         <div class="card-footer d-flex justify-content-end py-6 px-9">
             <button type="submit" class="btn btn-primary">저장</button>
         </div>
         {{-- Footer END --}}
-
     </form>
+
     {{-- FORM END --}}
 
     <x-admin-temporary-address />
@@ -1774,7 +1777,7 @@
             var square = $('#' + square_name).val();
 
             if (square > 0) {
-                var convertedArea = Math.round(square / 3.3058); // 평수로 변환하여 정수로 반올림
+                var convertedArea = (square / 3.3058).toFixed(2); // 평수로 변환하여 정수로 반올림
                 $('#' + area_name).val(convertedArea);
             } else {
                 $('#' + square_name).val('');
