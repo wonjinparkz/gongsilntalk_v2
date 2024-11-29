@@ -53,20 +53,14 @@
 
         function yearRate($date)
         {
-            $percent = 0.1;
+            $percent = 0;
 
             $nowYear = date('Y');
             $dateYear = date_format($date, 'Y');
 
             $year = $nowYear - $dateYear;
 
-            if ($year < 1) {
-                $percent = 0.5;
-            } elseif ($year < 2) {
-                $percent = 0.6;
-            } elseif ($year < 3) {
-                $percent = 0.0;
-            } elseif ($year >= 3 && $year < 4) {
+            if ($year > 3 && $year < 4) {
                 $percent = 0.06;
             } elseif ($year >= 4 && $year < 5) {
                 $percent = 0.08;
