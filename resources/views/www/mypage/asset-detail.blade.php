@@ -12,38 +12,37 @@
         {
             $percent = 0;
             switch ($price) {
-                case $price < 12000000:
+                case $price <= 14000000:
                     $percent = 0.06;
                     break;
 
-                case $price < 46000000:
+                case $price <= 5000000:
                     $percent = 0.15;
                     break;
 
-                case $price < 88000000:
+                case $price <= 88000000:
                     $percent = 0.24;
                     break;
 
-                case $price < 150000000:
+                case $price <= 150000000:
                     $percent = 0.35;
                     break;
 
-                case $price < 300000000:
+                case $price <= 300000000:
                     $percent = 0.38;
                     break;
 
-                case $price < 500000000:
+                case $price <= 500000000:
                     $percent = 0.4;
                     break;
 
-                case $price < 1000000000:
+                case $price <= 1000000000:
                     $percent = 0.42;
                     break;
 
-                case $price >= 1000000000:
+                case $price > 1000000000:
                     $percent = 0.45;
                     break;
-
                 default:
                     $percent = 0.1;
                     break;
@@ -66,7 +65,7 @@
             } elseif ($year < 2) {
                 $percent = 0.6;
             } elseif ($year < 3) {
-                $percent = 0.00;
+                $percent = 0.0;
             } elseif ($year >= 3 && $year < 4) {
                 $percent = 0.06;
             } elseif ($year >= 4 && $year < 5) {
@@ -137,7 +136,7 @@
 
             $addPrice = $profit * $result->area;
 
-            $avgRealPrice = $industryCenterAvgPrice * $result->area;
+            $avgRealPrice = $industryCenterAvgPrice * $result->area * 10000;
 
             $APrice =
                 $industryCenterAvgPrice * 10000 * $result->area -
