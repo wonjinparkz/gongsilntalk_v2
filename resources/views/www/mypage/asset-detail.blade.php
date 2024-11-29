@@ -51,14 +51,9 @@
             return $percent;
         }
 
-        function yearRate($date)
+        function yearRate($year)
         {
             $percent = 0;
-
-            $nowYear = date('Y');
-            $dateYear = date_format($date, 'Y');
-
-            $year = $nowYear - $dateYear;
 
             if ($year > 3 && $year < 4) {
                 $percent = 0.06;
@@ -91,6 +86,16 @@
             return $percent;
         }
 
+        function year($date)
+        {
+            $nowYear = date('Y');
+            $dateYear = date_format($date, 'Y');
+
+            $year = $nowYear - $dateYear;
+
+            return $year;
+        }
+
         function format_phone($phone)
         {
             $phone = preg_replace('/[^0-9]/', '', $phone);
@@ -111,6 +116,8 @@
         $address_detail = isset($result->address_detail) ? $result->address_detail : '';
 
         if ($result->type_detail == 0) {
+            $year = year($result->contracted_at);
+
             $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
 
             // 지분율로 계산된 가격을 원래 가격으로 복원
@@ -139,10 +146,15 @@
                 $etc_price -
                 $avgRealPrice * 0.01;
 
-            $CPrice = $APrice * yearRate($result->contracted_at);
+            $CPrice = $APrice * yearRate($year);
             $BPrice = $APrice - $CPrice;
-
             $DPrice = $BPrice - 2500000;
+
+            info($year);
+
+            if ($year > 0) {
+            }
+
             $lastPrice = $DPrice * taxRate($DPrice);
             $lastPrice /= 10000;
         }

@@ -552,7 +552,7 @@
                                                     value="{{ $product->top_floor_number }}" placeholder="최고"> <span
                                                     class="gray_deep">층</span></div>
                                         </div>
-                                        <span class="gray_basic">※ 지하의 경우 B1으로 표시</span>
+                                        <span class="gray_basic">* 지하의 경우 B1으로 표시</span>
                                     </div>
                                 @endif
                                 <div class="reg_item">
@@ -588,7 +588,7 @@
                                                 class="gray_deep">층</span>
                                         </div>
                                     </div>
-                                    <span class="gray_basic">※ 지하의 경우 B1으로 표시</span>
+                                    <span class="gray_basic">* 지하의 경우 B1으로 표시</span>
                                 </div>
                             </div>
                         @endif
@@ -1424,6 +1424,7 @@
                                     id="imageCount">{{ count($product->images) }}</span> / 8</p>
                         </div>
                         <span class="gray_basic">* 첫번째 위치한 사진이 대표 이미지 입니다.</span>
+                        <span class="gray_basic">* 파일 용량 5M이하 권장, 초과시 업로드가 지연됩니다.</span>
                         <div class="img_add_wrap reg_step_type draggable-zone" id="imageList">
                             <x-pc-image-picker :title="''" id="product" cnt="8" required="required"
                                 inputCheck="true" :images="$product->images" />

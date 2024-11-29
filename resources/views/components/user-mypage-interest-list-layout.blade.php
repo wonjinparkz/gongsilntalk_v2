@@ -30,7 +30,7 @@
         </div> --}}
 
         <div class="txt_search_total">
-            <span class="gray_basic">※ 거래완료일 경우 확인되지 않습니다.</span>
+            <span class="gray_basic">* 거래완료일 경우 확인되지 않습니다.</span>
             <div class="mt8">
                 총 <span class="txt_point">{{ $result->total() }}개</span>의 관심 매물
             </div>

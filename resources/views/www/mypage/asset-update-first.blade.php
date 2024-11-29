@@ -293,7 +293,7 @@
                                         </div>
                                     </div>
                                     <div class="mt10">
-                                        <span class="gray_basic">※ 부동산 거래정보, 대출정보, 임대차계약 정보 등록시 지분율에 따라 자동
+                                        <span class="gray_basic">* 부동산 거래정보, 대출정보, 임대차계약 정보 등록시 지분율에 따라 자동
                                             계산됩니다.</span>
                                     </div>
                                 </div>

@@ -402,7 +402,7 @@
     .input_area_2{display:block;}
     .input_area_2 .item_check_add{width:200px; margin-left:0px; padding-top:0px; margin-bottom: 10px; margin-top: -5px; background: #fff;}
 
-    .m_memo{border: 1px solid #EEEDED; border-radius: 5px; padding: 14px; box-sizing: border-box; margin-top: 8px; color: #63605F; background: #FAFAFA;}
+    .m_memo{width: calc(60% - 10px); border: 1px solid #EEEDED; border-radius: 5px; padding: 14px; box-sizing: border-box; margin-top: 8px; color: #63605F; background: #FAFAFA;}
     .m_memo .txt_item{color: #9D9999;}
     .asset_dashboard_wrap{display: block; padding-bottom:18px;}
     .asset_dashboard_wrap .ds_item_1{width:100%; border: none; padding: 0;}

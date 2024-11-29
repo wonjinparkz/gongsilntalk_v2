@@ -251,7 +251,7 @@
                         </p>
                     </div>
                 </div>
-                <div>
+                <div class="flex_between">
                     <div class="m_memo">
                     @if ($product->non_memo == '')
                                 <p class="txt_item">등록된 메모가 없습니다.</p>
@@ -259,7 +259,6 @@
                                 {{ $product->non_memo }}
                             @endif
                     </div>
-                </div>
                 <div class="align_r mt10 right_spacing">
                         @if ($product->state < 4)
                             <button class="btn_gray_ghost btn_sm"
@@ -271,12 +270,12 @@
                         <button class="btn_gray_ghost btn_sm"
                             onclick="modal_open('asset_delete_{{ $product->id }}')">삭제</button>
                 </div>
+                </div>
             </li>
         @endforeach
     </ul>
 
     {{ $result->onEachSide(1)->links('components.m-my-page-pagination') }}
-
     <!----------------------------- Only M list : e ----------------------------->
 @endif
 
