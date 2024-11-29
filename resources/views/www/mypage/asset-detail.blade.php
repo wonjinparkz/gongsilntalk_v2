@@ -152,11 +152,16 @@
 
             info($year);
 
-            if ($year > 0) {
+            if ($year < 1) {
+                $lastPrice = $DPrice * 0.5;
+            } elseif ($year == 1) {
+                $lastPrice = $DPrice * 0.6;
+            } elseif ($year == 2) {
+                $lastPrice = $DPrice * 0.15;
+            } else {
+                $lastPrice = $DPrice * taxRate($DPrice);
+                $lastPrice /= 10000;
             }
-
-            $lastPrice = $DPrice * taxRate($DPrice);
-            $lastPrice /= 10000;
         }
     @endphp
 
