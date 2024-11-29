@@ -164,6 +164,8 @@
             $BPrice = $APrice - $CPrice;
             $DPrice = $BPrice - 2500000;
 
+            info('year : ' . $year);
+
             info('APrice : ' . $APrice);
             info('BPrice : ' . $BPrice);
             info('CPrice : ' . $CPrice);
