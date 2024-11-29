@@ -131,7 +131,7 @@
                 $avgRate = $industryCenterAvgPrice / $avgPrice;
             }
 
-            $profit = $avgPrice - $industryCenterAvgPrice;
+            $profit = $industryCenterAvgPrice - $avgPrice;
 
             $addPrice = $profit * $result->area;
 
