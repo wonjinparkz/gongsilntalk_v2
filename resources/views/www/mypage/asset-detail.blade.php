@@ -65,8 +65,6 @@
                 $percent = 0.5;
             } elseif ($year < 2) {
                 $percent = 0.6;
-            } elseif ($year < 3) {
-                $percent = 0.01;
             } elseif ($year >= 3 && $year < 4) {
                 $percent = 0.06;
             } elseif ($year >= 4 && $year < 5) {
