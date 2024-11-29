@@ -143,7 +143,7 @@
                 $price -
                 $acquisition_tax_price -
                 $etc_price -
-                $avgRealPrice * 0.1;
+                $avgRealPrice * 0.01;
 
             $CPrice = $APrice * yearRate($result->contracted_at);
             $BPrice = $APrice - $CPrice;
