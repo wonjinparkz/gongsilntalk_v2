@@ -136,7 +136,7 @@
             $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
 
             // 지분율로 계산된 가격을 원래 가격으로 복원
-            $price = 50000000;
+            $price = $ownership_share > 0 ? $price / $ownership_share : $price;
 
             $avgPrice = $price / $result->area / 10000;
 
@@ -165,12 +165,7 @@
             $BPrice = $ownership_share > 0 ? $APrice - $CPrice / $ownership_share : $APrice - $CPrice;
             $DPrice = $BPrice - 2500000;
 
-            info('year : ' . $year);
-            info('APrice : ' . $APrice);
-            info('BPrice : ' . $BPrice);
-            info('CPrice : ' . $CPrice);
-            info('DPrice : ' . $DPrice);
-            info('$addPrice : ' . $addPrice);
+            $DPrice = 50000000;
 
             if ($year < 1) {
                 $lastPrice = ($addPrice * 10000 - $DPrice * 0.5) / 10000;
