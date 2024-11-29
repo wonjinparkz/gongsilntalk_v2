@@ -131,7 +131,6 @@
 
         if ($result->type_detail == 0) {
             $year = year($result->contracted_at);
-            $year = 3;
 
             $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
 
@@ -165,14 +164,10 @@
             $BPrice = $ownership_share > 0 ? $APrice - $CPrice / $ownership_share : $APrice - $CPrice;
             $DPrice = $BPrice - 2500000;
 
-            $DPrice = 50000000;
-
             if ($year < 1) {
                 $lastPrice = ($addPrice * 10000 - $DPrice * 0.5) / 10000;
             } elseif ($year >= 1 && $year < 2) {
                 $lastPrice = ($addPrice * 10000 - $DPrice * 0.4) / 10000;
-            } elseif ($year >= 2 && $year < 3) {
-                $lastPrice = ($addPrice * 10000 - $DPrice * taxRate($DPrice)) / 10000;
             } else {
                 $lastPrice = $addPrice * 10000 - ($DPrice * taxRate($DPrice)) / 10000;
             }
