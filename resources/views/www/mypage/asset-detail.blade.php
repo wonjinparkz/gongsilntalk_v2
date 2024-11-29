@@ -173,17 +173,17 @@
             info('$addPrice : ' . $addPrice);
 
             if ($year < 1) {
-                info($DPrice * 0.5 - $addPrice * 10000);
-                $lastPrice = ($DPrice * 0.5 - $addPrice * 10000) / 10000;
+                info($addPrice * 10000 - $DPrice * 0.5);
+                $lastPrice = ($addPrice * 10000 - $DPrice * 0.5) / 10000;
             } elseif ($year >= 1 && $year < 2) {
-                info($DPrice * 0.6 - $addPrice * 10000);
-                $lastPrice = ($DPrice * 0.6 - $addPrice * 10000) / 10000;
+                info($addPrice * 10000 - $DPrice * 0.6);
+                $lastPrice = ($addPrice * 10000 - $DPrice * 0.6) / 10000;
             } elseif ($year >= 2 && $year < 3) {
-                info($DPrice * 0.15 - $addPrice * 10000);
-                $lastPrice = ($DPrice * 0.15 - $addPrice * 10000) / 10000;
+                info($addPrice * 10000 - $DPrice * 0.15);
+                $lastPrice = ($addPrice * 10000 - $DPrice * 0.15) / 10000;
             } else {
-                info($DPrice * 0.1 - $addPrice * 10000);
-                $lastPrice = $DPrice * taxRate($DPrice) - $addPrice * 10000;
+                info($addPrice * 10000 - $DPrice * 0.1);
+                $lastPrice = $addPrice * 10000 - $DPrice * taxRate($DPrice);
                 $lastPrice /= 10000;
             }
         }
