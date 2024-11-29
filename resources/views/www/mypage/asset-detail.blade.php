@@ -172,12 +172,16 @@
             info('DPrice : ' . $DPrice);
 
             if ($year < 1) {
+                info($DPrice * 0.5 - $addPrice);
                 $lastPrice = ($DPrice * 0.5 - $addPrice) / 10000;
             } elseif ($year >= 1 && $year < 2) {
+                info($DPrice * 0.6 - $addPrice);
                 $lastPrice = ($DPrice * 0.6 - $addPrice) / 10000;
             } elseif ($year >= 2 && $year < 3) {
+                info($DPrice * 0.15 - $addPrice);
                 $lastPrice = ($DPrice * 0.15 - $addPrice) / 10000;
             } else {
+                info($DPrice * 0.1 - $addPrice);
                 $lastPrice = $DPrice * taxRate($DPrice) - $addPrice;
                 $lastPrice /= 10000;
             }
