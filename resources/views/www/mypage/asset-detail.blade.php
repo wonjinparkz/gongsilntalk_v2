@@ -10,6 +10,7 @@
 
         function priceRate($price)
         {
+            $price = $price * 10000;
             $taxPrice = 0;
             $taxRate = 0;
 
@@ -185,16 +186,12 @@
                 $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
             } elseif ($year >= 2 && $year < 3) {
                 $tax = priceRate($DPrice);
-
-                info($tax);
                 $TaxRate = $tax['taxRate'];
                 $TaxPrice = $tax['taxPrice'];
                 $EPrice = $DPrice * 0;
-                info($EPrice);
                 $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
             } else {
                 $EPrice = $DPrice * priceRate($DPrice);
-                info('EPrice : ' . $EPrice);
                 $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
             }
         }
