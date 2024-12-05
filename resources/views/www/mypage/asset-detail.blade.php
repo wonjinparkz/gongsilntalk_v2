@@ -1,8 +1,7 @@
 <x-layout>
 
     @php
-        $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
-        $price = $ownership_share > 0 ? $result->price / $ownership_share : $result->price;
+        $price = $result->price > 0 ? $result->price : 1;
         $acquisition_tax_price = $price * ($result->acquisition_tax_rate / 100);
         $etc_price = $result->etc_price + $result->tax_price + $result->estate_price;
         $realPrice = $price + $acquisition_tax_price + $etc_price - $result->loan_price - $result->check_price;
@@ -142,6 +141,8 @@
 
             info($year);
 
+            $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
+
             $avgPrice = $price / $result->area / 10000;
 
             $avgRate = ($industryCenterAvgPrice / $avgPrice - 1) * 100;
@@ -160,9 +161,7 @@
 
             $APrice =
                 $industryCenterAvgPrice * 10000 * $result->area -
-                $price -
-                $acquisition_tax_price -
-                $etc_price -
+                ($price + $acquisition_tax_price + $etc_price) / $ownership_share -
                 $avgRealPrice * 0.01;
 
             $CPrice = $APrice * yearRate($year);
