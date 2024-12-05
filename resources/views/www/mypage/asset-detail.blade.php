@@ -171,6 +171,12 @@
             } else {
                 $lastPrice = $addPrice * 10000 - ($DPrice * taxRate($DPrice)) / 10000;
             }
+
+            info('APrice : ' . $APrice);
+            info('BPrice : ' . $BPrice);
+            info('CPrice : ' . $CPrice);
+            info('DPrice : ' . $DPrice);
+            info('lastPrice : ' . $lastPrice);
         }
     @endphp
 
