@@ -161,19 +161,17 @@
                 $avgRealPrice * 0.01;
 
             $CPrice = $APrice * yearRate($year);
-            $BPrice = $ownership_share > 0 ? $APrice - $CPrice / $ownership_share : $APrice - $CPrice;
+            $BPrice = ($ownership_share > 0 ? $APrice - $CPrice / $ownership_share : $APrice) - $CPrice;
             $DPrice = $BPrice - 2500000;
 
             if ($year < 1) {
-                $lastPrice = $DPrice * 0.5;
-                info('lastPrice : ' . $lastPrice);
-                info('ownership_share : ' . $ownership_share > 0 ? $APrice * $ownership_share : $APrice);
-                $latstPrice = ($ownership_share > 0 ? $APrice * $ownership_share : $APrice) - $lastPrice / 10000;
-                info('lastPrice1 : ' . $lastPrice);
+                $EPrice = ($DPrice * 0.5) / 10000;
+                $lastPrice = ($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice;
+                info('ownership_share : ' . $ownership_share > 0 ? $APrice / $ownership_share : $APrice);
             } elseif ($year >= 1 && $year < 2) {
-                $lastPrice = ($DPrice * 0.4) / 10000;
+                $EPrice = ($DPrice * 0.4) / 10000;
             } else {
-                $lastPrice = ($DPrice * taxRate($DPrice)) / 10000;
+                $EPrice = ($DPrice * taxRate($DPrice)) / 10000;
             }
         }
     @endphp
