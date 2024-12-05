@@ -2,10 +2,7 @@
 
     @php
         $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
-        // $price = $result->price > 0 ? $result->price : 1;
         $price = $ownership_share > 0 ? $result->price / $ownership_share : $result->price;
-        info('price' . $result->price);
-        info('price1' . $price);
         $acquisition_tax_price = $price * ($result->acquisition_tax_rate / 100);
         $etc_price = $result->etc_price + $result->tax_price + $result->estate_price;
         $realPrice = $price + $acquisition_tax_price + $etc_price - $result->loan_price - $result->check_price;
@@ -144,9 +141,6 @@
             $year = year($result->contracted_at);
 
             info($year);
-
-            // 지분율로 계산된 가격을 원래 가격으로 복원
-            $price = $ownership_share > 0 ? $price / $ownership_share : $price;
 
             $avgPrice = $price / $result->area / 10000;
 
