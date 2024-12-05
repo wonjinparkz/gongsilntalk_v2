@@ -175,22 +175,22 @@
 
             if ($year < 1) {
                 $EPrice = $DPrice * 0.5;
-                $lastPrice = ($APrice - $EPrice * $ownership_share) / 10000;
+                $lastPrice = ($APrice * $ownership_share - $EPrice) / 10000;
             } elseif ($year >= 1 && $year < 2) {
                 $EPrice = $DPrice * 0.4;
-                $lastPrice = ($APrice - $EPrice * $ownership_share) / 10000;
+                $lastPrice = ($APrice * $ownership_share - $EPrice) / 10000;
             } elseif ($year >= 2 && $year < 3) {
                 $tax = priceRate($DPrice);
                 $TaxRate = $tax['taxRate'];
                 $TaxPrice = $tax['taxPrice'];
                 $EPrice = $DPrice * $TaxRate - $TaxPrice;
-                $lastPrice = ($APrice - $EPrice * $ownership_share) / 10000;
+                $lastPrice = ($APrice * $ownership_share - $EPrice) / 10000;
             } else {
                 $tax = priceRate($DPrice);
                 $TaxRate = $tax['taxRate'];
                 $TaxPrice = $tax['taxPrice'];
                 $EPrice = $DPrice * $TaxRate - $TaxPrice;
-                $lastPrice = ($APrice - $EPrice * $ownership_share) / 10000;
+                $lastPrice = ($APrice * $ownership_share - $EPrice) / 10000;
             }
         }
     @endphp
