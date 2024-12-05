@@ -250,11 +250,11 @@
                                 <label class="input_label">명의구분 <span class="txt_point">*</span></label>
                                 <div class="btn_radioType">
                                     <input type="radio" name="name_type" id="name_type_1" value="0"
-                                        {{ $result->name_type == 0 ? 'checked' : '' }}>
+                                        onclick="showDiv('share', 0)" {{ $result->name_type == 0 ? 'checked' : '' }}>
                                     <label for="name_type_1">단독명의</label>
 
                                     <input type="radio" name="name_type" id="name_type_2" value="1"
-                                        {{ $result->name_type == 1 ? 'checked' : '' }}>
+                                        onclick="showDiv('share', 1)" {{ $result->name_type == 1 ? 'checked' : '' }}>
                                     <label for="name_type_2">공동명의</label>
                                 </div>
                             </div>
@@ -277,8 +277,8 @@
                         </div>
                         <div class="reg_mid_wrap">
                             <div class="share_wrap mt8">
-                                <div class="share_item open_key active"></div>
-                                <div class="share_item open_key ">
+                                <div class="share_item open_key {{ $result->name_type == 0 ? 'active' : '' }}"></div>
+                                <div class="share_item open_key {{ $result->name_type != 0 ? 'active' : '' }}">
                                     <div class="reg_item">
                                         <div class="input_pyeong_area">
                                             <div>
@@ -350,6 +350,16 @@
     }
 </style>
 <script>
+    //입력란 열고 닫기
+    function showDiv(className, index) {
+        var tabContents = document.querySelectorAll('.' + className + '_wrap .' + className + '_item');
+        tabContents.forEach(function(content) {
+            content.classList.remove('active');
+        });
+        tabContents[index].classList.add('active');
+    }
+
+
     $(document).ready(function() {
 
         $("#product_type_{{ $result->type }}").trigger('click');
@@ -573,8 +583,7 @@
                 'is_map': is_map ?? 0
             },
             success: function(result) {
-                if (result.result == null) {
-                } else {
+                if (result.result == null) {} else {
                     $('#asset_address_id').val(result.result.id);
                     modal_open('address_add');
                 }
