@@ -1,7 +1,9 @@
 <x-layout>
 
     @php
-        $price = $result->price > 0 ? $result->price : 1;
+        $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
+        // $price = $result->price > 0 ? $result->price : 1;
+        $price = $ownership_share > 0 ? $result->price / $ownership_share : $result->price;
         $acquisition_tax_price = $price * ($result->acquisition_tax_rate / 100);
         $etc_price = $result->etc_price + $result->tax_price + $result->estate_price;
         $realPrice = $price + $acquisition_tax_price + $etc_price - $result->loan_price - $result->check_price;
@@ -141,10 +143,8 @@
 
             info($year);
 
-            $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
-
             // 지분율로 계산된 가격을 원래 가격으로 복원
-            $price = $price;
+            $price = $ownership_share > 0 ? $price / $ownership_share : $price;
 
             $avgPrice = $price / $result->area / 10000;
 
