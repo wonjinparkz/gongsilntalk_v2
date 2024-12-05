@@ -55,7 +55,7 @@
         {
             $percent = 0;
 
-            if ($year > 3 && $year < 4) {
+            if ($year >= 3 && $year < 4) {
                 $percent = 0.06;
             } elseif ($year >= 4 && $year < 5) {
                 $percent = 0.08;
@@ -166,11 +166,19 @@
             $BPrice = ($ownership_share > 0 ? $APrice - $CPrice / $ownership_share : $APrice) - $CPrice;
             $DPrice = $BPrice - 2500000;
 
+            info('APrice : ' . $APrice);
+            info('BPrice : ' . $BPrice);
+            info('CPrice : ' . $CPrice);
+            info('DPrice : ' . $DPrice);
+
             if ($year < 1) {
                 $EPrice = $DPrice * 0.5;
                 $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
             } elseif ($year >= 1 && $year < 2) {
                 $EPrice = $DPrice * 0.4;
+                $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
+            } elseif ($year >= 2 && $year < 3) {
+                $EPrice = $DPrice * taxRate($DPrice);
                 $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
             } else {
                 $EPrice = $DPrice * taxRate($DPrice);
