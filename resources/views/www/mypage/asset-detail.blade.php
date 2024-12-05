@@ -56,7 +56,7 @@
                     break;
             }
 
-            return ['taxPrice' => $taxPrice, 'taxRate' => $taxRate];
+            return ['taxPrice' => $taxPrice * 10000, 'taxRate' => $taxRate];
         }
 
         function yearRate($year)
@@ -189,7 +189,7 @@
                 info($tax);
                 $TaxRate = $tax['taxRate'];
                 $TaxPrice = $tax['taxPrice'];
-                $EPrice = $DPrice * 0;
+                $EPrice = $DPrice * $TaxRate - $TaxPrice;
                 $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
             } else {
                 $EPrice = $DPrice * priceRate($DPrice);
