@@ -144,7 +144,7 @@
             $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
 
             // 지분율로 계산된 가격을 원래 가격으로 복원
-            $price = $ownership_share > 0 ? $price / $ownership_share : $price;
+            $price = $price;
 
             $avgPrice = $price / $result->area / 10000;
 
