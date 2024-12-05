@@ -3,7 +3,7 @@
     @php
         $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
         // $price = $result->price > 0 ? $result->price : 1;
-        $price = $ownership_share > 0 ? $result->price * $ownership_share : $result->price;
+        $price = $ownership_share > 0 ? $result->price / $ownership_share : $result->price;
         info('price' . $result->price);
         info('price1' . $price);
         $acquisition_tax_price = $price * ($result->acquisition_tax_rate / 100);
