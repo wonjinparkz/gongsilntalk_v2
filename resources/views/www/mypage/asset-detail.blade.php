@@ -165,19 +165,13 @@
             $DPrice = $BPrice - 2500000;
 
             if ($year < 1) {
-                $lastPrice = ($addPrice * 10000 - $DPrice * 0.5) / 10000;
+                $lastPrice = ($DPrice * 0.5) / 10000;
+                $latstPrice = ($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $lastPrice;
             } elseif ($year >= 1 && $year < 2) {
-                $lastPrice = ($addPrice * 10000 - $DPrice * 0.4) / 10000;
+                $lastPrice = ($DPrice * 0.4) / 10000;
             } else {
-                $lastPrice = $addPrice * 10000 - ($DPrice * taxRate($DPrice)) / 10000;
+                $lastPrice = ($DPrice * taxRate($DPrice)) / 10000;
             }
-
-            info('addPrice : ' . $addPrice);
-            info('APrice : ' . $APrice);
-            info('BPrice : ' . $BPrice);
-            info('CPrice : ' . $CPrice);
-            info('DPrice : ' . $DPrice);
-            info('lastPrice : ' . $lastPrice);
         }
     @endphp
 
