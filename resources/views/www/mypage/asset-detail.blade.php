@@ -132,6 +132,8 @@
         if ($result->type_detail == 0) {
             $year = year($result->contracted_at);
 
+            info($year);
+
             $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
 
             // 지분율로 계산된 가격을 원래 가격으로 복원
@@ -171,9 +173,11 @@
             } elseif ($year >= 1 && $year < 2) {
                 $EPrice = ($DPrice * 0.4) / 10000;
                 $lastPrice = ($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice;
+                info('EPrice1 : ' . $EPrice);
             } else {
                 $EPrice = ($DPrice * taxRate($DPrice)) / 10000;
                 $lastPrice = ($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice;
+                info('EPrice2 : ' . $EPrice);
             }
         }
     @endphp
