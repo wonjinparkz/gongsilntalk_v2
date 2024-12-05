@@ -143,7 +143,7 @@
 
             $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 1;
 
-            $avgPrice = $price / 0 / $result->area / 10000;
+            $avgPrice = $price / $ownership_share / $result->area / 10000;
 
             $avgRate = ($industryCenterAvgPrice / $avgPrice - 1) * 100;
 
