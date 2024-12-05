@@ -172,6 +172,7 @@
                 $lastPrice = $addPrice * 10000 - ($DPrice * taxRate($DPrice)) / 10000;
             }
 
+            info('addPrice : ' . $addPrice);
             info('APrice : ' . $APrice);
             info('BPrice : ' . $BPrice);
             info('CPrice : ' . $CPrice);
