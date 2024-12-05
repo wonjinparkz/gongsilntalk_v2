@@ -192,7 +192,10 @@
                 $EPrice = $DPrice * $TaxRate - $TaxPrice;
                 $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
             } else {
-                $EPrice = $DPrice * priceRate($DPrice);
+                $tax = priceRate($DPrice);
+                $TaxRate = $tax['taxRate'];
+                $TaxPrice = $tax['taxPrice'];
+                $EPrice = $DPrice * $TaxRate - $TaxPrice;
                 $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
             }
         }
