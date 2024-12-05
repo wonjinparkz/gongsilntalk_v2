@@ -10,7 +10,7 @@
 
         function priceRate($price)
         {
-            $price = $price * 10000;
+            $price = $price / 10000;
             $taxPrice = 0;
             $taxRate = 0;
 
