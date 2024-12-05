@@ -170,10 +170,10 @@
                 $EPrice = $DPrice * 0.5;
                 $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
             } elseif ($year >= 1 && $year < 2) {
-                $EPrice = ($DPrice * 0.4) / 10000;
+                $EPrice = ($DPrice * 0.4);
                 $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
             } else {
-                $EPrice = ($DPrice * taxRate($DPrice)) / 10000;
+                $EPrice = ($DPrice * taxRate($DPrice));
                 $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
             }
         }
