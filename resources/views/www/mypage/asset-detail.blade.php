@@ -165,7 +165,7 @@
                 $avgRealPrice * 0.01;
 
             $CPrice = $APrice * yearRate($year);
-            $BPrice = ($ownership_share > 0 ? $APrice - $CPrice / $ownership_share : $APrice) - $CPrice;
+            $BPrice = $APrice - $CPrice;
             $DPrice = $BPrice - 2500000;
 
             info('APrice : ' . $APrice);
