@@ -8,47 +8,54 @@
 
         $myPrice = $result->month_price - ($result->loan_price * ($result->loan_rate / 100)) / 12;
 
-        function taxRate($price)
+        function priceRate($price)
         {
-            $percent = 0;
+            $taxPrice = 0;
+            $taxRate = 0;
+
             switch ($price) {
-                case $price <= 14000000:
-                    $percent = 0.06;
+                case $price <= 1400:
+                    $taxPrice = 0;
+                    $taxRate = 0.06;
                     break;
 
-                case $price <= 5000000:
-                    $percent = 0.15;
+                case $price <= 5000:
+                    $taxPrice = 126;
+                    $taxRate = 0.15;
                     break;
 
-                case $price <= 88000000:
-                    $percent = 0.24;
+                case $price <= 8800:
+                    $taxPrice = 576;
+                    $taxRate = 0.24;
                     break;
 
-                case $price <= 150000000:
-                    $percent = 0.35;
+                case $price <= 15000:
+                    $taxPrice = 1544;
+                    $taxRate = 0.35;
                     break;
 
-                case $price <= 300000000:
-                    $percent = 0.38;
+                case $price <= 30000:
+                    $taxPrice = 1994;
+                    $taxRate = 0.38;
                     break;
 
-                case $price <= 500000000:
-                    $percent = 0.4;
+                case $price <= 50000:
+                    $taxPrice = 2594;
+                    $taxRate = 0.4;
                     break;
 
-                case $price <= 1000000000:
-                    $percent = 0.42;
+                case $price <= 100000:
+                    $taxPrice = 3594;
+                    $taxRate = 0.42;
                     break;
 
-                case $price > 1000000000:
-                    $percent = 0.45;
-                    break;
-                default:
-                    $percent = 0.1;
+                case $price > 100000:
+                    $taxPrice = 6594;
+                    $taxRate = 0.45;
                     break;
             }
 
-            return $percent;
+            return ['taxPrice' => $taxPrice, 'taxRate' => $taxRate];
         }
 
         function yearRate($year)
@@ -82,7 +89,6 @@
             } elseif ($year >= 15) {
                 $percent = 0.3;
             }
-
             return $percent;
         }
 
@@ -178,10 +184,16 @@
                 $EPrice = $DPrice * 0.4;
                 $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
             } elseif ($year >= 2 && $year < 3) {
-                $EPrice = $DPrice * taxRate($DPrice);
+                $tax = priceRate($DPrice);
+
+                info($tax);
+                $TaxRate = $tax['taxRate'];
+                $TaxPrice = $tax['taxPrice'];
+                $EPrice = $DPrice * 0;
+                info($EPrice);
                 $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
             } else {
-                $EPrice = $DPrice * taxRate($DPrice);
+                $EPrice = $DPrice * priceRate($DPrice);
                 info('EPrice : ' . $EPrice);
                 $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
             }
