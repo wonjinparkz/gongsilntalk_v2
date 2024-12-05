@@ -166,7 +166,7 @@
 
             if ($year < 1) {
                 $lastPrice = ($DPrice * 0.5) / 10000;
-                $latstPrice = ($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $lastPrice;
+                $latstPrice = ($ownership_share > 0 ? $APrice * $ownership_share : $APrice) - $lastPrice;
             } elseif ($year >= 1 && $year < 2) {
                 $lastPrice = ($DPrice * 0.4) / 10000;
             } else {
