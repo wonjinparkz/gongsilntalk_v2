@@ -169,17 +169,12 @@
             if ($year < 1) {
                 $EPrice = $DPrice * 0.5;
                 $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
-                info('EPrice : ' . $EPrice);
-                info('ownership_share : ' . ($ownership_share > 0 ? $APrice / $ownership_share : $APrice));
-                info('lastPrice : ' . $lastPrice);
             } elseif ($year >= 1 && $year < 2) {
                 $EPrice = ($DPrice * 0.4) / 10000;
-                $lastPrice = ($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice;
-                info('EPrice1 : ' . $EPrice);
+                $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
             } else {
                 $EPrice = ($DPrice * taxRate($DPrice)) / 10000;
-                $lastPrice = ($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice;
-                info('EPrice2 : ' . $EPrice);
+                $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
             }
         }
     @endphp
