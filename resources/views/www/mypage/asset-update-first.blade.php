@@ -277,8 +277,8 @@
                         </div>
                         <div class="reg_mid_wrap">
                             <div class="share_wrap mt8">
-                                <div class="share_item open_key {{ $result->name_type == 0 ? 'active' : '' }}"></div>
-                                <div class="share_item open_key {{ $result->name_type != 0 ? 'active' : '' }}">
+                                <div class="share_item open_key active"></div>
+                                <div class="share_item open_key ">
                                     <div class="reg_item">
                                         <div class="input_pyeong_area">
                                             <div>
