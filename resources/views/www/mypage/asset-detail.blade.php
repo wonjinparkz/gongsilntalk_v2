@@ -165,7 +165,7 @@
                 $avgRealPrice * 0.01;
 
             $CPrice = $APrice * yearRate($year);
-            $BPrice = $APrice - $CPrice;
+            $BPrice = ($APrice - $CPrice) * $ownership_share;
             $DPrice = $BPrice - 2500000;
 
             info('APrice : ' . $APrice);
@@ -175,23 +175,23 @@
 
             if ($year < 1) {
                 $EPrice = $DPrice * 0.5;
-                $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
+                $lastPrice = ($APrice - $EPrice) / 10000;
             } elseif ($year >= 1 && $year < 2) {
                 $EPrice = $DPrice * 0.4;
-                $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
+                $lastPrice = ($APrice - $EPrice) / 10000;
             } elseif ($year >= 2 && $year < 3) {
                 $tax = priceRate($DPrice);
                 info($tax);
                 $TaxRate = $tax['taxRate'];
                 $TaxPrice = $tax['taxPrice'];
                 $EPrice = $DPrice * $TaxRate - $TaxPrice;
-                $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
+                $lastPrice = ($APrice - $EPrice) / 10000;
             } else {
                 $tax = priceRate($DPrice);
                 $TaxRate = $tax['taxRate'];
                 $TaxPrice = $tax['taxPrice'];
                 $EPrice = $DPrice * $TaxRate - $TaxPrice;
-                $lastPrice = (($ownership_share > 0 ? $APrice / $ownership_share : $APrice) - $EPrice) / 10000;
+                $lastPrice = ($APrice - $EPrice) / 10000;
             }
         }
     @endphp
