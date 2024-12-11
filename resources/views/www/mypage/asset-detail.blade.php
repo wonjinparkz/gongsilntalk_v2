@@ -608,7 +608,8 @@
                             <span class="fs_16 gray_deep">사업자등록증</span>
                             <div class="relative">
                                 @if (isset($result->entre_images->path))
-                                    <button class="btn_graylight_ghost btn_sm btn_share only_pc" data-share="share_entre"><img
+                                    <button class="btn_graylight_ghost btn_sm btn_share only_pc"
+                                        data-share="share_entre"><img
                                             src="{{ asset('assets/media/header_btn_share_deep.png') }}"
                                             class="normal"></button>
 
@@ -681,10 +682,41 @@
                             <span class="fs_16 gray_deep">임대차 계약서</span>
                             <div class="relative">
                                 @if (isset($result->rental_images->path))
-                                    <button class="btn_graylight_ghost btn_sm btn_share"
+                                    <button class="btn_graylight_ghost btn_sm btn_share only_pc"
                                         data-share="share_rental"><img
                                             src="{{ asset('assets/media/header_btn_share_deep.png') }}"
                                             class="normal"></button>
+
+                                    <div class="asset_share only_m" style="display: none;">
+                                        <button class="btn_graylight_ghost btn_sm"
+                                            onclick="modal_open_slide('share_rental')"><img
+                                                src="{{ asset('assets/media/header_btn_share_deep.png') }}"
+                                                class="normal"></button>
+
+                                        <div class="modal_slide modal_slide_share_rental">
+                                            <div class="slide_title_wrap">
+                                                <span>공유하기</span>
+                                                <img src="{{ asset('assets/media/btn_md_close.png') }}"
+                                                    onclick="modal_close_slide('share_rental')">
+                                            </div>
+                                            <div class="slide_modal_body">
+                                                <div class="layer_share_con">
+                                                    <a class="kakaotalk-sharing-btn"
+                                                        data-image-title="임대차 계약서 공유드립니다."
+                                                        data-image-url="{{ asset('storage/image/') . '/' . $result->rental_images->path }}"
+                                                        onclick="modal_close_slide('share_rental');">
+                                                        <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                                                        <p class="mt8">카카오톡</p>
+                                                    </a>
+                                                    <a
+                                                        onclick="textCopy('{{ asset('storage/image/') . '/' . $result->rental_images->path }}');modal_close_slide('share_rental');">
+                                                        <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                                                        <p class="mt8">링크복사</p>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <button class="btn_graylight_ghost btn_sm" type="button"
                                         onclick="location.href='{{ route('api.imagedownload', $result->rental_images->path) }}'">다운</button>
 
@@ -725,9 +757,41 @@
                             <span class="fs_16 gray_deep">기타서류</span>
                             <div class="relative">
                                 @if (isset($result->etc_images->path))
-                                    <button class="btn_graylight_ghost btn_sm btn_share" data-share="share_etc"><img
+                                    <button class="btn_graylight_ghost btn_sm btn_share only_pc"
+                                        data-share="share_etc"><img
                                             src="{{ asset('assets/media/header_btn_share_deep.png') }}"
                                             class="normal"></button>
+
+                                    <div class="asset_share only_m" style="display: none;">
+                                        <button class="btn_graylight_ghost btn_sm"
+                                            onclick="modal_open_slide('share_etc')"><img
+                                                src="{{ asset('assets/media/header_btn_share_deep.png') }}"
+                                                class="normal"></button>
+
+                                        <div class="modal_slide modal_slide_share_etc">
+                                            <div class="slide_title_wrap">
+                                                <span>공유하기</span>
+                                                <img src="{{ asset('assets/media/btn_md_close.png') }}"
+                                                    onclick="modal_close_slide('share_etc')">
+                                            </div>
+                                            <div class="slide_modal_body">
+                                                <div class="layer_share_con">
+                                                    <a class="kakaotalk-sharing-btn" data-image-title="기타서류 공유드립니다."
+                                                        data-image-url="{{ asset('storage/image/') . '/' . $result->etc_images->path }}"
+                                                        onclick="modal_close_slide('share_etc');">
+                                                        <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                                                        <p class="mt8">카카오톡</p>
+                                                    </a>
+                                                    <a
+                                                        onclick="textCopy('{{ asset('storage/image/') . '/' . $result->etc_images->path }}');modal_close_slide('share_etc');">
+                                                        <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                                                        <p class="mt8">링크복사</p>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <button class="btn_graylight_ghost btn_sm" type="button"
                                         onclick="location.href='{{ route('api.imagedownload', $result->etc_images->path) }}'">다운</button>
 
