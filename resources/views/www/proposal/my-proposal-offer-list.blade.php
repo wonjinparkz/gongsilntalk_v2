@@ -89,9 +89,14 @@
                                 </div>
                                 <!-- <button class="btn_gray_ghost btn_sm" type="button"
                                     onclick="downloadPDF();">공유하기</button> -->
+
                                 <button class="btn_gray_ghost btn_sm btn_share only_pc" type="button">공유하기</button>
-                                <button class="btn_gray_ghost btn_sm only_m"
-                                    onclick="modal_open_slide('share')">공유하기</button>
+
+                                <div class="only_m">
+                                    <button class="btn_gray_ghost btn_sm only_m"
+                                        onclick="modal_open_slide('share')">공유하기</button>
+                                </div>
+
                                 <!-- 공유하기 : s -->
                                 <div class="layer layer_share_wrap">
                                     <div class="layer_title">
