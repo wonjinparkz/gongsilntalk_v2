@@ -655,7 +655,7 @@ class ProductPcController extends Controller
                 'is_option' => $request->is_option,
 
             ];
-        } else if ($request->type == 3) {
+        } else if (in_array($request->type, [3, 15])) {
             $product_add_info = [
                 'product_id' => $result->id,
                 'current_business' => $request->current_business,
@@ -724,7 +724,7 @@ class ProductPcController extends Controller
                 'is_elevator' => $request->is_elevator,
                 'is_option' => $request->is_option,
             ];
-        } else if ($request->type > 13) {
+        } else if ($request->type == 14) {
             $product_add_info = [
                 'product_id' => $result->id,
                 'direction_type' => $request->direction_type,

@@ -101,7 +101,7 @@
                             </div>
                         @endif
 
-                        @if (in_array($type, [3]))
+                        @if (in_array($type, [3, 15]))
                             <div class="reg_mid_wrap">
                                 <div class="reg_item">
                                     <input type="hidden" name="current_business_type" value="">
@@ -693,7 +693,7 @@
 
                     }
                 });
-            } else if (type == 3) {
+            } else if (type == 3 || type == 15) {
                 // 옵션 구성
                 $('.option_facility_row').show();
                 $('.option_security_row').show();

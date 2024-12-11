@@ -754,7 +754,7 @@
                                             inputmode="numeric" oninput="onlyNumbers(this); onTextChangeEvent(this)">
                                         <span class="gray_deep">원</span>
 
-                                        @if ($type != 6)
+                                        @if ($product->type != 6)
                                             <input type="checkbox" name="is_service" id="is_service_4"
                                                 value="1" {{ $product->is_service == 1 ? 'checked' : '' }}>
                                             <label for="is_service_4" class="gray_deep"><span></span> 관리비 없음</label>
@@ -850,7 +850,7 @@
                         @if ($product->type != 6)
 
                             {{-- 상업용 - 상가일 경우 --}}
-                            @if ($product->type == 3)
+                            @if ($product->type == 3 || $product->type == 15)
                                 <div class="reg_mid_wrap">
                                     <div class="reg_item">
                                         <input type="hidden" name="current_business_type"
@@ -977,7 +977,7 @@
                             </div>
 
                             <div class="reg_mid_wrap">
-                                @if (in_array($product->type, [0, 1, 2]) || $product->type > 13)
+                                @if (in_array($product->type, [0, 1, 2, 14]))
                                     <div class="reg_item">
                                         <label class="input_label">하중(평당)</label>
                                         <div class="flex_1 mt10">
@@ -1001,7 +1001,7 @@
 
                                     </div>
                                 </div>
-                                @if (in_array($product->type, [0, 1, 2, 7]) || $product->type > 13)
+                                @if (in_array($product->type, [0, 1, 2, 7, 14]))
                                     <div class="reg_item">
                                         <label class="input_label">화물용 승강시설</label>
                                         <div class="btn_radioType mt18">
@@ -1020,7 +1020,7 @@
                                 @endif
                             </div>
 
-                            @if (in_array($product->type, [0, 1, 2]) || $product->type > 13)
+                            @if (in_array($product->type, [0, 1, 2, 14]))
                                 <div class="reg_mid_wrap">
                                     <div class="reg_item">
                                         <label class="input_label">인테리어 여부</label>
@@ -1075,7 +1075,7 @@
                                 </div>
                             @endif
 
-                            @if (in_array($product->type, [0, 1, 2, 7]) || $product->type > 13)
+                            @if (in_array($product->type, [0, 1, 2, 7, 14]))
                                 <div class="reg_item">
                                     <label class="input_label">층고</label>
                                     <div class="btn_radioType">
@@ -1094,7 +1094,7 @@
                                     </div>
                                 </div>
                             @endif
-                            @if (in_array($product->type, [0, 1, 2, 7]) || $product->type > 13)
+                            @if (in_array($product->type, [0, 1, 2, 7, 14]))
                                 <div>
                                     <div class="reg_item">
                                         <label class="input_label">사용전력</label>

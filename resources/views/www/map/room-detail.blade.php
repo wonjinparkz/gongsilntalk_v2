@@ -408,11 +408,11 @@
                                 @if ($type == 3)
                                     <div>현 업종</div>
                                     <div>
-                                        {{ Lang::get('commons.product_business_type.' . $result->productAddInfo->current_business_type) }}
+                                        {{ $result->productAddInfo->current_business_type != '' ? Lang::get('commons.product_business_type.' . $result->productAddInfo->current_business_type) : '-' }}
                                     </div>
                                     <div>추천 업종</div>
                                     <div>
-                                        {{ Lang::get('commons.product_business_type.' . $result->productAddInfo->recommend_business_type) }}
+                                        {{ $result->productAddInfo->recommend_business_type != '' ? Lang::get('commons.product_business_type.' . $result->productAddInfo->recommend_business_type) : '-' }}
                                     </div>
                                 @endif
                                 <div>건물 방향</div>
