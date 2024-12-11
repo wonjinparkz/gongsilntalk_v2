@@ -528,18 +528,50 @@
                 <h4>등록 서류</h4>
                 <div class="download_wrap">
                     <div class="download_item">
+
                         <div class="flex_between">
                             <span class="fs_16 gray_deep">매매계약서</span>
                             <div class="relative">
                                 @if (isset($result->sale_images->path))
-                                    <button class="btn_graylight_ghost btn_sm btn_share" data-share="share_sale"><img
+                                    <button class="btn_graylight_ghost btn_sm btn_share only_pc"
+                                        data-share="share_sale"><img
                                             src="{{ asset('assets/media/header_btn_share_deep.png') }}"
                                             class="normal"></button>
+
+                                    <div class="asset_share only_m" style="display: none;">
+                                        <button class="btn_graylight_ghost btn_sm"
+                                            onclick="modal_open_slide('share_sale')"><img
+                                                src="{{ asset('assets/media/header_btn_share_deep.png') }}"
+                                                class="normal"></button>
+
+                                        <div class="modal_slide modal_slide_share_sale">
+                                            <div class="slide_title_wrap">
+                                                <span>공유하기</span>
+                                                <img src="{{ asset('assets/media/btn_md_close.png') }}"
+                                                    onclick="modal_close_slide('share_sale')">
+                                            </div>
+                                            <div class="slide_modal_body">
+                                                <div class="layer_share_con">
+                                                    <a class="kakaotalk-sharing-btn" data-share="share_sale"
+                                                        onclick="modal_close_slide('share_sale');">
+                                                        <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                                                        <p class="mt8">카카오톡</p>
+                                                    </a>
+                                                    <a
+                                                        onclick="textCopy('{{ asset('storage/image/') . '/' . $result->sale_images->path }}');modal_close_slide('share_sale');">
+                                                        <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                                                        <p class="mt8">링크복사</p>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <button class="btn_graylight_ghost btn_sm" type="button"
                                         onclick="location.href='{{ route('api.imagedownload', $result->sale_images->path) }}'">다운</button>
 
                                     <div class="layer layer_share_wrap layer_share_top share_sale">
-                                        <div class="layer_title">
+                                        <div class="layer_title only_pc">
                                             <h5>공유하기</h5>
                                             <img src="{{ asset('assets/media/btn_md_close.png') }}"
                                                 class="md_btn_close btn_share" data-share="share_sale">
@@ -558,7 +590,6 @@
                                         </div>
                                     </div>
                                 @endif
-
                             </div>
 
                         </div>
