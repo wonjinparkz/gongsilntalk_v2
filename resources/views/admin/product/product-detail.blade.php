@@ -59,7 +59,7 @@
                     <div class="row mb-6">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">매물종류</label>
                         <div class="col-lg-10 fv-row">
-                            <div class="row mb-6">
+                            <div class="row mb-6" hidden>
                                 <label class="col-lg-2 col-form-label fw-semibold fs-6">주거용</label>
                                 <div class="col-lg-10 fv-row">
                                     @for ($i = 8; $i < 14; $i++)
@@ -90,7 +90,7 @@
                             <div class="row mb-6">
                                 <label class="col-lg-2 col-form-label fw-semibold fs-6">분양권</label>
                                 <div class="col-lg-10 fv-row">
-                                    @for ($i = 14; $i < Count(Lang::get('commons.product_type')); $i++)
+                                    @for ($i = 14; $i < 16; $i++)
                                         <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                             <input class="form-check-input" name="type" type="radio"
                                                 value="{{ $i }}"

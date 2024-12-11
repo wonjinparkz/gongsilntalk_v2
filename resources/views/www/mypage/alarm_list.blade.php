@@ -102,74 +102,84 @@
                             @else
                                 @foreach ($alarmList as $alarm)
                                     <!-- 전체알림 : s -->
-                                    <div class="alarm_list"
-                                        onclick="location.href='{{ route('www.alarm.read', ['id' => $alarm->id]) }}'">
-                                        <div>
-                                            <p class="alarm_item_1">
-                                                <span class="alarm_tit">{{ $alarm->title }}
-                                                    @if ($alarm->readed_at == null)
+                                    @if ($alarm->index == 0)
+                                        <div class="alarm_list">
+                                        @else
+                                            <div class="alarm_list"
+                                                onclick="location.href='{{ route('www.alarm.read', ['id' => $alarm->id]) }}'">
+                                    @endif
+                                    <div>
+                                        <p class="alarm_item_1">
+                                            <span class="alarm_tit">
+                                                {{ $alarm->title }}
+                                                @if ($alarm->readed_at == null)
+                                                    <i title="new"></i>
+                                                @endif
+                                            </span>
+                                            @if ($alarm->index == '0')
+                                                <span class="alarm_info">
+                                                    {{ $alarm->body }}
+                                                </span>
+                                            @endif
+                                            <span class="alarm_date">{{ onDateChange($alarm->created_at) }}</span>
+                                        </p>
+                                    </div>
+                        </div>
+                        @endforeach
+                        @endif
+                    </div>
+
+                    <div id="productAlarmList" style="display:none;">
+                        @if (count($productAlarmList) < 1)
+                            <!-- 데이터가 없을 경우 : s -->
+                            <div class="empty_wrap">
+                                <p>새로운 알림이 없습니다.</p>
+                                <span>분양현장에서 마음에 드는 분양 매물의<br>‘알림 받기’ 등록을 해보세요.</span>
+                                <div class="mt8"><button class="btn_point btn_md_bold"
+                                        onclick="location.href='{{ route('www.site.product.list.view') }}'">분양현장
+                                        바로가기</button>
+                                </div>
+                            </div>
+                            <!-- 데이터가 없을 경우 : e -->
+                        @else
+                            @foreach ($productAlarmList as $productAlarm)
+                                <div>
+                                    <!-- 전체알림 : e -->
+                                    <!-- 분양현장 알림 : s -->
+                                    <div class="alarm_list alarm_list_2"
+                                        onclick="location.href='{{ route('www.alarm.read.site.product', ['id' => $productAlarm->id]) }}'">
+                                        <div class="alarm_dday">
+                                            <p class="alarm_item_1"><span
+                                                    class="alarm_tit">{{ $productAlarm->siteProduct->region_address }}
+                                                    @if ($productAlarm->readed_at == null)
                                                         <i title="new"></i>
                                                     @endif
                                                 </span>
-                                                <span class="alarm_date">{{ onDateChange($alarm->created_at) }}</span>
+                                                <span
+                                                    class="alarm_date">{{ onDateChange($productAlarm->created_at) }}</span>
                                             </p>
                                         </div>
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>
-
-                        <div id="productAlarmList" style="display:none;">
-                            @if (count($productAlarmList) < 1)
-                                <!-- 데이터가 없을 경우 : s -->
-                                <div class="empty_wrap">
-                                    <p>새로운 알림이 없습니다.</p>
-                                    <span>분양현장에서 마음에 드는 분양 매물의<br>‘알림 받기’ 등록을 해보세요.</span>
-                                    <div class="mt8"><button class="btn_point btn_md_bold"
-                                            onclick="location.href='{{ route('www.site.product.list.view') }}'">분양현장 바로가기</button>
-                                    </div>
-                                </div>
-                                <!-- 데이터가 없을 경우 : e -->
-                            @else
-                                @foreach ($productAlarmList as $productAlarm)
-                                    <div>
-                                        <!-- 전체알림 : e -->
-                                        <!-- 분양현장 알림 : s -->
-                                        <div class="alarm_list alarm_list_2"
-                                            onclick="location.href='{{ route('www.alarm.read.site.product', ['id' => $productAlarm->id]) }}'">
-                                            <div class="alarm_dday">
-                                                <p class="alarm_item_1"><span
-                                                        class="alarm_tit">{{ $productAlarm->siteProduct->region_address }}
-                                                        @if ($productAlarm->readed_at == null)
-                                                            <i title="new"></i>
-                                                        @endif
-                                                    </span>
-                                                    <span
-                                                        class="alarm_date">{{ onDateChange($productAlarm->created_at) }}</span>
-                                                </p>
-                                            </div>
-                                            <div class="alarm_info alarm_address">
-                                                {{-- {{ Lang::get('commons.product_type.' . $productAlarm->product->type) }} --}}
-                                                {{ $productAlarm->title }}</div>
-                                            <div class="alarm_arrow">
-                                                <img src="{{ asset('assets/media/ic_list_arrow.png') }}"
-                                                    class="w_8p">
-                                            </div>
+                                        <div class="alarm_info alarm_address">
+                                            {{-- {{ Lang::get('commons.product_type.' . $productAlarm->product->type) }} --}}
+                                            {{ $productAlarm->title }}</div>
+                                        <div class="alarm_arrow">
+                                            <img src="{{ asset('assets/media/ic_list_arrow.png') }}" class="w_8p">
                                         </div>
-                                        <!-- 분양현장 알림 : e -->
                                     </div>
-                                @endforeach
-                            @endif
-                        </div>
+                                    <!-- 분양현장 알림 : e -->
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
-
-                    <!-- list : e -->
-
                 </div>
-            </div>
-            <!-- my_body : e -->
 
+                <!-- list : e -->
+
+            </div>
         </div>
+        <!-- my_body : e -->
+
+    </div>
     </div>
 
     <input type="hidden" id="checkCount" name="checkCount" value="{{ $checkCount }}">
