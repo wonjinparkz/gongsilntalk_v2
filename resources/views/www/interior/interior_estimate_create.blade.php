@@ -20,7 +20,7 @@
 
             <div class="offer_step_wrap">
                 <div class="box_01 box_reg">
-                    <h4>1. 사무실 인테리어 상담 희망 내용을 선택해주세요. <span class="txt_point">*</span></h4>
+                    <h4>1. 사무실 인테리어 상담 희망 내용을 선택해주세요. (복수선택 가능) <span class="txt_point">*</span></h4>
                     <div class="tab_area_wrap1">
                         <div>
                             <div class="btn_checktype">
@@ -43,7 +43,7 @@
 
                     <div class="reg_mid_wrap">
                         <div class="reg_item">
-                            <label class="input_label">공급 면적 기준 평</label>
+                            <label class="input_label">실사용 면적 기준(평)</label>
                             <div class="flex_1 flex_between">
                                 <input type="number" name="area" id="area" placeholder="ex) 330">
                                 <span>평</span>
@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="box_01 box_reg">
-                    <h4>3. 서비스가 필요한 위치와 입주 예정일을 작성해주세요.</h4>
+                    <h4>3. 서비스가 필요한 위치와 입주 예정일을 작성해주세요. <span class="txt_point">*</span></h4>
 
                     <div class="reg_mid_wrap">
                         <div class="reg_item">
@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="box_01 box_reg">
-                    <h4>4. 제안 받으실 기업의 정보를 작성해주세요.</h4>
+                    <h4>4. 제안 받으실 기업의 정보를 작성해주세요. <span class="txt_point">*</span></h4>
 
                     <div class="reg_mid_wrap">
                         <div class="reg_item">
@@ -94,6 +94,17 @@
                                 <input type="text" max="11" name="company_phone" id="company_phone"
                                     oninput="onlyNumbers(this)" placeholder="ex) 01012345678">
                             </div>
+                            <p class="txt_point phone_number" hidden>11자리까지 입력해주세요.</p>
+                            <script>
+                                $('#company_phone').on('input', function() {
+                                    var inputLength = $(this).val().length;
+                                    if (inputLength !== 11) {
+                                        $('.phone_number').show();
+                                    } else {
+                                        $('.phone_number').hide();
+                                    }
+                                });
+                            </script>
                         </div>
                         <div class="reg_item">
                             <label class="input_label">담당자 성함</label>
