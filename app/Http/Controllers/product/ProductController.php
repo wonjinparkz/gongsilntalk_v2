@@ -200,7 +200,6 @@ class ProductController extends Controller
      */
     public function productUpdate(Request $request): RedirectResponse
     {
-        info($request->product_image_ids);
 
         $validator = Validator::make($request->all(), [
             'id' => 'required',
@@ -463,9 +462,6 @@ class ProductController extends Controller
             }
         }
 
-
-        info($request);
-        info($request->product_image_ids);
 
         $this->imageWithEdit($request->product_image_ids, Product::class, $request->id);
 

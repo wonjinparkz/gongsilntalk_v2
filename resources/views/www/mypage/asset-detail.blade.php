@@ -139,8 +139,6 @@
         if ($result->type_detail == 0) {
             $year = year($result->contracted_at);
 
-            info($year);
-
             $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 1;
 
             $avgPrice = $price / $ownership_share / $result->area / 10000;
@@ -167,11 +165,6 @@
             $CPrice = $APrice * yearRate($year);
             $BPrice = ($APrice - $CPrice) * $ownership_share;
             $DPrice = $BPrice - 2500000;
-
-            info('APrice : ' . $APrice);
-            info('BPrice : ' . $BPrice);
-            info('CPrice : ' . $CPrice);
-            info('DPrice : ' . $DPrice);
 
             if ($year < 1) {
                 $EPrice = $DPrice * 0.5;

@@ -175,7 +175,8 @@
                     </div>
 
                     <div class="">
-                        <div class="default_box showstep1">
+                        {{-- <div class="default_box showstep1"> --}}
+                        <div class="default_box">
                             <div class="table_container2_sm mt10">
                                 <div class="td">규모</div>
                                 <div class="td">{{ $result->min_floor ?? '-' }}층 /
@@ -200,7 +201,7 @@
                                     {{ number_format($result->area) }}평 / {{ number_format($result->square, 2) }}㎡
                                 </div>
                                 <div class="td">주차대수</div>
-                                <div class="td">{{ number_format($result->parking_count) }}</div>
+                                <div class="td">{{ number_format($result->parking_count) }}대</div>
                                 <div class="td">세대수</div>
                                 <div class="td">{{ number_format($result->generation_count) }}</div>
                                 <div class="td">시공사</div>
@@ -209,7 +210,7 @@
                                 <div class="td">{{ $result->developer ?? '-' }}</div>
                             </div>
                         </div>
-                        <div class="btn_more_open">더보기</div>
+                        {{-- <div class="btn_more_open">더보기</div> --}}
                     </div>
 
                     @if ($result->characteristics_json != '')
@@ -233,11 +234,13 @@
                             }
                         @endphp
                         <div class="open_con_wrap building_item_4">
-                            <div class="open_trigger">토지정보 <span><img
-                                        src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
+                            {{-- <div class="open_trigger">토지정보 <span><img
+                                        src="{{ asset('assets/media/dropdown_arrow.png') }}"></span> --}}
+                            <div class="open_trigger">토지정보 <span></span>
                             </div>
                             <div class="con_panel">
-                                <div class="default_box showstep1">
+                                {{-- <div class="default_box showstep1"> --}}
+                                <div class="default_box">
                                     <div class="table_container2_sm mt10">
                                         <div class="td">면적</div>
                                         <div class="td">{{ number_format($jsonArray['lndpclAr'], 2) }}㎡</div>
@@ -257,7 +260,7 @@
                                         <div class="td">{{ $prpos ?? '-' }}</div>
                                     </div>
                                 </div>
-                                <div class="btn_more_open">더보기</div>
+                                {{-- <div class="btn_more_open">더보기</div> --}}
                             </div>
                         </div>
                     @endif
@@ -431,4 +434,9 @@
             behavior: 'smooth'
         });
     }
+
+    $('.open_trigger').click(function() {
+        $(this).siblings('.con_panel').slideToggle();
+        $(this).find('img').toggleClass('rotate');
+    });
 </script>
