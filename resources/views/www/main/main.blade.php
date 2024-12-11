@@ -123,7 +123,7 @@
             <div class="m_inner_wrap m_main_wrap">
                 <h4>어떤 매물을 찾고 계신가요?</h4>
                 <div class="main_search flex_between">
-                    <input type="text" id="search_input" name="search_input" placeholder="단지명, 동이름, 지하철역으로 검색"
+                    <input type="text" id="search_input" name="search_input" placeholder="지역명, 단지명, 지하철역으로 검색"
                         autocomplete='off'>
                     <img src="{{ asset('assets/media/btn_solid_delete.png') }}" alt="del" class="btn_del"
                         style="display: none">

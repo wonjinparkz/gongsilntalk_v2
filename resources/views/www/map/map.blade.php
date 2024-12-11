@@ -27,7 +27,7 @@
             </div>
             <div class="map_search_wrap non_pano">
                 <div class="flex_between">
-                    <input type="text" id="search_input" class="map_search" placeholder="단지명, 동이름, 지하철역으로 검색"
+                    <input type="text" id="search_input" class="map_search" placeholder="지역명, 단지명, 지하철역으로 검색"
                         autocomplete='off'>
                     <img src="{{ asset('assets/media/btn_solid_delete.png') }}" alt="del" class="btn_del">
                     {{-- <button><img src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button> --}}

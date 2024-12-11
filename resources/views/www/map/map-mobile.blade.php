@@ -33,7 +33,7 @@
     <div class="map_m_top_wrap only_m">
         <div class="m_inner_wrap">
             <div class="community_search_wrap flex_between">
-                <input type="text" id="search_input" name="search_input" placeholder="단지명, 동이름, 지하철역으로 검색"
+                <input type="text" id="search_input" name="search_input" placeholder="지역명, 단지명, 지하철역으로 검색"
                     autocomplete='off' value="{{ $search_name }}">
                 <img src="{{ asset('assets/media/btn_solid_delete.png') }}" alt="del" class="btn_del">
                 {{-- <button><img src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button> --}}
