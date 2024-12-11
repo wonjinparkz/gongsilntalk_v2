@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\commons;
 
 use App\Http\Controllers\Controller;
+use App\Models\DataApt;
 use App\Models\RegionCoordinate;
 use App\Models\Subway;
 use GuzzleHttp\Exception\TransferException;
@@ -37,13 +38,16 @@ class PopupOpenController extends Controller
      */
     public function searchAddress(Request $request)
     {
-        $subwayList = Subway::where('subway_name', 'like', "%{$request->search}%")->get();
+        $subwayList = Subway::where('subway_name', 'like', "%{$request->search}%")->limit(10)->get();
 
-        $regionList = RegionCoordinate::where('dong', 'like', "%{$request->search}%")->get();
+        $regionList = RegionCoordinate::where('dong', 'like', "%{$request->search}%")->limit(10)->get();
+
+        $productList = DataApt::where('kaptName', 'like', "%{$request->search}%")->limit(10)->get();
 
         $responseData = [
             'subwayList' => $subwayList,
-            'regionList' => $regionList
+            'regionList' => $regionList,
+            'productList' => $productList
         ];
 
         return $this->sendResponse($responseData, "주소 검색 결과값.");

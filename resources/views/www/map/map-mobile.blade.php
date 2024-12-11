@@ -136,8 +136,10 @@
                             'search': search
                         },
                         success: function(data, status, xhr) {
+                            $('#search_list').empty();
                             var subwayList = data.result['subwayList'];
                             var regionList = data.result['regionList'];
+                            var productList = data.result['productList'];
                             subwayList.forEach(function(item, index) {
                                 var name = item.subway_name + ' ' + `[${item.line}]`;
                                 var Sname = getSearchContent(search, name);
@@ -156,6 +158,15 @@
                     </div>`;
                                 $('#search_list').append(list_row);
                             });
+                            productList.forEach(function(item, index) {
+                                var name = item.kaptName;
+                                var Sname = getSearchContent(search, name);
+                                var list_row = `
+                        <div class="side_search_list_row" onclick="search_click('${item.y}', '${item.x}', '${name}')">
+                            <a>${Sname}</a>
+                        </div>`;
+                                $('#search_list').append(list_row);
+                            });
                         },
                         error: function(xhr, status, e) {}
                     });
@@ -169,7 +180,7 @@
                 $('#search_input').val(name);
 
                 var currentLocation = new naver.maps.LatLng(lat, lng);
-                map.setZoom(18, true);
+                map.setZoom(16, true);
                 map.setCenter(currentLocation);
 
                 const searchInputValue = name;
@@ -1260,7 +1271,7 @@
     function initializeMap() {
         map = new naver.maps.Map('map', {
             center: new naver.maps.LatLng({{ $lat }}, {{ $lng }}),
-            zoom: 11,
+            zoom: {{ $zoom ?? 11}},
             minZoom: 8,
             maxZoom: 21,
             size: new naver.maps.Size(window.innerWidth, window.innerHeight),

@@ -42,9 +42,10 @@ class MapPcController extends Controller
         $mapType = $request->mapType ?? 0;
         $lat = $request->lat ?? 37.4146128;
         $lng = $request->lng ?? 126.9981006;
+        $zoom = $request->zoom ?? 11;
         $search_name = $request->search_name ?? '';
 
-        return view('www.map.map-mobile', compact('mapType', 'lat', 'lng', 'search_name', 'markerId', 'markerType'));
+        return view('www.map.map-mobile', compact('mapType', 'lat', 'lng', 'zoom','search_name', 'markerId', 'markerType'));
     }
 
     // 모바일 지도 내 매물목록
