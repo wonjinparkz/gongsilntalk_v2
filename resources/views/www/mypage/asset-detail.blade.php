@@ -552,8 +552,9 @@
                                             </div>
                                             <div class="slide_modal_body">
                                                 <div class="layer_share_con">
-                                                    <a class="kakaotalk-sharing-btn" data-share="share_sale"
-                                                        onclick="modal_close_slide('share_sale');">
+                                                    <a class="kakaotalk-sharing-btn" data-image-title="매매계약서 공유드립니다."
+                                                        onclick="modal_close_slide('share_sale');"
+                                                        data-image-url="{{ asset('storage/image/') . '/' . $result->sale_images->path }}">
                                                         <img src="{{ asset('assets/media/share_ic_01.png') }}">
                                                         <p class="mt8">카카오톡</p>
                                                     </a>
