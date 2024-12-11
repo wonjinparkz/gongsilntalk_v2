@@ -9,7 +9,7 @@
 @media all and (max-width:767px) {
 
     .asset_share.only_m{display:inline-block !important;}
-    .only_m{display:block !important;}
+    .only_m{display:block}
     .only_pc{display:none !important;}
     header, footer{display: none;}
     .body{box-sizing: border-box; padding-top:0px}
