@@ -477,9 +477,6 @@ class UserAuthPcController extends Controller
             Session::put('auto_login', 0);  // 기본값 설정
         }
 
-        // 로그 기록 (디버깅)
-        info('Request Data: ' . json_encode($requestall));
-
         return Socialite::driver('kakao')->redirect();
     }
 
