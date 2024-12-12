@@ -471,7 +471,7 @@ class UserAuthPcController extends Controller
         }
 
         // Auto Login 확인 및 세션 저장
-        if (isset($requestall['auto_login'])) {
+        if ($requestall['auto_login'] > 0) {
             Session::put('auto_login', $requestall['auto_login']);
         } else {
             Session::put('auto_login', 0);  // 기본값 설정
