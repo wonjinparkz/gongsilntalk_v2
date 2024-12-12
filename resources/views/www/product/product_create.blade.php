@@ -209,23 +209,23 @@
                                             checked>
                                         <label for="keymoney_2" onclick="showDiv('keymoney', 1)">없음</label>
                                     </div>
-                                </div>
 
-                                <div class="keymoney_wrap w_30">
-                                    <div class="keymoney_item open_key">
-                                        <div class="flex_1 flex_between">
-                                            <input type="text" name="input_premium_price" inputmode="numeric"
-                                                oninput="onlyNumbers(this); onTextChangeEvent(this);"
-                                                id="input_premium_price">
-                                            <span>원</span>
+                                    <div class="keymoney_wrap w_30 mt10">
+                                        <div class="keymoney_item open_key">
+                                            <div class="flex_1 flex_between">
+                                                <input type="text" name="input_premium_price" inputmode="numeric"
+                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);"
+                                                    id="input_premium_price">
+                                                <span>원</span>
+                                            </div>
+                                            <div class="txt_item_2 mt20">
+                                                {{-- <span name="premium_price_conversion" class="price"></span> --}}
+                                            </div>
                                         </div>
-                                        <div class="txt_item_2 mt20">
-                                            {{-- <span name="premium_price_conversion" class="price"></span> --}}
-                                        </div>
+                                        <div class="keymoney_item open_key"></div>
                                     </div>
-                                    <div class="keymoney_item open_key"></div>
-                                </div>
 
+                                </div>
 
                             </div>
                         </div>
@@ -689,6 +689,7 @@
 
             // 매물 유형 상위 선택시에
             if (className == 'category') {
+                $('#store').hide();
                 if (index == 0) {
                     commercial_reset();
                 } else if (index == 1) {
@@ -707,8 +708,6 @@
                 }
                 return;
             }
-
-
 
             var tabContents = document.querySelectorAll('.' + className + '_wrap .' + className + '_item');
             tabContents.forEach(function(content) {

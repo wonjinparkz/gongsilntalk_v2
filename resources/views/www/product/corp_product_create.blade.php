@@ -210,23 +210,23 @@
                                             checked>
                                         <label for="keymoney_2" onclick="showDiv('keymoney', 1)">없음</label>
                                     </div>
-                                </div>
 
-                                <div class="keymoney_wrap w_30">
-                                    <div class="keymoney_item open_key">
-                                        <div class="flex_1 flex_between">
-                                            <input type="text" name="input_premium_price" inputmode="numeric"
-                                                oninput="onlyNumbers(this); onTextChangeEvent(this);"
-                                                id="input_premium_price">
-                                            <span>원</span>
+                                    <div class="keymoney_wrap w_30 mt10">
+                                        <div class="keymoney_item open_key">
+                                            <div class="flex_1 flex_between">
+                                                <input type="text" name="input_premium_price" inputmode="numeric"
+                                                    oninput="onlyNumbers(this); onTextChangeEvent(this);"
+                                                    id="input_premium_price">
+                                                <span>원</span>
+                                            </div>
+                                            <div class="txt_item_2">
+                                                {{-- <span name="premium_price_conversion" class="price"></span> --}}
+                                            </div>
                                         </div>
-                                        <div class="txt_item_2 mt20">
-                                            {{-- <span name="premium_price_conversion" class="price"></span> --}}
-                                        </div>
+                                        <div class="keymoney_item open_key"></div>
                                     </div>
-                                    <div class="keymoney_item open_key"></div>
-                                </div>
 
+                                </div>
 
                             </div>
                         </div>
@@ -498,11 +498,11 @@
             // 권리금 활성화 여부 판단
             $('input[name="keymoney"]').on('change', function() {
                 var isPremium = $(this).val();
-                if (isPremium == '1') {
-                    $('#store').show(); // 권리금 있음
-                } else {
-                    $('#store').hide(); // 권리금 없음
-                }
+                // if (isPremium == '1') {
+                //     $('#store').show(); // 권리금 있음
+                // } else {
+                //     $('#store').hide(); // 권리금 없음
+                // }
             });
 
             // 기존 임대차 정보 활성화 여부 판단
@@ -717,6 +717,7 @@
 
             // 매물 유형 상위 선택시에
             if (className == 'category') {
+                $('#store').hide();
                 if (index == 0) {
                     commercial_reset();
                 } else if (index == 1) {
@@ -736,7 +737,7 @@
                 return;
             }
 
-
+            console.log('className, index ' + className, index);
 
             var tabContents = document.querySelectorAll('.' + className + '_wrap .' + className + '_item');
             tabContents.forEach(function(content) {
