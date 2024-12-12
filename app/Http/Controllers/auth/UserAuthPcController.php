@@ -529,7 +529,9 @@ class UserAuthPcController extends Controller
 
                 Auth::login($user, $auto_login);
 
-                if ($auto_login) {
+                info('auto_login123 : ' . $auto_login);
+
+                if ($auto_login == 1) {
                     $rememberToken = $user->getRememberToken();
 
                     $cookieName = 'remember_web_' . sha1(config('app.key'));
