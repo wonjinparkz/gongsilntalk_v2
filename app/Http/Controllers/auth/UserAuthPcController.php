@@ -461,14 +461,9 @@ class UserAuthPcController extends Controller
         Session::forget('device_type');
         Session::forget('auto_login');
 
-        info(
-            'fcm_key' .
-                $request->fcm_key,
-            'device_type' .
-                $request->device_type,
-            'auto_login' .
-                $request->auto_login
-        );
+        info('FCM Key: ' . $request->fcm_key);
+        info('Device Type: ' . $request->device_type);
+        info('Auto Login: ' . $request->auto_login);
 
         if ($request->fcm_key != '' && $request->device_type != '') {
             Session::put('fcm_key', $request->fcm_key);
