@@ -199,6 +199,8 @@ class UserAuthPcController extends Controller
 
             // 쿠키에서 remember_token 읽어오기
             $rememberTokenFromCookie = $request->cookie($cookieName);
+
+            info('rememberTokenFromCookie : ' . $rememberTokenFromCookie);
         }
 
         return redirect(route('www.main.main'));
@@ -457,10 +459,12 @@ class UserAuthPcController extends Controller
     {
         Session::forget('fcm_key');
         Session::forget('device_type');
+        Session::forget('auto_login');
 
         if ($request->fcm_key != '' && $request->device_type != '') {
             Session::put('fcm_key', $request->fcm_key);
             Session::put('device_type', $request->device_type);
+            Session::put('auto_login', $request->auto_login);
         }
 
         return Socialite::driver('kakao')->redirect();
@@ -485,9 +489,11 @@ class UserAuthPcController extends Controller
 
                 $fcm_key = Session::get('fcm_key');
                 $device_type = Session::get('device_type');
+                $auto_login = Session::get('auto_login');
 
                 Session::forget('fcm_key');
                 Session::forget('device_type');
+                Session::forget('auto_login');
 
                 // 업데이트할 데이터 배열 초기화
                 $updateArray = [];
@@ -508,7 +514,22 @@ class UserAuthPcController extends Controller
                 // 사용자 정보 업데이트
                 $user->update($updateArray);
 
-                Auth::guard('web')->login($user);
+                Auth::login($user, $auto_login);
+
+                if ($auto_login) {
+                    $rememberToken = $user->getRememberToken();
+
+                    $cookieName = 'remember_web_' . sha1(config('app.key'));
+
+                    // setcookie 사용하여 쿠키 설정
+                    setcookie($cookieName, $rememberToken, time() + (30 * 24 * 60 * 60), "/", null, false, true);
+
+                    // 쿠키에서 remember_token 읽어오기
+                    $rememberTokenFromCookie = $request->cookie($cookieName);
+
+                    info('rememberTokenFromCookie : ' . $rememberTokenFromCookie);
+                }
+
 
                 return "<script>window.opener.postMessage('success', window.location.origin); window.close();</script>";
             } else { // 회원 가입 화면으로 이동
