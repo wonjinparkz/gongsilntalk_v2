@@ -87,6 +87,7 @@
                     "?fcm_key=" + encodeURIComponent(fcmKey) +
                     "&device_type=" + encodeURIComponent(deviceType);
 
+                console.log(kakaoLoginUrl);
                 // var kakaoLoginUrl = "{{ route('www.login.kakao') }}";
                 var width = 500;
                 var height = 600;
