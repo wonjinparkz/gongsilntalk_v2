@@ -10,7 +10,7 @@
         @else
             <li class="btn_prev">
                 {{-- <a class="no_next" href="{{ $paginator->previousPageUrl() }}"> --}}
-                <a class="no_next" onclick="loadPageData(1);">
+                <a class="no_next" onclick="loadPageData('{{ $paginator->currentPage() - 1 }}');">
                     <img src="{{ asset('assets/media/btn_prev.png') }}" alt="">
                 </a>
             </li>
