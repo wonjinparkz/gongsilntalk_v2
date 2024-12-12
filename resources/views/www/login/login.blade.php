@@ -78,7 +78,16 @@
             Kakao.init('{{ env('KAKAO_CLIENT_ID') }}'); // 카카오 SDK 초기화
 
             function openKakaoPopup() {
-                var kakaoLoginUrl = "{{ route('www.login.kakao') }}";
+                var fcmKey = $('input[name="fcm_key"]').val();
+                var deviceType = $('input[name="device_type"]').val();
+                var autoLogin = $('#auto_login').is(':checked') ? 1 : 0;
+
+                var kakaoLoginUrl = "{{ route('www.login.kakao') }}" +
+                    "?autoLogin=" + autoLogin +
+                    "?fcm_key=" + encodeURIComponent(fcmKey) +
+                    "&device_type=" + encodeURIComponent(deviceType);
+
+                // var kakaoLoginUrl = "{{ route('www.login.kakao') }}";
                 var width = 500;
                 var height = 600;
                 var left = (screen.width / 2) - (width / 2);
