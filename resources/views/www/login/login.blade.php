@@ -28,7 +28,7 @@
                         </ul>
                         <div class="flex_between">
                             <div>
-                                <input type="checkbox" name="auto_login" id="auto_login">
+                                <input type="checkbox" name="auto_login" id="auto_login" checked>
                                 <label for="auto_login" class="mr10"><span></span> 자동로그인</label>
                             </div>
                             <a href="javascript:(0)" class="gray_basic" onclick="modal_open('pw_change1')">비밀번호 찾기</a>
