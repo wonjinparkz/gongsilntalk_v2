@@ -462,9 +462,11 @@ class UserAuthPcController extends Controller
         Session::forget('auto_login');
 
         info('ALL: ' . json_encode($request->all()));
-        info('FCM Key: ' . $request->fcm_key);
-        info('Device Type: ' . $request->device_type);
-        info('Auto Login: ' . $request->auto_login);
+
+        // 정확한 키 확인 후 요청 데이터 로깅
+        info('FCM Key: ' . $request->input('fcm_key'));
+        info('Device Type: ' . $request->input('device_type'));
+        info('Auto Login: ' . $request->input('autoLogin')); // 주의: 카멜 케이스 사용
 
         if ($request->fcm_key != '' && $request->device_type != '') {
             Session::put('fcm_key', $request->fcm_key);
