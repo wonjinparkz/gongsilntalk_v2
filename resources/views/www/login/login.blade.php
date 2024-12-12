@@ -84,7 +84,7 @@
 
                 var kakaoLoginUrl = "{{ route('www.login.kakao') }}" +
                     "?autoLogin=" + autoLogin +
-                    "?fcm_key=" + encodeURIComponent(fcmKey) +
+                    "&fcm_key=" + encodeURIComponent(fcmKey) +
                     "&device_type=" + encodeURIComponent(deviceType);
 
                 console.log(kakaoLoginUrl);
