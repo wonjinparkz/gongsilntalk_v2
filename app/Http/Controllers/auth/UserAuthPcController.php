@@ -461,13 +461,24 @@ class UserAuthPcController extends Controller
         Session::forget('device_type');
         Session::forget('auto_login');
 
+        // 요청 데이터 확인
         $requestall = $request->all();
 
-        if ($requestall['fcm_key'] != '' && $requestall['device_type'] != '') {
+        // FCM Key 및 Device Type 확인 후 세션 저장
+        if (!empty($requestall['fcm_key']) && !empty($requestall['device_type'])) {
             Session::put('fcm_key', $requestall['fcm_key']);
             Session::put('device_type', $requestall['device_type']);
         }
-        Session::put('auto_login', $requestall['auto_login']);
+
+        // Auto Login 확인 및 세션 저장
+        if (isset($requestall['auto_login'])) {
+            Session::put('auto_login', $requestall['auto_login']);
+        } else {
+            Session::put('auto_login', 0);  // 기본값 설정
+        }
+
+        // 로그 기록 (디버깅)
+        info('Request Data: ' . json_encode($requestall));
 
         return Socialite::driver('kakao')->redirect();
     }
