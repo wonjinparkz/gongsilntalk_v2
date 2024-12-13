@@ -63,7 +63,7 @@
 
                         <div>
                             <div class="btn_radioType">
-                                @for ($i = 14; $i < 18; $i++)
+                                @for ($i = 14; $i < 16; $i++)
                                     <input type="radio" name="input_type" id="type_{{ $i }}"
                                         value="{{ $i }}">
                                     <label

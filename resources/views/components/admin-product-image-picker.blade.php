@@ -26,7 +26,10 @@
                     id="{{ $id }}_image_count">{{ count(old($id . '_image_ids', $images)) }}</span>/{{ $cnt }}
             </p>
             @if ($type == 'product')
-                <span class="d-flex justify-content-end">* 첫번째 위치한 사진이 대표 이미지 입니다.</span>
+                <div>
+                    <span class="d-flex justify-content-end">* 첫번째 위치한 사진이 대표 이미지 입니다.</span>
+                    <span class="d-flex justify-content-end gray_basic">* 파일 용량이 5M이하 권장, 초과시 업로드가 지연됩니다.</span>
+                </div>
             @endif
             @if ($size != '')
                 <p>{{ $size }}</p>
