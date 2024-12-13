@@ -40,7 +40,7 @@ class SiteProductPcController extends Controller
         // 정렬
         $siteProductList->orderBy('site_product.created_at', 'desc')->orderBy('site_product.id', 'desc');
 
-        $result = $siteProductList->paginate($request->per_page == null ? 2 : $request->per_page);
+        $result = $siteProductList->paginate($request->per_page == null ? 10 : $request->per_page);
 
         $result->appends(request()->except('page'));
 
