@@ -245,7 +245,7 @@
 
     function form_sns_login(sns_url) {
         var autoLogin = $('#auto_login').is(':checked') ? 1 : 0;
-        $('$sns_auto_login').val(autoLogin);
+        $('#sns_auto_login').val(autoLogin);
         $('#sns_login').attr('action', sns_url).submit();
     }
 
