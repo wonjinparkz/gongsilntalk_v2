@@ -555,13 +555,23 @@ class UserAuthPcController extends Controller
     {
         Session::forget('fcm_key');
         Session::forget('device_type');
+        Session::forget('auto_login');
 
         if ($request->fcm_key != '' && $request->device_type != '') {
             Session::put('fcm_key', $request->fcm_key);
             Session::put('device_type', $request->device_type);
         }
 
-        info($request->all());
+        // Auto Login 확인 및 세션 저장
+        if ($request->auto_login > 0) {
+            Session::put('auto_login', $request->auto_login);
+        } else {
+            Session::put('auto_login', 0);  // 기본값 설정
+        }
+
+        info('fcm_key : ' . $request->fcm_key);
+        info('device_type : ' . $request->device_type);
+        info('auto_login : ' . $request->auto_login);
 
         return Socialite::driver('naver')->redirect();
     }
