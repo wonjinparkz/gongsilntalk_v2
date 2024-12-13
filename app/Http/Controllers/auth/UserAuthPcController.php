@@ -526,8 +526,6 @@ class UserAuthPcController extends Controller
 
                 Auth::login($user, $auto_login);
 
-                info('auto_login123 : ' . $auto_login);
-
                 if ($auto_login == 1) {
                     $rememberToken = $user->getRememberToken();
 
@@ -538,8 +536,6 @@ class UserAuthPcController extends Controller
 
                     // 쿠키에서 remember_token 읽어오기
                     $rememberTokenFromCookie = $request->cookie($cookieName);
-
-                    info('rememberTokenFromCookie : ' . $rememberTokenFromCookie);
                 }
 
 
