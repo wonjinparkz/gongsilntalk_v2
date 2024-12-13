@@ -561,6 +561,8 @@ class UserAuthPcController extends Controller
             Session::put('device_type', $request->device_type);
         }
 
+        info($request->all());
+
         return Socialite::driver('naver')->redirect();
     }
 

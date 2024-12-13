@@ -216,6 +216,7 @@
         <form class="form" name="sns_login" id="sns_login" method="GET" action="">
             <input type="hidden" name="fcm_key" value="">
             <input type="hidden" name="device_type" value="">
+            <input type="hidden" name="auto_login" id="sns_auto_login">
 
         </form>
 
@@ -243,15 +244,9 @@
     });
 
     function form_sns_login(sns_url) {
+        var autoLogin = $('#auto_login').is(':checked') ? 1 : 0;
+        $('$sns_auto_login').val(autoLogin);
         $('#sns_login').attr('action', sns_url).submit();
-    }
-
-    function openKakaoLogin(sns_url) {
-        var width = 500;
-        var height = 600;
-        var left = (screen.width / 2) - (width / 2);
-        var top = (screen.height / 2) - (height / 2);
-        window.open(sns_url, '카카오로그인', 'width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
     }
 
     $('input[name="change_password"]').keyup(function() {
