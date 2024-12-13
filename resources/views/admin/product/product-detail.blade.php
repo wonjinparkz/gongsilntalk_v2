@@ -138,8 +138,8 @@
                                 style="border: 1px solid #D2D1D0; border-radius: 5px; display: flex; align-items: center; color:#D2D1D0; justify-content:center; text-align: center; line-height: 1.4; height: 500px; margin-top:18px; position: relative;">
                                 <div id="is_temporary_0"
                                     style="position: absolute; width: 100%; height: 100%; display:;">
-                                    {{-- <div id="mapWrap" class="mapWrap"
-                                        style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div> --}}
+                                    <div id="mapWrap" class="mapWrap"
+                                        style="width: 100%; height: 100%; border-left: 1px solid #ddd;"></div>
                                 </div>
                                 <div id="is_temporary_1">
                                     (구)주소 선택시,<br>지도 노출이 불가능합니다.
@@ -192,6 +192,7 @@
                                         value="{{ old('floor_number') ? old('floor_number') : $result->floor_number }}" />
                                     <span class="input-group-text" id="basic-addon2">층</span>
                                 </div>
+                                <span class="gray_basic">* 지하의 경우 B1으로 표시</span>
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('floor_number')" />
                             </div>
                             <div class="col-lg-4 align-items-center">
@@ -235,7 +236,7 @@
                         <div class="col-lg-3 fv-row">
                             <div class="input-group">
                                 <input type="text" name="area" id="area" class="form-control"
-                                    placeholder="변환 버튼을 눌러주세요."
+                                    placeholder="변환 버튼을 눌러주세요." oninput="imsi(this); area_change('');"
                                     value="{{ old('area') ? old('area') : $result->area }}" />
                                 <span class="input-group-text" id="basic-addon2">평</span>
                             </div>
@@ -1368,11 +1369,12 @@
                     </div>
 
                 </div>
+
+                {{-- Footer Bottom START --}}
+                <div class="card-footer d-flex justify-content-end py-6 px-9">
+                    <button type="submit" class="btn btn-primary">저장</button>
+                </div>
             </x-screen-card>
-        </div>
-        {{-- Footer Bottom START --}}
-        <div class="card-footer d-flex justify-content-end py-6 px-9">
-            <button type="submit" class="btn btn-primary">저장</button>
         </div>
         {{-- Footer END --}}
     </form>
