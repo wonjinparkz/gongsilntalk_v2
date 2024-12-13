@@ -575,7 +575,7 @@ class UserAuthPcController extends Controller
     /**
      * 네이버 로그인 결과 보기
      */
-    public function naverCallback()
+    public function naverCallback(Request $request)
     {
         try {
             $naver = Socialite::driver('naver')->user();
