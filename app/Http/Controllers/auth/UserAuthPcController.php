@@ -200,7 +200,6 @@ class UserAuthPcController extends Controller
             // 쿠키에서 remember_token 읽어오기
             $rememberTokenFromCookie = $request->cookie($cookieName);
 
-            info('rememberTokenFromCookie : ' . $rememberTokenFromCookie);
         }
 
         return redirect(route('www.main.main'));
@@ -633,8 +632,6 @@ class UserAuthPcController extends Controller
 
                     // 쿠키에서 remember_token 읽어오기
                     $rememberTokenFromCookie = $request->cookie($cookieName);
-
-                    info('rememberTokenFromCookie : ' . $rememberTokenFromCookie);
                 }
 
                 return Redirect::route('www.main.main');

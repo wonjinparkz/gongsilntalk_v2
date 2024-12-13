@@ -21,17 +21,16 @@
             @if (is_array($element))
                 @foreach ($element as $page => $url)
                     @if ($page == $paginator->currentPage())
-                        <li class="page-item active"><a class="page-link" disabled>{{ $page }}</a>
+                        <li class=" active">{{ $page }}
                         </li>
                     @else
-                        <li class="page-item"><a href="{{ $url }}" class="page-link">{{ $page }}</a>
-                        </li>
+                        <li class="page-item" onclick="location.href='{{ $url }}'">{{ $page }}</li>
                     @endif
                 @endforeach
             @endif
         @endforeach
         @if ($paginator->hasMorePages())
-            <li class="page-item next"><a href="{{ $paginator->nextPageUrl() }}" class="page-link">
+            <li class="page-item next"><a href="{{ $paginator->nextPageUrl() }}">
                     <img src="{{ asset('assets/media/btn_next.png') }}" alt="">
                 </a>
             </li>
