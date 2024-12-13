@@ -210,22 +210,26 @@
                     {{-- 최저층/최고층 --}}
                     <div class="row mb-6 floor_input_2" style="display:{{ $type == 7 ? '' : 'none' }}">
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">최저층/최고층</label>
-                        <div class="col-lg-3 d-flex align-items-center">
-                            <div class="input-group mb-5">
-                                <input type="text" name="lowest_floor_number" class="form-control"
-                                    placeholder="최저층"
-                                    value="{{ old('lowest_floor_number') ? old('lowest_floor_number') : $result->lowest_floor_number }}" />
-                                <span class="input-group-text" id="basic-addon2">층</span>
+                        <div class="col-lg-10 fv-row row">
+                            <div class="col-lg-4 align-items-center">
+                                <div class="input-group">
+                                    <input type="text" name="lowest_floor_number" class="form-control"
+                                        placeholder="최저층"
+                                        value="{{ old('lowest_floor_number') ? old('lowest_floor_number') : $result->lowest_floor_number }}" />
+                                    <span class="input-group-text" id="basic-addon2">층</span>
+                                </div>
+                                <x-input-error class="mt-2 text-danger" :messages="$errors->get('lowest_floor_number')" />
+                                <span class="gray_basic">* 지하의 경우 B1으로 표시</span>
                             </div>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('lowest_floor_number')" />
-                        </div>
-                        <div class="col-lg-3 d-flex align-items-center">
-                            <div class="input-group mb-5">
-                                <input type="text" name="top_floor_number" class="form-control" placeholder="최고층"
-                                    value="{{ old('top_floor_number') ? old('top_floor_number') : $result->top_floor_number }}" />
-                                <span class="input-group-text" id="basic-addon2">층</span>
+                            <div class="col-lg-4 align-items-center">
+                                <div class="input-group">
+                                    <input type="text" name="top_floor_number" class="form-control"
+                                        placeholder="최고층"
+                                        value="{{ old('top_floor_number') ? old('top_floor_number') : $result->top_floor_number }}" />
+                                    <span class="input-group-text" id="basic-addon2">층</span>
+                                </div>
+                                <x-input-error class="mt-2 text-danger" :messages="$errors->get('top_floor_number')" />
                             </div>
-                            <x-input-error class="mt-2 text-danger" :messages="$errors->get('top_floor_number')" />
                         </div>
                     </div>
 
@@ -236,7 +240,7 @@
                         <div class="col-lg-3 fv-row">
                             <div class="input-group">
                                 <input type="text" name="area" id="area" class="form-control"
-                                    placeholder="변환 버튼을 눌러주세요." oninput="imsi(this); area_change('');"
+                                    placeholder="변환 버튼을 눌러주세요." oninput="imsi(this);"
                                     value="{{ old('area') ? old('area') : $result->area }}" />
                                 <span class="input-group-text" id="basic-addon2">평</span>
                             </div>
@@ -254,7 +258,7 @@
                         </div>
                         <div class="col-lg-3 fv-row">
                             <div class="input-group">
-                                <input type="text" name="square" id="square" onkeyup="imsi(this)"
+                                <input type="text" name="square" id="square" oninput="imsi(this)"
                                     class="form-control" placeholder="변환 버튼을 눌러주세요."
                                     value="{{ old('square') ? old('square') : $result->square }}" />
                                 <span class="input-group-text" id="basic-addon2">㎡</span>
@@ -288,7 +292,7 @@
                         <div class="col-lg-3 fv-row">
                             <div class="input-group">
                                 <input type="text" name="total_floor_square" id="total_floor_square"
-                                    onkeyup="imsi(this)" class="form-control" placeholder="변환 버튼을 눌러주세요."
+                                    oninput="imsi(this)" class="form-control" placeholder="변환 버튼을 눌러주세요."
                                     value="{{ old('total_floor_square') ? old('total_floor_square') : $result->total_floor_square }}" />
                                 <span class="input-group-text" id="basic-addon2">㎡</span>
                             </div>
@@ -321,7 +325,7 @@
                         <div class="col-lg-3 fv-row">
                             <div class="input-group">
                                 <input type="text" name="exclusive_square" id="exclusive_square"
-                                    onkeyup="imsi(this)" class="form-control" placeholder="변환 버튼을 눌러주세요."
+                                    oninput="imsi(this)" class="form-control" placeholder="변환 버튼을 눌러주세요."
                                     value="{{ old('exclusive_square') ? old('exclusive_square') : $result->exclusive_square }}" />
                                 <span class="input-group-text" id="basic-addon2">㎡</span>
                             </div>
@@ -385,7 +389,7 @@
                             <input type="text" name="move_date" id="move_date" class="form-control"
                                 autocomplete="off" placeholder="예) 20230204"
                                 value="{{ old('move_date') ?? $result->move_date }}"
-                                @if ($result->move_type != 2) disabled @endif />
+                                @if ($result->move_type != 2) disabled @else readonly @endif />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('move_date')" />
                         </div>
                     </div>
@@ -397,8 +401,8 @@
                             <div class="col-lg-5 fv-row">
                                 <div class="input-group">
                                     <input type="text" name="service_price" id="service_price"
-                                        class="form-control" placeholder="예) 10" inputmode="numeric"
-                                        oninput="onlyNumbers(this);"
+                                        class="form-control" placeholder="예) 10000" inputmode="numeric"
+                                        oninput="onlyNumbers(this); onTextChangeEvent(this);"
                                         value="{{ old('service_price') ?? (number_format($result->service_price) ?? 0) }}" />
                                     <span class="input-group-text" id="basic-addon2">원</span>
                                 </div>
@@ -413,7 +417,7 @@
                                 </label>
                             </div>
                             <div class="col-lg-12">
-                                <label class="col-lg-2 col-form-label fw-semibold fs-6">관리비 항목</label>
+                                <label class="required col-lg-2 col-form-label fw-semibold fs-6">관리비 항목</label>
                             </div>
                             <div class="col-lg-10 fv-row">
                                 @php
@@ -466,7 +470,7 @@
 
                     {{-- 주차 가능 여부 --}}
                     <div class="row mb-6 no_forest parking_price_input">
-                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">주차 가능 여부</label>
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">주차 가능 여부</label>
                         <div class="col-lg-4 fv-row">
                             <label class="form-check form-check-custom form-check-inline me-5 p-1">
                                 <input class="form-check-input" name="parking_type" type="radio" value="0"
@@ -530,9 +534,9 @@
                                         if ($type < 8) {
                                             $is_payment_type = ['0', '1', '2'];
                                         } elseif ($type > 13) {
-                                            $is_payment_type = ['4', '5'];
+                                            $is_payment_type = ['1', '3', '5'];
                                         } else {
-                                            $is_payment_type = ['0', '2', '3', '4'];
+                                            $is_payment_type = ['0', '2', '3'];
                                         }
                                         if ($payment_type == '1' || $payment_type == '2' || $payment_type == '4') {
                                             $is_moth_price = '';
@@ -543,7 +547,7 @@
                                                 Lang::get('commons.payment_type.' . $payment_type) . '가';
                                         }
                                     @endphp
-                                    @for ($i = 0; $i < count(Lang::get('commons.payment_type')); $i++)
+                                    @foreach (Lang::get('commons.payment_type') as $i => $pay)
                                         <label class="form-check form-check-custom form-check-inline me-5 p-1 "
                                             style="display: {{ in_array($i, $is_payment_type) ? '' : 'none' }}">
                                             <input class="form-check-input" name="payment_type" type="radio"
@@ -552,7 +556,7 @@
                                             <span
                                                 class="fw-semibold ps-2 fs-6">{{ Lang::get('commons.payment_type.' . $i) }}</span>
                                         </label>
-                                    @endfor
+                                    @endforeach
                                 </div>
                                 <div class="row mb-6">
                                     <div class="col-lg-4 fv-row price_input">
@@ -596,7 +600,7 @@
                     {{-- 기존 임대차 내용 --}}
                     <div class="row mb-6 is_use_input"
                         style="display: @if ($type > 13) none @endif">
-                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">기존 임대차 내용</label>
+                        <label class="col-lg-2 col-form-label fw-semibold fs-6">기존 임대차 내용</label>
                         <div class="col-lg-10 fv-row">
                             <div class="row mb-6">
                                 <div class="col-lg-8 fv-row">
@@ -645,7 +649,7 @@
 
                     {{-- 권리금 --}}
                     <div class="row mb-6 preminum_price_input"
-                        style="display: @if ($type == 3 || $type > 13) @else none @endif">
+                        style="display: @if ($type == 3) @else none @endif">
                         <label
                             class="{{ $type == 3 ? 'required' : '' }} col-lg-2 col-form-label fw-semibold fs-6 is_store_text">{{ $type == 3 ? '권리금' : '프리미엄' }}</label>
                         <div class="col-lg-10 fv-row">
@@ -1354,6 +1358,7 @@
                                 oninput="onlyNumbers(this); onTextChangeEvent(this);" placeholder="중개보수(부가세별도)"
                                 value="{{ old('commission') ?? (number_format($result->commission) ?? '') }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('commission')" />
+                            <span class="gray_basic">* 중개보수는 직접 산출해서 기입하거나 공란으로 두면 "-원"으로 표시됩니다.</span>
                         </div>
                     </div>
 
@@ -1399,7 +1404,7 @@
     <script>
         var hostUrl = "assets/";
 
-        initDatepicker($('#move_date'), "{{ old('move_date') }}");
+        initDatepicker($('#move_date'), "");
     </script>
 
     <script>
@@ -1465,7 +1470,7 @@
             setting_addInfo($(this).val());
 
             type = $(this).val();
-
+            console.log('type : ' + type);
             // 매물타입에 따른 거래유형 초기화
             $('.month_price_input').css('display', 'none');
             if (type < 8) {
@@ -1476,12 +1481,10 @@
                     $('.preminum_price_input').css('display', '')
                 }
                 if (type == 4) {
-
                     $('input[name="payment_type"][value=0]').prop('checked', true);
                     $('#payment_price_text').text("매매가")
                     $('input[name="payment_type"][value=0]').parent().css('display', '');
                     $('input[name="payment_type"][value=3]').parent().css('display', '');
-                    $('input[name="payment_type"][value=4]').parent().css('display', '');
                     $('input[name="payment_type"][value=2]').parent().css('display', '');
                 } else {
 
@@ -1496,13 +1499,15 @@
                 $('#premium_price').attr('disabled', true);
 
             } else if (type > 13) {
+                console.log('type : ' + type);
                 $('.is_use_input').css('display', 'none')
                 $('input[name="payment_type"][value=5]').prop('checked', true);
                 $('#payment_price_text').text("전매가")
-                $('input[name="payment_type"][value=4]').parent().css('display', '');
+                $('input[name="payment_type"][value=1]').parent().css('display', '');
+                $('input[name="payment_type"][value=3]').parent().css('display', '');
                 $('input[name="payment_type"][value=5]').parent().css('display', '');
 
-                $('.preminum_price_input').css('display', '')
+                $('.preminum_price_input').css('display', 'none')
                 $('.approve_date_text').text('준공예정일');
                 $('.is_store_text').text('프리미엄');
                 $('.is_store_text').removeClass('required');
@@ -1513,7 +1518,6 @@
                 $('#payment_price_text').text("매매가")
                 $('input[name="payment_type"][value=0]').parent().css('display', '');
                 $('input[name="payment_type"][value=3]').parent().css('display', '');
-                $('input[name="payment_type"][value=4]').parent().css('display', '');
                 $('input[name="payment_type"][value=2]').parent().css('display', '');
             }
 
@@ -1584,21 +1588,25 @@
                 });
             }
 
-            if ([0, 1, 2, 4].indexOf(parseInt(type)) !== -1) {
+            if ([0, 1, 2, 7].indexOf(parseInt(type)) !== -1) {
                 // 지식산업센터/사무실/창고
                 $('.direction_type_input').css('display', '');
                 $('.cooling_type_input').css('display', '');
                 $('.heating_type_input').css('display', '');
-                $('.weight_input').css('display', '');
                 $('.is_elevator_input').css('display', '');
                 $('.is_goods_elevator_input').css('display', '');
-                $('.interior_type_input').css('display', '');
                 $('.floor_height_type_input').css('display', '');
                 $('.wattage_type_input').css('display', '');
                 $('.is_option_input').css('display', '');
-
                 // 옵션 구성
-                $('.option_facility_input').css('display', '');
+                if (type != 7) {
+                    $('.weight_input').css('display', '');
+                    $('.option_facility_input').css('display', '');
+                    $('.interior_type_input').css('display', '');
+                } else {
+                    $('.is_dock_input').css('display', '');
+                    $('.is_hoist_input').css('display', '');
+                }
                 $('.option_security_input').css('display', '');
 
                 var option_security_valeu = [2, 7, 8, 9, 10, 11]; // 선택 가능한 옵션 value
@@ -1661,33 +1669,33 @@
                 // 토지/임야
                 $('.yes_forest').css('display', '');
 
-            } else if (type == 7) {
-                // 단독공장
+                // } else if (type == 7) {
+                //     // 단독공장
 
-                $('.direction_type_input').css('display', '');
-                $('.cooling_type_input').css('display', '');
-                $('.heating_type_input').css('display', '');
-                $('.recommend_business_type_input').css('display', '');
-                $('.is_elevator_input').css('display', '');
-                $('.is_goods_elevator_input').css('display', '');
-                $('.is_dock_input').css('display', '');
-                $('.is_hoist_input').css('display', '');
-                $('.floor_height_type_input').css('display', '');
-                $('.wattage_type_input').css('display', '');
-                $('.is_option_input').css('display', '');
+                //     $('.direction_type_input').css('display', '');
+                //     $('.cooling_type_input').css('display', '');
+                //     $('.heating_type_input').css('display', '');
+                //     $('.recommend_business_type_input').css('display', '');
+                //     $('.is_elevator_input').css('display', '');
+                //     $('.is_goods_elevator_input').css('display', '');
+                //     $('.is_dock_input').css('display', '');
+                //     $('.is_hoist_input').css('display', '');
+                //     $('.floor_height_type_input').css('display', '');
+                //     $('.wattage_type_input').css('display', '');
+                //     $('.is_option_input').css('display', '');
 
-                // 옵션 구성
-                $('.option_security_input').css('display', '');
+                //     // 옵션 구성
+                //     $('.option_security_input').css('display', '');
 
-                var option_security_valeu = [2, 7, 8, 9, 10, 11]; // 선택 가능한 옵션 value
+                //     var option_security_valeu = [2, 7, 8, 9, 10, 11]; // 선택 가능한 옵션 value
 
-                $('.option_security').each(function() {
-                    var value = parseInt($(this).val());
+                //     $('.option_security').each(function() {
+                //         var value = parseInt($(this).val());
 
-                    if (!option_security_valeu.includes(value)) {
-                        $(this).closest('label').hide();
-                    }
-                });
+                //         if (!option_security_valeu.includes(value)) {
+                //             $(this).closest('label').hide();
+                //         }
+                //     });
 
             } else if ([8, 10, 11, 12, 13].indexOf(parseInt(type)) !== -1) {
                 // 주거용 - 오피스텔 제외
@@ -1710,11 +1718,11 @@
                 $('.option_security').each(function() {
                     var value = parseInt($(this).val());
 
-                    if (option_security_valeu.includes(value)) {
+                    if (!option_security_valeu.includes(value)) {
                         $(this).closest('label').hide();
                     }
                 });
-            } else if (type == 9) {
+            } else if ([4, 9].indexOf(parseInt(type)) !== -1) {
                 // 오피스텔
                 $('.bathroom_count_input').css('display', '');
                 $('.direction_type_input').css('display', '');
@@ -1727,18 +1735,25 @@
                 $('.is_option_input').css('display', '');
 
                 // 옵션 구성
-                $('.option_kitchen_input').css('display', '');
-                $('.option_home_appliances_input').css('display', '');
-                $('.option_furniture_input').css('display', '');
-                $('.option_etc_input').css('display', '');
-                $('.option_security_input').css('display', '');
 
-                var option_security_valeu = [7, 9, 12]; // 선택 가능한 옵션 value
+                var option_security_valeu = [];
+                if (type == 4) {
+                    console.log('fd?');
+                    $('.option_facility_input').css('display', '');
+                    $('.option_security_input').css('display', '');
+                    option_security_valeu = [2, 7, 8, 9, 10, 11];
+                } else {
+                    $('.option_kitchen_input').css('display', '');
+                    $('.option_home_appliances_input').css('display', '');
+                    $('.option_furniture_input').css('display', '');
+                    $('.option_etc_input').css('display', '');
+                    $('.option_security_input').css('display', '');
+                    option_security_valeu = [7, 9, 12]; // 선택 가능한 옵션 value
+                }
 
                 $('.option_security').each(function() {
                     var value = parseInt($(this).val());
-
-                    if (option_security_valeu.includes(value)) {
+                    if (!option_security_valeu.includes(value)) {
                         $(this).closest('label').hide();
                     }
                 });
@@ -1843,6 +1858,7 @@
             $('input[name="move_date"]').val('');
             if ($(this).val() == 2) {
                 $('input[name="move_date"]').attr('disabled', false);
+                $('input[name="move_date"]').attr('readonly', true);
             } else {
                 $('input[name="move_date"]').attr('disabled', true);
             }
@@ -1932,17 +1948,6 @@
                 $('#address_detail').attr('disabled', false);
             }
         });
-
-        var prev = "";
-        var regexp = /^\d*(\.\d{0,2})?$/;
-
-        function imsi(obj) {
-            if (obj.value.search(regexp) == -1) {
-                obj.value = prev;
-            } else {
-                prev = obj.value;
-            }
-        }
     </script>
 
 

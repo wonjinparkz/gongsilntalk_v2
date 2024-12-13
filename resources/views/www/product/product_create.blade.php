@@ -242,7 +242,7 @@
                                     <input type="radio" name="sales_type" id="sales_type_5" value="3">
                                     <label for="sales_type_5" onclick="showDiv('type_2', 1)">전세</label>
 
-                                    <input type="radio" name="sales_type" id="sales_type_6" value="4">
+                                    <input type="radio" name="sales_type" id="sales_type_6" value="1">
                                     <label for="sales_type_6" onclick="showDiv('type_2', 2)">월세</label>
 
                                     <input type="radio" name="sales_type" id="sales_type_7" value="2">
@@ -386,7 +386,7 @@
                                     <input type="radio" name="sales_type" id="sales_type_9" value="3">
                                     <label for="sales_type_9" onclick="showDiv('type_3', 1)">전세</label>
 
-                                    <input type="radio" name="sales_type" id="sales_type_10" value="4">
+                                    <input type="radio" name="sales_type" id="sales_type_10" value="1">
                                     <label for="sales_type_10"onclick="showDiv('type_3', 2)">월세</label>
                                 </div>
 

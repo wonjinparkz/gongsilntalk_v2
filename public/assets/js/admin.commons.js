@@ -207,22 +207,48 @@ $(".tab_toggle_menu li").click(function () {
 });
 
 
+var prev = "";
+var regexp = /^\d*(\.\d{0,2})?$/;
+var regexp1 = /^\d*(\.\d{0,1})?$/;
 
-// 소수점 리미트
+// 소수점 리미트 함수
 function imsi(obj) {
-    if (obj.value.search(regexp) == -1) {
-        obj.value = prev;
+
+    // 숫자와 소수점 이외 문자 제거
+    obj.value = obj.value.replace(/[^0-9.]/g, "");
+
+    // 유효성 검사
+    if (!regexp.test(obj.value)) {
+        // 입력 값 자르기 시도
+        var match = obj.value.match(/^\d*(\.\d{0,2})?/);
+
+        if (match && match[0] !== "") {
+            obj.value = match[0];  // 유효한 부분만 남기기
+        } else {
+            obj.value = prev;  // 완전히 잘못된 값 복원
+        }
     } else {
-        prev = obj.value;
+        prev = obj.value;  // 유효하면 이전 값 업데이트
     }
 }
 
 function imsi1(obj) {
-    if (obj.value.search(regexp1) == -1) {
-        obj.value = prev;
-    } else {
-        prev = obj.value;
-    }
+   // 숫자와 소수점 이외 문자 제거
+   obj.value = obj.value.replace(/[^0-9.]/g, "");
+
+   // 유효성 검사
+   if (!regexp1.test(obj.value)) {
+       // 입력 값 자르기 시도
+       var match = obj.value.match(/^\d*(\.\d{0,1})?/);
+
+       if (match && match[0] !== "") {
+           obj.value = match[0];  // 유효한 부분만 남기기
+       } else {
+           obj.value = prev;  // 완전히 잘못된 값 복원
+       }
+   } else {
+       prev = obj.value;  // 유효하면 이전 값 업데이트
+   }
 }
 
 // 숫자 입력 최대값

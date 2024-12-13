@@ -2,7 +2,6 @@
 var initDatepicker = (input, dateAt) => {
     var start = moment();
     var autoUpdateInput = false;
-
     if (dateAt != "") {
         start(dateAt, 'YYYYMMDD');
         autoUpdateInput = true;
