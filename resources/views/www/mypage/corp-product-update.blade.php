@@ -982,6 +982,7 @@
                                         <label class="input_label">하중(평당)</label>
                                         <div class="flex_1 mt10">
                                             <input type="number" id="weight" name="weight"
+                                                oninput="imsi1(this);"
                                                 value="{{ $product->productAddInfo->weight }}"
                                                 class="w_input_150"><span></span>
                                         </div>

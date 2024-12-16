@@ -658,7 +658,6 @@ class ProductPcController extends Controller
         } else if (in_array($request->type, [3, 15])) {
             $product_add_info = [
                 'product_id' => $result->id,
-                'current_business' => $request->current_business,
                 'current_business_type' => $request->current_business_type,
                 'recommend_business_type' => $request->recommend_business_type,
                 'direction_type' => $request->direction_type,

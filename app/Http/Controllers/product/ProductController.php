@@ -332,8 +332,6 @@ class ProductController extends Controller
 
         if ($request->type == 3) {
             $premium_price = $request->is_premium == 1 ? str_replace(',', '', $premium_price) : null;
-        } else if ($request->type > 13) {
-            $premium_price = str_replace(',', '', $premium_price);
         }
         ProductPrice::create([
             'product_id' => $request->id,
@@ -365,10 +363,10 @@ class ProductController extends Controller
                 'is_option' => $request->is_option,
 
             ];
-        } else if ($request->type == 3) {
+        } else if (in_array($request->type, [3, 15])) {
             $product_add_info = [
                 'product_id' => $request->id,
-                'current_business' => $request->current_business,
+                'current_business_type' => $request->current_business_type,
                 'recommend_business_type' => $request->recommend_business_type,
                 'direction_type' => $request->direction_type,
                 'cooling_type' => $request->cooling_type,

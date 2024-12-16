@@ -651,7 +651,7 @@
                     <div class="row mb-6 preminum_price_input"
                         style="display: @if ($type == 3) @else none @endif">
                         <label
-                            class="{{ $type == 3 ? 'required' : '' }} col-lg-2 col-form-label fw-semibold fs-6 is_store_text">{{ $type == 3 ? '권리금' : '프리미엄' }}</label>
+                            class="{{ $type == 3 ? '' : '' }} col-lg-2 col-form-label fw-semibold fs-6 is_store_text">{{ $type == 3 ? '권리금' : '프리미엄' }}</label>
                         <div class="col-lg-10 fv-row">
                             <div class="row mb-6">
                                 <div class="col-lg-8 fv-row is_store"
@@ -729,7 +729,7 @@
                                 </option>
                                 @for ($i = 0; $i < count(Lang::get('commons.product_business_type')); $i++)
                                     <option value="{{ $i }}"
-                                        @if (old('current_business_type') ?? ($result->productAddInfo->current_business_type ?? '' == "$i")) selected @endif>
+                                        @if (old('current_business_type') ?? ($result->productAddInfo->current_business_type ?? '') == "$i") selected @endif>
                                         {{ Lang::get('commons.product_business_type.' . $i) }}
                                     </option>
                                 @endfor
@@ -749,7 +749,7 @@
                                 </option>
                                 @for ($i = 0; $i < count(Lang::get('commons.product_business_type')); $i++)
                                     <option value="{{ $i }}"
-                                        @if (old('recommend_business_type') ?? ($result->productAddInfo->recommend_business_type ?? '' == "$i")) selected @endif>
+                                        @if (old('recommend_business_type') ?? ($result->productAddInfo->recommend_business_type ?? '') == "$i") selected @endif>
                                         {{ Lang::get('commons.product_business_type.' . $i) }}
                                     </option>
                                 @endfor
@@ -760,7 +760,9 @@
 
                     {{-- 건물 방향 --}}
                     <div class="row mb-6 add_info_input direction_type_input">
-                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">건물 방향</label>
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6 direction_type_text">
+                            건물 방향 (주 출입구 기준)
+                        </label>
                         <div class="col-lg-3 fv-row">
                             <select name="direction_type" class="form-select" data-control="select2"
                                 data-hide-search="true">
@@ -769,7 +771,7 @@
                                 </option>
                                 @for ($i = 0; $i < count(Lang::get('commons.direction_type')); $i++)
                                     <option value="{{ $i }}"
-                                        @if (old('direction_type') ?? ($result->productAddInfo->direction_type ?? '' == "$i")) selected @endif>
+                                        @if (old('direction_type') ?? ($result->productAddInfo->direction_type ?? '') == "$i") selected @endif>
                                         {{ Lang::get('commons.direction_type.' . $i) }}
                                     </option>
                                 @endfor
@@ -824,6 +826,7 @@
                         <div class="col-lg-3 fv-row">
                             <div class="input-group">
                                 <input type="text" name="weight" class="form-control" placeholder="예) 0.8"
+                                    oninput="imsi1(this);"
                                     value="{{ old('weight') ?? ($result->productAddInfo->weight ?? '') }}" />
                                 <span class="input-group-text" id="basic-addon2">톤</span>
                             </div>
@@ -1041,7 +1044,7 @@
 
                     {{-- 옵션 정보 --}}
                     <div class="row mb-6 add_info_input is_option_input">
-                        <label class="col-lg-2 col-form-label fw-semibold fs-6">옵션 정보</label>
+                        <label class="required col-lg-2 col-form-label fw-semibold fs-6">옵션 정보</label>
 
                         <div class="col-lg-10 fv-row mb-6">
                             <label class="col-lg-2 col-form-label fw-semibold fs-6">옵션 정보</label>
@@ -1367,7 +1370,7 @@
                         <label class="required col-lg-2 col-form-label fw-semibold fs-6">상한요율(%)</label>
                         <div class="col-lg-10 fv-row">
                             <input type="text" name="commission_rate" class="form-control"
-                                placeholder="상한요율(%)"
+                                placeholder="상한요율(%)" oninput="imsi1(this);"
                                 value="{{ old('commission_rate') ?? $result->commission_rate }}" />
                             <x-input-error class="mt-2 text-danger" :messages="$errors->get('commission_rate')" />
                         </div>
@@ -1499,7 +1502,6 @@
                 $('#premium_price').attr('disabled', true);
 
             } else if (type > 13) {
-                console.log('type : ' + type);
                 $('.is_use_input').css('display', 'none')
                 $('input[name="payment_type"][value=5]').prop('checked', true);
                 $('#payment_price_text').text("전매가")
@@ -1619,7 +1621,7 @@
                     }
                 });
 
-            } else if (type == 3) {
+            } else if (type == 3 || type == 15) {
                 //상가
                 $('.current_business_type_input').css('display', '');
                 $('.recommend_business_type_input').css('display', '');
@@ -1738,7 +1740,6 @@
 
                 var option_security_valeu = [];
                 if (type == 4) {
-                    console.log('fd?');
                     $('.option_facility_input').css('display', '');
                     $('.option_security_input').css('display', '');
                     option_security_valeu = [2, 7, 8, 9, 10, 11];
@@ -1769,7 +1770,6 @@
                 $('.floor_height_type_input').css('display', '');
                 $('.wattage_type_input').css('display', '');
                 $('.is_option_input').css('display', '');
-
                 // 옵션 구성
                 $('.option_facility_input').css('display', '');
                 $('.option_security_input').css('display', '');
