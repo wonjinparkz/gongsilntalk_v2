@@ -1054,12 +1054,12 @@
 
             knowledgeClustering = new MarkerClustering({
                 minClusterSize: 1,
-                maxZoom: 16,
+                maxZoom: 17,
                 map: map,
                 markers: knowledgeMarkers, // knowledge 마커들만 클러스터링
                 disableClickZoom: false,
                 knowledgeSaleMidPrice: true,
-                gridSize: 70,
+                gridSize: 80,
                 icons: [htmlMarker3],
                 indexGenerator: [1],
             });

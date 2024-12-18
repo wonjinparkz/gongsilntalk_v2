@@ -371,24 +371,35 @@ naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
      */
     _createClusters: function () {
         var map = this.getMap();
-
         if (!map) return;
 
-        var bounds = map.getBounds(),
-            markers = this.getMarkers();
+        var markers = this.getMarkers(); // 전체 마커를 가져옵니다.
+
+        // 클러스터 저장소 초기화
+        this._clusters = [];
 
         for (var i = 0, ii = markers.length; i < ii; i++) {
             var marker = markers[i],
                 position = marker.getPosition();
 
-            if (!bounds.hasLatLng(position)) continue;
-
             var closestCluster = this._getClosestCluster(position);
 
-            closestCluster.addMarker(marker);
-
-            this._markerRelations.push(naver.maps.Event.addListener(marker, 'dragend', naver.maps.Util.bind(this._onDragEnd, this)));
+            if (closestCluster) {
+                closestCluster.addMarker(marker);
+            } else {
+                // 가까운 클러스터가 없다면 새 클러스터 생성
+                var newCluster = this._createNewCluster(marker);
+                this._clusters.push(newCluster);
+            }
         }
+        this._addMarkerDragEventListeners();
+    },
+
+    _addMarkerDragEventListeners: function () {
+        var markers = this.getMarkers();
+        markers.forEach(marker => {
+            this._markerRelations.push(naver.maps.Event.addListener(marker, 'dragend', naver.maps.Util.bind(this._onDragEnd, this)));
+        });
     },
 
     /**
@@ -853,7 +864,7 @@ Cluster.prototype = {
             map_min_px = proj.fromCoordToOffset(mapBounds.getSW()),
             max_px = proj.fromCoordToOffset(bounds.getNE()),
             min_px = proj.fromCoordToOffset(bounds.getSW()),
-            gridSize = this._markerClusterer.getGridSize() / 2;
+            gridSize = this._markerClusterer.getGridSize();
 
         max_px.add(gridSize, -gridSize);
         min_px.add(-gridSize, gridSize);
