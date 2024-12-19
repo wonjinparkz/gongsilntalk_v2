@@ -147,7 +147,6 @@
                                 } elseif ($type > 13) {
                                     $typeText = '분양권 > ';
                                 }
-
                                 echo $typeText . Lang::get('commons.product_type.' . $type);
                             @endphp
                         </label>
@@ -159,7 +158,7 @@
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">주소</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
-                            {{ $result->is_map == 0 ? '(구)주소 ' : '' }}<span
+                            {{ $result->is_map == 0 ? '' : '(구)주소' }}<span
                                 class="fw-bolder">{{ $result->address }}</span>
                         </label>
 
@@ -1015,7 +1014,7 @@
             var wgs84Coords = get_coordinate_conversion1($('input[name=address_lng]').val(), $(
                 'input[name=address_lat]').val())
 
-            if ({{ $result->is_map ?? 1 }} == 1) {
+            if ({{ $result->is_map ?? 0 }} == 0) {
                 setTimeout(function() {
                     callJusoroMapApiType1(wgs84Coords[0], wgs84Coords[1]);
                 }, 2000);
