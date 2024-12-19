@@ -178,13 +178,7 @@
                             <span class="fs-6">
                                 상세주소&nbsp;&nbsp;
                                 <span class="fs-5 fw-normal">
-                                    @if ($result->is_map == 0)
-                                        {{ $result->address_dong ? $result->address_dong . '동 ' : '' }}
-                                        {{ $result->address_number ? $result->address_number . '호' : '' }}
-                                        {{ !$result->address_dong ? '동정보 없음' : '' }}
-                                    @else
-                                        {{ $result->address_detail ? $result->address_detail : '상세주소 정보 없음' }}
-                                    @endif
+                                    {{ $result->address_detail ? $result->address_detail : '없음' }}
                                 </span>
                             </span>
                             <input type="hidden" name="address_lat" id="address_lat"
@@ -669,7 +663,7 @@
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">층고</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
-                            {{ $result->productAddInfo->floor_height_type != '' ? Lang::get('commons.floor_height_type.' . $result->productAddInfo->floor_height_type) : '-' }}
+                            {{ $result->productAddInfo->floor_height_type != '' ? Lang::get('commons.floor_height_type.' . $result->productAddInfo->floor_height_type) : '선택안함' }}
                         </label>
                     </div>
                 </div>
@@ -679,7 +673,7 @@
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">사용전력</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
-                            {{ $result->productAddInfo->wattage_type != '' ? Lang::get('commons.wattage_type.' . $result->productAddInfo->wattage_type) : '-' }}
+                            {{ $result->productAddInfo->wattage_type != '' ? Lang::get('commons.wattage_type.' . $result->productAddInfo->wattage_type) : '선택안함' }}
                         </label>
                     </div>
                 </div>
