@@ -737,8 +737,6 @@
                 return;
             }
 
-            console.log('className, index ' + className, index);
-
             var tabContents = document.querySelectorAll('.' + className + '_wrap .' + className + '_item');
             tabContents.forEach(function(content) {
                 content.classList.remove('active');

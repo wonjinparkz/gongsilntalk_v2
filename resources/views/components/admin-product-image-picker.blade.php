@@ -135,12 +135,7 @@
             $("#{{ $id }}_image_count").html(image_count + 1);
 
             refreshFsLightbox();
-            console.log($('#{{ $id }}_preview input[name="{{ $id }}_image_ids[]"]')
-                .length); // 추가된 필드 개수 확인
-            console.log($('form input[name="{{ $id }}_image_ids[]"]').length); // 폼 내부 필드 개수 확인
-
             let productImageIds = $('#product_form').serializeArray();
-            console.log(productImageIds);
         }
     });
 

@@ -521,7 +521,6 @@ Cluster.prototype = {
 
         if (!this._clusterCenter) {
             var position = marker.getPosition();
-
             this._clusterCenter = position;
             this._clusterBounds = this._calcBounds(position);
         }

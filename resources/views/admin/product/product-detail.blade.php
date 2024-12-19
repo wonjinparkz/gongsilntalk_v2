@@ -1473,7 +1473,6 @@
             setting_addInfo($(this).val());
 
             type = $(this).val();
-            console.log('type : ' + type);
             // 매물타입에 따른 거래유형 초기화
             $('.month_price_input').css('display', 'none');
             if (type < 8) {

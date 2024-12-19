@@ -166,7 +166,6 @@
                             },
                             error: function(xhr, status, e) {}
                         });
-                        console.log('실행?');
                     }
                 });
 
@@ -1059,7 +1058,7 @@
                 markers: knowledgeMarkers, // knowledge 마커들만 클러스터링
                 disableClickZoom: false,
                 knowledgeSaleMidPrice: true,
-                gridSize: 80,
+                gridSize: 100,
                 icons: [htmlMarker3],
                 indexGenerator: [1],
             });

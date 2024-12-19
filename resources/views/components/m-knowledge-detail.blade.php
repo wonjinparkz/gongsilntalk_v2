@@ -437,7 +437,6 @@
         //     naver.maps.Event.addListener(miniMap, 'dragend', function() {
         //         var center = miniMap.getCenter();
         //         var zoom = miniMap.getZoom();
-        //         console.log('미니맵 : ', zoom);
         //     });
         // });
 

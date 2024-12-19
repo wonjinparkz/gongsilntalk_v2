@@ -87,7 +87,6 @@
                     "&fcm_key=" + encodeURIComponent(fcmKey) +
                     "&device_type=" + encodeURIComponent(deviceType);
 
-                console.log(kakaoLoginUrl);
                 // var kakaoLoginUrl = "{{ route('www.login.kakao') }}";
                 var width = 500;
                 var height = 600;
@@ -355,14 +354,11 @@
             'phone': phone,
         };
 
-        console.log(formData);
-
         $.ajax({
             type: "post", //전송타입
             url: "{{ route('password.user.check') }}",
             data: formData,
             success: function(data, status, xhr) {
-                console.log(data);
                 $('#passwordUser').val(data.confirm);
                 if (data.confirm) {
                     $('#password_email_confirmation').val(password_email);

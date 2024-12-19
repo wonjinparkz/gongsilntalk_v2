@@ -22,7 +22,6 @@ function NoticeScreen() {
 
     const [open, setOpen] = React.useState(false);
     const noticeCLick = () => {
-        console.log("공지사항 클릭");
         setOpen(true);
     };
     const handleClose = () => {
