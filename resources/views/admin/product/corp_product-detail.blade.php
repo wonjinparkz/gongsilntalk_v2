@@ -669,7 +669,7 @@
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">층고</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
-                            {{ Lang::get('commons.floor_height_type.' . $result->productAddInfo->floor_height_type) }}
+                            {{ $result->productAddInfo->floor_height_type != '' ? Lang::get('commons.floor_height_type.' . $result->productAddInfo->floor_height_type) : '-' }}
                         </label>
                     </div>
                 </div>
@@ -679,7 +679,7 @@
                     <label class="col-lg-2 col-form-label fw-semibold fs-6">사용전력</label>
                     <div class="col-lg-10 fv-row">
                         <label class="col-form-label fw-semibold fs-6">
-                            {{ Lang::get('commons.wattage_type.' . $result->productAddInfo->wattage_type) }}
+                            {{ $result->productAddInfo->wattage_type != '' ? Lang::get('commons.wattage_type.' . $result->productAddInfo->wattage_type) : '-' }}
                         </label>
                     </div>
                 </div>
@@ -863,9 +863,6 @@
                 </div>
             </div>
 
-
-
-
         </x-screen-card>
     </div>
 
@@ -1038,6 +1035,168 @@
         setting_addInfo({{ $type }})
 
         // 추가 정보 매물 타입에 따라 세팅하기
+        // function setting_addInfo(type) {
+
+        //     $('.add_info_input').css('display', 'none')
+        //     $('.option_input').css('display', 'none')
+        //     $('.option_type').closest('label').css('display', '');
+        //     $('.no_forest').css('display', '')
+
+
+
+        //     if ([6, 7].indexOf(parseInt(type)) !== -1) {
+        //         $('.approve_date_input').css('display', '');
+        //         $('.building_type_input').css('display', '');
+        //         $('.move_date_input').css('display', '');
+        //         $('.service_price_input').css('display', '');
+        //         $('.approve_date_input').css('display', '');
+        //         $('.parking_price_input').css('display', '');
+
+        //         if (type == 6) {
+        //             $('.floor_input_1').css('display', 'none');
+        //             $('.floor_input_2').css('display', 'none');
+        //             $('.area_input_1').css('display', '');
+        //             $('.area_input_2').css('display', 'none');
+        //             $('.area_input_3').css('display', 'none');
+
+        //             $('.no_forest').css('display', 'none');
+
+        //         } else {
+        //             $('.floor_input_1').css('display', 'none');
+        //             $('.floor_input_2').css('display', '');
+        //             $('.area_input_1').css('display', '');
+        //             $('.area_input_2').css('display', '');
+        //             $('.area_input_3').css('display', '');
+        //         }
+        //     } else {
+        //         $('.floor_input_1').css('display', '');
+        //         $('.floor_input_2').css('display', 'none');
+
+        //         $('.area_text_1').text('공급면적');
+        //         $('.area_input_1').css('display', '');
+        //         $('.area_input_2').css('display', 'none');
+        //         $('.area_input_3').css('display', '');
+        //     }
+
+
+        //     if ([0, 1, 2, 4].indexOf(parseInt(type)) !== -1) {
+        //         // 지식산업센터/사무실/창고
+        //         $('.direction_type_input').css('display', '');
+        //         $('.cooling_type_input').css('display', '');
+        //         $('.heating_type_input').css('display', '');
+        //         $('.weight_input').css('display', '');
+        //         $('.is_elevator_input').css('display', '');
+        //         $('.is_goods_elevator_input').css('display', '');
+        //         $('.interior_type_input').css('display', '');
+        //         $('.floor_height_type_input').css('display', '');
+        //         $('.wattage_type_input').css('display', '');
+        //         $('.is_option_input').css('display', '');
+
+        //         // 옵션 구성
+        //         $('.option_facility_input').css('display', '');
+        //         $('.option_security_input').css('display', '');
+
+        //     } else if (type == 3) {
+        //         //상가
+        //         $('.current_business_type_input').css('display', '');
+        //         $('.recommend_business_type_input').css('display', '');
+        //         $('.direction_type_input').css('display', '');
+        //         $('.cooling_type_input').css('display', '');
+        //         $('.heating_type_input').css('display', '');
+        //         $('.is_elevator_input').css('display', '');
+        //         $('.is_option_input').css('display', '');
+
+        //         // 옵션 구성
+        //         $('.option_facility_input').css('display', '');
+        //         $('.option_security_input').css('display', '');
+
+        //     } else if (type == 5) {
+        //         // 건물
+        //         $('.direction_type_input').css('display', '');
+        //         $('.cooling_type_input').css('display', '');
+        //         $('.heating_type_input').css('display', '');
+        //         $('.is_elevator_input').css('display', '');
+        //         $('.is_option_input').css('display', '');
+
+        //         // 옵션 구성
+        //         $('.option_facility_input').css('display', '');
+        //         $('.option_security_input').css('display', '');
+
+        //     } else if (type == 6) {
+        //         // 토지/임야
+        //         $('.yes_forest').css('display', '');
+
+        //     } else if (type == 7) {
+        //         // 단독공장
+
+        //         $('.direction_type_input').css('display', '');
+        //         $('.cooling_type_input').css('display', '');
+        //         $('.heating_type_input').css('display', '');
+        //         $('.recommend_business_type_input').css('display', '');
+        //         $('.is_elevator_input').css('display', '');
+        //         $('.is_goods_elevator_input').css('display', '');
+        //         $('.is_dock_input').css('display', '');
+        //         $('.is_hoist_input').css('display', '');
+        //         $('.floor_height_type_input').css('display', '');
+        //         $('.wattage_type_input').css('display', '');
+        //         $('.is_option_input').css('display', '');
+
+        //     } else if ([8, 10, 11, 12, 13].indexOf(parseInt(type)) !== -1) {
+        //         // 주거용 - 오피스텔 제외
+        //         $('.bathroom_count_input').css('display', '');
+        //         $('.direction_type_input').css('display', '');
+        //         $('.cooling_type_input').css('display', '');
+        //         $('.heating_type_input').css('display', '');
+        //         $('.is_elevator_input').css('display', '');
+        //         $('.is_option_input').css('display', '');
+
+        //         // 옵션 구성
+        //         $('.option_kitchen_input').css('display', '');
+        //         $('.option_home_appliances_input').css('display', '');
+        //         $('.option_furniture_input').css('display', '');
+        //         $('.option_etc_input').css('display', '');
+        //         $('.option_security_input').css('display', '');
+
+        //     } else if (type == 9) {
+        //         // 오피스텔
+        //         $('.bathroom_count_input').css('display', '');
+        //         $('.direction_type_input').css('display', '');
+        //         $('.cooling_type_input').css('display', '');
+        //         $('.heating_type_input').css('display', '');
+        //         $('.structure_type_input').css('display', '');
+        //         $('.builtin_type_input').css('display', '');
+        //         $('.is_elevator_input').css('display', '');
+        //         $('.declare_type_input').css('display', '');
+        //         $('.is_option_input').css('display', '');
+
+        //         // 옵션 구성
+        //         $('.option_kitchen_input').css('display', '');
+        //         $('.option_home_appliances_input').css('display', '');
+        //         $('.option_furniture_input').css('display', '');
+        //         $('.option_etc_input').css('display', '');
+        //         $('.option_security_input').css('display', '');
+
+        //     } else if (type > 13) {
+        //         // 분양권
+        //         $('.direction_type_input').css('display', '');
+        //         $('.cooling_type_input').css('display', '');
+        //         $('.heating_type_input').css('display', '');
+        //         $('.weight_input').css('display', '');
+        //         $('.is_elevator_input').css('display', '');
+        //         $('.is_goods_elevator_input').css('display', '');
+        //         $('.interior_type_input').css('display', '');
+        //         $('.floor_height_type_input').css('display', '');
+        //         $('.wattage_type_input').css('display', '');
+        //         $('.is_option_input').css('display', '');
+
+        //         // 옵션 구성
+        //         $('.option_facility_input').css('display', '');
+        //         $('.option_security_input').css('display', '');
+
+        //     }
+        // }
+
+        // 추가 정보 매물 타입에 따라 세팅하기
         function setting_addInfo(type) {
 
             $('.add_info_input').css('display', 'none')
@@ -1048,6 +1207,7 @@
 
 
             if ([6, 7].indexOf(parseInt(type)) !== -1) {
+                $('.area_text_1').text('대지면적');
                 $('.approve_date_input').css('display', '');
                 $('.building_type_input').css('display', '');
                 $('.move_date_input').css('display', '');
@@ -1081,25 +1241,58 @@
                 $('.area_input_3').css('display', '');
             }
 
+            if (type == 6) {
+                // 건축물 용도 선택 상자를 업데이트하여 옵션을 숨깁니다.
+                $('select[name="building_type"] option').each(function() {
+                    if ($(this).val() < 15) {
+                        $(this).prop('hidden', true);
+                    } else {
+                        $(this).prop('hidden', false);
+                    }
+                });
+            } else {
+                // 건축물 용도 선택 상자를 업데이트하여 옵션을 숨깁니다.
+                $('select[name="building_type"] option').each(function() {
+                    if ($(this).val() > 14) {
+                        $(this).prop('hidden', true);
+                    } else {
+                        $(this).prop('hidden', false);
+                    }
+                });
+            }
 
-            if ([0, 1, 2, 4].indexOf(parseInt(type)) !== -1) {
+            if ([0, 1, 2, 7].indexOf(parseInt(type)) !== -1) {
                 // 지식산업센터/사무실/창고
                 $('.direction_type_input').css('display', '');
                 $('.cooling_type_input').css('display', '');
                 $('.heating_type_input').css('display', '');
-                $('.weight_input').css('display', '');
                 $('.is_elevator_input').css('display', '');
                 $('.is_goods_elevator_input').css('display', '');
-                $('.interior_type_input').css('display', '');
                 $('.floor_height_type_input').css('display', '');
                 $('.wattage_type_input').css('display', '');
                 $('.is_option_input').css('display', '');
-
                 // 옵션 구성
-                $('.option_facility_input').css('display', '');
+                if (type != 7) {
+                    $('.weight_input').css('display', '');
+                    $('.option_facility_input').css('display', '');
+                    $('.interior_type_input').css('display', '');
+                } else {
+                    $('.is_dock_input').css('display', '');
+                    $('.is_hoist_input').css('display', '');
+                }
                 $('.option_security_input').css('display', '');
 
-            } else if (type == 3) {
+                var option_security_valeu = [2, 7, 8, 9, 10, 11]; // 선택 가능한 옵션 value
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+
+                    if (!option_security_valeu.includes(value)) {
+                        $(this).closest('label').hide();
+                    }
+                });
+
+            } else if (type == 3 || type == 15) {
                 //상가
                 $('.current_business_type_input').css('display', '');
                 $('.recommend_business_type_input').css('display', '');
@@ -1113,6 +1306,16 @@
                 $('.option_facility_input').css('display', '');
                 $('.option_security_input').css('display', '');
 
+                var option_security_valeu = [7, 8, 9, 10, 12]; // 선택 가능한 옵션 value
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+
+                    if (!option_security_valeu.includes(value)) {
+                        $(this).closest('label').hide();
+                    }
+                });
+
             } else if (type == 5) {
                 // 건물
                 $('.direction_type_input').css('display', '');
@@ -1125,24 +1328,47 @@
                 $('.option_facility_input').css('display', '');
                 $('.option_security_input').css('display', '');
 
+                var option_security_valeu = [2, 7, 8, 9, 10, 11]; // 선택 가능한 옵션 value
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+
+                    if (!option_security_valeu.includes(value)) {
+                        $(this).closest('label').hide();
+                    }
+                });
+
             } else if (type == 6) {
                 // 토지/임야
                 $('.yes_forest').css('display', '');
 
-            } else if (type == 7) {
-                // 단독공장
+                // } else if (type == 7) {
+                //     // 단독공장
 
-                $('.direction_type_input').css('display', '');
-                $('.cooling_type_input').css('display', '');
-                $('.heating_type_input').css('display', '');
-                $('.recommend_business_type_input').css('display', '');
-                $('.is_elevator_input').css('display', '');
-                $('.is_goods_elevator_input').css('display', '');
-                $('.is_dock_input').css('display', '');
-                $('.is_hoist_input').css('display', '');
-                $('.floor_height_type_input').css('display', '');
-                $('.wattage_type_input').css('display', '');
-                $('.is_option_input').css('display', '');
+                //     $('.direction_type_input').css('display', '');
+                //     $('.cooling_type_input').css('display', '');
+                //     $('.heating_type_input').css('display', '');
+                //     $('.recommend_business_type_input').css('display', '');
+                //     $('.is_elevator_input').css('display', '');
+                //     $('.is_goods_elevator_input').css('display', '');
+                //     $('.is_dock_input').css('display', '');
+                //     $('.is_hoist_input').css('display', '');
+                //     $('.floor_height_type_input').css('display', '');
+                //     $('.wattage_type_input').css('display', '');
+                //     $('.is_option_input').css('display', '');
+
+                //     // 옵션 구성
+                //     $('.option_security_input').css('display', '');
+
+                //     var option_security_valeu = [2, 7, 8, 9, 10, 11]; // 선택 가능한 옵션 value
+
+                //     $('.option_security').each(function() {
+                //         var value = parseInt($(this).val());
+
+                //         if (!option_security_valeu.includes(value)) {
+                //             $(this).closest('label').hide();
+                //         }
+                //     });
 
             } else if ([8, 10, 11, 12, 13].indexOf(parseInt(type)) !== -1) {
                 // 주거용 - 오피스텔 제외
@@ -1160,7 +1386,16 @@
                 $('.option_etc_input').css('display', '');
                 $('.option_security_input').css('display', '');
 
-            } else if (type == 9) {
+                var option_security_valeu = [7, 9, 12]; // 선택 가능한 옵션 value
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+
+                    if (!option_security_valeu.includes(value)) {
+                        $(this).closest('label').hide();
+                    }
+                });
+            } else if ([4, 9].indexOf(parseInt(type)) !== -1) {
                 // 오피스텔
                 $('.bathroom_count_input').css('display', '');
                 $('.direction_type_input').css('display', '');
@@ -1173,12 +1408,27 @@
                 $('.is_option_input').css('display', '');
 
                 // 옵션 구성
-                $('.option_kitchen_input').css('display', '');
-                $('.option_home_appliances_input').css('display', '');
-                $('.option_furniture_input').css('display', '');
-                $('.option_etc_input').css('display', '');
-                $('.option_security_input').css('display', '');
 
+                var option_security_valeu = [];
+                if (type == 4) {
+                    $('.option_facility_input').css('display', '');
+                    $('.option_security_input').css('display', '');
+                    option_security_valeu = [2, 7, 8, 9, 10, 11];
+                } else {
+                    $('.option_kitchen_input').css('display', '');
+                    $('.option_home_appliances_input').css('display', '');
+                    $('.option_furniture_input').css('display', '');
+                    $('.option_etc_input').css('display', '');
+                    $('.option_security_input').css('display', '');
+                    option_security_valeu = [7, 9, 12]; // 선택 가능한 옵션 value
+                }
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+                    if (!option_security_valeu.includes(value)) {
+                        $(this).closest('label').hide();
+                    }
+                });
             } else if (type > 13) {
                 // 분양권
                 $('.direction_type_input').css('display', '');
@@ -1191,11 +1441,19 @@
                 $('.floor_height_type_input').css('display', '');
                 $('.wattage_type_input').css('display', '');
                 $('.is_option_input').css('display', '');
-
                 // 옵션 구성
                 $('.option_facility_input').css('display', '');
                 $('.option_security_input').css('display', '');
 
+                var option_security_valeu = [2, 7, 8, 9, 10, 11]; // 선택 가능한 옵션 value
+
+                $('.option_security').each(function() {
+                    var value = parseInt($(this).val());
+
+                    if (!option_security_valeu.includes(value)) {
+                        $(this).closest('label').hide();
+                    }
+                });
             }
         }
     </script>
