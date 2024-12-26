@@ -76,7 +76,11 @@
 
         <script>
             var popup_bn_swiper = new Swiper(".popup_bn_swiper", {
-                slidesPerView: 1,
+                slidesPerView: 1.2,
+                spaceBetween:10,
+                centeredSlides: true,
+                // slidesOffsetBefore:-10,
+                // slidesOffsetAfter:-10,
                 pagination: {
                     el: ".popup_bn_swiper .swiper-pagination",
                     clickable: true,
