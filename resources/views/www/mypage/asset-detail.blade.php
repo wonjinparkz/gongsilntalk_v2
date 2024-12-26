@@ -1,73 +1,69 @@
 <x-layout>
 
     @php
-
-        $acquisition_tax_price = $result->price * ($result->acquisition_tax_rate / 100);
+        $price = $result->price > 0 ? $result->price : 1;
+        $acquisition_tax_price = $price * ($result->acquisition_tax_rate / 100);
         $etc_price = $result->etc_price + $result->tax_price + $result->estate_price;
-        $realPrice = $result->price + $acquisition_tax_price + $etc_price - $result->loan_price - $result->check_price;
+        $realPrice = $price + $acquisition_tax_price + $etc_price - $result->loan_price - $result->check_price;
 
         $myPrice = $result->month_price - ($result->loan_price * ($result->loan_rate / 100)) / 12;
 
-        function taxRate($price)
+        function priceRate($price)
         {
-            $percent = 0;
+            $price = $price / 10000;
+            $taxPrice = 0;
+            $taxRate = 0;
+
             switch ($price) {
-                case $price < 12000000:
-                    $percent = 0.06;
+                case $price <= 1400:
+                    $taxPrice = 0;
+                    $taxRate = 0.06;
                     break;
 
-                case $price < 46000000:
-                    $percent = 0.15;
+                case $price <= 5000:
+                    $taxPrice = 126;
+                    $taxRate = 0.15;
                     break;
 
-                case $price < 88000000:
-                    $percent = 0.24;
+                case $price <= 8800:
+                    $taxPrice = 576;
+                    $taxRate = 0.24;
                     break;
 
-                case $price < 150000000:
-                    $percent = 0.35;
+                case $price <= 15000:
+                    $taxPrice = 1544;
+                    $taxRate = 0.35;
                     break;
 
-                case $price < 300000000:
-                    $percent = 0.38;
+                case $price <= 30000:
+                    $taxPrice = 1994;
+                    $taxRate = 0.38;
                     break;
 
-                case $price < 500000000:
-                    $percent = 0.4;
+                case $price <= 50000:
+                    $taxPrice = 2594;
+                    $taxRate = 0.4;
                     break;
 
-                case $price < 1000000000:
-                    $percent = 0.42;
+                case $price <= 100000:
+                    $taxPrice = 3594;
+                    $taxRate = 0.42;
                     break;
 
-                case $price >= 1000000000:
-                    $percent = 0.45;
-                    break;
-
-                default:
-                    $percent = 0.1;
+                case $price > 100000:
+                    $taxPrice = 6594;
+                    $taxRate = 0.45;
                     break;
             }
 
-            return $percent;
+            return ['taxPrice' => $taxPrice * 10000, 'taxRate' => $taxRate];
         }
 
-        function yearRate($date)
+        function yearRate($year)
         {
-            $percent = 0.1;
+            $percent = 0;
 
-            $nowYear = date('Y');
-            $dateYear = date_format($date, 'Y');
-
-            $year = $nowYear - $dateYear;
-
-            if ($year < 1) {
-                $percent = 0.5;
-            } elseif ($year < 2) {
-                $percent = 0.6;
-            } elseif ($year < 3) {
-                $percent = 0.01;
-            } elseif ($year >= 3 && $year < 4) {
+            if ($year >= 3 && $year < 4) {
                 $percent = 0.06;
             } elseif ($year >= 4 && $year < 5) {
                 $percent = 0.08;
@@ -94,8 +90,31 @@
             } elseif ($year >= 15) {
                 $percent = 0.3;
             }
-
             return $percent;
+        }
+
+        function year($date)
+        {
+            // 현재 날짜 가져오기
+            $now = new DateTime();
+
+            // 입력된 날짜를 DateTime 객체로 변환
+            if (!$date instanceof DateTime) {
+                $date = new DateTime($date); // 문자열 입력일 경우 변환
+            }
+
+            // 날짜 차이 계산
+            $diff = $now->diff($date);
+
+            // 연도와 개월을 계산하여 소수점 연도로 반환
+            $years = $diff->y; // 차이 연도
+            $months = $diff->m; // 차이 월
+            $days = $diff->d; // 차이 일 (추가 확인용)
+
+            // 보유기간 계산 (연도 + 개월/12)
+            $totalYears = $years + $months / 12;
+
+            return $totalYears;
         }
 
         function format_phone($phone)
@@ -118,38 +137,54 @@
         $address_detail = isset($result->address_detail) ? $result->address_detail : '';
 
         if ($result->type_detail == 0) {
-            $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 0;
+            $year = year($result->contracted_at);
 
-            // 지분율로 계산된 가격을 원래 가격으로 복원
-            $price = $ownership_share > 0 ? $result->price / $ownership_share : $result->price;
+            $ownership_share = $result->name_type == 1 ? $result->ownership_share / 100 : 1;
 
-            $avgPrice = $price / $result->area / 10000;
+            $avgPrice = $price / $ownership_share / $result->area / 10000;
 
-            if ($avgPrice > $industryCenterAvgPrice) {
-                $avgRate = $avgPrice / $industryCenterAvgPrice;
-            } else {
-                $avgRate = $industryCenterAvgPrice / $avgPrice;
-            }
+            $avgRate = ($industryCenterAvgPrice / $avgPrice - 1) * 100;
 
-            $profit = $avgPrice - $industryCenterAvgPrice;
+            // if ($avgPrice > $industryCenterAvgPrice) {
+            //     $avgRate = $avgPrice / $industryCenterAvgPrice;
+            // } else {
+            //     $avgRate = $industryCenterAvgPrice / $avgPrice;
+            // }
+
+            $profit = $industryCenterAvgPrice - $avgPrice;
 
             $addPrice = $profit * $result->area;
 
-            $avgRealPrice = $industryCenterAvgPrice * $result->area;
+            $avgRealPrice = $industryCenterAvgPrice * $result->area * 10000;
 
             $APrice =
                 $industryCenterAvgPrice * 10000 * $result->area -
-                $price -
-                $acquisition_tax_price -
-                $etc_price -
-                $avgRealPrice * 0.1;
+                ($price + $acquisition_tax_price + $etc_price) / $ownership_share -
+                $avgRealPrice * 0.01;
 
-            $CPrice = $APrice * yearRate($result->contracted_at);
-            $BPrice = $APrice - $CPrice;
-
+            $CPrice = $APrice * yearRate($year);
+            $BPrice = ($APrice - $CPrice) * $ownership_share;
             $DPrice = $BPrice - 2500000;
-            $lastPrice = $DPrice * taxRate($DPrice);
-            $lastPrice /= 10000;
+
+            if ($year < 1) {
+                $EPrice = $DPrice * 0.5;
+                $lastPrice = ($APrice * $ownership_share - $EPrice) / 10000;
+            } elseif ($year >= 1 && $year < 2) {
+                $EPrice = $DPrice * 0.4;
+                $lastPrice = ($APrice * $ownership_share - $EPrice) / 10000;
+            } elseif ($year >= 2 && $year < 3) {
+                $tax = priceRate($DPrice);
+                $TaxRate = $tax['taxRate'];
+                $TaxPrice = $tax['taxPrice'];
+                $EPrice = $DPrice * $TaxRate - $TaxPrice;
+                $lastPrice = ($APrice * $ownership_share - $EPrice) / 10000;
+            } else {
+                $tax = priceRate($DPrice);
+                $TaxRate = $tax['taxRate'];
+                $TaxPrice = $tax['taxPrice'];
+                $EPrice = $DPrice * $TaxRate - $TaxPrice;
+                $lastPrice = ($APrice * $ownership_share - $EPrice) / 10000;
+            }
         }
     @endphp
 
@@ -486,18 +521,51 @@
                 <h4>등록 서류</h4>
                 <div class="download_wrap">
                     <div class="download_item">
+
                         <div class="flex_between">
                             <span class="fs_16 gray_deep">매매계약서</span>
                             <div class="relative">
                                 @if (isset($result->sale_images->path))
-                                    <button class="btn_graylight_ghost btn_sm btn_share" data-share="share_sale"><img
+                                    <button class="btn_graylight_ghost btn_sm btn_share only_pc"
+                                        data-share="share_sale"><img
                                             src="{{ asset('assets/media/header_btn_share_deep.png') }}"
                                             class="normal"></button>
+
+                                    <div class="asset_share only_m" style="display: none;">
+                                        <button class="btn_graylight_ghost btn_sm"
+                                            onclick="modal_open_slide('share_sale')"><img
+                                                src="{{ asset('assets/media/header_btn_share_deep.png') }}"
+                                                class="normal"></button>
+
+                                        <div class="modal_slide modal_slide_share_sale">
+                                            <div class="slide_title_wrap">
+                                                <span>공유하기</span>
+                                                <img src="{{ asset('assets/media/btn_md_close.png') }}"
+                                                    onclick="modal_close_slide('share_sale')">
+                                            </div>
+                                            <div class="slide_modal_body">
+                                                <div class="layer_share_con">
+                                                    <a class="kakaotalk-sharing-btn" data-image-title="매매계약서 공유드립니다."
+                                                        onclick="modal_close_slide('share_sale');"
+                                                        data-image-url="{{ asset('storage/image/') . '/' . $result->sale_images->path }}">
+                                                        <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                                                        <p class="mt8">카카오톡</p>
+                                                    </a>
+                                                    <a
+                                                        onclick="textCopy('{{ asset('storage/image/') . '/' . $result->sale_images->path }}');modal_close_slide('share_sale');">
+                                                        <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                                                        <p class="mt8">링크복사</p>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <button class="btn_graylight_ghost btn_sm" type="button"
-                                        onclick="location.href='{{ route('api.imagedownload', $result->sale_images->path) }}'">다운</button>
+                                        onclick="javascript:location.href='{{ route('api.imagedownload', $result->sale_images->path) }}'">다운</button>
 
                                     <div class="layer layer_share_wrap layer_share_top share_sale">
-                                        <div class="layer_title">
+                                        <div class="layer_title only_pc">
                                             <h5>공유하기</h5>
                                             <img src="{{ asset('assets/media/btn_md_close.png') }}"
                                                 class="md_btn_close btn_share" data-share="share_sale">
@@ -516,7 +584,6 @@
                                         </div>
                                     </div>
                                 @endif
-
                             </div>
 
                         </div>
@@ -534,9 +601,40 @@
                             <span class="fs_16 gray_deep">사업자등록증</span>
                             <div class="relative">
                                 @if (isset($result->entre_images->path))
-                                    <button class="btn_graylight_ghost btn_sm btn_share" data-share="share_entre"><img
+                                    <button class="btn_graylight_ghost btn_sm btn_share only_pc"
+                                        data-share="share_entre"><img
                                             src="{{ asset('assets/media/header_btn_share_deep.png') }}"
                                             class="normal"></button>
+
+                                    <div class="asset_share only_m" style="display: none;">
+                                        <button class="btn_graylight_ghost btn_sm"
+                                            onclick="modal_open_slide('share_entre')"><img
+                                                src="{{ asset('assets/media/header_btn_share_deep.png') }}"
+                                                class="normal"></button>
+
+                                        <div class="modal_slide modal_slide_share_entre">
+                                            <div class="slide_title_wrap">
+                                                <span>공유하기</span>
+                                                <img src="{{ asset('assets/media/btn_md_close.png') }}"
+                                                    onclick="modal_close_slide('share_entre')">
+                                            </div>
+                                            <div class="slide_modal_body">
+                                                <div class="layer_share_con">
+                                                    <a class="kakaotalk-sharing-btn" data-image-title="사업자등록증 공유드립니다."
+                                                        data-image-url="{{ asset('storage/image/') . '/' . $result->entre_images->path }}"
+                                                        onclick="modal_close_slide('share_entre');">
+                                                        <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                                                        <p class="mt8">카카오톡</p>
+                                                    </a>
+                                                    <a
+                                                        onclick="textCopy('{{ asset('storage/image/') . '/' . $result->entre_images->path }}');modal_close_slide('share_entre');">
+                                                        <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                                                        <p class="mt8">링크복사</p>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <button class="btn_graylight_ghost btn_sm" type="button"
                                         onclick="location.href='{{ route('api.imagedownload', $result->entre_images->path) }}'">다운</button>
 
@@ -577,10 +675,41 @@
                             <span class="fs_16 gray_deep">임대차 계약서</span>
                             <div class="relative">
                                 @if (isset($result->rental_images->path))
-                                    <button class="btn_graylight_ghost btn_sm btn_share"
+                                    <button class="btn_graylight_ghost btn_sm btn_share only_pc"
                                         data-share="share_rental"><img
                                             src="{{ asset('assets/media/header_btn_share_deep.png') }}"
                                             class="normal"></button>
+
+                                    <div class="asset_share only_m" style="display: none;">
+                                        <button class="btn_graylight_ghost btn_sm"
+                                            onclick="modal_open_slide('share_rental')"><img
+                                                src="{{ asset('assets/media/header_btn_share_deep.png') }}"
+                                                class="normal"></button>
+
+                                        <div class="modal_slide modal_slide_share_rental">
+                                            <div class="slide_title_wrap">
+                                                <span>공유하기</span>
+                                                <img src="{{ asset('assets/media/btn_md_close.png') }}"
+                                                    onclick="modal_close_slide('share_rental')">
+                                            </div>
+                                            <div class="slide_modal_body">
+                                                <div class="layer_share_con">
+                                                    <a class="kakaotalk-sharing-btn"
+                                                        data-image-title="임대차 계약서 공유드립니다."
+                                                        data-image-url="{{ asset('storage/image/') . '/' . $result->rental_images->path }}"
+                                                        onclick="modal_close_slide('share_rental');">
+                                                        <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                                                        <p class="mt8">카카오톡</p>
+                                                    </a>
+                                                    <a
+                                                        onclick="textCopy('{{ asset('storage/image/') . '/' . $result->rental_images->path }}');modal_close_slide('share_rental');">
+                                                        <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                                                        <p class="mt8">링크복사</p>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <button class="btn_graylight_ghost btn_sm" type="button"
                                         onclick="location.href='{{ route('api.imagedownload', $result->rental_images->path) }}'">다운</button>
 
@@ -621,9 +750,41 @@
                             <span class="fs_16 gray_deep">기타서류</span>
                             <div class="relative">
                                 @if (isset($result->etc_images->path))
-                                    <button class="btn_graylight_ghost btn_sm btn_share" data-share="share_etc"><img
+                                    <button class="btn_graylight_ghost btn_sm btn_share only_pc"
+                                        data-share="share_etc"><img
                                             src="{{ asset('assets/media/header_btn_share_deep.png') }}"
                                             class="normal"></button>
+
+                                    <div class="asset_share only_m" style="display: none;">
+                                        <button class="btn_graylight_ghost btn_sm"
+                                            onclick="modal_open_slide('share_etc')"><img
+                                                src="{{ asset('assets/media/header_btn_share_deep.png') }}"
+                                                class="normal"></button>
+
+                                        <div class="modal_slide modal_slide_share_etc">
+                                            <div class="slide_title_wrap">
+                                                <span>공유하기</span>
+                                                <img src="{{ asset('assets/media/btn_md_close.png') }}"
+                                                    onclick="modal_close_slide('share_etc')">
+                                            </div>
+                                            <div class="slide_modal_body">
+                                                <div class="layer_share_con">
+                                                    <a class="kakaotalk-sharing-btn" data-image-title="기타서류 공유드립니다."
+                                                        data-image-url="{{ asset('storage/image/') . '/' . $result->etc_images->path }}"
+                                                        onclick="modal_close_slide('share_etc');">
+                                                        <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                                                        <p class="mt8">카카오톡</p>
+                                                    </a>
+                                                    <a
+                                                        onclick="textCopy('{{ asset('storage/image/') . '/' . $result->etc_images->path }}');modal_close_slide('share_etc');">
+                                                        <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                                                        <p class="mt8">링크복사</p>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <button class="btn_graylight_ghost btn_sm" type="button"
                                         onclick="location.href='{{ route('api.imagedownload', $result->etc_images->path) }}'">다운</button>
 
@@ -752,7 +913,7 @@
                     objectType: "feed",
                     content: {
                         title: imageTitle,
-                        description: '{{ $result->asset_address->address }}' +
+                        description: '{{ $result->asset_address->address }}' + ' ' +
                             '{{ $result->is_temporary == 0 ? $address_detail : $result->address_detail }}',
                         imageUrl: imageUrl,
                         link: {

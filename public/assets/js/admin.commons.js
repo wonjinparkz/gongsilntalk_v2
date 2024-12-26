@@ -207,4 +207,131 @@ $(".tab_toggle_menu li").click(function () {
 });
 
 
+var prev = "";
+var regexp = /^\d*(\.\d{0,2})?$/;
+var regexp1 = /^\d*(\.\d{0,1})?$/;
+
+// 소수점 리미트 함수
+function imsi(obj) {
+
+    // 숫자와 소수점 이외 문자 제거
+    obj.value = obj.value.replace(/[^0-9.]/g, "");
+
+    // 유효성 검사
+    if (!regexp.test(obj.value)) {
+        // 입력 값 자르기 시도
+        var match = obj.value.match(/^\d*(\.\d{0,2})?/);
+
+        if (match && match[0] !== "") {
+            obj.value = match[0];  // 유효한 부분만 남기기
+        } else {
+            obj.value = prev;  // 완전히 잘못된 값 복원
+        }
+    } else {
+        prev = obj.value;  // 유효하면 이전 값 업데이트
+    }
+}
+
+function imsi1(obj) {
+   // 숫자와 소수점 이외 문자 제거
+   obj.value = obj.value.replace(/[^0-9.]/g, "");
+
+   // 유효성 검사
+   if (!regexp1.test(obj.value)) {
+       // 입력 값 자르기 시도
+       var match = obj.value.match(/^\d*(\.\d{0,1})?/);
+
+       if (match && match[0] !== "") {
+           obj.value = match[0];  // 유효한 부분만 남기기
+       } else {
+           obj.value = prev;  // 완전히 잘못된 값 복원
+       }
+   } else {
+       prev = obj.value;  // 유효하면 이전 값 업데이트
+   }
+}
+
+// 숫자 입력 최대값
+function validateInput(element, max) {
+    var value = element.value;
+    if (value > max) {
+        element.value = max;
+    }
+}
+
+// 숫자만 입력
+function onlyNumbers(element) {
+    let value = element.value;
+    element.value = '';
+    element.value = value.replace(/[^0-9]/g, '');
+}
+
+// 금액 콤마
+function onTextChangeEvent(element) {
+    let value = element.value;
+    element.value = '';
+    value = value.replace(/[^0-9]/g, '');
+    // 만약 입력값이 0으로 시작하고 그 다음에 숫자가 입력되면 0을 제거
+    if (value.length > 1 && value[0] === '0') {
+        value = value.substring(1);
+    }
+    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    element.value = value;
+}
+
+// 금액 콤마
+function onTextChangeEventIndex(name, index) {
+    let value = $('#' + name + '_' + index).val();
+    $('#' + name + '_' + index).val('');
+    value = value.replace(/[^0-9]/g, '');
+    // 만약 값이 0으로 시작하고 그 다음에 숫자가 입력되면 0을 제거
+    if (value.length > 1 && value[0] === '0') {
+        value = value.substring(1);
+    }
+    $('#' + name).val(value);
+    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    $('#' + name + '_' + index).val((value));
+}
+
+// 날짜 입력
+function onDateChangeEvent(inputElement) {
+    let value = inputElement.value;
+
+    // 숫자만 남기고 나머지는 제거
+    value = value.replace(/[^0-9]/g, '');
+
+    // 년, 월, 일 파싱
+    let year = value.substring(0, 4);
+    let month = value.substring(4, 6);
+    let day = value.substring(6, 8);
+
+    // 년도 최소값 체크
+    if (year.length === 4) {
+        year = Math.max(1700, parseInt(year, 10)).toString();
+    }
+
+    // 월 최대/최소값 체크
+    if (month.length === 2) {
+        month = Math.max(1, Math.min(12, parseInt(month, 10))).toString().padStart(2, '0');
+    }
+
+    // 일 최대/최소값 체크
+    if (day.length === 2) {
+        day = Math.max(1, Math.min(31, parseInt(day, 10))).toString().padStart(2, '0');
+    }
+
+    // 날짜를 포맷팅하여 재조립
+    let formattedValue = year;
+    if (month) {
+        formattedValue += '.' + month;
+    }
+    if (day) {
+        formattedValue += '.' + day;
+    }
+
+    // 입력값 업데이트
+    inputElement.value = formattedValue;
+}
+
+
 

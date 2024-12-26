@@ -229,10 +229,10 @@
         @php
             $paymentTypes = [
                 0 => '매매가',
-                1 => '임대',
+                1 => '월세가',
                 2 => '단기임대',
-                3 => '전세',
-                4 => '월세',
+                3 => '전세가',
+                4 => '월세가',
                 5 => '전매가',
             ];
             $paymentType = $result->priceInfo->payment_type;
@@ -408,11 +408,11 @@
                                 @if ($type == 3)
                                     <div>현 업종</div>
                                     <div>
-                                        {{ Lang::get('commons.product_business_type.' . $result->productAddInfo->current_business_type) }}
+                                        {{ $result->productAddInfo->current_business_type != '' ? Lang::get('commons.product_business_type.' . $result->productAddInfo->current_business_type) : '-' }}
                                     </div>
                                     <div>추천 업종</div>
                                     <div>
-                                        {{ Lang::get('commons.product_business_type.' . $result->productAddInfo->recommend_business_type) }}
+                                        {{ $result->productAddInfo->recommend_business_type != '' ? Lang::get('commons.product_business_type.' . $result->productAddInfo->recommend_business_type) : '-' }}
                                     </div>
                                 @endif
                                 <div>건물 방향</div>

@@ -111,10 +111,10 @@
                     @guest
 @else
     <a>
-                                                                                                                                                                                        <div class="user_profileImg">
-                                                                                                                                                                                            <div class="img_box"><img src="{{ asset('assets/media/default_user.png') }}"></div>
-                                                                                                                                                                                        </div>
-                                                                                                                                                                                    </a>
+                                                                                                                                                                                            <div class="user_profileImg">
+                                                                                                                                                                                                <div class="img_box"><img src="{{ asset('assets/media/default_user.png') }}"></div>
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                        </a>
                     @endguest
                 </div> -->
             </div>
@@ -123,7 +123,7 @@
             <div class="m_inner_wrap m_main_wrap">
                 <h4>어떤 매물을 찾고 계신가요?</h4>
                 <div class="main_search flex_between">
-                    <input type="text" id="search_input" name="search_input" placeholder="단지명, 동이름, 지하철역으로 검색"
+                    <input type="text" id="search_input" name="search_input" placeholder="지역명, 단지명, 지하철역으로 검색"
                         autocomplete='off'>
                     <img src="{{ asset('assets/media/btn_solid_delete.png') }}" alt="del" class="btn_del"
                         style="display: none">
@@ -228,8 +228,10 @@
                                     'search': search
                                 },
                                 success: function(data, status, xhr) {
+                                    $('#search_list').empty();
                                     var subwayList = data.result['subwayList'];
                                     var regionList = data.result['regionList'];
+                                    var productList = data.result['productList'];
                                     subwayList.forEach(function(item, index) {
                                         var name = item.subway_name + ' ' + `[${item.line}]`;
                                         var Sname = getSearchContent(search, name);
@@ -246,6 +248,15 @@
                             <div class="side_search_list_row" onclick="search_click('${item.address_lat}', '${item.address_lng}', '${name}')">
                                 <a>${Sname}</a>
                             </div>`;
+                                        $('#search_list').append(list_row);
+                                    });
+                                    productList.forEach(function(item, index) {
+                                        var name = item.kaptName;
+                                        var Sname = getSearchContent(search, name);
+                                        var list_row = `
+                        <div class="side_search_list_row" onclick="search_click('${item.y}', '${item.x}', '${name}')">
+                            <a>${Sname}</a>
+                        </div>`;
                                         $('#search_list').append(list_row);
                                     });
                                 },
@@ -280,7 +291,7 @@
                             }
                         }
                         loadSearchTerms();
-                        location.href = "{{ route('www.map.mobile') }}" + "?lat=" + lat + "&lng=" + lng + "&search_name=" + name;
+                        location.href = "{{ route('www.map.mobile') }}" + "?lat=" + lat + "&lng=" + lng + "&zoom=16" + "&search_name=" + name;
                     }
 
                     function setCookie(cname, cvalue, exdays) {

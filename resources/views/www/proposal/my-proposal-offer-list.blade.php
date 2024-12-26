@@ -89,7 +89,14 @@
                                 </div>
                                 <!-- <button class="btn_gray_ghost btn_sm" type="button"
                                     onclick="downloadPDF();">공유하기</button> -->
-                                <button class="btn_gray_ghost btn_sm btn_share" type="button">공유하기</button>
+
+                                <button class="btn_gray_ghost btn_sm btn_share only_pc" type="button">공유하기</button>
+
+                                <div class="only_m">
+                                    <button class="btn_gray_ghost btn_sm only_m"
+                                        onclick="modal_open_slide('share')">공유하기</button>
+                                </div>
+
                                 <!-- 공유하기 : s -->
                                 <div class="layer layer_share_wrap">
                                     <div class="layer_title">
@@ -110,6 +117,28 @@
                                     </div>
                                 </div>
                                 <!-- 공유하기 : e -->
+                            </div>
+                            <div class="modal_slide modal_slide_share">
+                                <div class="slide_title_wrap">
+                                    <span>공유하기</span>
+                                    <img src="{{ asset('assets/media/btn_md_close.png') }}"
+                                        onclick="modal_close_slide('share')">
+                                </div>
+                                <div class="slide_modal_body">
+                                    <div class="layer_share_con">
+                                        <a class="kakaotalk-sharing-btn" onclick="modal_close_slide('share');">
+                                            <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                                            <p class="mt8">카카오톡</p>
+                                        </a>
+                                        <a
+                                            onclick="textCopy('{{ env('APP_URL') }}/share/proposal/detail?id={{ $proposal->id }}');modal_close_slide('share');">
+                                            <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                                            <p class="mt8">링크복사</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="md_slide_overlay md_slide_overlay_share" onclick="modal_close_slide('share')">
                             </div>
 
 

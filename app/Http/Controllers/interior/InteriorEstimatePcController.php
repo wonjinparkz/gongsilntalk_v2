@@ -66,13 +66,13 @@ class InteriorEstimatePcController extends Controller
 
         $area = $request->area;
         $redirect_url = '';
-        if ($area >= 100) {
+        if ($area >= 71) {
             $redirect_url = 'https://xn--s39awro00dcgl.com/landing_100';
-        } else if ($area < 100 && $area >= 50) {
+        } else if ($area < 71 && $area >= 36) {
             $redirect_url = 'https://xn--s39awro00dcgl.com/landing_50';
-        } else if ($area < 50 && $area >= 30) {
+        } else if ($area < 36 && $area >= 26) {
             $redirect_url = 'https://xn--s39awro00dcgl.com/landing_30';
-        } else if ($area < 30 && $area >= 20) {
+        } else if ($area < 26 && $area >= 16) {
             $redirect_url = 'https://xn--s39awro00dcgl.com/landing_20';
         } else {
             $redirect_url = 'https://xn--s39awro00dcgl.com/landing_10';

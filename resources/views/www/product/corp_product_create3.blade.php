@@ -61,7 +61,7 @@
                                         <div><input type="text" name="total_floor_number" placeholder="전체층"> <span
                                                 class="gray_deep">층</span></div>
                                     </div>
-                                    <span class="gray_basic">※ 지하의 경우 B1으로 표시</span>
+                                    <span class="gray_basic">* 지하의 경우 B1으로 표시</span>
                                 </div>
                             </div>
                         @endif
@@ -77,7 +77,7 @@
                                         <div><input type="text" name="top_floor_number" placeholder="최고"> <span
                                                 class="gray_deep">층</span></div>
                                     </div>
-                                    <span class="gray_basic">※ 지하의 경우 B1으로 표시</span>
+                                    <span class="gray_basic">* 지하의 경우 B1으로 표시</span>
                                 </div>
                             @endif
                             @if (in_array($result['type'], [6, 7]))

@@ -915,6 +915,7 @@ function onlyDateCharacters(event) {
 //     }
 //     $('#' + name + '_' + index).val(formattedValue);
 // }
+
 function onDateChangeEvent(name, index) {
     let inputElement = $('#' + name + '_' + index);
     let value = inputElement.val();

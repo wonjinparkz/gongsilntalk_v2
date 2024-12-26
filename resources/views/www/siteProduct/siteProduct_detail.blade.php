@@ -176,9 +176,19 @@
 
                     <div class="detail_camera_wrap" {{ count($result->files) > 0 ? '' : 'style=display:none;' }}>
                         <div class="gray_basic">*클릭을 통해 직접 건물 내부를 이동하며 확인해보세요.</div>
-                        <div class="rotation_wrap mt8" onclick="onMetaLink();">
+                        <div class="rotation_wrap mt8">
                             <div id="panorama-360-view"></div>
                         </div>
+                    </div>
+
+                    <div class="detail_camera_wrap agent_contact_wrap"
+                        {{ $result->matterport_link != '' ? '' : 'style=display:none;' }}>
+                        <a href='{{ $result->matterport_link }}'
+                            onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;">
+                            <button class="btn_point btn_basic">
+                                360도 파노라마 VR투어
+                            </button>
+                        </a>
                     </div>
                 </section>
             </div>

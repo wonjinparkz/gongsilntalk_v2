@@ -27,7 +27,7 @@
             </div>
             <div class="map_search_wrap non_pano">
                 <div class="flex_between">
-                    <input type="text" id="search_input" class="map_search" placeholder="단지명, 동이름, 지하철역으로 검색"
+                    <input type="text" id="search_input" class="map_search" placeholder="지역명, 단지명, 지하철역으로 검색"
                         autocomplete='off'>
                     <img src="{{ asset('assets/media/btn_solid_delete.png') }}" alt="del" class="btn_del">
                     {{-- <button><img src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button> --}}
@@ -132,8 +132,10 @@
                                 'search': search
                             },
                             success: function(data, status, xhr) {
+                                $('#search_list').empty();
                                 var subwayList = data.result['subwayList'];
                                 var regionList = data.result['regionList'];
+                                var productList = data.result['productList'];
                                 subwayList.forEach(function(item, index) {
                                     var name = item.subway_name + ' ' + `[${item.line}]`;
                                     var Sname = getSearchContent(search, name);
@@ -148,6 +150,15 @@
                                     var Sname = getSearchContent(search, name);
                                     var list_row = `
                         <div class="side_search_list_row" onclick="search_click('${item.address_lat}', '${item.address_lng}', '${name}')">
+                            <a>${Sname}</a>
+                        </div>`;
+                                    $('#search_list').append(list_row);
+                                });
+                                productList.forEach(function(item, index) {
+                                    var name = item.kaptName;
+                                    var Sname = getSearchContent(search, name);
+                                    var list_row = `
+                        <div class="side_search_list_row" onclick="search_click('${item.y}', '${item.x}', '${name}')">
                             <a>${Sname}</a>
                         </div>`;
                                     $('#search_list').append(list_row);
@@ -1042,12 +1053,12 @@
 
             knowledgeClustering = new MarkerClustering({
                 minClusterSize: 1,
-                maxZoom: 16,
+                maxZoom: 17,
                 map: map,
                 markers: knowledgeMarkers, // knowledge 마커들만 클러스터링
                 disableClickZoom: false,
                 knowledgeSaleMidPrice: true,
-                gridSize: 70,
+                gridSize: 100,
                 icons: [htmlMarker3],
                 indexGenerator: [1],
             });

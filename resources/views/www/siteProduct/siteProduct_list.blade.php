@@ -177,6 +177,7 @@
 
             <!-- paging : s -->
             {{ $result->onEachSide(1)->links('components.pc-pagination') }}
+            {{ $result->onEachSide(1)->links('components.m-pagination') }}
             <!-- paging : e -->
 
             <!-- nav : s -->

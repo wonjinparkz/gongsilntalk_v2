@@ -28,7 +28,7 @@
                         </ul>
                         <div class="flex_between">
                             <div>
-                                <input type="checkbox" name="auto_login" id="auto_login">
+                                <input type="checkbox" name="auto_login" id="auto_login" checked>
                                 <label for="auto_login" class="mr10"><span></span> 자동로그인</label>
                             </div>
                             <a href="javascript:(0)" class="gray_basic" onclick="modal_open('pw_change1')">비밀번호 찾기</a>
@@ -78,7 +78,16 @@
             Kakao.init('{{ env('KAKAO_CLIENT_ID') }}'); // 카카오 SDK 초기화
 
             function openKakaoPopup() {
-                var kakaoLoginUrl = "{{ route('www.login.kakao') }}";
+                var fcmKey = $('input[name="fcm_key"]').val();
+                var deviceType = $('input[name="device_type"]').val();
+                var autoLogin = $('#auto_login').is(':checked') ? 1 : 0;
+
+                var kakaoLoginUrl = "{{ route('www.login.kakao') }}" +
+                    "?autoLogin=" + autoLogin +
+                    "&fcm_key=" + encodeURIComponent(fcmKey) +
+                    "&device_type=" + encodeURIComponent(deviceType);
+
+                // var kakaoLoginUrl = "{{ route('www.login.kakao') }}";
                 var width = 500;
                 var height = 600;
                 var left = (screen.width / 2) - (width / 2);
@@ -206,6 +215,7 @@
         <form class="form" name="sns_login" id="sns_login" method="GET" action="">
             <input type="hidden" name="fcm_key" value="">
             <input type="hidden" name="device_type" value="">
+            <input type="hidden" name="auto_login" id="sns_auto_login">
 
         </form>
 
@@ -233,15 +243,9 @@
     });
 
     function form_sns_login(sns_url) {
+        var autoLogin = $('#auto_login').is(':checked') ? 1 : 0;
+        $('#sns_auto_login').val(autoLogin);
         $('#sns_login').attr('action', sns_url).submit();
-    }
-
-    function openKakaoLogin(sns_url) {
-        var width = 500;
-        var height = 600;
-        var left = (screen.width / 2) - (width / 2);
-        var top = (screen.height / 2) - (height / 2);
-        window.open(sns_url, '카카오로그인', 'width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
     }
 
     $('input[name="change_password"]').keyup(function() {
@@ -350,14 +354,11 @@
             'phone': phone,
         };
 
-        console.log(formData);
-
         $.ajax({
             type: "post", //전송타입
             url: "{{ route('password.user.check') }}",
             data: formData,
             success: function(data, status, xhr) {
-                console.log(data);
                 $('#passwordUser').val(data.confirm);
                 if (data.confirm) {
                     $('#password_email_confirmation').val(password_email);

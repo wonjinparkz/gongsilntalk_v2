@@ -372,9 +372,6 @@
                 if ($('#price_1').val() != '' && $('#contracted_at_1').val().length == 10 && $('#acquisition_tax_rate_1')
                     .val() !=
                     '') {
-                    console.log('price_1 : ', $('#price_1').val());
-                    console.log('contracted_at_1 : ', $('#contracted_at_1').val());
-                    console.log('acquisition_tax_rate_1 : ', $('#acquisition_tax_rate_1').val());
                     document.getElementById('nextPageButton').disabled = false;
                 } else {
                     document.getElementById('nextPageButton').disabled = true;

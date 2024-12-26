@@ -53,6 +53,7 @@
                             <p class="gray_basic">최대 8장 업로드 가능 <span
                                     class="txt_point imageCount">{{ count($result->images) }}</span> / 8</p>
                         </div>
+                        <p class="gray_basic mt10">* 파일 용량이 5M이하 권장, 초과시 업로드가 지연됩니다.</p>
                         <div class="img_add_wrap draggable-zone">
                             <x-pc-image-picker :title="''" id="community" cnt="8" required="required"
                                 :images="$result->images" />

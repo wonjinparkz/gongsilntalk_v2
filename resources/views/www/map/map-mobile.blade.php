@@ -33,7 +33,7 @@
     <div class="map_m_top_wrap only_m">
         <div class="m_inner_wrap">
             <div class="community_search_wrap flex_between">
-                <input type="text" id="search_input" name="search_input" placeholder="단지명, 동이름, 지하철역으로 검색"
+                <input type="text" id="search_input" name="search_input" placeholder="지역명, 단지명, 지하철역으로 검색"
                     autocomplete='off' value="{{ $search_name }}">
                 <img src="{{ asset('assets/media/btn_solid_delete.png') }}" alt="del" class="btn_del">
                 {{-- <button><img src="{{ asset('assets/media/btn_search.png') }}" alt="검색"></button> --}}
@@ -136,8 +136,10 @@
                             'search': search
                         },
                         success: function(data, status, xhr) {
+                            $('#search_list').empty();
                             var subwayList = data.result['subwayList'];
                             var regionList = data.result['regionList'];
+                            var productList = data.result['productList'];
                             subwayList.forEach(function(item, index) {
                                 var name = item.subway_name + ' ' + `[${item.line}]`;
                                 var Sname = getSearchContent(search, name);
@@ -156,6 +158,15 @@
                     </div>`;
                                 $('#search_list').append(list_row);
                             });
+                            productList.forEach(function(item, index) {
+                                var name = item.kaptName;
+                                var Sname = getSearchContent(search, name);
+                                var list_row = `
+                        <div class="side_search_list_row" onclick="search_click('${item.y}', '${item.x}', '${name}')">
+                            <a>${Sname}</a>
+                        </div>`;
+                                $('#search_list').append(list_row);
+                            });
                         },
                         error: function(xhr, status, e) {}
                     });
@@ -169,7 +180,7 @@
                 $('#search_input').val(name);
 
                 var currentLocation = new naver.maps.LatLng(lat, lng);
-                map.setZoom(18, true);
+                map.setZoom(16, true);
                 map.setCenter(currentLocation);
 
                 const searchInputValue = name;
@@ -1260,7 +1271,7 @@
     function initializeMap() {
         map = new naver.maps.Map('map', {
             center: new naver.maps.LatLng({{ $lat }}, {{ $lng }}),
-            zoom: 11,
+            zoom: {{ $zoom ?? 11}},
             minZoom: 8,
             maxZoom: 21,
             size: new naver.maps.Size(window.innerWidth, window.innerHeight),

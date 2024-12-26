@@ -555,8 +555,6 @@ class DataController extends Controller
                     // juso 배열 추출
                     $jusoArray = $responseArray['results']['juso'];
 
-                    Log::info($jusoArray);
-
                     if ($jusoArray != '') {
                         $AdmCd = '';
                         $MtYn = '';

@@ -468,8 +468,6 @@
 
             popupHeight = 600;
 
-            console.log('parentWidth : ' + parentWidth);
-
             if (parentWidth > 767) {
                 popupWidth = 570; // PC 환경
             } else {

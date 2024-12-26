@@ -1,5 +1,5 @@
 <!-- paging : s -->
-<div class="paging only_pc">
+<div class="paging only_m">
     <ul class="btn_wrap">
         @if ($paginator->onFirstPage())
             <li class="btn_prev">
@@ -10,7 +10,7 @@
         @else
             <li class="btn_prev">
                 {{-- <a class="no_next" href="{{ $paginator->previousPageUrl() }}"> --}}
-                <a class="no_next" onclick="loadPageData('{{ $paginator->currentPage() - 1 }}');">
+                <a class="no_next" onclick="loadMoreData(1, 1);">
                     <img src="{{ asset('assets/media/btn_prev.png') }}" alt="">
                 </a>
             </li>
@@ -27,7 +27,7 @@
                         <li class="active">{{ $page }}
                         </li>
                     @else
-                        <li onclick="loadPageData('{{ $page }}');">{{ $page }}
+                        <li onclick="loadMoreData('{{ $page }}', 1);">{{ $page }}
                         </li>
                     @endif
                 @endforeach
@@ -36,7 +36,7 @@
 
         @if ($paginator->hasMorePages())
             <li class="btn_next">
-                <a class="no_next" onclick="loadPageData('{{ $paginator->currentPage() + 1 }}');">
+                <a class="no_next" onclick="loadMoreData('{{ $paginator->currentPage() + 1 }}', 1);">
                     <img src="{{ asset('assets/media/btn_next.png') }}" alt="">
                 </a>
             </li>

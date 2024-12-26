@@ -35,20 +35,26 @@
                                     $category = old('category') ?? -1;
                                 @endphp
                                 <select class="w_50" name="category" id="category">
-                                    <option value="-1" @if ($category == -1) selected @endif>&nbsp;&nbsp;&nbsp;게시판 선택
+                                    <option value="-1" @if ($category == -1) selected @endif>
+                                        &nbsp;&nbsp;&nbsp;게시판 선택
                                     </option>
-                                    <option value="0" @if ($category == 0) selected @endif>&nbsp;&nbsp;&nbsp;자유글
+                                    <option value="0" @if ($category == 0) selected @endif>
+                                        &nbsp;&nbsp;&nbsp;자유글
                                     </option>
-                                    <option value="1" @if ($category == 1) selected @endif>&nbsp;&nbsp;&nbsp;질문/답변
+                                    <option value="1" @if ($category == 1) selected @endif>
+                                        &nbsp;&nbsp;&nbsp;질문/답변
                                     </option>
-                                    <option value="2" @if ($category == 2) selected @endif>&nbsp;&nbsp;&nbsp;후기</option>
-                                    <option value="3" @if ($category == 3) selected @endif>&nbsp;&nbsp;&nbsp;노하우
+                                    <option value="2" @if ($category == 2) selected @endif>
+                                        &nbsp;&nbsp;&nbsp;후기</option>
+                                    <option value="3" @if ($category == 3) selected @endif>
+                                        &nbsp;&nbsp;&nbsp;노하우
                                     </option>
                                 </select>
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('category')" />
                             </li>
                             <li>
-                                <input type="text" name="title" id="title" maxlength="50" placeholder="제목을 입력해주세요." value="{{ old('title')}}">
+                                <input type="text" name="title" id="title" maxlength="50"
+                                    placeholder="제목을 입력해주세요." value="{{ old('title') }}">
                                 <x-input-error class="mt-2 text-danger" :messages="$errors->get('title')" />
                             </li>
                             <li>
@@ -58,10 +64,11 @@
                         </ul>
 
                         <!-- 사진 등록 : s -->
-                        <div class="flex_between ">
+                        <div class="flex_between">
                             <h6>사진 등록</h6>
                             <p class="gray_basic">최대 8장 업로드 가능 <span class="txt_point imageCount">0</span> / 8</p>
                         </div>
+                        <p class="gray_basic mt10">* 파일 용량이 5M이하 권장, 초과시 업로드가 지연됩니다.</p>
                         <div class="img_add_wrap draggable-zone">
                             <x-pc-image-picker :title="''" id="community" cnt="8" required="required" />
                         </div>
@@ -114,7 +121,6 @@
 
 </x-layout>
 <script>
-
     $(document).ready(function() {
         button_active();
         $('input, select, textarea').change(function() {

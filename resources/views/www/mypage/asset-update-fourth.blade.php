@@ -25,7 +25,7 @@
 
                     <div class="box_01 box_reg">
                         <h4>서류 등록</h4>
-
+                        <span class="gray_basic">* 파일 용량 5M이하 권장, 초과시 업로드가 지연됩니다.</span>
                         <ul class="document_reg_list">
                             <x-service-create-image-picker :title="'매매계약서'" id="sale" cnt="1"
                                 :result="$result->sale_images" />

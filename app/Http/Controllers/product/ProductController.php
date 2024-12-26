@@ -164,7 +164,7 @@ class ProductController extends Controller
             $checkVal = ($result->area == '') ? 1 : 0;
             $checkVal = ($result->square == '') ? 1 : 0;
         } else if ($result->type != 6) {
-            if($result->type > 7 && $result->type < 14){
+            if ($result->type > 7 && $result->type < 14) {
                 $checkVal = (!isset($result->productAddInfo->room_count)) ? 1 : 0;
                 $checkVal = (!isset($result->productAddInfo->bathroom_count)) ? 1 : 0;
             }
@@ -173,7 +173,6 @@ class ProductController extends Controller
 
             $checkVal = ($result->area == '') ? 1 : 0;
             $checkVal = ($result->square == '') ? 1 : 0;
-
         } else if ($result->type == 6) { // 토지 임야
             $checkVal = ($result->area == '') ? 1 : 0;
             $checkVal = ($result->square == '') ? 1 : 0;
@@ -256,11 +255,10 @@ class ProductController extends Controller
                 }),
             ],
             'direction_type' => 'required_unless:type,6',
-            'room_count' => 'required_if:type,8,10,11,12,13',
-            'bathroom_count' => 'required_if:type,8,10,11,12,13',
+            'room_count' => 'required_if:type,4,8,10,11,12,13',
+            'bathroom_count' => 'required_if:type,4,8,10,11,12,13',
             'product_image_ids' => 'required',
             'comments' => 'required',
-            'commission' => 'required',
             'commission_rate' => 'required',
 
         ]);
@@ -291,20 +289,20 @@ class ProductController extends Controller
             'exclusive_square' => $request->type != 6 ? $request->exclusive_square : null,
             'total_floor_area' => $request->type == 7 ? $request->total_floor_area : null,
             'total_floor_square' => $request->type == 7 ? $request->total_floor_square : null,
-            'approve_date' => $request->type != 6 ? $request->approve_date : null,
+            'approve_date' => $request->type != 6 ? str_replace('.', '', $request->approve_date) : null,
             'building_type' => $request->building_type,
             'move_type' => $request->type != 6 ? $request->move_type : null,
             'move_date' => ($request->type != 6 && $request->move_type == 2) ? $request->move_date : null,
             'is_service' => $request->type != 6 ? $request->is_service ?? 0 : null,
-            'service_price' => ($request->type != 6 && $request->is_service != 1) ? $request->service_price * 10000 : null,
+            'service_price' => ($request->type != 6 && $request->is_service != 1) ? str_replace(',', '', $request->service_price) : null,
             'loan_type' => $request->loan_type,
-            'loan_price' => $request->loan_type != 0 ? $request->loan_price : null,
+            'loan_price' => $request->loan_type != 0 ? str_replace(',', '', $request->loan_price ?? 0) : null,
             'parking_type' => $request->type != 6 ? $request->parking_type : null,
             'parking_price' => $request->type != 6 && ($request->parking_type == 1 && $request->is_parking != 1) ? $request->parking_price : null,
             'comments' => $request->comments,
             'contents' => $request->contents,
             'image_link' => $request->image_link,
-            'commission' => $request->commission,
+            'commission' => str_replace(',', '', $request->commission) ?? 0,
             'commission_rate' => $request->commission_rate,
             'update_user_type' => 1
         ];
@@ -333,19 +331,17 @@ class ProductController extends Controller
         $premium_price = $request->premium_price;
 
         if ($request->type == 3) {
-            $premium_price = $request->is_premium == 1 ? $premium_price : null;
-        } else if ($request->type > 13) {
-            $premium_price = $premium_price;
+            $premium_price = $request->is_premium == 1 ? str_replace(',', '', $premium_price) : null;
         }
         ProductPrice::create([
             'product_id' => $request->id,
             'payment_type' => $request->payment_type,
-            'price' => $request->price,
-            'month_price' => in_array($request->payment_type, [1, 2, 4]) ? $request->month_price : null,
+            'price' => str_replace(',', '', $request->price),
+            'month_price' => in_array($request->payment_type, [1, 2, 4]) ? str_replace(',', '', $request->month_price) : null,
             'is_price_discussion' => $request->is_price_discussion ?? 0,
             'is_use' => $request->type > 13 ? null : $request->is_use,
-            'current_price' =>  $request->type < 14 && $request->is_use == 1 ? $request->current_price : null,
-            'current_month_price' =>  $request->type < 14 && $request->is_use == 1 ? $request->current_month_price : null,
+            'current_price' =>  $request->type < 14 && $request->is_use == 1 ? str_replace(',', '', $request->current_price) : null,
+            'current_month_price' =>  $request->type < 14 && $request->is_use == 1 ? str_replace(',', '', $request->current_month_price) : null,
             'is_premium' => $request->type == 3 ? $request->is_premium : null,
             'premium_price' => $premium_price,
         ]);
@@ -367,10 +363,10 @@ class ProductController extends Controller
                 'is_option' => $request->is_option,
 
             ];
-        } else if ($request->type == 3) {
+        } else if (in_array($request->type, [3, 15])) {
             $product_add_info = [
                 'product_id' => $request->id,
-                'current_business' => $request->current_business,
+                'current_business_type' => $request->current_business_type,
                 'recommend_business_type' => $request->recommend_business_type,
                 'direction_type' => $request->direction_type,
                 'cooling_type' => $request->cooling_type,
@@ -463,6 +459,7 @@ class ProductController extends Controller
                 ]);
             }
         }
+
 
         $this->imageWithEdit($request->product_image_ids, Product::class, $request->id);
 

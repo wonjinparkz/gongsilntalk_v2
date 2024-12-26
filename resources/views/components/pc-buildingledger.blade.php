@@ -102,7 +102,8 @@
 @if (count($BrRecapTitleInfo) > 0)
     @foreach ($BrRecapTitleInfo as $info)
         <div class="총괄표제부 dongInfo">
-            <div class="default_box showstep1">
+            {{-- <div class="default_box showstep1"> --}}
+            <div class="default_box">
                 <div class="table_container2_sm mt10">
                     <div class="td">규모</div>
                     <div class="td">-층 / -층</div>
@@ -126,13 +127,15 @@
                     <div class="td">{{ Commons::formatValue($info['etcRoof'] ?? '') }}</div>
                     <div class="td">엘리베이터</div>
                     <div class="td">{{ $info['rideUseElvtCnt'] ?? '-' }}</div>
+                    <div class="td">주차대수</div>
+                    <div class="td">{{ number_format($info['indrAutoUtcnt'] + $info['indrMechUtcnt']) }}대</div>
                     <div class="td">용적률</div>
                     <div class="td">{{ $info['vlRat'] != '' ? $info['vlRat'] . '%' : '-' }}</div>
                     <div class="td">건폐율</div>
                     <div class="td">{{ $info['bcRat'] != '' ? $info['bcRat'] . '%' : '-' }}</div>
                 </div>
             </div>
-            <div class="btn_more_open">더보기</div>
+            {{-- <div class="btn_more_open">더보기</div> --}}
         </div>
     @endforeach
 @endif
@@ -140,13 +143,15 @@
 @if (count($BrTitleInfo) > 0)
     @foreach ($BrTitleInfo as $info)
         @php
+            info($info);
             if (is_array($info['dongNm']) && empty($info['dongNm'])) {
                 $info['dongNm'] = '';
             }
         @endphp
         <div
             class="{{ str_replace(' ', '', $info['dongNm']) }} dongInfo dongInfo_{{ str_replace(' ', '', $info['dongNm']) }}">
-            <div class="default_box showstep1">
+            {{-- <div class="default_box showstep1"> --}}
+            <div class="default_box">
                 <div class="table_container2_sm mt10">
                     <div class="td">규모</div>
                     <div class="td">{{ $info['ugrndFlrCnt'] > 0 ? 'B' . $info['ugrndFlrCnt'] : '1' }}층 /
@@ -171,13 +176,15 @@
                     <div class="td">엘리베이터</div>
                     <div class="td">{{ $info['rideUseElvtCnt'] > 0 ? '총 ' . $info['rideUseElvtCnt'] . '대' : '-' }}
                     </div>
+                    <div class="td">주차대수</div>
+                    <div class="td">{{ number_format($info['indrAutoUtcnt'] + $info['indrMechUtcnt']) }}대</div>
                     <div class="td">용적률</div>
                     <div class="td">{{ $info['vlRat'] != '' ? $info['vlRat'] . '%' : '-' }}</div>
                     <div class="td">건폐율</div>
                     <div class="td">{{ $info['bcRat'] != '' ? $info['bcRat'] . '%' : '-' }}</div>
                 </div>
             </div>
-            <div class="btn_more_open">더보기</div>
+            {{-- <div class="btn_more_open">더보기</div> --}}
         </div>
     @endforeach
 @endif
@@ -346,7 +353,8 @@
         <div class="open_trigger">토지정보 <span><img src="{{ asset('assets/media/dropdown_arrow.png') }}"></span>
         </div>
         <div class="con_panel">
-            <div class="default_box showstep1">
+            {{-- <div class="default_box showstep1"> --}}
+            <div class="default_box">
                 <div class="table_container2_sm mt10">
                     <div class="td">면적</div>
                     <div class="td">{{ number_format($jsonArray['lndpclAr']) }}㎡</div>
@@ -366,7 +374,7 @@
                     <div class="td">{{ $prpos ?? '-' }}</div>
                 </div>
             </div>
-            <div class="btn_more_open">더보기</div>
+            {{-- <div class="btn_more_open">더보기</div> --}}
         </div>
     </div>
 @endif

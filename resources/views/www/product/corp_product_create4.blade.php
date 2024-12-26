@@ -101,7 +101,7 @@
                             </div>
                         @endif
 
-                        @if (in_array($type, [3]))
+                        @if (in_array($type, [3, 15]))
                             <div class="reg_mid_wrap">
                                 <div class="reg_item">
                                     <input type="hidden" name="current_business_type" value="">
@@ -147,7 +147,8 @@
                             <div class="reg_mid_wrap">
                                 <div class="reg_item">
                                     <input type="hidden" name="direction_type" value="">
-                                    <label class="input_label">건물 방향 (주 출입구 기준) <span class="txt_point">*</span></label>
+                                    <label class="input_label">건물 방향 (주 출입구 기준) <span
+                                            class="txt_point">*</span></label>
                                     <div class="dropdown_box">
                                         <button type="button" class="dropdown_label">건물 방향 선택</button>
                                         <ul class="optionList">
@@ -204,7 +205,7 @@
 
 
                         <div class="reg_mid_wrap">
-                            @if (in_array($type, [0, 1, 2]) || $type > 13)
+                            @if (in_array($type, [0, 1, 2, 14]))
                                 <div class="reg_item">
                                     <label class="input_label">하중(평당)</label>
                                     <div class="flex_1 mt10">
@@ -230,7 +231,7 @@
                                 </div>
                             @endif
 
-                            @if (in_array($type, [0, 1, 2, 7]) || $type > 13)
+                            @if (in_array($type, [0, 1, 2, 7, 14]))
                                 <div class="reg_item">
                                     <label class="input_label">화물용 승강시설 </label>
                                     <div class="btn_radioType mt18">
@@ -286,7 +287,7 @@
                         @endif
 
                         <div class="reg_mid_wrap">
-                            @if (in_array($type, [0, 1, 2]) || $type > 13)
+                            @if (in_array($type, [0, 1, 2, 14]))
                                 <div class="reg_item">
                                     <label class="input_label">인테리어 여부</label>
                                     <div class="btn_radioType">
@@ -348,7 +349,7 @@
                             </div>
                         @endif
 
-                        @if (in_array($type, [0, 1, 2, 7]) || $type > 13)
+                        @if (in_array($type, [0, 1, 2, 7, 14]))
                             <div>
                                 <div class="reg_item">
                                     <label class="input_label">층고</label>
@@ -369,7 +370,7 @@
                             </div>
                         @endif
 
-                        @if (in_array($type, [0, 1, 2, 7]) || $type > 13)
+                        @if (in_array($type, [0, 1, 2, 7, 14]))
                             <div>
                                 <div class="reg_item">
                                     <label class="input_label">사용전력</label>
@@ -692,7 +693,7 @@
 
                     }
                 });
-            } else if (type == 3) {
+            } else if (type == 3 || type == 15) {
                 // 옵션 구성
                 $('.option_facility_row').show();
                 $('.option_security_row').show();

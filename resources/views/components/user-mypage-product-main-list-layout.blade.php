@@ -174,6 +174,7 @@
                 @endforeach
 
             </ul>
+            {{ $result->onEachSide(1)->links('components.m-my-page-interest-pagination') }}
         @endif
         <!----------------------------- Only M list : e ----------------------------->
 
@@ -344,8 +345,9 @@
                         </div>
                     </li>
                 @endforeach
-
             </ul>
+            {{ $result->onEachSide(1)->links('components.m-my-page-recently-pagination') }}
+
         @endif
         <!----------------------------- Only M list : e ----------------------------->
     </div>

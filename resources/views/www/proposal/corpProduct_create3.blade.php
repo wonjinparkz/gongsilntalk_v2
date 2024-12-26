@@ -169,6 +169,7 @@
                         <div class="flex_between">
                             <h4>사진 및 상세 설명</h4>
                         </div>
+                        <span class="gray_basic">* 파일 용량 5M이하 권장, 초과시 업로드가 지연됩니다.</span>
 
                         <div class="offer_textarea_wrap" style="margin-bottom:-35px;">
                             <label class="input_label">건물 외관 사진 <span class="gray_basic">(1장)</span> <span

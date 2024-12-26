@@ -48,7 +48,7 @@
                                 <div class="item_tit_wrap">
                                     <h4>공실앤톡 수익률 계산서 {{ $index + 1 }}</h4>
                                     <div class="btn_area">
-                                        <button class="btn_graylight_ghost btn_sm btn_share"
+                                        <button class="btn_graylight_ghost btn_sm btn_share only_pc"
                                             data-share="calculator_{{ $index }}">공유</button>
                                         <div
                                             class="layer layer_share_wrap layer_share_top calculator_{{ $index }}">
@@ -70,6 +70,33 @@
                                                 </a>
                                             </div>
                                         </div>
+                                        <div class="only_m"><!-- m -->
+                                            <button class="btn_graylight_ghost btn_sm btn_share"
+                                                onclick="modal_open_slide('share_{{ $calculator->id }}')">공유</button>
+                                        </div>
+                                        <div class="modal_slide modal_slide_share_{{ $calculator->id }}">
+                                            <div class="slide_title_wrap">
+                                                <span>공유하기</span>
+                                                <img src="{{ asset('assets/media/btn_md_close.png') }}"
+                                                    onclick="modal_close_slide('share_{{ $calculator->id }}')">
+                                            </div>
+                                            <div class="slide_modal_body">
+                                                <div class="layer_share_con">
+
+                                                    <a class="kakaotalk-sharing-btn" data-id="{{ $calculator->id }}"
+                                                        onclick="modal_close_slide('share_{{ $calculator->id }}');">
+                                                        <img src="{{ asset('assets/media/share_ic_01.png') }}">
+                                                        <p class="mt8">카카오톡</p>
+                                                    </a>
+                                                    <a
+                                                        onclick="textCopy('{{ env('APP_URL') }}/share/calculator/revenue/detail/{{ $calculator->id }}');modal_close_slide('share_{{ $calculator->id }}');">
+                                                        <img src="{{ asset('assets/media/share_ic_02.png') }}">
+                                                        <p class="mt8">링크복사</p>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <form class="form" method="POST"
                                             action="{{ route('www.calculator.revenue.delete') }}">
                                             @csrf

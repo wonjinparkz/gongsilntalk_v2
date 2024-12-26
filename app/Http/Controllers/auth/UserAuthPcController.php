@@ -199,6 +199,7 @@ class UserAuthPcController extends Controller
 
             // 쿠키에서 remember_token 읽어오기
             $rememberTokenFromCookie = $request->cookie($cookieName);
+
         }
 
         return redirect(route('www.main.main'));
@@ -457,10 +458,22 @@ class UserAuthPcController extends Controller
     {
         Session::forget('fcm_key');
         Session::forget('device_type');
+        Session::forget('auto_login');
 
-        if ($request->fcm_key != '' && $request->device_type != '') {
-            Session::put('fcm_key', $request->fcm_key);
-            Session::put('device_type', $request->device_type);
+        // 요청 데이터 확인
+        $requestall = $request->all();
+
+        // FCM Key 및 Device Type 확인 후 세션 저장
+        if (!empty($requestall['fcm_key']) && !empty($requestall['device_type'])) {
+            Session::put('fcm_key', $requestall['fcm_key']);
+            Session::put('device_type', $requestall['device_type']);
+        }
+
+        // Auto Login 확인 및 세션 저장
+        if ($requestall['autoLogin'] > 0) {
+            Session::put('auto_login', $requestall['autoLogin']);
+        } else {
+            Session::put('auto_login', 0);  // 기본값 설정
         }
 
         return Socialite::driver('kakao')->redirect();
@@ -485,9 +498,11 @@ class UserAuthPcController extends Controller
 
                 $fcm_key = Session::get('fcm_key');
                 $device_type = Session::get('device_type');
+                $auto_login = Session::get('auto_login');
 
                 Session::forget('fcm_key');
                 Session::forget('device_type');
+                Session::forget('auto_login');
 
                 // 업데이트할 데이터 배열 초기화
                 $updateArray = [];
@@ -508,7 +523,20 @@ class UserAuthPcController extends Controller
                 // 사용자 정보 업데이트
                 $user->update($updateArray);
 
-                Auth::guard('web')->login($user);
+                Auth::login($user, $auto_login);
+
+                if ($auto_login == 1) {
+                    $rememberToken = $user->getRememberToken();
+
+                    $cookieName = 'remember_web_' . sha1(config('app.key'));
+
+                    // setcookie 사용하여 쿠키 설정
+                    setcookie($cookieName, $rememberToken, time() + (30 * 24 * 60 * 60), "/", null, false, true);
+
+                    // 쿠키에서 remember_token 읽어오기
+                    $rememberTokenFromCookie = $request->cookie($cookieName);
+                }
+
 
                 return "<script>window.opener.postMessage('success', window.location.origin); window.close();</script>";
             } else { // 회원 가입 화면으로 이동
@@ -526,10 +554,18 @@ class UserAuthPcController extends Controller
     {
         Session::forget('fcm_key');
         Session::forget('device_type');
+        Session::forget('auto_login');
 
         if ($request->fcm_key != '' && $request->device_type != '') {
             Session::put('fcm_key', $request->fcm_key);
             Session::put('device_type', $request->device_type);
+        }
+
+        // Auto Login 확인 및 세션 저장
+        if ($request->auto_login > 0) {
+            Session::put('auto_login', $request->auto_login);
+        } else {
+            Session::put('auto_login', 0);  // 기본값 설정
         }
 
         return Socialite::driver('naver')->redirect();
@@ -538,7 +574,7 @@ class UserAuthPcController extends Controller
     /**
      * 네이버 로그인 결과 보기
      */
-    public function naverCallback()
+    public function naverCallback(Request $request)
     {
         try {
             $naver = Socialite::driver('naver')->user();
@@ -558,9 +594,12 @@ class UserAuthPcController extends Controller
 
                 $fcm_key = Session::get('fcm_key');
                 $device_type = Session::get('device_type');
+                $auto_login = Session::get('auto_login');
 
                 Session::forget('fcm_key');
                 Session::forget('device_type');
+                Session::forget('auto_login');
+
 
                 // 업데이트할 데이터 배열 초기화
                 $updateArray = [];
@@ -581,8 +620,20 @@ class UserAuthPcController extends Controller
                 // 사용자 정보 업데이트
                 $user->update($updateArray);
 
+                Auth::login($user, $auto_login);
 
-                Auth::guard('web')->login($user);
+                if ($auto_login == 1) {
+                    $rememberToken = $user->getRememberToken();
+
+                    $cookieName = 'remember_web_' . sha1(config('app.key'));
+
+                    // setcookie 사용하여 쿠키 설정
+                    setcookie($cookieName, $rememberToken, time() + (30 * 24 * 60 * 60), "/", null, false, true);
+
+                    // 쿠키에서 remember_token 읽어오기
+                    $rememberTokenFromCookie = $request->cookie($cookieName);
+                }
+
                 return Redirect::route('www.main.main');
             } else { // 회원 가입 화면으로 이동
                 return Redirect::route('www.register.type', ['provider' => 'N', 'token' => Crypt::encrypt($naver->id)]);

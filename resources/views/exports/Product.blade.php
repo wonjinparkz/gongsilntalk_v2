@@ -34,7 +34,7 @@
 
                 {{-- 주소 --}}
                 <td>
-                    {{ $product->address . ' ' . ($product->is_map == 1 ? $product->address_detail : $product->address_dong . ' ' . $product->address_number) }}
+                    {{ $product->address . ' ' . $product->address_detail }}
                 </td>
 
                 {{-- 요청자 명 --}}
