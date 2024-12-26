@@ -562,7 +562,7 @@
                                     </div>
 
                                     <button class="btn_graylight_ghost btn_sm" type="button"
-                                        onclick="javascript:location.href='{{ route('api.imagedownload', $result->sale_images->path) }}'">다운</button>
+                                        onclick="imageDownload('{{ route('api.imagedownload', $result->sale_images->path) }}')">다운</button>
 
                                     <div class="layer layer_share_wrap layer_share_top share_sale">
                                         <div class="layer_title only_pc">
@@ -636,7 +636,7 @@
                                         </div>
                                     </div>
                                     <button class="btn_graylight_ghost btn_sm" type="button"
-                                        onclick="location.href='{{ route('api.imagedownload', $result->entre_images->path) }}'">다운</button>
+                                        onclick="imageDownload('{{ route('api.imagedownload', $result->entre_images->path) }}')">다운</button>
 
                                     <div class="layer layer_share_wrap layer_share_top share_entre">
                                         <div class="layer_title">
@@ -711,7 +711,7 @@
                                         </div>
                                     </div>
                                     <button class="btn_graylight_ghost btn_sm" type="button"
-                                        onclick="location.href='{{ route('api.imagedownload', $result->rental_images->path) }}'">다운</button>
+                                        onclick="imageDownload('{{ route('api.imagedownload', $result->rental_images->path) }}')">다운</button>
 
                                     <div class="layer layer_share_wrap layer_share_top share_rental">
                                         <div class="layer_title">
@@ -786,7 +786,7 @@
                                     </div>
 
                                     <button class="btn_graylight_ghost btn_sm" type="button"
-                                        onclick="location.href='{{ route('api.imagedownload', $result->etc_images->path) }}'">다운</button>
+                                        onclick="imageDownload('{{ route('api.imagedownload', $result->etc_images->path) }}')">다운</button>
 
                                     <div class="layer layer_share_wrap layer_share_top share_etc">
                                         <div class="layer_title">
@@ -924,6 +924,24 @@
                 });
             });
         });
+
+
+        function imageDownload(url) {
+            try {
+                if (isMobile.any()) {
+                    if (isMobile.Android()) {
+                        window.rocateer.requestImageDownload(url);
+                    } else if (isMobile.iOS()) {
+                        var data = new Object();
+                        data.url = url;
+                        window.webkit.messageHandlers.requestImageDownload.postMessage(data);
+                    }
+                }
+            } catch (error) {
+                // console.log(error);
+                location.href=url;
+            }
+        }
     </script>
 
 
