@@ -562,7 +562,7 @@
                                     </div>
 
                                     <button class="btn_graylight_ghost btn_sm" type="button"
-                                        onclick="location.href='{{ route('api.imagedownload', $result->sale_images->path) }}'">다운</button>
+                                        onclick="javascript:location.href='{{ route('api.imagedownload', $result->sale_images->path) }}'">다운</button>
 
                                     <div class="layer layer_share_wrap layer_share_top share_sale">
                                         <div class="layer_title only_pc">
