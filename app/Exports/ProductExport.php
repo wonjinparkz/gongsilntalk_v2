@@ -56,7 +56,7 @@ class ProductExport implements FromView
         }
 
         // 정렬
-        $productList->orderBy('product.created_at', 'desc')->orderBy('id', 'desc');
+        $productList->orderBy('product.product_number', 'desc')->orderBy('id', 'desc');
 
         return view('exports.Product', [
             'result' => $productList->get()

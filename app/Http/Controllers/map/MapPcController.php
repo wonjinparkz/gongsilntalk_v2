@@ -67,7 +67,7 @@ class MapPcController extends Controller
             // 정렬
             switch ($request->orderby) {
                 case 'sort_new':
-                    $propertyList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc');
+                    $propertyList->orderBy('product.product_number', 'desc')->orderBy('product.id', 'desc');
                     break;
                 case 'price_desc':
                     $propertyList->Leftjoin('product_price', 'product.id', '=', 'product_price.product_id')
@@ -86,7 +86,7 @@ class MapPcController extends Controller
                     $propertyList->orderBy('exclusive_square', 'asc')->orderBy('product.id', 'desc');
                     break;
                 default:
-                    $propertyList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc');
+                    $propertyList->orderBy('product.product_number', 'desc')->orderBy('product.id', 'desc');
                     break;
             }
 
@@ -170,7 +170,7 @@ class MapPcController extends Controller
         }
 
         // 정렬
-        $product->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc');
+        $product->orderBy('product.product_number', 'desc')->orderBy('product.id', 'desc');
 
         $count = $product->count();
         $productList = $product->paginate(10);
