@@ -27,7 +27,7 @@ class ProductPcController extends Controller
     protected function generateProductCode()
     {
         $datePart = date('ymd'); // YYMMDD 형식
-        $todayCount = Product::whereDate('created_at', today())->count() + 1;
+        $todayCount = Product::where('product_number', 'like', $datePart . '%')->count() + 1;
         $numberPart = str_pad($todayCount, 4, '0', STR_PAD_LEFT);
 
         return $datePart . $numberPart;
