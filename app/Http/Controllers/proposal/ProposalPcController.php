@@ -589,6 +589,8 @@ class ProposalPcController extends Controller
 
         $user = User::select()->where('id', $product->users_id)->first();
 
+        $tourUser = User::select()->where('id', Auth::guard('web')->user()->id)->first();
+
 
         if ($product->user_type == 1) {
             // 투어 요청 알림 추후 수정 필요
@@ -596,7 +598,7 @@ class ProposalPcController extends Controller
                 'users_id' => $product->users_id,
                 'index' => 0,
                 'title' => '투어 요청 안내',
-                'body' => '매물번호 ' . $product->product_number . ', ' . $user->name . ', ' . $user->phone,
+                'body' => '매물번호 ' . $product->product_number . ', ' . $tourUser->name . ', ' . $tourUser->phone,
                 'msg' => 'msg',
                 'product_id' => $product->id,
                 'tour_users_id' => Auth::guard('web')->user()->id,
@@ -607,7 +609,7 @@ class ProposalPcController extends Controller
 
             $data = [
                 'title' => '투어 요청 안내',
-                'body' => '매물번호 ' . $product->product_number . ', ' . $user->name . ', ' . $user->phone,
+                'body' => '매물번호 ' . $product->product_number . ', ' . $tourUser->name . ', ' . $tourUser->phone,
                 'index' => intval(0),
             ];
 
