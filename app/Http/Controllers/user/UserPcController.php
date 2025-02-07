@@ -1381,7 +1381,7 @@ class UserPcController extends Controller
         $user->update([
             'name' => $request->name,
             'phone' => $request->phone,
-            'gender' => $request->gender,
+            'gender' => $this->gender($request->gender),
             'unique_key' => $request->unique_key,
         ]);
 

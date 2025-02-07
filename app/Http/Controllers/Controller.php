@@ -371,4 +371,13 @@ class Controller extends BaseController
                 ]);
         }
     }
+
+    public function gender($gender)
+    {
+        if ($gender == 'M' || $gender == 'm' || $gender == 'male' || $gender == 'Male' || $gender == "0") {
+            return '남성';
+        } else {
+            return '여성';
+        }
+    }
 }
