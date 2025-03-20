@@ -570,7 +570,7 @@ class ProposalPcController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'deleteId' => 'required|exists:proposal,id'
+            // 'deleteId' => 'required|exists:proposal,id'
         ]);
 
         if ($validator->fails()) {
