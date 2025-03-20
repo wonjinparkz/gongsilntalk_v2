@@ -1061,12 +1061,10 @@ a.btn_like{background: url('/assets/media/btn_like_off.png') no-repeat; backgrou
 .proposal_detail_s3{margin-bottom: 100px;}
 .share_btn_floting{position: fixed; width:400px; bottom: 0; padding: 10px; box-sizing: border-box; background: #fff;}
 
-
-input {
-    appearance: none;
-    user-select: text ;
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -khtml-user-select: text;
-    -ms-user-select: text;
+input,
+textarea {
+  -moz-user-select: auto;
+  -webkit-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
 }

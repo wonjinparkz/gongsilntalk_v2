@@ -163,6 +163,7 @@ return [
 
         'category' => '게시판 유형',
         'reply_content' => '답변',
+        'reply_comment' => '댓글',
         'tags' => '태그',
         'files' => '파일',
         'files.*' => '파일',
