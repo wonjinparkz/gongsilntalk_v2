@@ -569,6 +569,16 @@ class ProposalPcController extends Controller
     public function userProposalDelete(Request $request)
     {
 
+        $validator = Validator::make($request->all(), [
+            'deleteId' => 'required|exists:proposal,id'
+        ]);
+
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator)
+                ->withInput();
+        }
+
+
         $proposal = Proposal::select()->where('id', $request->deleteId)->first();
 
         ProposalRegion::select()->where('proposal_id', $request->deleteId)->delete();
