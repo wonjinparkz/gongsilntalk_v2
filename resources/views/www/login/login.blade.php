@@ -1,3 +1,11 @@
+<style>
+    input {
+        -webkit-user-select: text;
+        user-select: text;
+        /* 표준 속성 */
+    }
+</style>
+
 <body class="gray_body">
     <x-layout>
 
