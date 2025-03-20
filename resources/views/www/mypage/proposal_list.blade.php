@@ -1,7 +1,7 @@
 <x-layout>
     <!----------------------------- m::header bar : s ----------------------------->
     <div class="m_header">
-        <div class="left_area"><a href="{{ route('www.mypage.alarm.list.view') }}"><img
+        <div class="left_area"><a href="javascript:history.go(-1)"><img
                     src="{{ asset('assets/media/header_btn_back.png') }}"></a></div>
         <div class="m_title">매물 제안서 목록</div>
         <div class="right_area"></div>
