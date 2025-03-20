@@ -1063,8 +1063,10 @@ a.btn_like{background: url('/assets/media/btn_like_off.png') no-repeat; backgrou
 
 input,
 textarea {
-        -webkit-user-select: text; /* Safari */
-        -moz-user-select: text;    /* Firefox */
-        -ms-user-select: text;     /* Internet Explorer/Edge */
-        user-select: text;         /* 표준 속성 */
+    appearance: none;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -khtml-user-select: text;
+    -ms-user-select: text;
 }

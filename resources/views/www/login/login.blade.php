@@ -1,8 +1,11 @@
 <style>
     input {
-        -webkit-user-select: text;
+        appearance: none;
         user-select: text;
-        /* 표준 속성 */
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -khtml-user-select: text;
+        -ms-user-select: text;
     }
 </style>
 
