@@ -199,7 +199,6 @@ class UserAuthPcController extends Controller
 
             // 쿠키에서 remember_token 읽어오기
             $rememberTokenFromCookie = $request->cookie($cookieName);
-
         }
 
         return redirect(route('www.main.main'));
@@ -226,7 +225,7 @@ class UserAuthPcController extends Controller
             'token' => $request->provider != 'E' ? Crypt::decrypt($request->token) : null,
             'name' => $request->name,
             'phone' => $request->phone,
-            'gender' => $request->gender,
+            'gender' => $this->gender($request->gender),
             'birth' => $request->birth,
             'type' => 0,
             'state' => 0,
@@ -316,7 +315,7 @@ class UserAuthPcController extends Controller
             'nickname' => $request->nickname,
             'name' => $request->name,
             'phone' => $request->phone,
-            'gender' => $request->gender,
+            'gender' => $this->gender($request->gender),
             'birth' => $request->birth,
             'state' => 0,
             'provider' => 'E',
@@ -382,7 +381,7 @@ class UserAuthPcController extends Controller
             'nickname' => $request->nickname,
             'name' => $request->name,
             'phone' => $request->phone,
-            'gender' => $request->gender,
+            'gender' => $this->gender($request->gender),
             'birth' => $request->birth,
             'state' => 0,
             'provider' => 'E',
@@ -771,7 +770,7 @@ class UserAuthPcController extends Controller
         $user->update([
             'name' => $request->name,
             'phone' => $request->phone,
-            'gender' => $request->gender,
+            'gender' => $this->gender($request->gender),
             'birth'  => $request->birth,
             'nickname'  => $request->nickname,
         ]);

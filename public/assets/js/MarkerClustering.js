@@ -523,6 +523,10 @@ Cluster.prototype = {
             var position = marker.getPosition();
             this._clusterCenter = position;
             this._clusterBounds = this._calcBounds(position);
+        } else {
+            // 클러스터 중심을 재계산합니다.
+            this._clusterCenter = this._calcAverageCenter(this._clusterMember.concat(marker));
+            this._clusterBounds = this._calcBounds(this._clusterCenter);
         }
 
         this._clusterMember.push(marker);
@@ -857,25 +861,18 @@ Cluster.prototype = {
     _calcBounds: function (position) {
         var map = this._markerClusterer.getMap(),
             bounds = new naver.maps.LatLngBounds(position.clone(), position.clone()),
-            mapBounds = map.getBounds(),
             proj = map.getProjection(),
-            map_max_px = proj.fromCoordToOffset(mapBounds.getNE()),
-            map_min_px = proj.fromCoordToOffset(mapBounds.getSW()),
-            max_px = proj.fromCoordToOffset(bounds.getNE()),
-            min_px = proj.fromCoordToOffset(bounds.getSW()),
-            gridSize = this._markerClusterer.getGridSize();
+            gridSize = this._markerClusterer.getGridSize(),
+            ne = proj.fromCoordToOffset(bounds.getNE()),
+            sw = proj.fromCoordToOffset(bounds.getSW());
 
-        max_px.add(gridSize, -gridSize);
-        min_px.add(-gridSize, gridSize);
+        ne.add(gridSize, -gridSize);
+        sw.add(-gridSize, gridSize);
 
-        var max_px_x = Math.min(map_max_px.x, max_px.x),
-            max_px_y = Math.max(map_max_px.y, max_px.y),
-            min_px_x = Math.max(map_min_px.x, min_px.x),
-            min_px_y = Math.min(map_min_px.y, min_px.y),
-            newMax = proj.fromOffsetToCoord(new naver.maps.Point(max_px_x, max_px_y)),
-            newMin = proj.fromOffsetToCoord(new naver.maps.Point(min_px_x, min_px_y));
+        bounds.extend(proj.fromOffsetToCoord(ne));
+        bounds.extend(proj.fromOffsetToCoord(sw));
 
-        return new naver.maps.LatLngBounds(newMin, newMax);
+        return bounds;
     },
 
     /**
@@ -922,17 +919,16 @@ Cluster.prototype = {
      */
     _calcAverageCenter: function (markers) {
         var numberOfMarkers = markers.length;
-        var averageCenter = [0, 0];
+        var latSum = 0;
+        var lngSum = 0;
 
         for (var i = 0; i < numberOfMarkers; i++) {
-            averageCenter[0] += markers[i].position.x;
-            averageCenter[1] += markers[i].position.y;
+            var position = markers[i].getPosition();
+            latSum += position.lat();
+            lngSum += position.lng();
         }
 
-        averageCenter[0] /= numberOfMarkers;
-        averageCenter[1] /= numberOfMarkers;
-
-        return new naver.maps.Point(averageCenter[0], averageCenter[1]);
+        return new naver.maps.LatLng(latSum / numberOfMarkers, lngSum / numberOfMarkers);
     },
 
     knowledgeUpdateSaleMidPrice: function () {

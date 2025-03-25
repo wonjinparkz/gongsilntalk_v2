@@ -27,12 +27,19 @@ class ProductPcController extends Controller
     protected function generateProductCode()
     {
         $datePart = date('ymd'); // YYMMDD 형식
-        $todayCount = Product::whereDate('created_at', today())->count() + 1;
-        $numberPart = str_pad($todayCount, 4, '0', STR_PAD_LEFT);
+        $maxProductNumber = Product::where('product_number', 'like', $datePart . '%')->max('product_number');
+
+        if ($maxProductNumber) {
+            $lastNumber = (int)substr($maxProductNumber, -4);
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+
+        $numberPart = str_pad($newNumber, 4, '0', STR_PAD_LEFT);
 
         return $datePart . $numberPart;
     }
-
     /**
      * 내 매물 등록 관리
      */

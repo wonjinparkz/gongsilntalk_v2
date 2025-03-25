@@ -163,6 +163,7 @@ return [
 
         'category' => '게시판 유형',
         'reply_content' => '답변',
+        'reply_comment' => '댓글',
         'tags' => '태그',
         'files' => '파일',
         'files.*' => '파일',
@@ -266,5 +267,7 @@ return [
         'is_elevator' => '승강시설',
         'commission' => '중개보수',
         'commission_rate' => '상환요율',
+        'deleteIds' => '삭제할 아이디',
+        'delete_ids' => '삭제할 아이디',
     ],
 ];

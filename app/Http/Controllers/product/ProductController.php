@@ -63,7 +63,7 @@ class ProductController extends Controller
         }
 
         // 정렬
-        $productList->orderBy('product.created_at', 'desc')->orderBy('id', 'desc');
+        $productList->orderBy('product.product_number', 'desc')->orderBy('id', 'desc');
 
         $result = $productList->paginate($request->per_page == null ? 10 : $request->per_page);
 
@@ -114,7 +114,7 @@ class ProductController extends Controller
         }
 
         // 정렬
-        $productList->orderBy('product.created_at', 'desc')->orderBy('id', 'desc');
+        $productList->orderBy('product.product_number', 'desc')->orderBy('id', 'desc');
 
         $result = $productList->paginate($request->per_page == null ? 10 : $request->per_page);
 

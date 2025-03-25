@@ -86,7 +86,7 @@ class UserPcController extends Controller
                 });
             }
 
-            $productList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc');
+            $productList->orderBy('product.product_number', 'desc')->orderBy('product.id', 'desc');
             $result = $productList->paginate(10);
 
             $view = view('components.user-mypage-product-main-list-layout', compact('result', 'type'))->render();
@@ -144,7 +144,7 @@ class UserPcController extends Controller
                 });
             }
 
-            $productList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc');
+            $productList->orderBy('product.product_number', 'desc')->orderBy('product.id', 'desc');
             $result = $productList->paginate(10);
 
             $view = view('components.user-mypage-product-list-layout', compact('result', 'type'))->render();
@@ -238,7 +238,7 @@ class UserPcController extends Controller
                 });
             }
 
-            $productList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc');
+            $productList->orderBy('product.product_number', 'desc')->orderBy('product.id', 'desc');
             $result = $productList->paginate(10);
 
             $view = view('components.corp-mypage-product-list-layout', compact('result', 'type'))->render();
@@ -554,7 +554,7 @@ class UserPcController extends Controller
                 if (isset($request->payment_type)) {
                     $productList->where('product_price.payment_type', $request->payment_type);
                 }
-                $result = $productList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc')->paginate(12);
+                $result = $productList->orderBy('product.product_number', 'desc')->orderBy('product.id', 'desc')->paginate(12);
             } else {
                 // 좋아요한 분양 매물
                 $siteProductList = SiteProduct::with('images')->select(
@@ -605,7 +605,7 @@ class UserPcController extends Controller
                 if (isset($request->payment_type)) {
                     $productList->where('product_price.payment_type', $request->payment_type);
                 }
-                $result = $productList->orderBy('product.created_at', 'desc')->orderBy('product.id', 'desc')->paginate(12);
+                $result = $productList->orderBy('product.product_number', 'desc')->orderBy('product.id', 'desc')->paginate(12);
             } else {
                 // 최근 본 분양 매물
                 $siteProductList = SiteProduct::with('images')->select(
@@ -1381,7 +1381,7 @@ class UserPcController extends Controller
         $user->update([
             'name' => $request->name,
             'phone' => $request->phone,
-            'gender' => $request->gender,
+            'gender' => $this->gender($request->gender),
             'unique_key' => $request->unique_key,
         ]);
 

@@ -1,3 +1,14 @@
+<style>
+    input {
+        appearance: none;
+        user-select: text;
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -khtml-user-select: text;
+        -ms-user-select: text;
+    }
+</style>
+
 <body class="gray_body">
     <x-layout>
 
