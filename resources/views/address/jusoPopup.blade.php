@@ -765,7 +765,7 @@
 
         <div class="pop-address-search" style="width: 100%;">
             <div class="pop-address-search-inner" style="border: 0px;">
-                <div style="height: 365px;" id="searchContentBox">
+                <div style="height: 365px;" class="juso_wrap" id="searchContentBox">
                     <fieldset>
                         <legend>도로명주소 검색</legend>
                         <span class="wrap">

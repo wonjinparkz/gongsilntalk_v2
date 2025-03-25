@@ -859,3 +859,7 @@ table.data-col tbody tr td.subj p {
     line-height: 1.57em;
     background: url('/assets/media/address/bul-3x3-circle.png') 0 0.6em no-repeat
 }
+
+@media all and (max-width:767px) {
+.juso_wrap{display: flex; flex-direction: column; gap: 10px;}
+}
