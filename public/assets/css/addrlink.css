@@ -147,7 +147,7 @@
 }
 
 .pop-address-search .pop-address-search-inner fieldset {
-    display: inline-block;
+    display: block;
     position: relative;
     padding-right: 36px
 }
