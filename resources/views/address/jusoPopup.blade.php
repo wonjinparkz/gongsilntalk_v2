@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/addrlink.css') }}">
     </link>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <title>주소정보연계 | 도로명주소 안내시스템</title>
     <script language="javascript">
         var confmKey = "{{ env('CONFM_KEY') }}"; // 검색API 승인키
