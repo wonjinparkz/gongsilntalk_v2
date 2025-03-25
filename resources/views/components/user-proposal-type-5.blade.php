@@ -66,7 +66,7 @@
                 <div class="item_wrap_box">
                     <h5>위치</h5>
                     <div class="item_img">
-                        <div id="minimap_5_{{ $key }}" style="width:428px; height:293px;"></div>
+                        <div id="minimap_5_{{ $key }}" class="map_size"></div>
                     </div>
                     <p class="txt_info">{{ $product->address }}</p>
                 </div>

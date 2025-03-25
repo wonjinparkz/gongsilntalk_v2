@@ -9,7 +9,7 @@
 </script>
 
 @inject('carbon', 'Carbon\Carbon')
-<meta name="viewport" content="width=1000">
+<!-- <meta name="viewport" content="width=1000"> -->
 <style>
     @page {
         size: A4 landscape;
@@ -71,7 +71,7 @@
                             <p>{{ $product->address }}</p>
                         </div>
                         <div class="item_img">
-                            <div id="minimap_2_{{ $key }}" style="width:420px; height:293px;"></div>
+                            <div id="minimap_2_{{ $key }}" class="map_size"></div>
                         </div>
                     </div>
                 </div>

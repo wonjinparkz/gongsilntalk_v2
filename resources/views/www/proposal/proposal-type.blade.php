@@ -174,10 +174,15 @@
             freeMode: true,
             breakpointsInverse: true,
             breakpoints: {
-                1023: {
-                    allowTouchMove: false
-                }
-            }
+            640: {
+                slidesPerView:'auto',
+                spaceBetween: 8,
+            },
+            1024: {
+                slidesPerView:'auto',
+                spaceBetween:8,
+            },
+        },
         });
     </script>
 

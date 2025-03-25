@@ -1007,6 +1007,7 @@ a.btn_like{background: url('../images/btn_like_off.png') no-repeat; background-s
 
 .td_wrap_1{overflow:hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp:17; line-height:16px;}
 
+.map_size{width:428px; height:293px !important;}
 
 /* 제안서 인쇄 */
 .proposal_type_1 h3{font-size: 20px; background: #FAFAFA; border: 1px solid #EDEDED; margin-top:60px; text-align: center; padding: 14px;}

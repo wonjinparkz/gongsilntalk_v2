@@ -9,7 +9,7 @@
 </script>
 
 @inject('carbon', 'Carbon\Carbon')
-<meta name="viewport" content="width=1000">
+<!-- <meta name="viewport" content="width=1000"> -->
 <style>
     @page {
         size: A4 landscape;
@@ -21,7 +21,7 @@
     <section class="type_1_1 print_page">
         <div class="page_ui">
             <div>
-                <h1 style="color: #fff !important; font-size:40px;">{{ $corpInfo->corp_name }}<br>기업이전제안서</h1>
+                <h1 >{{ $corpInfo->corp_name }}<br>기업이전제안서</h1>
                 <p class="txt_item_1">COMPANY RELOCATION PROPOSAL</p>
             </div>
 
@@ -49,7 +49,7 @@
          <div class="page-break"></div>
         <section class="type_1_2 print_page">
             <div class="page_layer">
-                <h2 style="color:#fff; font-size:30px;">01 건물소개</h2>
+                <h2>01 건물소개</h2>
                 <h3>{{ $product->product_name }}</h3>
                 <div class="item_wrap">
                     <div>
@@ -62,7 +62,7 @@
                     <div>
                         <h5>위치 : {{ $product->address }}</h5>
                         <div class="item_img">
-                            <div id="minimap_1_{{ $key }}" style="width:428px; height:293px;"></div>
+                            <div id="minimap_1_{{ $key }}" class="map_size" ></div>
                         </div>
                     </div>
                 </div>
@@ -101,7 +101,7 @@
 
         <section class="type_1_3 print_page">
             <div class="page_layer">
-                <h2 style="color:#fff; font-size:30px;">02 매물세부내용</h2>
+                <h2>02 매물세부내용</h2>
                 <h3>{{ $product->product_name }}</h3>
                 <div class="item_2_wrap">
                     <table class="proposal_section_table">
@@ -229,7 +229,7 @@
 
         <section class="type_1_3 print_page">
             <div class="page_layer">
-                <h2 style="color:#fff; font-size:30px;">03 도면 및 사진</h2>
+                <h2>03 도면 및 사진</h2>
                 <div class="item_3_wrap" style="margin:50px !important">
                     @foreach ($product->detail_images as $images)
                         <div>
@@ -250,7 +250,7 @@
 
             <section class="type_1_4 print_page">
                 <div class="page_layer">
-                    <h2 style="color:#fff; font-size:30px;">04 견적서</h2>
+                    <h2>04 견적서</h2>
                     <div class="item_4_wrap">
                         <div class="item_div">
                             <h4>{{ $product->product_name }} 견적서 1</h4>
