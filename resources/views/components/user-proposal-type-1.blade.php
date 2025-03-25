@@ -230,7 +230,7 @@
         <section class="type_1_3 print_page">
             <div class="page_layer">
                 <h2>03 도면 및 사진</h2>
-                <div class="item_3_wrap" style="margin:50px !important">
+                <div class="item_3_wrap">
                     @foreach ($product->detail_images as $images)
                         <div>
                             <div class="item_img">
