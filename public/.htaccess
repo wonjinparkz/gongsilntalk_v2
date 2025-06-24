@@ -18,13 +18,18 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ index.php [L]
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} ^/\.well-known/pki-validation/
+    RewriteRule ^ - [L,Allow from all]
 </IfModule>
 
-# 91.212.12.132만 허용, 나머지 차단 (Apache 2.4 이상)
-# User-Agent가 COMODOCA면 접속 허용
-SetEnvIfNoCase User-Agent "COMODOCA" allow_comodoca
+# .well-known/pki-validation 경로는 모두 허용
+SetEnvIf Request_URI "^/\.well-known/pki-validation/" allow_pki_validation
 
-<RequireAll>
+# 91.212.12.132, 211.108.168.16만 허용, User-Agent가 COMODOCA 또는 pki-validation 경로는 예외 허용
+<RequireAny>
+    Require env allow_pki_validation
     Require ip 91.212.12.132 211.108.168.16
     Require env allow_comodoca
-</RequireAll>
+</RequireAny>
