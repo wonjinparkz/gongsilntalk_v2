@@ -26,14 +26,14 @@ class GetAptInfo extends Command
      */
     public function handle()
     {
-        $dataController = new DataController;
-        $dataController->getAptBaseInfo();
-        $dataController->getAptDetailInfo();
-        $dataController->getAptMapInfo();
-        $dataController->getAptAddrss();
-        $dataController->getAptPolygon();
-        $dataController->getAptCharacteristics();
-        $dataController->getAptuseWFS();
+        // $dataController = new DataController;
+        // $dataController->getAptBaseInfo();
+        // $dataController->getAptDetailInfo();
+        // $dataController->getAptMapInfo();
+        // $dataController->getAptAddrss();
+        // $dataController->getAptPolygon();
+        // $dataController->getAptCharacteristics();
+        // $dataController->getAptuseWFS();
 
         $this->info('아파트 정보를 가져오는데 성공했습니다.');
     }
