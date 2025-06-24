@@ -5,13 +5,13 @@
 
     RewriteEngine On
 
+    # .well-known/pki-validation 예외 처리 최우선
+    RewriteCond %{REQUEST_URI} ^/\.well-known/pki-validation/ [NC]
+    RewriteRule ^ - [L]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-
-    # .well-known/pki-validation 예외 처리 (인증기관 접근 허용)
-    RewriteCond %{REQUEST_URI} ^/\.well-known/pki-validation/ [NC]
-    RewriteRule ^ - [L]
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
