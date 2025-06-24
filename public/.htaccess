@@ -9,6 +9,10 @@
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
+    # .well-known/pki-validation 예외 처리 (인증기관 접근 허용)
+    RewriteCond %{REQUEST_URI} ^/\.well-known/pki-validation/ [NC]
+    RewriteRule ^ - [L]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
@@ -18,18 +22,4 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ index.php [L]
-
-    RewriteEngine On
-    RewriteCond %{REQUEST_URI} ^/\.well-known/pki-validation/
-    RewriteRule ^ - [L,Allow from all]
 </IfModule>
-
-# .well-known/pki-validation 경로는 모두 허용
-SetEnvIf Request_URI "^/\.well-known/pki-validation/" allow_pki_validation
-
-# 91.212.12.132, 211.108.168.16만 허용, User-Agent가 COMODOCA 또는 pki-validation 경로는 예외 허용
-<RequireAny>
-    Require env allow_pki_validation
-    Require ip 91.212.12.132 211.108.168.16
-    Require env allow_comodoca
-</RequireAny>
