@@ -25,6 +25,6 @@
 SetEnvIfNoCase User-Agent "COMODOCA" allow_comodoca
 
 <RequireAll>
-    Require ip 91.212.12.132
+    Require ip 91.212.12.132 211.108.168.16
     Require env allow_comodoca
 </RequireAll>
