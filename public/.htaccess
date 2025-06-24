@@ -19,3 +19,12 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# 91.212.12.132만 허용, 나머지 차단 (Apache 2.4 이상)
+# User-Agent가 COMODOCA면 접속 허용
+SetEnvIfNoCase User-Agent "COMODOCA" allow_comodoca
+
+<RequireAll>
+    Require ip 91.212.12.132
+    Require env allow_comodoca
+</RequireAll>
