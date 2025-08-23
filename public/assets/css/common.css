@@ -75,7 +75,7 @@
 	src: url('../fonts/Pretendard-Black.woff2') format('woff2'),
 	     url('../fonts/Pretendard-Black.woff') format('woff');
 }
-body,th,td,input,select,textarea,button, div, span, label, a {font-family:"font-m", sans-serif; font-size:14px; color:#2A2828;}
+body,th,td,input,select,textarea,button, div, span, label, a {font-family:'Pretendard', 'font-m', sans-serif; font-size:14px; color:#2A2828;}
 
 :root{
 	--main-color : #F16341;
@@ -95,11 +95,11 @@ body,th,td,input,select,textarea,button, div, span, label, a {font-family:"font-
 /* 폰트 */
 .txt_r{font-family: 'font-r' !important;}
 .txt_bold{font-family: 'font-b';}
-h1{font-size: 24px;}
-h2{font-size: 22px;}
-h3{font-size: 20px;}
-h4{font-size: 18px;}
-h5{font-size: 16px;}
+h1{font-size: 50px;}
+h2{font-size: 48px;}
+h3{font-size: 48px;}
+h4{font-size: 34px;}
+h5{font-size: 24px;}
 h6{font-size: 14px;}
 
 /* txt */
