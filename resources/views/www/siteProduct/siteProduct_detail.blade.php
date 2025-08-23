@@ -1,7 +1,7 @@
 <x-layout>
     @inject('carbon', 'Carbon\Carbon')
     <script type="text/javascript"
-        src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
+        src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId={{ env('VITE_NAVER_MAP_KEY_ID') }}&submodules=panorama">
     </script>
 
     <!-- Pannellum library -->

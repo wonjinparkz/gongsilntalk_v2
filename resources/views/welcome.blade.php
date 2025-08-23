@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name', 'Laravel') }}</title>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    <script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}"></script>
+    <script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId={{ env('VITE_NAVER_MAP_KEY_ID') }}"></script>
 </head>
 
 <body>

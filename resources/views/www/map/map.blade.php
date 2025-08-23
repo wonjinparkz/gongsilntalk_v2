@@ -330,7 +330,7 @@
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.5/proj4.js"></script>
 <script type="text/javascript"
-    src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ env('VITE_NAVER_MAP_CLIENT_ID') }}&submodules=panorama">
+    src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId={{ env('VITE_NAVER_MAP_KEY_ID') }}&submodules=panorama">
 </script>
 <script src="{{ asset('assets/js/MarkerClustering.js') }}"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -1061,6 +1061,9 @@
                 gridSize: 100,
                 icons: [htmlMarker3],
                 indexGenerator: [1],
+                stylingFunction: function(clusterMarker, count) {
+                    $(clusterMarker.getElement()).find('.knowledge_cluster_marker').text(count);
+                }
             });
         }
     }
@@ -1084,7 +1087,7 @@
                 icons: [htmlMarker1],
                 indexGenerator: [1],
                 stylingFunction: function(clusterMarker, count) {
-                    $(clusterMarker.getElement()).find('div:first-child').text(count);
+                    $(clusterMarker.getElement()).find('.cluster_marker').text(count);
                 }
             });
             productMarkers.forEach(function(marker) {
@@ -1119,7 +1122,7 @@
                 icons: [htmlMarker2],
                 indexGenerator: [2],
                 stylingFunction: function(clusterMarker, count) {
-                    $(clusterMarker.getElement()).find('div:first-child').text(count);
+                    $(clusterMarker.getElement()).find('.cluster_marker').text(count);
                 }
             });
             agentMarkers.forEach(function(marker) {
