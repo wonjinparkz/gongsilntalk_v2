@@ -18,6 +18,7 @@ use App\Http\Controllers\share\SharePcController;
 use App\Http\Controllers\SiteProduct\SiteProductPcController;
 use App\Http\Controllers\terms\TermsController;
 use App\Http\Controllers\user\UserPcController;
+use App\Http\Controllers\ComponentViewerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -332,3 +333,18 @@ Route::middleware('pc.auth')->controller(AlarmPcController::class)->group(functi
     Route::get('/alarm/read', 'alarmRead')->name('www.alarm.read');
     Route::get('/alarm/read/site/product', 'alarmReadSiteProduct')->name('www.alarm.read.site.product');
 });
+
+/**
+ * 컴포넌트 뷰어 (개발용)
+ */
+Route::controller(ComponentViewerController::class)->group(function () {
+    Route::get('/component-viewer/render', 'renderComponent')->name('component.viewer.render');
+    Route::get('/component-viewer/{component?}', 'index')->name('component.viewer.index');
+});
+
+/**
+ * 디자인 시스템 v2
+ */
+Route::get('/design-system-v2', function () {
+    return view('pages.design-system-v2');
+})->name('design.system.v2');
