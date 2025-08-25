@@ -1,13 +1,16 @@
 @props([
+    'subtitle' => '',
     'subtitle1' => '부동산에서 찾기 어려운',
     'subtitle2' => '역세권 사무실',
     'title' => '효율적인 부동산 관리 솔루션',
+    'description' => '',
     'description1' => '점점 공실 찾기 어려운 강남은 물론,',
     'description2' => '부동산에서 잘 안 보여주는',
     'description3' => '진짜 초역세권 사무실을 확인하세요.',
     'image' => '/assets/media/s_map.png',
     'imageAlt' => '공실앤톡 대시보드',
     'imagePosition' => 'left', // 'left' or 'right'
+    'textAlign' => 'top', // 'top' (default) or 'center' - 텍스트 세로 정렬
     'enableStrikethrough' => true,
     'containerClass' => '',
     'id' => 'features-' . uniqid()
@@ -19,38 +22,47 @@
             <div class="features-image-section">
                 <div class="features-image-wrapper">
                     <img src="{{ $image }}" alt="{{ $imageAlt }}" class="features-image">
-                    <div class="features-image-decoration"></div>
                 </div>
             </div>
         @endif
         
-        <div class="features-text-section">
+        <div class="features-text-section text-align-{{ $textAlign }}">
             <div class="features-header">
-                <div class="features-subtitle-wrapper">
-                    <div class="features-subtitle-line" @if($enableStrikethrough) data-scroll-animation="line1" @endif>
-                        <span class="text-wrapper">
-                            {{ $subtitle1 }}
-                            @if($enableStrikethrough)
-                                <span class="strikethrough-line"></span>
-                            @endif
-                        </span>
+                @if($subtitle)
+                    <div class="features-subtitle-single">
+                        {!! $subtitle !!}
                     </div>
-                    <div class="features-subtitle-line" @if($enableStrikethrough) data-scroll-animation="line2" @endif>
-                        <span class="text-wrapper">
-                            {{ $subtitle2 }}
-                            @if($enableStrikethrough)
-                                <span class="strikethrough-line"></span>
-                            @endif
-                        </span>
+                @else
+                    <div class="features-subtitle-wrapper">
+                        <div class="features-subtitle-line" @if($enableStrikethrough) data-scroll-animation="line1" @endif>
+                            <span class="text-wrapper">
+                                {{ $subtitle1 }}
+                                @if($enableStrikethrough)
+                                    <span class="strikethrough-line"></span>
+                                @endif
+                            </span>
+                        </div>
+                        <div class="features-subtitle-line" @if($enableStrikethrough) data-scroll-animation="line2" @endif>
+                            <span class="text-wrapper">
+                                {{ $subtitle2 }}
+                                @if($enableStrikethrough)
+                                    <span class="strikethrough-line"></span>
+                                @endif
+                            </span>
+                        </div>
                     </div>
-                </div>
+                @endif
                 <h2 class="features-title">
-                    {{ $title }}
+                    {!! $title !!}
                 </h2>
                 <p class="body-t-xl">
-                    {{ $description1 }}<br>
-                    {{ $description2 }}<br>
-                    {{ $description3 }}
+                    @if($description)
+                        {!! $description !!}
+                    @else
+                        {{ $description1 }}<br>
+                        {{ $description2 }}<br>
+                        {{ $description3 }}
+                    @endif
                 </p>
             </div>
         </div>
@@ -59,7 +71,6 @@
             <div class="features-image-section">
                 <div class="features-image-wrapper">
                     <img src="{{ $image }}" alt="{{ $imageAlt }}" class="features-image">
-                    <div class="features-image-decoration"></div>
                 </div>
             </div>
         @endif
@@ -69,8 +80,6 @@
 <style>
 .features-basic-container {
     width: 100%;
-    padding: 80px 20px;
-    background: linear-gradient(180deg, #FAFAFA 0%, #FFFFFF 100%);
     overflow: hidden;
 }
 
@@ -83,6 +92,13 @@
 
 .features-text-section {
     flex: 4.5;
+    display: flex;
+    align-items: flex-start;
+}
+
+/* Text vertical alignment - center */
+.features-text-section.text-align-center {
+    align-items: center;
 }
 
 /* Image Left Layout */
@@ -111,6 +127,14 @@
 
 .features-subtitle-wrapper {
   margin-bottom: 0;
+}
+
+.features-subtitle-single {
+  font-size: 34px !important;
+  font-weight: 400 !important;
+  color: #666 !important;
+  margin-bottom: 16px;
+  line-height: 1.4;
 }
 
 .features-subtitle-line {
@@ -165,7 +189,6 @@
 .features-image-wrapper {
     position: relative;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
 }
 
 .features-image {
@@ -174,17 +197,6 @@
     display: block;
 }
 
-.features-image-decoration {
-    position: absolute;
-    top: -20px;
-    right: -20px;
-    width: 120px;
-    height: 120px;
-    background: var(--secondary-color);
-    opacity: 0.1;
-    border-radius: 50%;
-    filter: blur(40px);
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -256,6 +268,10 @@
     .features-basic-container {
         padding: 60px 16px;
     }
+
+    .features-subtitle-single {
+  font-size: 24px !important;
+}
 }
 </style>
 

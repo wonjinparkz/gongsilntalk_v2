@@ -18,14 +18,13 @@
             @endphp
             {!! $subtitleText !!}
         </h5>
-        <h3 class="title-box-title">{{ $title }}</h3>
+        <h3 class="title-box-title">{!! $title !!}</h3>
     </div>
 </div>
 
 <style>
 .title-box-container {
     width: 100%;
-    padding: 40px 20px;
 }
 
 .title-box-content {
@@ -127,9 +126,6 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-    .title-box-container {
-        padding: 30px 16px;
-    }
     
     .title-box-content {
         gap: 8px;
@@ -149,9 +145,6 @@
 }
 
 @media (max-width: 480px) {
-    .title-box-container {
-        padding: 20px 16px;
-    }
     
     .title-box-subtitle {
         font-size: 16px !important;

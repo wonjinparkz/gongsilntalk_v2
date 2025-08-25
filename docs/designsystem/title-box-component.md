@@ -27,7 +27,7 @@ A reusable title box component with subtitle (h5) and main title (h3), featuring
 |------|------|---------|-------------|
 | `subtitle` | string | '공실앤톡이 제공하는' | Subtitle text (h5) |
 | `subtitleHighlight` | array | ['공실앤톡'] | Keywords to highlight with marker effect |
-| `title` | string | '스마트한 부동산 솔루션' | Main title text (h3) |
+| `title` | string | '스마트한 부동산 솔루션' | Main title text (h3) - supports HTML |
 | `alignment` | string | 'center' | Text alignment: 'left', 'center', 'right' |
 | `containerClass` | string | '' | Additional CSS classes |
 | `id` | string | auto-generated | Unique component ID |
@@ -141,3 +141,4 @@ To use alternative highlight styles, modify the component or add classes:
 5. Component is fully responsive with 3 breakpoints
 6. Alignment affects both text-align and flexbox alignment
 7. The yellow highlighter effect is the default style
+8. Title supports HTML for line breaks and formatting (uses {!! !!} syntax)

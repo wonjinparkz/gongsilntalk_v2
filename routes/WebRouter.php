@@ -19,6 +19,7 @@ use App\Http\Controllers\SiteProduct\SiteProductPcController;
 use App\Http\Controllers\terms\TermsController;
 use App\Http\Controllers\user\UserPcController;
 use App\Http\Controllers\ComponentViewerController;
+use App\Http\Controllers\StagingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -348,3 +349,11 @@ Route::controller(ComponentViewerController::class)->group(function () {
 Route::get('/design-system-v2', function () {
     return view('pages.design-system-v2');
 })->name('design.system.v2');
+
+/**
+ * 스테이징 환경 (www_v2)
+ */
+Route::controller(StagingController::class)->prefix('staging')->group(function () {
+    Route::get('/', 'index')->name('staging.index');
+    Route::get('/{page}', 'show')->name('staging.show');
+});

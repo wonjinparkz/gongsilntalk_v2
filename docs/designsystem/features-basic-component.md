@@ -31,12 +31,14 @@ This component displays a feature section with text content and an image, common
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `subtitle1` | string | '부동산에서 찾기 어려운' | First line of subtitle |
-| `subtitle2` | string | '역세권 사무실' | Second line of subtitle |
-| `title` | string | '효율적인 부동산 관리 솔루션' | Main title text |
-| `description1` | string | '점점 공실 찾기 어려운 강남은 물론,' | First line of description |
-| `description2` | string | '부동산에서 잘 안 보여주는' | Second line of description |
-| `description3` | string | '진짜 초역세권 사무실을 확인하세요.' | Third line of description |
+| `subtitle` | string | '' | Single line subtitle - supports HTML (if provided, replaces subtitle1/2) |
+| `subtitle1` | string | '부동산에서 찾기 어려운' | First line of subtitle (used if subtitle is empty) |
+| `subtitle2` | string | '역세권 사무실' | Second line of subtitle (used if subtitle is empty) |
+| `title` | string | '효율적인 부동산 관리 솔루션' | Main title text - supports HTML |
+| `description` | string | '' | Single description - supports HTML (if provided, replaces description1/2/3) |
+| `description1` | string | '점점 공실 찾기 어려운 강남은 물론,' | First line of description (used if description is empty) |
+| `description2` | string | '부동산에서 잘 안 보여주는' | Second line of description (used if description is empty) |
+| `description3` | string | '진짜 초역세권 사무실을 확인하세요.' | Third line of description (used if description is empty) |
 | `image` | string | '/assets/media/s_map.png' | Image path |
 | `imageAlt` | string | '공실앤톡 대시보드' | Image alt text |
 | `imagePosition` | string | 'right' | Image position ('left' or 'right') |

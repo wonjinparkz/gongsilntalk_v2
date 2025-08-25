@@ -1,63 +1,68 @@
 @props([
-    'mainTitle1' => "국내 오피스 '1위'",
-    'mainTitle2' => '패스트파이브 공간을',
-    'mainTitle3' => '확인해 보세요',
-    'mainTitle1Bold' => ["'1위'"], // 굵게 표시할 텍스트 배열
-    'mainTitle2Bold' => ['패스트파이브'],
-    'mainTitle3Bold' => [],
-    'mainBackgroundImage' => '/assets/media/auth/bg2.jpg',
-    'subImage' => '/assets/media/auth/bg2.jpg',
+    'mainTitle1' => "공실관리 • 사옥마련의",
+    'mainTitle2' => '새로운 기준',
+    'mainTitle3' => '공실앤톡과 함께하세요',
+    'mainTitle1Bold' => [], // 굵게 표시할 텍스트 배열
+    'mainTitle2Bold' => ['새로운 기준'],
+    'mainTitle3Bold' => ['공실앤톡'],
+    'mainBackgroundImage' => '/assets/media/main_page/banner_1.jpg',
+    'subImage' => '/assets/media/main_page/banner_2.jpg',
     'subImageAlt' => '공실앤톡 서비스',
-    'subText1' => '<span class="fw-700">공실앤톡은 부동산 중개업무의 디지털 혁신을 선도합니다.</span>',
-    'subText2' => '매물 관리부터 고객 상담까지 모든 과정을 효율적으로 관리하세요.<br>실시간 시장 데이터를 기반으로 정확한 분석을 제공합니다.',
-    'subText3' => '전문가의 노하우를 시스템화하여 누구나 쉽게 활용할 수 있습니다.',
-    'subText4' => '모바일과 PC에서 언제 어디서나 업무를 처리할 수 있습니다.',
-    'subText5' => '고객과의 소통을 원활하게 만드는 다양한 도구를 제공합니다.',
-    'subText6' => '',
-    'subText7' => '',
-    'subText8' => '',
-    'subText9' => '',
-    'subText10' => '',
+    'subText1' => '<span class="fw-700">조건 맞는 사옥, 찾기도 전에 하루가 끝</span>',
+    'subText2' => '시간은 줄이고, 효율은 높이는 기업 전용 공간 서비스 공실앤톡과 함께',
+    'subText3' => '<span class="fw-700">매년 수백만 원의 기회비용</span>',
+    'subText4' => '부동산 공실은 시간과 수익을 동시에 잃게 만든다는 사실, 알고 계신가요?',
+    'subText5' => '<span class="fw-700">임대인 10명 중 9명</span>',
+    'subText6' => "이들은 '공실 기간 단축이 수익 안정에 큰 영향을 미친다'고 말합니다",
+    'subText7' => '공실앤톡은 공실 해소는 물론 기업 맞춤 사옥 매칭부터 인테리어•가구 세팅까지 한 번에 해결합니다.',
+    'subText8' => '공간의 가치는 높이고 안정적인 임대•운영 환경을 만들어 갑니다',
+    'subText9' => '<span class="fw-700">지금 수백 명의 임대인과 수백 개 기업이 선택한</span>',
+    'subText10' => '공실앤톡의 공간 솔루션을 만나보세요.',
     'containerClass' => '',
     'id' => 'hero-' . uniqid()
 ])
 
 <div class="hero-basic-container {{ $containerClass }}" id="{{ $id }}">
     <!-- Main Hero -->
-    <div class="hero-main" style="background-image: url('{{ $mainBackgroundImage }}');">
-        <div class="hero-main-gradient-bottom"></div>
-        <div class="hero-content-wrapper">
-            <div class="hero-main-content">
-                <h1 class="hero-main-title">
-                    <span class="hero-title-line">
-                        @php
-                            $text1 = $mainTitle1;
-                            foreach($mainTitle1Bold as $boldText) {
-                                $text1 = str_replace($boldText, '<strong>' . $boldText . '</strong>', $text1);
-                            }
-                        @endphp
-                        {!! $text1 !!}
-                    </span>
-                    <span class="hero-title-line">
-                        @php
-                            $text2 = $mainTitle2;
-                            foreach($mainTitle2Bold as $boldText) {
-                                $text2 = str_replace($boldText, '<strong>' . $boldText . '</strong>', $text2);
-                            }
-                        @endphp
-                        {!! $text2 !!}
-                    </span>
-                    <span class="hero-title-line">
-                        @php
-                            $text3 = $mainTitle3;
-                            foreach($mainTitle3Bold as $boldText) {
-                                $text3 = str_replace($boldText, '<strong>' . $boldText . '</strong>', $text3);
-                            }
-                        @endphp
-                        {!! $text3 !!}
-                    </span>
-                </h1>
+    <div class="hero-main">
+        <div class="hero-main-content-section">
+            <div class="hero-main-text-wrapper">
+                <div class="hero-main-text">
+                    <h1 class="hero-main-title">
+                        <span class="hero-title-line">
+                            @php
+                                $text1 = $mainTitle1;
+                                foreach($mainTitle1Bold as $boldText) {
+                                    $text1 = str_replace($boldText, '<strong>' . $boldText . '</strong>', $text1);
+                                }
+                            @endphp
+                            {!! $text1 !!}
+                        </span>
+                        <span class="hero-title-line">
+                            @php
+                                $text2 = $mainTitle2;
+                                foreach($mainTitle2Bold as $boldText) {
+                                    $text2 = str_replace($boldText, '<strong>' . $boldText . '</strong>', $text2);
+                                }
+                            @endphp
+                            {!! $text2 !!}
+                        </span>
+                        <span class="hero-title-line">
+                            @php
+                                $text3 = $mainTitle3;
+                                foreach($mainTitle3Bold as $boldText) {
+                                    $text3 = str_replace($boldText, '<strong>' . $boldText . '</strong>', $text3);
+                                }
+                            @endphp
+                            {!! $text3 !!}
+                        </span>
+                    </h1>
+                </div>
             </div>
+        </div>
+        <div class="hero-main-image">
+            <img src="{{ $mainBackgroundImage }}" alt="메인 배너">
+            <div class="hero-main-image-gradient"></div>
         </div>
     </div>
     
@@ -96,44 +101,38 @@
 
 /* Main Hero */
 .hero-main {
-    position: relative;
     width: 100%;
     height: 735px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     overflow: hidden;
-}
-
-.hero-main-gradient-bottom {
-    display: none;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background: linear-gradient(180deg, rgba(248, 245, 242, 0) 0%, #F8F5F2 100%);
-    z-index: 2;
-}
-
-.hero-content-wrapper {
+    display: flex;
     position: relative;
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 0 20px;
-    height: 100%;
-    z-index: 2;
+    background: #F8F5F2;
 }
 
-.hero-main-content {
+.hero-main-content-section {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
     display: flex;
     align-items: center;
-    height: 100%;
+    justify-content: flex-end;
+    z-index: 2;
+}
+
+.hero-main-text-wrapper {
+    max-width: 540px;
+    padding: 60px;
+}
+
+.hero-main-text {
+    width: 100%;
 }
 
 .hero-main-title {
-    color: white;
     text-align: left;
+    margin: 0;
 }
 
 .hero-title-line {
@@ -141,11 +140,36 @@
     font-size: 52px !important;
     font-weight: 400 !important;
     line-height: 1.4;
-    color:#222;
+    color: #222;
 }
 
 .hero-title-line strong {
     font-weight: 700 !important;
+}
+
+.hero-main-image {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+}
+
+.hero-main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right 30% top 0;
+}
+
+.hero-main-image-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150px;
+    height: 100%;
+    background: linear-gradient(270deg, rgba(248, 245, 242, 0) 0%, #F8F5F2 100%);
+    z-index: 1;
 }
 
 /* Sub Hero */
@@ -220,6 +244,13 @@
     margin-bottom: 16px;
     line-height: 1.6;
     color: #222;
+    font-size: 18px;
+}
+
+.hero-sub-text .body-t-lg .fw-700,
+.hero-sub-text .body-t-lg span[class*="fw-"] {
+    font-size: inherit !important;
+    font-weight: 700 !important;
 }
 
 .hero-sub-text .body-t-lg:last-child {
@@ -229,16 +260,34 @@
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .hero-main {
-        height: 520px;
+        height: auto;
+        min-height: 520px;
+        flex-direction: column;
     }
     
-    .hero-main-content {
-        align-items: flex-start;
-        padding-top: 60px;
+    .hero-main-content-section {
+        position: relative;
+        width: 100%;
+        height: auto;
+        order: 1;
+        padding: 40px 20px;
+        justify-content: center;
     }
     
-    .hero-main-gradient-bottom {
-        display: block;
+    .hero-main-text-wrapper {
+        max-width: 100%;
+        padding: 0;
+    }
+    
+    .hero-main-image {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        order: 2;
+    }
+    
+    .hero-main-image-gradient {
+        display: none;
     }
     
     .hero-title-line {
@@ -289,25 +338,25 @@
         font-size: 16px !important;
         margin-bottom: 12px;
     }
+    
+    .hero-sub-text .body-t-lg .fw-700,
+    .hero-sub-text .body-t-lg span[class*="fw-"] {
+        font-size: inherit !important;
+    }
 }
 
 @media (max-width: 480px) {
-    .hero-main {
-        height: 520px;
-    }
-    
-    .hero-main-content {
-        align-items: flex-start;
-        padding-top: 40px;
-    }
-    
-    .hero-content-wrapper {
-        padding: 0 16px;
+    .hero-main-content-section {
+        padding: 30px 16px;
     }
     
     .hero-title-line {
         font-size: 28px !important;
         font-weight: 400 !important;
+    }
+    
+    .hero-main-image {
+        height: 250px;
     }
     
     .hero-sub-text-section {
@@ -317,6 +366,11 @@
     .hero-sub-text .body-t-lg {
         font-size: 14px !important;
         margin-bottom: 10px;
+    }
+    
+    .hero-sub-text .body-t-lg .fw-700,
+    .hero-sub-text .body-t-lg span[class*="fw-"] {
+        font-size: inherit !important;
     }
 }
 </style>

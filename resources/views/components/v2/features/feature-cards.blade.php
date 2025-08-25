@@ -1,34 +1,34 @@
 @props([
     'cards' => [
         [
-            'subtitle' => '최다 사무실 보유!',
-            'title' => '보유 사무실 수<br>4,200개+',
+            'subtitle' => '전국 지식산업센터 보유 매물',
+            'title' => '지식산업센터<br>2,000+',
             'description' => '',
-            'image' => '/assets/media/m_bn_img_1.png',
+            'image' => '/assets/media/main_page/f1.png',
         ],
         [
-            'subtitle' => '빠른 정보 제공',
-            'title' => '실시간 알림<br>24/7',
+            'subtitle' => '성공적인 입주 완료',
+            'title' => '임차 기업<br>1,000+',
             'description' => '',
-            'image' => '/assets/media/m_bn_img_1.png',
+            'image' => '/assets/media/main_page/f2.png',
         ],
         [
-            'subtitle' => '간편한 프로세스',
-            'title' => '원스톱<br>계약 시스템',
+            'subtitle' => '신뢰로 함께하는 파트너',
+            'title' => '임대인<br>1,000+',
             'description' => '',
-            'image' => '/assets/media/m_bn_img_1.png',
+            'image' => '/assets/media/main_page/f3.png',
         ],
         [
-            'subtitle' => '전국 최다!',
-            'title' => '등록된 매물<br>15,000개+',
+            'subtitle' => '맞춤형 공간 매칭 성공',
+            'title' => '기업 사옥<br>250+',
             'description' => '',
-            'image' => '/assets/media/m_bn_img_1.png',
+            'image' => '/assets/media/main_page/f4.png',
         ],
         [
-            'subtitle' => '믿을 수 있는 거래',
-            'title' => '검증된 중개사<br>2,500명+',
+            'subtitle' => '전문 3D 공간 설계 완료',
+            'title' => '공간 컨설팅<br>1,500+',
             'description' => '',
-            'image' => '/assets/media/m_bn_img_1.png',
+            'image' => '/assets/media/main_page/f5.png',
         ],
     ],
     'containerClass' => '',
@@ -118,8 +118,7 @@
 <style>
 .feature-cards-container {
     width: 100%;
-    padding: 60px 20px;
-    background: #FAFAFA;
+    background: #F3F6F9;
 }
 
 .feature-cards-wrapper {
@@ -189,13 +188,14 @@
     color: #666;
     margin-bottom: 8px;
     line-height: 1.4;
+    margin: 0 0 8px 0;
 }
 
 .card-large .card-title {
     font-size: 34px;
     font-weight: 700;
     color: #000;
-    margin-bottom: 12px;
+    margin: 0;
     line-height: 1.3;
 }
 
@@ -221,10 +221,9 @@
 }
 
 .card-small .card-image {
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: 100px;
     object-fit: contain;
-    margin-left: 20px;
     flex-shrink: 0;
 }
 
@@ -232,7 +231,7 @@
     font-size: 18px;
     font-weight: 500;
     color: #666;
-    margin-bottom: 8px;
+    margin: 0 0 8px 0;
     line-height: 1.4;
 }
 
@@ -240,7 +239,7 @@
     font-size: 34px;
     font-weight: 700;
     color: #000;
-    margin-bottom: 12px;
+    margin: 0;
     line-height: 1.3;
 }
 
@@ -264,9 +263,6 @@
 }
 
 @media (max-width: 768px) {
-    .feature-cards-container {
-        padding: 40px 16px;
-    }
     
     .feature-cards-wrapper {
         flex-direction: column;
@@ -343,9 +339,6 @@
 }
 
 @media (max-width: 480px) {
-    .feature-cards-container {
-        padding: 30px 16px;
-    }
     
     .feature-cards-wrapper {
         gap: 12px;

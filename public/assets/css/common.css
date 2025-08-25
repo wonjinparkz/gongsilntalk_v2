@@ -75,7 +75,7 @@
 	src: url('../fonts/Pretendard-Black.woff2') format('woff2'),
 	     url('../fonts/Pretendard-Black.woff') format('woff');
 }
-body,th,td,input,select,textarea,button, div, span, label, a {font-family:'Pretendard', 'font-m', sans-serif; font-size:18px; color:#2A2828;}
+body,th,td,input,select,textarea,button, div, span, label, a {font-family:'Pretendard', 'font-m', sans-serif; font-size:16px; color:#2A2828;}
 
 :root{
 	--main-color : #F16341;
@@ -115,7 +115,7 @@ h1 {
 }
 
 h2 {
-	font-size: 36px;
+	font-size: 40px;
 	font-weight: 700;
 	line-height: 1.35;
 	letter-spacing: -0.5px;
