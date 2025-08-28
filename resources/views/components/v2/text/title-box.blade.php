@@ -3,22 +3,36 @@
     'subtitleHighlight' => ['공실앤톡'], // 형광펜 효과를 적용할 키워드 배열
     'title' => '스마트한 부동산 솔루션',
     'alignment' => 'center', // 'left', 'center', 'right'
+    'subtitlePosition' => 'top', // 'top', 'bottom' - 서브타이틀 위치
     'containerClass' => '',
     'id' => 'title-box-' . uniqid()
 ])
 
-<div class="title-box-container {{ $containerClass }} align-{{ $alignment }}" id="{{ $id }}">
+<div class="title-box-container {{ $containerClass }} align-{{ $alignment }} subtitle-{{ $subtitlePosition }}" id="{{ $id }}">
     <div class="title-box-content">
-        <h5 class="title-box-subtitle">
-            @php
-                $subtitleText = $subtitle;
-                foreach($subtitleHighlight as $highlight) {
-                    $subtitleText = str_replace($highlight, '<span class="highlight-text">' . $highlight . '</span>', $subtitleText);
-                }
-            @endphp
-            {!! $subtitleText !!}
-        </h5>
-        <h3 class="title-box-title">{!! $title !!}</h3>
+        @if($subtitlePosition === 'top')
+            <h5 class="title-box-subtitle">
+                @php
+                    $subtitleText = $subtitle;
+                    foreach($subtitleHighlight as $highlight) {
+                        $subtitleText = str_replace($highlight, '<span class="highlight-text">' . $highlight . '</span>', $subtitleText);
+                    }
+                @endphp
+                {!! $subtitleText !!}
+            </h5>
+            <h3 class="title-box-title">{!! $title !!}</h3>
+        @else
+            <h3 class="title-box-title">{!! $title !!}</h3>
+            <h5 class="title-box-subtitle">
+                @php
+                    $subtitleText = $subtitle;
+                    foreach($subtitleHighlight as $highlight) {
+                        $subtitleText = str_replace($highlight, '<span class="highlight-text">' . $highlight . '</span>', $subtitleText);
+                    }
+                @endphp
+                {!! $subtitleText !!}
+            </h5>
+        @endif
     </div>
 </div>
 

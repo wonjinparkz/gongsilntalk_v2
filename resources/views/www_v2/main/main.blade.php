@@ -4,25 +4,8 @@
 
 @section('content')
 <div class="main-v2-container">
-    <x-v2.hero.hero-basic/>
-
-    <!-- Title Section -->
-    <section class="section-padding" style="background:#F3F6F9;">
-        <x-v2.text.title-box 
-            :subtitle="'차별화된 부동산 문화, 가치를 높이는 공간 관리로'"
-            :subtitleHighlight="['']"
-            :title="'임대인과 기업 중심의<br>공간 솔루션을 만들고 있습니다.'"
-            :alignment="'center'"
-        />
-
-        <!-- Feature Cards -->
-        <x-v2.features.feature-cards />
-        
-        <!-- Centered Button -->
-        <div style="text-align: center;">
-            <button class="btn btn-secondary">30초 무료 제안서 견적받기</button>
-        </div> 
-    </section>
+<!-- hero section -->
+<x-v2.hero.hero-slider />
 
         <!-- Client Logos -->
     <section class="section-padding">
